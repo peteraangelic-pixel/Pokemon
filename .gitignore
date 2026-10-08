@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Local experiment logs
+*.log
+
+# NOTE: pokemon-agent/bundles/*.tar.gz is intentionally committed -- the .tar.gz is
+# the deliverable that gets uploaded to Kaggle, and it is small (~85 KiB).
