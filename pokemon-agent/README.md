@@ -64,12 +64,17 @@ pokemon-agent/
 ├── deck.csv                  # the 60 card ids we submit (Mega Abomasnow ex line)
 ├── assets/card_index.json    # compact card + attack DB extracted from the engine
 ├── data/                     # raw dumps (cards.json, attacks.json) for research
+├── decks/                   # REJECTED deck variants + why (read before 'fixing' the deck)
 ├── tools/
 │   ├── dump_cards.py         # AllCard / AllAttack out of libcg.so
 │   ├── build_card_index.py   # raw dumps -> compact runtime index
 │   ├── run_match.py          # local arena, N games, win rate
 │   ├── diagnose.py           # why games end, wasted-tempo counters
-│   └── ab_test.py            # head-to-head knob A/B with z-score
+│   ├── ab_test.py            # head-to-head knob A/B with z-score
+│   ├── deck_rules.py         # engine deck legality (4-copy by NAME, ACE SPEC)
+│   ├── archetypes.py         # auto-builds 11 gauntlet decks, all legality-checked
+│   ├── gauntlet.py           # our deck vs every archetype, both seats
+│   └── fuzz_robustness.py    # random legal decks, contract + exception checks
 ├── build_submission.py       # .tar.gz packer + verifier + smoke test
 ├── bundles/                  # committed .tar.gz deliverables (upload these)
 ├── setup.sh                  # recreate .venv + engine after a fresh session
@@ -86,7 +91,7 @@ From the Data page and the shipped engine source:
 * `.tar.gz`, **flat** archive (`main.py` at the top level, not nested) + `deck.csv`.
 * Unpacked at runtime into `/kaggle_simulations/agent/`.
 * ≤ 197.7 MiB, **5 submissions/day**, only the **latest 2** are active.
-* Our bundle is **~83 KiB**.
+* Our bundle is **~87 KiB**.
 * Build it with `python build_submission.py ... --smoke`, which asserts the flat
   layout, the presence of `agent()` and 60 deck cards, then runs a BO1 + BO3
   self-play exactly like the Kaggle Validation Episode.

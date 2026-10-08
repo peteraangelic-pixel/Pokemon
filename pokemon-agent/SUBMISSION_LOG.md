@@ -26,6 +26,9 @@ Everything below was measured on the real `cabt` engine via `tools/ab_test.py`
 | L4 | Robustness fuzz vs freshly generated rules-legal opponent decks | 120 + 40 games | 0 exceptions, 0 contract violations, all seats `DONE` | **ship-ready** |
 | L5 | Contract check: never return more than `maxCount`, never out-of-range, never a duplicate index | all fuzz games | 0 violations | **ship-ready** |
 | L6 | Deck-construction rules the engine enforces (`errorType 4`) | 1431 cards instrumented | 4-copy limit is **by card name**; ≤ 1 ACE SPEC (incl. ACE SPEC *energies*) | documented in `tools/deck_rules.py` |
+| L7 | **Local gauntlet**: our deck vs 11 auto-assembled archetypes, both seats | 200 games/seat | overall 0.748; we beat 9 archetypes at 0.83+ and lose to **2 anti-ex walls** (Crustle 0.195, Safeguard 0.285) | walls are the Phase 2 target |
+| L8 | **Damage-prevention detection** (`pv` flag) + switch to an attacker that can hit | 120 games/seat, 11 archetypes | Crustle 0.195→**0.325**, Sylveon 0.285→**0.500**, overall 0.748→**0.780**, no other matchup moved | **adopt** (default on) |
+| L9 | Deck variants: `+2 Boss's Orders` and `+2 Kyogre +2 Boss +2 Ultra Ball`, paid for with energy | 120 games/seat | both **worse everywhere** (0.383 / 0.425 vs baseline) — cutting energy cuts Hammer-lanche from ~330 to ~270 | **reject** — see `decks/README.md` |
 
 ### Why L2 mattered so much
 

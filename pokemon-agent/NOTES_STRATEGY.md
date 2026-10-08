@@ -360,6 +360,80 @@ argument and is safe, but this is the kind of bug that produces a confusing
 
 ---
 
+## 6c. The local gauntlet: we beat nine archetypes and get crushed by two  **[verified]**
+
+`tools/gauntlet.py` plays our agent and our deck against eleven auto-assembled
+archetype decks, from both seats, 200 games per seat. Both sides run the same
+policy, so the deck and the matchup are the only variables.
+
+| archetype | our win rate | z |
+|---|---|---|
+| **crustle_wall** | **0.195** | −8.70 |
+| **sylveon_safeguard** | **0.285** | −6.15 |
+| ours (mirror) | 0.465 | −1.06 |
+| dragapult | 0.830 | +9.26 |
+| bronzong_lock | 0.845 | +9.69 |
+| trevenant | 0.860 | +10.11 |
+| charizard_mega | 0.880 | +10.68 |
+| pikachu_tera | 0.935 | +12.23 |
+| gardevoir_mega | 0.960 | +12.94 |
+| raging_bolt | 0.970 | +13.22 |
+| alakazam | 1.000 | +14.07 |
+
+Nine archetypes we crush. Two we lose badly — and they are the two decks built
+around *"prevent all damage done to this Pokémon by attacks from your opponent's
+Pokémon {ex}"*. That coherence is the evidence: it is one mechanism, not noise.
+
+We confirmed it rather than inferring it. A 181-step game against Crustle ended
+with the opposing Crustle at **hp 150/150 — it had taken literally zero damage**
+— while we had 11 cards left in deck and 32 in the discard, having milled our
+own deck for nothing. Wall games also run 4-5x longer than any other matchup,
+which is what a game looks like when neither side can finish.
+
+**The trap worth writing down.** The engine reports our Mega Abomasnow ex with
+`ex == 0` and `megaEx == 1`. The anti-ex abilities say "Pokémon {ex}", and the
+engine applies them to us anyway — a Mega *is* an `{ex}` attacker here. Any
+implementation that read the `ex` flag alone would have concluded we were immune
+and shipped a 0.195 matchup. We only found it because we measured.
+
+**The fix.** Damage-prevention abilities are parsed once, at index build time
+(where the full card text exists), and shipped as a compact `pv` flag — at
+runtime the agent only sees skill *names*, so text parsing has to happen
+offline. Every damage estimate then passes through `damage_prevented()`, and
+when our Active is walled we switch in an attacker that can actually hit.
+
+| archetype | before | after |
+|---|---|---|
+| crustle_wall | 0.195 | **0.325** |
+| sylveon_safeguard | 0.285 | **0.500** |
+| overall | 0.748 | **0.780** |
+
+No other matchup moved outside noise. Sylveon went from a lost cause to even.
+
+## 6d. A negative result: the 33-energy "sloppy" deck is load-bearing  **[verified]**
+
+The sample list ships 33 basic Water energy, where real decks run 8-14. It looks
+like the obvious thing to fix, and the summer writeups did fix it in their build.
+
+We tried. Two variants, both measured worse in **every** matchup, including
+straight up against our own shipped list:
+
+- `+2 Boss's Orders, −2 energy` → 0.383 vs baseline
+- `+2 Kyogre, +2 Boss's Orders, +2 Ultra Ball, −6 energy` → 0.425 vs baseline
+
+The reason is that Hammer-lanche discards 6 cards and deals 100 per Basic
+`{W}` Energy among them, so its expected damage is proportional to the energy
+density of the deck: 33 energy → ~330 damage, 27 energy → ~270. We were trading
+60 damage per attack for a gust effect we could rarely find.
+
+**So the deck stays as it is.** Full write-up in `decks/README.md`, kept
+precisely so we do not re-run this experiment in three months. The lesson is
+narrower than "the deck is good": it is that generic deckbuilding intuition does
+not transfer to a mill archetype, and that any future card we want has to be
+paid for out of the 17 trainer slots, not the energy.
+
+---
+
 ## 7. Things we deliberately did *not* do yet
 
 * **No RL.** With 5 submissions/day, 2 live slots, and a 3-month runway, a Phase 1

@@ -200,6 +200,10 @@ GO_FIRST = os.environ.get("PTCG_GO_FIRST", "1") not in ("0", "false", "False", "
 #: change can be A/B tested head-to-head on the local arena.
 VAR_DAMAGE = os.environ.get("PTCG_VAR_DMG", "1") not in ("0", "false", "False", "")
 
+# When our Active literally cannot damage the defender (anti-ex walls), switch
+# in an attacker that can instead of attacking into the wall for zero.
+WALL_SWITCH = os.environ.get("PTCG_WALL", "1") not in ("0", "false", "False", "")
+
 #: Special-condition preference when we inflict one (higher == better).
 _COND_ATTACK_ORDER = {
     Cond.PARALYZE: 50,
@@ -603,7 +607,7 @@ def _count_for_each(subject: str, obs: dict, me_idx: int, opp_idx: int) -> float
     return 0.0
 
 
-def estimate_attack_damage(aid, obs: dict, me_idx: int, opp_idx: int) -> int:
+def _estimate_damage_raw(aid, obs: dict, me_idx: int, opp_idx: int) -> int:
     """Best-effort damage of an attack, including variable-damage effects.
 
     About a quarter of the engine's attacks carry ``damage == 0`` and put the
@@ -665,6 +669,94 @@ def estimate_attack_damage(aid, obs: dict, me_idx: int, opp_idx: int) -> int:
     # Attacks that only multiply ("does 30 more damage for each...") or plain
     # effect attacks are left at zero: we would rather under-rate than invent.
     return 0
+
+
+def damage_prevented(attacker_cid, defender_cid, damage: int = 0) -> bool:
+    """True if the defender's ability blanks this attacker's damage entirely.
+
+    Measured, not assumed: our Mega Abomasnow ex scored 0.195 against Crustle
+    and 0.285 against Sylveon while beating nine other archetypes at 0.83+.
+    A 181-step game ended with the opposing Crustle on hp=150/150 -- it had
+    taken literally zero damage -- while we had milled 32 cards for nothing.
+
+    Note the trap: the engine reports our Mega Abomasnow ex with ``ex == 0``
+    and ``megaEx == 1``.  The anti-ex abilities say "Pokemon {ex}" and the
+    engine applies them to us anyway, so a Mega counts as an {ex} attacker
+    here.  Reading the flag alone would have missed this completely.
+
+    The per-card ``pv`` flag is precomputed at index build time, where the full
+    ability text is available -- at runtime we only ship skill *names*.
+    """
+    if attacker_cid is None or defender_cid is None:
+        return False
+    dfn = card(defender_cid)
+    blocked = dfn.get("pv")
+    if not blocked:
+        return False
+    # bench-only protection is irrelevant when we are hitting the Active
+    if dfn.get("pvs") == "bench":
+        return False
+    atk = card(attacker_cid)
+    is_ex = bool(atk.get("ex") or atk.get("mex"))  # a Mega ex counts as {ex}
+    for cls in blocked:
+        if cls == "ex" and is_ex:
+            return True
+        if cls == "basicEx" and is_ex and atk.get("b"):
+            return True
+        if cls == "tera" and atk.get("tr"):
+            return True
+        if cls == "ability" and atk.get("sk"):
+            return True
+        if cls == "dmg200" and damage >= 200:
+            return True
+        if cls == "specialEnergy":
+            return True  # conservative: we cannot see attached card classes here
+        if cls == "all":
+            return True
+    return False
+
+
+def _wall_gust_bonus(cid, obs: dict, me_idx: int, opp_idx: int) -> int:
+    """Extra urgency for a gust card when our Active is walled out.
+
+    An anti-ex wall protects only *itself*, so forcing it to the Bench and
+    hitting whatever replaces it is a clean way back into the game.  Without
+    this the agent treats Boss's Orders as just another Supporter and plays it
+    for card draw while the wall sits there soaking up everything.
+    """
+    if not WALL_SWITCH:
+        return 0
+    if not card(cid).get("gu"):
+        return 0
+    try:
+        my_active = _active(obs, me_idx)
+        opp_active = _active(obs, opp_idx)
+    except Exception:
+        return 0
+    if not my_active or not opp_active:
+        return 0
+    if damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
+        return 60
+    return 0
+
+
+def estimate_attack_damage(aid, obs: dict, me_idx: int, opp_idx: int) -> int:
+    """Damage an attack would do, after the defender's protection abilities.
+
+    Splitting this out from the raw estimator means every call site -- attack
+    scoring and opponent threat assessment alike -- sees the wall for free.
+    """
+    dmg = _estimate_damage_raw(aid, obs, me_idx, opp_idx)
+    if dmg <= 0:
+        return 0
+    try:
+        atk = _active(obs, me_idx)
+        dfn = _active(obs, opp_idx)
+    except Exception:
+        return dmg
+    if atk and dfn and damage_prevented(atk.get("id"), dfn.get("id"), dmg):
+        return 0
+    return dmg
 
 
 def _mill_would_deck_us_out(aid, obs: dict, me_idx: int) -> bool:
@@ -872,6 +964,17 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
             score = 205  # get a live attacker in front instead of idling
         if opp_power >= my_hp and my_bench and backup_ok and my_hp <= 80:
             score = 285  # escape a knockout, then develop
+
+        if WALL_SWITCH and opp_active is not None and my_bench:
+            # Our Active is walled: every attack it has is blanked by the
+            # defender's ability.  Attacking anyway is worse than doing nothing
+            # -- a mill attack would chew through our own deck for zero damage.
+            # If anyone on the bench can actually hit, go get them.
+            if damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
+                for p in my_bench:
+                    if not damage_prevented(p.get("id"), opp_active.get("id"), 10 ** 6):
+                        score = max(score, 300)
+                        break
         return score
 
     if otype == OptionType.EVOLVE:
@@ -935,9 +1038,9 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         if ct == CardType.SUPPORTER:
             if cur.get("supporterPlayed"):
                 return 25
-            return 340
+            return 340 + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
         if ct == CardType.ITEM:
-            return 330
+            return 330 + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
         if ct == CardType.STADIUM:
             if cur.get("stadiumPlayed"):
                 return 25
