@@ -236,18 +236,35 @@ _FALLBACK_DECK = (
 )
 
 
+try:
+    _HERE = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    # Kaggle does not import our file -- it exec()s its source:
+    #   kaggle_environments/agent.py -> get_last_callable -> exec(code_object, env)
+    # In that namespace __file__ simply does not exist.  Both of our first two
+    # uploads died at import on `NameError: name '__file__' is not defined`,
+    # which costs a submission slot and surfaces only as a bare Error status.
+    # Everything we ship is unpacked flat into /kaggle_simulations/agent, so we
+    # do not need __file__ there at all.
+    _HERE = ""
+
+
 def _candidate_dirs() -> list[str]:
-    here = os.path.dirname(os.path.abspath(__file__))
-    parent = os.path.dirname(here)
-    return [
-        here,
-        os.path.join(here, "assets"),
-        parent,
-        os.path.join(parent, "assets"),
-        os.getcwd(),
+    """Where to look for deck.csv / card_index.json.
+
+    The Kaggle paths come first because they are the only ones guaranteed to
+    exist in the grading environment, and they do not depend on __file__.
+    """
+    dirs = [
         "/kaggle_simulations/agent",
         "/kaggle_simulations/agent/assets",
+        os.getcwd(),
     ]
+    if _HERE:
+        parent = os.path.dirname(_HERE)
+        dirs += [_HERE, os.path.join(_HERE, "assets"),
+                 parent, os.path.join(parent, "assets")]
+    return [d for d in dirs if d]
 
 
 def _load_deck() -> list[int]:
@@ -266,7 +283,10 @@ def _load_deck() -> list[int]:
     return list(_FALLBACK_DECK)
 
 
-DECK = _load_deck()
+try:
+    DECK = _load_deck()
+except Exception:
+    DECK = list(_FALLBACK_DECK)
 
 
 # --------------------------------------------------------------------------
@@ -284,7 +304,10 @@ def _load_card_index() -> dict:
     return {"cards": {}, "attacks": {}, "by_name": {}}
 
 
-_INDEX = _load_card_index()
+try:
+    _INDEX = _load_card_index()
+except Exception:
+    _INDEX = {"cards": {}, "attacks": {}, "by_name": {}}
 CARDS: dict = _INDEX.get("cards") or {}
 ATTACKS: dict = _INDEX.get("attacks") or {}
 BY_NAME: dict = _INDEX.get("by_name") or {}

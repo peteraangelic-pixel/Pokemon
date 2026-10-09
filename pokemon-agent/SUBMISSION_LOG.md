@@ -42,6 +42,56 @@ Frost Barrier. It was playing the deck backwards. Details in `NOTES_STRATEGY.md`
 
 ## Uploads
 
+### 2026-10-09 — FIRST ATTEMPT: both submissions FAILED  ⚠️
+
+Uploaded `phase0_random` and `phase1_heuristic`. **Both came back Error.** The
+downloadable agent logs are kept at `kaggle_results/error_logs/`:
+
+```
+File "/kaggle_simulations/agent/main.py", line 240, in _candidate_dirs
+    here = os.path.dirname(os.path.abspath(__file__))
+NameError: name '__file__' is not defined
+    kaggle_environments.errors.InvalidArgument: Invalid raw Python
+```
+
+**Root cause.** Kaggle does not *import* our module — it compiles the source and
+`exec`s it (`kaggle_environments/agent.py` → `get_last_callable` →
+`exec(code_object, env)`). In that namespace `__file__` does not exist. Our
+`_candidate_dirs()` touched it **outside** any try/except, so the agent died at
+import time and never played a turn.
+
+**Why nothing local caught it.** Our `smoke()` test loads `main.py` with
+`importlib.util.spec_from_file_location`, and *importing defines `__file__`*. The
+test reproduced the game but not the loader, so it was structurally incapable of
+catching this — it would have passed forever.
+
+**Fix.**
+- `_HERE` computed inside `try/except NameError`; the Kaggle absolute paths
+  (`/kaggle_simulations/agent`, `.../assets`) are tried **first** and need no `__file__`.
+- Module-level `DECK` / `_INDEX` loads wrapped so an import-time failure degrades
+  to the hardcoded fallback instead of killing the agent.
+- Same fix in `main_random.py`.
+
+**New mandatory gate.** `tools/test_kaggle_import.py` unpacks the built `.tar.gz`
+and execs `main.py` into a namespace with **no `__file__`**, then checks it
+returns 60 ids, that the deck matches `deck.csv` (not the fallback), that the
+card index loaded, and that self-play finishes. `build_submission.py` runs it on
+every build and **refuses to ship** otherwise.
+
+| check | result |
+|---|---|
+| loads without `__file__` | ok |
+| `agent()` returns 60 ids | ok |
+| deck matches `deck.csv` | ok |
+| card index loaded (1431 cards) | ok |
+| self-play BO1 + BO3 | `DONE` / `DONE` |
+| robustness fuzz, 120 games | 240/240 seats `DONE`, 0 violations |
+
+**Action: re-upload both** — `bundles/phase1_heuristic.tar.gz` (86.8 KiB) and
+`bundles/phase0_random.tar.gz` (75.8 KiB), both rebuilt and gated.
+
+---
+
 ### 2026-10-08 — submission 1: Phase 0 (random)
 
 * **Bundle:** `bundles/phase0_random.tar.gz` (75 KiB)

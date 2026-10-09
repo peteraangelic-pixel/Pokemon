@@ -42,13 +42,22 @@ _FALLBACK_DECK = (
 
 
 def _load_deck() -> list[int]:
-    """Read deck.csv from any location the harness might place us in."""
-    here = os.path.dirname(os.path.abspath(__file__))
+    """Read deck.csv from any location the harness might place us in.
+
+    Kaggle exec()s our source rather than importing it, so __file__ does not
+    exist there -- both of our first uploads died on that NameError at import
+    time.  Never depend on it; the Kaggle paths are absolute and always first.
+    """
+    try:
+        here = os.path.dirname(os.path.abspath(__file__))
+    except NameError:
+        here = ""
     for path in (
-        os.path.join(here, "deck.csv"),
-        os.path.join(here, "assets", "deck.csv"),
-        os.path.join(os.getcwd(), "deck.csv"),
         "/kaggle_simulations/agent/deck.csv",
+        "/kaggle_simulations/agent/assets/deck.csv",
+        os.path.join(os.getcwd(), "deck.csv"),
+        os.path.join(here, "deck.csv") if here else "",
+        os.path.join(here, "assets", "deck.csv") if here else "",
     ):
         try:
             with open(path, encoding="utf-8") as fh:
@@ -64,7 +73,10 @@ def _load_deck() -> list[int]:
     return list(_FALLBACK_DECK)
 
 
-DECK = _load_deck()
+try:
+    DECK = _load_deck()
+except Exception:
+    DECK = list(_FALLBACK_DECK)
 
 
 def _random_select(select: dict) -> list[int]:

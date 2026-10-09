@@ -434,6 +434,38 @@ paid for out of the 17 trainer slots, not the energy.
 
 ---
 
+## 6e. The bug that cost two submissions, and why our tests could not see it  **[verified]**
+
+Both first uploads failed at import:
+
+```
+File "/kaggle_simulations/agent/main.py", line 240, in _candidate_dirs
+    here = os.path.dirname(os.path.abspath(__file__))
+NameError: name '__file__' is not defined
+```
+
+Kaggle does not import our module; it compiles the source and `exec`s it
+(`kaggle_environments/agent.py` → `get_last_callable` → `exec(code_object, env)`).
+In that namespace there is no `__file__`. Anything running at import time that
+touches it raises, the submission is marked Error, and the only feedback is a
+downloadable log.
+
+**The part worth remembering is not the bug, it is the blind spot.** We had a
+smoke test, it ran self-play through the real engine, and it passed. But it
+loaded the agent with `importlib.util.spec_from_file_location`, and **importing
+defines `__file__`**. The test reproduced the game and not the loader, so it was
+structurally incapable of catching this class of failure.
+
+The general lesson: a submission is not "the agent", it is "the agent **as loaded
+by a specific harness**". Those differ in ways that matter — here the namespace,
+earlier the callable's arity (§6b). The gate has to replay the harness's loading
+procedure, not merely exercise the logic.
+
+`tools/test_kaggle_import.py` does that, and `build_submission.py` runs it on
+every build and refuses to ship if it fails.
+
+---
+
 ## 7. Things we deliberately did *not* do yet
 
 * **No RL.** With 5 submissions/day, 2 live slots, and a 3-month runway, a Phase 1

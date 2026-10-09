@@ -131,6 +131,21 @@ def main() -> int:
     print("(or: kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground"
           f" -f {tar_path} -m \"<message>\")")
 
+    # MANDATORY gate.  smoke() above imports main.py as a module, and importing
+    # defines __file__ -- which is exactly what does NOT exist on Kaggle.  That
+    # blind spot is why our first two uploads died on
+    #     NameError: name '__file__' is not defined
+    # and nothing local caught it.  This check execs the source the way
+    # kaggle_environments does, with no __file__ in the namespace at all.
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    from test_kaggle_import import check_bundle  # noqa: E402
+
+    print()
+    print("kaggle-style load check (no __file__, unpacked archive):")
+    if not check_bundle(tar_path, games=0):
+        print("\nREFUSING TO SHIP: this bundle does not survive Kaggle's loader.")
+        return 1
+
     if args.smoke:
         print()
         smoke(tar_path, args.bo)
