@@ -7,13 +7,18 @@ name: kaggle-poll
 # fetch happens here and the result is committed back to the branch -- where the
 # agent reads it with a plain `git pull`.
 #
+# The agent also cannot read Actions logs: the log host
+# (results-receiver.actions.githubusercontent.com) is outside the sandbox's
+# allowed hosts, and listing secrets is 403 for the integration token. So the
+# workflow reports its own state by COMMITTING it to kaggle_results/ -- that is
+# the only channel the agent can actually read.
+#
 # HOW TO RUN IT
-#   1. by commit message (works on any branch, no extra tooling):
-#        git commit --allow-empty -m "chore: poll [ptcg-poll]" && git push
-#   2. by hand:
-#        gh workflow run kaggle-poll --ref arena/c87f7a48-pokemon
-#   3. automatically: the cron below, once this file is on the DEFAULT branch
-#      (GitHub only fires schedules from the default branch).
+#   touch kaggle_results/poll.trigger && git add -A && git commit -m "poll" && git push
+#     (the path filter below fires on that file; no `if:` expression needed)
+#   gh workflow run kaggle-poll --ref <branch>   (needs a PAT; the GitHub App
+#                                                 token gets 403 on dispatch)
+#   the cron below, once this file is on the default branch.
 #
 # REQUIRED SETUP (once, by you -- never paste these into chat)
 #   Kaggle -> Settings -> API -> Create New Token
@@ -32,6 +37,8 @@ on:
         default: "the-pokemon-company-ptcg-ai-battle-challenge-playground"
   push:
     branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "kaggle_results/poll.trigger"
   schedule:
     - cron: "23 */6 * * *"
 
@@ -40,10 +47,6 @@ permissions:
 
 jobs:
   poll:
-    # On push, only run when the commit asks for it.
-    if: >
-      github.event_name != 'push'
-      || contains(github.event.head_commit.message, '[ptcg-poll]')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -60,17 +63,36 @@ jobs:
         run: pip install --quiet kaggle
 
       - name: Configure Kaggle credentials
+        id: auth
+        continue-on-error: true
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
           set -e
+          RES=pokemon-agent/kaggle_results
+          mkdir -p "$RES"
+          {
+            echo "## run diagnostics"
+            echo ""
+            echo "run_id: ${{ github.run_id }}   attempt: ${{ github.run_attempt }}"
+            echo "event: ${{ github.event_name }}"
+            echo "ref: ${{ github.ref_name }}"
+            echo "utc: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo ""
+            echo "credentials present (names only, never values):"
+            echo "- KAGGLE_API_TOKEN: $([ -n "$KAGGLE_API_TOKEN" ] && echo YES || echo 'not set')"
+            echo "- KAGGLE_USERNAME:  $([ -n "$KAGGLE_USERNAME" ] && echo YES || echo 'not set')"
+            echo "- KAGGLE_KEY:       $([ -n "$KAGGLE_KEY" ] && echo YES || echo 'not set')"
+          } > "$RES/poll_diagnostics.md"
+
           mkdir -p ~/.kaggle
           if [ -n "$KAGGLE_API_TOKEN" ]; then
             printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
             chmod 600 ~/.kaggle/access_token
-            echo "auth: KAGGLE_API_TOKEN -> ~/.kaggle/access_token"
+            echo "" >> "$RES/poll_diagnostics.md"
+            echo "auth: KAGGLE_API_TOKEN -> ~/.kaggle/access_token" >> "$RES/poll_diagnostics.md"
           elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
             python3 - "$KAGGLE_USERNAME" "$KAGGLE_KEY" <<'PY'
           import json, os, sys
@@ -78,9 +100,13 @@ jobs:
           json.dump({"username": sys.argv[1], "key": sys.argv[2]}, open(path, "w"))
           os.chmod(path, 0o600)
           PY
-            echo "auth: KAGGLE_USERNAME/KEY -> ~/.kaggle/kaggle.json"
+            echo "" >> "$RES/poll_diagnostics.md"
+            echo "auth: KAGGLE_USERNAME/KEY -> ~/.kaggle/kaggle.json" >> "$RES/poll_diagnostics.md"
           else
-            echo "::error::No Kaggle credentials. Add KAGGLE_API_TOKEN (or KAGGLE_USERNAME + KAGGLE_KEY)."
+            echo "" >> "$RES/poll_diagnostics.md"
+            echo "**auth: FAILED - no credentials found.**" >> "$RES/poll_diagnostics.md"
+            echo "Add a repository secret named KAGGLE_API_TOKEN" >> "$RES/poll_diagnostics.md"
+            echo "(Settings -> Secrets and variables -> Actions -> New repository secret)." >> "$RES/poll_diagnostics.md"
             exit 1
           fi
 
@@ -91,7 +117,9 @@ jobs:
           KAGGLE_TEAM: ${{ vars.KAGGLE_TEAM }}
         run: |
           python pokemon-agent/tools/fetch_kaggle_results.py \
-            --competition "${{ inputs.competition || 'the-pokemon-company-ptcg-ai-battle-challenge-playground' }}"
+            --competition "${{ inputs.competition || 'the-pokemon-company-ptcg-ai-battle-challenge-playground' }}" \
+            || echo "fetch step failed (see summary.json for problems)" \
+               >> pokemon-agent/kaggle_results/poll_diagnostics.md
 
       - name: Surface the result in the job log
         if: always()
