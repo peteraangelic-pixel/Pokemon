@@ -77,11 +77,24 @@ def kaggle(args: list[str]) -> tuple[int, str, str]:
 
 
 def check_auth() -> str | None:
-    if not (os.environ.get("KAGGLE_USERNAME") and os.environ.get("KAGGLE_KEY")):
-        if not os.path.exists(os.path.expanduser("~/.kaggle/kaggle.json")):
-            return ("no Kaggle credentials found. Set KAGGLE_USERNAME and "
-                    "KAGGLE_KEY, or create ~/.kaggle/kaggle.json")
-    return None
+    """Kaggle CLI 2.x accepts several credential sources; accept all of them.
+
+    In order: KAGGLE_API_TOKEN env, ~/.kaggle/access_token, KAGGLE_USERNAME +
+    KAGGLE_KEY env, ~/.kaggle/kaggle.json.  Our first CI run failed only
+    because this check knew about the last two.
+    """
+    home = os.path.expanduser("~")
+    if os.environ.get("KAGGLE_API_TOKEN", "").strip():
+        return None
+    if os.path.isfile(os.path.join(home, ".kaggle", "access_token")):
+        return None
+    if os.environ.get("KAGGLE_USERNAME", "").strip() and os.environ.get("KAGGLE_KEY", "").strip():
+        return None
+    if os.path.isfile(os.path.join(home, ".kaggle", "kaggle.json")):
+        return None
+    return ("no Kaggle credentials found. Set KAGGLE_API_TOKEN (recommended), "
+            "or KAGGLE_USERNAME + KAGGLE_KEY, or create ~/.kaggle/access_token "
+            "or ~/.kaggle/kaggle.json")
 
 
 def rows_from_csv(text: str) -> list[dict]:
@@ -115,8 +128,17 @@ def main() -> int:
     if not have_kaggle():
         print("ERROR: the kaggle CLI is not installed.  pip install kaggle", file=sys.stderr)
         return 2
+    def _write_failure(msg: str) -> None:
+        """Leave the error in the repo -- Actions logs are unreadable here."""
+        with open(os.path.join(outdir, "summary.json"), "w") as fh:
+            json.dump({"fetched_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                       "competition": slug, "problems": [msg]}, fh, indent=2)
+        with open(os.path.join(outdir, "summary.md"), "w") as fh:
+            fh.write(f"# Kaggle results - {slug}\n\n## FAILED\n\n{msg}\n")
+
     err = check_auth()
     if err:
+        _write_failure(err)
         print(f"ERROR: {err}", file=sys.stderr)
         return 2
 

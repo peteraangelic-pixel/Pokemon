@@ -14,7 +14,7 @@ name: kaggle-poll
 # the only channel the agent can actually read.
 #
 # HOW TO RUN IT
-#   touch kaggle_results/poll.trigger && git add -A && git commit -m "poll" && git push
+#   touch pokemon-agent/kaggle_results/poll.trigger && git add -A && git commit -m "poll" && git push
 #     (the path filter below fires on that file; no `if:` expression needed)
 #   gh workflow run kaggle-poll --ref <branch>   (needs a PAT; the GitHub App
 #                                                 token gets 403 on dispatch)
