@@ -8,7 +8,7 @@ on:
         required: false
         default: "7"
       include_official:
-        description: "Try official top-episodes dataset (large)"
+        description: "Try official top-episodes dataset (large, slow)"
         required: false
         default: "false"
   push:
@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install kaggle CLI
+      - name: Install deps
         run: pip install --quiet kaggle
 
       - name: Configure Kaggle credentials
@@ -44,47 +44,30 @@ jobs:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
-          set -e
           mkdir -p ~/.kaggle pokemon-agent/kaggle_results/replays
-          mkdir -p ~/.kaggle
           if [ -n "$KAGGLE_API_TOKEN" ]; then
-            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
-            chmod 600 ~/.kaggle/access_token
-            echo "auth: TOKEN"
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token; chmod 600 ~/.kaggle/access_token
           elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
             python3 - "$KAGGLE_USERNAME" "$KAGGLE_KEY" <<'PY'
-          import json, os, sys
-          json.dump({"username": sys.argv[1], "key": sys.argv[2]}, open(os.path.expanduser("~/.kaggle/kaggle.json"), "w"))
+          import json, os
+          json.dump({"username": os.environ["KAGGLE_USERNAME"], "key": os.environ["KAGGLE_KEY"]}, open(os.path.expanduser("~/.kaggle/kaggle.json"), "w"))
           PY
             chmod 600 ~/.kaggle/kaggle.json
-            echo "auth: USERNAME/KEY"
           else
             echo "no auth" && exit 1
           fi
 
-      - name: Fetch our replays (last N per live submission)
+      - name: Fetch our replays
         run: |
-          set -e
-          if [ "${{ inputs.include_official }}" = "true" ]; then
-            OFFICIAL="--include-official"
-          else
-            OFFICIAL="--no-official"
-          fi
-          python pokemon-agent/tools/fetch_replays.py \
-            --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
-            --outdir pokemon-agent/kaggle_results/replays \
-            --top-k "${{ inputs.top_k || '7' }}" $OFFICIAL 2>&1 | tee pokemon-agent/kaggle_results/replays/fetch.log
-          echo "=== summary ==="
+          if [ "${{ inputs.include_official }}" = "true" ]; then OFFICIAL="--include-official"; else OFFICIAL="--no-official"; fi
+          python pokemon-agent/tools/fetch_replays.py --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" --outdir pokemon-agent/kaggle_results/replays --top-k "${{ inputs.top_k || '7' }}" $OFFICIAL 2>&1 | tee /tmp/fetch.log
+          cp /tmp/fetch.log pokemon-agent/kaggle_results/replays/fetch.log || true
           cat pokemon-agent/kaggle_results/replays/summary.md || true
 
-      - name: Summarize
-        if: always()
+      - name: Analyze replays
         run: |
-          ls -lh pokemon-agent/kaggle_results/replays/ | head -30
-          echo "--- json count ---"
-          find pokemon-agent/kaggle_results/replays -name "*.json" | wc -l
-          echo "--- sample ---"
-          cat pokemon-agent/kaggle_results/replays/summary.json 2>/dev/null | head -100
+          python pokemon-agent/tools/analyze_replays.py --replays-dir pokemon-agent/kaggle_results/replays 2>&1 | tee pokemon-agent/kaggle_results/replays/analysis.log
+          cat pokemon-agent/kaggle_results/replays/analysis.md || true
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -93,27 +76,19 @@ jobs:
           path: pokemon-agent/kaggle_results/replays/
           if-no-files-found: warn
 
-      - name: Commit only small metadata back
+      - name: Commit back (small files only)
         if: always()
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
-          # Only commit summary + episode lists + our replays (small), not official/ if large
-          # Delete any file >5MB to keep git small
           find pokemon-agent/kaggle_results/replays -type f -size +5M -delete || true
-          # Don't commit official/ subdir if it exists and is large — keep only manifest
           if [ -d pokemon-agent/kaggle_results/replays/official ]; then
-            find pokemon-agent/kaggle_results/replays/official -type f -name "*.json" -size +1M -delete || true
-            # Keep at most 20 files from official
-            ls -1 pokemon-agent/kaggle_results/replays/official/*.json 2>/dev/null | tail -n +21 | xargs rm -f || true
+            find pokemon-agent/kaggle_results/replays/official -type f -name "*.json" | tail -n +21 | xargs rm -f || true
           fi
           git add pokemon-agent/kaggle_results/replays/ || true
-          git status --short | head -20
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/replays)" ]; then
-            git commit -m "chore(kaggle): replays top ${{ inputs.top_k || '7' }} [skip ci]"
+            git commit -m "chore(kaggle): replays + analysis top ${{ inputs.top_k || '7' }} [skip ci]"
             git push origin "HEAD:${GITHUB_REF_NAME}"
-          else
-            echo "nothing to commit"
           fi
