@@ -1,0 +1,2514 @@
+{
+  "fetched_utc": "2026-10-09T10:45:36+00:00",
+  "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
+  "team": "(unknown - pass --team to filter)",
+  "leaderboard_rows": 271,
+  "submission_rows": 7,
+  "our_leaderboard": [
+    {
+      "Rank": "1",
+      "TeamId": "17012386",
+      "TeamName": "YumeNeko",
+      "LastSubmissionDate": "2026-10-07 16:21:14",
+      "Score": "1207.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "kashiwaba"
+    },
+    {
+      "Rank": "2",
+      "TeamId": "16994149",
+      "TeamName": "バーベナヘレナでコンボ決めたい連合",
+      "LastSubmissionDate": "2026-10-09 07:52:36",
+      "Score": "1190.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "nadyresearcher"
+    },
+    {
+      "Rank": "3",
+      "TeamId": "17014244",
+      "TeamName": "やる気元気ミワハルキ 2nd ver.",
+      "LastSubmissionDate": "2026-10-06 14:26:05",
+      "Score": "1169.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "cnumber,confirm,harukimiwa,masayoshi64,tomo0608"
+    },
+    {
+      "Rank": "4",
+      "TeamId": "16981890",
+      "TeamName": "Stephen Schott",
+      "LastSubmissionDate": "2026-10-08 05:23:25",
+      "Score": "1155.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "steve421471"
+    },
+    {
+      "Rank": "5",
+      "TeamId": "16991525",
+      "TeamName": "Kentaro Totsuka",
+      "LastSubmissionDate": "2026-10-09 05:24:58",
+      "Score": "1152.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "kotarot1"
+    },
+    {
+      "Rank": "6",
+      "TeamId": "17044570",
+      "TeamName": "Colton Martin",
+      "LastSubmissionDate": "2026-10-08 19:34:12",
+      "Score": "1129.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "coltonmartinnn"
+    },
+    {
+      "Rank": "7",
+      "TeamId": "17058599",
+      "TeamName": "Zedan Soorya",
+      "LastSubmissionDate": "2026-10-09 04:23:34",
+      "Score": "1115.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "zedansoorya"
+    },
+    {
+      "Rank": "8",
+      "TeamId": "17043084",
+      "TeamName": "Akmal Xodarev (Busya PRIME)",
+      "LastSubmissionDate": "2026-10-07 19:13:26",
+      "Score": "1085.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "busyaprime"
+    },
+    {
+      "Rank": "9",
+      "TeamId": "17029072",
+      "TeamName": "dajun666",
+      "LastSubmissionDate": "2026-10-08 07:23:32",
+      "Score": "1069.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "iamdajun666"
+    },
+    {
+      "Rank": "10",
+      "TeamId": "16994281",
+      "TeamName": "JerryChen",
+      "LastSubmissionDate": "2026-10-08 12:06:22",
+      "Score": "1062.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "horse602"
+    },
+    {
+      "Rank": "11",
+      "TeamId": "16981607",
+      "TeamName": "pao",
+      "LastSubmissionDate": "2026-10-08 13:25:48",
+      "Score": "1057.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "go5kuramubon,kaidomitsu,nmlibrary"
+    },
+    {
+      "Rank": "12",
+      "TeamId": "17003892",
+      "TeamName": "Darren Sheehan",
+      "LastSubmissionDate": "2026-10-08 22:30:39",
+      "Score": "1056.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "darrensheehan"
+    },
+    {
+      "Rank": "13",
+      "TeamId": "17022603",
+      "TeamName": "OceanMix",
+      "LastSubmissionDate": "2026-10-05 03:36:04",
+      "Score": "1053.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "cggonzalezsc"
+    },
+    {
+      "Rank": "14",
+      "TeamId": "16994022",
+      "TeamName": "Chonghao Peng",
+      "LastSubmissionDate": "2026-10-09 05:25:29",
+      "Score": "1037.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "chonghaopeng"
+    },
+    {
+      "Rank": "15",
+      "TeamId": "16993925",
+      "TeamName": "Aditya Goyal",
+      "LastSubmissionDate": "2026-10-08 23:10:13",
+      "Score": "1026.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "synthreaper"
+    },
+    {
+      "Rank": "16",
+      "TeamId": "16986029",
+      "TeamName": "Raja Biswas",
+      "LastSubmissionDate": "2026-10-08 18:33:07",
+      "Score": "1024.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "conjuring92"
+    },
+    {
+      "Rank": "17",
+      "TeamId": "17010375",
+      "TeamName": "Briano",
+      "LastSubmissionDate": "2026-10-09 06:03:10",
+      "Score": "1023.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "woominyo"
+    },
+    {
+      "Rank": "18",
+      "TeamId": "17055574",
+      "TeamName": "Mathieu W",
+      "LastSubmissionDate": "2026-10-08 13:50:25",
+      "Score": "1022.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mathieuw"
+    },
+    {
+      "Rank": "19",
+      "TeamId": "17032277",
+      "TeamName": "Xinyu Li",
+      "LastSubmissionDate": "2026-10-08 06:05:51",
+      "Score": "1022.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "xil070"
+    },
+    {
+      "Rank": "20",
+      "TeamId": "16988136",
+      "TeamName": "match051",
+      "LastSubmissionDate": "2026-10-05 22:06:08",
+      "Score": "999.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "match051"
+    },
+    {
+      "Rank": "21",
+      "TeamId": "16986055",
+      "TeamName": "Leon Liu",
+      "LastSubmissionDate": "2026-09-30 22:09:23",
+      "Score": "996.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "h1deaki"
+    },
+    {
+      "Rank": "22",
+      "TeamId": "16981808",
+      "TeamName": "No Free MIST Energy",
+      "LastSubmissionDate": "2026-10-09 07:48:30",
+      "Score": "995.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "hinatatokuda,kotatumurisroom,ueight8"
+    },
+    {
+      "Rank": "23",
+      "TeamId": "17016846",
+      "TeamName": "jperezalv23",
+      "LastSubmissionDate": "2026-10-05 10:51:19",
+      "Score": "988.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "jperezalv23"
+    },
+    {
+      "Rank": "24",
+      "TeamId": "16954827",
+      "TeamName": "Addison Howard",
+      "LastSubmissionDate": "2026-10-07 19:55:05",
+      "Score": "985.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "addisonhoward"
+    },
+    {
+      "Rank": "25",
+      "TeamId": "17047150",
+      "TeamName": "Utandra",
+      "LastSubmissionDate": "2026-10-08 08:38:08",
+      "Score": "982.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "arrayofintegers"
+    },
+    {
+      "Rank": "26",
+      "TeamId": "17060722",
+      "TeamName": "zicong Cao",
+      "LastSubmissionDate": "2026-10-09 10:06:07",
+      "Score": "963.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "zicongcao"
+    },
+    {
+      "Rank": "27",
+      "TeamId": "17025220",
+      "TeamName": "Alan_Nasibullin",
+      "LastSubmissionDate": "2026-10-03 09:19:18",
+      "Score": "959.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "alannasibullin"
+    },
+    {
+      "Rank": "28",
+      "TeamId": "17055992",
+      "TeamName": "Majiro_ns",
+      "LastSubmissionDate": "2026-10-08 21:48:42",
+      "Score": "955.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ygkojima"
+    },
+    {
+      "Rank": "29",
+      "TeamId": "17010868",
+      "TeamName": "めめっち",
+      "LastSubmissionDate": "2026-10-03 06:18:44",
+      "Score": "954.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mechi22"
+    },
+    {
+      "Rank": "30",
+      "TeamId": "16984871",
+      "TeamName": "claws",
+      "LastSubmissionDate": "2026-09-29 14:35:43",
+      "Score": "951.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "hweowe"
+    },
+    {
+      "Rank": "31",
+      "TeamId": "17015576",
+      "TeamName": "Adisak Sukul",
+      "LastSubmissionDate": "2026-10-08 20:48:04",
+      "Score": "949.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "adisak"
+    },
+    {
+      "Rank": "32",
+      "TeamId": "17056572",
+      "TeamName": "Blake Mosley",
+      "LastSubmissionDate": "2026-10-08 16:26:28",
+      "Score": "944.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "blakemosley"
+    },
+    {
+      "Rank": "33",
+      "TeamId": "16992901",
+      "TeamName": "Revue",
+      "LastSubmissionDate": "2026-09-30 18:18:07",
+      "Score": "939.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "linkinpony"
+    },
+    {
+      "Rank": "34",
+      "TeamId": "17014314",
+      "TeamName": "Zefirrr",
+      "LastSubmissionDate": "2026-10-08 17:52:40",
+      "Score": "931.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "zefirrrr"
+    },
+    {
+      "Rank": "35",
+      "TeamId": "16981660",
+      "TeamName": "armorGAWA",
+      "LastSubmissionDate": "2026-10-06 13:04:00",
+      "Score": "929.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "gawa0000"
+    },
+    {
+      "Rank": "36",
+      "TeamId": "16985280",
+      "TeamName": "Team Rocket",
+      "LastSubmissionDate": "2026-10-06 23:36:53",
+      "Score": "928.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "liemdt,tranmle"
+    },
+    {
+      "Rank": "37",
+      "TeamId": "16981780",
+      "TeamName": "Belati Jagad Bintang Syuhada",
+      "LastSubmissionDate": "2026-10-05 08:15:42",
+      "Score": "922.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "belati"
+    },
+    {
+      "Rank": "38",
+      "TeamId": "16981930",
+      "TeamName": "Mahog",
+      "LastSubmissionDate": "2026-10-07 10:05:18",
+      "Score": "909.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mahoganybuttstrings"
+    },
+    {
+      "Rank": "39",
+      "TeamId": "17028555",
+      "TeamName": "KyryloBakumenko",
+      "LastSubmissionDate": "2026-10-07 07:31:06",
+      "Score": "908.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "kyrylobakumenko"
+    },
+    {
+      "Rank": "40",
+      "TeamId": "17024844",
+      "TeamName": "Festival",
+      "LastSubmissionDate": "2026-10-09 07:18:07",
+      "Score": "902.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "koheitsutsumi"
+    },
+    {
+      "Rank": "41",
+      "TeamId": "17037984",
+      "TeamName": "cha7ura",
+      "LastSubmissionDate": "2026-10-07 03:37:31",
+      "Score": "901.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "cha7ura"
+    },
+    {
+      "Rank": "42",
+      "TeamId": "17014628",
+      "TeamName": "Tushar Anand",
+      "LastSubmissionDate": "2026-10-04 12:09:30",
+      "Score": "899.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tusharanand"
+    },
+    {
+      "Rank": "43",
+      "TeamId": "17032131",
+      "TeamName": "Mengfei Li",
+      "LastSubmissionDate": "2026-10-06 18:08:36",
+      "Score": "895.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "meli19"
+    },
+    {
+      "Rank": "44",
+      "TeamId": "17015501",
+      "TeamName": "AlejandroAlvarez",
+      "LastSubmissionDate": "2026-10-07 12:59:21",
+      "Score": "894.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "theworm"
+    },
+    {
+      "Rank": "45",
+      "TeamId": "16982904",
+      "TeamName": "seven",
+      "LastSubmissionDate": "2026-10-08 11:54:13",
+      "Score": "893.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "morikawatakeshi"
+    },
+    {
+      "Rank": "46",
+      "TeamId": "17014678",
+      "TeamName": "Roman Nesterov",
+      "LastSubmissionDate": "2026-10-01 15:37:00",
+      "Score": "892.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "romanest"
+    },
+    {
+      "Rank": "47",
+      "TeamId": "17016177",
+      "TeamName": "Anton Myachin (Popazov)",
+      "LastSubmissionDate": "2026-10-04 06:31:46",
+      "Score": "888.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "antonmyachinpopazov"
+    },
+    {
+      "Rank": "48",
+      "TeamId": "16982182",
+      "TeamName": "sue124",
+      "LastSubmissionDate": "2026-10-09 04:15:53",
+      "Score": "883.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ryotasueyoshi"
+    },
+    {
+      "Rank": "49",
+      "TeamId": "17060495",
+      "TeamName": "TommyCyd",
+      "LastSubmissionDate": "2026-10-08 11:14:07",
+      "Score": "881.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tommycyd"
+    },
+    {
+      "Rank": "50",
+      "TeamId": "16984614",
+      "TeamName": "Morim",
+      "LastSubmissionDate": "2026-09-30 11:18:05",
+      "Score": "880.3",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "takeshimorimura"
+    },
+    {
+      "Rank": "51",
+      "TeamId": "17020916",
+      "TeamName": "Ritesh-2006",
+      "LastSubmissionDate": "2026-10-04 11:00:37",
+      "Score": "875.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ritesh2006"
+    },
+    {
+      "Rank": "52",
+      "TeamId": "17021657",
+      "TeamName": "Gholamali Aminian",
+      "LastSubmissionDate": "2026-10-08 13:11:52",
+      "Score": "867.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "gholamaliaminian"
+    },
+    {
+      "Rank": "53",
+      "TeamId": "17029369",
+      "TeamName": "YKuma",
+      "LastSubmissionDate": "2026-10-09 05:23:16",
+      "Score": "863.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ykumazaki"
+    },
+    {
+      "Rank": "54",
+      "TeamId": "17019728",
+      "TeamName": "godoistvan",
+      "LastSubmissionDate": "2026-10-04 06:07:41",
+      "Score": "861.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "godoistvan"
+    },
+    {
+      "Rank": "55",
+      "TeamId": "16981630",
+      "TeamName": "アライ塾Kaggle支部",
+      "LastSubmissionDate": "2026-10-09 09:24:58",
+      "Score": "854.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "sotakasai,uentsz"
+    },
+    {
+      "Rank": "56",
+      "TeamId": "16981951",
+      "TeamName": "Raihan Ramadistra",
+      "LastSubmissionDate": "2026-09-29 02:50:57",
+      "Score": "854.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "raihanramadistra"
+    },
+    {
+      "Rank": "57",
+      "TeamId": "16981738",
+      "TeamName": "motono0223",
+      "LastSubmissionDate": "2026-09-29 09:21:34",
+      "Score": "852.7",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "motono0223"
+    },
+    {
+      "Rank": "58",
+      "TeamId": "16993626",
+      "TeamName": "Charles Backman",
+      "LastSubmissionDate": "2026-10-07 23:40:06",
+      "Score": "852.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "charlesbackman"
+    },
+    {
+      "Rank": "59",
+      "TeamId": "16982311",
+      "TeamName": "Shardul Gharat",
+      "LastSubmissionDate": "2026-10-01 10:02:45",
+      "Score": "851.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "shardulgharat"
+    },
+    {
+      "Rank": "60",
+      "TeamId": "17032726",
+      "TeamName": "CurveCowboy",
+      "LastSubmissionDate": "2026-10-09 06:04:52",
+      "Score": "850.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "curvecowboy"
+    },
+    {
+      "Rank": "61",
+      "TeamId": "17035035",
+      "TeamName": "Manjunadh Padarthi",
+      "LastSubmissionDate": "2026-10-09 09:15:01",
+      "Score": "844.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "manjunadhpadarthi"
+    },
+    {
+      "Rank": "62",
+      "TeamId": "16981801",
+      "TeamName": "cocosu3434",
+      "LastSubmissionDate": "2026-10-01 16:32:24",
+      "Score": "840.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "cocosu3434"
+    },
+    {
+      "Rank": "63",
+      "TeamId": "17003484",
+      "TeamName": "clora",
+      "LastSubmissionDate": "2026-10-01 22:54:40",
+      "Score": "840.3",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "clora16"
+    },
+    {
+      "Rank": "64",
+      "TeamId": "16983630",
+      "TeamName": "Capitaalgain",
+      "LastSubmissionDate": "2026-10-09 06:11:45",
+      "Score": "839.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "capitaalgain"
+    },
+    {
+      "Rank": "65",
+      "TeamId": "17036819",
+      "TeamName": "IchikaHoshino",
+      "LastSubmissionDate": "2026-10-05 14:00:24",
+      "Score": "834.7",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "htunkhi"
+    },
+    {
+      "Rank": "66",
+      "TeamId": "17018945",
+      "TeamName": "YG JH",
+      "LastSubmissionDate": "2026-10-02 08:50:19",
+      "Score": "834.0",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "ygjh13"
+    },
+    {
+      "Rank": "67",
+      "TeamId": "16982976",
+      "TeamName": "C4",
+      "LastSubmissionDate": "2026-09-29 08:01:47",
+      "Score": "833.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "charlielockyer"
+    },
+    {
+      "Rank": "68",
+      "TeamId": "17061596",
+      "TeamName": "ShimonHori",
+      "LastSubmissionDate": "2026-10-08 13:16:50",
+      "Score": "829.0",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "shimonhori"
+    },
+    {
+      "Rank": "69",
+      "TeamId": "16994106",
+      "TeamName": "Hasan Cömert",
+      "LastSubmissionDate": "2026-10-08 18:46:56",
+      "Score": "828.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "hasancmert"
+    },
+    {
+      "Rank": "70",
+      "TeamId": "16988680",
+      "TeamName": "アルモンド",
+      "LastSubmissionDate": "2026-10-03 15:15:39",
+      "Score": "825.1",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "almondman0707"
+    },
+    {
+      "Rank": "71",
+      "TeamId": "17061236",
+      "TeamName": "OnTheEdgeOfLumen",
+      "LastSubmissionDate": "2026-10-09 06:19:06",
+      "Score": "819.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "giovannibaldon"
+    },
+    {
+      "Rank": "72",
+      "TeamId": "17053699",
+      "TeamName": "Malhar Ujawane",
+      "LastSubmissionDate": "2026-10-07 19:44:09",
+      "Score": "814.7",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "justmalhar"
+    },
+    {
+      "Rank": "73",
+      "TeamId": "16993740",
+      "TeamName": "Noel Bobby",
+      "LastSubmissionDate": "2026-10-02 00:44:49",
+      "Score": "812.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "noelbobby"
+    },
+    {
+      "Rank": "74",
+      "TeamId": "17013311",
+      "TeamName": "Abhinav Sai Podugu",
+      "LastSubmissionDate": "2026-10-09 06:45:33",
+      "Score": "806.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "abhinavsaipodugu"
+    },
+    {
+      "Rank": "75",
+      "TeamId": "17053005",
+      "TeamName": "raj dama181",
+      "LastSubmissionDate": "2026-10-07 19:57:49",
+      "Score": "802.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "rajdama181"
+    },
+    {
+      "Rank": "76",
+      "TeamId": "17014433",
+      "TeamName": "janson",
+      "LastSubmissionDate": "2026-10-01 14:19:57",
+      "Score": "801.7",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "johnjanson"
+    },
+    {
+      "Rank": "77",
+      "TeamId": "17020278",
+      "TeamName": "Tomeiser",
+      "LastSubmissionDate": "2026-10-05 23:25:47",
+      "Score": "798.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tomeiser"
+    },
+    {
+      "Rank": "78",
+      "TeamId": "17014118",
+      "TeamName": "Articuno0144",
+      "LastSubmissionDate": "2026-10-01 14:17:18",
+      "Score": "797.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "articuno0144"
+    },
+    {
+      "Rank": "79",
+      "TeamId": "17060508",
+      "TeamName": "Zhenyu Zhang",
+      "LastSubmissionDate": "2026-10-08 12:58:40",
+      "Score": "796.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "horizen12"
+    },
+    {
+      "Rank": "80",
+      "TeamId": "17021194",
+      "TeamName": "Chukka Venugopalam",
+      "LastSubmissionDate": "2026-10-07 16:41:17",
+      "Score": "795.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "chukkavenugopalam"
+    },
+    {
+      "Rank": "81",
+      "TeamId": "17013677",
+      "TeamName": "test_poke",
+      "LastSubmissionDate": "2026-10-04 10:15:51",
+      "Score": "786.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "michaelsemenoff"
+    },
+    {
+      "Rank": "82",
+      "TeamId": "17024180",
+      "TeamName": "choqui62",
+      "LastSubmissionDate": "2026-10-07 07:16:50",
+      "Score": "781.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "choqui62"
+    },
+    {
+      "Rank": "83",
+      "TeamId": "17035226",
+      "TeamName": "shindannin",
+      "LastSubmissionDate": "2026-10-05 07:45:17",
+      "Score": "780.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "shindannin"
+    },
+    {
+      "Rank": "84",
+      "TeamId": "17010986",
+      "TeamName": "Tien N.",
+      "LastSubmissionDate": "2026-10-07 19:03:42",
+      "Score": "780.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tientrum"
+    },
+    {
+      "Rank": "85",
+      "TeamId": "16982115",
+      "TeamName": "Santiago Maniches",
+      "LastSubmissionDate": "2026-10-07 07:53:07",
+      "Score": "771.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "santmani"
+    },
+    {
+      "Rank": "86",
+      "TeamId": "17031740",
+      "TeamName": "Baidalin Adilzhan [dsmlkz]",
+      "LastSubmissionDate": "2026-10-04 14:58:09",
+      "Score": "769.9",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "baidalinadilzhan"
+    },
+    {
+      "Rank": "87",
+      "TeamId": "17024629",
+      "TeamName": "cindrella_18",
+      "LastSubmissionDate": "2026-10-09 06:31:14",
+      "Score": "769.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "neharaj1518"
+    },
+    {
+      "Rank": "88",
+      "TeamId": "17034336",
+      "TeamName": "Infill",
+      "LastSubmissionDate": "2026-10-09 04:48:10",
+      "Score": "762.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "infill"
+    },
+    {
+      "Rank": "89",
+      "TeamId": "17035823",
+      "TeamName": "yu_kuo14",
+      "LastSubmissionDate": "2026-10-08 08:43:41",
+      "Score": "761.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "yukuo14"
+    },
+    {
+      "Rank": "90",
+      "TeamId": "17018161",
+      "TeamName": "WolfeyVGC",
+      "LastSubmissionDate": "2026-10-09 04:19:50",
+      "Score": "761.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "axelius,snorlaxoncoffee"
+    },
+    {
+      "Rank": "91",
+      "TeamId": "17032452",
+      "TeamName": "Brejesh Balakrishnan",
+      "LastSubmissionDate": "2026-10-05 03:21:37",
+      "Score": "755.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "brejeshbalakrishnan"
+    },
+    {
+      "Rank": "92",
+      "TeamId": "16988269",
+      "TeamName": "gurume",
+      "LastSubmissionDate": "2026-10-04 05:16:20",
+      "Score": "751.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "gempei"
+    },
+    {
+      "Rank": "93",
+      "TeamId": "17037005",
+      "TeamName": "Noah Farr",
+      "LastSubmissionDate": "2026-10-05 13:09:33",
+      "Score": "748.8",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "noahfarr"
+    },
+    {
+      "Rank": "94",
+      "TeamId": "17033405",
+      "TeamName": "Wei Hsiang Lin111",
+      "LastSubmissionDate": "2026-10-08 21:43:56",
+      "Score": "747.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "weihsianglin111"
+    },
+    {
+      "Rank": "95",
+      "TeamId": "17029228",
+      "TeamName": "ANMOL GARG",
+      "LastSubmissionDate": "2026-10-04 10:53:07",
+      "Score": "745.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "anmolgargnsut"
+    },
+    {
+      "Rank": "96",
+      "TeamId": "16983876",
+      "TeamName": "Vidit Parashar",
+      "LastSubmissionDate": "2026-10-08 08:49:12",
+      "Score": "736.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "viditparashar123456"
+    },
+    {
+      "Rank": "97",
+      "TeamId": "17066021",
+      "TeamName": "poiioq 8k",
+      "LastSubmissionDate": "2026-10-09 08:20:43",
+      "Score": "735.9",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "poiioq8k"
+    },
+    {
+      "Rank": "98",
+      "TeamId": "17017984",
+      "TeamName": "B. Zhang",
+      "LastSubmissionDate": "2026-10-03 18:24:01",
+      "Score": "734.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "muonchaser"
+    },
+    {
+      "Rank": "99",
+      "TeamId": "17035093",
+      "TeamName": "tiezhuwan",
+      "LastSubmissionDate": "2026-10-08 12:48:26",
+      "Score": "728.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tiezhuwan"
+    },
+    {
+      "Rank": "100",
+      "TeamId": "17013846",
+      "TeamName": "Tys TANA",
+      "LastSubmissionDate": "2026-10-09 08:43:16",
+      "Score": "726.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tystana"
+    },
+    {
+      "Rank": "101",
+      "TeamId": "16990281",
+      "TeamName": "Juhil Modi-24BCS10310",
+      "LastSubmissionDate": "2026-10-01 17:01:23",
+      "Score": "726.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "juhilmodi"
+    },
+    {
+      "Rank": "102",
+      "TeamId": "17022640",
+      "TeamName": "destbreso",
+      "LastSubmissionDate": "2026-10-05 13:39:54",
+      "Score": "722.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "destbreso"
+    },
+    {
+      "Rank": "103",
+      "TeamId": "17015122",
+      "TeamName": "Hokuto Tokutake",
+      "LastSubmissionDate": "2026-10-07 06:56:18",
+      "Score": "721.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tokutake"
+    },
+    {
+      "Rank": "104",
+      "TeamId": "16983339",
+      "TeamName": "Mathurin Ache",
+      "LastSubmissionDate": "2026-10-06 14:50:15",
+      "Score": "718.4",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "mathurinache"
+    },
+    {
+      "Rank": "105",
+      "TeamId": "16988483",
+      "TeamName": "Tolga Kiremit",
+      "LastSubmissionDate": "2026-10-02 06:17:40",
+      "Score": "715.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tolgakiremit"
+    },
+    {
+      "Rank": "106",
+      "TeamId": "17014952",
+      "TeamName": "moky",
+      "LastSubmissionDate": "2026-10-07 06:54:55",
+      "Score": "715.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "moky19"
+    },
+    {
+      "Rank": "107",
+      "TeamId": "17025039",
+      "TeamName": "Nicholas Hui",
+      "LastSubmissionDate": "2026-10-06 03:02:40",
+      "Score": "715.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "nicholashuihk"
+    },
+    {
+      "Rank": "108",
+      "TeamId": "17045390",
+      "TeamName": "Brian Bonti",
+      "LastSubmissionDate": "2026-10-08 05:39:27",
+      "Score": "713.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "brianbonti"
+    },
+    {
+      "Rank": "109",
+      "TeamId": "17065774",
+      "TeamName": "yaying1",
+      "LastSubmissionDate": "2026-10-09 08:47:39",
+      "Score": "709.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "yaying1"
+    },
+    {
+      "Rank": "110",
+      "TeamId": "17014227",
+      "TeamName": "Paal",
+      "LastSubmissionDate": "2026-10-06 15:26:04",
+      "Score": "705.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "altobellipaul,pierrelouroussel"
+    },
+    {
+      "Rank": "111",
+      "TeamId": "17049468",
+      "TeamName": "Shozyfrenia",
+      "LastSubmissionDate": "2026-10-07 07:23:40",
+      "Score": "705.3",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "shozyfrenia"
+    },
+    {
+      "Rank": "112",
+      "TeamId": "17032923",
+      "TeamName": "Prime Directive",
+      "LastSubmissionDate": "2026-10-09 06:18:00",
+      "Score": "704.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ctogaurav"
+    },
+    {
+      "Rank": "113",
+      "TeamId": "17014394",
+      "TeamName": "RoboPlayz",
+      "LastSubmissionDate": "2026-10-08 03:07:43",
+      "Score": "703.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "roboplayz"
+    },
+    {
+      "Rank": "114",
+      "TeamId": "16981732",
+      "TeamName": "Kydyrbek Kozykorpesh",
+      "LastSubmissionDate": "2026-10-06 02:18:45",
+      "Score": "701.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "kozykappa"
+    },
+    {
+      "Rank": "115",
+      "TeamId": "17036630",
+      "TeamName": "zaguarman",
+      "LastSubmissionDate": "2026-10-05 13:08:58",
+      "Score": "700.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "zaguarman"
+    },
+    {
+      "Rank": "116",
+      "TeamId": "16983910",
+      "TeamName": "Dark Energy Hydra",
+      "LastSubmissionDate": "2026-10-05 06:35:41",
+      "Score": "699.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "matterhorn3838"
+    },
+    {
+      "Rank": "117",
+      "TeamId": "17040735",
+      "TeamName": "Momotaro1226",
+      "LastSubmissionDate": "2026-10-09 10:26:44",
+      "Score": "695.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "momotaro1226"
+    },
+    {
+      "Rank": "118",
+      "TeamId": "17010382",
+      "TeamName": "Ricardo Paizinho",
+      "LastSubmissionDate": "2026-10-06 23:28:26",
+      "Score": "694.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ricardopaizinho"
+    },
+    {
+      "Rank": "119",
+      "TeamId": "17010960",
+      "TeamName": "Shiv sib",
+      "LastSubmissionDate": "2026-10-07 16:07:08",
+      "Score": "693.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "shivsib"
+    },
+    {
+      "Rank": "120",
+      "TeamId": "17057029",
+      "TeamName": "Leung-X",
+      "LastSubmissionDate": "2026-10-08 01:53:26",
+      "Score": "693.1",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "leung99"
+    },
+    {
+      "Rank": "121",
+      "TeamId": "16983313",
+      "TeamName": "teppei",
+      "LastSubmissionDate": "2026-09-29 08:35:29",
+      "Score": "691.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "teppei0120"
+    },
+    {
+      "Rank": "122",
+      "TeamId": "16993518",
+      "TeamName": "Mibbles",
+      "LastSubmissionDate": "2026-10-03 17:46:11",
+      "Score": "689.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mibbles"
+    },
+    {
+      "Rank": "123",
+      "TeamId": "17021363",
+      "TeamName": "nonpapa",
+      "LastSubmissionDate": "2026-10-03 11:26:20",
+      "Score": "686.9",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "nonpapa"
+    },
+    {
+      "Rank": "124",
+      "TeamId": "16993142",
+      "TeamName": "GengarX17",
+      "LastSubmissionDate": "2026-10-05 06:54:35",
+      "Score": "683.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "adityahippargi"
+    },
+    {
+      "Rank": "125",
+      "TeamId": "17048579",
+      "TeamName": "Uttam Limbani",
+      "LastSubmissionDate": "2026-10-09 07:13:46",
+      "Score": "675.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "uttamlimbani"
+    },
+    {
+      "Rank": "126",
+      "TeamId": "17025538",
+      "TeamName": "Igor Zharov",
+      "LastSubmissionDate": "2026-10-05 10:15:12",
+      "Score": "666.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "flexonafft"
+    },
+    {
+      "Rank": "127",
+      "TeamId": "17026181",
+      "TeamName": "Pratyush Sahoo",
+      "LastSubmissionDate": "2026-10-03 18:15:57",
+      "Score": "662.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "pratyush1427"
+    },
+    {
+      "Rank": "128",
+      "TeamId": "16994346",
+      "TeamName": "Chriszcodes",
+      "LastSubmissionDate": "2026-10-07 09:42:34",
+      "Score": "662.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "chriszcodes"
+    },
+    {
+      "Rank": "129",
+      "TeamId": "17027838",
+      "TeamName": "Faaiz Hussain",
+      "LastSubmissionDate": "2026-10-05 18:08:29",
+      "Score": "661.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "coderhqxg50,faaizhussain"
+    },
+    {
+      "Rank": "130",
+      "TeamId": "16988142",
+      "TeamName": "Clark Kitchen",
+      "LastSubmissionDate": "2026-10-02 15:09:54",
+      "Score": "653.3",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "clarkkitchen"
+    },
+    {
+      "Rank": "131",
+      "TeamId": "16991806",
+      "TeamName": "chch",
+      "LastSubmissionDate": "2026-10-09 04:42:23",
+      "Score": "651.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "chchentw"
+    },
+    {
+      "Rank": "132",
+      "TeamId": "17015119",
+      "TeamName": "pika28samson",
+      "LastSubmissionDate": "2026-10-04 20:16:42",
+      "Score": "647.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "samsonsiu"
+    },
+    {
+      "Rank": "133",
+      "TeamId": "17061900",
+      "TeamName": "Daniil Iakupov",
+      "LastSubmissionDate": "2026-10-08 16:06:38",
+      "Score": "643.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "daniiliakupov"
+    },
+    {
+      "Rank": "134",
+      "TeamId": "16994391",
+      "TeamName": "Amedeo Biolatti",
+      "LastSubmissionDate": "2026-10-07 10:14:18",
+      "Score": "643.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "abiolatti"
+    },
+    {
+      "Rank": "135",
+      "TeamId": "17020744",
+      "TeamName": "Phoenix",
+      "LastSubmissionDate": "2026-10-02 14:48:03",
+      "Score": "640.9",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "chetanagrawall"
+    },
+    {
+      "Rank": "136",
+      "TeamId": "17011313",
+      "TeamName": "Jonathan He",
+      "LastSubmissionDate": "2026-10-02 17:00:55",
+      "Score": "638.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "jonapplehe"
+    },
+    {
+      "Rank": "137",
+      "TeamId": "16992485",
+      "TeamName": "Ramanath Rakshit",
+      "LastSubmissionDate": "2026-10-06 13:12:46",
+      "Score": "637.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "raxy777"
+    },
+    {
+      "Rank": "138",
+      "TeamId": "17035540",
+      "TeamName": "Mandavi Singh",
+      "LastSubmissionDate": "2026-10-09 07:17:07",
+      "Score": "636.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mandavisingh"
+    },
+    {
+      "Rank": "139",
+      "TeamId": "16986909",
+      "TeamName": "(ノ◡ <)",
+      "LastSubmissionDate": "2026-09-29 19:09:16",
+      "Score": "634.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "nawfeelrahman1124444"
+    },
+    {
+      "Rank": "140",
+      "TeamId": "16981622",
+      "TeamName": "ISAKA Tsuyoshi",
+      "LastSubmissionDate": "2026-09-30 07:24:05",
+      "Score": "632.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "isakatsuyoshi"
+    },
+    {
+      "Rank": "141",
+      "TeamId": "17036991",
+      "TeamName": "NK49540",
+      "LastSubmissionDate": "2026-10-08 23:48:53",
+      "Score": "614.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "nk49540"
+    },
+    {
+      "Rank": "142",
+      "TeamId": "17019579",
+      "TeamName": "taka",
+      "LastSubmissionDate": "2026-10-06 01:55:20",
+      "Score": "613.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "naniwanoterminator"
+    },
+    {
+      "Rank": "143",
+      "TeamId": "17029488",
+      "TeamName": "Raosaheb",
+      "LastSubmissionDate": "2026-10-04 12:34:36",
+      "Score": "609.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "raosahebmore"
+    },
+    {
+      "Rank": "144",
+      "TeamId": "16993107",
+      "TeamName": "Chen Kuan-Chin",
+      "LastSubmissionDate": "2026-10-01 16:22:59",
+      "Score": "606.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "chenkuanchin"
+    },
+    {
+      "Rank": "145",
+      "TeamId": "16993346",
+      "TeamName": "Yorukuma",
+      "LastSubmissionDate": "2026-10-01 17:31:47",
+      "Score": "605.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "yorukuma"
+    },
+    {
+      "Rank": "146",
+      "TeamId": "17033501",
+      "TeamName": "Taro_pan",
+      "LastSubmissionDate": "2026-10-08 08:01:10",
+      "Score": "604.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "stgkrtua"
+    },
+    {
+      "Rank": "147",
+      "TeamId": "17065924",
+      "TeamName": "Prashant Rawat",
+      "LastSubmissionDate": "2026-10-09 10:34:58",
+      "Score": "600.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "prashantrawatmailbox"
+    },
+    {
+      "Rank": "148",
+      "TeamId": "17063582",
+      "TeamName": "Lauresowe 3D",
+      "LastSubmissionDate": "2026-10-09 10:37:37",
+      "Score": "600.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "lauresowe3d"
+    },
+    {
+      "Rank": "149",
+      "TeamId": "17019097",
+      "TeamName": "Kevin Rio Harristyando",
+      "LastSubmissionDate": "2026-10-05 07:41:15",
+      "Score": "595.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "kevinrioharristyando"
+    },
+    {
+      "Rank": "150",
+      "TeamId": "16984766",
+      "TeamName": "Shaun2024",
+      "LastSubmissionDate": "2026-10-08 11:49:19",
+      "Score": "590.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "shaun2024"
+    },
+    {
+      "Rank": "151",
+      "TeamId": "17026810",
+      "TeamName": "SC",
+      "LastSubmissionDate": "2026-10-05 07:22:50",
+      "Score": "583.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ryosketchbook2007"
+    },
+    {
+      "Rank": "152",
+      "TeamId": "16984793",
+      "TeamName": "jazivxt",
+      "LastSubmissionDate": "2026-10-09 07:10:35",
+      "Score": "582.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "jazivxt"
+    },
+    {
+      "Rank": "153",
+      "TeamId": "17011752",
+      "TeamName": "Somesh Biswas",
+      "LastSubmissionDate": "2026-10-02 17:07:19",
+      "Score": "578.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "someshbiswas"
+    },
+    {
+      "Rank": "154",
+      "TeamId": "17052732",
+      "TeamName": "Altroistz",
+      "LastSubmissionDate": "2026-10-09 09:40:51",
+      "Score": "575.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "altroistz"
+    },
+    {
+      "Rank": "155",
+      "TeamId": "17035610",
+      "TeamName": "awewrasdffetfe",
+      "LastSubmissionDate": "2026-10-09 08:34:11",
+      "Score": "574.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "awewrasdffetfe"
+    },
+    {
+      "Rank": "156",
+      "TeamId": "17030116",
+      "TeamName": "nguyenbaotri-VIETNAM",
+      "LastSubmissionDate": "2026-10-09 10:18:22",
+      "Score": "574.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "nguyen1tri"
+    },
+    {
+      "Rank": "157",
+      "TeamId": "17011444",
+      "TeamName": "Rajveer Vora",
+      "LastSubmissionDate": "2026-10-04 14:41:23",
+      "Score": "571.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "rajveervora"
+    },
+    {
+      "Rank": "158",
+      "TeamId": "16993583",
+      "TeamName": "Bros 360x",
+      "LastSubmissionDate": "2026-10-07 17:30:38",
+      "Score": "570.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "alexander683,bros360x"
+    },
+    {
+      "Rank": "159",
+      "TeamId": "17061443",
+      "TeamName": "tai1907",
+      "LastSubmissionDate": "2026-10-09 09:00:39",
+      "Score": "569.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tai1907"
+    },
+    {
+      "Rank": "160",
+      "TeamId": "17024426",
+      "TeamName": "Sho",
+      "LastSubmissionDate": "2026-10-03 06:50:20",
+      "Score": "569.1",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "shosugise"
+    },
+    {
+      "Rank": "161",
+      "TeamId": "16983532",
+      "TeamName": "fake conquerors",
+      "LastSubmissionDate": "2026-09-30 23:10:38",
+      "Score": "567.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "samanyu1808"
+    },
+    {
+      "Rank": "162",
+      "TeamId": "16988902",
+      "TeamName": "sayidmra",
+      "LastSubmissionDate": "2026-10-08 08:35:21",
+      "Score": "565.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "sayidl"
+    },
+    {
+      "Rank": "163",
+      "TeamId": "16991720",
+      "TeamName": "Boon Keng",
+      "LastSubmissionDate": "2026-10-03 19:55:47",
+      "Score": "564.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "factra"
+    },
+    {
+      "Rank": "164",
+      "TeamId": "17014218",
+      "TeamName": "Raiuga",
+      "LastSubmissionDate": "2026-10-09 03:29:18",
+      "Score": "562.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "guilhermeraiuga"
+    },
+    {
+      "Rank": "165",
+      "TeamId": "17024201",
+      "TeamName": "CoderX",
+      "LastSubmissionDate": "2026-10-03 06:04:59",
+      "Score": "560.1",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "aayushkumarsingh7"
+    },
+    {
+      "Rank": "166",
+      "TeamId": "16993512",
+      "TeamName": "Philipp k-s",
+      "LastSubmissionDate": "2026-09-30 19:58:59",
+      "Score": "557.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "philippkeussenstrau"
+    },
+    {
+      "Rank": "167",
+      "TeamId": "16991462",
+      "TeamName": "ant",
+      "LastSubmissionDate": "2026-10-09 00:55:03",
+      "Score": "557.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "alexferechin"
+    },
+    {
+      "Rank": "168",
+      "TeamId": "17023426",
+      "TeamName": "F.A.Nina",
+      "LastSubmissionDate": "2026-10-03 03:19:24",
+      "Score": "556.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "nina2025"
+    },
+    {
+      "Rank": "169",
+      "TeamId": "16989522",
+      "TeamName": "mo",
+      "LastSubmissionDate": "2026-10-02 17:01:18",
+      "Score": "547.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mookdd"
+    },
+    {
+      "Rank": "170",
+      "TeamId": "17032335",
+      "TeamName": "Rashid Khazeiynasab",
+      "LastSubmissionDate": "2026-10-04 17:26:04",
+      "Score": "542.8",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "rashidel1988"
+    },
+    {
+      "Rank": "171",
+      "TeamId": "17024719",
+      "TeamName": "Richard Guo",
+      "LastSubmissionDate": "2026-10-06 03:57:37",
+      "Score": "537.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "sweetbix"
+    },
+    {
+      "Rank": "172",
+      "TeamId": "17025749",
+      "TeamName": "mm bbAlez",
+      "LastSubmissionDate": "2026-10-04 10:07:31",
+      "Score": "534.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mmbbalez"
+    },
+    {
+      "Rank": "173",
+      "TeamId": "16991772",
+      "TeamName": "EliteOneTube",
+      "LastSubmissionDate": "2026-10-02 06:34:07",
+      "Score": "533.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "eliteonetube"
+    },
+    {
+      "Rank": "174",
+      "TeamId": "17038088",
+      "TeamName": "DavideSanta",
+      "LastSubmissionDate": "2026-10-08 10:17:45",
+      "Score": "532.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "davidesanta"
+    },
+    {
+      "Rank": "175",
+      "TeamId": "17011601",
+      "TeamName": "ZHIRUI ZHAO",
+      "LastSubmissionDate": "2026-10-03 04:24:51",
+      "Score": "525.9",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "zhiruizhao"
+    },
+    {
+      "Rank": "176",
+      "TeamId": "16992022",
+      "TeamName": "kutty1119",
+      "LastSubmissionDate": "2026-09-30 17:49:58",
+      "Score": "519.7",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "kutty1119"
+    },
+    {
+      "Rank": "177",
+      "TeamId": "17057170",
+      "TeamName": "tategami",
+      "LastSubmissionDate": "2026-10-09 03:23:17",
+      "Score": "519.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "hideoyoshimori"
+    },
+    {
+      "Rank": "178",
+      "TeamId": "17036365",
+      "TeamName": "kloaken",
+      "LastSubmissionDate": "2026-10-08 10:09:27",
+      "Score": "518.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "kloaken"
+    },
+    {
+      "Rank": "179",
+      "TeamId": "17025304",
+      "TeamName": "karinkaito",
+      "LastSubmissionDate": "2026-10-03 09:35:24",
+      "Score": "513.0",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "karinkaito"
+    },
+    {
+      "Rank": "180",
+      "TeamId": "17022345",
+      "TeamName": "Abu Ruhan Mahamud",
+      "LastSubmissionDate": "2026-10-08 19:04:22",
+      "Score": "508.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "aburuhan"
+    },
+    {
+      "Rank": "181",
+      "TeamId": "17011886",
+      "TeamName": "Praneeth Yeddu",
+      "LastSubmissionDate": "2026-10-02 18:12:03",
+      "Score": "508.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "praneethyeddu"
+    },
+    {
+      "Rank": "182",
+      "TeamId": "17024872",
+      "TeamName": "Namir Chaudry",
+      "LastSubmissionDate": "2026-10-08 23:35:55",
+      "Score": "506.2",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "namirchaudry"
+    },
+    {
+      "Rank": "183",
+      "TeamId": "17017217",
+      "TeamName": "Jeki Wan Taufik",
+      "LastSubmissionDate": "2026-10-02 01:06:44",
+      "Score": "502.1",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "jek1wantaufik"
+    },
+    {
+      "Rank": "184",
+      "TeamId": "16989919",
+      "TeamName": "nikepoke",
+      "LastSubmissionDate": "2026-10-09 10:18:06",
+      "Score": "498.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "nikepoke"
+    },
+    {
+      "Rank": "185",
+      "TeamId": "17028157",
+      "TeamName": "Navneet Prabhat",
+      "LastSubmissionDate": "2026-10-08 18:23:19",
+      "Score": "497.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "navneetprabhat"
+    },
+    {
+      "Rank": "186",
+      "TeamId": "17061695",
+      "TeamName": "鲁尚武 LuShangWu",
+      "LastSubmissionDate": "2026-10-09 10:12:34",
+      "Score": "494.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "lushangwu"
+    },
+    {
+      "Rank": "187",
+      "TeamId": "16982780",
+      "TeamName": "Dev Nirwal",
+      "LastSubmissionDate": "2026-10-09 07:03:20",
+      "Score": "487.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "devn007"
+    },
+    {
+      "Rank": "188",
+      "TeamId": "16991861",
+      "TeamName": "yihui ding123",
+      "LastSubmissionDate": "2026-10-05 00:07:17",
+      "Score": "483.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "yihuiding123"
+    },
+    {
+      "Rank": "189",
+      "TeamId": "17046208",
+      "TeamName": "GiovanniCR",
+      "LastSubmissionDate": "2026-10-08 15:37:43",
+      "Score": "483.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "giovannicr"
+    },
+    {
+      "Rank": "190",
+      "TeamId": "16991417",
+      "TeamName": "Pranshul Maithani",
+      "LastSubmissionDate": "2026-10-01 03:14:35",
+      "Score": "476.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "pranshulmaithani"
+    },
+    {
+      "Rank": "191",
+      "TeamId": "17061954",
+      "TeamName": "saravana Kishore",
+      "LastSubmissionDate": "2026-10-08 15:00:30",
+      "Score": "473.4",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "saravanakishore,suryaprasath04"
+    },
+    {
+      "Rank": "192",
+      "TeamId": "17063699",
+      "TeamName": "LivMaAn",
+      "LastSubmissionDate": "2026-10-08 22:24:47",
+      "Score": "464.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "livmaan"
+    },
+    {
+      "Rank": "193",
+      "TeamId": "16986401",
+      "TeamName": "MarPez",
+      "LastSubmissionDate": "2026-09-30 23:50:43",
+      "Score": "461.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "marpez"
+    },
+    {
+      "Rank": "194",
+      "TeamId": "17055196",
+      "TeamName": "Pawit Sahare",
+      "LastSubmissionDate": "2026-10-08 13:07:14",
+      "Score": "460.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "pawitky"
+    },
+    {
+      "Rank": "195",
+      "TeamId": "17013801",
+      "TeamName": "Atharva Naik",
+      "LastSubmissionDate": "2026-10-03 09:51:48",
+      "Score": "460.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "atharvanaik2024"
+    },
+    {
+      "Rank": "196",
+      "TeamId": "17044173",
+      "TeamName": "Don_Cry_Baby",
+      "LastSubmissionDate": "2026-10-06 14:24:49",
+      "Score": "457.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "johnsoliva"
+    },
+    {
+      "Rank": "197",
+      "TeamId": "16988730",
+      "TeamName": "Don't foget me",
+      "LastSubmissionDate": "2026-10-01 03:56:14",
+      "Score": "456.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "dataforgerfred"
+    },
+    {
+      "Rank": "198",
+      "TeamId": "17021954",
+      "TeamName": "Hitisha Goyal",
+      "LastSubmissionDate": "2026-10-04 20:53:07",
+      "Score": "446.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "hitishagoyal"
+    },
+    {
+      "Rank": "199",
+      "TeamId": "17035997",
+      "TeamName": "inego",
+      "LastSubmissionDate": "2026-10-07 11:54:58",
+      "Score": "444.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "inigomonson"
+    },
+    {
+      "Rank": "200",
+      "TeamId": "17024595",
+      "TeamName": "彭文龙",
+      "LastSubmissionDate": "2026-10-09 01:28:16",
+      "Score": "438.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "pengwenlong"
+    },
+    {
+      "Rank": "201",
+      "TeamId": "16991760",
+      "TeamName": "Kitaev",
+      "LastSubmissionDate": "2026-09-30 15:16:00",
+      "Score": "428.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "takumihikichi"
+    },
+    {
+      "Rank": "202",
+      "TeamId": "17016923",
+      "TeamName": "Julian M",
+      "LastSubmissionDate": "2026-10-04 22:36:58",
+      "Score": "424.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "julianlmariscal519"
+    },
+    {
+      "Rank": "203",
+      "TeamId": "16991412",
+      "TeamName": "Zapaxe",
+      "LastSubmissionDate": "2026-10-06 23:17:48",
+      "Score": "415.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "zapaxe"
+    },
+    {
+      "Rank": "204",
+      "TeamId": "16991670",
+      "TeamName": "Yash Dalal",
+      "LastSubmissionDate": "2026-10-05 22:30:01",
+      "Score": "410.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "dsloef"
+    },
+    {
+      "Rank": "205",
+      "TeamId": "16984726",
+      "TeamName": "Riccardo Lo Bianco",
+      "LastSubmissionDate": "2026-10-05 10:31:24",
+      "Score": "402.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "riccardolobianco"
+    },
+    {
+      "Rank": "206",
+      "TeamId": "16990193",
+      "TeamName": "char0n1",
+      "LastSubmissionDate": "2026-10-08 06:19:17",
+      "Score": "400.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "char0n1,shantan666"
+    },
+    {
+      "Rank": "207",
+      "TeamId": "17038789",
+      "TeamName": "Elbachir Salik",
+      "LastSubmissionDate": "2026-10-05 19:58:46",
+      "Score": "396.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "elbachirsalik"
+    },
+    {
+      "Rank": "208",
+      "TeamId": "17062711",
+      "TeamName": "Jarno Rantala",
+      "LastSubmissionDate": "2026-10-08 20:20:58",
+      "Score": "395.7",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "jarski"
+    },
+    {
+      "Rank": "209",
+      "TeamId": "17034362",
+      "TeamName": "Guenoir",
+      "LastSubmissionDate": "2026-10-06 21:48:57",
+      "Score": "395.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "joshuamichael15"
+    },
+    {
+      "Rank": "210",
+      "TeamId": "16992760",
+      "TeamName": "Taras Harbar",
+      "LastSubmissionDate": "2026-10-05 20:28:43",
+      "Score": "392.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tarasharbar"
+    },
+    {
+      "Rank": "211",
+      "TeamId": "17035579",
+      "TeamName": "Ritsuki Hoshimoto",
+      "LastSubmissionDate": "2026-10-05 11:24:11",
+      "Score": "381.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ritsukihoshimoto"
+    },
+    {
+      "Rank": "212",
+      "TeamId": "17010377",
+      "TeamName": "Avik Das",
+      "LastSubmissionDate": "2026-10-01 17:43:23",
+      "Score": "379.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "avikdas567"
+    },
+    {
+      "Rank": "213",
+      "TeamId": "16993112",
+      "TeamName": "Kazama_Hareka",
+      "LastSubmissionDate": "2026-10-01 05:01:58",
+      "Score": "376.0",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "shinonomeseiga"
+    },
+    {
+      "Rank": "214",
+      "TeamId": "17047588",
+      "TeamName": "eastnix",
+      "LastSubmissionDate": "2026-10-08 02:26:16",
+      "Score": "372.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "eastnix"
+    },
+    {
+      "Rank": "215",
+      "TeamId": "17064160",
+      "TeamName": "JohnBlake",
+      "LastSubmissionDate": "2026-10-09 02:23:30",
+      "Score": "372.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "jaybeeja"
+    },
+    {
+      "Rank": "216",
+      "TeamId": "16991550",
+      "TeamName": "Jonathan Axl",
+      "LastSubmissionDate": "2026-10-02 15:07:07",
+      "Score": "372.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "jonathanaxl"
+    },
+    {
+      "Rank": "217",
+      "TeamId": "16993099",
+      "TeamName": "Dnyanesh",
+      "LastSubmissionDate": "2026-10-03 14:21:06",
+      "Score": "369.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "dnyaneshbharambe"
+    },
+    {
+      "Rank": "218",
+      "TeamId": "16993700",
+      "TeamName": "BSCode",
+      "LastSubmissionDate": "2026-10-08 19:04:45",
+      "Score": "366.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "bscode"
+    },
+    {
+      "Rank": "219",
+      "TeamId": "17054080",
+      "TeamName": "hotaq",
+      "LastSubmissionDate": "2026-10-08 11:23:46",
+      "Score": "362.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "chinnaphatkhun"
+    },
+    {
+      "Rank": "220",
+      "TeamId": "17013968",
+      "TeamName": "EVIG EMIT ตัวปลอม",
+      "LastSubmissionDate": "2026-10-04 15:43:47",
+      "Score": "352.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "evigemit"
+    },
+    {
+      "Rank": "221",
+      "TeamId": "17028962",
+      "TeamName": "cottonandcolor",
+      "LastSubmissionDate": "2026-10-05 03:16:49",
+      "Score": "351.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "cottonandcolor"
+    },
+    {
+      "Rank": "222",
+      "TeamId": "16983401",
+      "TeamName": "Tanishq das",
+      "LastSubmissionDate": "2026-09-29 10:10:47",
+      "Score": "347.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tanishqdas"
+    },
+    {
+      "Rank": "223",
+      "TeamId": "16986582",
+      "TeamName": "Ryan Fernandes",
+      "LastSubmissionDate": "2026-09-30 04:46:26",
+      "Score": "346.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ryanfernandes1"
+    },
+    {
+      "Rank": "224",
+      "TeamId": "16985532",
+      "TeamName": "Aayush Jansari",
+      "LastSubmissionDate": "2026-09-30 05:57:13",
+      "Score": "341.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "aayushjansari"
+    },
+    {
+      "Rank": "225",
+      "TeamId": "17063378",
+      "TeamName": "The Prad K",
+      "LastSubmissionDate": "2026-10-08 19:10:28",
+      "Score": "338.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "thepradk"
+    },
+    {
+      "Rank": "226",
+      "TeamId": "17041742",
+      "TeamName": "lswuwu",
+      "LastSubmissionDate": "2026-10-06 12:08:05",
+      "Score": "331.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "tiancaishb"
+    },
+    {
+      "Rank": "227",
+      "TeamId": "16994327",
+      "TeamName": "AByT3s",
+      "LastSubmissionDate": "2026-10-08 22:00:41",
+      "Score": "330.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "alvinhenn"
+    },
+    {
+      "Rank": "228",
+      "TeamId": "17014794",
+      "TeamName": "RAHUL REDDY PULICHARLA",
+      "LastSubmissionDate": "2026-10-04 10:28:42",
+      "Score": "330.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "rahulreddypulicharla"
+    },
+    {
+      "Rank": "229",
+      "TeamId": "17067740",
+      "TeamName": "Eugen LNCanti",
+      "LastSubmissionDate": "2026-10-09 09:27:59",
+      "Score": "329.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "eugenlncanti"
+    },
+    {
+      "Rank": "230",
+      "TeamId": "17032823",
+      "TeamName": "renyxin",
+      "LastSubmissionDate": "2026-10-06 07:59:09",
+      "Score": "322.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "renyxin"
+    },
+    {
+      "Rank": "231",
+      "TeamId": "17054822",
+      "TeamName": "Aditya ingale",
+      "LastSubmissionDate": "2026-10-08 18:36:48",
+      "Score": "305.7",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "adi01845h"
+    },
+    {
+      "Rank": "232",
+      "TeamId": "17023430",
+      "TeamName": "Sebastian Salutare",
+      "LastSubmissionDate": "2026-10-09 03:25:25",
+      "Score": "288.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "sebastiansalutare"
+    },
+    {
+      "Rank": "233",
+      "TeamId": "17041394",
+      "TeamName": "praveen_02706",
+      "LastSubmissionDate": "2026-10-06 06:45:41",
+      "Score": "286.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "praveen02706"
+    },
+    {
+      "Rank": "234",
+      "TeamId": "17061370",
+      "TeamName": "Rodrigo S Faria",
+      "LastSubmissionDate": "2026-10-08 12:57:06",
+      "Score": "286.0",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "rodrigosfaria"
+    },
+    {
+      "Rank": "235",
+      "TeamId": "17042219",
+      "TeamName": "thebrownkid",
+      "LastSubmissionDate": "2026-10-07 10:19:20",
+      "Score": "281.2",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "thebrownkid"
+    },
+    {
+      "Rank": "236",
+      "TeamId": "16989631",
+      "TeamName": "Vinit",
+      "LastSubmissionDate": "2026-10-08 07:42:31",
+      "Score": "274.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ryotsuu"
+    },
+    {
+      "Rank": "237",
+      "TeamId": "17030566",
+      "TeamName": "teriri_15",
+      "LastSubmissionDate": "2026-10-07 02:44:47",
+      "Score": "264.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "teriri15"
+    },
+    {
+      "Rank": "238",
+      "TeamId": "17053795",
+      "TeamName": "sergeicu",
+      "LastSubmissionDate": "2026-10-08 20:22:52",
+      "Score": "257.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "sergeicu"
+    },
+    {
+      "Rank": "239",
+      "TeamId": "16991088",
+      "TeamName": "Steveneg13",
+      "LastSubmissionDate": "2026-10-04 05:56:34",
+      "Score": "249.4",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "stephenegray13"
+    },
+    {
+      "Rank": "240",
+      "TeamId": "17026765",
+      "TeamName": "Red",
+      "LastSubmissionDate": "2026-10-05 10:01:51",
+      "Score": "245.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "laymond"
+    },
+    {
+      "Rank": "241",
+      "TeamId": "16985736",
+      "TeamName": "Thiago Silva",
+      "LastSubmissionDate": "2026-09-29 16:21:51",
+      "Score": "243.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "thiagoddsilva"
+    },
+    {
+      "Rank": "242",
+      "TeamId": "16992356",
+      "TeamName": "LowTiste",
+      "LastSubmissionDate": "2026-10-01 14:55:46",
+      "Score": "237.9",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "lowtiste"
+    },
+    {
+      "Rank": "243",
+      "TeamId": "17057015",
+      "TeamName": "Pham Quang Nghia",
+      "LastSubmissionDate": "2026-10-09 05:44:45",
+      "Score": "218.8",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "phamquangnghia"
+    },
+    {
+      "Rank": "244",
+      "TeamId": "17014463",
+      "TeamName": "Ashutosh Agarwal",
+      "LastSubmissionDate": "2026-10-03 04:37:14",
+      "Score": "212.8",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ashutoshagarwal088"
+    },
+    {
+      "Rank": "245",
+      "TeamId": "16986310",
+      "TeamName": "Shixiang Yan",
+      "LastSubmissionDate": "2026-10-08 12:53:04",
+      "Score": "207.9",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "shawnchile"
+    },
+    {
+      "Rank": "246",
+      "TeamId": "16989635",
+      "TeamName": "Maxim Boguslavskiy",
+      "LastSubmissionDate": "2026-10-02 09:55:19",
+      "Score": "205.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "maxbogus"
+    },
+    {
+      "Rank": "247",
+      "TeamId": "17024096",
+      "TeamName": "Ranbeer Singh 1313",
+      "LastSubmissionDate": "2026-10-04 13:28:02",
+      "Score": "191.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "ranbeersingh1313"
+    },
+    {
+      "Rank": "248",
+      "TeamId": "17010914",
+      "TeamName": "Dayi Zhang",
+      "LastSubmissionDate": "2026-10-07 19:37:22",
+      "Score": "186.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "dayizhang"
+    },
+    {
+      "Rank": "249",
+      "TeamId": "17022770",
+      "TeamName": "Mark Raspopov",
+      "LastSubmissionDate": "2026-10-04 06:47:26",
+      "Score": "185.1",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "markraspopov111"
+    },
+    {
+      "Rank": "250",
+      "TeamId": "17029753",
+      "TeamName": "AllenCheng329",
+      "LastSubmissionDate": "2026-10-04 09:05:31",
+      "Score": "179.3",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "allencheng329"
+    },
+    {
+      "Rank": "251",
+      "TeamId": "16988219",
+      "TeamName": "masterlincs",
+      "LastSubmissionDate": "2026-09-30 02:27:43",
+      "Score": "169.6",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "masterlincs"
+    },
+    {
+      "Rank": "252",
+      "TeamId": "16990776",
+      "TeamName": "xirtaM",
+      "LastSubmissionDate": "2026-10-04 20:14:32",
+      "Score": "169.4",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "davisphilip"
+    },
+    {
+      "Rank": "253",
+      "TeamId": "17013249",
+      "TeamName": "Marlon Vasquez",
+      "LastSubmissionDate": "2026-10-01 11:28:19",
+      "Score": "157.1",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "vexmeavf"
+    },
+    {
+      "Rank": "254",
+      "TeamId": "17026420",
+      "TeamName": "Fakhrur Razi",
+      "LastSubmissionDate": "2026-10-04 17:07:27",
+      "Score": "145.9",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "covriar"
+    },
+    {
+      "Rank": "255",
+      "TeamId": "16985341",
+      "TeamName": "jiazhenchong",
+      "LastSubmissionDate": "2026-10-09 09:13:18",
+      "Score": "140.8",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "jiazhenchong"
+    },
+    {
+      "Rank": "256",
+      "TeamId": "17065568",
+      "TeamName": "Anthony Oxendine",
+      "LastSubmissionDate": "2026-10-09 04:02:12",
+      "Score": "133.0",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "anthonyoxendine"
+    },
+    {
+      "Rank": "257",
+      "TeamId": "17019485",
+      "TeamName": "Bumblerrr",
+      "LastSubmissionDate": "2026-10-04 00:32:18",
+      "Score": "119.8",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "bumblerrr"
+    },
+    {
+      "Rank": "258",
+      "TeamId": "17031560",
+      "TeamName": "snappi",
+      "LastSubmissionDate": "2026-10-08 21:28:30",
+      "Score": "117.8",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "snappi"
+    },
+    {
+      "Rank": "259",
+      "TeamId": "17060351",
+      "TeamName": "Huang Jing",
+      "LastSubmissionDate": "2026-10-09 08:48:28",
+      "Score": "110.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "elarahuangjing"
+    },
+    {
+      "Rank": "260",
+      "TeamId": "17030336",
+      "TeamName": "Андрей  Гундырев",
+      "LastSubmissionDate": "2026-10-05 07:33:46",
+      "Score": "109.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "mysicshowdreigun"
+    },
+    {
+      "Rank": "261",
+      "TeamId": "16983381",
+      "TeamName": "薛文卓xwz",
+      "LastSubmissionDate": "2026-10-08 01:43:03",
+      "Score": "100.5",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "xuewenzhuo"
+    },
+    {
+      "Rank": "262",
+      "TeamId": "17033015",
+      "TeamName": "phoenix lee",
+      "LastSubmissionDate": "2026-10-04 21:08:30",
+      "Score": "93.2",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "phoenix1ee"
+    },
+    {
+      "Rank": "263",
+      "TeamId": "17037383",
+      "TeamName": "Timon Schmid",
+      "LastSubmissionDate": "2026-10-08 14:01:25",
+      "Score": "89.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "timonschmid"
+    },
+    {
+      "Rank": "264",
+      "TeamId": "17029713",
+      "TeamName": "adam smith",
+      "LastSubmissionDate": "2026-10-04 09:10:59",
+      "Score": "89.4",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "adamsmith12345"
+    },
+    {
+      "Rank": "265",
+      "TeamId": "16981769",
+      "TeamName": "P.J Leek",
+      "LastSubmissionDate": "2026-10-01 06:48:46",
+      "Score": "68.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "pjleek"
+    },
+    {
+      "Rank": "266",
+      "TeamId": "17014493",
+      "TeamName": "Omsingh59",
+      "LastSubmissionDate": "2026-10-04 10:10:59",
+      "Score": "52.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "omsingh59"
+    },
+    {
+      "Rank": "267",
+      "TeamId": "17041676",
+      "TeamName": "Jacob Adkins GIA GD",
+      "LastSubmissionDate": "2026-10-08 16:24:01",
+      "Score": "44.7",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "jacobadkinsgiagd"
+    },
+    {
+      "Rank": "268",
+      "TeamId": "16987156",
+      "TeamName": "S.M. Yousuf Iqbal Tomal",
+      "LastSubmissionDate": "2026-09-29 19:36:21",
+      "Score": "38.6",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "yousuftomal"
+    },
+    {
+      "Rank": "269",
+      "TeamId": "17016547",
+      "TeamName": "NosuaK",
+      "LastSubmissionDate": "2026-10-07 15:42:02",
+      "Score": "24.5",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "nosuak"
+    },
+    {
+      "Rank": "270",
+      "TeamId": "17013630",
+      "TeamName": "a_afterwards",
+      "LastSubmissionDate": "2026-10-04 11:19:55",
+      "Score": "-27.0",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "aafterwards"
+    },
+    {
+      "Rank": "271",
+      "TeamId": "16988713",
+      "TeamName": "Chris Chia",
+      "LastSubmissionDate": "2026-09-30 05:30:44",
+      "Score": "-28.1",
+      "SubmissionCount": "1",
+      "TeamMemberUserNames": "cchia3"
+    }
+  ],
+  "latest_submissions": [
+    {
+      "ref": "57005960",
+      "fileName": "phase1_heuristic (2).tar.gz",
+      "date": "2026-10-09 10:37:37.757000",
+      "description": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "600.0",
+      "privateScore": ""
+    },
+    {
+      "ref": "57004890",
+      "fileName": "phase1_heuristic (1).tar.gz",
+      "date": "2026-10-09 10:01:48.463000",
+      "description": "",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "57004881",
+      "fileName": "phase0_random (1).tar.gz",
+      "date": "2026-10-09 10:01:38.317000",
+      "description": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "76.1",
+      "privateScore": ""
+    },
+    {
+      "ref": "56979012",
+      "fileName": "phase1_heuristic.tar.gz",
+      "date": "2026-10-09 00:00:25.220000",
+      "description": "",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "56978991",
+      "fileName": "phase0_random.tar.gz",
+      "date": "2026-10-09 00:00:14.997000",
+      "description": "",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "56975177",
+      "fileName": "main_heuristic.py",
+      "date": "2026-10-08 22:11:32.857000",
+      "description": "",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "56975169",
+      "fileName": "main_random.py",
+      "date": "2026-10-08 22:11:21.613000",
+      "description": "",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    }
+  ],
+  "problems": []
+}

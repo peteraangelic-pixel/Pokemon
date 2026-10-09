@@ -1,0 +1,1931 @@
+# Kaggle results — the-pokemon-company-ptcg-ai-battle-challenge-playground
+
+_fetched 2026-10-09T10:45:36+00:00_
+
+## Our leaderboard row
+
+- **score (μ): 1207.0**
+  - Rank: 1
+  - TeamId: 17012386
+  - TeamName: YumeNeko
+  - LastSubmissionDate: 2026-10-07 16:21:14
+  - SubmissionCount: 2
+  - TeamMemberUserNames: kashiwaba
+- **score (μ): 1190.8**
+  - Rank: 2
+  - TeamId: 16994149
+  - TeamName: バーベナヘレナでコンボ決めたい連合
+  - LastSubmissionDate: 2026-10-09 07:52:36
+  - SubmissionCount: 2
+  - TeamMemberUserNames: nadyresearcher
+- **score (μ): 1169.1**
+  - Rank: 3
+  - TeamId: 17014244
+  - TeamName: やる気元気ミワハルキ 2nd ver.
+  - LastSubmissionDate: 2026-10-06 14:26:05
+  - SubmissionCount: 2
+  - TeamMemberUserNames: cnumber,confirm,harukimiwa,masayoshi64,tomo0608
+- **score (μ): 1155.1**
+  - Rank: 4
+  - TeamId: 16981890
+  - TeamName: Stephen Schott
+  - LastSubmissionDate: 2026-10-08 05:23:25
+  - SubmissionCount: 2
+  - TeamMemberUserNames: steve421471
+- **score (μ): 1152.8**
+  - Rank: 5
+  - TeamId: 16991525
+  - TeamName: Kentaro Totsuka
+  - LastSubmissionDate: 2026-10-09 05:24:58
+  - SubmissionCount: 2
+  - TeamMemberUserNames: kotarot1
+- **score (μ): 1129.3**
+  - Rank: 6
+  - TeamId: 17044570
+  - TeamName: Colton Martin
+  - LastSubmissionDate: 2026-10-08 19:34:12
+  - SubmissionCount: 2
+  - TeamMemberUserNames: coltonmartinnn
+- **score (μ): 1115.8**
+  - Rank: 7
+  - TeamId: 17058599
+  - TeamName: Zedan Soorya
+  - LastSubmissionDate: 2026-10-09 04:23:34
+  - SubmissionCount: 2
+  - TeamMemberUserNames: zedansoorya
+- **score (μ): 1085.7**
+  - Rank: 8
+  - TeamId: 17043084
+  - TeamName: Akmal Xodarev (Busya PRIME)
+  - LastSubmissionDate: 2026-10-07 19:13:26
+  - SubmissionCount: 2
+  - TeamMemberUserNames: busyaprime
+- **score (μ): 1069.1**
+  - Rank: 9
+  - TeamId: 17029072
+  - TeamName: dajun666
+  - LastSubmissionDate: 2026-10-08 07:23:32
+  - SubmissionCount: 2
+  - TeamMemberUserNames: iamdajun666
+- **score (μ): 1062.5**
+  - Rank: 10
+  - TeamId: 16994281
+  - TeamName: JerryChen
+  - LastSubmissionDate: 2026-10-08 12:06:22
+  - SubmissionCount: 2
+  - TeamMemberUserNames: horse602
+- **score (μ): 1057.8**
+  - Rank: 11
+  - TeamId: 16981607
+  - TeamName: pao
+  - LastSubmissionDate: 2026-10-08 13:25:48
+  - SubmissionCount: 2
+  - TeamMemberUserNames: go5kuramubon,kaidomitsu,nmlibrary
+- **score (μ): 1056.0**
+  - Rank: 12
+  - TeamId: 17003892
+  - TeamName: Darren Sheehan
+  - LastSubmissionDate: 2026-10-08 22:30:39
+  - SubmissionCount: 2
+  - TeamMemberUserNames: darrensheehan
+- **score (μ): 1053.4**
+  - Rank: 13
+  - TeamId: 17022603
+  - TeamName: OceanMix
+  - LastSubmissionDate: 2026-10-05 03:36:04
+  - SubmissionCount: 2
+  - TeamMemberUserNames: cggonzalezsc
+- **score (μ): 1037.7**
+  - Rank: 14
+  - TeamId: 16994022
+  - TeamName: Chonghao Peng
+  - LastSubmissionDate: 2026-10-09 05:25:29
+  - SubmissionCount: 2
+  - TeamMemberUserNames: chonghaopeng
+- **score (μ): 1026.8**
+  - Rank: 15
+  - TeamId: 16993925
+  - TeamName: Aditya Goyal
+  - LastSubmissionDate: 2026-10-08 23:10:13
+  - SubmissionCount: 2
+  - TeamMemberUserNames: synthreaper
+- **score (μ): 1024.8**
+  - Rank: 16
+  - TeamId: 16986029
+  - TeamName: Raja Biswas
+  - LastSubmissionDate: 2026-10-08 18:33:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: conjuring92
+- **score (μ): 1023.8**
+  - Rank: 17
+  - TeamId: 17010375
+  - TeamName: Briano
+  - LastSubmissionDate: 2026-10-09 06:03:10
+  - SubmissionCount: 2
+  - TeamMemberUserNames: woominyo
+- **score (μ): 1022.9**
+  - Rank: 18
+  - TeamId: 17055574
+  - TeamName: Mathieu W
+  - LastSubmissionDate: 2026-10-08 13:50:25
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mathieuw
+- **score (μ): 1022.3**
+  - Rank: 19
+  - TeamId: 17032277
+  - TeamName: Xinyu Li
+  - LastSubmissionDate: 2026-10-08 06:05:51
+  - SubmissionCount: 2
+  - TeamMemberUserNames: xil070
+- **score (μ): 999.1**
+  - Rank: 20
+  - TeamId: 16988136
+  - TeamName: match051
+  - LastSubmissionDate: 2026-10-05 22:06:08
+  - SubmissionCount: 2
+  - TeamMemberUserNames: match051
+- **score (μ): 996.8**
+  - Rank: 21
+  - TeamId: 16986055
+  - TeamName: Leon Liu
+  - LastSubmissionDate: 2026-09-30 22:09:23
+  - SubmissionCount: 2
+  - TeamMemberUserNames: h1deaki
+- **score (μ): 995.9**
+  - Rank: 22
+  - TeamId: 16981808
+  - TeamName: No Free MIST Energy
+  - LastSubmissionDate: 2026-10-09 07:48:30
+  - SubmissionCount: 2
+  - TeamMemberUserNames: hinatatokuda,kotatumurisroom,ueight8
+- **score (μ): 988.8**
+  - Rank: 23
+  - TeamId: 17016846
+  - TeamName: jperezalv23
+  - LastSubmissionDate: 2026-10-05 10:51:19
+  - SubmissionCount: 2
+  - TeamMemberUserNames: jperezalv23
+- **score (μ): 985.5**
+  - Rank: 24
+  - TeamId: 16954827
+  - TeamName: Addison Howard
+  - LastSubmissionDate: 2026-10-07 19:55:05
+  - SubmissionCount: 2
+  - TeamMemberUserNames: addisonhoward
+- **score (μ): 982.0**
+  - Rank: 25
+  - TeamId: 17047150
+  - TeamName: Utandra
+  - LastSubmissionDate: 2026-10-08 08:38:08
+  - SubmissionCount: 2
+  - TeamMemberUserNames: arrayofintegers
+- **score (μ): 963.9**
+  - Rank: 26
+  - TeamId: 17060722
+  - TeamName: zicong Cao
+  - LastSubmissionDate: 2026-10-09 10:06:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: zicongcao
+- **score (μ): 959.5**
+  - Rank: 27
+  - TeamId: 17025220
+  - TeamName: Alan_Nasibullin
+  - LastSubmissionDate: 2026-10-03 09:19:18
+  - SubmissionCount: 1
+  - TeamMemberUserNames: alannasibullin
+- **score (μ): 955.4**
+  - Rank: 28
+  - TeamId: 17055992
+  - TeamName: Majiro_ns
+  - LastSubmissionDate: 2026-10-08 21:48:42
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ygkojima
+- **score (μ): 954.0**
+  - Rank: 29
+  - TeamId: 17010868
+  - TeamName: めめっち
+  - LastSubmissionDate: 2026-10-03 06:18:44
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mechi22
+- **score (μ): 951.5**
+  - Rank: 30
+  - TeamId: 16984871
+  - TeamName: claws
+  - LastSubmissionDate: 2026-09-29 14:35:43
+  - SubmissionCount: 1
+  - TeamMemberUserNames: hweowe
+- **score (μ): 949.0**
+  - Rank: 31
+  - TeamId: 17015576
+  - TeamName: Adisak Sukul
+  - LastSubmissionDate: 2026-10-08 20:48:04
+  - SubmissionCount: 2
+  - TeamMemberUserNames: adisak
+- **score (μ): 944.6**
+  - Rank: 32
+  - TeamId: 17056572
+  - TeamName: Blake Mosley
+  - LastSubmissionDate: 2026-10-08 16:26:28
+  - SubmissionCount: 2
+  - TeamMemberUserNames: blakemosley
+- **score (μ): 939.8**
+  - Rank: 33
+  - TeamId: 16992901
+  - TeamName: Revue
+  - LastSubmissionDate: 2026-09-30 18:18:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: linkinpony
+- **score (μ): 931.1**
+  - Rank: 34
+  - TeamId: 17014314
+  - TeamName: Zefirrr
+  - LastSubmissionDate: 2026-10-08 17:52:40
+  - SubmissionCount: 2
+  - TeamMemberUserNames: zefirrrr
+- **score (μ): 929.1**
+  - Rank: 35
+  - TeamId: 16981660
+  - TeamName: armorGAWA
+  - LastSubmissionDate: 2026-10-06 13:04:00
+  - SubmissionCount: 2
+  - TeamMemberUserNames: gawa0000
+- **score (μ): 928.3**
+  - Rank: 36
+  - TeamId: 16985280
+  - TeamName: Team Rocket
+  - LastSubmissionDate: 2026-10-06 23:36:53
+  - SubmissionCount: 2
+  - TeamMemberUserNames: liemdt,tranmle
+- **score (μ): 922.2**
+  - Rank: 37
+  - TeamId: 16981780
+  - TeamName: Belati Jagad Bintang Syuhada
+  - LastSubmissionDate: 2026-10-05 08:15:42
+  - SubmissionCount: 2
+  - TeamMemberUserNames: belati
+- **score (μ): 909.5**
+  - Rank: 38
+  - TeamId: 16981930
+  - TeamName: Mahog
+  - LastSubmissionDate: 2026-10-07 10:05:18
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mahoganybuttstrings
+- **score (μ): 908.5**
+  - Rank: 39
+  - TeamId: 17028555
+  - TeamName: KyryloBakumenko
+  - LastSubmissionDate: 2026-10-07 07:31:06
+  - SubmissionCount: 1
+  - TeamMemberUserNames: kyrylobakumenko
+- **score (μ): 902.0**
+  - Rank: 40
+  - TeamId: 17024844
+  - TeamName: Festival
+  - LastSubmissionDate: 2026-10-09 07:18:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: koheitsutsumi
+- **score (μ): 901.3**
+  - Rank: 41
+  - TeamId: 17037984
+  - TeamName: cha7ura
+  - LastSubmissionDate: 2026-10-07 03:37:31
+  - SubmissionCount: 2
+  - TeamMemberUserNames: cha7ura
+- **score (μ): 899.4**
+  - Rank: 42
+  - TeamId: 17014628
+  - TeamName: Tushar Anand
+  - LastSubmissionDate: 2026-10-04 12:09:30
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tusharanand
+- **score (μ): 895.4**
+  - Rank: 43
+  - TeamId: 17032131
+  - TeamName: Mengfei Li
+  - LastSubmissionDate: 2026-10-06 18:08:36
+  - SubmissionCount: 2
+  - TeamMemberUserNames: meli19
+- **score (μ): 894.2**
+  - Rank: 44
+  - TeamId: 17015501
+  - TeamName: AlejandroAlvarez
+  - LastSubmissionDate: 2026-10-07 12:59:21
+  - SubmissionCount: 2
+  - TeamMemberUserNames: theworm
+- **score (μ): 893.3**
+  - Rank: 45
+  - TeamId: 16982904
+  - TeamName: seven
+  - LastSubmissionDate: 2026-10-08 11:54:13
+  - SubmissionCount: 2
+  - TeamMemberUserNames: morikawatakeshi
+- **score (μ): 892.4**
+  - Rank: 46
+  - TeamId: 17014678
+  - TeamName: Roman Nesterov
+  - LastSubmissionDate: 2026-10-01 15:37:00
+  - SubmissionCount: 2
+  - TeamMemberUserNames: romanest
+- **score (μ): 888.4**
+  - Rank: 47
+  - TeamId: 17016177
+  - TeamName: Anton Myachin (Popazov)
+  - LastSubmissionDate: 2026-10-04 06:31:46
+  - SubmissionCount: 2
+  - TeamMemberUserNames: antonmyachinpopazov
+- **score (μ): 883.0**
+  - Rank: 48
+  - TeamId: 16982182
+  - TeamName: sue124
+  - LastSubmissionDate: 2026-10-09 04:15:53
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ryotasueyoshi
+- **score (μ): 881.9**
+  - Rank: 49
+  - TeamId: 17060495
+  - TeamName: TommyCyd
+  - LastSubmissionDate: 2026-10-08 11:14:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tommycyd
+- **score (μ): 880.3**
+  - Rank: 50
+  - TeamId: 16984614
+  - TeamName: Morim
+  - LastSubmissionDate: 2026-09-30 11:18:05
+  - SubmissionCount: 1
+  - TeamMemberUserNames: takeshimorimura
+- **score (μ): 875.1**
+  - Rank: 51
+  - TeamId: 17020916
+  - TeamName: Ritesh-2006
+  - LastSubmissionDate: 2026-10-04 11:00:37
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ritesh2006
+- **score (μ): 867.5**
+  - Rank: 52
+  - TeamId: 17021657
+  - TeamName: Gholamali Aminian
+  - LastSubmissionDate: 2026-10-08 13:11:52
+  - SubmissionCount: 2
+  - TeamMemberUserNames: gholamaliaminian
+- **score (μ): 863.6**
+  - Rank: 53
+  - TeamId: 17029369
+  - TeamName: YKuma
+  - LastSubmissionDate: 2026-10-09 05:23:16
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ykumazaki
+- **score (μ): 861.7**
+  - Rank: 54
+  - TeamId: 17019728
+  - TeamName: godoistvan
+  - LastSubmissionDate: 2026-10-04 06:07:41
+  - SubmissionCount: 2
+  - TeamMemberUserNames: godoistvan
+- **score (μ): 854.5**
+  - Rank: 55
+  - TeamId: 16981630
+  - TeamName: アライ塾Kaggle支部
+  - LastSubmissionDate: 2026-10-09 09:24:58
+  - SubmissionCount: 2
+  - TeamMemberUserNames: sotakasai,uentsz
+- **score (μ): 854.4**
+  - Rank: 56
+  - TeamId: 16981951
+  - TeamName: Raihan Ramadistra
+  - LastSubmissionDate: 2026-09-29 02:50:57
+  - SubmissionCount: 2
+  - TeamMemberUserNames: raihanramadistra
+- **score (μ): 852.7**
+  - Rank: 57
+  - TeamId: 16981738
+  - TeamName: motono0223
+  - LastSubmissionDate: 2026-09-29 09:21:34
+  - SubmissionCount: 1
+  - TeamMemberUserNames: motono0223
+- **score (μ): 852.2**
+  - Rank: 58
+  - TeamId: 16993626
+  - TeamName: Charles Backman
+  - LastSubmissionDate: 2026-10-07 23:40:06
+  - SubmissionCount: 2
+  - TeamMemberUserNames: charlesbackman
+- **score (μ): 851.3**
+  - Rank: 59
+  - TeamId: 16982311
+  - TeamName: Shardul Gharat
+  - LastSubmissionDate: 2026-10-01 10:02:45
+  - SubmissionCount: 2
+  - TeamMemberUserNames: shardulgharat
+- **score (μ): 850.8**
+  - Rank: 60
+  - TeamId: 17032726
+  - TeamName: CurveCowboy
+  - LastSubmissionDate: 2026-10-09 06:04:52
+  - SubmissionCount: 2
+  - TeamMemberUserNames: curvecowboy
+- **score (μ): 844.7**
+  - Rank: 61
+  - TeamId: 17035035
+  - TeamName: Manjunadh Padarthi
+  - LastSubmissionDate: 2026-10-09 09:15:01
+  - SubmissionCount: 2
+  - TeamMemberUserNames: manjunadhpadarthi
+- **score (μ): 840.6**
+  - Rank: 62
+  - TeamId: 16981801
+  - TeamName: cocosu3434
+  - LastSubmissionDate: 2026-10-01 16:32:24
+  - SubmissionCount: 2
+  - TeamMemberUserNames: cocosu3434
+- **score (μ): 840.3**
+  - Rank: 63
+  - TeamId: 17003484
+  - TeamName: clora
+  - LastSubmissionDate: 2026-10-01 22:54:40
+  - SubmissionCount: 1
+  - TeamMemberUserNames: clora16
+- **score (μ): 839.1**
+  - Rank: 64
+  - TeamId: 16983630
+  - TeamName: Capitaalgain
+  - LastSubmissionDate: 2026-10-09 06:11:45
+  - SubmissionCount: 2
+  - TeamMemberUserNames: capitaalgain
+- **score (μ): 834.7**
+  - Rank: 65
+  - TeamId: 17036819
+  - TeamName: IchikaHoshino
+  - LastSubmissionDate: 2026-10-05 14:00:24
+  - SubmissionCount: 1
+  - TeamMemberUserNames: htunkhi
+- **score (μ): 834.0**
+  - Rank: 66
+  - TeamId: 17018945
+  - TeamName: YG JH
+  - LastSubmissionDate: 2026-10-02 08:50:19
+  - SubmissionCount: 1
+  - TeamMemberUserNames: ygjh13
+- **score (μ): 833.3**
+  - Rank: 67
+  - TeamId: 16982976
+  - TeamName: C4
+  - LastSubmissionDate: 2026-09-29 08:01:47
+  - SubmissionCount: 2
+  - TeamMemberUserNames: charlielockyer
+- **score (μ): 829.0**
+  - Rank: 68
+  - TeamId: 17061596
+  - TeamName: ShimonHori
+  - LastSubmissionDate: 2026-10-08 13:16:50
+  - SubmissionCount: 1
+  - TeamMemberUserNames: shimonhori
+- **score (μ): 828.6**
+  - Rank: 69
+  - TeamId: 16994106
+  - TeamName: Hasan Cömert
+  - LastSubmissionDate: 2026-10-08 18:46:56
+  - SubmissionCount: 2
+  - TeamMemberUserNames: hasancmert
+- **score (μ): 825.1**
+  - Rank: 70
+  - TeamId: 16988680
+  - TeamName: アルモンド
+  - LastSubmissionDate: 2026-10-03 15:15:39
+  - SubmissionCount: 1
+  - TeamMemberUserNames: almondman0707
+- **score (μ): 819.1**
+  - Rank: 71
+  - TeamId: 17061236
+  - TeamName: OnTheEdgeOfLumen
+  - LastSubmissionDate: 2026-10-09 06:19:06
+  - SubmissionCount: 2
+  - TeamMemberUserNames: giovannibaldon
+- **score (μ): 814.7**
+  - Rank: 72
+  - TeamId: 17053699
+  - TeamName: Malhar Ujawane
+  - LastSubmissionDate: 2026-10-07 19:44:09
+  - SubmissionCount: 1
+  - TeamMemberUserNames: justmalhar
+- **score (μ): 812.5**
+  - Rank: 73
+  - TeamId: 16993740
+  - TeamName: Noel Bobby
+  - LastSubmissionDate: 2026-10-02 00:44:49
+  - SubmissionCount: 2
+  - TeamMemberUserNames: noelbobby
+- **score (μ): 806.7**
+  - Rank: 74
+  - TeamId: 17013311
+  - TeamName: Abhinav Sai Podugu
+  - LastSubmissionDate: 2026-10-09 06:45:33
+  - SubmissionCount: 2
+  - TeamMemberUserNames: abhinavsaipodugu
+- **score (μ): 802.1**
+  - Rank: 75
+  - TeamId: 17053005
+  - TeamName: raj dama181
+  - LastSubmissionDate: 2026-10-07 19:57:49
+  - SubmissionCount: 2
+  - TeamMemberUserNames: rajdama181
+- **score (μ): 801.7**
+  - Rank: 76
+  - TeamId: 17014433
+  - TeamName: janson
+  - LastSubmissionDate: 2026-10-01 14:19:57
+  - SubmissionCount: 1
+  - TeamMemberUserNames: johnjanson
+- **score (μ): 798.2**
+  - Rank: 77
+  - TeamId: 17020278
+  - TeamName: Tomeiser
+  - LastSubmissionDate: 2026-10-05 23:25:47
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tomeiser
+- **score (μ): 797.1**
+  - Rank: 78
+  - TeamId: 17014118
+  - TeamName: Articuno0144
+  - LastSubmissionDate: 2026-10-01 14:17:18
+  - SubmissionCount: 2
+  - TeamMemberUserNames: articuno0144
+- **score (μ): 796.1**
+  - Rank: 79
+  - TeamId: 17060508
+  - TeamName: Zhenyu Zhang
+  - LastSubmissionDate: 2026-10-08 12:58:40
+  - SubmissionCount: 2
+  - TeamMemberUserNames: horizen12
+- **score (μ): 795.7**
+  - Rank: 80
+  - TeamId: 17021194
+  - TeamName: Chukka Venugopalam
+  - LastSubmissionDate: 2026-10-07 16:41:17
+  - SubmissionCount: 2
+  - TeamMemberUserNames: chukkavenugopalam
+- **score (μ): 786.8**
+  - Rank: 81
+  - TeamId: 17013677
+  - TeamName: test_poke
+  - LastSubmissionDate: 2026-10-04 10:15:51
+  - SubmissionCount: 2
+  - TeamMemberUserNames: michaelsemenoff
+- **score (μ): 781.3**
+  - Rank: 82
+  - TeamId: 17024180
+  - TeamName: choqui62
+  - LastSubmissionDate: 2026-10-07 07:16:50
+  - SubmissionCount: 2
+  - TeamMemberUserNames: choqui62
+- **score (μ): 780.7**
+  - Rank: 83
+  - TeamId: 17035226
+  - TeamName: shindannin
+  - LastSubmissionDate: 2026-10-05 07:45:17
+  - SubmissionCount: 2
+  - TeamMemberUserNames: shindannin
+- **score (μ): 780.2**
+  - Rank: 84
+  - TeamId: 17010986
+  - TeamName: Tien N.
+  - LastSubmissionDate: 2026-10-07 19:03:42
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tientrum
+- **score (μ): 771.3**
+  - Rank: 85
+  - TeamId: 16982115
+  - TeamName: Santiago Maniches
+  - LastSubmissionDate: 2026-10-07 07:53:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: santmani
+- **score (μ): 769.9**
+  - Rank: 86
+  - TeamId: 17031740
+  - TeamName: Baidalin Adilzhan [dsmlkz]
+  - LastSubmissionDate: 2026-10-04 14:58:09
+  - SubmissionCount: 1
+  - TeamMemberUserNames: baidalinadilzhan
+- **score (μ): 769.0**
+  - Rank: 87
+  - TeamId: 17024629
+  - TeamName: cindrella_18
+  - LastSubmissionDate: 2026-10-09 06:31:14
+  - SubmissionCount: 2
+  - TeamMemberUserNames: neharaj1518
+- **score (μ): 762.2**
+  - Rank: 88
+  - TeamId: 17034336
+  - TeamName: Infill
+  - LastSubmissionDate: 2026-10-09 04:48:10
+  - SubmissionCount: 2
+  - TeamMemberUserNames: infill
+- **score (μ): 761.5**
+  - Rank: 89
+  - TeamId: 17035823
+  - TeamName: yu_kuo14
+  - LastSubmissionDate: 2026-10-08 08:43:41
+  - SubmissionCount: 2
+  - TeamMemberUserNames: yukuo14
+- **score (μ): 761.4**
+  - Rank: 90
+  - TeamId: 17018161
+  - TeamName: WolfeyVGC
+  - LastSubmissionDate: 2026-10-09 04:19:50
+  - SubmissionCount: 2
+  - TeamMemberUserNames: axelius,snorlaxoncoffee
+- **score (μ): 755.4**
+  - Rank: 91
+  - TeamId: 17032452
+  - TeamName: Brejesh Balakrishnan
+  - LastSubmissionDate: 2026-10-05 03:21:37
+  - SubmissionCount: 2
+  - TeamMemberUserNames: brejeshbalakrishnan
+- **score (μ): 751.2**
+  - Rank: 92
+  - TeamId: 16988269
+  - TeamName: gurume
+  - LastSubmissionDate: 2026-10-04 05:16:20
+  - SubmissionCount: 2
+  - TeamMemberUserNames: gempei
+- **score (μ): 748.8**
+  - Rank: 93
+  - TeamId: 17037005
+  - TeamName: Noah Farr
+  - LastSubmissionDate: 2026-10-05 13:09:33
+  - SubmissionCount: 1
+  - TeamMemberUserNames: noahfarr
+- **score (μ): 747.5**
+  - Rank: 94
+  - TeamId: 17033405
+  - TeamName: Wei Hsiang Lin111
+  - LastSubmissionDate: 2026-10-08 21:43:56
+  - SubmissionCount: 2
+  - TeamMemberUserNames: weihsianglin111
+- **score (μ): 745.7**
+  - Rank: 95
+  - TeamId: 17029228
+  - TeamName: ANMOL GARG
+  - LastSubmissionDate: 2026-10-04 10:53:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: anmolgargnsut
+- **score (μ): 736.0**
+  - Rank: 96
+  - TeamId: 16983876
+  - TeamName: Vidit Parashar
+  - LastSubmissionDate: 2026-10-08 08:49:12
+  - SubmissionCount: 2
+  - TeamMemberUserNames: viditparashar123456
+- **score (μ): 735.9**
+  - Rank: 97
+  - TeamId: 17066021
+  - TeamName: poiioq 8k
+  - LastSubmissionDate: 2026-10-09 08:20:43
+  - SubmissionCount: 1
+  - TeamMemberUserNames: poiioq8k
+- **score (μ): 734.6**
+  - Rank: 98
+  - TeamId: 17017984
+  - TeamName: B. Zhang
+  - LastSubmissionDate: 2026-10-03 18:24:01
+  - SubmissionCount: 2
+  - TeamMemberUserNames: muonchaser
+- **score (μ): 728.5**
+  - Rank: 99
+  - TeamId: 17035093
+  - TeamName: tiezhuwan
+  - LastSubmissionDate: 2026-10-08 12:48:26
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tiezhuwan
+- **score (μ): 726.6**
+  - Rank: 100
+  - TeamId: 17013846
+  - TeamName: Tys TANA
+  - LastSubmissionDate: 2026-10-09 08:43:16
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tystana
+- **score (μ): 726.1**
+  - Rank: 101
+  - TeamId: 16990281
+  - TeamName: Juhil Modi-24BCS10310
+  - LastSubmissionDate: 2026-10-01 17:01:23
+  - SubmissionCount: 2
+  - TeamMemberUserNames: juhilmodi
+- **score (μ): 722.4**
+  - Rank: 102
+  - TeamId: 17022640
+  - TeamName: destbreso
+  - LastSubmissionDate: 2026-10-05 13:39:54
+  - SubmissionCount: 2
+  - TeamMemberUserNames: destbreso
+- **score (μ): 721.4**
+  - Rank: 103
+  - TeamId: 17015122
+  - TeamName: Hokuto Tokutake
+  - LastSubmissionDate: 2026-10-07 06:56:18
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tokutake
+- **score (μ): 718.4**
+  - Rank: 104
+  - TeamId: 16983339
+  - TeamName: Mathurin Ache
+  - LastSubmissionDate: 2026-10-06 14:50:15
+  - SubmissionCount: 1
+  - TeamMemberUserNames: mathurinache
+- **score (μ): 715.9**
+  - Rank: 105
+  - TeamId: 16988483
+  - TeamName: Tolga Kiremit
+  - LastSubmissionDate: 2026-10-02 06:17:40
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tolgakiremit
+- **score (μ): 715.5**
+  - Rank: 106
+  - TeamId: 17014952
+  - TeamName: moky
+  - LastSubmissionDate: 2026-10-07 06:54:55
+  - SubmissionCount: 2
+  - TeamMemberUserNames: moky19
+- **score (μ): 715.4**
+  - Rank: 107
+  - TeamId: 17025039
+  - TeamName: Nicholas Hui
+  - LastSubmissionDate: 2026-10-06 03:02:40
+  - SubmissionCount: 2
+  - TeamMemberUserNames: nicholashuihk
+- **score (μ): 713.0**
+  - Rank: 108
+  - TeamId: 17045390
+  - TeamName: Brian Bonti
+  - LastSubmissionDate: 2026-10-08 05:39:27
+  - SubmissionCount: 2
+  - TeamMemberUserNames: brianbonti
+- **score (μ): 709.3**
+  - Rank: 109
+  - TeamId: 17065774
+  - TeamName: yaying1
+  - LastSubmissionDate: 2026-10-09 08:47:39
+  - SubmissionCount: 2
+  - TeamMemberUserNames: yaying1
+- **score (μ): 705.3**
+  - Rank: 110
+  - TeamId: 17014227
+  - TeamName: Paal
+  - LastSubmissionDate: 2026-10-06 15:26:04
+  - SubmissionCount: 2
+  - TeamMemberUserNames: altobellipaul,pierrelouroussel
+- **score (μ): 705.3**
+  - Rank: 111
+  - TeamId: 17049468
+  - TeamName: Shozyfrenia
+  - LastSubmissionDate: 2026-10-07 07:23:40
+  - SubmissionCount: 1
+  - TeamMemberUserNames: shozyfrenia
+- **score (μ): 704.5**
+  - Rank: 112
+  - TeamId: 17032923
+  - TeamName: Prime Directive
+  - LastSubmissionDate: 2026-10-09 06:18:00
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ctogaurav
+- **score (μ): 703.3**
+  - Rank: 113
+  - TeamId: 17014394
+  - TeamName: RoboPlayz
+  - LastSubmissionDate: 2026-10-08 03:07:43
+  - SubmissionCount: 2
+  - TeamMemberUserNames: roboplayz
+- **score (μ): 701.1**
+  - Rank: 114
+  - TeamId: 16981732
+  - TeamName: Kydyrbek Kozykorpesh
+  - LastSubmissionDate: 2026-10-06 02:18:45
+  - SubmissionCount: 2
+  - TeamMemberUserNames: kozykappa
+- **score (μ): 700.2**
+  - Rank: 115
+  - TeamId: 17036630
+  - TeamName: zaguarman
+  - LastSubmissionDate: 2026-10-05 13:08:58
+  - SubmissionCount: 2
+  - TeamMemberUserNames: zaguarman
+- **score (μ): 699.6**
+  - Rank: 116
+  - TeamId: 16983910
+  - TeamName: Dark Energy Hydra
+  - LastSubmissionDate: 2026-10-05 06:35:41
+  - SubmissionCount: 2
+  - TeamMemberUserNames: matterhorn3838
+- **score (μ): 695.4**
+  - Rank: 117
+  - TeamId: 17040735
+  - TeamName: Momotaro1226
+  - LastSubmissionDate: 2026-10-09 10:26:44
+  - SubmissionCount: 2
+  - TeamMemberUserNames: momotaro1226
+- **score (μ): 694.5**
+  - Rank: 118
+  - TeamId: 17010382
+  - TeamName: Ricardo Paizinho
+  - LastSubmissionDate: 2026-10-06 23:28:26
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ricardopaizinho
+- **score (μ): 693.4**
+  - Rank: 119
+  - TeamId: 17010960
+  - TeamName: Shiv sib
+  - LastSubmissionDate: 2026-10-07 16:07:08
+  - SubmissionCount: 2
+  - TeamMemberUserNames: shivsib
+- **score (μ): 693.1**
+  - Rank: 120
+  - TeamId: 17057029
+  - TeamName: Leung-X
+  - LastSubmissionDate: 2026-10-08 01:53:26
+  - SubmissionCount: 1
+  - TeamMemberUserNames: leung99
+- **score (μ): 691.4**
+  - Rank: 121
+  - TeamId: 16983313
+  - TeamName: teppei
+  - LastSubmissionDate: 2026-09-29 08:35:29
+  - SubmissionCount: 2
+  - TeamMemberUserNames: teppei0120
+- **score (μ): 689.2**
+  - Rank: 122
+  - TeamId: 16993518
+  - TeamName: Mibbles
+  - LastSubmissionDate: 2026-10-03 17:46:11
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mibbles
+- **score (μ): 686.9**
+  - Rank: 123
+  - TeamId: 17021363
+  - TeamName: nonpapa
+  - LastSubmissionDate: 2026-10-03 11:26:20
+  - SubmissionCount: 1
+  - TeamMemberUserNames: nonpapa
+- **score (μ): 683.5**
+  - Rank: 124
+  - TeamId: 16993142
+  - TeamName: GengarX17
+  - LastSubmissionDate: 2026-10-05 06:54:35
+  - SubmissionCount: 2
+  - TeamMemberUserNames: adityahippargi
+- **score (μ): 675.5**
+  - Rank: 125
+  - TeamId: 17048579
+  - TeamName: Uttam Limbani
+  - LastSubmissionDate: 2026-10-09 07:13:46
+  - SubmissionCount: 2
+  - TeamMemberUserNames: uttamlimbani
+- **score (μ): 666.8**
+  - Rank: 126
+  - TeamId: 17025538
+  - TeamName: Igor Zharov
+  - LastSubmissionDate: 2026-10-05 10:15:12
+  - SubmissionCount: 2
+  - TeamMemberUserNames: flexonafft
+- **score (μ): 662.9**
+  - Rank: 127
+  - TeamId: 17026181
+  - TeamName: Pratyush Sahoo
+  - LastSubmissionDate: 2026-10-03 18:15:57
+  - SubmissionCount: 2
+  - TeamMemberUserNames: pratyush1427
+- **score (μ): 662.2**
+  - Rank: 128
+  - TeamId: 16994346
+  - TeamName: Chriszcodes
+  - LastSubmissionDate: 2026-10-07 09:42:34
+  - SubmissionCount: 2
+  - TeamMemberUserNames: chriszcodes
+- **score (μ): 661.5**
+  - Rank: 129
+  - TeamId: 17027838
+  - TeamName: Faaiz Hussain
+  - LastSubmissionDate: 2026-10-05 18:08:29
+  - SubmissionCount: 2
+  - TeamMemberUserNames: coderhqxg50,faaizhussain
+- **score (μ): 653.3**
+  - Rank: 130
+  - TeamId: 16988142
+  - TeamName: Clark Kitchen
+  - LastSubmissionDate: 2026-10-02 15:09:54
+  - SubmissionCount: 1
+  - TeamMemberUserNames: clarkkitchen
+- **score (μ): 651.4**
+  - Rank: 131
+  - TeamId: 16991806
+  - TeamName: chch
+  - LastSubmissionDate: 2026-10-09 04:42:23
+  - SubmissionCount: 2
+  - TeamMemberUserNames: chchentw
+- **score (μ): 647.7**
+  - Rank: 132
+  - TeamId: 17015119
+  - TeamName: pika28samson
+  - LastSubmissionDate: 2026-10-04 20:16:42
+  - SubmissionCount: 2
+  - TeamMemberUserNames: samsonsiu
+- **score (μ): 643.3**
+  - Rank: 133
+  - TeamId: 17061900
+  - TeamName: Daniil Iakupov
+  - LastSubmissionDate: 2026-10-08 16:06:38
+  - SubmissionCount: 2
+  - TeamMemberUserNames: daniiliakupov
+- **score (μ): 643.3**
+  - Rank: 134
+  - TeamId: 16994391
+  - TeamName: Amedeo Biolatti
+  - LastSubmissionDate: 2026-10-07 10:14:18
+  - SubmissionCount: 2
+  - TeamMemberUserNames: abiolatti
+- **score (μ): 640.9**
+  - Rank: 135
+  - TeamId: 17020744
+  - TeamName: Phoenix
+  - LastSubmissionDate: 2026-10-02 14:48:03
+  - SubmissionCount: 1
+  - TeamMemberUserNames: chetanagrawall
+- **score (μ): 638.6**
+  - Rank: 136
+  - TeamId: 17011313
+  - TeamName: Jonathan He
+  - LastSubmissionDate: 2026-10-02 17:00:55
+  - SubmissionCount: 2
+  - TeamMemberUserNames: jonapplehe
+- **score (μ): 637.8**
+  - Rank: 137
+  - TeamId: 16992485
+  - TeamName: Ramanath Rakshit
+  - LastSubmissionDate: 2026-10-06 13:12:46
+  - SubmissionCount: 2
+  - TeamMemberUserNames: raxy777
+- **score (μ): 636.2**
+  - Rank: 138
+  - TeamId: 17035540
+  - TeamName: Mandavi Singh
+  - LastSubmissionDate: 2026-10-09 07:17:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mandavisingh
+- **score (μ): 634.5**
+  - Rank: 139
+  - TeamId: 16986909
+  - TeamName: (ノ◡ <)
+  - LastSubmissionDate: 2026-09-29 19:09:16
+  - SubmissionCount: 2
+  - TeamMemberUserNames: nawfeelrahman1124444
+- **score (μ): 632.4**
+  - Rank: 140
+  - TeamId: 16981622
+  - TeamName: ISAKA Tsuyoshi
+  - LastSubmissionDate: 2026-09-30 07:24:05
+  - SubmissionCount: 2
+  - TeamMemberUserNames: isakatsuyoshi
+- **score (μ): 614.5**
+  - Rank: 141
+  - TeamId: 17036991
+  - TeamName: NK49540
+  - LastSubmissionDate: 2026-10-08 23:48:53
+  - SubmissionCount: 2
+  - TeamMemberUserNames: nk49540
+- **score (μ): 613.6**
+  - Rank: 142
+  - TeamId: 17019579
+  - TeamName: taka
+  - LastSubmissionDate: 2026-10-06 01:55:20
+  - SubmissionCount: 2
+  - TeamMemberUserNames: naniwanoterminator
+- **score (μ): 609.6**
+  - Rank: 143
+  - TeamId: 17029488
+  - TeamName: Raosaheb
+  - LastSubmissionDate: 2026-10-04 12:34:36
+  - SubmissionCount: 2
+  - TeamMemberUserNames: raosahebmore
+- **score (μ): 606.6**
+  - Rank: 144
+  - TeamId: 16993107
+  - TeamName: Chen Kuan-Chin
+  - LastSubmissionDate: 2026-10-01 16:22:59
+  - SubmissionCount: 2
+  - TeamMemberUserNames: chenkuanchin
+- **score (μ): 605.5**
+  - Rank: 145
+  - TeamId: 16993346
+  - TeamName: Yorukuma
+  - LastSubmissionDate: 2026-10-01 17:31:47
+  - SubmissionCount: 1
+  - TeamMemberUserNames: yorukuma
+- **score (μ): 604.5**
+  - Rank: 146
+  - TeamId: 17033501
+  - TeamName: Taro_pan
+  - LastSubmissionDate: 2026-10-08 08:01:10
+  - SubmissionCount: 2
+  - TeamMemberUserNames: stgkrtua
+- **score (μ): 600.0**
+  - Rank: 147
+  - TeamId: 17065924
+  - TeamName: Prashant Rawat
+  - LastSubmissionDate: 2026-10-09 10:34:58
+  - SubmissionCount: 2
+  - TeamMemberUserNames: prashantrawatmailbox
+- **score (μ): 600.0**
+  - Rank: 148
+  - TeamId: 17063582
+  - TeamName: Lauresowe 3D
+  - LastSubmissionDate: 2026-10-09 10:37:37
+  - SubmissionCount: 2
+  - TeamMemberUserNames: lauresowe3d
+- **score (μ): 595.5**
+  - Rank: 149
+  - TeamId: 17019097
+  - TeamName: Kevin Rio Harristyando
+  - LastSubmissionDate: 2026-10-05 07:41:15
+  - SubmissionCount: 2
+  - TeamMemberUserNames: kevinrioharristyando
+- **score (μ): 590.2**
+  - Rank: 150
+  - TeamId: 16984766
+  - TeamName: Shaun2024
+  - LastSubmissionDate: 2026-10-08 11:49:19
+  - SubmissionCount: 2
+  - TeamMemberUserNames: shaun2024
+- **score (μ): 583.8**
+  - Rank: 151
+  - TeamId: 17026810
+  - TeamName: SC
+  - LastSubmissionDate: 2026-10-05 07:22:50
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ryosketchbook2007
+- **score (μ): 582.3**
+  - Rank: 152
+  - TeamId: 16984793
+  - TeamName: jazivxt
+  - LastSubmissionDate: 2026-10-09 07:10:35
+  - SubmissionCount: 2
+  - TeamMemberUserNames: jazivxt
+- **score (μ): 578.6**
+  - Rank: 153
+  - TeamId: 17011752
+  - TeamName: Somesh Biswas
+  - LastSubmissionDate: 2026-10-02 17:07:19
+  - SubmissionCount: 2
+  - TeamMemberUserNames: someshbiswas
+- **score (μ): 575.4**
+  - Rank: 154
+  - TeamId: 17052732
+  - TeamName: Altroistz
+  - LastSubmissionDate: 2026-10-09 09:40:51
+  - SubmissionCount: 2
+  - TeamMemberUserNames: altroistz
+- **score (μ): 574.7**
+  - Rank: 155
+  - TeamId: 17035610
+  - TeamName: awewrasdffetfe
+  - LastSubmissionDate: 2026-10-09 08:34:11
+  - SubmissionCount: 2
+  - TeamMemberUserNames: awewrasdffetfe
+- **score (μ): 574.6**
+  - Rank: 156
+  - TeamId: 17030116
+  - TeamName: nguyenbaotri-VIETNAM
+  - LastSubmissionDate: 2026-10-09 10:18:22
+  - SubmissionCount: 2
+  - TeamMemberUserNames: nguyen1tri
+- **score (μ): 571.4**
+  - Rank: 157
+  - TeamId: 17011444
+  - TeamName: Rajveer Vora
+  - LastSubmissionDate: 2026-10-04 14:41:23
+  - SubmissionCount: 2
+  - TeamMemberUserNames: rajveervora
+- **score (μ): 570.9**
+  - Rank: 158
+  - TeamId: 16993583
+  - TeamName: Bros 360x
+  - LastSubmissionDate: 2026-10-07 17:30:38
+  - SubmissionCount: 2
+  - TeamMemberUserNames: alexander683,bros360x
+- **score (μ): 569.4**
+  - Rank: 159
+  - TeamId: 17061443
+  - TeamName: tai1907
+  - LastSubmissionDate: 2026-10-09 09:00:39
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tai1907
+- **score (μ): 569.1**
+  - Rank: 160
+  - TeamId: 17024426
+  - TeamName: Sho
+  - LastSubmissionDate: 2026-10-03 06:50:20
+  - SubmissionCount: 1
+  - TeamMemberUserNames: shosugise
+- **score (μ): 567.4**
+  - Rank: 161
+  - TeamId: 16983532
+  - TeamName: fake conquerors
+  - LastSubmissionDate: 2026-09-30 23:10:38
+  - SubmissionCount: 2
+  - TeamMemberUserNames: samanyu1808
+- **score (μ): 565.8**
+  - Rank: 162
+  - TeamId: 16988902
+  - TeamName: sayidmra
+  - LastSubmissionDate: 2026-10-08 08:35:21
+  - SubmissionCount: 2
+  - TeamMemberUserNames: sayidl
+- **score (μ): 564.0**
+  - Rank: 163
+  - TeamId: 16991720
+  - TeamName: Boon Keng
+  - LastSubmissionDate: 2026-10-03 19:55:47
+  - SubmissionCount: 2
+  - TeamMemberUserNames: factra
+- **score (μ): 562.7**
+  - Rank: 164
+  - TeamId: 17014218
+  - TeamName: Raiuga
+  - LastSubmissionDate: 2026-10-09 03:29:18
+  - SubmissionCount: 2
+  - TeamMemberUserNames: guilhermeraiuga
+- **score (μ): 560.1**
+  - Rank: 165
+  - TeamId: 17024201
+  - TeamName: CoderX
+  - LastSubmissionDate: 2026-10-03 06:04:59
+  - SubmissionCount: 1
+  - TeamMemberUserNames: aayushkumarsingh7
+- **score (μ): 557.4**
+  - Rank: 166
+  - TeamId: 16993512
+  - TeamName: Philipp k-s
+  - LastSubmissionDate: 2026-09-30 19:58:59
+  - SubmissionCount: 2
+  - TeamMemberUserNames: philippkeussenstrau
+- **score (μ): 557.0**
+  - Rank: 167
+  - TeamId: 16991462
+  - TeamName: ant
+  - LastSubmissionDate: 2026-10-09 00:55:03
+  - SubmissionCount: 2
+  - TeamMemberUserNames: alexferechin
+- **score (μ): 556.3**
+  - Rank: 168
+  - TeamId: 17023426
+  - TeamName: F.A.Nina
+  - LastSubmissionDate: 2026-10-03 03:19:24
+  - SubmissionCount: 2
+  - TeamMemberUserNames: nina2025
+- **score (μ): 547.4**
+  - Rank: 169
+  - TeamId: 16989522
+  - TeamName: mo
+  - LastSubmissionDate: 2026-10-02 17:01:18
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mookdd
+- **score (μ): 542.8**
+  - Rank: 170
+  - TeamId: 17032335
+  - TeamName: Rashid Khazeiynasab
+  - LastSubmissionDate: 2026-10-04 17:26:04
+  - SubmissionCount: 1
+  - TeamMemberUserNames: rashidel1988
+- **score (μ): 537.9**
+  - Rank: 171
+  - TeamId: 17024719
+  - TeamName: Richard Guo
+  - LastSubmissionDate: 2026-10-06 03:57:37
+  - SubmissionCount: 2
+  - TeamMemberUserNames: sweetbix
+- **score (μ): 534.4**
+  - Rank: 172
+  - TeamId: 17025749
+  - TeamName: mm bbAlez
+  - LastSubmissionDate: 2026-10-04 10:07:31
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mmbbalez
+- **score (μ): 533.6**
+  - Rank: 173
+  - TeamId: 16991772
+  - TeamName: EliteOneTube
+  - LastSubmissionDate: 2026-10-02 06:34:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: eliteonetube
+- **score (μ): 532.2**
+  - Rank: 174
+  - TeamId: 17038088
+  - TeamName: DavideSanta
+  - LastSubmissionDate: 2026-10-08 10:17:45
+  - SubmissionCount: 2
+  - TeamMemberUserNames: davidesanta
+- **score (μ): 525.9**
+  - Rank: 175
+  - TeamId: 17011601
+  - TeamName: ZHIRUI ZHAO
+  - LastSubmissionDate: 2026-10-03 04:24:51
+  - SubmissionCount: 1
+  - TeamMemberUserNames: zhiruizhao
+- **score (μ): 519.7**
+  - Rank: 176
+  - TeamId: 16992022
+  - TeamName: kutty1119
+  - LastSubmissionDate: 2026-09-30 17:49:58
+  - SubmissionCount: 1
+  - TeamMemberUserNames: kutty1119
+- **score (μ): 519.4**
+  - Rank: 177
+  - TeamId: 17057170
+  - TeamName: tategami
+  - LastSubmissionDate: 2026-10-09 03:23:17
+  - SubmissionCount: 2
+  - TeamMemberUserNames: hideoyoshimori
+- **score (μ): 518.0**
+  - Rank: 178
+  - TeamId: 17036365
+  - TeamName: kloaken
+  - LastSubmissionDate: 2026-10-08 10:09:27
+  - SubmissionCount: 2
+  - TeamMemberUserNames: kloaken
+- **score (μ): 513.0**
+  - Rank: 179
+  - TeamId: 17025304
+  - TeamName: karinkaito
+  - LastSubmissionDate: 2026-10-03 09:35:24
+  - SubmissionCount: 1
+  - TeamMemberUserNames: karinkaito
+- **score (μ): 508.7**
+  - Rank: 180
+  - TeamId: 17022345
+  - TeamName: Abu Ruhan Mahamud
+  - LastSubmissionDate: 2026-10-08 19:04:22
+  - SubmissionCount: 2
+  - TeamMemberUserNames: aburuhan
+- **score (μ): 508.3**
+  - Rank: 181
+  - TeamId: 17011886
+  - TeamName: Praneeth Yeddu
+  - LastSubmissionDate: 2026-10-02 18:12:03
+  - SubmissionCount: 2
+  - TeamMemberUserNames: praneethyeddu
+- **score (μ): 506.2**
+  - Rank: 182
+  - TeamId: 17024872
+  - TeamName: Namir Chaudry
+  - LastSubmissionDate: 2026-10-08 23:35:55
+  - SubmissionCount: 1
+  - TeamMemberUserNames: namirchaudry
+- **score (μ): 502.1**
+  - Rank: 183
+  - TeamId: 17017217
+  - TeamName: Jeki Wan Taufik
+  - LastSubmissionDate: 2026-10-02 01:06:44
+  - SubmissionCount: 1
+  - TeamMemberUserNames: jek1wantaufik
+- **score (μ): 498.8**
+  - Rank: 184
+  - TeamId: 16989919
+  - TeamName: nikepoke
+  - LastSubmissionDate: 2026-10-09 10:18:06
+  - SubmissionCount: 2
+  - TeamMemberUserNames: nikepoke
+- **score (μ): 497.5**
+  - Rank: 185
+  - TeamId: 17028157
+  - TeamName: Navneet Prabhat
+  - LastSubmissionDate: 2026-10-08 18:23:19
+  - SubmissionCount: 2
+  - TeamMemberUserNames: navneetprabhat
+- **score (μ): 494.2**
+  - Rank: 186
+  - TeamId: 17061695
+  - TeamName: 鲁尚武 LuShangWu
+  - LastSubmissionDate: 2026-10-09 10:12:34
+  - SubmissionCount: 2
+  - TeamMemberUserNames: lushangwu
+- **score (μ): 487.9**
+  - Rank: 187
+  - TeamId: 16982780
+  - TeamName: Dev Nirwal
+  - LastSubmissionDate: 2026-10-09 07:03:20
+  - SubmissionCount: 2
+  - TeamMemberUserNames: devn007
+- **score (μ): 483.4**
+  - Rank: 188
+  - TeamId: 16991861
+  - TeamName: yihui ding123
+  - LastSubmissionDate: 2026-10-05 00:07:17
+  - SubmissionCount: 2
+  - TeamMemberUserNames: yihuiding123
+- **score (μ): 483.0**
+  - Rank: 189
+  - TeamId: 17046208
+  - TeamName: GiovanniCR
+  - LastSubmissionDate: 2026-10-08 15:37:43
+  - SubmissionCount: 2
+  - TeamMemberUserNames: giovannicr
+- **score (μ): 476.0**
+  - Rank: 190
+  - TeamId: 16991417
+  - TeamName: Pranshul Maithani
+  - LastSubmissionDate: 2026-10-01 03:14:35
+  - SubmissionCount: 2
+  - TeamMemberUserNames: pranshulmaithani
+- **score (μ): 473.4**
+  - Rank: 191
+  - TeamId: 17061954
+  - TeamName: saravana Kishore
+  - LastSubmissionDate: 2026-10-08 15:00:30
+  - SubmissionCount: 1
+  - TeamMemberUserNames: saravanakishore,suryaprasath04
+- **score (μ): 464.8**
+  - Rank: 192
+  - TeamId: 17063699
+  - TeamName: LivMaAn
+  - LastSubmissionDate: 2026-10-08 22:24:47
+  - SubmissionCount: 2
+  - TeamMemberUserNames: livmaan
+- **score (μ): 461.1**
+  - Rank: 193
+  - TeamId: 16986401
+  - TeamName: MarPez
+  - LastSubmissionDate: 2026-09-30 23:50:43
+  - SubmissionCount: 2
+  - TeamMemberUserNames: marpez
+- **score (μ): 460.9**
+  - Rank: 194
+  - TeamId: 17055196
+  - TeamName: Pawit Sahare
+  - LastSubmissionDate: 2026-10-08 13:07:14
+  - SubmissionCount: 2
+  - TeamMemberUserNames: pawitky
+- **score (μ): 460.1**
+  - Rank: 195
+  - TeamId: 17013801
+  - TeamName: Atharva Naik
+  - LastSubmissionDate: 2026-10-03 09:51:48
+  - SubmissionCount: 2
+  - TeamMemberUserNames: atharvanaik2024
+- **score (μ): 457.8**
+  - Rank: 196
+  - TeamId: 17044173
+  - TeamName: Don_Cry_Baby
+  - LastSubmissionDate: 2026-10-06 14:24:49
+  - SubmissionCount: 2
+  - TeamMemberUserNames: johnsoliva
+- **score (μ): 456.0**
+  - Rank: 197
+  - TeamId: 16988730
+  - TeamName: Don't foget me
+  - LastSubmissionDate: 2026-10-01 03:56:14
+  - SubmissionCount: 2
+  - TeamMemberUserNames: dataforgerfred
+- **score (μ): 446.2**
+  - Rank: 198
+  - TeamId: 17021954
+  - TeamName: Hitisha Goyal
+  - LastSubmissionDate: 2026-10-04 20:53:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: hitishagoyal
+- **score (μ): 444.1**
+  - Rank: 199
+  - TeamId: 17035997
+  - TeamName: inego
+  - LastSubmissionDate: 2026-10-07 11:54:58
+  - SubmissionCount: 2
+  - TeamMemberUserNames: inigomonson
+- **score (μ): 438.0**
+  - Rank: 200
+  - TeamId: 17024595
+  - TeamName: 彭文龙
+  - LastSubmissionDate: 2026-10-09 01:28:16
+  - SubmissionCount: 2
+  - TeamMemberUserNames: pengwenlong
+- **score (μ): 428.4**
+  - Rank: 201
+  - TeamId: 16991760
+  - TeamName: Kitaev
+  - LastSubmissionDate: 2026-09-30 15:16:00
+  - SubmissionCount: 2
+  - TeamMemberUserNames: takumihikichi
+- **score (μ): 424.7**
+  - Rank: 202
+  - TeamId: 17016923
+  - TeamName: Julian M
+  - LastSubmissionDate: 2026-10-04 22:36:58
+  - SubmissionCount: 2
+  - TeamMemberUserNames: julianlmariscal519
+- **score (μ): 415.4**
+  - Rank: 203
+  - TeamId: 16991412
+  - TeamName: Zapaxe
+  - LastSubmissionDate: 2026-10-06 23:17:48
+  - SubmissionCount: 2
+  - TeamMemberUserNames: zapaxe
+- **score (μ): 410.0**
+  - Rank: 204
+  - TeamId: 16991670
+  - TeamName: Yash Dalal
+  - LastSubmissionDate: 2026-10-05 22:30:01
+  - SubmissionCount: 2
+  - TeamMemberUserNames: dsloef
+- **score (μ): 402.9**
+  - Rank: 205
+  - TeamId: 16984726
+  - TeamName: Riccardo Lo Bianco
+  - LastSubmissionDate: 2026-10-05 10:31:24
+  - SubmissionCount: 2
+  - TeamMemberUserNames: riccardolobianco
+- **score (μ): 400.9**
+  - Rank: 206
+  - TeamId: 16990193
+  - TeamName: char0n1
+  - LastSubmissionDate: 2026-10-08 06:19:17
+  - SubmissionCount: 2
+  - TeamMemberUserNames: char0n1,shantan666
+- **score (μ): 396.3**
+  - Rank: 207
+  - TeamId: 17038789
+  - TeamName: Elbachir Salik
+  - LastSubmissionDate: 2026-10-05 19:58:46
+  - SubmissionCount: 2
+  - TeamMemberUserNames: elbachirsalik
+- **score (μ): 395.7**
+  - Rank: 208
+  - TeamId: 17062711
+  - TeamName: Jarno Rantala
+  - LastSubmissionDate: 2026-10-08 20:20:58
+  - SubmissionCount: 1
+  - TeamMemberUserNames: jarski
+- **score (μ): 395.0**
+  - Rank: 209
+  - TeamId: 17034362
+  - TeamName: Guenoir
+  - LastSubmissionDate: 2026-10-06 21:48:57
+  - SubmissionCount: 2
+  - TeamMemberUserNames: joshuamichael15
+- **score (μ): 392.0**
+  - Rank: 210
+  - TeamId: 16992760
+  - TeamName: Taras Harbar
+  - LastSubmissionDate: 2026-10-05 20:28:43
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tarasharbar
+- **score (μ): 381.0**
+  - Rank: 211
+  - TeamId: 17035579
+  - TeamName: Ritsuki Hoshimoto
+  - LastSubmissionDate: 2026-10-05 11:24:11
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ritsukihoshimoto
+- **score (μ): 379.7**
+  - Rank: 212
+  - TeamId: 17010377
+  - TeamName: Avik Das
+  - LastSubmissionDate: 2026-10-01 17:43:23
+  - SubmissionCount: 2
+  - TeamMemberUserNames: avikdas567
+- **score (μ): 376.0**
+  - Rank: 213
+  - TeamId: 16993112
+  - TeamName: Kazama_Hareka
+  - LastSubmissionDate: 2026-10-01 05:01:58
+  - SubmissionCount: 1
+  - TeamMemberUserNames: shinonomeseiga
+- **score (μ): 372.9**
+  - Rank: 214
+  - TeamId: 17047588
+  - TeamName: eastnix
+  - LastSubmissionDate: 2026-10-08 02:26:16
+  - SubmissionCount: 2
+  - TeamMemberUserNames: eastnix
+- **score (μ): 372.5**
+  - Rank: 215
+  - TeamId: 17064160
+  - TeamName: JohnBlake
+  - LastSubmissionDate: 2026-10-09 02:23:30
+  - SubmissionCount: 1
+  - TeamMemberUserNames: jaybeeja
+- **score (μ): 372.0**
+  - Rank: 216
+  - TeamId: 16991550
+  - TeamName: Jonathan Axl
+  - LastSubmissionDate: 2026-10-02 15:07:07
+  - SubmissionCount: 2
+  - TeamMemberUserNames: jonathanaxl
+- **score (μ): 369.7**
+  - Rank: 217
+  - TeamId: 16993099
+  - TeamName: Dnyanesh
+  - LastSubmissionDate: 2026-10-03 14:21:06
+  - SubmissionCount: 2
+  - TeamMemberUserNames: dnyaneshbharambe
+- **score (μ): 366.5**
+  - Rank: 218
+  - TeamId: 16993700
+  - TeamName: BSCode
+  - LastSubmissionDate: 2026-10-08 19:04:45
+  - SubmissionCount: 1
+  - TeamMemberUserNames: bscode
+- **score (μ): 362.0**
+  - Rank: 219
+  - TeamId: 17054080
+  - TeamName: hotaq
+  - LastSubmissionDate: 2026-10-08 11:23:46
+  - SubmissionCount: 2
+  - TeamMemberUserNames: chinnaphatkhun
+- **score (μ): 352.8**
+  - Rank: 220
+  - TeamId: 17013968
+  - TeamName: EVIG EMIT ตัวปลอม
+  - LastSubmissionDate: 2026-10-04 15:43:47
+  - SubmissionCount: 2
+  - TeamMemberUserNames: evigemit
+- **score (μ): 351.9**
+  - Rank: 221
+  - TeamId: 17028962
+  - TeamName: cottonandcolor
+  - LastSubmissionDate: 2026-10-05 03:16:49
+  - SubmissionCount: 2
+  - TeamMemberUserNames: cottonandcolor
+- **score (μ): 347.2**
+  - Rank: 222
+  - TeamId: 16983401
+  - TeamName: Tanishq das
+  - LastSubmissionDate: 2026-09-29 10:10:47
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tanishqdas
+- **score (μ): 346.0**
+  - Rank: 223
+  - TeamId: 16986582
+  - TeamName: Ryan Fernandes
+  - LastSubmissionDate: 2026-09-30 04:46:26
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ryanfernandes1
+- **score (μ): 341.7**
+  - Rank: 224
+  - TeamId: 16985532
+  - TeamName: Aayush Jansari
+  - LastSubmissionDate: 2026-09-30 05:57:13
+  - SubmissionCount: 2
+  - TeamMemberUserNames: aayushjansari
+- **score (μ): 338.5**
+  - Rank: 225
+  - TeamId: 17063378
+  - TeamName: The Prad K
+  - LastSubmissionDate: 2026-10-08 19:10:28
+  - SubmissionCount: 2
+  - TeamMemberUserNames: thepradk
+- **score (μ): 331.8**
+  - Rank: 226
+  - TeamId: 17041742
+  - TeamName: lswuwu
+  - LastSubmissionDate: 2026-10-06 12:08:05
+  - SubmissionCount: 2
+  - TeamMemberUserNames: tiancaishb
+- **score (μ): 330.5**
+  - Rank: 227
+  - TeamId: 16994327
+  - TeamName: AByT3s
+  - LastSubmissionDate: 2026-10-08 22:00:41
+  - SubmissionCount: 2
+  - TeamMemberUserNames: alvinhenn
+- **score (μ): 330.3**
+  - Rank: 228
+  - TeamId: 17014794
+  - TeamName: RAHUL REDDY PULICHARLA
+  - LastSubmissionDate: 2026-10-04 10:28:42
+  - SubmissionCount: 2
+  - TeamMemberUserNames: rahulreddypulicharla
+- **score (μ): 329.6**
+  - Rank: 229
+  - TeamId: 17067740
+  - TeamName: Eugen LNCanti
+  - LastSubmissionDate: 2026-10-09 09:27:59
+  - SubmissionCount: 2
+  - TeamMemberUserNames: eugenlncanti
+- **score (μ): 322.3**
+  - Rank: 230
+  - TeamId: 17032823
+  - TeamName: renyxin
+  - LastSubmissionDate: 2026-10-06 07:59:09
+  - SubmissionCount: 2
+  - TeamMemberUserNames: renyxin
+- **score (μ): 305.7**
+  - Rank: 231
+  - TeamId: 17054822
+  - TeamName: Aditya ingale
+  - LastSubmissionDate: 2026-10-08 18:36:48
+  - SubmissionCount: 1
+  - TeamMemberUserNames: adi01845h
+- **score (μ): 288.1**
+  - Rank: 232
+  - TeamId: 17023430
+  - TeamName: Sebastian Salutare
+  - LastSubmissionDate: 2026-10-09 03:25:25
+  - SubmissionCount: 2
+  - TeamMemberUserNames: sebastiansalutare
+- **score (μ): 286.5**
+  - Rank: 233
+  - TeamId: 17041394
+  - TeamName: praveen_02706
+  - LastSubmissionDate: 2026-10-06 06:45:41
+  - SubmissionCount: 1
+  - TeamMemberUserNames: praveen02706
+- **score (μ): 286.0**
+  - Rank: 234
+  - TeamId: 17061370
+  - TeamName: Rodrigo S Faria
+  - LastSubmissionDate: 2026-10-08 12:57:06
+  - SubmissionCount: 1
+  - TeamMemberUserNames: rodrigosfaria
+- **score (μ): 281.2**
+  - Rank: 235
+  - TeamId: 17042219
+  - TeamName: thebrownkid
+  - LastSubmissionDate: 2026-10-07 10:19:20
+  - SubmissionCount: 1
+  - TeamMemberUserNames: thebrownkid
+- **score (μ): 274.3**
+  - Rank: 236
+  - TeamId: 16989631
+  - TeamName: Vinit
+  - LastSubmissionDate: 2026-10-08 07:42:31
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ryotsuu
+- **score (μ): 264.6**
+  - Rank: 237
+  - TeamId: 17030566
+  - TeamName: teriri_15
+  - LastSubmissionDate: 2026-10-07 02:44:47
+  - SubmissionCount: 2
+  - TeamMemberUserNames: teriri15
+- **score (μ): 257.5**
+  - Rank: 238
+  - TeamId: 17053795
+  - TeamName: sergeicu
+  - LastSubmissionDate: 2026-10-08 20:22:52
+  - SubmissionCount: 1
+  - TeamMemberUserNames: sergeicu
+- **score (μ): 249.4**
+  - Rank: 239
+  - TeamId: 16991088
+  - TeamName: Steveneg13
+  - LastSubmissionDate: 2026-10-04 05:56:34
+  - SubmissionCount: 1
+  - TeamMemberUserNames: stephenegray13
+- **score (μ): 245.4**
+  - Rank: 240
+  - TeamId: 17026765
+  - TeamName: Red
+  - LastSubmissionDate: 2026-10-05 10:01:51
+  - SubmissionCount: 2
+  - TeamMemberUserNames: laymond
+- **score (μ): 243.6**
+  - Rank: 241
+  - TeamId: 16985736
+  - TeamName: Thiago Silva
+  - LastSubmissionDate: 2026-09-29 16:21:51
+  - SubmissionCount: 2
+  - TeamMemberUserNames: thiagoddsilva
+- **score (μ): 237.9**
+  - Rank: 242
+  - TeamId: 16992356
+  - TeamName: LowTiste
+  - LastSubmissionDate: 2026-10-01 14:55:46
+  - SubmissionCount: 2
+  - TeamMemberUserNames: lowtiste
+- **score (μ): 218.8**
+  - Rank: 243
+  - TeamId: 17057015
+  - TeamName: Pham Quang Nghia
+  - LastSubmissionDate: 2026-10-09 05:44:45
+  - SubmissionCount: 1
+  - TeamMemberUserNames: phamquangnghia
+- **score (μ): 212.8**
+  - Rank: 244
+  - TeamId: 17014463
+  - TeamName: Ashutosh Agarwal
+  - LastSubmissionDate: 2026-10-03 04:37:14
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ashutoshagarwal088
+- **score (μ): 207.9**
+  - Rank: 245
+  - TeamId: 16986310
+  - TeamName: Shixiang Yan
+  - LastSubmissionDate: 2026-10-08 12:53:04
+  - SubmissionCount: 1
+  - TeamMemberUserNames: shawnchile
+- **score (μ): 205.2**
+  - Rank: 246
+  - TeamId: 16989635
+  - TeamName: Maxim Boguslavskiy
+  - LastSubmissionDate: 2026-10-02 09:55:19
+  - SubmissionCount: 2
+  - TeamMemberUserNames: maxbogus
+- **score (μ): 191.3**
+  - Rank: 247
+  - TeamId: 17024096
+  - TeamName: Ranbeer Singh 1313
+  - LastSubmissionDate: 2026-10-04 13:28:02
+  - SubmissionCount: 2
+  - TeamMemberUserNames: ranbeersingh1313
+- **score (μ): 186.1**
+  - Rank: 248
+  - TeamId: 17010914
+  - TeamName: Dayi Zhang
+  - LastSubmissionDate: 2026-10-07 19:37:22
+  - SubmissionCount: 2
+  - TeamMemberUserNames: dayizhang
+- **score (μ): 185.1**
+  - Rank: 249
+  - TeamId: 17022770
+  - TeamName: Mark Raspopov
+  - LastSubmissionDate: 2026-10-04 06:47:26
+  - SubmissionCount: 2
+  - TeamMemberUserNames: markraspopov111
+- **score (μ): 179.3**
+  - Rank: 250
+  - TeamId: 17029753
+  - TeamName: AllenCheng329
+  - LastSubmissionDate: 2026-10-04 09:05:31
+  - SubmissionCount: 2
+  - TeamMemberUserNames: allencheng329
+- **score (μ): 169.6**
+  - Rank: 251
+  - TeamId: 16988219
+  - TeamName: masterlincs
+  - LastSubmissionDate: 2026-09-30 02:27:43
+  - SubmissionCount: 2
+  - TeamMemberUserNames: masterlincs
+- **score (μ): 169.4**
+  - Rank: 252
+  - TeamId: 16990776
+  - TeamName: xirtaM
+  - LastSubmissionDate: 2026-10-04 20:14:32
+  - SubmissionCount: 2
+  - TeamMemberUserNames: davisphilip
+- **score (μ): 157.1**
+  - Rank: 253
+  - TeamId: 17013249
+  - TeamName: Marlon Vasquez
+  - LastSubmissionDate: 2026-10-01 11:28:19
+  - SubmissionCount: 1
+  - TeamMemberUserNames: vexmeavf
+- **score (μ): 145.9**
+  - Rank: 254
+  - TeamId: 17026420
+  - TeamName: Fakhrur Razi
+  - LastSubmissionDate: 2026-10-04 17:07:27
+  - SubmissionCount: 1
+  - TeamMemberUserNames: covriar
+- **score (μ): 140.8**
+  - Rank: 255
+  - TeamId: 16985341
+  - TeamName: jiazhenchong
+  - LastSubmissionDate: 2026-10-09 09:13:18
+  - SubmissionCount: 1
+  - TeamMemberUserNames: jiazhenchong
+- **score (μ): 133.0**
+  - Rank: 256
+  - TeamId: 17065568
+  - TeamName: Anthony Oxendine
+  - LastSubmissionDate: 2026-10-09 04:02:12
+  - SubmissionCount: 1
+  - TeamMemberUserNames: anthonyoxendine
+- **score (μ): 119.8**
+  - Rank: 257
+  - TeamId: 17019485
+  - TeamName: Bumblerrr
+  - LastSubmissionDate: 2026-10-04 00:32:18
+  - SubmissionCount: 1
+  - TeamMemberUserNames: bumblerrr
+- **score (μ): 117.8**
+  - Rank: 258
+  - TeamId: 17031560
+  - TeamName: snappi
+  - LastSubmissionDate: 2026-10-08 21:28:30
+  - SubmissionCount: 1
+  - TeamMemberUserNames: snappi
+- **score (μ): 110.5**
+  - Rank: 259
+  - TeamId: 17060351
+  - TeamName: Huang Jing
+  - LastSubmissionDate: 2026-10-09 08:48:28
+  - SubmissionCount: 1
+  - TeamMemberUserNames: elarahuangjing
+- **score (μ): 109.7**
+  - Rank: 260
+  - TeamId: 17030336
+  - TeamName: Андрей  Гундырев
+  - LastSubmissionDate: 2026-10-05 07:33:46
+  - SubmissionCount: 2
+  - TeamMemberUserNames: mysicshowdreigun
+- **score (μ): 100.5**
+  - Rank: 261
+  - TeamId: 16983381
+  - TeamName: 薛文卓xwz
+  - LastSubmissionDate: 2026-10-08 01:43:03
+  - SubmissionCount: 2
+  - TeamMemberUserNames: xuewenzhuo
+- **score (μ): 93.2**
+  - Rank: 262
+  - TeamId: 17033015
+  - TeamName: phoenix lee
+  - LastSubmissionDate: 2026-10-04 21:08:30
+  - SubmissionCount: 1
+  - TeamMemberUserNames: phoenix1ee
+- **score (μ): 89.5**
+  - Rank: 263
+  - TeamId: 17037383
+  - TeamName: Timon Schmid
+  - LastSubmissionDate: 2026-10-08 14:01:25
+  - SubmissionCount: 1
+  - TeamMemberUserNames: timonschmid
+- **score (μ): 89.4**
+  - Rank: 264
+  - TeamId: 17029713
+  - TeamName: adam smith
+  - LastSubmissionDate: 2026-10-04 09:10:59
+  - SubmissionCount: 1
+  - TeamMemberUserNames: adamsmith12345
+- **score (μ): 68.5**
+  - Rank: 265
+  - TeamId: 16981769
+  - TeamName: P.J Leek
+  - LastSubmissionDate: 2026-10-01 06:48:46
+  - SubmissionCount: 1
+  - TeamMemberUserNames: pjleek
+- **score (μ): 52.2**
+  - Rank: 266
+  - TeamId: 17014493
+  - TeamName: Omsingh59
+  - LastSubmissionDate: 2026-10-04 10:10:59
+  - SubmissionCount: 2
+  - TeamMemberUserNames: omsingh59
+- **score (μ): 44.7**
+  - Rank: 267
+  - TeamId: 17041676
+  - TeamName: Jacob Adkins GIA GD
+  - LastSubmissionDate: 2026-10-08 16:24:01
+  - SubmissionCount: 2
+  - TeamMemberUserNames: jacobadkinsgiagd
+- **score (μ): 38.6**
+  - Rank: 268
+  - TeamId: 16987156
+  - TeamName: S.M. Yousuf Iqbal Tomal
+  - LastSubmissionDate: 2026-09-29 19:36:21
+  - SubmissionCount: 1
+  - TeamMemberUserNames: yousuftomal
+- **score (μ): 24.5**
+  - Rank: 269
+  - TeamId: 17016547
+  - TeamName: NosuaK
+  - LastSubmissionDate: 2026-10-07 15:42:02
+  - SubmissionCount: 1
+  - TeamMemberUserNames: nosuak
+- **score (μ): -27.0**
+  - Rank: 270
+  - TeamId: 17013630
+  - TeamName: a_afterwards
+  - LastSubmissionDate: 2026-10-04 11:19:55
+  - SubmissionCount: 2
+  - TeamMemberUserNames: aafterwards
+- **score (μ): -28.1**
+  - Rank: 271
+  - TeamId: 16988713
+  - TeamName: Chris Chia
+  - LastSubmissionDate: 2026-09-30 05:30:44
+  - SubmissionCount: 1
+  - TeamMemberUserNames: cchia3
+
+## Latest submissions (newest first)
+
+| file | status | score | date |
+|---|---|---|---|
+| `phase1_heuristic (2).tar.gz` | SubmissionStatus.COMPLETE | 600.0 | 2026-10-09 10:37:37.757000 |
+| `phase1_heuristic (1).tar.gz` | SubmissionStatus.ERROR |  | 2026-10-09 10:01:48.463000 |
+| `phase0_random (1).tar.gz` | SubmissionStatus.COMPLETE | 76.1 | 2026-10-09 10:01:38.317000 |
+| `phase1_heuristic.tar.gz` | SubmissionStatus.ERROR |  | 2026-10-09 00:00:25.220000 |
+| `phase0_random.tar.gz` | SubmissionStatus.ERROR |  | 2026-10-09 00:00:14.997000 |
+| `main_heuristic.py` | SubmissionStatus.ERROR |  | 2026-10-08 22:11:32.857000 |
+| `main_random.py` | SubmissionStatus.ERROR |  | 2026-10-08 22:11:21.613000 |
+
+## Leaderboard top 10
+
+| Rank | TeamId | TeamName | LastSubmissionDate | Score | SubmissionCount | TeamMemberUserNames |
+|---|---|---|---|---|---|---|
+| 1 | 17012386 | YumeNeko | 2026-10-07 16:21:14 | 1207.0 | 2 | kashiwaba |
+| 2 | 16994149 | バーベナヘレナでコンボ決めたい連合 | 2026-10-09 07:52:36 | 1190.8 | 2 | nadyresearcher |
+| 3 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-06 14:26:05 | 1169.1 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
+| 4 | 16981890 | Stephen Schott | 2026-10-08 05:23:25 | 1155.1 | 2 | steve421471 |
+| 5 | 16991525 | Kentaro Totsuka | 2026-10-09 05:24:58 | 1152.8 | 2 | kotarot1 |
+| 6 | 17044570 | Colton Martin | 2026-10-08 19:34:12 | 1129.3 | 2 | coltonmartinnn |
+| 7 | 17058599 | Zedan Soorya | 2026-10-09 04:23:34 | 1115.8 | 2 | zedansoorya |
+| 8 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-07 19:13:26 | 1085.7 | 2 | busyaprime |
+| 9 | 17029072 | dajun666 | 2026-10-08 07:23:32 | 1069.1 | 2 | iamdajun666 |
+| 10 | 16994281 | JerryChen | 2026-10-08 12:06:22 | 1062.5 | 2 | horse602 |
+
