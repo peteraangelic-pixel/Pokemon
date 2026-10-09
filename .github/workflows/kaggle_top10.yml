@@ -1,0 +1,155 @@
+name: kaggle-top10
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/top10.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  top10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      - name: List available episode datasets
+        run: |
+          kaggle datasets list -s "ptcg-ai-battle-challenge-playground-episodes" --format csv | head -20
+
+      - name: Download official top-episodes
+        run: |
+          set -e
+          mkdir -p pokemon-agent/kaggle_results/top10
+          for ds in \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-09" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-08" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-07" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-06" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-05" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-04" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-03" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-02" \
+            "kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-01"; do
+            echo "Trying $ds..."
+            if kaggle datasets download -d "$ds" -p pokemon-agent/kaggle_results/top10 --unzip -q; then
+              echo "SUCCESS $ds" | tee pokemon-agent/kaggle_results/top10/dataset.txt
+              break
+            fi
+          done
+          find pokemon-agent/kaggle_results/top10 -type f | head -20
+          du -sh pokemon-agent/kaggle_results/top10
+
+      - name: Analyze top10
+        run: |
+          python3 <<'PY'
+          import json, csv, pathlib, collections
+          from pathlib import Path
+          root=Path("pokemon-agent/kaggle_results/top10")
+          replays=list(root.rglob("*.json"))
+          replays=[p for p in replays if p.stat().st_size>1000 and "summary" not in p.name and "analysis" not in p.name]
+          print(f"Found {len(replays)} replays")
+          try:
+              cards={c["cardId"]: c for c in json.loads(open("pokemon-agent/data/cards.json").read())}
+          except:
+              cards={}
+          def deck_summary(deck):
+              cnt=collections.Counter(deck)
+              energy=sum(1 for cid in deck if cards.get(cid,{}).get("cardType")==5)
+              gust=sum(1 for cid in deck if "boss" in cards.get(cid,{}).get("name","").lower() or "catcher" in cards.get(cid,{}).get("name","").lower())
+              return {"energy": energy, "gust": gust}
+          manifests=list(root.rglob("manifest.csv"))+list(root.rglob("*.csv"))
+          for mf in manifests[:3]:
+              try:
+                  rows=list(csv.DictReader(open(mf, encoding="utf-8")))
+                  print(f"{mf}: {len(rows)} rows cols {list(rows[0].keys())[:10] if rows else 'empty'}")
+                  for r in rows[:3]:
+                      print(f"  {r}")
+              except Exception as e:
+                  print(f"  {mf} err {e}")
+          analyzed=[]
+          for rp in replays[:100]:
+              try:
+                  data=json.loads(rp.read_text())
+              except:
+                  continue
+              info=data.get("info",{})
+              teams=info.get("TeamNames",[])
+              rewards=data.get("rewards",[])
+              steps=len(data.get("steps",[]))
+              decks=[]
+              if len(data.get("steps",[]))>1:
+                  s1=data["steps"][1]
+                  for idx,ps in enumerate(s1):
+                      act=ps.get("action")
+                      if isinstance(act, list) and len(act)==60:
+                          decks.append((idx, act))
+              analyzed.append({"file": rp.name, "teams": teams, "rewards": rewards, "steps": steps, "decks": [(teams[i] if i < len(teams) else f"P{i}", deck_summary(d)) for i,d in decks]})
+          team_counts=collections.Counter()
+          for a in analyzed:
+              for t in a["teams"]:
+                  team_counts[t]+=1
+          print("\nTop teams in dataset:")
+          for team,cnt in team_counts.most_common(20):
+              print(f"  {team}: {cnt}")
+          out=root/"top10_analysis.md"
+          lines=[f"# Top10 Analysis — {len(analyzed)} replays", "", f"Dataset: {open(root/'dataset.txt').read() if (root/'dataset.txt').exists() else 'unknown'}", "", "## Most frequent teams", "", "| Team | Replays |", "|---|---|"]
+          for team,cnt in team_counts.most_common(20):
+              lines.append(f"| {team} | {cnt} |")
+          lines.append("")
+          lines.append("## Sample decks")
+          for a in analyzed[:15]:
+              lines.append(f"### {a['file']} — {a['teams']} rewards {a['rewards']} steps {a['steps']}")
+              for team,summ in a["decks"]:
+                  lines.append(f"- {team}: Energy {summ['energy']} Gust {summ['gust']}")
+              lines.append("")
+          out.write_text("\n".join(lines), encoding="utf-8")
+          print(f"Wrote {out}")
+          print(open(out).read()[:5000])
+          (root/"top10_analysis.json").write_text(json.dumps(analyzed[:50], indent=2, ensure_ascii=False, default=str), encoding="utf-8")
+          PY
+
+      - name: Commit
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          find pokemon-agent/kaggle_results/top10 -type f -size +5M -delete || true
+          ls -1 pokemon-agent/kaggle_results/top10/*.json 2>/dev/null | tail -n +31 | xargs rm -f || true
+          find pokemon-agent/kaggle_results/top10 -name "*.json" | tail -n +31 | xargs rm -f || true
+          git add pokemon-agent/kaggle_results/top10/ || true
+          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/top10)" ]; then
+            git commit -m "chore(kaggle): top10 analysis [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kaggle-top10
+          path: pokemon-agent/kaggle_results/top10/
+          if-no-files-found: warn
