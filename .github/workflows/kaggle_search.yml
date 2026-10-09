@@ -23,6 +23,12 @@ on:
         description: "Population size (40 = one per matrix job if generations=1, or per gen if single job)"
         default: "40"
         required: false
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/search_results_parallel.trigger"
+      - ".github/workflows/kaggle_search.yml"
+
 
 permissions:
   contents: write
