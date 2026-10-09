@@ -1,0 +1,18 @@
+[package]
+name = "battery-sim"
+version = "0.1.0"
+edition = "2021"
+description = "Symulator ogniwa 3-skladnikowego (katoda | elektrolit | anoda): energia, szybkie ladowanie, bezpieczenstwo, zywotnosc cykliczna"
+license = "MIT"
+
+[dependencies]
+# rayon przyspiesza sweep (rownolegle kombinacje materialow); wylacz przez --no-default-features
+rayon = { version = "1.10", optional = true }
+
+[features]
+default = ["rayon"]
+rayon = ["dep:rayon"]
+
+[profile.release]
+opt-level = 3
+lto = true
