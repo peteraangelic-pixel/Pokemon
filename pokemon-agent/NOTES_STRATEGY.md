@@ -524,7 +524,59 @@ out is Kyogre (non-ex, 2 copies). v2 makes the agent actually find it.
 
 ---
 
+
+## 6h. Top meta is NOT Mega Abomasnow — it's Metal/Fighting/Grass with Boss  **[verified from official replays]**
+
+We finally fetched the official daily top-episodes dataset
+`kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-06`
+(126 MB, 28 replays, 731 MB total daily). This is the PTCG equivalent of
+Kaggriculture's `ashok205/kaggriculture-top10-replay-archive`.
+
+Most frequent teams in dataset (by replay count):
+- バーベナヘレナでコンボ決めたい連合 #2 (1164.2) — 13 replays
+- YumeNeko #1 (1208.9) — 12 replays
+- Akmal Xodarev #8 — 11 replays
+- etc.
+
+Decks extracted from replay JSONs (deck is in steps[1][player].action, 60 ids):
+
+**YumeNeko #1 (1208.9) — Metal**
+  Basic {M} Energy x15, Beldum x4, Metang x4, Drilbur x3, Genesect ex x2,
+  Mega Excadrill ex x2, Metagross x2, Fezandipiti ex, Boss x3, Poffin x4,
+  Petrel x4, Lillie x4, Jumbo Ice Cream x2, Secret Box, Ultra Ball, etc.
+
+**バーベナ #2 (1164.2) — Grass**
+  Basic {G} Energy x14, Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2,
+  Hydrapple ex x2, Chikorita x2, Bayleef x2, Meganium x2, Meowth ex x2,
+  Boss x2, etc.
+
+**Stephen Schott #3 (1160.9) — Fighting**
+  Basic {F} Energy x13, Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2,
+  Hariyama x2, Lunatone x2, Boss x2, Judge x4, etc.
+
+**None of top3 play Mega Abomasnow mill.** Our deck.csv (33 Water, Snover x4,
+Mega Abomasnow ex x4, Kyogre x2) is the engine's untuned sample list — it's not
+in top meta at all.
+
+Tested top decks with our heuristic in gauntlet (40 games/seat):
+- YumeNeko Metal + heuristic: 0.745 overall, 0.325 vs crustle (vs 0.809/0.450 for our mill)
+- Stephen Fighting + heuristic: 0.686 overall, 0.350 vs dragapult
+
+Our heuristic is overfitted to mill (variable-damage Hammer-lanche estimation).
+It doesn't play Metal/Fighting well — top teams use RL which compensates.
+
+Implication: two paths
+1. Keep mill (best with current heuristic) and improve play (wall v2 already
+   0.367→0.450 vs crustle, 0.300→0.617 vs sylveon) to reach median 643
+2. Switch to top meta deck (YumeNeko metal) + build new general agent or RL
+
+For Phase 1, path 1 is cheaper (one hypothesis per submission). Path 2 is
+Phase 2 work.
+
+---
+
 ## 7. Things we deliberately did *not* do yet
+
 
 
 * **No RL.** With 5 submissions/day, 2 live slots, and a 3-month runway, a Phase 1
