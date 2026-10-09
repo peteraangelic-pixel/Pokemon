@@ -1,0 +1,150 @@
+name: kaggle-replays
+
+# Fetch PTCG replays — our own episodes + official top-episodes dataset.
+# This is the PTCG equivalent of Kaggriculture's top10 replay archive.
+#
+# HOW IT WORKS
+# - GitHub Actions has internet to Kaggle, the agent sandbox does not.
+# - This workflow downloads replays into kaggle_results/replays/ and commits
+#   them back to the branch, where the agent can read them offline.
+# - It also tries to download the official daily dataset:
+#   kaggle/the-pokemon-company-ptcg-ai-battle-challenge-playground-episodes-2026-10-01
+#   (731 MB, top episodes ranked by rating, 20 GiB/day cap).
+#
+# HOW TO RUN
+#   touch pokemon-agent/kaggle_results/replays.trigger && git add -A && git commit -m "replays" && git push
+#   (path filter fires the workflow)
+#   gh workflow run kaggle-replays --ref <branch>   (needs PAT)
+#   cron: runs daily once this file is on default branch
+#
+# REQUIRED: same secret as poll — KAGGLE_API_TOKEN
+
+on:
+  workflow_dispatch:
+    inputs:
+      top_k:
+        description: "Last N episodes per live submission to download"
+        required: false
+        default: "7"
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/replays.trigger"
+  schedule:
+    - cron: "17 3 * * *"  # daily 03:17 UTC, after official dataset usually updated
+
+permissions:
+  contents: write
+
+jobs:
+  replays:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install kaggle CLI
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle credentials
+        id: auth
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          set -e
+          mkdir -p ~/.kaggle pokemon-agent/kaggle_results/replays
+          {
+            echo "## replay run diagnostics"
+            echo "run_id: ${{ github.run_id }} attempt: ${{ github.run_attempt }}"
+            echo "event: ${{ github.event_name }} ref: ${{ github.ref_name }}"
+            echo "utc: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo ""
+            echo "credentials:"
+            echo "- KAGGLE_API_TOKEN: $([ -n "$KAGGLE_API_TOKEN" ] && echo YES || echo no)"
+            echo "- KAGGLE_USERNAME: $([ -n "$KAGGLE_USERNAME" ] && echo YES || echo no)"
+            echo "- KAGGLE_KEY: $([ -n "$KAGGLE_KEY" ] && echo YES || echo no)"
+          } > pokemon-agent/kaggle_results/replays/run_diagnostics.md
+
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+            echo "auth: KAGGLE_API_TOKEN -> access_token" >> pokemon-agent/kaggle_results/replays/run_diagnostics.md
+          elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            python3 - "$KAGGLE_USERNAME" "$KAGGLE_KEY" <<'PY'
+          import json, os, sys
+          path = os.path.expanduser("~/.kaggle/kaggle.json")
+          json.dump({"username": sys.argv[1], "key": sys.argv[2]}, open(path, "w"))
+          os.chmod(path, 0o600)
+          PY
+            echo "auth: USERNAME/KEY -> kaggle.json" >> pokemon-agent/kaggle_results/replays/run_diagnostics.md
+          else
+            echo "**auth FAILED**" >> pokemon-agent/kaggle_results/replays/run_diagnostics.md
+            exit 1
+          fi
+
+      - name: Fetch replays (our last N + official top dataset)
+        continue-on-error: true
+        run: |
+          python pokemon-agent/tools/fetch_replays.py \
+            --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
+            --outdir pokemon-agent/kaggle_results/replays \
+            --top-k "${{ inputs.top_k || '7' }}" 2>&1 | tee pokemon-agent/kaggle_results/replays/fetch.log
+          echo "" >> pokemon-agent/kaggle_results/replays/run_diagnostics.md
+          echo "fetch finished with exit ${PIPESTATUS[0]}" >> pokemon-agent/kaggle_results/replays/run_diagnostics.md
+
+      - name: Summarize what we got
+        if: always()
+        run: |
+          if [ -f pokemon-agent/kaggle_results/replays/summary.md ]; then
+            cat pokemon-agent/kaggle_results/replays/summary.md
+          else
+            echo "no summary"
+            ls -lh pokemon-agent/kaggle_results/replays/ | head -30
+          fi
+          echo ""
+          echo "=== disk usage ==="
+          du -sh pokemon-agent/kaggle_results/replays/* 2>/dev/null | head -20
+          echo ""
+          echo "=== sample replay (if any) ==="
+          ls pokemon-agent/kaggle_results/replays/*.json 2>/dev/null | head -5
+          for f in $(ls pokemon-agent/kaggle_results/replays/*.json 2>/dev/null | head -1); do
+            echo "--- $f head ---"
+            head -c 2000 "$f"
+            echo ""
+          done
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kaggle-replays
+          path: pokemon-agent/kaggle_results/replays/
+          if-no-files-found: warn
+
+      - name: Commit replays back to branch (only small files)
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          # We commit only metadata and small replays, not the huge official dataset unpack
+          # The official dataset can be 700MB+ — we keep its manifest + summary, but not all JSONs in git
+          # For now, commit everything under 10MB per file
+          find pokemon-agent/kaggle_results/replays -type f -size +10M -delete || true
+          git add pokemon-agent/kaggle_results/replays/ || true
+          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/replays)" ]; then
+            git commit -m "chore(kaggle): fetch replays (top ${{ inputs.top_k || '7' }}) [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+            echo "committed"
+          else
+            echo "nothing new"
+          fi
