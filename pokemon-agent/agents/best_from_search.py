@@ -1,4 +1,4 @@
-# Best refined from gen2: win_rate=0.751 (mutated around 0.702)
+# Best Gen2 refined: win_rate=0.751 (mutated around 0.702) -> 0.707 stable 30 games
 """Phase 1 rule-based agent for "The Pokemon Company - PTCG AI Battle Challenge".
 
 Design goals
