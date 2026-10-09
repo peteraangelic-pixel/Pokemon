@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [battery-sim, main, master]
+  pull_request:
+  workflow_dispatch: # reczny bieg (przycisk "Run workflow")
+
+jobs:
+  lint:
+    name: fmt + clippy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: cargo fmt --check
+        working-directory: battery-sim
+        run: cargo fmt --check
+      - name: clippy (rayon)
+        working-directory: battery-sim
+        run: cargo clippy --all-targets -- -D warnings
+      - name: clippy (bez rayona, std)
+        working-directory: battery-sim
+        run: cargo clippy --all-targets --no-default-features -- -D warnings
+
+  test:
+    name: build + demo + sweep (szybki)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: build release
+        working-directory: battery-sim
+        run: cargo build --release
+      - name: demo
+        working-directory: battery-sim
+        run: ./target/release/battery-sim demo
+      - name: sweep --quick (36 kombinacji)
+        working-directory: battery-sim
+        run: ./target/release/battery-sim sweep --quick --csv wyniki_sweep_quick.csv
+      - name: archiwizuj wyniki sweepu
+        uses: actions/upload-artifact@v4
+        with:
+          name: wyniki-sweep-quick
+          path: battery-sim/wyniki_sweep_quick.csv
+          retention-days: 30
+
+  sweep-full:
+    name: pelny sweep (120 kombinacji chemicznych)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: build release
+        working-directory: battery-sim
+        run: cargo build --release
+      - name: pelny sweep + CSV
+        working-directory: battery-sim
+        run: ./target/release/battery-sim sweep --csv wyniki_sweep_full.csv --top 50
+      - name: archiwizuj wyniki pelnego sweepu
+        uses: actions/upload-artifact@v4
+        with:
+          name: wyniki-sweep-full
+          path: battery-sim/wyniki_sweep_full.csv
+          retention-days: 90
