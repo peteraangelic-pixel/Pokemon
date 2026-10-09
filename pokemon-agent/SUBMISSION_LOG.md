@@ -229,3 +229,31 @@ observation.
 | H3 | Precondition-aware search-card scoring (don't fire a search whose target is already in hand) is worth more than its complexity | `ab_test` toggle | small positive |
 | H4 | Retreat thresholds are mis-tuned | sweep the retreat HP threshold | unclear |
 | H5 | Phase 2: BC warm-start on heuristic self-play games, then PPO | n/a (offline) | must beat the heuristic > 60 % head-to-head before it earns a slot |
+
+---
+
+## 2026-10-09 — Evolutionary search: 40-parallel screening (Kaggriculture-style)
+
+**Problem:** Live rank 192/271, μ=462.0, user says 65% vs top10 is too low to upload. Need systematic ML search like previous Kaggriculture project (40 parallel versions vs simulated top players, pick best 3, mutate).
+
+**Solution:**
+- Created `agents/main_tunable.py` with 22 tunable knobs via env vars (all scoring bands)
+- Built `tools/search_heuristic.py` — evolutionary loop: random configs → evaluate vs top10 via `vs_top10.py` subprocess → select top3 → mutate
+- Local run: 2 gens x 20 pop x 15 games = 40 configs, 6000 games, ~24 min, 4 workers
+- Result: **70.2% vs top10** (158-67) vs baseline 61.3% — +8.9pp
+- Best config: more patient (lower bench/evolve/attach), stronger wall avoidance (-625), higher progress bonus (30 vs 18) — matches mill playstyle (survive + build Hammer-lanche)
+
+**Bundles:**
+- `phase1_heuristic.tar.gz` 87.6 KiB — baseline heuristic + v3_boss33 (33 Water + Boss x2)
+- `phase1_tuned.tar.gz` 88.0 KiB — best_from_search (70.2% vs top10) + v3_boss33, smoke ok
+
+**Actions workflow:**
+- `.github/workflows/kaggle_search.yml` — matrix 40 jobs, each random config vs top10, reducer picks best 3, commits `best_from_search.py`
+- Alternative: single job evolutionary `--generations 2 --pop-size 20`
+- Next: trigger 40-parallel in Actions for continuous search (estimated 5 min wall time)
+
+**Hypothesis for next upload:**
+> Patient wall-avoidance (WALL_PENALTY -625) + high progress bonus (30) improves vs top10 from 61.3% to 69.6% (30 games/deck stable). Should improve live μ from 462 to >600.
+
+**Live rating:** not yet uploaded — awaiting user decision (65% too low, now 70% ready)
+

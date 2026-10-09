@@ -1,0 +1,311 @@
+name: kaggle-search-heuristic
+
+# Kaggriculture-style 40-parallel heuristic screening
+# Each of 40 jobs evaluates a random config vs simulated top10 players
+# Reducer picks best 3 and mutates for next gen
+
+on:
+  workflow_dispatch:
+    inputs:
+      games:
+        description: "Games per deck"
+        default: "15"
+        required: false
+      top_n_decks:
+        description: "How many top10 decks to use (0 = all)"
+        default: "15"
+        required: false
+      generations:
+        description: "Generations (if >1, runs full evolutionary loop in one job)"
+        default: "1"
+        required: false
+      pop_size:
+        description: "Population size (40 = one per matrix job if generations=1, or per gen if single job)"
+        default: "40"
+        required: false
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  # --- OPTION A: 40 parallel single-config evaluations (fastest, like original Kaggriculture) ---
+  screen:
+    if: ${{ inputs.generations == '1' || inputs.generations == '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        idx: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          pip install --quiet kaggle kaggle-environments
+          cd pokemon-agent && ./setup.sh 2>&1 | tail -5
+
+      - name: Prepare top10 decks (from committed kaggle_results/top10)
+        run: |
+          cd pokemon-agent
+          python3 - <<'PY'
+          import json, pathlib
+          from pathlib import Path
+          root=Path("kaggle_results/top10")
+          replays=list(root.glob("*.json"))
+          replays=[p for p in replays if p.stat().st_size>1000 and "analysis" not in p.name]
+          print(f"Found {len(replays)} replays")
+          team_decks={}
+          for rp in replays:
+              try:
+                  data=json.loads(rp.read_text())
+              except:
+                  continue
+              teams=data.get("info",{}).get("TeamNames",[])
+              steps=data.get("steps",[])
+              if len(steps)<2:
+                  continue
+              s1=steps[1]
+              for idx,ps in enumerate(s1):
+                  act=ps.get("action")
+                  if isinstance(act, list) and len(act)==60:
+                      team=teams[idx] if idx < len(teams) else f"P{idx}"
+                      if team not in team_decks:
+                          team_decks[team]=act
+          outdir=Path("decks/top10")
+          outdir.mkdir(parents=True, exist_ok=True)
+          for team,deck in team_decks.items():
+              safe="".join(c if c.isalnum() else "_" for c in team)[:30]
+              path=outdir/f"{safe}.csv"
+              with open(path,"w") as f:
+                  for cid in deck:
+                      f.write(f"{cid}\n")
+          print(f"Saved {len(team_decks)} decks to {outdir}")
+          PY
+          ls decks/top10/ | wc -l
+
+      - name: Evaluate random config ${{ matrix.idx }}
+        run: |
+          cd pokemon-agent
+          python3 - <<PY
+          import random, json, os, subprocess, sys
+          from pathlib import Path
+          # Reuse SEARCH_SPACE from search_heuristic
+          SEARCH_SPACE = {
+              "PTCG_SUPPORTER": (340, 320, 360),
+              "PTCG_ITEM": (330, 310, 350),
+              "PTCG_BENCH": (320, 300, 340),
+              "PTCG_EVOLVE": (310, 290, 330),
+              "PTCG_ATTACH": (300, 280, 320),
+              "PTCG_STADIUM": (290, 270, 310),
+              "PTCG_ABILITY": (270, 250, 290),
+              "PTCG_ATTACK_KO": (260, 240, 280),
+              "PTCG_ATTACK": (200, 180, 220),
+              "PTCG_RETREAT_BASE": (120, 80, 160),
+              "PTCG_RETREAT_NO_ATK": (205, 180, 230),
+              "PTCG_RETREAT_KO": (285, 260, 310),
+              "PTCG_RETREAT_WALL": (340, 320, 380),
+              "PTCG_GUST_BONUS": (60, 30, 100),
+              "PTCG_WALL_PENALTY": (-500, -700, -300),
+              "PTCG_WALL_ESCAPE": (200, 100, 300),
+              "PTCG_ATTACH_WALL_BONUS": (40, 20, 80),
+              "PTCG_ATTACH_WALL_PENALTY": (-20, -50, 0),
+              "PTCG_BEACH_WALL": (345, 320, 370),
+              "PTCG_FIGHTER_READY": (60, 30, 90),
+              "PTCG_FIGHTER_NOT_READY": (-40, -80, -10),
+              "PTCG_PRIZE_PENALTY": (25, 10, 40),
+              "PTCG_ENABLE_BONUS": (30, 15, 50),
+              "PTCG_PROGRESS_BONUS": (18, 8, 30),
+              "PTCG_ACTIVE_BONUS": (12, 5, 25),
+              "PTCG_PRIMARY_BONUS": (10, 5, 20),
+          }
+          random.seed(int("${{ matrix.idx }}") + random.randint(0,1000000))
+          cfg={}
+          for k,(default,mn,mx) in SEARCH_SPACE.items():
+              cfg[k]=random.randint(mn,mx)
+          print(f"Config {${{ matrix.idx }}}: {cfg}")
+          env=os.environ.copy()
+          env.update({k:str(v) for k,v in cfg.items()})
+          games="${{ inputs.games || '15' }}"
+          # Run vs_top10
+          result=subprocess.run(
+              [".venv/bin/python","tools/vs_top10.py","--games",games,"--top10-dir","decks/top10","--our-deck","decks/v3_boss33.csv","--agent","agents/main_tunable.py"],
+              capture_output=True, text=True, env=env, timeout=1200
+          )
+          print(result.stdout[-2000:])
+          print(result.stderr[-2000:])
+          # Parse winrate
+          win_rate=0.0
+          for line in result.stdout.splitlines():
+              if "Overall vs top10:" in line:
+                  try:
+                      # Overall vs top10: 0.613 (276-174)
+                      part=line.split("Overall vs top10:")[1].strip().split()[0]
+                      win_rate=float(part)
+                  except:
+                      pass
+          out={"idx": int("${{ matrix.idx }}"), "config": cfg, "win_rate": win_rate, "log": result.stdout[-5000:]}
+          Path(f"/tmp/result_{${{ matrix.idx }}}.json").write_text(json.dumps(out, indent=2))
+          Path(f"search_results_parallel/result_{${{ matrix.idx }}}.json").parent.mkdir(parents=True, exist_ok=True)
+          Path(f"search_results_parallel/result_{${{ matrix.idx }}}.json").write_text(json.dumps(out, indent=2))
+          print(f"Win rate: {win_rate}")
+          PY
+
+      - name: Upload result artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: result-${{ matrix.idx }}
+          path: pokemon-agent/search_results_parallel/result_${{ matrix.idx }}.json
+
+  reduce:
+    if: ${{ inputs.generations == '1' || inputs.generations == '' }}
+    needs: screen
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Download all results
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/all_results
+          pattern: result-*
+          merge-multiple: false
+
+      - name: Aggregate and pick best 3
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, os
+          from pathlib import Path
+          results=[]
+          for p in Path("/tmp/all_results").rglob("*.json"):
+              try:
+                  data=json.loads(p.read_text())
+                  results.append(data)
+              except Exception as e:
+                  print(f"Failed {p}: {e}")
+          results=sorted(results, key=lambda x: x.get("win_rate",0), reverse=True)
+          print(f"Found {len(results)} results")
+          for r in results[:10]:
+              print(f"  idx={r['idx']} win={r['win_rate']:.3f} cfg={r['config']}")
+          # Save best configs
+          out_dir=Path("pokemon-agent/search_results_parallel")
+          out_dir.mkdir(parents=True, exist_ok=True)
+          (out_dir/"best_configs.json").write_text(json.dumps(results[:10], indent=2))
+          # Generate best_agent.py from best config
+          if results:
+              best=results[0]
+              cfg=best["config"]
+              # Read tunable
+              tunable=Path("pokemon-agent/agents/main_tunable.py").read_text()
+              # Create best agent with env defaults
+              lines=["# Auto-generated from 40-parallel search — best win_rate={}".format(best["win_rate"]), "import os"]
+              for k,v in cfg.items():
+                  lines.append(f"os.environ.setdefault('{k}', '{v}')")
+              lines.append(tunable)
+              # Actually need to inject setdefault before imports that use env — do it via wrapper
+              wrapper=f'''# Best from 40-parallel search: win_rate={best["win_rate"]} idx={best["idx"]}
+          import os
+          {chr(10).join([f"os.environ.setdefault('{k}', '{v}')" for k,v in cfg.items()])}
+
+          from agents.main_tunable import agent
+          '''
+              Path("pokemon-agent/agents/best_from_search.py").write_text(wrapper)
+              Path("pokemon-agent/search_results_parallel/best_agent.py").write_text(wrapper)
+              print(f"Wrote best agent with win_rate {best['win_rate']}")
+          # Also create summary md
+          md=["# 40-parallel search results", "", f"Total: {len(results)}", "", "## Top 10", ""]
+          for i,r in enumerate(results[:10]):
+              md.append(f"{i+1}. idx={r['idx']} win={r['win_rate']:.3f} — {r['config']}")
+          Path("pokemon-agent/search_results_parallel/SUMMARY.md").write_text("\n".join(md))
+          PY
+          cat pokemon-agent/search_results_parallel/SUMMARY.md
+
+      - name: Commit results
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena@bot.local"
+          git add pokemon-agent/search_results_parallel/ pokemon-agent/agents/best_from_search.py || true
+          git commit -m "feat(search): 40-parallel heuristic screening results [skip ci]" || echo "nothing to commit"
+          git push origin ${{ github.ref_name }} || echo "push failed"
+
+  # --- OPTION B: full evolutionary search in single job (generations>1) ---
+  evolve:
+    if: ${{ inputs.generations != '1' && inputs.generations != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          pip install --quiet kaggle kaggle-environments
+          cd pokemon-agent && ./setup.sh 2>&1 | tail -5
+
+      - name: Prepare top10 decks
+        run: |
+          cd pokemon-agent
+          python3 - <<'PY'
+          import json, pathlib
+          from pathlib import Path
+          root=Path("kaggle_results/top10")
+          replays=list(root.glob("*.json"))
+          replays=[p for p in replays if p.stat().st_size>1000 and "analysis" not in p.name]
+          team_decks={}
+          for rp in replays:
+              try:
+                  data=json.loads(rp.read_text())
+              except:
+                  continue
+              teams=data.get("info",{}).get("TeamNames",[])
+              steps=data.get("steps",[])
+              if len(steps)<2:
+                  continue
+              s1=steps[1]
+              for idx,ps in enumerate(s1):
+                  act=ps.get("action")
+                  if isinstance(act, list) and len(act)==60:
+                      team=teams[idx] if idx < len(teams) else f"P{idx}"
+                      if team not in team_decks:
+                          team_decks[team]=act
+          outdir=Path("decks/top10")
+          outdir.mkdir(parents=True, exist_ok=True)
+          for team,deck in team_decks.items():
+              safe="".join(c if c.isalnum() else "_" for c in team)[:30]
+              path=outdir/f"{safe}.csv"
+              with open(path,"w") as f:
+                  for cid in deck:
+                      f.write(f"{cid}\n")
+          print(f"Saved {len(team_decks)} decks")
+          PY
+
+      - name: Run evolutionary search
+        run: |
+          cd pokemon-agent
+          .venv/bin/python tools/search_heuristic.py --generations ${{ inputs.generations || '2' }} --pop-size ${{ inputs.pop_size || '20' }} --games ${{ inputs.games || '15' }} --top10-dir decks/top10 --our-deck decks/v3_boss33.csv --agent agents/main_tunable.py --workers 4 --outdir search_results
+
+      - name: Commit results
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena@bot.local"
+          git add pokemon-agent/search_results/ pokemon-agent/agents/best_from_search.py || true
+          git commit -m "feat(search): evolutionary ${{ inputs.generations }} gens x ${{ inputs.pop_size }} pop [skip ci]" || echo "nothing"
+          git push origin ${{ github.ref_name }} || echo "push failed"

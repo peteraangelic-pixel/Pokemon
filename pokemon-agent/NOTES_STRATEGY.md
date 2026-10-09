@@ -586,3 +586,84 @@ Phase 2 work.
   belief is a new crash surface. Deferred until a supervisor-style wrapper exists.
 * **No time-consuming search.** `remainingOverageTime` is 600 s and `actTimeout` is 0;
   Phase 1 decisions are ~0.1 ms, leaving the whole budget for Phase 2.
+
+---
+
+## 8. Evolutionary search — Kaggriculture-style 40-parallel screening (2026-10-09)
+
+**Context:** User's previous Kaggriculture project uploaded 40 parallel versions with different feature configs, each played vs simulated top players, picked best 3, mutated again. In PTCG we have same need: 65% vs top10 is too low to upload (rank 192/271, μ=462).
+
+**Implementation:**
+
+1. **Tunable agent** `agents/main_tunable.py` — extracted 22 knobs from `main_heuristic.py`:
+   - Scoring bands: SUPPORTER, ITEM, BENCH, EVOLVE, ATTACH, STADIUM, ABILITY, ATTACK_KO, ATTACK
+   - Retreat: RETREAT_BASE, NO_ATK, KO, WALL
+   - Wall handling: GUST_BONUS, WALL_PENALTY (-500→-700), WALL_ESCAPE, ATTACH_WALL_BONUS/PENALTY, BEACH_WALL
+   - Fighter: FIGHTER_READY, NOT_READY, PRIZE_PENALTY
+   - Energy: ENABLE_BONUS, PROGRESS_BONUS, ACTIVE_BONUS, PRIMARY_BONUS
+   - All via `os.environ.setdefault` → Kaggle compatible (no code change, just env injection)
+
+2. **Search loop** `tools/search_heuristic.py`:
+   - `random_config()` uniform in [min,max]
+   - `mutate_config(parent, strength)` gaussian ±30% range, 20% elitism
+   - `evaluate_config(cfg)` sets env vars and runs `vs_top10.py --games 15 --top10-dir decks/top10 --our-deck decks/v3_boss33.csv --agent agents/main_tunable.py` via subprocess, parses `Overall vs top10: 0.XXX`
+   - Main loop: `--generations 3 --pop-size 20 --games 15 --workers 4`, ProcessPoolExecutor parallel, saves `search_results/genN.json`, `best_configs.json`, `best_agent.py` (injects best env via setdefault), copy to `agents/best_from_search.py`
+   - Estimated runtime: 20*15*15=4500 games ~10 min local (0.15s/game), Actions matrix 40 jobs → 40x speedup like original Kaggriculture Rust 100x mention
+
+3. **Results — local 2 gens x 20 pop x 15 games (40 configs, 6000 games, ~24 min):**
+   - Gen0 best: 0.653 (random)
+   - Gen1 best: **0.702** (158-67)
+   - Baseline mill heuristic: 0.613 (276-174)
+   - v3_boss33 heuristic: 0.597
+   - v2_boss: 0.630
+   - **Best config found:**
+     ```
+     SUPPORTER 347 (was 340) — slightly higher draw priority
+     ITEM 317 (330) — lower, less aggressive search
+     BENCH 315 (320) — more conservative
+     EVOLVE 296 (310) — less rush to evolve
+     ATTACH 282 (300) — conserve energy
+     STADIUM 284 (290)
+     ABILITY 258 (270)
+     ATTACK_KO 274 (260) — more aggressive when KO possible
+     ATTACK 197 (200)
+     RETREAT_BASE 130 (120)
+     RETREAT_NO_ATK 210 (205)
+     RETREAT_KO 274 (285)
+     RETREAT_WALL 343 (340) — stronger wall escape
+     GUST_BONUS 54 (60)
+     WALL_PENALTY -625 (-500) — much stronger wall avoidance
+     WALL_ESCAPE 196 (200)
+     ATTACH_WALL_BONUS 21 (40) — don't build wall
+     ATTACH_WALL_PENALTY -30 (-20) — punish feeding wall
+     BEACH_WALL 358 (345) — stronger anti-wall in Beach
+     FIGHTER_READY 38 (60) — less eager to bench attacker
+     FIGHTER_NOT_READY -54 (-40) — stronger penalty for dead attacker
+     PRIZE_PENALTY 24 (25)
+     ENABLE_BONUS 17 (30) — less eager to enable big attack
+     PROGRESS_BONUS 30 (18) — much higher reward for progress toward Hammer-lanche
+     ACTIVE_BONUS 5 (12)
+     PRIMARY_BONUS 13 (10)
+     ```
+   - Interpretation: agent became **more patient** — less bench/evolve/attach rush, more focused on building Hammer-lanche (progress bonus 18→30), stronger wall avoidance (-500→-625), more selective about KO (274). This matches mill playstyle: mill needs to survive, not tempo.
+
+4. **Validation:**
+   - 30 games/deck vs top10: 0.696 (313-137) stable, vs 0.613 baseline → +8.3pp
+   - Gauntlet: 0.791 (174-46) vs 0.786 baseline — slight improvement, worst matchup mirror 0.300 (needs investigation)
+   - Bundle `phase1_tuned.tar.gz` 88 KiB passes smoke, validation BO3
+
+5. **Actions workflow** `.github/workflows/kaggle_search.yml`:
+   - Matrix 40 jobs (idx 0-39), each generates random config and evaluates vs top10 (15 games)
+   - Reducer aggregates, picks top3, writes `best_from_search.py` with setdefault injection
+   - Alternative mode: `--generations 2 --pop-size 20` single job evolutionary
+   - Artifacts: `search_results_parallel/result_*.json`, `SUMMARY.md`, `best_agent.py`
+   - Commit back to branch (skip ci)
+
+**Next steps:**
+- Run 40-parallel in Actions (estimated 5 min per job, 40x parallel → 5 min wall time)
+- Second generation: mutate around top3 from first run, re-evaluate
+- Once 70%+ stable, upload `phase1_tuned` as next submission (hypothesis: patient wall-avoidance + progress bonus improves vs top10)
+- Future: expand search space to include deck composition (energy count, Boss count) — currently fixed to v3_boss33
+
+**Why this matters for paid edition:** Portfolio writeup can show systematic heuristic tuning before RL — demonstrates engineering rigor, not just "we trained a net". The 40-parallel pattern is directly transferable to RL hyperparam search.
+
