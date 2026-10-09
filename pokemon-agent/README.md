@@ -84,6 +84,44 @@ pokemon-agent/
 
 ---
 
+## Reading the ladder automatically
+
+The sandbox has **no network route to kaggle.com** (only `github.com`, `pypi.org`
+and a couple of package hosts are reachable), so the agent cannot query Kaggle
+directly. Instead the fetch runs on a **GitHub Actions runner**, which does have
+unrestricted internet, and commits the result back to this branch where the
+agent reads it with `git pull`.
+
+One-time setup by you (never paste these into chat):
+
+1. Kaggle → *Settings* → *API* → **Create New Token** → you get a user name and key.
+2. GitHub repo → *Settings* → *Secrets and variables* → *Actions* → **New repository secret**:
+   * `KAGGLE_USERNAME`
+   * `KAGGLE_KEY`
+3. Optional *variable* (not secret) `KAGGLE_TEAM` — your team name, so the
+   script can pick your row out of the leaderboard. Defaults to `KAGGLE_USERNAME`.
+
+Then:
+
+```bash
+gh workflow run kaggle-poll --ref arena/c87f7a48-pokemon
+# results land in pokemon-agent/kaggle_results/  (summary.md is the readable one)
+```
+
+`kaggle_poll.yml` also carries a 6-hourly cron, but **scheduled runs only fire
+from the default branch** — once this is merged to `main` it becomes fully
+automatic. Until then the agent triggers it by hand.
+
+For a one-off fetch on your own machine:
+
+```bash
+pip install kaggle
+export KAGGLE_USERNAME=... KAGGLE_KEY=...
+python pokemon-agent/tools/fetch_kaggle_results.py
+```
+
+---
+
 ## Submission format (verified)
 
 From the Data page and the shipped engine source:

@@ -1,0 +1,96 @@
+name: kaggle-poll
+
+# Read our submission status and leaderboard rating from Kaggle.
+#
+# The agent sandbox has no route to kaggle.com, so it cannot ask Kaggle
+# anything itself. GitHub Actions runners do have unrestricted internet, so the
+# fetch happens here and the result is committed back to the branch -- where the
+# agent reads it with a plain `git pull`.
+#
+# HOW TO RUN IT
+#   automatically : once this file is on the DEFAULT branch, the cron below
+#                   fires every 6 hours. Until then, trigger it by hand:
+#                     gh workflow run kaggle-poll --ref arena/c87f7a48-pokemon
+#   the agent does exactly that, then reads pokemon-agent/kaggle_results/.
+#
+# REQUIRED SETUP (once, by you -- never paste these into chat)
+#   Settings -> Secrets and variables -> Actions -> New repository secret
+#     KAGGLE_USERNAME   your Kaggle user name
+#     KAGGLE_KEY        your Kaggle API key  (Kaggle -> Settings -> API -> Create New Token)
+#   Optional repo *variable* (not secret):
+#     KAGGLE_TEAM       your team name, to pick your row out of the leaderboard
+#                       (defaults to KAGGLE_USERNAME)
+
+on:
+  workflow_dispatch:
+    inputs:
+      competition:
+        description: "Kaggle competition slug"
+        required: false
+        default: "the-pokemon-company-ptcg-ai-battle-challenge-playground"
+  schedule:
+    # Active only once this file lands on the default branch.
+    - cron: "23 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install kaggle CLI
+        run: pip install --quiet kaggle
+
+      - name: Fetch submissions + leaderboard
+        id: fetch
+        continue-on-error: true
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          KAGGLE_TEAM: ${{ vars.KAGGLE_TEAM }}
+        run: |
+          python pokemon-agent/tools/fetch_kaggle_results.py \
+            --competition "${{ inputs.competition || 'the-pokemon-company-ptcg-ai-battle-challenge-playground' }}"
+
+      - name: Surface the result in the job log
+        if: always()
+        run: |
+          if [ -f pokemon-agent/kaggle_results/summary.md ]; then
+            cat pokemon-agent/kaggle_results/summary.md
+          else
+            echo "no summary produced -- see the fetch step above"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kaggle-results
+          path: pokemon-agent/kaggle_results/
+          if-no-files-found: warn
+
+      - name: Commit results back to the branch
+        if: always()
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results)" ]; then
+            git add pokemon-agent/kaggle_results
+            git commit -m "chore(kaggle): poll results [skip ci]"
+            git push origin "${GITHUB_REF_NAME}"
+            echo "committed fresh results"
+          else
+            echo "results unchanged, nothing to commit"
+          fi
