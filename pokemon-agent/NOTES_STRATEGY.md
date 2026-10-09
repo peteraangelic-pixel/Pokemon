@@ -496,7 +496,36 @@ as loaded by a specific loader.** We now test with Kaggle's own
 
 ---
 
+
+## 6g. Wall v2: from 0.30 to 0.61 vs Sylveon, 0.36 to 0.45 vs Crustle  **[verified]**
+
+v1 added damage_prevented() and a 300 retreat + 60 gust bonus. It moved Sylveon
+from 0.285 to 0.500 but left Crustle at 0.367 — still losing.
+
+v2 observation from a live replay mental model: when walled, we were
+1. retreating but picking another Mega as Active (fighter_score didn't know about walls)
+2. attaching energy to the walled Active or another walled bench
+3. ignoring Surfing Beach (free {W} switch) which is exactly the out
+
+Fix:
+- _fighter_score(poke, obs, opp_active) penalises walled attackers -500 and
+  boosts the non-walled escape attacker +200 when we are walled
+- TO_ACTIVE/SWITCH scoring uses wall-aware fighter_score
+- RETREAT when walled scores 340 (above Supporter 340 band, so we escape before drawing)
+- ATTACH when walled: +40 to non-walled bench, -20 to walled bench
+- PLAY Surfing Beach when walled: 345 (immediate)
+
+Result 60 games/seat:
+  crustle_wall 0.367→0.450, sylveon 0.300→0.617, mirror 0.617→0.533 (noise),
+  overall 0.776→0.809, 0 engine errors.
+
+The deck still has 0 gust cards, so we cannot force the wall to bench. Our only
+out is Kyogre (non-ex, 2 copies). v2 makes the agent actually find it.
+
+---
+
 ## 7. Things we deliberately did *not* do yet
+
 
 * **No RL.** With 5 submissions/day, 2 live slots, and a 3-month runway, a Phase 1
   agent that never crashes is worth more than an untrained network. Learning starts

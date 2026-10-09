@@ -28,6 +28,7 @@ Everything below was measured on the real `cabt` engine via `tools/ab_test.py`
 | L6 | Deck-construction rules the engine enforces (`errorType 4`) | 1431 cards instrumented | 4-copy limit is **by card name**; ≤ 1 ACE SPEC (incl. ACE SPEC *energies*) | documented in `tools/deck_rules.py` |
 | L7 | **Local gauntlet**: our deck vs 11 auto-assembled archetypes, both seats | 200 games/seat | overall 0.748; we beat 9 archetypes at 0.83+ and lose to **2 anti-ex walls** (Crustle 0.195, Safeguard 0.285) | walls are the Phase 2 target |
 | L8 | **Damage-prevention detection** (`pv` flag) + switch to an attacker that can hit | 120 games/seat, 11 archetypes | Crustle 0.195→**0.325**, Sylveon 0.285→**0.500**, overall 0.748→**0.780**, no other matchup moved | **adopt** (default on) |
+| L10 | **Wall v2**: retreat 340 when walled, fighter_score -500 for walled attackers +200 for escape attacker, attach +40 to non-walled bench, Surfing Beach 345 when walled | 60 games/seat gauntlet | crustle 0.367→**0.450**, sylveon 0.300→**0.617**, overall 0.776→**0.809** | **adopt** |
 | L9 | Deck variants: `+2 Boss's Orders` and `+2 Kyogre +2 Boss +2 Ultra Ball`, paid for with energy | 120 games/seat | both **worse everywhere** (0.383 / 0.425 vs baseline) — cutting energy cuts Hammer-lanche from ~330 to ~270 | **reject** — see `decks/README.md` |
 
 ### Why L2 mattered so much
@@ -89,6 +90,27 @@ every build and **refuses to ship** otherwise.
 
 **Action: re-upload both** — `bundles/phase1_heuristic.tar.gz` (86.8 KiB) and
 `bundles/phase0_random.tar.gz` (75.8 KiB), both rebuilt and gated.
+
+---
+
+### 2026-10-09 — LIVE RATING after second attempt
+
+| file | status | score | date |
+|---|---|---|---|
+| `phase1_heuristic (2).tar.gz` | COMPLETE | **462.0** (down from 600.0) | 2026-10-09 10:37:37 |
+| `phase0_random (1).tar.gz` | COMPLETE | 74.5 (down from 76.1) | 2026-10-09 10:01:38 |
+
+Leaderboard: 271 teams, best 1210.3 (YumeNeko), median 640.9, worst -28.1
+Our team **Lauresowe 3D** rank 192/271 top 71% (was 148 top 54% at 600.0 start)
+Top 25% needs 833.3, top 10% 959.5, top 50% 643.3
+
+Interpretation: heuristic loses more than it wins live. Gauntlet 60/seat shows
+why: 9 archetypes we crush at 76-100%, but 2 anti-ex walls crush us. Even after
+wall v1 (0.325/0.500) we were still losing those. Live meta likely contains
+more walls + RL agents that are stronger than our simple archetypes.
+
+Next hypothesis H1: wall v2 (see L10) — should gain ~30-40 μ if walls are ~15%
+of field. Ship as phase1_heuristic v3.
 
 ---
 

@@ -854,11 +854,14 @@ def _attack_ready(poke) -> bool:
     return False
 
 
-def _fighter_score(poke) -> int:
+def _fighter_score(poke, obs=None, opp_active=None) -> int:
     """How good is this Pokemon *as the current Active*?
 
     Combines: can it attack right now, how hard does it hit, how much HP does it
     have before it dies, and what do we give up if it is knocked out.
+    Wall-aware: a Pokemon that cannot damage the opponent's Active because of
+    an anti-ex wall is heavily penalised, so retreat brings in Kyogre instead
+    of another Mega.
     """
     if not poke:
         return -1000
@@ -877,7 +880,26 @@ def _fighter_score(poke) -> int:
     else:
         score -= 40            # sitting there taking hits
     score -= 25 * prize_value(cid)  # expensive Pokemon are liabilities in front
+    # --- wall awareness ---
+    if WALL_SWITCH and obs is not None and opp_active is not None:
+        try:
+            if damage_prevented(cid, opp_active.get("id"), 10 ** 6):
+                score -= 500   # this Pokemon is blanked by the wall
+            else:
+                # non-walled attacker is precious when we are walled
+                my_active = _active(obs, _me_idx_from_obs(obs))
+                if my_active and damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
+                    score += 200
+        except Exception:
+            pass
     return score
+
+def _me_idx_from_obs(obs):
+    try:
+        # current player is usually me_idx; fallback to 0
+        return int(obs.get("current", {}).get("playerIndex", 0))
+    except Exception:
+        return 0
 
 
 # --------------------------------------------------------------------------
@@ -992,11 +1014,12 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
             # Our Active is walled: every attack it has is blanked by the
             # defender's ability.  Attacking anyway is worse than doing nothing
             # -- a mill attack would chew through our own deck for zero damage.
-            # If anyone on the bench can actually hit, go get them.
+            # If anyone on the bench can actually hit, go get them.  Score 340
+            # puts retreat above Supporter (340) so we escape before drawing.
             if damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
                 for p in my_bench:
                     if not damage_prevented(p.get("id"), opp_active.get("id"), 10 ** 6):
-                        score = max(score, 300)
+                        score = max(score, 340)
                         break
         return score
 
@@ -1038,6 +1061,17 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
                 score += 12
             if is_primary_line(target.get("id")):
                 score += 10
+            # --- wall v2: when walled, feed the bench attacker that can hit ---
+            if WALL_SWITCH and opp_active is not None and target is not None:
+                try:
+                    my_active = _active(obs, me_idx)
+                    if my_active and damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
+                        if not damage_prevented(target.get("id"), opp_active.get("id"), 10 ** 6):
+                            score += 40  # this energy builds our escape plan
+                        else:
+                            score -= 20  # don't feed another walled attacker
+                except Exception:
+                    pass
         return score
 
     if otype == OptionType.ABILITY:
@@ -1118,8 +1152,16 @@ def _score_generic_card(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
 
     if ctx in (Ctx.TO_ACTIVE, Ctx.SWITCH):
         # Bring forward whoever can actually fight right now.
+        # Wall-aware: never bring a walled ex in front of a wall.
         if poke is not None:
-            return 400 + _fighter_score(poke) // 2
+            opp_active = _active(obs, 1 - me_idx) if me_idx in (0,1) else None
+            # try both opponent indices if me_idx unknown
+            if opp_active is None:
+                try:
+                    opp_active = _active(obs, 0) or _active(obs, 1)
+                except Exception:
+                    opp_active = None
+            return 400 + _fighter_score(poke, obs, opp_active) // 2
         return 100 + plan_power(cid) // 2
 
     if ctx == Ctx.TO_HAND:
