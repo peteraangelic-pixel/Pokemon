@@ -38,7 +38,7 @@ on:
   push:
     branches: ["arena/c87f7a48-pokemon"]
     paths:
-      - "kaggle_results/poll.trigger"
+      - "pokemon-agent/kaggle_results/poll.trigger"
   schedule:
     - cron: "23 */6 * * *"
 
