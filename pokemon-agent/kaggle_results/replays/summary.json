@@ -1,0 +1,124 @@
+{
+  "fetched_utc": "2026-10-09T11:20:50.910133+00:00",
+  "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
+  "own_submissions": 7,
+  "episodes_listed": 13,
+  "replays_downloaded": 8,
+  "official_dataset": null,
+  "official_files": 0,
+  "total_json_on_disk": 8,
+  "sample_analysis": [
+    {
+      "file": "episode-120516202-replay.json",
+      "episodeId": 120516202,
+      "teamNames": [
+        "Jonathan Axl",
+        "Lauresowe 3D"
+      ],
+      "winner": "Jonathan Axl",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 151
+    },
+    {
+      "file": "episode-120519812-replay.json",
+      "episodeId": 120519812,
+      "teamNames": [
+        "Lauresowe 3D",
+        "The Prad K"
+      ],
+      "winner": "The Prad K",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 110
+    },
+    {
+      "file": "episode-120523473-replay.json",
+      "episodeId": 120523473,
+      "teamNames": [
+        "彭文龙",
+        "Lauresowe 3D"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 171
+    },
+    {
+      "file": "episode-120517987-replay.json",
+      "episodeId": 120517987,
+      "teamNames": [
+        "Lauresowe 3D",
+        "nguyenbaotri-VIETNAM"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 330
+    },
+    {
+      "file": "episode-120517988-replay.json",
+      "episodeId": 120517988,
+      "teamNames": [
+        "Lauresowe 3D",
+        "Pawit Sahare"
+      ],
+      "winner": "Pawit Sahare",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 75
+    },
+    {
+      "file": "episode-120521637-replay.json",
+      "episodeId": 120521637,
+      "teamNames": [
+        "Lauresowe 3D",
+        "Jarno Rantala"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 171
+    },
+    {
+      "file": "episode-120516144-replay.json",
+      "episodeId": 120516144,
+      "teamNames": [
+        "Lauresowe 3D",
+        "Dnyanesh"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 107
+    },
+    {
+      "file": "episode-120488910-replay.json",
+      "episodeId": 120488910,
+      "teamNames": [
+        "Lauresowe 3D",
+        "Lauresowe 3D"
+      ],
+      "winner": "draw",
+      "rewards": [
+        null,
+        null
+      ],
+      "steps": 2
+    }
+  ]
+}
