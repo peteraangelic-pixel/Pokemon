@@ -466,6 +466,36 @@ every build and refuses to ship if it fails.
 
 ---
 
+## 6f. Kaggle picks the *last callable in the file*, not the one named `agent`  **[verified]**
+
+Second upload attempt: the random agent passed, the heuristic failed, same day,
+same packaging. The log:
+
+```
+agent.py:154, in callable_agent
+    return agent(*args) if callable(agent) else agent
+TypeError: _score_yes_no() missing 3 required positional arguments
+```
+
+`self.agent` is `_score_yes_no`. Because `get_last_callable()` ends with:
+
+```python
+return [v for v in env.values() if callable(v)][-1]
+```
+
+There is no lookup by name. **Kaggle takes whichever callable was defined last
+in the file.** Our helpers sat below `agent`, so one of them became the agent.
+`main_random.py` happened to define `agent` last, which is the entire reason one
+submission worked and the other did not.
+
+This is the third harness difference that no amount of local game-playing could
+have found — after the namespace (`__file__`, §6e) and the callable's arity
+(§6b). The pattern: **the unit of deployment is not the agent, it is the agent
+as loaded by a specific loader.** We now test with Kaggle's own
+`get_last_callable()` so the ordering is enforced by the build, not by memory.
+
+---
+
 ## 7. Things we deliberately did *not* do yet
 
 * **No RL.** With 5 submissions/day, 2 live slots, and a 3-month runway, a Phase 1

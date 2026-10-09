@@ -8,18 +8,20 @@ name: kaggle-poll
 # agent reads it with a plain `git pull`.
 #
 # HOW TO RUN IT
-#   automatically : once this file is on the DEFAULT branch, the cron below
-#                   fires every 6 hours. Until then, trigger it by hand:
-#                     gh workflow run kaggle-poll --ref arena/c87f7a48-pokemon
-#   the agent does exactly that, then reads pokemon-agent/kaggle_results/.
+#   1. by commit message (works on any branch, no extra tooling):
+#        git commit --allow-empty -m "chore: poll [ptcg-poll]" && git push
+#   2. by hand:
+#        gh workflow run kaggle-poll --ref arena/c87f7a48-pokemon
+#   3. automatically: the cron below, once this file is on the DEFAULT branch
+#      (GitHub only fires schedules from the default branch).
 #
 # REQUIRED SETUP (once, by you -- never paste these into chat)
-#   Settings -> Secrets and variables -> Actions -> New repository secret
-#     KAGGLE_USERNAME   your Kaggle user name
-#     KAGGLE_KEY        your Kaggle API key  (Kaggle -> Settings -> API -> Create New Token)
+#   Kaggle -> Settings -> API -> Create New Token
+#   Repo -> Settings -> Secrets and variables -> Actions -> New repository secret
+#     EITHER  KAGGLE_API_TOKEN   the token alone (preferred; simplest)
+#     OR      KAGGLE_USERNAME + KAGGLE_KEY
 #   Optional repo *variable* (not secret):
-#     KAGGLE_TEAM       your team name, to pick your row out of the leaderboard
-#                       (defaults to KAGGLE_USERNAME)
+#     KAGGLE_TEAM   your team name, to pick your row out of the leaderboard
 
 on:
   workflow_dispatch:
@@ -28,8 +30,9 @@ on:
         description: "Kaggle competition slug"
         required: false
         default: "the-pokemon-company-ptcg-ai-battle-challenge-playground"
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
   schedule:
-    # Active only once this file lands on the default branch.
     - cron: "23 */6 * * *"
 
 permissions:
@@ -37,6 +40,10 @@ permissions:
 
 jobs:
   poll:
+    # On push, only run when the commit asks for it.
+    if: >
+      github.event_name != 'push'
+      || contains(github.event.head_commit.message, '[ptcg-poll]')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -52,12 +59,35 @@ jobs:
       - name: Install kaggle CLI
         run: pip install --quiet kaggle
 
+      - name: Configure Kaggle credentials
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          set -e
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+            echo "auth: KAGGLE_API_TOKEN -> ~/.kaggle/access_token"
+          elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            python3 - "$KAGGLE_USERNAME" "$KAGGLE_KEY" <<'PY'
+          import json, os, sys
+          path = os.path.expanduser("~/.kaggle/kaggle.json")
+          json.dump({"username": sys.argv[1], "key": sys.argv[2]}, open(path, "w"))
+          os.chmod(path, 0o600)
+          PY
+            echo "auth: KAGGLE_USERNAME/KEY -> ~/.kaggle/kaggle.json"
+          else
+            echo "::error::No Kaggle credentials. Add KAGGLE_API_TOKEN (or KAGGLE_USERNAME + KAGGLE_KEY)."
+            exit 1
+          fi
+
       - name: Fetch submissions + leaderboard
         id: fetch
         continue-on-error: true
         env:
-          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
-          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
           KAGGLE_TEAM: ${{ vars.KAGGLE_TEAM }}
         run: |
           python pokemon-agent/tools/fetch_kaggle_results.py \
@@ -89,7 +119,7 @@ jobs:
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results)" ]; then
             git add pokemon-agent/kaggle_results
             git commit -m "chore(kaggle): poll results [skip ci]"
-            git push origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
             echo "committed fresh results"
           else
             echo "results unchanged, nothing to commit"

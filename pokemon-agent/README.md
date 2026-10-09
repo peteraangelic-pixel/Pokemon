@@ -94,19 +94,23 @@ agent reads it with `git pull`.
 
 One-time setup by you (never paste these into chat):
 
-1. Kaggle → *Settings* → *API* → **Create New Token** → you get a user name and key.
+1. Kaggle → *Settings* → *API* → **Create New Token**.
 2. GitHub repo → *Settings* → *Secrets and variables* → *Actions* → **New repository secret**:
-   * `KAGGLE_USERNAME`
-   * `KAGGLE_KEY`
+   * `KAGGLE_API_TOKEN` — the token alone (**preferred**, one secret)
+   * *or* both `KAGGLE_USERNAME` + `KAGGLE_KEY`
 3. Optional *variable* (not secret) `KAGGLE_TEAM` — your team name, so the
    script can pick your row out of the leaderboard. Defaults to `KAGGLE_USERNAME`.
 
 Then:
 
 ```bash
+# by commit tag (works on any branch, no tooling needed)
+git commit --allow-empty -m "chore: poll [ptcg-poll]" && git push
+
+# or by hand
 gh workflow run kaggle-poll --ref arena/c87f7a48-pokemon
-# results land in pokemon-agent/kaggle_results/  (summary.md is the readable one)
 ```
+Results land in `pokemon-agent/kaggle_results/` (`summary.md` is the readable one).
 
 `kaggle_poll.yml` also carries a 6-hourly cron, but **scheduled runs only fire
 from the default branch** — once this is merged to `main` it becomes fully

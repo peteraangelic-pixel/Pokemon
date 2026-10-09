@@ -92,6 +92,43 @@ every build and **refuses to ship** otherwise.
 
 ---
 
+### 2026-10-09 — SECOND ATTEMPT: random passed, heuristic failed  ⚠️
+
+After the `__file__` fix: **phase0_random passed**, **phase1_heuristic failed**.
+Logs in `kaggle_results/error_logs/120488910-*.json`:
+
+```
+agent.py:154, in callable_agent
+    return agent(*args) if callable(agent) else agent
+TypeError: _score_yes_no() missing 3 required positional arguments
+```
+
+Note what `self.agent` actually is: **`_score_yes_no`**, not our `agent`.
+
+**Root cause.** `kaggle_environments.agent.get_last_callable()` ends with
+
+```python
+return [v for v in env.values() if callable(v)][-1]
+```
+
+Kaggle does **not** look for a function named `agent` — it takes whatever
+callable was defined **last** in the file. Our helper functions (`_fallback`,
+`_decide`, `_score_yes_no`) were defined *below* `agent`, so Kaggle called
+`_score_yes_no(obs)` and it blew up on missing arguments.
+
+This also explains the asymmetry the same day: `main_random.py` happens to
+define `agent` last, so it passed while the heuristic failed.
+
+**Fix.** `agent` moved to the very end of `main_heuristic.py`, with a comment
+explaining why it must stay there. `tools/test_kaggle_import.py` now calls
+**Kaggle's own `get_last_callable()`** and fails the build unless it resolves to
+`agent` with exactly one parameter. `build_submission.py` runs it, so this
+cannot reach an upload again.
+
+Both bundles rebuilt and fully gated. **Re-upload `phase1_heuristic`.**
+
+---
+
 ### 2026-10-08 — submission 1: Phase 0 (random)
 
 * **Bundle:** `bundles/phase0_random.tar.gz` (75 KiB)

@@ -78,6 +78,7 @@ def check_bundle(path: str, games: int) -> bool:
             tar.extractall(tmp)
 
         main_py = os.path.join(tmp, "main.py")
+        src = open(main_py, encoding="utf-8").read()
         ok = True
         if not os.path.exists(main_py):
             print(f"  {name}: FAIL - no main.py at the top level of the archive")
@@ -95,6 +96,39 @@ def check_bundle(path: str, games: int) -> bool:
             print(f"  {name}: FAIL - no agent() defined")
             return False
         print(f"  {name}: loaded without __file__                      ok")
+
+        # --- 1b. is `agent` what Kaggle will actually pick? ---------------
+        # get_last_callable() ends with
+        #     return [v for v in env.values() if callable(v)][-1]
+        # so it takes the LAST callable in the file, whatever it is named.
+        # Helpers defined below `agent` silently become "the agent" -- which is
+        # exactly how the heuristic submission died with
+        #     TypeError: _score_yes_no() missing 3 required positional arguments
+        try:
+            from kaggle_environments.agent import get_last_callable
+        except Exception:  # noqa: BLE001
+            print(f"  {name}: WARN - kaggle_environments missing, "
+                  f"cannot check entry-point resolution")
+            get_last_callable = None
+        if get_last_callable is not None:
+            import inspect as _inspect
+
+            picked = get_last_callable(src, path="/kaggle_simulations/agent/main.py")
+            pname = getattr(picked, "__name__", repr(picked))
+            try:
+                nparams = len(_inspect.signature(picked).parameters)
+            except (TypeError, ValueError):
+                nparams = -1
+            if pname != "agent":
+                print(f"  {name}: FAIL - Kaggle would pick `{pname}` as the agent "
+                      f"(helpers are defined after `agent`)")
+                return False
+            if nparams != 1:
+                print(f"  {name}: FAIL - agent takes {nparams} parameters, "
+                      f"expected exactly 1 (2 would make Kaggle call it the "
+                      f"legacy way with (observation, configuration))")
+                return False
+            print(f"  {name}: get_last_callable() resolves to `agent`/1  ok")
 
         # --- 2. does it return a deck? ------------------------------------
         agent = env["agent"]
@@ -124,7 +158,6 @@ def check_bundle(path: str, games: int) -> bool:
         # --- 4. did the card index load? ----------------------------------
         # Only meaningful for agents that actually use one: main_random.py is
         # deliberately index-free, so an empty CARDS there is not a problem.
-        src = open(main_py, encoding="utf-8").read()
         needs_index = ("card_index" in src) or ("CARDS" in src and "card(" in src)
         cards = env.get("CARDS") or {}
         if not needs_index:

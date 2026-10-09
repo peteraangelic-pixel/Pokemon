@@ -1210,12 +1210,6 @@ def _score_damage_target(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int
     return score
 
 
-def agent(obs: dict) -> list[int]:
-    try:
-        return _decide(obs)
-    except Exception:
-        return _fallback(obs)
-
 
 def _fallback(obs: dict) -> list[int]:
     try:
@@ -1367,3 +1361,24 @@ if _DEBUG:
         except Exception:
             pass
         return out
+
+
+# ---------------------------------------------------------------------------
+# Kaggle entry point -- MUST stay the last callable in this file.
+#
+# kaggle_environments.agent.get_last_callable() ends with:
+#     return [v for v in env.values() if callable(v)][-1]
+# It does NOT look for a function named `agent`; it takes whatever callable was
+# defined last. Our helpers used to live below this function, so Kaggle called
+# _score_yes_no() as if it were the agent and every episode died with
+#     TypeError: _score_yes_no() missing 3 required positional arguments
+# (main_random.py happened to define `agent` last, which is why the random
+# submission passed while the heuristic one failed on the very same day.)
+# tools/test_kaggle_import.py asserts this ordering using get_last_callable
+# itself, so moving it again will fail the build rather than the upload.
+# ---------------------------------------------------------------------------
+def agent(obs: dict) -> list[int]:
+    try:
+        return _decide(obs)
+    except Exception:
+        return _fallback(obs)
