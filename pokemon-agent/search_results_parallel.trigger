@@ -1,1 +1,1 @@
-trigger 40-parallel search Fri Oct  9 20:15:20 UTC 2026
+trigger Gen3 refined search around -697 Fri Oct  9 22:15:49 UTC 2026
