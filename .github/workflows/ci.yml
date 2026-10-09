@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [battery-sim, main, master]
+    branches: [battery-sim, main, master, "arena/**"] # arena/** = gałęzie sesji Arena (tu mieszka battery-sim)
   pull_request:
   workflow_dispatch: # reczny bieg (przycisk "Run workflow")
 
