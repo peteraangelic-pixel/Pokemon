@@ -97,6 +97,23 @@ def check_auth() -> str | None:
             "or ~/.kaggle/kaggle.json")
 
 
+def load_team_file(outdir: str) -> str:
+    """Our team name, if we have recorded it in kaggle_results/team.txt.
+
+    We cannot list repo *variables* from the sandbox (403 for the integration
+    token), so a plain committed file is the simplest way to persist it.
+    Lines starting with # are ignored; the first remaining line wins.
+    """
+    path = os.path.join(outdir, "team.txt")
+    if not os.path.exists(path):
+        return ""
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if line and not line.startswith("#"):
+            return line
+    return ""
+
+
 def rows_from_csv(text: str) -> list[dict]:
     text = text.strip("\ufeff").strip()
     if not text:
@@ -110,6 +127,17 @@ def pick(row: dict, *names: str):
     for n in names:
         if n.lower() in low:
             return low[n.lower()]
+    return None
+
+
+def _latest_score(subs: list[dict]) -> float | None:
+    for r in subs:
+        v = pick(r, "PublicScore", "publicScore", "Score", "score")
+        if v not in (None, "", "None"):
+            try:
+                return float(v)
+            except (TypeError, ValueError):
+                continue
     return None
 
 
@@ -142,7 +170,8 @@ def main() -> int:
         print(f"ERROR: {err}", file=sys.stderr)
         return 2
 
-    team = args.team or os.environ.get("KAGGLE_USERNAME", "")
+    team = (args.team or os.environ.get("KAGGLE_TEAM")
+            or load_team_file(outdir) or os.environ.get("KAGGLE_USERNAME", ""))
     problems: list[str] = []
 
     # ---- submissions: status (complete / error) + score -------------------
@@ -182,7 +211,7 @@ def main() -> int:
     # ---- our own rows -----------------------------------------------------
     def is_ours(row: dict) -> bool:
         if not team:
-            return True
+            return False
         nm = (pick(row, "TeamName", "teamName", "Team", "team") or "")
         return nm.strip().lower() == team.strip().lower()
 
@@ -247,6 +276,39 @@ def main() -> int:
             dt = sdate(r)
             lines.append(f"| `{f}` | {st} | {sc} | {dt} |")
     lines.append("")
+
+    # ---- where do we sit in the field? ---------------------------------
+    if lb:
+        try:
+            sc = sorted((float(pick(r, "Score", "score") or 0) for r in lb), reverse=True)
+            n = len(sc)
+
+            def rank_at(v: float) -> int:
+                return sum(1 for x in sc if x > v) + 1
+
+            lines.append("## Field context")
+            lines.append("")
+            lines.append(f"{n} teams; best {sc[0]:.1f}, median {sc[n // 2]:.1f}, "
+                         f"worst {sc[-1]:.1f}")
+            lines.append("")
+            lines.append("| target | score needed |")
+            lines.append("|---|---|")
+            for pct in (1, 5, 10, 25, 50):
+                i = max(0, int(n * pct / 100) - 1)
+                lines.append(f"| top {pct} % (place {i + 1}) | {sc[i]:.1f} |")
+            lines.append("")
+            for label, val in (("our latest submission", _latest_score(subs_sorted)),
+                               ("our leaderboard row",
+                                float(pick(our_lb[0], "Score", "score") or 0) if our_lb else None)):
+                if val is None:
+                    continue
+                r = rank_at(val)
+                lines.append(f"- {label}: **{val:.1f}** ~ place {r}/{n} (top {100 * r / n:.0f} %)")
+            lines.append("")
+
+        except Exception as exc:  # noqa: BLE001
+            lines.append(f"_field context unavailable: {exc}_")
+            lines.append("")
 
     if lb:
         lines.append("## Leaderboard top 10")
