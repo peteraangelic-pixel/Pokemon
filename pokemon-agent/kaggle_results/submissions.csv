@@ -1,7 +1,7 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57005960,phase1_heuristic (2).tar.gz,2026-10-09 10:37:37.757000,,SubmissionStatus.COMPLETE,600.0,
+57005960,phase1_heuristic (2).tar.gz,2026-10-09 10:37:37.757000,,SubmissionStatus.COMPLETE,462.0,
 57004890,phase1_heuristic (1).tar.gz,2026-10-09 10:01:48.463000,,SubmissionStatus.ERROR,,
-57004881,phase0_random (1).tar.gz,2026-10-09 10:01:38.317000,,SubmissionStatus.COMPLETE,76.1,
+57004881,phase0_random (1).tar.gz,2026-10-09 10:01:38.317000,,SubmissionStatus.COMPLETE,74.5,
 56979012,phase1_heuristic.tar.gz,2026-10-09 00:00:25.220000,,SubmissionStatus.ERROR,,
 56978991,phase0_random.tar.gz,2026-10-09 00:00:14.997000,,SubmissionStatus.ERROR,,
 56975177,main_heuristic.py,2026-10-08 22:11:32.857000,,SubmissionStatus.ERROR,,
