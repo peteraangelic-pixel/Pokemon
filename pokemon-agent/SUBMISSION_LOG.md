@@ -257,3 +257,33 @@ observation.
 
 **Live rating:** not yet uploaded — awaiting user decision (65% too low, now 70% ready)
 
+
+---
+
+## 2026-10-09 — 40-parallel Actions (71.1%) + Gen2 refinement (75.1% → 70.7% stable)
+
+**Actions run 37985741842:**
+- 40 jobs matrix idx 0-39, each random config vs top10 (15 games), 4 min/job, 40x parallel
+- Best: idx=33 win=0.711 (160-65) — Supporter 355, Bench 335, Retreat Wall 362, Gust 91, Wall Penalty -569, Attach Wall Bonus 67
+- Validation 30 games: 0.671 — high variance, less stable
+
+**Local Gen2 refinement (30 mutated around 0.702, strength 0.15, 15 games, 4 workers):**
+- Best: **0.751** idx=14 — Supporter 345, Bench 313, Evolve 294, Attach 281, Stadium 270, Wall Penalty -697 (strongest avoidance), Retreat Wall 353, Progress 29
+- Top5 >0.733 — consistent
+- Stable 30 games: **0.707 (318-132)** — new record, +9.4pp over baseline 0.613
+- Gauntlet: 0.814 (179-41) vs 0.786 baseline
+
+**Bundles:**
+- `phase1_tuned_71.tar.gz` 89 KiB — Actions best 71.1% → 66.9% stable
+- `phase1_tuned_75.tar.gz` 88 KiB — Gen2 best 75.1% → 70.7% stable, smoke ok — **READY FOR UPLOAD**
+
+**Hypothesis for next upload:**
+> Wall Penalty -697 + Evolve 294 + Attach 281 + Retreat Wall 353 improves vs top10 from 61.3% to 70.7% stable (30 games). Patient wall-avoidance + high progress bonus (29) is key for mill.
+
+**Live rating:** still 462.0 rank 192/271 — awaiting upload of phase1_tuned_75
+
+**Next steps:**
+- Gen3 refinement around 0.751 with strength 0.08 to try 76%+
+- Trigger another 40-parallel in Actions with refined search space (narrow around -697 wall penalty)
+- Upload phase1_tuned_75 as next submission (one hypothesis per slot)
+

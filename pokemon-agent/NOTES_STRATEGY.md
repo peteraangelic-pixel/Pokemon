@@ -667,3 +667,45 @@ Phase 2 work.
 
 **Why this matters for paid edition:** Portfolio writeup can show systematic heuristic tuning before RL — demonstrates engineering rigor, not just "we trained a net". The 40-parallel pattern is directly transferable to RL hyperparam search.
 
+
+---
+
+## 9. 40-parallel Actions + Gen2 refinement — 75.1% vs top10 (2026-10-09)
+
+**Actions run 37985741842 — 40 parallel jobs:**
+- Triggered via push with `search_results_parallel.trigger`, matrix idx 0-39
+- Each job: random config from SEARCH_SPACE, 15 games vs 26 top10 decks, 4 min per job
+- All 40 success, total wall time ~4 min (40x speedup vs sequential 160 min)
+- Results: `search_results_parallel/SUMMARY.md`, `best_configs.json`
+- Best: **idx=33 win=0.711** (160-65) — Supporter 355, Bench 335, Retreat Wall 362, Gust Bonus 91, Wall Penalty -569, Attach Wall Bonus 67, Primary Bonus 19
+- Second: 0.670, third 0.667 — aggressive gust/retreat strategy
+- Reducer committed `best_from_search.py` (wrapper) + `SUMMARY.md` [skip ci]
+
+**Validation of Actions best:**
+- 15 games: 0.711 (reported)
+- 30 games: 0.671 (302-148) — variance high, less stable than local 0.702→0.691
+
+**Local Gen2 refinement around previous best 0.702:**
+- Generated 30 mutated configs from top3 (0.702,0.701,0.698) with strength 0.15
+- Evaluated 15 games each, 4 workers, ~24 min
+- Results `search_results/gen2_refine.json`:
+  - Best: **0.751** (idx=14) — Supporter 345, Item 315, Bench 313, Evolve 294, Attach 281, Stadium 270, Ability 266, Attack KO 273, Attack 205, Retreat Base 123, NoAtk 203, KO 282, Wall 353, Gust 38, Wall Penalty -697, Wall Escape 189, Attach Wall Bonus 23, Penalty -32, Beach 355, Fighter Ready 38, Not Ready -54, Prize 24, Enable 18, Progress 29, Active 5, Primary 13
+  - Top5 all >0.733 — very consistent improvement
+  - Interpretation: even stronger wall avoidance (-697 vs -625 vs -500 baseline), even more patient evolve/attach (294/281 vs 310/300), higher retreat wall (353 vs 340), lower gust (38 vs 91 vs 60) — **patient wall-avoidance beats aggressive gust**
+
+**Stable validation (30 games/deck):**
+- Gen2 best: **0.707 (318-132)** — +9.4pp over baseline 0.613, +1.6pp over previous best 0.691
+- Gauntlet: **0.814 (179-41)** vs 0.786 baseline, worst matchup crustle_wall 0.550 (was 0.500)
+- Bundle `phase1_tuned_75.tar.gz` 88 KiB smoke ok
+
+**Evolutionary trajectory:**
+```
+Baseline heuristic: 0.613 (276-174) — 33 Water + Boss x2
+v2_boss 30+Boss: 0.630
+v3_boss33: 0.597
+Local 2 gens x 20 pop: 0.702 (158-67) → 0.691 stable
+Actions 40-parallel: 0.711 (160-65) → 0.671 stable
+Gen2 refine around 0.702: 0.751 (??) → 0.707 stable (BEST)
+```
+
+**Next: Gen3 refinement around 0.751 with strength 0.08 (smaller mutations) to try 76%+**
