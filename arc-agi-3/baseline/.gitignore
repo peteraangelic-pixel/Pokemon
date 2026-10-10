@@ -1,0 +1,14 @@
+# Lokalne credentiale, runtime i wygenerowane artefakty (nigdy do Git)
+.env
+.kaggle/
+.venv/
+vendor/
+environment_files/
+recordings/
+notebooks/submission.ipynb
+logs.log
+unit.log
+setup.log
+play.log
+__pycache__/
+*.pyc

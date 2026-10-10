@@ -1,0 +1,130 @@
+name: ARC-AGI-3 play
+
+# Runs the ported novelty-explorer baseline against public ARC environments.
+#
+# WHY CI AND NOT LOCAL
+#   The official `arc-agi` SDK needs Python 3.12 (sandbox has 3.11) and talks to
+#   the ARC platform over the network (sandbox reaches only a few hosts). GitHub
+#   runners have both. So CI is the only place real games can be played.
+#
+# HOW TO FIRE IT
+#   Commit marker:  [arc-play]  -> verify-local (ls20,vc33, 50 steps)
+#                   [arc-eval]  -> play-local  (GAME/STEPS from the dispatch defaults)
+#   Trigger file:   touch arc-agi-3/baseline/.run-local.trigger && git add -A && git commit && git push
+#   GitHub UI:      Run workflow (the API dispatch 403s for the App token)
+#
+# HOW TO READ THE RESULT
+#   gh run view <run-id>   -> ANNOTATIONS (nothing else is reachable from the sandbox)
+
+on:
+  workflow_dispatch:
+    inputs:
+      games:
+        description: "Comma-separated public game ids"
+        required: false
+        default: "ls20,vc33"
+      steps:
+        description: "Actions per game"
+        required: false
+        default: "400"
+  push:
+    branches: ["arena/7cc8a7e0-pokemon"]
+    paths:
+      - "arc-agi-3/baseline/agent/**"
+      - "arc-agi-3/baseline/scripts/**"
+      - "arc-agi-3/baseline/tests/**"
+      - "arc-agi-3/baseline/Makefile"
+      - "arc-agi-3/baseline/.run-local.trigger"
+      - ".github/workflows/arc-agi-3-play.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  unit:
+    name: Offline policy tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests (no network, no credential, no SDK)
+        working-directory: arc-agi-3/baseline
+        run: |
+          set -o pipefail
+          python -m unittest discover -s tests -v 2>&1 | tee unit.log
+          echo "::notice title=Unit tests::$(tail -3 unit.log | tr '\n' ' ')"
+
+  play:
+    name: Public environments
+    needs: unit
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[arc-play]') ||
+      contains(github.event.head_commit.message, '[arc-eval]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GAMES: ${{ inputs.games || 'ls20,vc33' }}
+      STEPS: ${{ inputs.steps || '400' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install SDK and reference framework
+        working-directory: arc-agi-3/baseline
+        run: |
+          set -o pipefail
+          make setup 2>&1 | tail -25 | tee setup.log
+
+      - name: Play public games
+        working-directory: arc-agi-3/baseline
+        run: |
+          set -o pipefail
+          make play-local GAME="$GAMES" STEPS="$STEPS" 2>&1 | tail -60 | tee play.log
+
+      - name: Frame sketches
+        if: always()
+        working-directory: arc-agi-3/baseline
+        run: |
+          .venv/bin/python scripts/summarize_recordings.py recordings --output recording-summary.md 2>&1 | tail -5 || true
+
+      - name: Annotate outcome
+        if: always()
+        working-directory: arc-agi-3/baseline
+        run: |
+          ls recordings/*.json 2>/dev/null || true
+          .venv/bin/python scripts/annotate_report.py recordings/*.json 2>/dev/null \
+            || python3 scripts/annotate_report.py recordings/*.json 2>/dev/null \
+            || echo "::warning title=Annotate::no JSON report found"
+
+      - name: Commit recordings and summaries
+        if: always()
+        working-directory: arc-agi-3/baseline
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          mkdir -p runs
+          TS=$(date -u +%Y%m%dT%H%M%SZ)
+          cp play.log "runs/play-$TS.log" 2>/dev/null || true
+          cp recording-summary.md "runs/recording-summary-$TS.md" 2>/dev/null || true
+          find recordings runs -type f -size +2M -delete 2>/dev/null || true
+          git add runs || true
+          if [ -n "$(git status --porcelain runs)" ]; then
+            git commit -m "chore(arc): local run $TS ($GAMES, $STEPS steps) [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "nothing to commit"
+          fi

@@ -1,0 +1,17 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+SPDX-License-Identifier: CC-BY-4.0
+
+Copyright 2026 contributors to the ARC-AGI-3 novelty-explorer baseline.
+
+The source files maintained in this `arc_agi3/` directory are licensed under
+Creative Commons Attribution 4.0 International. You are free to share and
+adapt the material for any purpose, including commercially, provided that you
+give appropriate credit, provide a link to the license, and indicate if changes
+were made.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+Human-readable summary: https://creativecommons.org/licenses/by/4.0/
+
+Third-party dependencies are not covered by this notice. In particular,
+`vendor/ARC-AGI-3-Agents` is generated locally by `make setup` from the
+upstream ARC Prize project and remains under its upstream MIT license.
