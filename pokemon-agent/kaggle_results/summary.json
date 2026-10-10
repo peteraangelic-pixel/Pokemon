@@ -1,21 +1,30 @@
 {
-  "fetched_utc": "2026-10-10T15:00:42+00:00",
+  "fetched_utc": "2026-10-10T15:03:15+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
   "leaderboard_rows": 298,
-  "submission_rows": 3,
+  "submission_rows": 4,
   "our_leaderboard": [
     {
       "Rank": "162",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-10 14:57:35",
+      "LastSubmissionDate": "2026-10-10 15:01:25",
       "Score": "600.0",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
+    {
+      "ref": "57045458",
+      "fileName": "phase1_tuned_gen8_powerglass.tar.gz",
+      "date": "2026-10-10 15:01:25.883000",
+      "description": "Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - fixes Powerglass mirrors",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "600.0",
+      "privateScore": ""
+    },
     {
       "ref": "57045377",
       "fileName": "phase1_tuned_gen8_v2.tar.gz",
@@ -31,7 +40,7 @@
       "date": "2026-10-10 12:08:47.510000",
       "description": "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "421.0",
+      "publicScore": "412.8",
       "privateScore": ""
     },
     {
