@@ -49,6 +49,13 @@ impl Row {
 fn read_rows(path: &str) -> Vec<Row> {
     let txt = fs::read_to_string(path).unwrap_or_else(|e| {
         eprintln!("Nie mogę odczytać {path}: {e}");
+        eprintln!("Wskazówka: najpierw wygeneruj ten CSV sweepem, np.:");
+        eprintln!(
+            "  battery-sim sweep --cathodes NMC811,LFP,DRX --anodes LIFREE,SIC,GRAPHITE \
+             --electrolytes LP57,GEL,IONIC,SOLID --loadings 20,25,30,35 \
+             --nps 1.02,1.05,1.1,1.2 --temps -10,0,10,25,45 --c-rates 2,3 --csv {path} --top 25"
+        );
+        eprintln!("  (albo od razu: bash tools/optimize-winners.sh — sweep + ladder; na Windows przez Git Bash)");
         std::process::exit(2);
     });
     let mut rows = Vec::new();
