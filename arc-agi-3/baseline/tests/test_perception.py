@@ -80,8 +80,17 @@ class LethalClickTests(unittest.TestCase):
             policy.choose(frame)
         self.assertTrue(policy._lethal_clicks())
 
-    def test_motion_bonus_outweighs_colour_rarity(self) -> None:
-        from agent.policy import MOTION_BONUS, DEAD_CLICK_PENALTY
+    def test_penalties_outweigh_change_bonus_and_motion_is_off_by_default(self) -> None:
+        """The shipped default is motion OFF: measured, it cost a level."""
+        from agent.policy import (
+            DEAD_CLICK_PENALTY,
+            LETHAL_CLICK_PENALTY,
+            MOTION_BONUS,
+        )
 
-        self.assertGreater(MOTION_BONUS, 1000)
+        # Zmierzony koszt wlaczonego ruchu: jeden poziom mniej, +10 zgonow.
+        self.assertEqual(MOTION_BONUS, 0)
+        # Kary musza przewazac nad bonusem za "ostatnio sie zmienilo" (+1000).
         self.assertGreater(DEAD_CLICK_PENALTY, 1000)
+        # Bezpieczenstwo przewaza nad eksploracja.
+        self.assertGreater(LETHAL_CLICK_PENALTY, DEAD_CLICK_PENALTY)
