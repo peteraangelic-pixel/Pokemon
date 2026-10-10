@@ -127,7 +127,10 @@ impl Segmentation {
     }
 }
 
-fn trace_outer_contour(cells: &HashSet<(usize, usize)>, start: (usize, usize)) -> Vec<(usize, usize)> {
+fn trace_outer_contour(
+    cells: &HashSet<(usize, usize)>,
+    start: (usize, usize),
+) -> Vec<(usize, usize)> {
     if cells.len() == 1 {
         return vec![start];
     }
@@ -491,7 +494,12 @@ mod tests {
 mod reference_vectors {
     use super::*;
 
-    fn expect(name: &str, rows: Vec<Vec<u8>>, want_nodes: Vec<(&str, &str, usize, Vec<usize>)>, want_adj: Vec<(usize, usize)>) {
+    fn expect(
+        name: &str,
+        rows: Vec<Vec<u8>>,
+        want_nodes: Vec<(&str, &str, usize, Vec<usize>)>,
+        want_adj: Vec<(usize, usize)>,
+    ) {
         let g = Grid::from_rows(&rows).unwrap();
         let s = segment_layer(&g);
         let got_nodes: Vec<(char, &str, usize, Vec<usize>)> = s
