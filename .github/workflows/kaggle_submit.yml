@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       bundle:
-        description: "Bundle to submit (e.g. phase1_tuned_75.tar.gz)"
-        default: "phase1_tuned_78.tar.gz"
+        description: "Bundle to submit"
+        default: "phase1_tuned_80.tar.gz"
         required: false
       message:
         description: "Submission message"
-        default: "Gen4 78.2%->73.3% stable wall -650 evolve 293 progress 32"
+        default: "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32"
         required: false
   push:
     branches: ["arena/c87f7a48-pokemon"]
@@ -17,7 +17,9 @@ on:
       - "pokemon-agent/bundles/phase1_tuned_75.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_77.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_78.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_80.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_78.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_80.trigger"
       - ".github/workflows/kaggle_submit.yml"
 
 permissions:
@@ -40,7 +42,7 @@ jobs:
       - name: Install kaggle
         run: pip install --quiet kaggle
 
-      - name: Configure Kaggle (supports KAGGLE_API_TOKEN or USERNAME/KEY)
+      - name: Configure Kaggle
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
@@ -56,23 +58,18 @@ jobs:
             chmod 600 ~/.kaggle/kaggle.json
             echo "Using USERNAME/KEY"
           else
-            echo "No Kaggle credentials found in secrets"
+            echo "No Kaggle credentials"
             exit 1
           fi
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_78.tar.gz' }}
-          MESSAGE: ${{ inputs.message || 'Gen4 78.2%->73.3% stable wall -650 evolve 293 progress 32' }}
+          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_80.tar.gz' }}
+          MESSAGE: ${{ inputs.message || 'Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32' }}
         run: |
           cd pokemon-agent
           BUNDLE_PATH="bundles/$BUNDLE"
-          if [ ! -f "$BUNDLE_PATH" ]; then
-            echo "Bundle not found: $BUNDLE_PATH"
-            ls -lh bundles/
-            exit 1
-          fi
-          echo "Submitting $BUNDLE_PATH with message: $MESSAGE"
+          ls -lh bundles/ | tail -10
+          echo "Submitting $BUNDLE_PATH"
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "$BUNDLE_PATH" -m "$MESSAGE" 2>&1 | tee submit.log
           cat submit.log
-          echo "Submitted!"
