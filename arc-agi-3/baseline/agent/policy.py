@@ -444,6 +444,7 @@ def rank_click_targets(
     excluded: set[Coordinate] | frozenset[Coordinate] | None = None,
     motion: frozenset[Coordinate] | set[Coordinate] = frozenset(),
     dead: frozenset[Coordinate] | set[Coordinate] = frozenset(),
+    lethal: frozenset[Coordinate] | set[Coordinate] = frozenset(),
 ) -> tuple[tuple[int, Coordinate, dict[str, Any]], ...]:
     """Rank likely clickable pixels using motion, rarity, size and change.
 
