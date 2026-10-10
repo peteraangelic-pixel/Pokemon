@@ -36,7 +36,7 @@ fn load_deck(path: &Path) -> Result<Vec<i32>> {
     Ok(ids)
 }
 
-fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: &CardIndex, knobs: &Knobs, seat: usize) -> Result<i32> {
+fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: &CardIndex, knobs: &Knobs, seat: usize, game_idx: usize) -> Result<i32> {
     let (d0, d1) = if seat == 0 { (our_deck, opp_deck) } else { (opp_deck, our_deck) };
     let mut engine = Engine::new(lib_path)?;
     let mut obs = engine.battle_start(d0, d1)?;
@@ -46,7 +46,7 @@ fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: 
         step += 1;
         let current = &obs["current"];
         if current.is_null() { 
-            eprintln!("Step {}: current null", step);
+            eprintln!("Game {} Step {}: current null", game_idx, step);
             break; 
         }
         let result = current["result"].as_i64().unwrap_or(-1);
@@ -58,7 +58,7 @@ fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: 
 
         let select = &obs["select"];
         if select.is_null() {
-            eprintln!("Step {}: select null but result -1", step);
+            eprintln!("Game {} Step {}: select null but result -1", game_idx, step);
             break;
         }
 
@@ -67,36 +67,30 @@ fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: 
         let minc = select["minCount"].as_i64().unwrap_or(0);
         let opt_len = select["option"].as_array().map(|a| a.len()).unwrap_or(0);
 
-        // Debug for buffer full case: log when capacity 7
-        if opt_len > 7 || maxc > 7 {
-            eprintln!("Step {}: stype={} max={} min={} opts={} - potential buffer full", step, stype, maxc, minc, opt_len);
-            eprintln!("Options: {}", select["option"]);
-        }
-
         let decision = heuristic::decide(&obs, card_index, knobs);
 
-        // Validate decision length
-        if decision.len() as i64 != maxc && stype != 0 {
-            // For non-MAIN, sometimes maxCount is 1 but we return 1, ok
-            // For MAIN, maxCount is usually 1
-        }
-        if decision.len() > opt_len {
-            eprintln!("Step {}: decision len {} > opts len {} - invalid!", step, decision.len(), opt_len);
-            eprintln!("Decision: {:?}, select: {}", decision, select);
+        if decision.len() as i64 > maxc || decision.len() as i64 > opt_len as i64 {
+            eprintln!("Game {} Step {}: INVALID decision len {} > max {} or opts {} stype={} decision={:?}", game_idx, step, decision.len(), maxc, opt_len, stype, decision);
+            eprintln!("Select: {}", select);
             return Ok(0);
+        }
+
+        // Log every 20 steps
+        if step % 20 == 0 {
+            eprintln!("Game {} Step {}: stype={} max={} opts={} decision={:?}", game_idx, step, stype, maxc, opt_len, decision);
         }
 
         match engine.select(&decision) {
             Ok(next_obs) => obs = next_obs,
             Err(e) => {
-                eprintln!("Step {}: select failed stype={} max={} opts={} decision={:?} error={}", step, stype, maxc, opt_len, decision, e);
+                eprintln!("Game {} Step {}: select failed stype={} max={} opts={} decision={:?} error={}", game_idx, step, stype, maxc, opt_len, decision, e);
                 eprintln!("Select JSON: {}", select);
                 return Err(e);
             }
         }
 
-        if step > 500 {
-            eprintln!("Step {}: too many steps, abort", step);
+        if step > 1000 {
+            eprintln!("Game {} Step {}: too many steps, abort", game_idx, step);
             break;
         }
     }
@@ -119,7 +113,7 @@ fn main() -> Result<()> {
     let mut results = Vec::new();
     for g in 0..args.games {
         let seat = g % 2;
-        match run_one_game(&our_deck, &opp_deck, &args.lib_path, &card_index, &knobs, seat) {
+        match run_one_game(&our_deck, &opp_deck, &args.lib_path, &card_index, &knobs, seat, g) {
             Ok(r) => results.push(r),
             Err(e) => {
                 eprintln!("Game {} failed: {}", g, e);
