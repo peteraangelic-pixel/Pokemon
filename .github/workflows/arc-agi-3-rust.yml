@@ -1,0 +1,96 @@
+name: ARC-AGI-3 Rust
+
+# Rust kernels for the ARC-AGI-3 competition live in arc-agi-3/rust/.
+# The sandbox we work in has no Rust toolchain, so CI is where the code is
+# actually compiled and verified.
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "arc-agi-3/rust/**"
+      - ".github/workflows/arc-agi-3-rust.yml"
+  pull_request:
+    paths:
+      - "arc-agi-3/rust/**"
+      - ".github/workflows/arc-agi-3-rust.yml"
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-D warnings"
+
+jobs:
+  test:
+    name: Build & test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: arc-agi-3/rust
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache cargo registry and build output
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            arc-agi-3/rust/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('arc-agi-3/rust/Cargo.toml') }}
+
+      - name: Formatting
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Build (debug)
+        run: cargo build --all-targets
+
+      - name: Test
+        run: cargo test --all
+
+      # The reference vectors are the whole point of this crate: if the Rust
+      # segmentation ever diverges from the Python harness, the model would be
+      # fed different state. Run them loudly and separately.
+      - name: Reference vectors vs Python harness
+        run: cargo test reference_vectors -- --nocapture
+
+  bench:
+    name: Throughput (release)
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: arc-agi-3/rust
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry and build output
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            arc-agi-3/rust/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('arc-agi-3/rust/Cargo.toml') }}
+
+      - name: Build (release)
+        run: cargo build --release
+
+      - name: Segmentation throughput (64x64 frames)
+        run: ./target/release/arc3 bench --size 64 --frames 2000
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: arc3-linux-x86_64
+          path: arc-agi-3/rust/target/release/arc3
+          if-no-files-found: error

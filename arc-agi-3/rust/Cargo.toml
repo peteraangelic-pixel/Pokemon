@@ -1,0 +1,19 @@
+[package]
+name = "arc3"
+version = "0.1.0"
+edition = "2021"
+description = "CPU-side kernels for ARC-AGI-3 (ARC Prize 2026): grid segmentation, RHAE scoring, replay analysis"
+
+[dependencies]
+rayon = "1"
+sha1 = "0.10"
+serde_json = "1"
+
+[[bin]]
+name = "arc3"
+path = "src/bin/arc3.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
