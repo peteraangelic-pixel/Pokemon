@@ -5,7 +5,7 @@ on:
     inputs:
       bundle:
         description: "Bundle to submit"
-        default: "phase1_tuned_v9_boss4.tar.gz"
+        default: "phase1_tuned_v9_final.tar.gz"
         required: false
       message:
         description: "Submission message"
@@ -28,6 +28,10 @@ on:
       - "pokemon-agent/bundles/phase1_tuned_v9_boss4.trigger"
       - "pokemon-agent/bundles/phase1_tuned_v9_boss4_h1.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_v9_boss4_h1.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_v9_final.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_v9_final.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_v9_final_h1.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_v9_final_h1.trigger"
       - ".github/workflows/kaggle_submit.yml"
 
 permissions:
@@ -74,7 +78,7 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_v9_boss4.tar.gz' }}
+          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_v9_final.tar.gz' }}
           MESSAGE: ${{ inputs.message || 'v9 33W Boss x4 Waitress2 Belt2 Pad1 - 0.864 vs top7_live - fixes Dragapult Hammer and 35W mirrors' }}
         run: |
           cd pokemon-agent
