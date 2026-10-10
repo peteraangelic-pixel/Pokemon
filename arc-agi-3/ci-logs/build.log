@@ -1,21 +1,2 @@
-[1m[92m   Compiling[0m typenum v1.20.1
-[1m[92m   Compiling[0m crossbeam-utils v0.8.23
-[1m[92m   Compiling[0m zmij v1.0.23
-[1m[92m   Compiling[0m serde_core v1.0.229
-[1m[92m   Compiling[0m crossbeam-epoch v0.9.21
-[1m[92m   Compiling[0m itoa v1.0.18
-[1m[92m   Compiling[0m crossbeam-deque v0.8.8
-[1m[92m   Compiling[0m generic-array v0.14.7
-[1m[92m   Compiling[0m memchr v2.8.3
-[1m[92m   Compiling[0m rayon-core v1.13.0
-[1m[92m   Compiling[0m block-buffer v0.10.4
-[1m[92m   Compiling[0m crypto-common v0.1.7
-[1m[92m   Compiling[0m digest v0.10.7
-[1m[92m   Compiling[0m cpufeatures v0.2.17
-[1m[92m   Compiling[0m either v1.19.0
-[1m[92m   Compiling[0m cfg-if v1.0.5
-[1m[92m   Compiling[0m sha1 v0.10.7
-[1m[92m   Compiling[0m rayon v1.12.0
-[1m[92m   Compiling[0m serde_json v1.0.152
 [1m[92m   Compiling[0m arc3 v0.1.0 (/home/runner/work/Pokemon/Pokemon/arc-agi-3/rust)
-[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 2.97s
+[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.20s
