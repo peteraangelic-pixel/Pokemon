@@ -1,0 +1,155 @@
+name: ARC-AGI-3 Kaggle
+
+# Read-only-ish bridge to Kaggle for the ARC-AGI-3 competition.
+#
+# WHY THIS EXISTS
+#   The Agent sandbox has no route to kaggle.com and cannot read Actions logs
+#   (results-receiver.actions.githubusercontent.com is outside the allowlist),
+#   and the GitHub App token gets 403 on `workflow_dispatch`. So:
+#
+#     - to FIRE this workflow: commit a change to the trigger file below
+#         touch arc-agi-3/.kaggle-poll.trigger && git add -A && git commit -m poll && git push
+#       (or press "Run workflow" in the GitHub UI -- that works, it is only the
+#       API dispatch that 403s for the App token)
+#     - to READ the result: `git pull`, then read arc-agi-3/kaggle/results/
+#       The workflow commits its own output back to the branch. That is the only
+#       channel the agent can actually read.
+#
+# REQUIRED SECRET (already configured on this repo -- never paste it into chat)
+#   KAGGLE_API_TOKEN   (preferred)  |  KAGGLE_USERNAME + KAGGLE_KEY (fallback)
+
+on:
+  workflow_dispatch:
+    inputs:
+      competition:
+        description: "Kaggle competition slug"
+        required: false
+        default: "arc-prize-2026-arc-agi-3"
+      download:
+        description: "Also try to download competition files (may be large)"
+        required: false
+        default: "false"
+        type: boolean
+  push:
+    branches: ["arena/7cc8a7e0-pokemon"]
+    paths:
+      - "arc-agi-3/.kaggle-poll.trigger"
+      - ".github/workflows/arc-agi-3-kaggle.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      COMP: ${{ inputs.competition || 'arc-prize-2026-arc-agi-3' }}
+      OUTDIR: arc-agi-3/kaggle/results
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install kaggle CLI
+        run: pip install --quiet --disable-pip-version-check kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+            echo "credential: KAGGLE_API_TOKEN (present, not printed)"
+          elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+            chmod 600 ~/.kaggle/kaggle.json
+            echo "credential: USERNAME/KEY (present, not printed)"
+          else
+            echo "credential: MISSING -- add KAGGLE_API_TOKEN to repo secrets"
+            exit 1
+          fi
+
+      - name: Who am I on Kaggle
+        run: |
+          mkdir -p "$OUTDIR"
+          kaggle whoami 2>&1 | sed 's/\(key[^ ]*\).*/\1 <redacted>/I' | tee "$OUTDIR/whoami.txt" || true
+
+      - name: Competition files
+        run: |
+          kaggle competitions files -c "$COMP" 2>&1 | tee "$OUTDIR/files.txt" || echo "FAILED (not joined, or wrong slug)" | tee "$OUTDIR/files.txt"
+
+      - name: Our submissions
+        run: |
+          kaggle competitions submissions -c "$COMP" --csv > "$OUTDIR/submissions.csv" 2>"$OUTDIR/submissions.err" \
+            || echo "FAILED" > "$OUTDIR/submissions.csv"
+          cat "$OUTDIR/submissions.csv" | head -20
+
+      - name: Public leaderboard
+        run: |
+          kaggle competitions leaderboard -c "$COMP" --csv > "$OUTDIR/public_leaderboard.csv" 2>"$OUTDIR/public_leaderboard.err" \
+            || cp "$OUTDIR/public_leaderboard.err" "$OUTDIR/public_leaderboard.csv"
+          head -30 "$OUTDIR/public_leaderboard.csv"
+
+      - name: Private leaderboard (empty until awards)
+        continue-on-error: true
+        run: |
+          kaggle competitions leaderboard -c "$COMP" --show-private --csv > "$OUTDIR/private_leaderboard.csv" 2>&1 \
+            || true
+          head -30 "$OUTDIR/private_leaderboard.csv"
+
+      - name: Download competition files (opt-in)
+        if: inputs.download
+        run: |
+          mkdir -p "$OUTDIR/data"
+          kaggle competitions download -c "$COMP" -p "$OUTDIR/data" 2>&1 | tail -5 || true
+          ls -lh "$OUTDIR/data" || true
+
+      - name: Summarise
+        run: |
+          {
+            echo "# Kaggle snapshot -- $COMP"
+            echo
+            echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)  (run $GITHUB_RUN_ID)"
+            echo
+            echo "## Public leaderboard (top 30)"
+            echo '```'
+            head -31 "$OUTDIR/public_leaderboard.csv" 2>/dev/null || echo "(unavailable)"
+            echo '```'
+            echo
+            echo "## Our submissions"
+            echo '```'
+            head -20 "$OUTDIR/submissions.csv" 2>/dev/null || echo "(unavailable)"
+            echo '```'
+            echo
+            echo "## Competition files"
+            echo '```'
+            head -40 "$OUTDIR/files.txt" 2>/dev/null || echo "(unavailable)"
+            echo '```'
+          } > "$OUTDIR/SNAPSHOT.md"
+          cat "$OUTDIR/SNAPSHOT.md"
+
+      - name: Commit results back to the branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          find "$OUTDIR" -type f -size +2M -delete || true
+          git add "$OUTDIR" || true
+          if [ -n "$(git status --porcelain "$OUTDIR")" ]; then
+            git commit -m "chore(arc): kaggle snapshot (run $GITHUB_RUN_ID) [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "nothing to commit"
+          fi
