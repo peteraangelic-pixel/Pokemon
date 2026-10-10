@@ -93,13 +93,14 @@ jobs:
         run: |
           rm -rf /tmp/lb && mkdir -p /tmp/lb
           kaggle competitions leaderboard -c "$COMP" --download /tmp/lb 2>&1 | tail -3 || true
-          Z=$(ls /tmp/lb/*.zip 2>/dev/null | head -1)
+          ls -la /tmp/lb | tee "$OUTDIR/download_debug.txt"
+          Z=$(find /tmp/lb -name '*.zip' 2>/dev/null | head -1)
           if [ -n "$Z" ]; then
-            cd /tmp/lb && unzip -o "$Z" >/dev/null 2>&1
-            F=$(ls /tmp/lb/*.csv 2>/dev/null | head -1)
-            cp "$F" "$OLDPWD/$OUTDIR/public_leaderboard_full.csv"
-            cd "$OLDPWD"
+            (cd /tmp/lb && unzip -o "$Z" >/dev/null 2>&1)
+            F=$(find /tmp/lb -name '*.csv' 2>/dev/null | head -1)
+            [ -n "$F" ] && cp "$F" "$GITHUB_WORKSPACE/$OUTDIR/public_leaderboard_full.csv"
           fi
+          find /tmp/lb -name '*.csv' >> "$OUTDIR/download_debug.txt" 2>&1 || true
           kaggle competitions leaderboard -c "$COMP" --show --csv > "$OUTDIR/public_leaderboard.csv" 2>"$OUTDIR/public_leaderboard.err" \
             || cp "$OUTDIR/public_leaderboard.err" "$OUTDIR/public_leaderboard.csv"
           head -30 "$OUTDIR/public_leaderboard.csv"
@@ -110,7 +111,11 @@ jobs:
           [ -s "$F" ] || F="$OUTDIR/public_leaderboard.csv"
           python3 - "$F" > "$OUTDIR/field_stats.md" <<'EOF'
           import csv, statistics, sys
-          rows=[r for r in csv.DictReader(open(sys.argv[1])) if r.get('teamId')]
+          lines=open(sys.argv[1]).read().splitlines()
+          hdr=[i for i,l in enumerate(lines) if l.startswith('teamId')]
+          if not hdr:
+              print("no header"); raise SystemExit
+          rows=[r for r in csv.DictReader(lines[hdr[0]:]) if r.get('teamId')]
           if not rows:
               print("no rows"); raise SystemExit
           sc=[float(r['score']) for r in rows]
