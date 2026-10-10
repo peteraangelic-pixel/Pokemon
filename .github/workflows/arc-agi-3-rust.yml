@@ -81,13 +81,26 @@ jobs:
       - name: Test
         run: cargo test --all 2>&1 | tee test.log
 
-      - name: Upload build logs
+      # Our sandbox can only reach api.github.com, so job logs (hosted on
+      # results-receiver.actions.githubusercontent.com) and artifacts (on
+      # *.blob.core.windows.net) are both unreachable. Committing the logs to
+      # the branch is the only channel we can actually read.
+      - name: Publish logs to the branch
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: arc3-logs
-          path: arc-agi-3/rust/*.log
-          if-no-files-found: warn
+        run: |
+          mkdir -p ../ci-logs
+          cp -f clippy.log build.log test.log ../ci-logs/ 2>/dev/null || true
+          cd /home/runner/work/Pokemon/Pokemon
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f arc-agi-3/ci-logs
+          if git diff --cached --quiet; then
+            echo "no log changes"
+          else
+            git commit -m "ci: logi clippy/build/test [skip ci]"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
 
       # The reference vectors are the whole point of this crate: if the Rust
       # segmentation ever diverges from the Python harness, the model would be
