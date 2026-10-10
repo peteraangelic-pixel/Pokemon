@@ -555,7 +555,15 @@ def _env_int(name: str, default: int) -> int:
         return default
 
 
-MOTION_BONUS = _env_int("ARC3_MOTION_BONUS", 1800)
+# Domyślnie WYŁĄCZONY. Zmierzony efekt na 20 grach publicznych (8000 akcji):
+#   włączony: powtórzenia 82.3% -> 80.9%, ale poziomy 5 -> 4, zgony 78 -> 88.
+#   wyłączony: powtórzenia 82.3% -> 80.6%, poziomy 5 -> 5, zgony 78 -> 81.
+# Ruch jest świetny tam, gdzie świat jest dynamiczny i bezpieczny (su15:
+# 57% -> 33.8% powtórzeń), ale każe agentowi klikać w poruszające się
+# zagrożenia. Kary za znane zabójcze kliknięcia nie pomagają, bo agent ginie
+# od kliknięć w rzeczy, których jeszcze nie dotykał. Zostaje jako sygnał
+# możliwy do włączenia per gra.
+MOTION_BONUS = _env_int("ARC3_MOTION_BONUS", 0)
 DEAD_CLICK_PENALTY = _env_int("ARC3_DEAD_PENALTY", 1500)
 # Bezpieczeństwo musi przeważać nad eksploracją: jeśli kara byłaby mniejsza
 # niż bonus za ruch, agent nadal klikałby w poruszające się zagrożenie.
