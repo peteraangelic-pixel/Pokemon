@@ -1,0 +1,1334 @@
+{
+ "requested_games": [
+  "ar25",
+  "bp35",
+  "cd82",
+  "dc22",
+  "g50t",
+  "ka59",
+  "lf52",
+  "ls20",
+  "m0r0",
+  "r11l",
+  "re86",
+  "s5i5",
+  "sc25",
+  "sk48",
+  "sp80",
+  "su15",
+  "tn36",
+  "tr87",
+  "tu93",
+  "vc33"
+ ],
+ "results": [
+  {
+   "actions": 400,
+   "game_id": "ar25",
+   "graph_evidence": {
+    "dead_clicks": 14,
+    "distinct_ratio_permille": 192,
+    "distinct_states": 77,
+    "frontier_resets": 0,
+    "graph_edges": 398,
+    "graph_nodes": 76,
+    "landmark_failures": 0,
+    "lethal_clicks": 0,
+    "motion_frames": 96,
+    "observations": 400,
+    "state_action_pairs": 398,
+    "tracked_clicks": 78
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 301,
+    "graph-simple-frontier": 98,
+    "reset": 1
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 18,
+     "changed": 18,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 2
+    },
+    "ACTION2": {
+     "attempts": 17,
+     "changed": 17,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 14
+    },
+    "ACTION3": {
+     "attempts": 31,
+     "changed": 31,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 2
+    },
+    "ACTION4": {
+     "attempts": 30,
+     "changed": 30,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    },
+    "ACTION5": {
+     "attempts": 1,
+     "changed": 0,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    },
+    "ACTION6": {
+     "attempts": 301,
+     "changed": 0,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 301
+    },
+    "ACTION7": {
+     "attempts": 1,
+     "changed": 1,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    },
+    "RESET": {
+     "attempts": 1,
+     "changed": 1,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 1
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "bp35",
+   "graph_evidence": {
+    "dead_clicks": 52,
+    "distinct_ratio_permille": 90,
+    "distinct_states": 36,
+    "frontier_resets": 0,
+    "graph_edges": 398,
+    "graph_nodes": 32,
+    "landmark_failures": 0,
+    "lethal_clicks": 6,
+    "motion_frames": 60,
+    "observations": 400,
+    "state_action_pairs": 398,
+    "tracked_clicks": 183
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 394,
+    "reset": 6
+   },
+   "policy_evidence": {
+    "ACTION6": {
+     "attempts": 394,
+     "changed": 66,
+     "game_overs": 6,
+     "level_gains": 0,
+     "revisits": 359
+    },
+    "RESET": {
+     "attempts": 6,
+     "changed": 6,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 6
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 6
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "cd82",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 12,
+    "distinct_states": 5,
+    "frontier_resets": 0,
+    "graph_edges": 9,
+    "graph_nodes": 4,
+    "landmark_failures": 75,
+    "lethal_clicks": 0,
+    "motion_frames": 162,
+    "observations": 400,
+    "state_action_pairs": 9,
+    "tracked_clicks": 0
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 397,
+    "matching-geometry-observations": 309
+   },
+   "policy_decisions": {
+    "graph-simple-frontier": 75,
+    "reset": 3,
+    "tile-maze-navigation": 322
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 75,
+     "changed": 75,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 75
+    },
+    "ACTION2": {
+     "attempts": 159,
+     "changed": 80,
+     "game_overs": 3,
+     "level_gains": 0,
+     "revisits": 156
+    },
+    "ACTION3": {
+     "attempts": 79,
+     "changed": 0,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 79
+    },
+    "ACTION4": {
+     "attempts": 84,
+     "changed": 4,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 83
+    },
+    "RESET": {
+     "attempts": 3,
+     "changed": 3,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 3
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 3,
+    "terminal-landings-learned": 1,
+    "terminal-landings-seen": 3,
+    "unexpected-avatar-resets": 84
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "dc22",
+   "graph_evidence": {
+    "dead_clicks": 59,
+    "distinct_ratio_permille": 57,
+    "distinct_states": 23,
+    "frontier_resets": 0,
+    "graph_edges": 322,
+    "graph_nodes": 20,
+    "landmark_failures": 15,
+    "lethal_clicks": 3,
+    "motion_frames": 123,
+    "observations": 400,
+    "state_action_pairs": 322,
+    "tracked_clicks": 120
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 397,
+    "geometry-estimate-resets": 2,
+    "matching-geometry-observations": 391
+   },
+   "policy_decisions": {
+    "graph-click-frontier": 295,
+    "graph-simple-frontier": 29,
+    "reset": 3,
+    "tile-maze-navigation": 73
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 27,
+     "changed": 27,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 24
+    },
+    "ACTION2": {
+     "attempts": 27,
+     "changed": 27,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 24
+    },
+    "ACTION3": {
+     "attempts": 23,
+     "changed": 22,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 19
+    },
+    "ACTION4": {
+     "attempts": 25,
+     "changed": 24,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 21
+    },
+    "ACTION6": {
+     "attempts": 295,
+     "changed": 22,
+     "game_overs": 3,
+     "level_gains": 0,
+     "revisits": 287
+    },
+    "RESET": {
+     "attempts": 3,
+     "changed": 3,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 3
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 3,
+    "terminal-landing-diverted": 1,
+    "terminal-landing-rerouted": 1,
+    "terminal-landings-learned": 2,
+    "terminal-landings-seen": 3
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "g50t",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 262,
+    "distinct_states": 105,
+    "frontier_resets": 0,
+    "graph_edges": 193,
+    "graph_nodes": 102,
+    "landmark_failures": 11,
+    "lethal_clicks": 0,
+    "motion_frames": 245,
+    "observations": 400,
+    "state_action_pairs": 193,
+    "tracked_clicks": 0
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 362,
+    "matching-geometry-observations": 288
+   },
+   "policy_decisions": {
+    "graph-simple-frontier": 210,
+    "reset": 3,
+    "tile-maze-navigation": 187
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 78,
+     "changed": 66,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 54
+    },
+    "ACTION2": {
+     "attempts": 89,
+     "changed": 63,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 66
+    },
+    "ACTION3": {
+     "attempts": 83,
+     "changed": 80,
+     "game_overs": 2,
+     "level_gains": 0,
+     "revisits": 60
+    },
+    "ACTION4": {
+     "attempts": 131,
+     "changed": 120,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 106
+    },
+    "ACTION5": {
+     "attempts": 16,
+     "changed": 15,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 7
+    },
+    "RESET": {
+     "attempts": 3,
+     "changed": 3,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 3
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 3,
+    "terminal-landings-learned": 2,
+    "terminal-landings-seen": 2,
+    "unexpected-avatar-resets": 55
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "ka59",
+   "graph_evidence": {
+    "dead_clicks": 21,
+    "distinct_ratio_permille": 55,
+    "distinct_states": 22,
+    "frontier_resets": 0,
+    "graph_edges": 227,
+    "graph_nodes": 19,
+    "landmark_failures": 8,
+    "lethal_clicks": 2,
+    "motion_frames": 231,
+    "observations": 400,
+    "state_action_pairs": 227,
+    "tracked_clicks": 63
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 397,
+    "matching-geometry-observations": 393
+   },
+   "policy_decisions": {
+    "graph-click-frontier": 242,
+    "graph-simple-frontier": 143,
+    "reset": 3,
+    "tile-maze-navigation": 12
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 15,
+     "changed": 12,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 11
+    },
+    "ACTION2": {
+     "attempts": 15,
+     "changed": 12,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 12
+    },
+    "ACTION3": {
+     "attempts": 63,
+     "changed": 63,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 59
+    },
+    "ACTION4": {
+     "attempts": 62,
+     "changed": 61,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 59
+    },
+    "ACTION6": {
+     "attempts": 242,
+     "changed": 82,
+     "game_overs": 2,
+     "level_gains": 0,
+     "revisits": 235
+    },
+    "RESET": {
+     "attempts": 3,
+     "changed": 3,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 3
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 3,
+    "terminal-landings-learned": 1,
+    "terminal-landings-seen": 3
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "lf52",
+   "graph_evidence": {
+    "dead_clicks": 2,
+    "distinct_ratio_permille": 110,
+    "distinct_states": 44,
+    "frontier_resets": 0,
+    "graph_edges": 269,
+    "graph_nodes": 44,
+    "landmark_failures": 0,
+    "lethal_clicks": 0,
+    "motion_frames": 239,
+    "observations": 400,
+    "state_action_pairs": 269,
+    "tracked_clicks": 182
+   },
+   "levels_completed": 1,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 395,
+    "graph-simple-frontier": 5
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 1,
+     "changed": 0,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    },
+    "ACTION2": {
+     "attempts": 1,
+     "changed": 0,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    },
+    "ACTION3": {
+     "attempts": 2,
+     "changed": 2,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    },
+    "ACTION4": {
+     "attempts": 1,
+     "changed": 1,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 0
+    },
+    "ACTION6": {
+     "attempts": 395,
+     "changed": 238,
+     "game_overs": 0,
+     "level_gains": 1,
+     "revisits": 354
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {}
+  },
+  {
+   "actions": 400,
+   "game_id": "ls20",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 390,
+    "distinct_states": 156,
+    "frontier_resets": 0,
+    "graph_edges": 183,
+    "graph_nodes": 154,
+    "landmark_failures": 13,
+    "lethal_clicks": 0,
+    "motion_frames": 379,
+    "observations": 400,
+    "state_action_pairs": 183,
+    "tracked_clicks": 0
+   },
+   "levels_completed": 2,
+   "meter_evidence": {
+    "candidate-observations": 393,
+    "estimates-established": 5,
+    "geometry-alignments": 25,
+    "geometry-estimate-resets": 3,
+    "matching-geometry-observations": 383,
+    "meter-bounded-resource-actions": 75,
+    "meter-resource-deferrals": 1,
+    "meter-resource-no-candidates": 9,
+    "meter-resource-over-budget-candidates": 1,
+    "meter-resource-route-attempts": 85,
+    "meter-tight-route-checks": 10,
+    "regular-tick-observations": 358,
+    "route-checks-without-path": 76,
+    "staged-route-checks": 111
+   },
+   "policy_decisions": {
+    "graph-simple-frontier": 68,
+    "meter-bounded-resource": 75,
+    "reset": 2,
+    "tile-badge-control-exit": 5,
+    "tile-badge-control-return": 5,
+    "tile-badge-navigation": 96,
+    "tile-maze-navigation": 128,
+    "tile-resource-navigation": 96
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 146,
+     "changed": 145,
+     "game_overs": 1,
+     "level_gains": 1,
+     "revisits": 95
+    },
+    "ACTION2": {
+     "attempts": 121,
+     "changed": 111,
+     "game_overs": 1,
+     "level_gains": 1,
+     "revisits": 75
+    },
+    "ACTION3": {
+     "attempts": 66,
+     "changed": 63,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 37
+    },
+    "ACTION4": {
+     "attempts": 65,
+     "changed": 61,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 36
+    },
+    "RESET": {
+     "attempts": 2,
+     "changed": 2,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 2
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "appearance-changing-entries": 3,
+    "appearance-improving-entries": 3,
+    "control-entries": 10,
+    "orientation-changing-entries": 7,
+    "orientation-improving-entries": 6,
+    "orientation-worsening-entries": 1,
+    "relations-selected": 5,
+    "reset-level-changed": 2,
+    "reset-terminal": 2,
+    "resource-arrivals": 10,
+    "terminal-landing-rerouted": 82,
+    "terminal-landings-learned": 2,
+    "terminal-landings-seen": 2,
+    "unexpected-avatar-relation-preserved": 8,
+    "unexpected-avatar-resets": 2,
+    "view-grace-observations": 5
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "m0r0",
+   "graph_evidence": {
+    "dead_clicks": 1,
+    "distinct_ratio_permille": 72,
+    "distinct_states": 29,
+    "frontier_resets": 0,
+    "graph_edges": 124,
+    "graph_nodes": 27,
+    "landmark_failures": 4,
+    "lethal_clicks": 0,
+    "motion_frames": 324,
+    "observations": 400,
+    "state_action_pairs": 124,
+    "tracked_clicks": 59
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 376,
+    "matching-geometry-observations": 199
+   },
+   "policy_decisions": {
+    "graph-click-frontier": 66,
+    "graph-simple-frontier": 82,
+    "reset": 2,
+    "tile-maze-navigation": 250
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 112,
+     "changed": 110,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 106
+    },
+    "ACTION2": {
+     "attempts": 111,
+     "changed": 110,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 103
+    },
+    "ACTION3": {
+     "attempts": 53,
+     "changed": 52,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 46
+    },
+    "ACTION4": {
+     "attempts": 52,
+     "changed": 51,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 45
+    },
+    "ACTION5": {
+     "attempts": 4,
+     "changed": 0,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 4
+    },
+    "ACTION6": {
+     "attempts": 66,
+     "changed": 0,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 66
+    },
+    "RESET": {
+     "attempts": 2,
+     "changed": 2,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 2
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 2,
+    "terminal-landings-learned": 2,
+    "terminal-landings-seen": 2,
+    "unexpected-avatar-resets": 167
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "r11l",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 757,
+    "distinct_states": 303,
+    "frontier_resets": 0,
+    "graph_edges": 398,
+    "graph_nodes": 297,
+    "landmark_failures": 0,
+    "lethal_clicks": 6,
+    "motion_frames": 232,
+    "observations": 400,
+    "state_action_pairs": 398,
+    "tracked_clicks": 38
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 394,
+    "reset": 6
+   },
+   "policy_evidence": {
+    "ACTION6": {
+     "attempts": 394,
+     "changed": 377,
+     "game_overs": 6,
+     "level_gains": 0,
+     "revisits": 91
+    },
+    "RESET": {
+     "attempts": 6,
+     "changed": 6,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 6
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 6
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "re86",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 300,
+    "distinct_states": 120,
+    "frontier_resets": 0,
+    "graph_edges": 254,
+    "graph_nodes": 117,
+    "landmark_failures": 0,
+    "lethal_clicks": 0,
+    "motion_frames": 396,
+    "observations": 400,
+    "state_action_pairs": 254,
+    "tracked_clicks": 0
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-simple-frontier": 397,
+    "reset": 3
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 95,
+     "changed": 95,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 66
+    },
+    "ACTION2": {
+     "attempts": 94,
+     "changed": 94,
+     "game_overs": 2,
+     "level_gains": 0,
+     "revisits": 65
+    },
+    "ACTION3": {
+     "attempts": 85,
+     "changed": 85,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 61
+    },
+    "ACTION4": {
+     "attempts": 82,
+     "changed": 82,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 62
+    },
+    "ACTION5": {
+     "attempts": 41,
+     "changed": 41,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 24
+    },
+    "RESET": {
+     "attempts": 3,
+     "changed": 3,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 3
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 3
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "s5i5",
+   "graph_evidence": {
+    "dead_clicks": 36,
+    "distinct_ratio_permille": 60,
+    "distinct_states": 24,
+    "frontier_resets": 0,
+    "graph_edges": 277,
+    "graph_nodes": 18,
+    "landmark_failures": 0,
+    "lethal_clicks": 6,
+    "motion_frames": 227,
+    "observations": 400,
+    "state_action_pairs": 277,
+    "tracked_clicks": 94
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 393,
+    "reset": 7
+   },
+   "policy_evidence": {
+    "ACTION6": {
+     "attempts": 393,
+     "changed": 224,
+     "game_overs": 7,
+     "level_gains": 0,
+     "revisits": 370
+    },
+    "RESET": {
+     "attempts": 7,
+     "changed": 5,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 7
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 7
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "sc25",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 180,
+    "distinct_states": 72,
+    "frontier_resets": 0,
+    "graph_edges": 329,
+    "graph_nodes": 71,
+    "landmark_failures": 0,
+    "lethal_clicks": 3,
+    "motion_frames": 171,
+    "observations": 400,
+    "state_action_pairs": 329,
+    "tracked_clicks": 25
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 397,
+    "reset": 3
+   },
+   "policy_evidence": {
+    "ACTION6": {
+     "attempts": 397,
+     "changed": 308,
+     "game_overs": 3,
+     "level_gains": 0,
+     "revisits": 326
+    },
+    "RESET": {
+     "attempts": 3,
+     "changed": 3,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 3
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 3
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "sk48",
+   "graph_evidence": {
+    "dead_clicks": 80,
+    "distinct_ratio_permille": 47,
+    "distinct_states": 19,
+    "frontier_resets": 0,
+    "graph_edges": 400,
+    "graph_nodes": 19,
+    "landmark_failures": 1,
+    "lethal_clicks": 0,
+    "motion_frames": 10,
+    "observations": 400,
+    "state_action_pairs": 400,
+    "tracked_clicks": 161
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 400,
+    "matching-geometry-observations": 399
+   },
+   "policy_decisions": {
+    "graph-click-frontier": 382,
+    "graph-simple-frontier": 17,
+    "tile-maze-navigation": 1
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 11,
+     "changed": 11,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 4
+    },
+    "ACTION2": {
+     "attempts": 7,
+     "changed": 7,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 1
+    },
+    "ACTION6": {
+     "attempts": 382,
+     "changed": 5,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 377
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {}
+  },
+  {
+   "actions": 400,
+   "game_id": "sp80",
+   "graph_evidence": {
+    "dead_clicks": 15,
+    "distinct_ratio_permille": 55,
+    "distinct_states": 22,
+    "frontier_resets": 0,
+    "graph_edges": 197,
+    "graph_nodes": 15,
+    "landmark_failures": 13,
+    "lethal_clicks": 3,
+    "motion_frames": 243,
+    "observations": 400,
+    "state_action_pairs": 197,
+    "tracked_clicks": 55
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 388,
+    "matching-geometry-observations": 375
+   },
+   "policy_decisions": {
+    "graph-click-frontier": 163,
+    "graph-simple-frontier": 161,
+    "reset": 12,
+    "tile-maze-navigation": 64
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 55,
+     "changed": 54,
+     "game_overs": 4,
+     "level_gains": 0,
+     "revisits": 52
+    },
+    "ACTION2": {
+     "attempts": 54,
+     "changed": 54,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 51
+    },
+    "ACTION3": {
+     "attempts": 46,
+     "changed": 46,
+     "game_overs": 2,
+     "level_gains": 0,
+     "revisits": 42
+    },
+    "ACTION4": {
+     "attempts": 44,
+     "changed": 44,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 40
+    },
+    "ACTION5": {
+     "attempts": 26,
+     "changed": 25,
+     "game_overs": 2,
+     "level_gains": 0,
+     "revisits": 21
+    },
+    "ACTION6": {
+     "attempts": 163,
+     "changed": 24,
+     "game_overs": 3,
+     "level_gains": 0,
+     "revisits": 161
+    },
+    "RESET": {
+     "attempts": 12,
+     "changed": 9,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 12
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 12,
+    "terminal-landings-learned": 1,
+    "terminal-landings-seen": 12
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "su15",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 662,
+    "distinct_states": 265,
+    "frontier_resets": 0,
+    "graph_edges": 330,
+    "graph_nodes": 254,
+    "landmark_failures": 0,
+    "lethal_clicks": 11,
+    "motion_frames": 384,
+    "observations": 400,
+    "state_action_pairs": 330,
+    "tracked_clicks": 174
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 389,
+    "reset": 11
+   },
+   "policy_evidence": {
+    "ACTION6": {
+     "attempts": 389,
+     "changed": 386,
+     "game_overs": 11,
+     "level_gains": 0,
+     "revisits": 124
+    },
+    "RESET": {
+     "attempts": 11,
+     "changed": 11,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 11
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 11
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "tn36",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 55,
+    "distinct_states": 22,
+    "frontier_resets": 0,
+    "graph_edges": 331,
+    "graph_nodes": 20,
+    "landmark_failures": 0,
+    "lethal_clicks": 5,
+    "motion_frames": 149,
+    "observations": 400,
+    "state_action_pairs": 331,
+    "tracked_clicks": 275
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 394,
+    "reset": 6
+   },
+   "policy_evidence": {
+    "ACTION6": {
+     "attempts": 394,
+     "changed": 154,
+     "game_overs": 6,
+     "level_gains": 0,
+     "revisits": 373
+    },
+    "RESET": {
+     "attempts": 6,
+     "changed": 6,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 6
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 6
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "tr87",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 240,
+    "distinct_states": 96,
+    "frontier_resets": 0,
+    "graph_edges": 192,
+    "graph_nodes": 93,
+    "landmark_failures": 33,
+    "lethal_clicks": 0,
+    "motion_frames": 318,
+    "observations": 400,
+    "state_action_pairs": 192,
+    "tracked_clicks": 0
+   },
+   "levels_completed": 0,
+   "meter_evidence": {
+    "candidate-observations": 397,
+    "matching-geometry-observations": 388
+   },
+   "policy_decisions": {
+    "graph-simple-frontier": 331,
+    "reset": 3,
+    "tile-maze-navigation": 66
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 106,
+     "changed": 106,
+     "game_overs": 2,
+     "level_gains": 0,
+     "revisits": 70
+    },
+    "ACTION2": {
+     "attempts": 108,
+     "changed": 108,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 84
+    },
+    "ACTION3": {
+     "attempts": 98,
+     "changed": 98,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 80
+    },
+    "ACTION4": {
+     "attempts": 85,
+     "changed": 85,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 68
+    },
+    "RESET": {
+     "attempts": 3,
+     "changed": 3,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 3
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 3,
+    "terminal-landings-learned": 1,
+    "terminal-landings-seen": 3,
+    "unexpected-avatar-resets": 5
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "tu93",
+   "graph_evidence": {
+    "dead_clicks": 0,
+    "distinct_ratio_permille": 197,
+    "distinct_states": 79,
+    "frontier_resets": 0,
+    "graph_edges": 221,
+    "graph_nodes": 73,
+    "landmark_failures": 0,
+    "lethal_clicks": 0,
+    "motion_frames": 352,
+    "observations": 400,
+    "state_action_pairs": 221,
+    "tracked_clicks": 0
+   },
+   "levels_completed": 0,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-simple-frontier": 393,
+    "reset": 7
+   },
+   "policy_evidence": {
+    "ACTION1": {
+     "attempts": 110,
+     "changed": 98,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 82
+    },
+    "ACTION2": {
+     "attempts": 114,
+     "changed": 103,
+     "game_overs": 1,
+     "level_gains": 0,
+     "revisits": 94
+    },
+    "ACTION3": {
+     "attempts": 83,
+     "changed": 73,
+     "game_overs": 3,
+     "level_gains": 0,
+     "revisits": 65
+    },
+    "ACTION4": {
+     "attempts": 86,
+     "changed": 79,
+     "game_overs": 2,
+     "level_gains": 0,
+     "revisits": 74
+    },
+    "RESET": {
+     "attempts": 7,
+     "changed": 7,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 7
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 7
+   }
+  },
+  {
+   "actions": 400,
+   "game_id": "vc33",
+   "graph_evidence": {
+    "dead_clicks": 55,
+    "distinct_ratio_permille": 60,
+    "distinct_states": 24,
+    "frontier_resets": 0,
+    "graph_edges": 360,
+    "graph_nodes": 17,
+    "landmark_failures": 0,
+    "lethal_clicks": 7,
+    "motion_frames": 102,
+    "observations": 400,
+    "state_action_pairs": 360,
+    "tracked_clicks": 143
+   },
+   "levels_completed": 1,
+   "meter_evidence": {},
+   "policy_decisions": {
+    "graph-click-frontier": 393,
+    "reset": 7
+   },
+   "policy_evidence": {
+    "ACTION6": {
+     "attempts": 393,
+     "changed": 100,
+     "game_overs": 7,
+     "level_gains": 1,
+     "revisits": 370
+    },
+    "RESET": {
+     "attempts": 7,
+     "changed": 6,
+     "game_overs": 0,
+     "level_gains": 0,
+     "revisits": 7
+    }
+   },
+   "state": "NOT_FINISHED",
+   "token_evidence": {
+    "reset-terminal": 7
+   }
+  }
+ ],
+ "schema_version": 1,
+ "scorecard": "0.6267752863455989"
+}
