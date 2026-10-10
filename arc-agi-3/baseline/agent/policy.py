@@ -487,7 +487,9 @@ def rank_click_targets(
                 score += 1000
             if (x, y) in motion:
                 score += MOTION_BONUS
-            if (x, y) in dead:
+            if (x, y) in lethal:
+                score -= LETHAL_CLICK_PENALTY
+            elif (x, y) in dead:
                 score -= DEAD_CLICK_PENALTY
             reason = {
                 "policy": "novelty-explorer-v6",
@@ -497,6 +499,7 @@ def rank_click_targets(
                 "recent_change": (x, y) in changed,
                 "moving": (x, y) in motion,
                 "known_dead": (x, y) in dead,
+                "known_lethal": (x, y) in lethal,
             }
             old = candidates.get((x, y))
             if old is None or score > old[0]:
@@ -510,7 +513,9 @@ def rank_click_targets(
             score += 1000
         if point in motion:
             score += MOTION_BONUS
-        if point in dead:
+        if point in lethal:
+            score -= LETHAL_CLICK_PENALTY
+        elif point in dead:
             score -= DEAD_CLICK_PENALTY
         candidates.setdefault(
             point,
@@ -551,6 +556,9 @@ def _env_int(name: str, default: int) -> int:
 
 MOTION_BONUS = _env_int("ARC3_MOTION_BONUS", 1800)
 DEAD_CLICK_PENALTY = _env_int("ARC3_DEAD_PENALTY", 1500)
+# Bezpieczeństwo musi przeważać nad eksploracją: jeśli kara byłaby mniejsza
+# niż bonus za ruch, agent nadal klikałby w poruszające się zagrożenie.
+LETHAL_CLICK_PENALTY = _env_int("ARC3_LETHAL_PENALTY", 2500)
 DEAD_CLICK_MIN_ATTEMPTS = _env_int("ARC3_DEAD_MIN_ATTEMPTS", 3)
 
 TILE_SIZE = 5
@@ -2418,9 +2426,10 @@ class ExplorerPolicy:
             candidates.append((600 + self._simple_priority(action), 1, action, proposal))
 
         if COMPLEX_ACTION in valid:
-            dead = self._dead_clicks() | self._lethal_clicks()
+            dead = self._dead_clicks()
+            lethal = self._lethal_clicks()
             for salience, (x, y), reason in rank_click_targets(
-                snapshot, changed, excluded, motion=motion, dead=dead
+                snapshot, changed, excluded, motion=motion, dead=dead, lethal=lethal
             ):
                 proposal = ActionProposal(
                     name=COMPLEX_ACTION,
