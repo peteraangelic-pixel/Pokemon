@@ -41,15 +41,29 @@ jobs:
       - name: sweep --quick (36 kombinacji)
         working-directory: battery-sim
         run: ./target/release/battery-sim sweep --quick --csv wyniki_sweep_quick.csv
+      - name: benchmark + raporty (PL/EN)
+        working-directory: battery-sim
+        run: |
+          ./target/release/battery-sim benchmark
+          ./target/release/battery-sim report --lang pl --out raport.md
+          ./target/release/battery-sim report --lang en --out report.md
       - name: archiwizuj wyniki sweepu
         uses: actions/upload-artifact@v4
         with:
           name: wyniki-sweep-quick
           path: battery-sim/wyniki_sweep_quick.csv
           retention-days: 30
+      - name: archiwizuj raporty
+        uses: actions/upload-artifact@v4
+        with:
+          name: raporty-pl-en
+          path: |
+            battery-sim/raport.md
+            battery-sim/report.md
+          retention-days: 90
 
   sweep-full:
-    name: pelny sweep (120 kombinacji chemicznych)
+    name: pelny sweep (siatka chemiczna)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -2,6 +2,13 @@
 //!
 //! Ogniwo modelujemy jako trojke (katoda | elektrolit | anoda) -- kazdy
 //! komponent ma wlasne parametry elektrochemiczne, termiczne i degradacyjne.
+//!
+//! Systemy: katody Li (napiecia vs Li/Li+) oraz katody sodowe NA_* (napiecia
+//! vs Na/Na+; ogniwa Na-jon maja kolektor Al po obu stronach elektrody).
+//! Elektrolity: LP57 (ciekly, palny), GEL (zelowy/polstaly + separator
+//! ceramiczny), IONIC (ciecz jonowa, niepalny), SOLID (staly, niepalny).
+//!
+//! Szacunkowe koszty materialow [USD/kg] (2025): `cost_*_usd_kg` na koncu pliku.
 
 /// Krzywa OCV: `[(SOC, V vs Li/Li+)]`.
 pub type Curve = &'static [(f64, f64)];
@@ -196,6 +203,52 @@ pub const CATHODES: &[Cathode] = &[
         sd: 0.008,
         dh_cath: 150.0,
     },
+    // --- katody sodowe (Na-jon; krzywe vs Na/Na+) ---
+    Cathode {
+        name: "NA_O3",
+        cap_mah_g: 135.0,
+        vcurve: &[
+            (0.0, 3.00),
+            (0.3, 3.25),
+            (0.6, 3.45),
+            (0.9, 3.70),
+            (1.0, 3.95),
+        ],
+        vmax: 4.05,
+        dens: 4.0,
+        act: 0.95,
+        fade: 0.7,
+        t_stable: 300.0,
+        i0: 2.0,
+        sd: 0.0002,
+        dh_cath: 400.0,
+    },
+    Cathode {
+        name: "NA_PW",
+        cap_mah_g: 150.0,
+        vcurve: &[(0.0, 3.10), (0.5, 3.45), (1.0, 3.85)],
+        vmax: 4.00,
+        dens: 2.3,
+        act: 0.90,
+        fade: 1.0,
+        t_stable: 320.0,
+        i0: 1.5,
+        sd: 0.0005,
+        dh_cath: 300.0,
+    },
+    Cathode {
+        name: "NA_NFPP",
+        cap_mah_g: 117.0,
+        vcurve: &[(0.0, 3.30), (0.5, 3.40), (1.0, 3.50)],
+        vmax: 3.90,
+        dens: 3.0,
+        act: 0.93,
+        fade: 0.3,
+        t_stable: 400.0,
+        i0: 1.0,
+        sd: 0.0001,
+        dh_cath: 100.0,
+    },
 ];
 
 pub const ANODES: &[Anode] = &[
@@ -321,6 +374,15 @@ pub const ELECTROLYTES: &[Electrolyte] = &[
         sei: 0.2,
         r_if: 3.0,
     },
+    Electrolyte {
+        name: "GEL",
+        kappa_ms_cm: 5.0,
+        t_decomp: 250.0,
+        flammable: true,
+        window: 4.6,
+        sei: 0.8,
+        r_if: 0.9,
+    },
 ];
 
 pub fn cathode(name: &str) -> Option<Cathode> {
@@ -333,4 +395,45 @@ pub fn anode(name: &str) -> Option<Anode> {
 
 pub fn electrolyte(name: &str) -> Option<Electrolyte> {
     ELECTROLYTES.iter().find(|e| e.name == name).copied()
+}
+
+/// Szacunkowy koszt katody [USD/kg] (2025, material aktywny; bez przetworstwa).
+pub fn cost_cath_usd_kg(name: &str) -> f64 {
+    match name {
+        "NMC811" => 22.0,
+        "NMC532" => 18.0,
+        "NCA" => 24.0,
+        "LFP" => 7.0,
+        "LCO" => 28.0,
+        "LMR" => 16.0,
+        "LNMO" => 14.0,
+        "SULFUR" => 1.0,
+        "NA_O3" => 8.0,
+        "NA_PW" => 5.0,
+        "NA_NFPP" => 9.0,
+        _ => 20.0,
+    }
+}
+
+/// Szacunkowy koszt anody [USD/kg] (2025).
+pub fn cost_an_usd_kg(name: &str) -> f64 {
+    match name {
+        "GRAPHITE" => 9.0,
+        "LTO" => 18.0,
+        "SIC" => 30.0,
+        "LIMETAL" => 120.0,
+        "HC" => 10.0,
+        _ => 15.0,
+    }
+}
+
+/// Szacunkowy koszt elektrolitu [USD/kg] (2025).
+pub fn cost_el_usd_kg(name: &str) -> f64 {
+    match name {
+        "LP57" => 15.0,
+        "GEL" => 25.0,
+        "IONIC" => 150.0,
+        "SOLID" => 80.0,
+        _ => 20.0,
+    }
 }

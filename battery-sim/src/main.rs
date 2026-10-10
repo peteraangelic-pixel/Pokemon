@@ -8,7 +8,9 @@
 //!
 //! Uzycie: `cargo run --release -- sweep` (zobacz `battery-sim help`).
 
+mod benchmark;
 mod cell;
+mod doc;
 mod materials;
 mod par;
 mod report;
@@ -249,7 +251,7 @@ fn run_demo(cp: &CellParams, sp: &SimParams) {
     }
 
     println!("\n== scenariusze pojedynczych ogniw ==");
-    let scenarios: [(&str, &str, &str, f64, f64, f64, f64); 8] = [
+    let scenarios: [(&str, &str, &str, f64, f64, f64, f64); 10] = [
         ("NMC811", "GRAPHITE", "LP57", 18.0, 1.1, 1.0, 25.0),
         ("NMC811", "GRAPHITE", "LP57", 18.0, 1.1, 2.0, 25.0),
         ("NMC811", "GRAPHITE", "LP57", 18.0, 1.1, 3.0, 25.0),
@@ -258,6 +260,8 @@ fn run_demo(cp: &CellParams, sp: &SimParams) {
         ("NMC811", "SIC", "LP57", 20.0, 1.1, 2.0, 25.0),
         ("NMC811", "LIMETAL", "SOLID", 22.0, 1.05, 2.0, 25.0),
         ("SULFUR", "LIMETAL", "IONIC", 20.0, 1.05, 1.0, 25.0),
+        ("NMC811", "SIC", "GEL", 25.0, 1.1, 2.0, 25.0),
+        ("NA_PW", "HC", "LP57", 30.0, 1.1, 3.0, 25.0),
     ];
     for (ca, an, el, ld, np, cch, tamb) in scenarios {
         let cell = Cell::new(
@@ -278,13 +282,14 @@ fn run_demo(cp: &CellParams, sp: &SimParams) {
         opts: HashMap::new(),
         flags: HashSet::new(),
     });
-    let abuse_cases: [(&str, &str, &str); 6] = [
+    let abuse_cases: [(&str, &str, &str); 7] = [
         ("NMC811", "GRAPHITE", "LP57"),
         ("NMC811", "GRAPHITE", "IONIC"),
         ("LFP", "LTO", "LP57"),
         ("NMC811", "GRAPHITE", "SOLID"),
         ("NMC811", "LIMETAL", "SOLID"),
         ("NMC811", "SIC", "LP57"),
+        ("NA_NFPP", "HC", "GEL"),
     ];
     for (ca, an, el) in abuse_cases {
         let cell = Cell::new(
@@ -422,18 +427,26 @@ fn run_sweep(cli: &Cli, cp: &CellParams, sp: &SimParams) {
 fn run_list() {
     println!("== katody ==");
     println!(
-        "  {:<8} {:>6} {:>6} {:>5} {:>6} {:>7} {:>6} {:>7}",
-        "nazwa", "mAh/g", "Vmax", "g/cm3", "fade", "T_stab", "i0", "sd/cykl"
+        "  {:<8} {:>6} {:>6} {:>5} {:>6} {:>7} {:>6} {:>7} {:>7}",
+        "nazwa", "mAh/g", "Vmax", "g/cm3", "fade", "T_stab", "i0", "sd/cykl", "USD/kg"
     );
     for c in materials::CATHODES {
         println!(
-            "  {:<8} {:6.0} {:6.2} {:5.1} {:6.2} {:7.0} {:6.1} {:7.4}",
-            c.name, c.cap_mah_g, c.vmax, c.dens, c.fade, c.t_stable, c.i0, c.sd
+            "  {:<8} {:6.0} {:6.2} {:5.1} {:6.2} {:7.0} {:6.1} {:7.4} {:7.0}",
+            c.name,
+            c.cap_mah_g,
+            c.vmax,
+            c.dens,
+            c.fade,
+            c.t_stable,
+            c.i0,
+            c.sd,
+            materials::cost_cath_usd_kg(c.name)
         );
     }
     println!("\n== anody ==");
     println!(
-        "  {:<8} {:>6} {:>6} {:>5} {:>5} {:>5} {:>6} {:>6} {:>7} {:>8} {:>8} {:>6}",
+        "  {:<8} {:>6} {:>6} {:>5} {:>5} {:>5} {:>6} {:>6} {:>7} {:>8} {:>8} {:>6} {:>7}",
         "nazwa",
         "mAh/g",
         "dens",
@@ -445,11 +458,12 @@ fn run_list() {
         "k_an",
         "deadLi",
         "dH",
-        "expl"
+        "expl",
+        "USD/kg"
     );
     for a in materials::ANODES {
         println!(
-            "  {:<8} {:6.0} {:6.1} {:5.2} {:5.2} {:5.3} {:6.0} {:6.1} {:7.0} {:8.4} {:8.0} {:6.2}",
+            "  {:<8} {:6.0} {:6.1} {:5.2} {:5.2} {:5.3} {:6.0} {:6.1} {:7.0} {:8.4} {:8.0} {:6.2} {:7.0}",
             a.name,
             a.cap_mah_g,
             a.dens,
@@ -461,24 +475,26 @@ fn run_list() {
             a.k_an,
             a.dead_li,
             a.dh,
-            a.expansion
+            a.expansion,
+            materials::cost_an_usd_kg(a.name)
         );
     }
     println!("\n== elektrolity ==");
     println!(
-        "  {:<8} {:>8} {:>8} {:>9} {:>7} {:>5} {:>6}",
-        "nazwa", "kappa", "T_decomp", "palny", "okno V", "sei", "r_if"
+        "  {:<8} {:>8} {:>8} {:>9} {:>7} {:>5} {:>6} {:>7}",
+        "nazwa", "kappa", "T_decomp", "palny", "okno V", "sei", "r_if", "USD/kg"
     );
     for e in materials::ELECTROLYTES {
         println!(
-            "  {:<8} {:6.1} mS {:6.0} {:>9} {:7.1} {:5.1} {:6.1}",
+            "  {:<8} {:6.1} mS {:6.0} {:>9} {:7.1} {:5.1} {:6.1} {:7.0}",
             e.name,
             e.kappa_ms_cm,
             e.t_decomp,
             if e.flammable { "TAK" } else { "nie" },
             e.window,
             e.sei,
-            e.r_if
+            e.r_if,
+            materials::cost_el_usd_kg(e.name)
         );
     }
 }
@@ -503,12 +519,15 @@ Polecenia:
   demo        szybka demonstracja (domyslne): ogniwo bazowe, scenariusze, abusy
   cell        symulacja pojedynczego ogniwa + przebieg cykli (+ opcjonalnie CSV)
   sweep       przeszukiwanie siatki materialow wg kryteriow (rownolegle)
-  list        wypisz dostepne materialy i ich parametry
+  list        wypisz dostepne materialy i ich parametry (+ koszt USD/kg)
   baseline    pokaz ogniwo bazowe i kryteria
+  benchmark   nasi kandydaci kontra ogniwa komercyjne (tabele)
+  report      raport Markdown PL/EN (--lang pl|en --out plik.md)
   help        ta pomoc
 
 Opcje (cell):
   --cathode NMC811 --anode GRAPHITE --electrolyte LP57
+  (metryki: Wh/kg ogniwa i pakietu x0.72, Wh/L, koszt materialowy $/kWh)
   --loading 20 (mg/cm^2)   --np 1.1
   --c-rate 2 --d-rate 1 --temp 25 --cycles 3000
   --trace-every 100        --abuse (dodatkowo test abusow)
@@ -531,6 +550,21 @@ Model: port 1:1 z tools/model_prototype.py (tam referencyjne stale i walidacja).
     );
 }
 
+fn run_report(cli: &Cli, cp: &CellParams, sp: &SimParams) {
+    let lang = cli.get("--lang").unwrap_or("pl").to_lowercase();
+    let lang = if lang.starts_with("en") { "en" } else { "pl" };
+    let def_out = if lang == "en" {
+        "report.md"
+    } else {
+        "raport.md"
+    };
+    let out = cli.get("--out").unwrap_or(def_out);
+    match doc::write_report(out, lang, cp, sp) {
+        Ok(n) => println!("Raport ({lang}) zapisany: {out} ({n} linii)"),
+        Err(e) => eprintln!("Blad zapisu raportu: {e}"),
+    }
+}
+
 fn main() {
     let cli = parse_cli();
     let cp = CellParams::default();
@@ -541,6 +575,8 @@ fn main() {
         "sweep" => run_sweep(&cli, &cp, &sp),
         "list" => run_list(),
         "baseline" => run_baseline(&cp),
+        "benchmark" => benchmark::print_benchmark(&cp, &sp),
+        "report" => run_report(&cli, &cp, &sp),
         "help" | "--help" | "-h" => print_help(),
         other => {
             eprintln!("Nieznane polecenie: {other}");

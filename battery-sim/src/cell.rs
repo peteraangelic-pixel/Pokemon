@@ -3,7 +3,9 @@
 //! Wszystko liczone na cm^2 elektrody (jedna strona): masy powlok, folie
 //! (Al 12 um / Cu 8 um), separator (PP 20 um), elektrolit (g/Ah), obudowa.
 
-use crate::materials::{Anode, Cathode, Electrolyte};
+use crate::materials::{
+    cost_an_usd_kg, cost_cath_usd_kg, cost_el_usd_kg, Anode, Cathode, Electrolyte,
+};
 use crate::util::{interp, F, RG};
 
 /// Parametry konstrukcyjne ogniwa (identyczne dla wszystkich materialow).
@@ -44,6 +46,9 @@ pub struct CellParams {
     pub v_margin_bot: f64,
     /// minimalny udzial i0 przy SOC = 0 / 1
     pub i0_floor: f64,
+    /// udzial energii ogniwa dostarczanej na poziomie pakietu
+    /// (ogniwo -> pakiet: BMS, obudowa, chlodzenie; typowo 0.70-0.75)
+    pub pack_factor: f64,
 }
 
 impl Default for CellParams {
@@ -66,6 +71,7 @@ impl Default for CellParams {
             v_margin_top: 0.10,
             v_margin_bot: 0.25,
             i0_floor: 0.25,
+            pack_factor: 0.72,
         }
     }
 }
@@ -84,6 +90,14 @@ pub struct Cell {
     pub cap0: f64,
     /// energia wlasciwa ogniwa [Wh/kg]
     pub wh_kg: f64,
+    /// energia wlasciwa na poziomie pakietu [Wh/kg] (wh_kg * pack_factor)
+    pub wh_kg_pack: f64,
+    /// energia volumetryczna ogniwa [Wh/L] (bez obudowy pakietu)
+    pub wh_l: f64,
+    /// szacunkowy koszt materialowy [USD/kWh] (aktywne + elektrolit)
+    pub cost_kwh: f64,
+    /// grubosc ogniwa [cm] (katoda + anoda + separator + folie)
+    pub t_tot: f64,
     /// pojemnosc wlasciwa ogniwa [mAh/g]
     pub mah_g: f64,
     /// srednie napiecie rozladowania (calka po SOC) [V]
@@ -122,14 +136,21 @@ impl Cell {
         let cap = loading_cat * cath.cap_mah_g * cath.act / 1000.0; // mAh/cm^2
         let loading_an = np * cap / (an.cap_mah_g * an.act) * 1000.0; // mg/cm^2
 
+        // ogniwa sodowe (katody NA_*): kolektorem anody jest tez Al
+        // (Na nie tworzy stopow z Al -- oszczednosc masy i kosztu vs Cu)
+        let na_ion = cath.name.starts_with("NA_");
         // masy na cm^2 elektrody [mg/cm^2]
         let m_cat = loading_cat / cath.act;
         let m_an = loading_an / an.act;
         let m_al = p.foil_al * p.dens_al * 1000.0;
-        let m_cu = p.foil_cu * p.dens_cu * 1000.0;
+        let (m_foil_an, t_foil_an) = if na_ion {
+            (p.foil_al * p.dens_al * 1000.0, p.foil_al)
+        } else {
+            (p.foil_cu * p.dens_cu * 1000.0, p.foil_cu)
+        };
         let m_sep = p.t_sep * p.dens_sep * 1000.0;
         let m_el = p.e_per_c * cap; // g/Ah * mAh/cm^2 -> mg/cm^2
-        let m_tot = (m_cat + m_an + m_al + m_cu + m_sep + m_el) * p.pack;
+        let m_tot = (m_cat + m_an + m_al + m_foil_an + m_sep + m_el) * p.pack;
 
         // srednie napiecie ogniwa (calka po SOC)
         let n = 24;
@@ -141,12 +162,22 @@ impl Cell {
         v_avg /= n as f64;
 
         let wh_kg = cap * v_avg / m_tot * 1000.0;
+        let wh_kg_pack = wh_kg * p.pack_factor;
         let mah_g = cap / (m_tot / 1000.0);
 
         // opor wewnetrzny [Ohm*cm^2]
         let kap = el.kappa_ms_cm / 1000.0; // S/cm
         let t_cat = (m_cat / 1000.0) / (cath.dens * (1.0 - p.por_e)); // cm
         let t_an = (m_an / 1000.0) / (an.dens * (1.0 - p.por_e));
+        let t_tot = t_cat + t_an + p.t_sep + p.foil_al + t_foil_an; // cm
+                                                                    // energia volumetryczna: mWh/cm^2 / cm^3/cm^2 = Wh/L
+        let wh_l = cap * v_avg / t_tot;
+        // koszt materialowy [USD/kWh]: aktywne materialy + elektrolit
+        // (masy w mg/cm^2 -> kg/cm^2, koszt USD/kg -> USD/cm^2)
+        let cost_cm2 = m_cat / 1.0e6 * cost_cath_usd_kg(cath.name)
+            + m_an / 1.0e6 * cost_an_usd_kg(an.name)
+            + m_el / 1.0e6 * cost_el_usd_kg(el.name);
+        let cost_kwh = cost_cm2 / (cap * v_avg / 1000.0) * 1000.0;
         let r_sep = p.t_sep / (kap * p.por_sep.powf(1.5));
         let r_e = (t_cat + t_an) / (kap * p.por_e.powf(1.5)) / 4.0;
         let r_ct = RG * 298.15 / (F * (cath.i0 + an.i0) / 1000.0) * 0.2;
@@ -159,6 +190,15 @@ impl Cell {
         let ha = 2.0 * p.h * 1e-4 * 1000.0; // mW/K na cm^2 (obie strony)
 
         let is_solid = el.name == "SOLID";
+        // elektrolit zelowy (GEL) wspolpracuje z separatorem ceramicznym
+        // (wyzsza temperatura zwarcia niz standardowy PP 160°C)
+        let sep_melt = if is_solid {
+            300.0
+        } else if el.name == "GEL" {
+            200.0
+        } else {
+            160.0
+        };
         Cell {
             cath,
             an,
@@ -168,6 +208,10 @@ impl Cell {
             np,
             cap0: cap,
             wh_kg,
+            wh_kg_pack,
+            wh_l,
+            cost_kwh,
+            t_tot,
             mah_g,
             v_avg,
             m_tot,
@@ -180,7 +224,7 @@ impl Cell {
             v_min,
             c_th,
             ha,
-            sep_melt: if is_solid { 300.0 } else { 160.0 },
+            sep_melt,
             t_shutdown: if is_solid { 1.0e9 } else { 130.0 },
         }
     }

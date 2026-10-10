@@ -24,6 +24,13 @@ pub fn print_cell_summary(cell: &Cell) {
         "  V [{:.2}, {:.2}], m_tot={:.1} mg/cm^2 (katoda {:.1}, anoda {:.1}, elektrolit {:.1}, sep {:.1})",
         cell.v_min, cell.v_max, cell.m_tot, cell.m_cat, cell.m_an, cell.m_el, cell.m_sep
     );
+    println!(
+        "  pakiet: {:.1} Wh/kg | {:.0} Wh/L | grubosc {:.0} um | koszt materialowy ~${:.0}/kWh",
+        cell.wh_kg_pack,
+        cell.wh_l,
+        cell.t_tot * 1.0e4,
+        cell.cost_kwh
+    );
 }
 
 pub fn print_criteria(crit: &Criteria) {
@@ -95,6 +102,10 @@ pub fn print_sim_summary(r: &SimResult) {
         "  SEI: {:.1} nm | zaladowany lit: {:.2} mAh/cm^2 | R x{:.3}",
         r.sei, r.plated, r.r_mult
     );
+    println!(
+        "  pakiet: {:.1} Wh/kg | {:.0} Wh/L | koszt materialowy ~${:.0}/kWh",
+        r.wh_kg_pack, r.wh_l, r.cost_kwh
+    );
     println!("  bezpieczenstwo: {flags}");
 }
 
@@ -120,8 +131,8 @@ pub fn print_abuse_line(r: &SimResult) {
 
 pub fn print_combo_line(r: &ComboResult) {
     println!(
-        "  {:>8}/{:<8}/{:<6} load={:>4.0} T={:>3.0} | {:6.1} Wh/kg {} | cyc@fast {:5} {} (C={:.0}, t80 {:4.1}min) | Tmax {:5.1}C {} (abuse T {:5.1}C{}{}{}) | {} score {:.2}",
-        r.cath, r.an, r.el, r.loading, r.t_amb, r.wh_kg,
+        "  {:>8}/{:<8}/{:<6} load={:>4.0} T={:>3.0} | {:6.1} Wh/kg ({:5.1} pak) {:6.1} Wh/L ${:3.0}/kWh {} | cyc@fast {:5} {} (C={:.0}, t80 {:4.1}min) | Tmax {:5.1}C {} (abuse T {:5.1}C{}{}{}) | {} score {:.2}",
+        r.cath, r.an, r.el, r.loading, r.t_amb, r.wh_kg, r.wh_kg_pack, r.wh_l, r.cost_kwh,
         if r.energy_pass { "E" } else { "." },
         r.cycles,
         if r.cycles_pass { "C" } else { "." },
@@ -157,13 +168,13 @@ pub fn write_sweep_csv(path: &str, results: &[ComboResult]) -> io::Result<()> {
     let mut f = File::create(path)?;
     writeln!(
         f,
-        "cathode,anode,electrolyte,loading_mg_cm2,np,temp_C,wh_kg,mah_g,energy_pass,cycles_fast,eol,c_best,t80_min,cycles_pass,t_max_cyc_C,safety_pass,abuse_tmax_C,abuse_explosion,abuse_runaway,abuse_short,passed,score"
+        "cathode,anode,electrolyte,loading_mg_cm2,np,temp_C,wh_kg,pack_wh_kg,wh_l,cost_usd_kwh,mah_g,energy_pass,cycles_fast,eol,c_best,t80_min,cycles_pass,t_max_cyc_C,safety_pass,abuse_tmax_C,abuse_explosion,abuse_runaway,abuse_short,passed,score"
     )?;
     for r in results {
         writeln!(
             f,
-            "{},{},{},{:.1},{:.2},{:.0},{:.1},{:.1},{},{},{},{:.0},{:.1},{},{:.1},{},{:.1},{},{},{},{},{:.3}",
-            r.cath, r.an, r.el, r.loading, r.np, r.t_amb, r.wh_kg, r.mah_g,
+            "{},{},{},{:.1},{:.2},{:.0},{:.1},{:.1},{:.0},{:.0},{:.1},{},{},{},{:.0},{:.1},{},{:.1},{},{:.1},{},{},{},{},{:.3}",
+            r.cath, r.an, r.el, r.loading, r.np, r.t_amb, r.wh_kg, r.wh_kg_pack, r.wh_l, r.cost_kwh, r.mah_g,
             bool_s(r.energy_pass), r.cycles, r.eol.label(), r.c_best, r.t80_min,
             bool_s(r.cycles_pass), r.t_max, bool_s(r.safety_pass), r.abuse_tmax,
             bool_s(r.abuse_explosion), bool_s(r.abuse_runaway), bool_s(r.abuse_short),
