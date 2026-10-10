@@ -1,4 +1,4 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57045377,phase1_tuned_gen8_v2.tar.gz,2026-10-10 14:57:35.047000,Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K,SubmissionStatus.PENDING,,
+57045377,phase1_tuned_gen8_v2.tar.gz,2026-10-10 14:57:35.047000,Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K,SubmissionStatus.COMPLETE,600.0,
 57041729,phase1_tuned_80.tar.gz,2026-10-10 12:08:47.510000,Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account,SubmissionStatus.COMPLETE,421.0,
-57041724,phase1_tuned_80.tar.gz,2026-10-10 12:08:41.173000,Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account,SubmissionStatus.COMPLETE,372.6,
+57041724,phase1_tuned_80.tar.gz,2026-10-10 12:08:41.173000,Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account,SubmissionStatus.COMPLETE,367.5,

@@ -1,16 +1,16 @@
 {
-  "fetched_utc": "2026-10-10T14:58:04+00:00",
+  "fetched_utc": "2026-10-10T15:00:42+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
   "leaderboard_rows": 298,
   "submission_rows": 3,
   "our_leaderboard": [
     {
-      "Rank": "225",
+      "Rank": "162",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-10 12:08:47",
-      "Score": "421.0",
+      "LastSubmissionDate": "2026-10-10 14:57:35",
+      "Score": "600.0",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
@@ -21,8 +21,8 @@
       "fileName": "phase1_tuned_gen8_v2.tar.gz",
       "date": "2026-10-10 14:57:35.047000",
       "description": "Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K",
-      "status": "SubmissionStatus.PENDING",
-      "publicScore": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "600.0",
       "privateScore": ""
     },
     {
@@ -40,7 +40,7 @@
       "date": "2026-10-10 12:08:41.173000",
       "description": "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "372.6",
+      "publicScore": "367.5",
       "privateScore": ""
     }
   ],

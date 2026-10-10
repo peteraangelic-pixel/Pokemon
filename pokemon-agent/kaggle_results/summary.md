@@ -1,14 +1,14 @@
 # Kaggle results — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-10T14:58:04+00:00_
+_fetched 2026-10-10T15:00:42+00:00_
 
 ## Our leaderboard row
 
-- **score (μ): 421.0**
-  - Rank: 225
+- **score (μ): 600.0**
+  - Rank: 162
   - TeamId: 17077007
   - TeamName: PeterSharps
-  - LastSubmissionDate: 2026-10-10 12:08:47
+  - LastSubmissionDate: 2026-10-10 14:57:35
   - SubmissionCount: 2
   - TeamMemberUserNames: petersharps
 
@@ -16,24 +16,24 @@ _fetched 2026-10-10T14:58:04+00:00_
 
 | file | status | score | date |
 |---|---|---|---|
-| `phase1_tuned_gen8_v2.tar.gz` | SubmissionStatus.PENDING |  | 2026-10-10 14:57:35.047000 |
+| `phase1_tuned_gen8_v2.tar.gz` | SubmissionStatus.COMPLETE | 600.0 | 2026-10-10 14:57:35.047000 |
 | `phase1_tuned_80.tar.gz` | SubmissionStatus.COMPLETE | 421.0 | 2026-10-10 12:08:47.510000 |
-| `phase1_tuned_80.tar.gz` | SubmissionStatus.COMPLETE | 372.6 | 2026-10-10 12:08:41.173000 |
+| `phase1_tuned_80.tar.gz` | SubmissionStatus.COMPLETE | 367.5 | 2026-10-10 12:08:41.173000 |
 
 ## Field context
 
-298 teams; best 1235.7, median 639.1, worst -80.3
+298 teams; best 1235.7, median 644.1, worst -80.3
 
 | target | score needed |
 |---|---|
 | top 1 % (place 2) | 1180.5 |
 | top 5 % (place 14) | 1071.7 |
 | top 10 % (place 29) | 973.4 |
-| top 25 % (place 74) | 837.4 |
+| top 25 % (place 74) | 834.5 |
 | top 50 % (place 149) | 645.5 |
 
-- our latest submission: **421.0** ~ place 225/298 (top 76 %)
-- our leaderboard row: **421.0** ~ place 225/298 (top 76 %)
+- our latest submission: **600.0** ~ place 162/298 (top 54 %)
+- our leaderboard row: **600.0** ~ place 162/298 (top 54 %)
 
 ## Leaderboard top 10
 
