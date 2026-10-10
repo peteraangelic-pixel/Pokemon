@@ -3,48 +3,48 @@
 [1m[92m      Adding[0m generic-array v0.14.7 [1m[33m(available: v0.14.9)[0m
 [1m[92m      Adding[0m sha1 v0.10.7 [1m[33m(available: v0.11.0)[0m
 [1m[92m Downloading[0m crates ...
-[1m[92m  Downloaded[0m cpufeatures v0.2.17
+[1m[92m  Downloaded[0m rayon-core v1.13.0
+[1m[92m  Downloaded[0m rayon v1.12.0
 [1m[92m  Downloaded[0m block-buffer v0.10.4
 [1m[92m  Downloaded[0m cfg-if v1.0.5
-[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
-[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
-[1m[92m  Downloaded[0m version_check v0.9.5
-[1m[92m  Downloaded[0m serde_core v1.0.229
+[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m typenum v1.20.1
+[1m[92m  Downloaded[0m zmij v1.0.23
 [1m[92m  Downloaded[0m generic-array v0.14.7
-[1m[92m  Downloaded[0m itoa v1.0.18
+[1m[92m  Downloaded[0m either v1.19.0
+[1m[92m  Downloaded[0m digest v0.10.7
+[1m[92m  Downloaded[0m version_check v0.9.5
 [1m[92m  Downloaded[0m crypto-common v0.1.7
 [1m[92m  Downloaded[0m sha1 v0.10.7
-[1m[92m  Downloaded[0m either v1.19.0
-[1m[92m  Downloaded[0m zmij v1.0.23
-[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
-[1m[92m  Downloaded[0m digest v0.10.7
-[1m[92m  Downloaded[0m rayon-core v1.13.0
+[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
 [1m[92m  Downloaded[0m memchr v2.8.3
-[1m[92m  Downloaded[0m typenum v1.20.1
-[1m[92m  Downloaded[0m rayon v1.12.0
 [1m[92m  Downloaded[0m serde_json v1.0.152
+[1m[92m  Downloaded[0m cpufeatures v0.2.17
+[1m[92m  Downloaded[0m serde_core v1.0.229
+[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
+[1m[92m  Downloaded[0m itoa v1.0.18
 [1m[92m   Compiling[0m version_check v0.9.5
 [1m[92m   Compiling[0m crossbeam-utils v0.8.23
 [1m[92m   Compiling[0m crossbeam-epoch v0.9.21
 [1m[92m    Checking[0m typenum v1.20.1
 [1m[92m   Compiling[0m crossbeam-deque v0.8.8
 [1m[92m   Compiling[0m generic-array v0.14.7
-[1m[92m   Compiling[0m rayon-core v1.13.0
 [1m[92m   Compiling[0m zmij v1.0.23
 [1m[92m   Compiling[0m serde_core v1.0.229
+[1m[92m   Compiling[0m rayon-core v1.13.0
 [1m[92m   Compiling[0m serde_json v1.0.152
-[1m[92m    Checking[0m crypto-common v0.1.7
 [1m[92m    Checking[0m block-buffer v0.10.4
+[1m[92m    Checking[0m crypto-common v0.1.7
 [1m[92m    Checking[0m digest v0.10.7
-[1m[92m    Checking[0m itoa v1.0.18
 [1m[92m    Checking[0m memchr v2.8.3
+[1m[92m    Checking[0m either v1.19.0
+[1m[92m    Checking[0m itoa v1.0.18
 [1m[92m    Checking[0m cfg-if v1.0.5
 [1m[92m    Checking[0m cpufeatures v0.2.17
-[1m[92m    Checking[0m either v1.19.0
 [1m[92m    Checking[0m sha1 v0.10.7
 [1m[92m    Checking[0m rayon v1.12.0
 [1m[92m    Checking[0m arc3 v0.1.0 (/home/runner/work/Pokemon/Pokemon/arc-agi-3/rust)
-src/grid.rs:360:40: [1m[91merror[E0277][0m: the type `[std::collections::HashSet<usize>]` cannot be indexed by `&usize`: slice indices are of type `usize` or ranges of `usize`
-[1m[91merror[0m: could not compile `arc3` (lib test) due to 1 previous error
-[1m[33mwarning[0m: build failed, waiting for other jobs to finish...
+src/lib.rs:10:5: [1m[91merror[0m: doc list item overindented: help: try using `  ` (2 spaces)
 [1m[91merror[0m: could not compile `arc3` (lib) due to 1 previous error
+[1m[33mwarning[0m: build failed, waiting for other jobs to finish...
+[1m[91merror[0m: could not compile `arc3` (lib test) due to 1 previous error
