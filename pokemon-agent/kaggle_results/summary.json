@@ -1,18 +1,28 @@
 {
-  "fetched_utc": "2026-10-10T12:09:12+00:00",
+  "fetched_utc": "2026-10-10T13:55:16+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
-  "team": "Lauresowe 3D",
-  "leaderboard_rows": 294,
+  "team": "petersharps",
+  "leaderboard_rows": 298,
   "submission_rows": 2,
-  "our_leaderboard": [],
+  "our_leaderboard": [
+    {
+      "Rank": "238",
+      "TeamId": "17077007",
+      "TeamName": "PeterSharps",
+      "LastSubmissionDate": "2026-10-10 12:08:47",
+      "Score": "377.2",
+      "SubmissionCount": "2",
+      "TeamMemberUserNames": "petersharps"
+    }
+  ],
   "latest_submissions": [
     {
       "ref": "57041729",
       "fileName": "phase1_tuned_80.tar.gz",
       "date": "2026-10-10 12:08:47.510000",
       "description": "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account",
-      "status": "SubmissionStatus.PENDING",
-      "publicScore": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "377.2",
       "privateScore": ""
     },
     {
@@ -20,8 +30,8 @@
       "fileName": "phase1_tuned_80.tar.gz",
       "date": "2026-10-10 12:08:41.173000",
       "description": "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account",
-      "status": "SubmissionStatus.PENDING",
-      "publicScore": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "368.6",
       "privateScore": ""
     }
   ],
