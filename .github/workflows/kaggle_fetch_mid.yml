@@ -1,0 +1,139 @@
+name: kaggle-fetch-mid
+
+# Fetch 7 last replays of top7 + rank 90-100 for meta analysis
+
+on:
+  workflow_dispatch:
+    inputs:
+      top_n:
+        description: "Top N teams"
+        default: "7"
+        required: false
+      rank_start:
+        description: "Rank start for mid tier"
+        default: "90"
+        required: false
+      rank_end:
+        description: "Rank end for mid tier"
+        default: "100"
+        required: false
+      replays_per_team:
+        description: "Replays per team"
+        default: "7"
+        required: false
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/fetch_mid.trigger"
+      - ".github/workflows/kaggle_fetch_mid.yml"
+      - "pokemon-agent/tools/download_rank_range.py"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-top7:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+            echo "Using KAGGLE_API_TOKEN"
+          else
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+            chmod 600 ~/.kaggle/kaggle.json
+            echo "Using USERNAME/KEY"
+          fi
+
+      - name: Fetch top7 replays
+        run: |
+          cd pokemon-agent
+          python tools/download_rank_range.py --top-n ${{ inputs.top_n || '7' }} --replays-per-team ${{ inputs.replays_per_team || '7' }} --outdir kaggle_results/top7_live --delay 0.2 2>&1 | tee kaggle_results/top7_live/fetch.log
+          ls -lh kaggle_results/top7_live/ | tail -20
+          cat kaggle_results/top7_live/manifest.csv || true
+
+      - name: Analyze top7
+        run: |
+          cd pokemon-agent
+          python tools/analyze_replays.py --replays-dir kaggle_results/top7_live --out kaggle_results/top7_live/analysis.md || true
+          cat kaggle_results/top7_live/analysis.md | head -100 || true
+
+      - name: Commit top7
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena@bot.local"
+          git add pokemon-agent/kaggle_results/top7_live/ || true
+          git commit -m "chore(kaggle): top7 live replays + analysis [skip ci]" || echo "nothing"
+          git push origin ${{ github.ref_name }} || echo "push failed"
+
+  fetch-mid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+          else
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+            chmod 600 ~/.kaggle/kaggle.json
+          fi
+
+      - name: Fetch rank 90-100 replays
+        run: |
+          cd pokemon-agent
+          python tools/download_rank_range.py --rank-start ${{ inputs.rank_start || '90' }} --rank-end ${{ inputs.rank_end || '100' }} --replays-per-team ${{ inputs.replays_per_team || '7' }} --outdir kaggle_results/rank90_100_live --delay 0.2 2>&1 | tee kaggle_results/rank90_100_live/fetch.log
+          ls -lh kaggle_results/rank90_100_live/ | tail -20
+          cat kaggle_results/rank90_100_live/manifest.csv || true
+
+      - name: Analyze rank 90-100
+        run: |
+          cd pokemon-agent
+          python tools/analyze_replays.py --replays-dir kaggle_results/rank90_100_live --out kaggle_results/rank90_100_live/analysis.md || true
+          cat kaggle_results/rank90_100_live/analysis.md | head -100 || true
+
+      - name: Commit mid
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena@bot.local"
+          git add pokemon-agent/kaggle_results/rank90_100_live/ || true
+          git commit -m "chore(kaggle): rank90-100 live replays + analysis [skip ci]" || echo "nothing"
+          git push origin ${{ github.ref_name }} || echo "push failed"
