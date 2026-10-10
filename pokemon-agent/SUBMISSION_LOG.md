@@ -404,3 +404,52 @@ observation.
 - Implement H1 as `_score_wanted_card` boost for Night Stretcher when discard Water>=2 and remaining<8, and Powerglass attach logic (score tool higher if active Kyogre and discard Water>=1)
 - Re-test lethal only rem==1 ready-check (previous DFS hurt vs walls, but may help vs mirrors when prize race tight)
 - Larger deck search 20 trials games 1 vs all_eval, then test best 3 vs top7_live 4g + combined_losses 4g
+
+---
+
+## 2026-10-10 — v8 spadek 600→308-460 + analiza przegranych + v9
+
+**Live po v8 (poll 16:48 UTC, 300 teams):**
+- `phase1_tuned_gen8_h1.tar.gz` COMPLETE **460.1** (było PENDING)
+- `phase1_tuned_gen8_powerglass.tar.gz` COMPLETE **308.0** (było 600.0 → -292!)
+- `phase1_tuned_gen8_v2.tar.gz` COMPLETE **426.4** (było 600.0 → -173)
+- `phase1_tuned_80.tar.gz` COMPLETE 420.2
+- Rank 216 (było 163) – **punkty w dół**
+
+**Replays analiza 47 gier (PeterSharps):**
+- 16 przegranych decków wyekstrahowanych do `decks/losses_v8/`: Atharva_Naik 35W Waitress4 Cyrano2 Belt1, Pawit_Sahare 35W, eastnix 35W, SC Dragapult Hammer x4, Kydyrbek Dragapult Hammer, mo Lucario 15E Boss3, kloaken Duraludon 11E gust4, Jonathan_Axl 26W Boss2, etc.
+- Energy: {33:40, 35:10, 30:8, 29:7, 26:4, 15:4, 12:3, 10:4} – przegrywamy vs 35W (więcej energii = 350 dmg vs nasze 300) i vs low-energy aggro z Hammer x4 i Boss x3-4 (mieli nas, gustują basics przed ewolucją)
+- Gust: {0:34, 2:45, 3:9, 4:4} – przeciwnicy z gust 3-4 wygrywają vs nasze Boss x2
+
+**Dlaczego v8 spada:**
+- v2_boss 30W diverse (Signal4 Lillie4 Night2 Pad2 Boss2 Cyrano2 Belt1 Judge1 Haul1 Waitress1) – 0.841 vs top7_live 2g, 0.700 vs losses_v8 1g, ale **0.000 vs Atharva/Pawit 35W** (0-2) bo mniej energii = mniej dmg, oraz **0.250 vs walls** (crustle 0.000, sylveon 0.500) bo Boss x2 za mało na gustowanie wokół walli
+- v9_33_boss4 33W Boss4 Waitress2 Belt2 Pad1 – **0.864 vs top7_live** (najlepszy!), **0.750 vs walls** (crustle 0.500, sylveon 1.000) vs v2_boss 0.250 – Boss x4 naprawia walls, ale vs losses_v8 **0.567** gorszy niż v2_boss 0.700 bo mniej diverse trainerów
+- v9_35_atharva 35W Signal4 Lillie4 Waitress4 Cyrano2 Belt1 (kopia Atharva) – 0.750 vs top7, 0.533 vs losses – nie bije Atharva, bo mirror 0.5, ale traci vs Dragapult
+- Powerglass 29W Powerglass x2 – 0.705 vs top7, 0.650 vs mirror_losses, ale live 600→308 – bo 29W za mało energii vs 35W
+
+**Wniosek:** Potrzeba **33W + Boss4 + diverse draw** – balans między energią (33 vs 35) a gustem (Boss4 vs Boss2) i draw (Signal, Lillie, Waitress, Pad, Night, Cyrano)
+
+**v9 search z Rust + Rayon:**
+- `tools/search_v9.py` – random deck search z `rust_gauntlet` (rayon 2 thr, 17-20s na 22 decki x2 gry vs 66s Python) – 3-6x speedup
+- 20 trials games2 top7+losses weighted 0.7/0.3: best weighted 0.732 (31E top 0.818 loss 0.533)
+- 30 trials games1 top7 only: best 0.909 (20-2) – v2_boss też 0.909, więc v2_boss nadal top
+- 30 trials games1 top7+losses weighted: best 0.796 (33E Signal1 Pad3 Powerglass3 Cyrano4 Judge2 Petrel2 Lillie2 Waitress1 Beach1) – top 0.909 loss 0.533
+
+**v9_final (ręcznie zaprojektowany na bazie v2_boss + Boss4 + 33W):**
+- Deck: 33W + Signal4 Lillie3 Boss4 Waitress2 Belt1 Pad1 Night1 Cyrano1 = 4+3+4+2+1+1+1+1=17 +10+33=60
+- `decks/v9_final.csv` – 33W, Boss x4, Waitress2, Belt1, Pad1, Night1, Cyrano1, Signal4, Lillie3
+- Test Rust (games2):
+  - vs top7_live: **0.841 (37-7)** – blisko best 0.864
+  - vs losses_v8: **0.667 (20-10)** – lepszy niż v9_33_boss4 0.567, blisko v2_boss 0.700
+  - vs walls: crustle 0.500, sylveon 1.000 → **0.750** vs v2_boss 0.250 – naprawia walls!
+  - Weighted 0.7*0.841+0.3*0.667=0.788, vs v2_boss 0.798 – prawie równe, ale lepszy vs walls
+- Bundles: `phase1_tuned_v9_final.tar.gz` Gen5 best + v9_final 89 KiB smoke ok, `phase1_tuned_v9_final_h1.tar.gz` H1 + v9_final 89 KiB smoke ok
+
+**Hipoteza v9:**
+> 33W Boss x4 Waitress2 Belt1 Pad1 Night1 Cyrano1 Signal4 Lillie3 – 33W daje 330 dmg (vs 350 dla 35W) ale Boss x4 naprawia walls (0.250→0.750) i Dragapult (gustuje Dreepy przed ewolucją), diverse draw (Night, Pad, Cyrano) pomaga vs 35W mirrors (Atharva 0.000→0.500). Powinien poprawić live μ z 460→600+ i zatrzymać spadek.
+
+**Next (jutro, bo dziś limit 5/5 wykorzystany – v9 submit 38069038259 o 16:47 był 6. dziś i został odrzucony przez limit):**
+- Submit v9_final i v9_final_h1 jako pierwsze jutro (00:00 UTC reset limitu)
+- Dokończyć Rust full port heurystyki (obecnie 0.01s/gra vs 1.5s Python =150x, ale crash przy buffer full capacity:7 dla ENERGY selectów – trzeba przenieść pełne `_score_generic_context`)
+- Uruchomić większy search 100 trials z Rust vs all_eval 38 decków
+
