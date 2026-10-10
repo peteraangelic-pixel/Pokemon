@@ -2,18 +2,12 @@ name: kaggle-submit-metal
 
 on:
   workflow_dispatch:
-  push:
-    branches: ["arena/c87f7a48-pokemon"]
-    paths:
-      - "pokemon-agent/bundles/phase2_metal.trigger"
 
 jobs:
   submit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -21,19 +15,10 @@ jobs:
       - name: Configure Kaggle
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
-          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
-          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
           mkdir -p ~/.kaggle
-          if [ -n "$KAGGLE_API_TOKEN" ]; then
-            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
-            chmod 600 ~/.kaggle/access_token
-          else
-            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
-            chmod 600 ~/.kaggle/kaggle.json
-          fi
-      - name: Submit metal
-        run: |
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+      - run: |
           cd pokemon-agent
-          ls -lh bundles/phase2_metal.tar.gz
-          kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f bundles/phase2_metal.tar.gz -m "Metal YumeNeko #1 1210.3 deck + heuristic - mill off-meta fails live 375.0 vs 462.0"
+          kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f bundles/phase2_metal.tar.gz -m "Metal YumeNeko"
