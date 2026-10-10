@@ -1947,120 +1947,6 @@
     ]
   },
   {
-    "file": "episode-121269706-replay.json",
-    "teams": [
-      "sakana178",
-      "PeterSharps"
-    ],
-    "winner": "sakana178",
-    "winner_idx": 0,
-    "steps": 227,
-    "decks": [
-      [
-        "sakana178",
-        {
-          "energy": 14,
-          "basic_energy": {
-            "Basic {G} Energy": 14
-          },
-          "pokemon": [
-            "Teal Mask Ogerpon ex x4",
-            "Applin x2",
-            "Dipplin x2",
-            "Hydrapple ex x2",
-            "Bayleef x2",
-            "Meganium x2",
-            "Chikorita x2",
-            "Meowth ex x2",
-            "Fezandipiti ex x1",
-            "Tapu Bulu x1"
-          ],
-          "trainers": [
-            "Basic {G} Energy x14",
-            "Bug Catching Set x4",
-            "Ultra Ball x4",
-            "Lillie's Determination x4",
-            "Forest of Vitality x4",
-            "Poké Pad x2",
-            "Boss’s Orders x2",
-            "Dawn x2",
-            "Unfair Stamp x1",
-            "Night Stretcher x1",
-            "Lana’s Aid x1",
-            "Judge x1"
-          ],
-          "gust": 2,
-          "counts": {
-            "1": 14,
-            "92": 2,
-            "93": 2,
-            "96": 4,
-            "140": 1,
-            "150": 2,
-            "709": 2,
-            "710": 2,
-            "917": 2,
-            "920": 1,
-            "1071": 2,
-            "1080": 1,
-            "1094": 4,
-            "1097": 1,
-            "1121": 4,
-            "1152": 2,
-            "1182": 2,
-            "1184": 1,
-            "1213": 1,
-            "1227": 4,
-            "1231": 2,
-            "1261": 4
-          }
-        }
-      ],
-      [
-        "PeterSharps",
-        {
-          "energy": 33,
-          "basic_energy": {
-            "Basic {W} Energy": 33
-          },
-          "pokemon": [
-            "Snover x4",
-            "Mega Abomasnow ex x4",
-            "Kyogre x2"
-          ],
-          "trainers": [
-            "Basic {W} Energy x33",
-            "Team Rocket's Petrel x4",
-            "Lillie's Determination x4",
-            "Ultra Ball x2",
-            "Mega Signal x2",
-            "Surfing Beach x2",
-            "Boss’s Orders x2",
-            "Secret Box x1"
-          ],
-          "gust": 2,
-          "counts": {
-            "721": 2,
-            "722": 4,
-            "723": 4,
-            "1092": 1,
-            "1121": 2,
-            "1145": 2,
-            "1219": 4,
-            "1227": 4,
-            "1262": 2,
-            "1182": 2,
-            "3": 33
-          }
-        }
-      ]
-    ],
-    "rewards": [
-      1,
-      -1
-    ]
-  },
-  {
     "file": "episode-121271680-replay.json",
     "teams": [
       "Atharva Naik",
@@ -3256,6 +3142,1576 @@
     "rewards": [
       1,
       -1
+    ]
+  },
+  {
+    "file": "episode-121352518-replay.json",
+    "teams": [
+      "eastnix",
+      "PeterSharps"
+    ],
+    "winner": "eastnix",
+    "winner_idx": 0,
+    "steps": 55,
+    "decks": [
+      [
+        "eastnix",
+        {
+          "energy": 35,
+          "basic_energy": {
+            "Basic {W} Energy": 35
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x35",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Waitress x4",
+            "Cyrano x2",
+            "Maximum Belt x1"
+          ],
+          "gust": 0,
+          "counts": {
+            "1158": 1,
+            "721": 2,
+            "722": 4,
+            "723": 4,
+            "1145": 4,
+            "1205": 2,
+            "1227": 4,
+            "1235": 4,
+            "3": 35
+          }
+        }
+      ],
+      [
+        "PeterSharps",
+        {
+          "energy": 29,
+          "basic_energy": {
+            "Basic {W} Energy": 29
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x29",
+            "Lillie's Determination x4",
+            "Mega Signal x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Powerglass x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "3": 29,
+            "1227": 4,
+            "1145": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1163": 2
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121354495-replay.json",
+    "teams": [
+      "PeterSharps",
+      "mo"
+    ],
+    "winner": "mo",
+    "winner_idx": 1,
+    "steps": 142,
+    "decks": [
+      [
+        "PeterSharps",
+        {
+          "energy": 30,
+          "basic_energy": {
+            "Basic {W} Energy": 30
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x30",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1",
+            "Waitress x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1145": 4,
+            "1227": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1235": 1,
+            "3": 30
+          }
+        }
+      ],
+      [
+        "mo",
+        {
+          "energy": 15,
+          "basic_energy": {
+            "Basic {F} Energy": 15
+          },
+          "pokemon": [
+            "Riolu x4",
+            "Mega Lucario ex x4",
+            "Solrock x2",
+            "Lunatone x2"
+          ],
+          "trainers": [
+            "Basic {F} Energy x15",
+            "Fighting Gong x4",
+            "Ultra Ball x4",
+            "Lillie's Determination x4",
+            "Poké Pad x3",
+            "Boss’s Orders x3",
+            "Switch x3",
+            "Premium Power Pro x3",
+            "Mega Signal x2",
+            "Iris’s Fighting Spirit x2",
+            "Night Stretcher x2",
+            "Judge x1",
+            "Tarragon x1",
+            "Precious Trolley x1"
+          ],
+          "gust": 3,
+          "counts": {
+            "677": 4,
+            "678": 4,
+            "676": 2,
+            "675": 2,
+            "1142": 4,
+            "1121": 4,
+            "1152": 3,
+            "1145": 2,
+            "1227": 4,
+            "1208": 2,
+            "1213": 1,
+            "1182": 3,
+            "1123": 3,
+            "1141": 3,
+            "1097": 2,
+            "1238": 1,
+            "1126": 1,
+            "6": 15
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      -1,
+      1
+    ]
+  },
+  {
+    "file": "episode-121354497-replay.json",
+    "teams": [
+      "PeterSharps",
+      "Kazama_Hareka"
+    ],
+    "winner": "Kazama_Hareka",
+    "winner_idx": 1,
+    "steps": 180,
+    "decks": [
+      [
+        "PeterSharps",
+        {
+          "energy": 29,
+          "basic_energy": {
+            "Basic {W} Energy": 29
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x29",
+            "Lillie's Determination x4",
+            "Mega Signal x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Powerglass x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "3": 29,
+            "1227": 4,
+            "1145": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1163": 2
+          }
+        }
+      ],
+      [
+        "Kazama_Hareka",
+        {
+          "energy": 12,
+          "basic_energy": {
+            "Basic {R} Energy": 5,
+            "Basic {P} Energy": 5,
+            "Basic {D} Energy": 2
+          },
+          "pokemon": [
+            "Dreepy x4",
+            "Dragapult ex x4",
+            "Drakloak x3",
+            "Duskull x2",
+            "Dusclops x1",
+            "Dusknoir x1",
+            "Munkidori x1",
+            "Fezandipiti ex x1",
+            "Budew x1",
+            "Moltres x1"
+          ],
+          "trainers": [
+            "Basic {R} Energy x5",
+            "Basic {P} Energy x5",
+            "Buddy-Buddy Poffin x4",
+            "Ultra Ball x4",
+            "Lillie's Determination x4",
+            "Poké Pad x3",
+            "Rare Candy x3",
+            "Crispin x3",
+            "Night Stretcher x2",
+            "Boss’s Orders x2",
+            "Basic {D} Energy x2",
+            "Unfair Stamp x1",
+            "Dawn x1",
+            "Rosa's Encouragement x1",
+            "Jamming Tower x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "119": 4,
+            "120": 3,
+            "121": 4,
+            "131": 2,
+            "132": 1,
+            "133": 1,
+            "112": 1,
+            "140": 1,
+            "235": 1,
+            "791": 1,
+            "1086": 4,
+            "1152": 3,
+            "1121": 4,
+            "1079": 3,
+            "1097": 2,
+            "1080": 1,
+            "1227": 4,
+            "1198": 3,
+            "1182": 2,
+            "1231": 1,
+            "1240": 1,
+            "1246": 1,
+            "2": 5,
+            "5": 5,
+            "7": 2
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      -1,
+      1
+    ]
+  },
+  {
+    "file": "episode-121356469-replay.json",
+    "teams": [
+      "鲁尚武 LuShangWu",
+      "PeterSharps"
+    ],
+    "winner": "PeterSharps",
+    "winner_idx": 1,
+    "steps": 46,
+    "decks": [
+      [
+        "鲁尚武 LuShangWu",
+        {
+          "energy": 0,
+          "basic_energy": {},
+          "pokemon": [
+            "Dwebble x4",
+            "Crustle x2",
+            "Mega Kangaskhan ex x2",
+            "Cornerstone Mask Ogerpon ex x1",
+            "Froslass x1"
+          ],
+          "trainers": [
+            "Mist Energy x4",
+            "Spiky Energy x4",
+            "Grow Grass Energy x4",
+            "Crushing Hammer x4",
+            "Pokégear 3.0 x4",
+            "Jumbo Ice Cream x4",
+            "Boss’s Orders x4",
+            "Team Rocket's Petrel x4",
+            "Lillie's Determination x4",
+            "Hilda x3",
+            "Rock Fighting Energy x2",
+            "Buddy-Buddy Poffin x2",
+            "Ultra Ball x2",
+            "Switch x1",
+            "Hero’s Cape x1",
+            "Xerosic’s Machinations x1",
+            "Cook x1",
+            "Team Rocket's Factory x1"
+          ],
+          "gust": 4,
+          "counts": {
+            "11": 4,
+            "14": 4,
+            "18": 4,
+            "20": 2,
+            "117": 1,
+            "344": 4,
+            "345": 2,
+            "756": 2,
+            "1086": 2,
+            "1120": 4,
+            "1121": 2,
+            "1122": 4,
+            "1123": 1,
+            "1147": 4,
+            "1159": 1,
+            "1182": 4,
+            "1197": 1,
+            "1212": 1,
+            "1219": 4,
+            "1225": 3,
+            "1227": 4,
+            "1257": 1,
+            "104": 1
+          }
+        }
+      ],
+      [
+        "PeterSharps",
+        {
+          "energy": 30,
+          "basic_energy": {
+            "Basic {W} Energy": 30
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x30",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1",
+            "Waitress x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1145": 4,
+            "1227": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1235": 1,
+            "3": 30
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      -1,
+      1
+    ]
+  },
+  {
+    "file": "episode-121356471-replay.json",
+    "teams": [
+      "lswuwu",
+      "PeterSharps"
+    ],
+    "winner": "PeterSharps",
+    "winner_idx": 1,
+    "steps": 239,
+    "decks": [
+      [
+        "lswuwu",
+        {
+          "energy": 13,
+          "basic_energy": {
+            "Basic {F} Energy": 13
+          },
+          "pokemon": [
+            "Riolu x4",
+            "Mega Lucario ex x4",
+            "Solrock x3",
+            "Makuhita x2",
+            "Hariyama x2",
+            "Lunatone x2"
+          ],
+          "trainers": [
+            "Basic {F} Energy x13",
+            "Ultra Ball x4",
+            "Premium Power Pro x4",
+            "Fighting Gong x4",
+            "Poké Pad x4",
+            "Lillie's Determination x4",
+            "Switch x2",
+            "Boss’s Orders x2",
+            "Judge x2",
+            "Cheren x2",
+            "Hero’s Cape x1",
+            "Wally's Compassion x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "6": 13,
+            "673": 2,
+            "674": 2,
+            "675": 2,
+            "676": 3,
+            "677": 4,
+            "678": 4,
+            "1121": 4,
+            "1123": 2,
+            "1141": 4,
+            "1142": 4,
+            "1152": 4,
+            "1159": 1,
+            "1182": 2,
+            "1213": 2,
+            "1227": 4,
+            "1229": 1,
+            "1224": 2
+          }
+        }
+      ],
+      [
+        "PeterSharps",
+        {
+          "energy": 29,
+          "basic_energy": {
+            "Basic {W} Energy": 29
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x29",
+            "Lillie's Determination x4",
+            "Mega Signal x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Powerglass x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "3": 29,
+            "1227": 4,
+            "1145": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1163": 2
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      -1,
+      1
+    ]
+  },
+  {
+    "file": "episode-121358447-replay.json",
+    "teams": [
+      "kloaken",
+      "PeterSharps"
+    ],
+    "winner": "kloaken",
+    "winner_idx": 0,
+    "steps": 70,
+    "decks": [
+      [
+        "kloaken",
+        {
+          "energy": 11,
+          "basic_energy": {
+            "Basic {M} Energy": 11
+          },
+          "pokemon": [
+            "Duraludon x4",
+            "Archaludon ex x4",
+            "Cinderace x4",
+            "Relicanth x1"
+          ],
+          "trainers": [
+            "Basic {M} Energy x11",
+            "Full Metal Lab x4",
+            "Poké Pad x4",
+            "Ultra Ball x4",
+            "Pokégear 3.0 x4",
+            "Jumbo Ice Cream x4",
+            "Boss’s Orders x4",
+            "Explorer’s Guidance x4",
+            "Lillie's Determination x4",
+            "Night Stretcher x3",
+            "Hero’s Cape x1"
+          ],
+          "gust": 4,
+          "counts": {
+            "169": 4,
+            "190": 4,
+            "666": 4,
+            "1244": 4,
+            "57": 1,
+            "1152": 4,
+            "1121": 4,
+            "1122": 4,
+            "1097": 3,
+            "1147": 4,
+            "1159": 1,
+            "1182": 4,
+            "1185": 4,
+            "1227": 4,
+            "8": 11
+          }
+        }
+      ],
+      [
+        "PeterSharps",
+        {
+          "energy": 30,
+          "basic_energy": {
+            "Basic {W} Energy": 30
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x30",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1",
+            "Waitress x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1145": 4,
+            "1227": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1235": 1,
+            "3": 30
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121358450-replay.json",
+    "teams": [
+      "PeterSharps",
+      "Rodrigo S Faria"
+    ],
+    "winner": "PeterSharps",
+    "winner_idx": 0,
+    "steps": 79,
+    "decks": [
+      [
+        "PeterSharps",
+        {
+          "energy": 29,
+          "basic_energy": {
+            "Basic {W} Energy": 29
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x29",
+            "Lillie's Determination x4",
+            "Mega Signal x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Powerglass x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "3": 29,
+            "1227": 4,
+            "1145": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1163": 2
+          }
+        }
+      ],
+      [
+        "Rodrigo S Faria",
+        {
+          "energy": 33,
+          "basic_energy": {
+            "Basic {W} Energy": 33
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x33",
+            "Team Rocket's Petrel x4",
+            "Lillie's Determination x4",
+            "Ultra Ball x2",
+            "Mega Signal x2",
+            "Powerglass x2",
+            "Surfing Beach x2",
+            "Secret Box x1"
+          ],
+          "gust": 0,
+          "counts": {
+            "721": 2,
+            "722": 4,
+            "723": 4,
+            "1092": 1,
+            "1121": 2,
+            "1145": 2,
+            "1163": 2,
+            "1219": 4,
+            "1227": 4,
+            "1262": 2,
+            "3": 33
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121358502-replay.json",
+    "teams": [
+      "PeterSharps",
+      "Namir Chaudry"
+    ],
+    "winner": "PeterSharps",
+    "winner_idx": 0,
+    "steps": 299,
+    "decks": [
+      [
+        "PeterSharps",
+        {
+          "energy": 30,
+          "basic_energy": {
+            "Basic {W} Energy": 30
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x30",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1",
+            "Waitress x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1145": 4,
+            "1227": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1235": 1,
+            "3": 30
+          }
+        }
+      ],
+      [
+        "Namir Chaudry",
+        {
+          "energy": 2,
+          "basic_energy": {
+            "Basic {P} Energy": 2
+          },
+          "pokemon": [
+            "Abra x4",
+            "Kadabra x4",
+            "Alakazam x4",
+            "Dunsparce x3",
+            "Dudunsparce x2",
+            "Fezandipiti ex x1",
+            "Shaymin x1"
+          ],
+          "trainers": [
+            "Buddy-Buddy Poffin x4",
+            "Poké Pad x4",
+            "Enhanced Hammer x4",
+            "Dawn x4",
+            "Hilda x4",
+            "Telepath Psychic Energy x4",
+            "Rare Candy x3",
+            "Boss’s Orders x3",
+            "Xerosic’s Machinations x3",
+            "Nighttime Mine x2",
+            "Basic {P} Energy x2",
+            "Night Stretcher x1",
+            "Sacred Ash x1",
+            "Lana’s Aid x1",
+            "Enriching Energy x1"
+          ],
+          "gust": 3,
+          "counts": {
+            "741": 4,
+            "742": 4,
+            "743": 4,
+            "305": 3,
+            "66": 2,
+            "140": 1,
+            "343": 1,
+            "1086": 4,
+            "1152": 4,
+            "1079": 3,
+            "1081": 4,
+            "1097": 1,
+            "1129": 1,
+            "1184": 1,
+            "1231": 4,
+            "1225": 4,
+            "1182": 3,
+            "1197": 3,
+            "1266": 2,
+            "13": 1,
+            "19": 4,
+            "5": 2
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121360425-replay.json",
+    "teams": [
+      "PeterSharps",
+      "Kevin Hulin"
+    ],
+    "winner": "PeterSharps",
+    "winner_idx": 0,
+    "steps": 362,
+    "decks": [
+      [
+        "PeterSharps",
+        {
+          "energy": 30,
+          "basic_energy": {
+            "Basic {W} Energy": 30
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x30",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1",
+            "Waitress x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1145": 4,
+            "1227": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1235": 1,
+            "3": 30
+          }
+        }
+      ],
+      [
+        "Kevin Hulin",
+        {
+          "energy": 10,
+          "basic_energy": {
+            "Basic {R} Energy": 4,
+            "Basic {P} Energy": 4,
+            "Basic {D} Energy": 2
+          },
+          "pokemon": [
+            "Dreepy x4",
+            "Drakloak x4",
+            "Dragapult ex x3",
+            "Munkidori x2",
+            "Budew x2",
+            "Fezandipiti ex x1",
+            "Meowth ex x1"
+          ],
+          "trainers": [
+            "Basic {R} Energy x4",
+            "Basic {P} Energy x4",
+            "Buddy-Buddy Poffin x4",
+            "Crushing Hammer x4",
+            "Ultra Ball x4",
+            "Poké Pad x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x3",
+            "Crispin x3",
+            "Basic {D} Energy x2",
+            "Night Stretcher x2",
+            "Judge x2",
+            "Team Rocket's Watchtower x2",
+            "Unfair Stamp x1"
+          ],
+          "gust": 3,
+          "counts": {
+            "2": 4,
+            "5": 4,
+            "7": 2,
+            "112": 2,
+            "119": 4,
+            "120": 4,
+            "121": 3,
+            "140": 1,
+            "235": 2,
+            "1071": 1,
+            "1080": 1,
+            "1086": 4,
+            "1097": 2,
+            "1120": 4,
+            "1121": 4,
+            "1152": 4,
+            "1182": 3,
+            "1198": 3,
+            "1213": 2,
+            "1227": 4,
+            "1256": 2
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121360428-replay.json",
+    "teams": [
+      "Jonathan Axl",
+      "PeterSharps"
+    ],
+    "winner": "Jonathan Axl",
+    "winner_idx": 0,
+    "steps": 103,
+    "decks": [
+      [
+        "Jonathan Axl",
+        {
+          "energy": 26,
+          "basic_energy": {
+            "Basic {W} Energy": 26
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x26",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Poké Pad x3",
+            "Waitress x3",
+            "Night Stretcher x2",
+            "Great Haul Net x2",
+            "Cyrano x2",
+            "Boss’s Orders x2",
+            "Maximum Belt x1",
+            "Judge x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1158": 1,
+            "1145": 4,
+            "1152": 3,
+            "1097": 2,
+            "1414": 2,
+            "1227": 4,
+            "1235": 3,
+            "1205": 2,
+            "1182": 2,
+            "1213": 1,
+            "3": 26
+          }
+        }
+      ],
+      [
+        "PeterSharps",
+        {
+          "energy": 29,
+          "basic_energy": {
+            "Basic {W} Energy": 29
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x29",
+            "Lillie's Determination x4",
+            "Mega Signal x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Powerglass x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "3": 29,
+            "1227": 4,
+            "1145": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1163": 2
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121362406-replay.json",
+    "teams": [
+      "Richard Guo",
+      "PeterSharps"
+    ],
+    "winner": "Richard Guo",
+    "winner_idx": 0,
+    "steps": 376,
+    "decks": [
+      [
+        "Richard Guo",
+        {
+          "energy": 8,
+          "basic_energy": {
+            "Basic {P} Energy": 3,
+            "Basic {R} Energy": 3,
+            "Basic {D} Energy": 2
+          },
+          "pokemon": [
+            "Dreepy x4",
+            "Drakloak x4",
+            "Dragapult ex x3",
+            "Budew x2",
+            "Munkidori x2",
+            "Dunsparce x1",
+            "Dudunsparce x1",
+            "Fezandipiti ex x1",
+            "Meowth ex x1",
+            "Moltres x1"
+          ],
+          "trainers": [
+            "Lillie's Determination x4",
+            "Buddy-Buddy Poffin x4",
+            "Poké Pad x4",
+            "Crushing Hammer x4",
+            "Boss’s Orders x3",
+            "Night Stretcher x3",
+            "Ultra Ball x3",
+            "Basic {P} Energy x3",
+            "Basic {R} Energy x3",
+            "Crispin x2",
+            "Risky Ruins x2",
+            "Basic {D} Energy x2",
+            "Rosa's Encouragement x1",
+            "Judge x1",
+            "Unfair Stamp x1"
+          ],
+          "gust": 3,
+          "counts": {
+            "119": 4,
+            "120": 4,
+            "121": 3,
+            "235": 2,
+            "112": 2,
+            "305": 1,
+            "66": 1,
+            "140": 1,
+            "1071": 1,
+            "791": 1,
+            "1227": 4,
+            "1182": 3,
+            "1198": 2,
+            "1240": 1,
+            "1213": 1,
+            "1086": 4,
+            "1152": 4,
+            "1120": 4,
+            "1097": 3,
+            "1121": 3,
+            "1080": 1,
+            "1260": 2,
+            "5": 3,
+            "2": 3,
+            "7": 2
+          }
+        }
+      ],
+      [
+        "PeterSharps",
+        {
+          "energy": 30,
+          "basic_energy": {
+            "Basic {W} Energy": 30
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x30",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1",
+            "Waitress x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1145": 4,
+            "1227": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1235": 1,
+            "3": 30
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121362408-replay.json",
+    "teams": [
+      "PeterSharps",
+      "renyxin"
+    ],
+    "winner": "renyxin",
+    "winner_idx": 1,
+    "steps": 135,
+    "decks": [
+      [
+        "PeterSharps",
+        {
+          "energy": 29,
+          "basic_energy": {
+            "Basic {W} Energy": 29
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x29",
+            "Lillie's Determination x4",
+            "Mega Signal x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Powerglass x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "3": 29,
+            "1227": 4,
+            "1145": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1163": 2
+          }
+        }
+      ],
+      [
+        "renyxin",
+        {
+          "energy": 33,
+          "basic_energy": {
+            "Basic {W} Energy": 33
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x33",
+            "Team Rocket's Petrel x4",
+            "Lillie's Determination x4",
+            "Ultra Ball x2",
+            "Mega Signal x2",
+            "Powerglass x2",
+            "Surfing Beach x2",
+            "Secret Box x1"
+          ],
+          "gust": 0,
+          "counts": {
+            "721": 2,
+            "722": 4,
+            "723": 4,
+            "1092": 1,
+            "1121": 2,
+            "1145": 2,
+            "1163": 2,
+            "1219": 4,
+            "1227": 4,
+            "1262": 2,
+            "3": 33
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      -1,
+      1
+    ]
+  },
+  {
+    "file": "episode-121362419-replay.json",
+    "teams": [
+      "Arka Latua",
+      "PeterSharps"
+    ],
+    "winner": "Arka Latua",
+    "winner_idx": 0,
+    "steps": 141,
+    "decks": [
+      [
+        "Arka Latua",
+        {
+          "energy": 18,
+          "basic_energy": {
+            "Basic {F} Energy": 18
+          },
+          "pokemon": [
+            "Riolu x4",
+            "Mega Lucario ex x4",
+            "Lunatone x2",
+            "Solrock x2"
+          ],
+          "trainers": [
+            "Basic {F} Energy x18",
+            "Fighting Gong x4",
+            "Premium Power Pro x4",
+            "Ultra Ball x3",
+            "Mega Signal x3",
+            "Switch x3",
+            "Lillie's Determination x3",
+            "Poké Pad x2",
+            "Boss’s Orders x2",
+            "Night Stretcher x2",
+            "Hilda x2",
+            "Energy Retrieval x2"
+          ],
+          "gust": 2,
+          "counts": {
+            "677": 4,
+            "678": 4,
+            "675": 2,
+            "676": 2,
+            "1142": 4,
+            "1121": 3,
+            "1152": 2,
+            "1145": 3,
+            "1182": 2,
+            "1123": 3,
+            "1097": 2,
+            "1141": 4,
+            "1227": 3,
+            "1225": 2,
+            "1118": 2,
+            "6": 18
+          }
+        }
+      ],
+      [
+        "PeterSharps",
+        {
+          "energy": 30,
+          "basic_energy": {
+            "Basic {W} Energy": 30
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x30",
+            "Mega Signal x4",
+            "Lillie's Determination x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1",
+            "Waitress x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "1145": 4,
+            "1227": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1235": 1,
+            "3": 30
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      1,
+      -1
+    ]
+  },
+  {
+    "file": "episode-121362424-replay.json",
+    "teams": [
+      "PeterSharps",
+      "nguyenbaotri-VIETNAM"
+    ],
+    "winner": "nguyenbaotri-VIETNAM",
+    "winner_idx": 1,
+    "steps": 138,
+    "decks": [
+      [
+        "PeterSharps",
+        {
+          "energy": 29,
+          "basic_energy": {
+            "Basic {W} Energy": 29
+          },
+          "pokemon": [
+            "Snover x4",
+            "Mega Abomasnow ex x4",
+            "Kyogre x2"
+          ],
+          "trainers": [
+            "Basic {W} Energy x29",
+            "Lillie's Determination x4",
+            "Mega Signal x4",
+            "Boss’s Orders x2",
+            "Cyrano x2",
+            "Night Stretcher x2",
+            "Poké Pad x2",
+            "Powerglass x2",
+            "Maximum Belt x1",
+            "Judge x1",
+            "Great Haul Net x1"
+          ],
+          "gust": 2,
+          "counts": {
+            "722": 4,
+            "723": 4,
+            "721": 2,
+            "3": 29,
+            "1227": 4,
+            "1145": 4,
+            "1182": 2,
+            "1205": 2,
+            "1097": 2,
+            "1152": 2,
+            "1158": 1,
+            "1213": 1,
+            "1414": 1,
+            "1163": 2
+          }
+        }
+      ],
+      [
+        "nguyenbaotri-VIETNAM",
+        {
+          "energy": 12,
+          "basic_energy": {
+            "Basic {D} Energy": 12
+          },
+          "pokemon": [
+            "Deino x4",
+            "Zweilous x3",
+            "Larvitar x3",
+            "Tyranitar x3",
+            "Shaymin x2",
+            "Dwebble x2",
+            "Crustle x2",
+            "Spiritomb x1",
+            "Pupitar x1"
+          ],
+          "trainers": [
+            "Basic {D} Energy x12",
+            "Rare Candy x4",
+            "Hilda x3",
+            "Drayton x3",
+            "Ultra Ball x2",
+            "Colress’s Tenacity x2",
+            "Xerosic’s Machinations x2",
+            "Lumiose Galette x2",
+            "Switch x2",
+            "Mist Energy x2",
+            "Spiky Energy x2",
+            "Energy Recycler x1",
+            "Sacred Ash x1",
+            "Neutralization Zone x1"
+          ],
+          "gust": 0,
+          "counts": {
+            "227": 4,
+            "228": 3,
+            "688": 1,
+            "284": 3,
+            "285": 1,
+            "290": 3,
+            "343": 2,
+            "344": 2,
+            "345": 2,
+            "1079": 4,
+            "1121": 2,
+            "1225": 3,
+            "1202": 3,
+            "1194": 2,
+            "1197": 2,
+            "1153": 2,
+            "1123": 2,
+            "1139": 1,
+            "1129": 1,
+            "1247": 1,
+            "7": 12,
+            "11": 2,
+            "14": 2
+          }
+        }
+      ]
+    ],
+    "rewards": [
+      -1,
+      1
     ]
   }
 ]
