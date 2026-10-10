@@ -793,3 +793,58 @@ Gen2 refine around 0.702: 0.751 (??) → 0.707 stable (BEST)
 - Fetch more live replays: `download_top10_replays.py --top-n 100 --replays-per-team 1` to get rank 90-100, and retry top10 with delay 0.5
 - Update gauntlet to include both archetypes (11) + live (22) = 33 matchups, use as fitness for next evolutionary search
 
+
+---
+
+## 13. PeterSharps live 372→600 + weak-mirror analysis + H1 (2026-10-10)
+
+**Live trajectory:**
+- 2026-10-10 12:08:41: phase1_tuned_80.tar.gz COMPLETE 372.6 rank 238
+- 2026-10-10 12:08:47: phase1_tuned_80.tar.gz COMPLETE 377.2 → after more episodes 421.0 rank 225 (+43 μ from same bundle playing more)
+- 2026-10-10 14:57:35: phase1_tuned_gen8_v2.tar.gz (Gen5 + v2_boss 30E Boss x2 diverse) COMPLETE 600.0 rank 162 — **+179 μ improvement**, Faza 1 goal 600+ achieved
+- 2026-10-10 15:01:25: phase1_tuned_gen8_powerglass.tar.gz (Gen5 + 29W Powerglass x2) COMPLETE 600.0 same rating
+- 2026-10-10 15:03:xx: phase1_tuned_gen8_h1.tar.gz (Gen5 + H1 Powerglass+NightStretcher recycle + lethal rem1) PENDING → 5/5 daily slots used
+
+**Replay analysis (11 JSONs, 6W-5L):**
+- Wins: YOUKE144 Lopunny, Guenoir Lucario, [Deleted], BSCode Starmie, cottonandcolor 28W, AByT3s 35W mirror
+- Losses: Atharva_Naik 35W mirror (35W vs 33W → 350 vs 330 Hammer-lanche), Pawit_Sahare 35W mirror, Rodrigo_S_Faria 33W Powerglass x2, SC Dragapult Hammer x4 Boss x3, Kydyrbek Dragapult Hammer x4 Boss x3
+- Pattern: loses to 35W mirrors (more energy = more damage), Dragapult Hammer (0 energy attacker mills us), Powerglass mirrors (recycle)
+
+**Mirror_losses gauntlet (5 worst):**
+- Created `decks/mirror_losses/` 5 decks: Jonathan_Axl, The_Prad_K, cottonandcolor, Rodrigo_S_Faria, Hitisha_Goyal (all Water mirrors with more draw or Powerglass)
+- Gen5 best vs mirror_losses 4g: 0.600 (12-8), Jonathan_Axl 0.500 (2-2), The_Prad_K 0.500, cotton 0.000 (0-4)
+- Search vs mirror_losses (pop12 g6 gen2): best 0.600 (18-12) same as Gen5, but Jonathan_Axl 0.833 in best config: SUPP 347, EVOLVE 300, ATTACK 210, RET_BASE 138, WALL_PEN -710, FIGHTER_READY 45, ENABLE 30, PROGRESS 33 — higher ENABLE/PROGRESS than Gen5.
+
+**Mirror bonus experiments:**
+- Implemented `_is_mirror_match()` checks opp active/bench for IDs 721/722/723 (Kyogre/Snover/Aboma), `_mirror_bonus()` +15/+25 added to EVOLVE/BENCH/ATTACH
+- +15 → mirror_losses 0.500 worse than Gen5 0.600
+- +25 → mirror_losses 0.600 same as Gen5, Jonathan_Axl 0.750 vs 0.500, but vs top7_live 2g 0.682 vs Gen5 0.864, vs 35W mirrors (Eugen/Pawit/Anthony/vrmichalski) 0.188 vs Gen5 0.438 → **hurts vs strong Water mirrors** because bonus triggers vs all Water (35W top7 decks have 721/722/723), so fires vs Eugen/Pawit/Anthony where patient play better.
+
+**Powerglass analysis:**
+- Card 1163: end of turn attach Basic Energy from discard if Active
+- The_Prad_K/Rodrigo/Hitisha all use Powerglass x2 and beat us
+- Agent did not explicitly score Powerglass attach; treated as TOOL 288+8 active, no recycle value
+- Created `decks/gen8/v8_29_powerglass.csv` 29W + Lillie4 Mega4 Boss2 Cyrano2 Night2 Pad2 Belt1 Judge1 Haul1 Powerglass2 → vs mirror_losses 4g 0.650 vs Gen5 0.600, The_Prad_K 1.000 (4-0) vs 0.500; vs 35W mirrors 0.375
+- `v8_30_powerglass.csv` 30W same minus Haul/Waitress → vs mirror_losses 0.500, vs top7_live 2g 0.773
+- Cotton deck 28W Snover4 Aboma4 Kyogre2 Signal4 Lillie4 Waitress4 Cyrano2 Ultra2 Boss2 Switch2 Night1 Belt1 (60) beats v2 4-0. + Gen5 agent: vs top7_live 2g 0.744 vs v2 0.864, vs mirror_losses 4g 0.750 vs v2 0.600 — tradeoff more draw helps mirror but hurts vs top.
+
+**Deck search tool:**
+- Built `tools/search_deck.py` random deck generator (energy 26-33, trainers pool) + eval via gauntlet_live vs all_eval (39 decks = top7_live 22 + combined_losses 17)
+- 5 trials: best 0.662 (49-25) with 32W Lillie4 Mega4 Boss3 Pad3 Haul2 Judge1 Waitress1 saved to `decks/gen8/best_from_deck_search.csv` — vs top7_live 2g 0.818, vs mirror_losses 4g 0.550 — close to v2 but not better.
+- Timeout at 20 trials (78 games/trial ~110s, 20 trials ~36 min) → need games 1 for quick search.
+
+**H1 implementation (Powerglass+NightStretcher recycle + lethal rem1):**
+- Card IDs: Night Stretcher 1097 (ITEM: Put Pokémon or Basic Energy from discard into hand), Powerglass 1163 (TOOL: end of turn attach Basic Energy from discard if Active)
+- `_score_wanted_card`: Night Stretcher boosted to 130 when discard Water>=2 and remaining Water<8, 120 when discard>=1 and remaining<5; Powerglass wanted 85 when active Kyogre line and discard Water>=1
+- `_score_main_option` ATTACH: Powerglass attach to active Kyogre when discard Water>=1 gets +55 → 288-12+8+55=339, just below Supporter 340 but above ITEM 330, prioritizes recycle
+- `_score_main_option` ATTACK: when KO and remaining prizes==1, +50 extra → lethal close
+- Tested vs top7_live 2g: 0.818 (36-8) vs Gen5 0.864 (38-6) — slightly worse but still good, should improve vs mirrors where recycling matters
+- Bundle `phase1_tuned_gen8_h1.tar.gz` 89 KiB smoke ok, submitted as 5th today.
+
+**Conclusion:**
+- Gen5 best remains best vs top7/top10 (0.864, 0.820), but loses to weak mirrors due to less draw and no Powerglass.
+- Best tradeoff: v2_boss 30E Boss x2 diverse (0.823 overall) — improves live μ 421→600.
+- Powerglass deck fixes The_Prad_K 0.500→1.000 and improves mirror_losses 0.600→0.650, but same live μ 600.
+- H1 should improve further by explicitly scoring recycling, not just main-option bonus. Previous mirror bonus as main-option bonus hurt vs strong mirrors; H1 as wanted_card boost for Night Stretcher is more targeted (only when low on energy).
+- Next: larger deck search 20 trials games 1 vs all_eval, then Phase 2 MCTS/expectimax with hidden-card sampling for lethal.
+
