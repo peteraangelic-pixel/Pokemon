@@ -1,10 +1,10 @@
 # Kaggle snapshot -- arc-prize-2026-arc-agi-3
 
-Generated: 2026-10-10T20:11:48Z  (run 38082768201)
+Generated: 2026-10-10T21:28:58Z  (run 38087772020)
 
 ## Public leaderboard (top 30)
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOHvu_u8Rjv9jailiW8EVJMXA8pOMtbR4hUtc3qwAK2nWTcfCxfjDdRQLoLl0_z2GVw
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOFUSYFALcxEtAy-yUg9IWlE53OA3wgU_PH0SbpC6m3w38cX_qzqzmd0pIo73Ci_YbY
 teamId,teamName,submissionDate,score
 15499660,Yi-Chia Chen,2026-10-09 23:45:09.703000,62.96
 15486995,Tufa Labs,2026-10-09 15:56:59.453000,56.52
@@ -35,7 +35,7 @@ No submissions found
 
 ## Competition files
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEfRHj3dPg7nWqKWKN8kbJ1rT1d24TX-fve0u-1jS9vb_33uxe-t5BLd-eC6OPnC-nodQVL21osKzquLcw9rZ67jUZiDdxrKeb4ZkyTVy0Mi_zkd5W5cchMt5VcXNasFcOJOoA1mhsQ0r3_
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEyqDgmLg0fKpv3FETZXWT_RrY9Goe18zZMRmmZZN2uWtZ2njBwDhcEZax6LnlCusqiT9hOZinZAgNXdFxhogOoAP9ifWJk6mrnc11nNTNg1RX9OTou2BB7IAu_dt3mJ9vUGHCExjmhPBCZ
 name                                                         size  creationDate                
 -----------------------------------------------------  ----------  --------------------------  
 ARC-AGI-3-Agents/.env.example                                 599  2026-04-17 20:12:29.398000  
