@@ -45,6 +45,8 @@ fn load_deck_ids(path: &Path) -> Result<Vec<i32>> {
 
 fn run_single_match(our_deck: &str, opp_path: &Path, agent: &str, games: usize) -> Result<MatchResult> {
     let stem = opp_path.file_stem().unwrap().to_string_lossy().to_string();
+    // Use absolute paths for python to avoid cwd issues
+    // We assume we are run from pokemon-agent dir, or use relative that works
     let output = Command::new(".venv/bin/python")
         .arg("tools/gauntlet_live.py")
         .arg("--our-deck").arg(our_deck)
@@ -52,15 +54,11 @@ fn run_single_match(our_deck: &str, opp_path: &Path, agent: &str, games: usize) 
         .arg("--live-dir").arg(opp_path.parent().unwrap().to_string_lossy().to_string())
         .arg("--only").arg(&stem)
         .arg("--games").arg(games.to_string())
-        .current_dir(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".."))
         .output()
         .with_context(|| format!("run gauntlet for {}", stem))?;
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
-    // Debug if needed
-    // eprintln!("STDOUT for {}: {}", stem, stdout);
-    // eprintln!("STDERR for {}: {}", stem, stderr);
 
     let mut rate = 0.0;
     let mut wins = 0;
@@ -69,7 +67,6 @@ fn run_single_match(our_deck: &str, opp_path: &Path, agent: &str, games: usize) 
     let mut found = false;
     for line in stdout.lines() {
         if line.contains(&stem) && line.contains('(') && line.contains('.') {
-            // Find float between 0 and 1
             for token in line.split_whitespace() {
                 if let Ok(r) = token.parse::<f64>() {
                     if r >= 0.0 && r <= 1.0 {
@@ -80,7 +77,6 @@ fn run_single_match(our_deck: &str, opp_path: &Path, agent: &str, games: usize) 
                 }
             }
             if found {
-                // Parse (w-l
                 if let Some(paren) = line.split('(').nth(1) {
                     let inner = paren.split(')').next().unwrap_or("");
                     let wl = inner.split_whitespace().next().unwrap_or("0-0");
@@ -101,8 +97,7 @@ fn run_single_match(our_deck: &str, opp_path: &Path, agent: &str, games: usize) 
     }
 
     if !found {
-        // Try to parse overall line if single match failed? Return 0 but log
-        eprintln!("Failed to parse result for {}: stdout='{}' stderr='{}'", stem, stdout.lines().last().unwrap_or(""), stderr.lines().last().unwrap_or(""));
+        eprintln!("Failed to parse result for {}: stdout tail='{}' stderr tail='{}'", stem, stdout.lines().last().unwrap_or(""), stderr.lines().last().unwrap_or(""));
     }
 
     Ok(MatchResult { name: stem, rate, wins, losses, draws })
@@ -122,7 +117,6 @@ fn main() -> Result<()> {
             let entry = entry?;
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("csv") {
-                // Skip manifest
                 if path.file_stem().and_then(|s| s.to_str()) == Some("_manifest") {
                     continue;
                 }
