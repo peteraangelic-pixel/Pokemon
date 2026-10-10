@@ -87,11 +87,20 @@ jobs:
           set -o pipefail
           make setup 2>&1 | tail -25 | tee setup.log
 
+      - name: Available public games
+        working-directory: arc-agi-3/baseline
+        run: |
+          make list-games 2>&1 | tail -20 | tee list-games.log || true
+
       - name: Play public games
         working-directory: arc-agi-3/baseline
         run: |
           set -o pipefail
-          make play-local GAME="$GAMES" STEPS="$STEPS" 2>&1 | tail -60 | tee play.log
+          # Direct call (Makefile's play-local writes no JSON report, and we
+          # need one for the annotations channel).
+          .venv/bin/python scripts/play_local.py \
+            --game "$GAMES" --max-steps "$STEPS" --record \
+            --report recordings/run-report.json 2>&1 | tail -40 | tee play.log
 
       - name: Frame sketches
         if: always()
