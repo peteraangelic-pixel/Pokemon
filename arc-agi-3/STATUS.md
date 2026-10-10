@@ -183,3 +183,27 @@ Szczegóły i twarde wyniki negatywne: **`arc-agi-3/PRIOR_WORK.md`**.
 Nagrody ARC Prize Foundation (Grand Prize $700K) tych wymogów mają — ale
 **konkurs Kaggle ($75 000 / top 5) ocenia wyłącznie wynikiem: bez write-upu
 i bez rozmowy**. Pytanie do właściciela: czy KYC przy wypłacie też dyskwalifikuje?
+
+### Kanały komunikacji z CI — weryfikacja z 2026-10-10 (ostateczna)
+
+| Kanał | Działa? | Uwagi |
+|---|---|---|
+| **`gh run view <id>` → ANNOTATIONS** | ✅ | **najlepszy**: CI wypisuje `::notice title=..::treść`, agent czyta od razu. Dowolny tekst wieloliniowy, bez logów i bez git round-tripu |
+| `gh api .../runs/<id>/jobs` | ✅ | status per krok (pass/fail) |
+| Workflow commituje wyniki na branch | ✅ | trwałe; do dłuższych raportów i plików |
+| `gh run view --log` / job logs | ❌ | `productionresults*.blob.core.windows.net` poza allowlistą |
+| Artefakty (`upload-artifact`) | ❌ | ten sam host |
+| `gh workflow run` / API dispatch | ❌ | **403** — token aplikacji (sprawdzone też na `riemann`) |
+| Checks API (`check-runs`) | ❌ | `total_count: 0` w tym repo |
+| Listowanie sekretów | ❌ | 403 |
+
+**Wniosek:** żeby uruchomić workflow — commit pliku-triggera i push (albo
+przycisk "Run workflow" w UI GitHuba). Żeby odczytać wynik — `gh run view`
+(annotacje) albo `git pull` (zakomitowane pliki).
+
+### ⚠️ Workspace potrafi się zresetować
+
+Między turami lokalny branch wrócił na `ca72e320` (initial commit), a cała
+praca stała się plikami nieśledzonymi. Nic nie zginęło, bo wszystko było
+wypchnięte — naprawa to `git fetch origin <branch> && git reset --hard origin/<branch>`.
+**Wniosek operacyjny: puszuj po każdym kroku, nie na koniec sesji.**
