@@ -10,19 +10,14 @@ use anyhow::{Result, Context};
 struct Args {
     #[arg(long, default_value="decks/v2_boss.csv")]
     our_deck: String,
-
     #[arg(long, default_value="agents/main_heuristic.py")]
     agent: String,
-
     #[arg(long, default_value="decks/top7_live")]
     live_dir: String,
-
     #[arg(long, default_value_t=2)]
     games: usize,
-
     #[arg(long, default_value_t=0)]
     jobs: usize,
-
     #[arg(long)]
     only: Option<String>,
 }
@@ -62,17 +57,30 @@ fn run_single_match(our_deck: &str, opp_path: &Path, agent: &str, games: usize) 
         .with_context(|| format!("run gauntlet for {}", stem))?;
 
     let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    // Debug if needed
+    // eprintln!("STDOUT for {}: {}", stem, stdout);
+    // eprintln!("STDERR for {}: {}", stem, stderr);
+
     let mut rate = 0.0;
     let mut wins = 0;
     let mut losses = 0;
     let mut draws = 0;
+    let mut found = false;
     for line in stdout.lines() {
-        if line.contains(&stem) && line.contains('(') {
-            let parts: Vec<&str> = line.split_whitespace().collect();
-            if parts.len() >= 2 {
-                if let Ok(r) = parts[parts.len()-2].parse::<f64>() {
-                    rate = r;
+        if line.contains(&stem) && line.contains('(') && line.contains('.') {
+            // Find float between 0 and 1
+            for token in line.split_whitespace() {
+                if let Ok(r) = token.parse::<f64>() {
+                    if r >= 0.0 && r <= 1.0 {
+                        rate = r;
+                        found = true;
+                        break;
+                    }
                 }
+            }
+            if found {
+                // Parse (w-l
                 if let Some(paren) = line.split('(').nth(1) {
                     let inner = paren.split(')').next().unwrap_or("");
                     let wl = inner.split_whitespace().next().unwrap_or("0-0");
@@ -87,8 +95,14 @@ fn run_single_match(our_deck: &str, opp_path: &Path, agent: &str, games: usize) 
                         }
                     }
                 }
+                break;
             }
         }
+    }
+
+    if !found {
+        // Try to parse overall line if single match failed? Return 0 but log
+        eprintln!("Failed to parse result for {}: stdout='{}' stderr='{}'", stem, stdout.lines().last().unwrap_or(""), stderr.lines().last().unwrap_or(""));
     }
 
     Ok(MatchResult { name: stem, rate, wins, losses, draws })
@@ -108,6 +122,10 @@ fn main() -> Result<()> {
             let entry = entry?;
             let path = entry.path();
             if path.extension().and_then(|s| s.to_str()) == Some("csv") {
+                // Skip manifest
+                if path.file_stem().and_then(|s| s.to_str()) == Some("_manifest") {
+                    continue;
+                }
                 if let Some(only) = &args.only {
                     let stem = path.file_stem().unwrap().to_string_lossy();
                     if !only.split(',').any(|o| o==stem) {
