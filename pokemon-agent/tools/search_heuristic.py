@@ -40,39 +40,37 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 # Search space: param -> (default, min, max, type)
 # Based on current heuristic defaults that matter most
+
 SEARCH_SPACE = {
-    # Scoring bands — order must be preserved, but exact values tunable within bands
-    "PTCG_SUPPORTER": (340, 320, 360),
-    "PTCG_ITEM": (330, 310, 350),
-    "PTCG_BENCH": (320, 300, 340),
-    "PTCG_EVOLVE": (310, 290, 330),
-    "PTCG_ATTACH": (300, 280, 320),
-    "PTCG_STADIUM": (290, 270, 310),
-    "PTCG_ABILITY": (270, 250, 290),
-    "PTCG_ATTACK_KO": (260, 240, 280),
-    "PTCG_ATTACK": (200, 180, 220),
-    # Retreat
-    "PTCG_RETREAT_BASE": (120, 80, 160),
-    "PTCG_RETREAT_NO_ATK": (205, 180, 230),
-    "PTCG_RETREAT_KO": (285, 260, 310),
-    "PTCG_RETREAT_WALL": (340, 320, 380),
-    # Wall handling
-    "PTCG_GUST_BONUS": (60, 30, 100),
-    "PTCG_WALL_PENALTY": (-500, -700, -300),
-    "PTCG_WALL_ESCAPE": (200, 100, 300),
-    "PTCG_ATTACH_WALL_BONUS": (40, 20, 80),
-    "PTCG_ATTACH_WALL_PENALTY": (-20, -50, 0),
-    "PTCG_BEACH_WALL": (345, 320, 370),
-    # Fighter
-    "PTCG_FIGHTER_READY": (60, 30, 90),
-    "PTCG_FIGHTER_NOT_READY": (-40, -80, -10),
-    "PTCG_PRIZE_PENALTY": (25, 10, 40),
-    # Energy
-    "PTCG_ENABLE_BONUS": (30, 15, 50),
-    "PTCG_PROGRESS_BONUS": (18, 8, 30),
-    "PTCG_ACTIVE_BONUS": (12, 5, 25),
-    "PTCG_PRIMARY_BONUS": (10, 5, 20),
+    # Narrowed around Gen2 best 0.751 -> 0.736 stable
+    "PTCG_SUPPORTER": (345, 335, 355),
+    "PTCG_ITEM": (315, 305, 325),
+    "PTCG_BENCH": (313, 303, 323),
+    "PTCG_EVOLVE": (294, 284, 304),
+    "PTCG_ATTACH": (281, 271, 291),
+    "PTCG_STADIUM": (270, 260, 280),
+    "PTCG_ABILITY": (266, 256, 276),
+    "PTCG_ATTACK_KO": (273, 263, 283),
+    "PTCG_ATTACK": (205, 195, 215),
+    "PTCG_RETREAT_BASE": (123, 100, 140),
+    "PTCG_RETREAT_NO_ATK": (203, 190, 220),
+    "PTCG_RETREAT_KO": (282, 265, 295),
+    "PTCG_RETREAT_WALL": (353, 335, 365),
+    "PTCG_GUST_BONUS": (38, 20, 60),
+    "PTCG_WALL_PENALTY": (-697, -720, -650),
+    "PTCG_WALL_ESCAPE": (189, 160, 220),
+    "PTCG_ATTACH_WALL_BONUS": (23, 10, 40),
+    "PTCG_ATTACH_WALL_PENALTY": (-32, -45, -15),
+    "PTCG_BEACH_WALL": (355, 335, 365),
+    "PTCG_FIGHTER_READY": (38, 20, 60),
+    "PTCG_FIGHTER_NOT_READY": (-54, -70, -30),
+    "PTCG_PRIZE_PENALTY": (24, 15, 35),
+    "PTCG_ENABLE_BONUS": (18, 10, 30),
+    "PTCG_PROGRESS_BONUS": (29, 20, 35),
+    "PTCG_ACTIVE_BONUS": (5, 2, 15),
+    "PTCG_PRIMARY_BONUS": (13, 5, 20),
 }
+
 
 
 def random_config() -> dict:
