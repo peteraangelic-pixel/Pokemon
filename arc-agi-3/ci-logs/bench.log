@@ -1,8 +1,19 @@
+== salt-and-pepper (przypadek patologiczny) ==
 frames           : 2000
 grid             : 64x64
 threads          : 4
-wall clock       : 55.589 s
-throughput       : 36.0 frames/s
-per frame        : 27.794 ms
+wall clock       : 31.841 s
+throughput       : 62.8 frames/s
+per frame        : 15.920 ms
 total components : 4285412
 avg components   : 2142.7
+
+== realistyczne (18 duzych obiektow) ==
+frames           : 5000
+grid             : 64x64
+threads          : 4
+wall clock       : 1.632 s
+throughput       : 3063.8 frames/s
+per frame        : 0.326 ms
+total components : 88192
+avg components   : 17.6
