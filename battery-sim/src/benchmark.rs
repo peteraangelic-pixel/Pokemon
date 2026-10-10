@@ -138,20 +138,18 @@ pub const COMMERCIAL: &[CommRow] = &[
     },
 ];
 
-/// Nasi kandydaci: (katoda, anoda, elektrolit, loading, N/P).
-pub const CANDIDATES: &[(&str, &str, &str, f64, f64)] = &[
-    ("NMC811", "SIC", "GEL", 30.0, 1.1),
-    ("NMC811", "SIC", "IONIC", 30.0, 1.1),
-    ("NMC811", "SIC", "SOLID", 20.0, 1.1),
-    ("NMC811", "GRAPHITE", "SOLID", 20.0, 1.1),
-    ("NMC811", "SIC", "GEL", 25.0, 1.2),
-    ("NA_PW", "HC", "LP57", 30.0, 1.1),
-    ("NA_O3", "HC", "GEL", 25.0, 1.1),
-    ("NA_NFPP", "HC", "GEL", 25.0, 1.1),
-    ("DRX", "SIC", "SOLID", 20.0, 1.1),
-    ("DRX", "LIFREE", "SOLID", 20.0, 1.05),
-    ("LIO2", "LIMETAL", "IONIC", 10.0, 1.05),
-    ("KPB", "GRAPHITE", "LP57", 30.0, 1.1),
+/// Nasi kandydaci: (katoda, anoda, elektrolit, loading, N/P, temperatura °C).
+pub const CANDIDATES: &[(&str, &str, &str, f64, f64, f64)] = &[
+    ("NMC811", "LIFREE", "GEL", 35.0, 1.05, -10.0),
+    ("NMC811", "SIC", "GEL", 30.0, 1.1, 25.0),
+    ("NMC811", "LIFREE", "SOLID", 30.0, 1.05, 25.0),
+    ("LFP", "LIFREE", "LP57", 35.0, 1.05, 25.0),
+    ("LFP", "GRAPHITE", "LP57", 20.0, 1.1, 25.0),
+    ("DRX", "SIC", "GEL", 35.0, 1.05, -10.0),
+    ("NA_PW", "HC", "LP57", 30.0, 1.1, 25.0),
+    ("NA_NFPP", "HC", "SOLID", 25.0, 1.1, 25.0),
+    ("LIO2", "LIMETAL", "IONIC", 10.0, 1.05, 25.0),
+    ("KPB", "GRAPHITE", "LP57", 30.0, 1.1, 25.0),
 ];
 
 /// Ocenia wszystkich kandydatow (2C, 25°C, 3000 cykli + test abusow).
@@ -161,7 +159,7 @@ pub fn evaluate_candidates(cp: &CellParams, sp: &SimParams) -> Vec<OurRow> {
         overcharge: 1.0,
         t_max_h: 3.0,
     };
-    par::par_map(CANDIDATES.to_vec(), |(ca, an, el, ld, np)| {
+    par::par_map(CANDIDATES.to_vec(), |(ca, an, el, ld, np, temp)| {
         let cell = Cell::new(
             cathode(ca).expect("katoda"),
             anode(an).expect("anoda"),
@@ -170,10 +168,13 @@ pub fn evaluate_candidates(cp: &CellParams, sp: &SimParams) -> Vec<OurRow> {
             np,
             cp,
         );
-        let r = simulate(&cell, cp, sp, 2.0, 1.0, 25.0, 3000, None);
-        let ab = simulate(&cell, cp, sp, 1.0, 1.0, 25.0, 1, Some(abuse));
+        let r = simulate(&cell, cp, sp, 2.0, 1.0, temp, 3000, None);
+        let ab = simulate(&cell, cp, sp, 1.0, 1.0, temp, 1, Some(abuse));
         OurRow {
-            combo: format!("{}/{}/{} load={:.0} N/P={:.2}", ca, an, el, ld, np),
+            combo: format!(
+                "{}/{}/{} load={:.0} N/P={:.2} T={:.0}°C",
+                ca, an, el, ld, np, temp
+            ),
             wh_kg: cell.wh_kg,
             wh_kg_pack: cell.wh_kg_pack,
             wh_l: cell.wh_l,
@@ -189,7 +190,7 @@ pub fn evaluate_candidates(cp: &CellParams, sp: &SimParams) -> Vec<OurRow> {
 
 /// Wypisuje obie tabele: nasi kandydaci + rynek.
 pub fn print_benchmark(cp: &CellParams, sp: &SimParams) {
-    println!("== Nasi kandydaci (symulacja: 2C, 25°C, pakiet x0.72) ==");
+    println!("== Nasi kandydaci (symulacja: 2C, T jak w wierszu, pakiet x0.72) ==");
     println!(
         "  {:<36} {:>7} {:>8} {:>6} {:>6} {:>8} {:>6} {:>10}  abuse 150C",
         "kombinacja", "Wh/kg", "pak Wh/kg", "Wh/L", "$/kWh", "cykle@2C", "t80min", "EOL"

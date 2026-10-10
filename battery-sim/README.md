@@ -212,6 +212,21 @@ cargo run --release -- pitch --lang pl --out pitch-pl.md
   kombinacji wokół zwycięzców + drabiny testowe (`ladder`: C-rate 1–6C, abuse 130–250 °C,
   moc 1–5C). Wyniki: `optim_winners.csv` (gitignored — generowane) + `ANALIZA_OPTIM.md`.
 
+## Produkowalność — które baterie złożyć w OBECNYCH fabrykach?
+
+Ocena „drop-in”: czy da się wyprodukować na istniejących liniach Li-ion
+(powlekanie katody/anody, zwijanie, napełnianie elektrolitem, formacja).
+
+| kandydat | drop-in? | co trzeba zmienić | komentarz |
+|---|---|---|---|
+| **Na-jon (Na-PW + hard carbon + LP57)** | ✅ **dziś** | adaptacja linii — CATL produkuje Naxtra od końca 2025 na przystosowanych liniach Li-ion | najbliżej „bez problemu”; minus: 176 Wh/kg — gra o koszt/bezpieczeństwo, nie o energię |
+| **NMC811 + Si-C + GEL** | ✅ **prawie** (1–2 lata) | katoda NMC811 = standard; Si-C od dostawców (Sila produkuje, Amprius wysyła); żel = modyfikacja kroku napełniania (linie półstałe już istnieją: WeLion, CATL) | nasz najlepszy kandydat „lepszy od rynku”, który fabryka złoży wkrótce |
+| LFP + grafit + LP57 (klasa Blade) | ✅ **dziś** | nic — to dzisiejsza produkcja | referencja rynku; w modelu nie przechodzi testu abuse na poziomie ogniwa (pakietowe Blade jest „wystarczająco bezpieczne”) |
+| NMC811 / LFP + **anode-free** (+ GEL/SOLID) | ⚠️ 2–3 lata | brak powlekania anody + rezerwuar Li (pre-litacja katody) — proces jak Samsung SDI „anode-less” (cel 2027+) | najwyższa energia, ale nowy proces |
+| **DRX** + Si-C + GEL | ⚠️ 2027+ | katoda DRX = nowa synteza (etap pilota) | bez Co/Ni, ale katoda niekomercyjna |
+| SOLID (all-solid-state) | ❌ nowe fabryki | suche pomieszczenia, prasowanie izostatyczne (Toyota/Samsung/BYD 2027+) | — |
+| Li-air / Mg-jon / FeF₃ / K-jon | ❌ laboratorium | — | — |
+
 ## Prezentowanie wyników — ścieżka walidacji
 
 Symulacja to narzędzie do **selekcji kandydatów**, nie certyfikat. Zanim

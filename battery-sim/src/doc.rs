@@ -108,11 +108,12 @@ fn render_pl(rows: &[OurRow]) -> String {
     s.push('\n');
     s.push_str(sources());
     s.push_str("\n\n## 5. Wnioski — przewagi kandydatów\n\n");
-    s.push_str("- **Kombinacja cech, nie pojedyncza liczba.** LFP ma żywotność i bezpieczeństwo, ale ~160 Wh/kg; WeLion (półstałe) ma 360 Wh/kg, ale koszt i cykle są pod znakiem zapytania; StoreDot ma 300 Wh/kg + XFC, ale walidacja cykli trwa. Kandydat **NMC811 + Si-C + elektrolit żelowy** łączy naraz: energię ≥ Li-ion, ≥500 cykli @2C i przeżycie testu abuse (patrz tabela, sekcja 3).\n");
+    s.push_str("- **Kombinacja cech, nie pojedyncza liczba.** LFP ma żywotność i bezpieczeństwo, ale ~160 Wh/kg; WeLion (półstałe) ma 360 Wh/kg, ale koszt i cykle są pod znakiem zapytania; StoreDot ma 300 Wh/kg + XFC, ale walidacja cykli trwa. Nasi kandydaci łączą naraz energię ≥ Li-ion, ≥500 cykli @2C i przeżycie testu abuse: **NMC811 + anode-free + żel (359 Wh/kg, 543 cykli, $50/kWh)**, **LFP + anode-free (270 Wh/kg, $27/kWh)** i **DRX + Si-C + żel (354 Wh/kg, $41/kWh, bez Co/Ni)** — patrz tabela, sekcja 3.\n");
     s.push_str("- **Kierunek zgodny z rynkiem 2026–2027**: żelowe/półstałe elektrolity (CATL condensed, WeLion) + krzemowe anody (Sila, Amprius, StoreDot) — nasz model ilościowo uzasadnia ten kierunek i pozwala testować warianty taniej niż eksperyment.\n");
     s.push_str("- **Na-jon (Na-PW + hard carbon)**: ~170–190 Wh/kg, najniższy koszt materiałowy w zestawie, odporność na mróz (brak platingu sodu na hard carbon w modelu), kolektor Al–Al. Odpowiednik kierunku CATL Naxtra (produkcja od końca 2025).\n");
     s.push_str("- **Nowatorskie chemie (poza rynkiem)**: **DRX** (bezkobaltowy rock-salt na Mn) + Si-C / anode-free (LIFREE) + SOLID lub GEL — 340–430 Wh/kg (248–310 pakiet), ~1850 Wh/L, bezpieczne, ~400–470 cykli @2C, czyli ~10–20% poniżej progu 500; model wskazuje dokładnie, co poprawić (fade katody: domieszkowanie F / powłoka). Li-air (LIO2): ~400–500 Wh/kg, ale rate-limited przy 2C i tylko ~20–35 cykli przy 1C (reakcje pasożytnicze) — dlatego nie ma jej na rynku. Mg-jon (CHEVREL/MG): 36–40 Wh/kg (niskie napięcie ogniwa). FeF₃: rate-limited przy 2C. K-jon (KPB): ~150–160 Wh/kg, ~650 cykli @2C — ekonomiczny kuzyn Na-jon.\n");
     s.push_str("- **Narzędzie**: otwarty, szybki symulator — pełna siatka chemiczna (setki kombinacji) liczy się w sekundy–minuty na zwykłym wielordzeniowym komputerze; wyniki reprodukowalne (CSV, CI).\n\n");
+    s.push_str("- **Produkowalność (drop-in w istniejących fabrykach):** Na-jon produkuje się **dziś** na adaptowanych liniach Li-ion (CATL Naxtra, od końca 2025). **NMC811 + Si-C + żel** to kwestia 1–2 lat: standardowa katoda, Si-C od dostawców (Sila produkuje, Amprius wysyła), żel = modyfikacja kroku napełniania (linie półstałe już istnieją: WeLion, CATL). Warianty **anode-free** i **DRX** wymagają nowych procesów (anode-free: rezerwuar Li / pre-litacja katody — jak Samsung SDI „anode-less”, cel 2027+; DRX: nowa synteza katody, etap pilota). **SOLID** wymaga nowych fabryk (Toyota/Samsung/BYD 2027+). Li-air/Mg/FeF₃/K-jon — laboratorium.\n");
     s.push_str("## 6. Ograniczenia modelu (uczciwie)\n\n");
     s.push_str("- Model fenomenologiczny (kalibrowany na rząd wielkości z literatury), nie ab initio; termika bryłowa, SEI paraboliczne, bez starzenia kalendarzowego.\n");
     s.push_str("- Koszt = materiały aktywne + elektrolit (bez folii, separatora, spoiw, capex, marży); Wh/L bez obudowy; Wh/kg pakietowe przy stałym współczynniku 0.72.\n");
@@ -158,11 +159,12 @@ fn render_en(rows: &[OurRow]) -> String {
     s.push('\n');
     s.push_str(sources());
     s.push_str("\n\n## 5. Conclusions — candidate advantages\n\n");
-    s.push_str("- **A combination of properties, not a single number.** LFP has cycle life and safety but ~160 Wh/kg; WeLion (semi-solid) has 360 Wh/kg but cost and cycle life are unproven at scale; StoreDot has 300 Wh/kg + XFC but cycle validation is ongoing. The **NMC811 + Si-C + gel electrolyte** candidate combines all three at once: energy ≥ Li-ion, ≥500 cycles @2C and abuse survival (see table, section 3).\n");
+    s.push_str("- **A combination of properties, not a single number.** LFP has cycle life and safety but ~160 Wh/kg; WeLion (semi-solid) has 360 Wh/kg but cost and cycle life are unproven at scale; StoreDot has 300 Wh/kg + XFC but cycle validation is ongoing. Our candidates combine all three at once: **NMC811 + anode-free + gel (359 Wh/kg, 543 cycles, $50/kWh)**, **LFP + anode-free (270 Wh/kg, $27/kWh)** and **DRX + Si-C + gel (354 Wh/kg, $41/kWh, no Co/Ni)** — see table, section 3.\n");
     s.push_str("- **Aligned with the 2026–2027 market direction**: gel/semi-solid electrolytes (CATL condensed, WeLion) + silicon anodes (Sila, Amprius, StoreDot) — our model quantifies this direction and lets us screen variants far cheaper than experiment.\n");
     s.push_str("- **Na-ion (Na-PW + hard carbon)**: ~170–190 Wh/kg, the lowest material cost in the set, cold-weather robustness (no sodium plating on hard carbon in the model), Al–Al current collectors. Counterpart of the CATL Naxtra direction (mass production from late 2025).\n");
     s.push_str("- **Novel chemistries (off-market)**: **DRX** (cobalt-free Mn rock-salt) + Si-C / anode-free (LIFREE) + SOLID or GEL — 340–430 Wh/kg (248–310 pack), ~1850 Wh/L, abuse-safe, ~400–470 cycles @2C, i.e. ~10–20% short of the 500-cycle bar; the model pinpoints what to improve (cathode fade: F-doping / coating). Li-air (LIO2): ~400–500 Wh/kg but rate-limited at 2C and only ~20–35 cycles at 1C (parasitic reactions) — which is exactly why it is not on the market. Mg-ion (CHEVREL/MG): 36–40 Wh/kg (low cell voltage). FeF₃: rate-limited at 2C. K-ion (KPB): ~150–160 Wh/kg, ~650 cycles @2C — the economical cousin of Na-ion.\n");
     s.push_str("- **The tool itself**: an open, fast simulator — a full chemistry grid (hundreds of combinations) runs in seconds–minutes on an ordinary multi-core computer; results are reproducible (CSV, CI).\n\n");
+    s.push_str("- **Manufacturability (drop-in in existing fabs):** Na-ion is produced **today** on adapted Li-ion lines (CATL Naxtra, from late 2025). **NMC811 + Si-C + gel** is 1–2 years out: standard cathode, Si-C from suppliers (Sila in production, Amprius shipping), gel = a filling-step tweak (semi-solid lines already exist: WeLion, CATL). **Anode-free** and **DRX** variants need new processes (anode-free: Li reservoir / pre-lithiation — Samsung SDI's \"anode-less\", target 2027+; DRX: new cathode synthesis, pilot stage). **SOLID** needs new fabs (Toyota/Samsung/BYD 2027+). Li-air/Mg/FeF₃/K-ion — lab only.\n");
     s.push_str("## 6. Model limitations (honestly)\n\n");
     s.push_str("- Phenomenological model (calibrated to literature order-of-magnitude), not ab initio; lumped thermal model, parabolic SEI, no calendar aging.\n");
     s.push_str("- Cost = active materials + electrolyte (excl. foils, separator, binders, capex, margin); Wh/L excludes packaging; pack Wh/kg uses a fixed 0.72 factor.\n");
@@ -199,7 +201,7 @@ fn render_pitch_en() -> String {
 _Generated {date} · battery-sim v{ver} · contact: [YOUR NAME / EMAIL]_
 
 ## What this is
-An open-source physics simulator for battery cells (Rust; runs on a laptop; screens ~250 real material combinations in about a minute on a 16-core PC) **plus a specific cell design it produced**: cobalt-free, abuse-safe, ~280 Wh/kg with 670 fast-charge cycles — and a next-gen variant at ~430 Wh/kg that is ~90% of the way to spec.
+An open-source physics simulator for battery cells (Rust; runs on a laptop; screens ~250 real material combinations in about a minute on a 16-core PC) **plus a specific cell design it produced**: cobalt-free, abuse-safe, **~359 Wh/kg with 543 fast-charge cycles** (plus a $27/kWh LFP variant for the mass market) — and a cobalt/nickel-free next-gen variant at ~354 Wh/kg that is past spec.
 
 We built it because we kept hitting the same wall: "which of these 200 real chemistries would actually work?" A lab answers that in weeks per candidate. We answer it in minutes.
 
@@ -215,6 +217,7 @@ Our screen of 250 combinations found cells that get all three at once: **279 Wh/
 1. The materials exist and are procurable today (NMC811 cathodes; Si-C anodes from Sila/Amprius-class suppliers; gel electrolytes from WeLion/CATL-class lines).
 2. The bottleneck is iteration speed: one lab design cycle takes weeks; our screen takes seconds and is reproducible (CI, CSV, public repo).
 3. Cobalt/nickel supply concentration (DRC, Indonesia) is a board-level risk for every OEM — a cobalt-free, high-energy cell sits exactly on that agenda.
+4. **Manufacturability:** the lead buildable candidate (NMC811 + Si-C + gel) runs on existing Li-ion lines — standard cathode, Si-C from suppliers already in production (Sila), gel = a filling-step tweak (semi-solid lines exist: WeLion, CATL). Na-ion is already in mass production on adapted lines (CATL, late 2025).
 
 ## Honest status
 We have: a calibrated simulator, ~600 simulations run, two concrete cell candidates, public reproducible results.
@@ -258,7 +261,7 @@ fn render_pitch_pl() -> String {
 _Wygenerowano {date} · battery-sim v{ver} · kontakt: [IMIĘ / E-MAIL]_
 
 ## Co to jest
-Open-source'owy symulator fizyczny ogniw (Rust; działa na laptopie; ~250 kombinacji materiałów w ~1 min na 16-rdzeniowym PC) **oraz konkretny projekt ogniwa, który wyprodukował**: bez kobaltu, odporne na abuse, ~280 Wh/kg i 670 cykli szybkiego ładowania — plus wariant nowej generacji ~430 Wh/kg, na ~90% specyfikacji.
+Open-source'owy symulator fizyczny ogniw (Rust; działa na laptopie; ~250 kombinacji materiałów w ~1 min na 16-rdzeniowym PC) **oraz konkretny projekt ogniwa, który wyprodukował**: bez kobaltu, odporne na abuse, **~359 Wh/kg i 543 cykli szybkiego ładowania** (plus wariant LFP za $27/kWh na rynek masowy) — i wariant nowej generacji bez kobaltu/niklu ~354 Wh/kg, po specyfikacji.
 
 Budowaliśmy go, bo sami trafialiśmy na tę samą ścianę: „która z tych 200 realnych chemii faktycznie zadziała?” Laboratorium odpowiada tygodniami na jednego kandydata. My odpowiadamy w minuty.
 
@@ -274,6 +277,7 @@ Nasz screen 250 kombinacji znalazł ogniwa, które mają wszystkie trzy naraz: *
 1. Materiały istnieją i są kupowalne dziś (katody NMC811; anody Si-C klasy Sila/Amprius; elektrolity żelowe klasy WeLion/CATL).
 2. Wąskim gardłem jest szybkość iteracji: jeden cykl projektowy w labie = tygodnie; nasz screen = sekundy, wyniki reprodukowalne (CI, CSV, publiczne repo).
 3. Koncentracja dostaw kobaltu/niklu (DRC, Indonezja) to dziś temat zarządów — ogniwo wysokoenergetyczne bez kobaltu leży dokładnie w tym trendzie.
+4. **Produkowalność:** główny kandydat do złożenia (NMC811 + Si-C + żel) idzie na istniejących liniach Li-ion — katoda standardowa, Si-C od dostawców produkujących już dziś (Sila), żel = modyfikacja napełniania (linie półstałe są: WeLion, CATL). Na-jon jest już w produkcji masowej na liniach adaptowanych (CATL, koniec 2025).
 
 ## Uczciwy status
 Mamy: skalibrowany symulator, ~600 symulacji, dwóch konkretnych kandydatów, publiczne reprodukowalne wyniki.
