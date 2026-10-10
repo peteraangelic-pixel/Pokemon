@@ -16,6 +16,7 @@ mod materials;
 mod par;
 mod report;
 mod sim;
+mod storage;
 mod sweep;
 mod util;
 
@@ -540,6 +541,8 @@ Polecenia:
   pitch       raport inwestorski, one-pager EN/PL (--lang en|pl --out plik.md)
   ladder      drabiny testowe dla top-PASS z CSV: C-rate 1-6C, abuse 130-250C, moc 10C
               (--csv optim_winners.csv --top 12)
+  storage     starzenie kalendarzowe (shelf life): --soc 1.0 --temp 25 --years 10
+              (pojedyncze ogniwo) lub --all (tabela kandydatów)
   help        ta pomoc
 
 Opcje (cell):
@@ -597,6 +600,38 @@ fn run_pitch(cli: &Cli) {
     }
 }
 
+fn run_storage(cli: &Cli, cp: &CellParams, sp: &SimParams) {
+    if cli.flag("--all") {
+        storage::print_table(cp, sp);
+        return;
+    }
+    let cath = need_cathode_cli(cli, "NMC811");
+    let an = need_anode_cli(cli, "GRAPHITE");
+    let el = need_electrolyte_cli(cli, "LP57");
+    if !materials::compatible(cath.name, an.name) {
+        eprintln!("Para {}/{} jest niespojna systemowo.", cath.name, an.name);
+        std::process::exit(2);
+    }
+    let loading = cli.get_f64("--loading", 20.0);
+    let np = cli.get_f64("--np", 1.1);
+    let soc = cli.get_f64("--soc", 1.0);
+    let temp = cli.get_f64("--temp", 25.0);
+    let years = cli.get_f64("--years", 10.0);
+    let cell = Cell::new(cath, an, el, loading, np, cp);
+    let r = storage::simulate_storage(&cell, cp, sp, soc, temp, years);
+    storage::print_single(&r);
+    if let Some(path) = cli.get("--csv") {
+        let mut w = String::from("years,capacity_frac\n");
+        for (y, cap) in &r.curve {
+            w.push_str(&format!("{y:.2},{cap:.5}\n"));
+        }
+        match std::fs::write(path, w) {
+            Ok(()) => println!("Krzywa zapisana do {path}"),
+            Err(e) => eprintln!("Blad zapisu CSV: {e}"),
+        }
+    }
+}
+
 fn main() {
     let cli = parse_cli();
     let cp = CellParams::default();
@@ -611,6 +646,7 @@ fn main() {
         "report" => run_report(&cli, &cp, &sp),
         "pitch" => run_pitch(&cli),
         "ladder" => ladder::print_ladder(&cli, &cp, &sp),
+        "storage" => run_storage(&cli, &cp, &sp),
         "help" | "--help" | "-h" => print_help(),
         other => {
             eprintln!("Nieznane polecenie: {other}");

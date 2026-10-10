@@ -32,9 +32,9 @@ fn today() -> String {
 pub fn write_report(path: &str, lang: &str, cp: &CellParams, sp: &SimParams) -> io::Result<usize> {
     let rows = evaluate_candidates(cp, sp);
     let md = if lang == "en" {
-        render_en(&rows)
+        render_en(&rows, cp, sp)
     } else {
-        render_pl(&rows)
+        render_pl(&rows, cp, sp)
     };
     fs::write(path, &md)?;
     Ok(md.lines().count())
@@ -82,7 +82,7 @@ fn sources() -> &'static str {
      CATL Shenxing 4C–6C, Zeekr Golden Brick 5.5C (10,5 min) — carnewschina.com, paultan.org, interestingengineering.com, insideevs.com."
 }
 
-fn render_pl(rows: &[OurRow]) -> String {
+fn render_pl(rows: &[OurRow], cp: &CellParams, sp: &SimParams) -> String {
     let mut s = String::new();
     s.push_str(&format!(
         "# Raport projektu: nowy typ baterii (battery-sim v{})\n\n",
@@ -130,10 +130,16 @@ fn render_pl(rows: &[OurRow]) -> String {
     s.push_str("4. Pouch cells + testy abuse w zewnętrznym labie (TÜV / UL 9540A / GB 38031-2025 / UN 38.3).\n");
     s.push_str("5. Freedom-to-operate: przegląd patentów (Si-C + żel/stałe elektrolity to gęsto opatentowane pole: CATL, WeLion, StoreDot, QuantumScape).\n");
     s.push_str("6. Z danymi walidacyjnymi: rozmowy z producentami ogniw / dostawcami materiałów / OEM; finansowanie: NCBR, PARP, EIC Accelerator, Horizon Europe.\n");
+    s.push_str("## 8. Starzenie kalendarzowe (shelf life)\n\n");
+    s.push_str("Osobny model: ogniwo **stoi** przy zadanym SOC i temperaturze (bez cyklowania) — SEI rośnie ~√t (najszybciej przy 100% SOC), elektrolit utlenia się przy wysokim potencjale katody, plus samo-rozładowanie. Kalibracja: NMC/grafit przy 25 °C/100% SOC traci ~3%/rok (shelf life ~8 lat), przy 45 °C ~3× szybciej; LFP/LTO praktycznie nie starzeje się na półce.\n\n");
+    s.push_str(&crate::storage::table_md(&crate::storage::storage_rows(
+        cp, sp,
+    )));
+    s.push_str("\nWnioski: NMC811 przy 45 °C/100% SOC wytrzymuje ~3,5 roku; LFP/LIFREE i LFP/grafit >15 lat; NA_NFPP (NASICON) >20 lat; DRX starzeje się szybko przy pełnym naładowaniu (wysokie napięcie katody); Li-air umiera w miesiące (samo-rozładowanie). Dla EV (stojących 95% czasu) i magazynów to właśnie ten wykres, od którego zależy gwarancja.\n");
     s
 }
 
-fn render_en(rows: &[OurRow]) -> String {
+fn render_en(rows: &[OurRow], cp: &CellParams, sp: &SimParams) -> String {
     let mut s = String::new();
     s.push_str(&format!(
         "# Project report: a new battery type (battery-sim v{})\n\n",
@@ -181,6 +187,12 @@ fn render_en(rows: &[OurRow]) -> String {
     s.push_str("4. Pouch cells + abuse testing in an external lab (TÜV / UL 9540A / GB 38031-2025 / UN 38.3).\n");
     s.push_str("5. Freedom-to-operate: patent landscape review (Si-C + gel/solid electrolytes are heavily patented: CATL, WeLion, StoreDot, QuantumScape).\n");
     s.push_str("6. With validation data: talk to cell makers / material suppliers / OEMs; funding: NCBR, PARP, EIC Accelerator, Horizon Europe.\n");
+    s.push_str("## 8. Calendar aging (shelf life)\n\n");
+    s.push_str("A separate model: the cell **sits** at a given SOC and temperature (no cycling) — SEI grows ~√t (fastest at 100% SOC), the electrolyte oxidizes at high cathode potential, plus self-discharge. Calibration: NMC/graphite at 25 °C/100% SOC loses ~3%/yr (shelf life ~8 yrs), ~3× faster at 45 °C; LFP/LTO barely ages on a shelf.\n\n");
+    s.push_str(&crate::storage::table_md(&crate::storage::storage_rows(
+        cp, sp,
+    )));
+    s.push_str("\nTakeaways: NMC811 at 45 °C/100% SOC lasts ~3.5 years on a shelf; LFP/LIFREE and LFP/graphite >15 years; NA_NFPP (NASICON) >20 years; DRX ages fast at full charge (high cathode voltage); Li-air dies in months (self-discharge). For EVs (parked 95% of the time) and grid storage, this curve is what the warranty is written against.\n");
     s
 }
 
@@ -218,6 +230,7 @@ Our screen of 250 combinations found cells that get all three at once: **279 Wh/
 2. The bottleneck is iteration speed: one lab design cycle takes weeks; our screen takes seconds and is reproducible (CI, CSV, public repo).
 3. Cobalt/nickel supply concentration (DRC, Indonesia) is a board-level risk for every OEM — a cobalt-free, high-energy cell sits exactly on that agenda.
 4. **Manufacturability:** the lead buildable candidate (NMC811 + Si-C + gel) runs on existing Li-ion lines — standard cathode, Si-C from suppliers already in production (Sila), gel = a filling-step tweak (semi-solid lines exist: WeLion, CATL). Na-ion is already in mass production on adapted lines (CATL, late 2025).
+5. **Shelf life is modeled too**: calendar aging at 50%/100% SOC and 25/45 °C — the failure mode that actually kills EV batteries (they sit parked 95% of the time). Our NMC candidate: ~8 years at 25 °C/100% SOC, ~3.5 at 45 °C; the LFP variant: >15 years.
 
 ## Honest status
 We have: a calibrated simulator, ~600 simulations run, two concrete cell candidates, public reproducible results.
@@ -278,6 +291,7 @@ Nasz screen 250 kombinacji znalazł ogniwa, które mają wszystkie trzy naraz: *
 2. Wąskim gardłem jest szybkość iteracji: jeden cykl projektowy w labie = tygodnie; nasz screen = sekundy, wyniki reprodukowalne (CI, CSV, publiczne repo).
 3. Koncentracja dostaw kobaltu/niklu (DRC, Indonezja) to dziś temat zarządów — ogniwo wysokoenergetyczne bez kobaltu leży dokładnie w tym trendzie.
 4. **Produkowalność:** główny kandydat do złożenia (NMC811 + Si-C + żel) idzie na istniejących liniach Li-ion — katoda standardowa, Si-C od dostawców produkujących już dziś (Sila), żel = modyfikacja napełniania (linie półstałe są: WeLion, CATL). Na-jon jest już w produkcji masowej na liniach adaptowanych (CATL, koniec 2025).
+5. **Modelujemy też „życie na półce”:** starzenie kalendarzowe przy 50%/100% SOC i 25/45 °C — tryb, który faktycznie zabija baterie w EV (auto stoi zaparkowane 95% czasu). Nasz kandydat NMC811: ~8 lat przy 25 °C/100% SOC, ~3,5 przy 45 °C; wariant LFP: >15 lat.
 
 ## Uczciwy status
 Mamy: skalibrowany symulator, ~600 symulacji, dwóch konkretnych kandydatów, publiczne reprodukowalne wyniki.

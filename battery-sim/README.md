@@ -101,7 +101,7 @@ pobrania, `benchmark` oraz raporty PL/EN jako artefakt (`raporty-pl-en`).
 
 ## Materiały w bazie
 
-- **Katody Li** (vs Li/Li+): NMC811, NMC532, NCA, LFP, LCO, LMR (Li-rich), LNMO (spinel 5 V), SULFUR (Li-S)
+- **Katody Li** (vs Li/Li+): NMC811, NMC532, NCA, LFP, **LMFP** (LiMnFePO₄ — kierunek 2025–26: jak LFP, ale ~3,9 V), LCO, LMR (Li-rich), LNMO (spinel 5 V), SULFUR (Li-S)
 - **Katody Na** (vs Na/Na+): NA_O3 (tlenek warstwowy), NA_PW (biel pruska),
   NA_NFPP (polianionowy Na₃V₂(PO₄)₃) — ogniwa sodowe mają kolektor **Al po obu
   stronach** (Na nie tworzy stopów z Al — oszczędność masy i kosztu vs Cu)
@@ -109,7 +109,7 @@ pobrania, `benchmark` oraz raporty PL/EN jako artefakt (`raporty-pl-en`).
   **DRX** (Li-rich rock-salt na bazie Mn — bez Co/Ni), **FEF3** (konwersyjna
   katoda fluorkowa FeF₃), **KPB** (biel pruska potasowa, vs K/K+),
   **CHEVREL** (faza Chevrela Mo₆S₈, vs Mg/Mg²⁺)
-- **Anody**: GRAPHITE, LTO, SIC (Si-C), LIMETAL (lit metal), HC (hard carbon, Na/K-ion),
+- **Anody**: GRAPHITE, LTO, SIC (Si-C), **SIO** (tlenek krzemu SiO — komercyjny w telefonach), LIMETAL (lit metal), HC (hard carbon, Na/K-ion),
   **MG** (magnez metal), **LIFREE** (anode-free — cienkie Li z katody)
 - **Zgodność systemów**: katoda i anoda muszą mieć tę samą referencję napięć
   (`cath_system` / `an_systems` w `materials.rs`); `build_grid` odrzuca pary
@@ -203,6 +203,30 @@ konkretne liczby, uczciwy status (etap symulacji), plan 12-miesięczny z bramką
 cargo run --release -- pitch --lang en --out pitch.md
 cargo run --release -- pitch --lang pl --out pitch-pl.md
 ```
+
+## Starzenie kalendarzowe (shelf life) — `storage`
+
+Osobny model: ogniwo **stoi** przy zadanym SOC i temperaturze (bez cyklowania) — SEI rośnie ~√t (najszybciej przy 100% SOC), elektrolit utlenia się przy wysokim potencjale katody, plus samo-rozładowanie. To często dominujący tryb starzenia: EV stoi ~95% czasu, magazyny stoją miesiącami.
+
+```bash
+cargo run --release -- storage --soc 1.0 --temp 45 --years 10     # jedno ogniwo: krzywa retencji + shelf life
+cargo run --release -- storage --all                               # tabela kandydatów (25 °C/50% i 45 °C/100%)
+```
+
+Kalibracja (kotwice literaturowe): NMC811/grafit przy 25 °C/100% SOC → shelf life **~8 lat** (~3%/rok); przy 45 °C → **~3,5 roku**; przy 50% SOC → ~17 lat. LFP/LTO przy 45 °C/100% → **>20 lat**. Li-air → ginie w miesiące (samo-rozładowanie). Pełna tabela kandydatów: sekcja 8 raportu (`report`).
+
+## Dłuższe horyzonty i większe siatki (dla mocnego PC)
+
+```bash
+# maraton: kto wytrzyma 20 000 cykli przy szybkim ładowaniu?
+cargo run --release -- sweep --cycles 20000 --csv marathon.csv
+# mega-siatka (~100k kombinacji; na 16 rdzeniach — minuty):
+cargo run --release -- sweep \
+  --loadings 5,10,15,20,25,30,35,40 --nps 1.02,1.05,1.1,1.2,1.3 \
+  --temps -20,-10,0,10,25,35,45,60 --c-rates 1,2,3,4,6 --csv mega.csv
+```
+
+Wyniki maratonu (20 000 cykli) i nowych materiałów: `ANALIZA_MARATHON.md`.
 
 ## Wyniki i analiza sweepów
 
