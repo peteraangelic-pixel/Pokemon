@@ -156,7 +156,13 @@ jobs:
       - name: Segmentation throughput (64x64 frames)
         run: |
           set -o pipefail
-          ./target/release/arc3 bench --size 64 --frames 2000 2>&1 | tee bench.log
+          {
+            echo "== salt-and-pepper (przypadek patologiczny) =="
+            ./target/release/arc3 bench --size 64 --frames 2000 --mode salt
+            echo
+            echo "== realistyczne (18 duzych obiektow) =="
+            ./target/release/arc3 bench --size 64 --frames 5000 --mode blobs
+          } 2>&1 | tee bench.log
 
       - name: Publish bench log to the branch
         if: always()

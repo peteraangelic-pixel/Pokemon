@@ -47,16 +47,58 @@ fn synthetic(size: usize, seed: u64) -> Grid {
     Grid::from_rows(&rows).expect("synthetic grid")
 }
 
+/// A frame closer to a real ARC-AGI-3 board: a handful of large solid objects
+/// on a background, rather than salt-and-pepper noise.
+fn synthetic_blobs(size: usize, seed: u64) -> Grid {
+    let mut state = seed
+        .wrapping_mul(6364136223846793005)
+        .wrapping_add(1442695040888963407);
+    let mut rand = move || {
+        state ^= state << 13;
+        state ^= state >> 7;
+        state ^= state << 17;
+        state
+    };
+    let mut rows = vec![vec![0u8; size]; size];
+    for _ in 0..18 {
+        let v = (rand() % 5 + 1) as u8;
+        let h = (rand() % 8 + 3) as usize;
+        let w = (rand() % 8 + 3) as usize;
+        let r0 = (rand() % (size as u64 - h as u64 + 1)) as usize;
+        let c0 = (rand() % (size as u64 - w as u64 + 1)) as usize;
+        for r in r0..r0 + h {
+            for c in c0..c0 + w {
+                rows[r][c] = v;
+            }
+        }
+    }
+    Grid::from_rows(&rows).expect("blob grid")
+}
+
 fn cmd_bench(args: &[String]) -> ExitCode {
     let size = flag(args, "--size", 64);
     let frames = flag(args, "--frames", 2000);
+    let mode = args
+        .windows(2)
+        .find(|w| w[0] == "--mode")
+        .map(|w| w[1].as_str())
+        .unwrap_or("salt");
 
     if frames == 0 {
         eprintln!("--frames must be >= 1");
         return usage();
     }
 
-    let grids: Vec<Grid> = (0..frames).map(|i| synthetic(size, i as u64 + 1)).collect();
+    let grids: Vec<Grid> = match mode {
+        "blobs" => (0..frames)
+            .map(|i| synthetic_blobs(size, i as u64 + 1))
+            .collect(),
+        "salt" => (0..frames).map(|i| synthetic(size, i as u64 + 1)).collect(),
+        other => {
+            eprintln!("unknown --mode {} (expected `salt` or `blobs`)", other);
+            return usage();
+        }
+    };
 
     // warm up
     let _ = segment_layer(&grids[0]);
