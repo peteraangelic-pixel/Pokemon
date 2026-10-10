@@ -27,6 +27,9 @@ on:
         description: "Actions per game"
         required: false
         default: "400"
+      tuning:
+        description: "Optional KEY=VALUE overrides"
+        required: false
   push:
     branches: ["arena/7cc8a7e0-pokemon"]
     paths:
@@ -71,6 +74,9 @@ jobs:
     timeout-minutes: 25
     env:
       STEPS: ${{ inputs.steps || '400' }}
+      # Przelaczniki do izolacji A/B pojedynczych sygnalow percepcji.
+      # Repo variables daja 403 dla tokena aplikacji, wiec czytamy z pliku.
+      TUNING: ${{ inputs.tuning }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -98,6 +104,8 @@ jobs:
         run: |
           set -o pipefail
           # Kolejnosc: dispatch input > games.conf (committed) > domyslne.
+          [ -f tuning.conf ] && export $(grep -vE '^#|^$' tuning.conf | xargs -d '\n') || true
+          echo "tuning: MOTION_BONUS=${ARC3_MOTION_BONUS:-default} DEAD_PENALTY=${ARC3_DEAD_PENALTY:-default}"
           GAMES="$INPUT_GAMES"
           [ -z "$GAMES" ] && GAMES="$(head -1 games.conf 2>/dev/null | tr -d '[:space:]')"
           [ -z "$GAMES" ] && GAMES="ls20,vc33"

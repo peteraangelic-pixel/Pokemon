@@ -17,6 +17,8 @@ is to replace a random-action starter with reproducible exploration that:
 """
 from __future__ import annotations
 
+import os
+
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass, field
 from hashlib import blake2b
@@ -536,9 +538,20 @@ def rank_click_targets(
 # interactive far more often than a merely rare colour is. The dead-click
 # penalty only has to break ties, not forbid: an inert target in one state can
 # be live in another.
-MOTION_BONUS = 1800
-DEAD_CLICK_PENALTY = 1500
-DEAD_CLICK_MIN_ATTEMPTS = 3
+def _env_int(name: str, default: int) -> int:
+    """Allow A/B isolation of a single perception signal from the workflow."""
+    raw = os.environ.get(name)
+    if not raw:
+        return default
+    try:
+        return int(raw)
+    except ValueError:
+        return default
+
+
+MOTION_BONUS = _env_int("ARC3_MOTION_BONUS", 1800)
+DEAD_CLICK_PENALTY = _env_int("ARC3_DEAD_PENALTY", 1500)
+DEAD_CLICK_MIN_ATTEMPTS = _env_int("ARC3_DEAD_MIN_ATTEMPTS", 3)
 
 TILE_SIZE = 5
 # Canonical control semantics used by ARC's directional protocol.  The order is
