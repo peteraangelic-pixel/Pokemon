@@ -1,25 +1,51 @@
-[1m[92m   Compiling[0m arc3 v0.1.0 (/home/runner/work/Pokemon/Pokemon/arc-agi-3/rust)
-[1m[91merror[E0277][0m[1m: the type `[HashSet<usize>]` cannot be indexed by `&usize`[0m
-   [1m[94m--> [0msrc/grid.rs:360:40
-    [1m[94m|[0m
-[1m[94m360[0m [1m[94m|[0m             .max_by_key(|e| (enclosers[e].len(), std::cmp::Reverse(e)))
-    [1m[94m|[0m                                        [1m[91m^[0m [1m[91mslice indices are of type `usize` or ranges of `usize`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mhelp[0m: the trait `SliceIndex<[HashSet<usize>]>` is not implemented for `&usize`
-[1m[96mhelp[0m: `usize` implements trait `SliceIndex<T>`
-   [1m[94m--> [0m/rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/core/src/bstr/traits.rs:197:0
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: `SliceIndex<ByteStr>`
-   [1m[94m--> [0m/rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/core/src/slice/index.rs:179:0
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: `SliceIndex<[T]>`
-    [1m[94m= [0m[1mnote[0m: required for `Vec<HashSet<usize>>` to implement `std::ops::Index<&usize>`
-[1m[96mhelp[0m: dereference this index
-    [1m[94m|[0m
-[1m[94m360[0m [1m[94m| [0m            .max_by_key(|e| (enclosers[[92m*[0me].len(), std::cmp::Reverse(e)))
-    [1m[94m|[0m                                        [92m+[0m
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 0.02s
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/arc3-676a7b74b1154d48)
 
-[1mFor more information about this error, try `rustc --explain E0277`.[0m
-[1m[91merror[0m: could not compile `arc3` (lib) due to 1 previous error
-[1m[33mwarning[0m: build failed, waiting for other jobs to finish...
-[1m[91merror[0m: could not compile `arc3` (lib test) due to 1 previous error
+running 32 tests
+test grid::reference_vectors::reference_shape_sensitivity ... ok
+test grid::reference_vectors::reference_nesting_children ... ok
+test grid::reference_vectors::reference_diagonal_four_components ... ok
+test grid::reference_vectors::reference_boundaries ... ok
+test grid::reference_vectors::reference_two_adjacent_components ... ok
+test grid::tests::diagonal_components_are_not_adjacent ... ok
+test grid::tests::empty_grid_is_handled ... ok
+test grid::tests::hash_is_shape_sensitive ... ok
+test grid::tests::hash_is_translation_invariant ... ok
+test grid::tests::ascii_matches_python_layout ... ok
+test grid::reference_vectors::reference_single_block ... ok
+test grid::tests::nesting_produces_children ... ok
+test grid::tests::single_component ... ok
+test grid::reference_vectors::reference_translation_invariance ... ok
+test replay::tests::counts_totals_and_unique ... ok
+test grid::tests::two_components_are_adjacent ... ok
+test replay::tests::detects_immediate_repeats ... ok
+test replay::tests::empty_sequence ... ok
+test replay::tests::no_repeats_in_alternating_sequence ... ok
+test replay::tests::scan_of_missing_dir_is_tolerated ... ok
+test replay::tests::short_sequences_have_no_trigrams ... ok
+test score::tests::actions_at_cap_matches_cap ... ok
+test score::tests::beating_human_is_capped ... ok
+test replay::tests::detects_looping_trigrams ... ok
+test score::tests::cap_is_1_15_squared ... ok
+test score::tests::empty_inputs_are_zero ... ok
+test score::tests::just_under_cap_is_not_capped ... ok
+test score::tests::matching_human_scores_one ... ok
+test score::tests::mean_over_levels ... ok
+test score::tests::quadratic_penalty ... ok
+test score::tests::weighted_mean ... ok
+test score::tests::zero_agent_actions_is_zero_not_nan ... ok
+
+test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m unittests src/bin/arc3.rs (target/debug/deps/arc3-0a6b55dd22af3227)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m arc3
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
