@@ -40,15 +40,32 @@ Technika — patrz `README.md` w tym katalogu:
 
 ---
 
+## ⚠️ Najpierw jedno pytanie do użytkownika
+
+**Czy masz GPU i jakie?**
+
+- **Brak GPU / ≤8 GB** → iteracja LLM lokalnie odpada. Zostaje: logika agenta lokalnie (`make play-local`, bez GPU) + Rust/precompute + pomiary na Kaggle.
+- **24 GB (3090/4090)** → **Qwen3.6-27B w Q4 (~16 GB) chodzi lokalnie przez llama.cpp/ik_llama** → pełna iteracja na własnym sprzęcie, Kaggle tylko do finału. To zmienia wszystko.
+- **≥48 GB** → mieści się nawet FP8 (~27 GB), czyli praktycznie ten sam model co na Kaggle.
+
+Bez tej odpowiedzi nie da się zaplanować dni 3–17.
+
 ## Następny krok (dokładnie)
 
-1. Wejść na https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/code
-2. Wrzucić `taaf-duck-harness-kaggle-share.ipynb` ze sklonowanego repo **bez żadnych zmian**
-3. Odpalić na **podzbiorze gier** (nie 25×20 — nie zmieści się w 9 h), np. 5 gier × 1 pass
-4. Zapisać do `baseline.md`: wynik RHAE + **realny czas jednego passu na GPU Kaggle**
-5. Dopiero potem ruszać punkty E → B → A z `README.md`
+1. **Odpowiedzieć na pytanie o GPU wyżej** — reszta zależy od odpowiedzi.
+2. `git clone https://github.com/arcprize/ARC-AGI-3-Kaggle-Starter.git` → `make setup` → `make play-local`
+   - **Nie wymaga GPU.** Prawdziwy silnik gier (`arc-agi` z PyPI = to samo co bramka Kaggle), agent gra lokalnie w sekundach.
+   - Wrzucić Kaggle API token do `.kaggle/access_token` w katalogu projektu (nie do home).
+3. Zmierzyć **realny czas jednego passu** na Kaggle (najpierw T4, potem RTX 6000) — bez tej liczby nie da się nic zaplanować.
+4. Dopiero potem ruszać punkty E → B → A z `README.md`.
 
-Bez kroku 4 nie da się zaplanować reszty, bo nie wiemy, ile passów mieści się w 9 godzinach.
+## Ustalenia techniczne (zatwierdzone przez użytkownika)
+
+- **Zostajemy na branchu `arena/7cc8a7e0-pokemon`** — projekt ARC prowadzony w katalogu `arc-agi-3/`
+- **Rust + rayon zamiast Pythona** do wszystkiego poza drobiazgami (nawet ~200× przyspieszenia)
+- **GitHub Actions** do obliczeń, których nie da się wykonać lokalnie
+- ⚠️ Actions **nie ma GPU** — nie da się tam odpalać inferencji 27B. Tylko: budowanie/testy crate'a Rust, CI, analiza artefaktów
+- ⚠️ Finałowa submision **musi** wykonać się w notebooku Kaggle (9 h) — komputer lokalny jej nie zastąpi
 
 ---
 

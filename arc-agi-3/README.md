@@ -80,34 +80,103 @@ Jeśli naprawimy punkt A, opłaca się **rozdzielić role passów**: pass 1 z wy
 
 ---
 
-## 3. ⚠️ Ograniczenie, które rozstrzyga o wszystkim: 9 godzin
+## 3. Metryka — i dlaczego wygrywa się oszczędnością, nie mocą
 
-Kaggle: **notebook GPU ≤ 9 h, CPU ≤ 9 h, bez internetu.**
+**RHAE** (Relative Human Action Efficiency), per level, potem średnia:
 
-Tymczasem config z repo: `25 gier × 20 passów × 45 min`. To się **nie mieści** — nawet przy `concurrent_jobs: 32` (na Kaggle mamy jedną kartę).
+```
+RHAE = (1/|L|) · Σ_l  min( H_l / A_l , 1.15 )²
+```
 
-**Wniosek operacyjny:** pierwszy problem do rozwiązania to nie pomysł, tylko **budżet czasu**. Trzeba:
-- zredukować `n_passes` (np. 4–6) i/lub `max_runtime_minutes`
-- uruchamiać gry sekwencyjnie na jednej karcie, a nie 32 równolegle
-- zmierzyć realny czas jednego passu na Kaggle przed planowaniem reszty
+`H_l` = mediana akcji człowieka na tym levelu · `A_l` = akcje agenta · późniejsze levele ważą więcej.
 
-Dlatego **kolejność ma znaczenie**: najpierw punkty **E → B → A** (tanie, duży wpływ na jakość *jednego* passu), dopiero potem skalowanie.
+**Trzy konsekwencje, które rozstrzygają o strategii:**
+
+| Agent zużywa | Wynik za level |
+|---|---|
+| tyle samo akcji co człowiek | 1.00 |
+| 2× więcej | **0.25** |
+| 5× więcej | **0.04** |
+| 10× więcej | **0.01** |
+| mniej niż człowiek | do **1.32** (cap 1.15²) |
+
+1. **Kara jest kwadratowa.** Zmarnowane akcje niszczą wynik znacznie szybciej, niż intuicja podpowiada.
+2. **Cap 1.15² premiuje bycie lepszym od człowieka** — jest z czego brać, nie tylko do odrabiania strat.
+3. **Mniejsza liczba akcji = wyższy wynik *i* mniej obliczeń.** Poprawki z punktu 2 (pamięć, transfer między poziomami, `Ruled out`) idą dokładnie w tę samą stronę co budżet czasu. **To nie jest kompromis — to jedno i to samo.**
+
+Zestaw ewaluacyjny: **25 gier publicznych + 55 prywatnych** (to one dają wynik).
 
 ---
 
-## 4. Kolejność pracy (zgodna z budżetem 22 dni)
+## 4. ⚠️ Budżet obliczeniowy — co jest naprawdę ograniczeniem
 
-| Dzień | Krok | Cel |
+### Fakty o sprzęcie
+
+| Gdzie | Sprzęt | Czas | Internet |
+|---|---|---|---|
+| **Kaggle (finał)** | **RTX 6000 (96 GB VRAM)** — zmienione z H100 w trakcie konkursu; właśnie dlatego limit poszedł z 6 h na **9 h** | 9 h | wyłączony |
+| Kaggle (iteracja) | T4 ×2 / P100 | 9 h | wyłączony |
+| Lokalnie | 5950X (16C) + 64 GB RAM | bez limitu | jest |
+
+RTX 6000 ma **96 GB VRAM** — Qwen3.6-27B FP8 (~27 GB) mieści się z ogromnym zapasem na KV cache i batching.
+
+### Czy potrzebne jest mocne GPU? **Tak — do inferencji.**
+
+Agent to LLM 27B. Tu nie ma drogi na skróty:
+
+- **5950X + 64 GB RAM** może *technicznie* utrzymać 27B w Q4/FP8 (16–27 GB), ale CPU inference jest ograniczony przepustowością pamięci (~50 GB/s DDR4) → rzędu **1–3 tokeny/s** (jeden token wymaga przeczytania całych wag).
+- Duck na klastrze: 25 gier × 20 passów na **2×B200, 13 h**, przy 32 równoległych jobach.
+- Szacunek: RTX 6000 ≈ ¼ przepustowości B200. Jeden pass po 55 grach ≈ **rzędu 10 h** — czyli **minimalnie ponad limit**.
+
+⚠️ To są szacunki z grubymi zaokrągleniami. **Trzeba to zmierzyć, nie zgadywać.**
+
+### Co NIE jest ograniczeniem: środowisko gry
+
+Oficjalny **ARC-AGI-3 Kaggle Starter** ([github.com/arcprize/ARC-AGI-3-Kaggle-Starter](https://github.com/arcprize/ARC-AGI-3-Kaggle-Starter)): paczka `arc-agi` z PyPI hostuje **ten sam silnik gier, który odpala bramka Kaggle**. `make play-local` = agent gra w prawdziwe gry **lokalnie, w sekundach, bez GPU**.
+
+Czyli: pętlę agenta, logikę akcji, obsługę ramek, scoring — **wszystko można iterować lokalnie na 5950X**. Tylko inferencja LLM wymaga GPU.
+
+### Podział pracy (zatwierdzony)
+
+| Warstwa | Gdzie | Język |
 |---|---|---|
-| 1 | Odpalić `taaf-duck-harness-kaggle-share.ipynb` na Kaggle **bez zmian** | liczba baseline'u + realny czas passu |
-| 2–4 | **E** (parser) + **D** (`Ruled out`) | odzyskać wiedzę, która dziś przepada |
-| 4–7 | **B** (transfer między poziomami) | mechaniki przenoszone dalej |
-| 7–12 | **A** (pamięć między passami) | passy 2–20 startują z wiedzą |
-| 12–16 | **F** (percepcja: delta/prev-frame) — tylko jeśli budżet pozwala | sygnał czasowy |
-| 16–20 | **G** (temperatura, podział ról passów) | wycisnąć % z już działającego |
-| 20–22 | Czas zapasu + finałowa submision | — |
+| Inferencja LLM (27B) | **Kaggle RTX 6000** | — (vLLM) |
+| Pętla agenta, logika, testy | **lokalnie, 5950X** | Python |
+| Segmentacja 64×64, flood fill, diffy ramek | **obie** | **Rust** |
+| Replay/przeszukiwanie offline, analiza setek transkryptów | **lokalnie, 16 rdzeni** | **Rust + rayon** |
+| Precompute offline (cache pre-solve, tablice ruchów) | **lokalnie**, potem jako artefakt do notebooka | **Rust + rayon** |
+| A/B harness, liczenie RHAE | lokalnie | Rust |
 
-**Zasada:** każdy krok mierzony na 25 grach publicznych, wracamy do poprzedniego wariantu, jeśli nie ma wzrostu. Nie kumulujemy zmian bez pomiaru.
+**Rust + rayon ma sens wszędzie poza samą inferencją LLM** — a to jest ~99 % czasu GPU, więc nie koliduje. Największy zysk: **precompute offline.** Zgłoszenie z papera (arXiv 2605.25931) osiągnęło **RHAE = 0.30 solverem BFS z cache pre-solve** — czyli przeniosło pracę z czasu gry na czas offline. To jest dokładnie miejsce, gdzie 16 rdzeni i rayon robią różnicę.
+
+### GitHub Actions — ważne zastrzeżenie
+
+**Standardowe runnery Actions nie mają GPU.** Nie da się tam odpalić 27B. Actions nadaje się do: budowania i testowania crate'a Rust, CI, analizy zakomitowanych artefaktów (transkrypty, logi). Free tier: 4 vCPU.
+
+### ⚠️ Do sprawdzenia przed założeniem
+
+Czy precompute (cache pre-solve, wyszukane sekwencje) można wnieść do notebooka jako artefakt. Regulamin pozwala na „freely & publicly available external data... including pre-trained models" — ale gotowy cache rozwiązań to szara strefa między „danymi" a „rozwiązaniem". Fakt, że istnieją zgłoszenia oparte na `offline pre-solve cache`, sugeruje że to przechodzi — **ale trzeba to potwierdzić na forum konkursu przed włożeniem w to pracy.**
+
+---
+
+## 5. Kolejność pracy (budżet: 22 dni)
+
+| Dzień | Krok | Gdzie | Cel |
+|---|---|---|---|
+| 1 | `ARC-AGI-3-Kaggle-Starter` + `make play-local` | lokalnie | pętla działa w sekundach, bez GPU |
+| 1–2 | Szkielet crate'a Rust (`grid`, `replay`, `score`), CI na Actions | lokalnie | fundament pod resztę |
+| 2–3 | Odpalić Ducha bez zmian na Kaggle (T4, potem RTX 6000) | **Kaggle** | liczba baseline'u + **realny czas passu** |
+| 3–5 | **E** (parser etykiet) + **D** (`Ruled out`) | lokalnie | odzyskać wiedzę, która dziś przepada |
+| 5–8 | **B** (transfer między poziomami) | lokalnie | mechaniki idą dalej |
+| 8–13 | **A** (pamięć między passami) | lokalnie | passy 2–N startują z wiedzą |
+| 13–17 | **Precompute offline w Rust+rayon** (BFS / cache pre-solve) | **lokalnie, 16C** | przenieść pracę z czasu gry na czas offline |
+| 17–20 | **G** (temperatura, podział ról passów) + pomiar, czy mieścimy się w 9 h | Kaggle | wycisnąć % z działającego |
+| 20–22 | Zapas + finałowa submision | Kaggle | — |
+
+**Zasady:**
+- Każdy krok mierzony na 25 grach publicznych. Brak wzrostu = powrót do poprzedniego wariantu. **Nie kumulujemy zmian bez pomiaru.**
+- Iteracja lokalnie (`make play-local`), Kaggle tylko do pomiarów, które wymagają GPU. RTX 6000 jest zarezerwowany dla tego konkursu i szybko pali kwotę — nie marnować go na wczesne eksperymenty.
+- **Pierwszy pomiar to czas, nie wynik.** Bez znajomości realnego czasu passu nie da się zaplanować dni 13–22.
 
 ---
 
