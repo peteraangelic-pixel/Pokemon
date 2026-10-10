@@ -453,3 +453,52 @@ observation.
 - Dokończyć Rust full port heurystyki (obecnie 0.01s/gra vs 1.5s Python =150x, ale crash przy buffer full capacity:7 dla ENERGY selectów – trzeba przenieść pełne `_score_generic_context`)
 - Uruchomić większy search 100 trials z Rust vs all_eval 38 decków
 
+
+---
+
+## 2026-10-10 wieczór — v10 search + nowy rekord 0.932 vs top7
+
+**v10 iteracje (Rust g2 Gen5 best, 22 top7_live + 16 losses_v8 + 2 walls):**
+
+- `v10_34_boss3.csv` 34W Signal4 Lillie3 Boss3 Waitress2 Belt1 Pad2 Night1 → top 0.795 (35-9) loss 0.667 (20-10)
+- `v10_33_boss3_wait3.csv` 33W Signal4 Lillie4 Boss3 Waitress3 Belt1 Pad1 Night1 → top 0.750 loss 0.567
+- `v10_32_balanced.csv` 32W Signal2 Lillie3 Boss3 Waitress3 Belt1 Pad2 Night1 Cyrano2 Haul1 → top 0.795 loss 0.448
+- `v10_33_v2boss.csv` 33W Signal3 Lillie3 Night2 Pad1 Boss2 Cyrano2 Belt1 Judge1 Haul1 Waitress1 → top 0.727 loss 0.633
+- `v10_32_v2boss.csv` 32W Signal3 Lillie3 Night2 Pad1 Boss2 Cyrano2 Belt1 Judge1 Haul1 Waitress1+ → top 0.795 loss 0.667
+- `v10_35_boss3.csv` 35W Signal3 Lillie3 Boss3 Waitress3 Belt1 Pad2 Night1 → top 0.773 loss 0.467
+- `v10_32_v2boss_boss3.csv` 32W Signal3 Lillie3 Night2 Pad1 Boss3 Cyrano2 Belt1 Judge1 Haul1 Waitress1 → top 0.818 loss 0.633
+- `v10_33_powerglass.csv` 33W Signal4 Lillie3 Boss4 Waitress2 Belt2 Pad1 Powerglass1 → top 0.773 loss 0.633
+- `v10_32_final.csv` **32W Signal4 Lillie3 Boss4 Waitress2 Belt1 Pad2 Night1 Cyrano1** → top 0.795 (35-9) **loss 0.733 (22-8) BEST vs losses!** walls 0.500
+- `v10_34_final.csv` **34W Signal3 Lillie3 Boss4 Waitress2 Belt1 Pad1 Night1 Cyrano1** → **top 0.909 (40-4)** loss 0.633 walls 0.250 weighted 0.766
+- `v10_34_sig4.csv` **34W Signal4 Lillie3 Boss4 Waitress2 Belt1 Pad1 Night1** → **top 0.932 (41-3) NEW BEST vs top7!** loss 0.567 walls 0.750 weighted **0.777 BEST overall**
+- `v10_33_sig4.csv` 33W Signal4 Lillie3 Boss4 Waitress2 Belt1 Pad1 Night1 Cyrano1 (v9_final) → top 0.659 loss 0.600 – gorszy niż 34W wersja
+
+**Najlepsze ważone (top7*22 + losses*16 + walls*2)/40:**
+
+- v2_boss 30W diverse: 0.841*22=18.5 +0.600*16=9.6 +0.250*2=0.5 → 28.6/40=0.715
+- v9_33_boss4 33W Boss4 Waitress2 Belt2 Pad1: 0.864*22=19.0 +0.567*16=9.07 +0.750*2=1.5 → 29.57/40=0.739
+- v9_final 33W Signal4 Lillie3 Boss4 Waitress2 Belt1 Pad1 Night1 Cyrano1: 0.841*22=18.5 +0.667*16=10.67 +0.750*2=1.5 → 30.67/40=0.767
+- v10_32_final 32W Signal4 Boss4 Pad2: 0.795*22=17.49 +0.733*16=11.73 +0.500*2=1.0 → 30.22/40=0.755
+- v10_34_final 34W Signal3 Boss4 Cyrano1: 0.909*22=20.0 +0.633*16=10.13 +0.250*2=0.5 → 30.63/40=0.766
+- **v10_34_sig4 34W Signal4 Boss4**: 0.932*22=20.5 +0.567*16=9.07 +0.750*2=1.5 → 31.07/40=**0.777 BEST**
+
+**Wniosek v10:**
+
+> **v10_34_sig4 34W Signal4 Lillie3 Boss4 Waitress2 Belt1 Pad1 Night1** – 34W daje 340 dmg (vs 330 dla 33W i 350 dla 35W), Signal4 zwiększa szansę na T1 Snover/Aboma, Boss4 naprawia walls (0.250→0.750) i Dragapult, 16 trainerów diverse (bez Cyrano). **0.932 vs top7_live (41-3) – nowy rekord**, lepszy niż v9_33_boss4 0.864 i v2_boss 0.841. Vs losses 0.567 gorszy niż v10_32_final 0.733, ale vs walls 0.750 równy v9_final. Ważony 0.777 > v9_final 0.767 → **najlepszy overall**.
+
+> **v10_32_final 32W Signal4 Lillie3 Boss4 Waitress2 Belt1 Pad2 Night1 Cyrano1** – **0.733 vs losses_v8 BEST**, lepszy niż v2_boss 0.700 i v9_final 0.667, bo Pad2 + Cyrano1 dają więcej search vs low-energy aggro (Duraludon, Lucario). Top 0.795 gorszy niż v10_34_sig4 0.932, ale może lepszy vs 35W mirrors gdzie 32W vs 35W i tak przegrywa dmg, a więcej draw pomaga.
+
+**Bundles na jutro (reset limitu 00:00 UTC 2026-10-11):**
+
+- `phase1_tuned_v10_34_sig4.tar.gz` Gen5 + v10_34_sig4 88 KiB smoke ok – **0.932 vs top7 0.777 weighted BEST** → submit #1
+- `phase1_tuned_v10_34_sig4_h1.tar.gz` H1 + v10_34_sig4 88 KiB smoke ok → submit #2 (H1 ma Night Stretcher boost gdy discard Water>=2)
+- `phase1_tuned_v10_32_final.tar.gz` Gen5 + v10_32_final 89 KiB smoke ok – 0.733 vs losses BEST → submit #3
+- `phase1_tuned_v9_final.tar.gz` Gen5 + v9_final 89 KiB smoke ok – 0.841/0.667/0.750 weighted 0.767 → backup #4
+- `phase1_tuned_v9_final_h1.tar.gz` H1 + v9_final → backup #5
+
+**Daily limit:** 2026-10-10 było 5 submitów (2×80, gen8_v2, powerglass, h1) – v9_final submit 38069038259 o 16:47 był 6. i nie wszedł do `submissions.csv`, workflow success 20s ale brak logu – odrzucony przez limit. Następne okno 00:00 UTC 2026-10-11 (za 6h10m od 17:49 UTC).
+
+**Next:**
+- Po północy submit v10_34_sig4 Gen5 jako #1, potem v10_32_final jako #2 (test vs losses), potem v9_final H1 jako #3
+- Naprawić `rust_gauntlet` – dodać per-match timeout 30s + limit rayon threads 2 + wait_timeout, bo g2 vs top7_live 22 decki x2 gry =44 Pythonów → timeout 120s przy 2 vCPU
+- Uruchomić full search 100 trials g1 vs all_eval 39 decków z naprawionym Rustem

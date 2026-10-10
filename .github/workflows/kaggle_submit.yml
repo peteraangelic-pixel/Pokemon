@@ -5,11 +5,11 @@ on:
     inputs:
       bundle:
         description: "Bundle to submit"
-        default: "phase1_tuned_v9_final.tar.gz"
+        default: "phase1_tuned_v10_34_sig4.tar.gz"
         required: false
       message:
         description: "Submission message"
-        default: "v9 33W Boss x4 Waitress2 Belt2 Pad1 - 0.864 vs top7_live - fixes Dragapult Hammer and 35W mirrors"
+        default: "v10 34W Signal4 Boss4 Waitress2 Belt1 Pad1 Night1 - 0.932 vs top7_live 0.567 vs losses 0.750 vs walls - weighted 0.777 best"
         required: false
   push:
     branches: ["arena/c87f7a48-pokemon"]
@@ -32,6 +32,12 @@ on:
       - "pokemon-agent/bundles/phase1_tuned_v9_final.trigger"
       - "pokemon-agent/bundles/phase1_tuned_v9_final_h1.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_v9_final_h1.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4_h1.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4_h1.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_v10_32_final.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_v10_32_final.trigger"
       - ".github/workflows/kaggle_submit.yml"
 
 permissions:
@@ -78,12 +84,12 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_v9_final.tar.gz' }}
-          MESSAGE: ${{ inputs.message || 'v9 33W Boss x4 Waitress2 Belt2 Pad1 - 0.864 vs top7_live - fixes Dragapult Hammer and 35W mirrors' }}
+          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_v10_34_sig4.tar.gz' }}
+          MESSAGE: ${{ inputs.message || 'v10 34W Signal4 Boss4 Waitress2 Belt1 Pad1 Night1 - 0.932 vs top7_live 0.567 vs losses 0.750 vs walls - weighted 0.777 best' }}
         run: |
           cd pokemon-agent
           BUNDLE_PATH="bundles/$BUNDLE"
-          ls -lh bundles/ | tail -15
+          ls -lh bundles/ | tail -20
           echo "Submitting $BUNDLE_PATH to the-pokemon-company-ptcg-ai-battle-challenge-playground"
           echo "Message: $MESSAGE"
           echo "Account: $(kaggle --version)"
