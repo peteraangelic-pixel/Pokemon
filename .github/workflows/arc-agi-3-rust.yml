@@ -73,13 +73,19 @@ jobs:
       # i.e. `gh run view --log` does not work for us.
       - name: Clippy
         continue-on-error: true
-        run: cargo clippy --all-targets --message-format=short 2>&1 | tee clippy.log
+        run: |
+          set -o pipefail
+          cargo clippy --all-targets --message-format=short 2>&1 | tee clippy.log
 
       - name: Build (debug)
-        run: cargo build --all-targets 2>&1 | tee build.log
+        run: |
+          set -o pipefail
+          cargo build --all-targets 2>&1 | tee build.log
 
       - name: Test
-        run: cargo test --all 2>&1 | tee test.log
+        run: |
+          set -o pipefail
+          cargo test --all 2>&1 | tee test.log
 
       # Our sandbox can only reach api.github.com, so job logs (hosted on
       # results-receiver.actions.githubusercontent.com) and artifacts (on
@@ -148,7 +154,9 @@ jobs:
         run: cargo build --release
 
       - name: Segmentation throughput (64x64 frames)
-        run: ./target/release/arc3 bench --size 64 --frames 2000 2>&1 | tee bench.log
+        run: |
+          set -o pipefail
+          ./target/release/arc3 bench --size 64 --frames 2000 2>&1 | tee bench.log
 
       - name: Publish bench log to the branch
         if: always()

@@ -359,7 +359,10 @@ pub fn segment_layer(grid: &Grid) -> Segmentation {
         let parent = enclosers[a]
             .iter()
             .copied()
-            .max_by_key(|e| (enclosers[e].len(), std::cmp::Reverse(e)))
+            // `max_by_key` hands the closure a *reference* to the item.
+            // Tie-break on Reverse(e) so the smallest id wins, mirroring
+            // Python's `max(..., key=lambda e: (len(enclosers[e]), -e))`.
+            .max_by_key(|&e| (enclosers[e].len(), std::cmp::Reverse(e)))
             .expect("enclosers[a] is non-empty");
         children[parent].push(a);
     }
