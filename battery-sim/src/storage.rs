@@ -177,7 +177,11 @@ pub fn print_table(cp: &CellParams, sp: &SimParams) {
 }
 
 /// Wypisuje pojedynczą symulację przechowywania (krzywa retencji).
-pub fn print_single(r: &StorageResult) {
+pub fn print_single(cell: &Cell, r: &StorageResult) {
+    println!(
+        "Ogniwo {}/{}/{} load={:.0} N/P={:.2}",
+        cell.cath.name, cell.an.name, cell.el.name, cell.loading_cat, cell.np
+    );
     println!(
         "Przechowywanie: SOC={:.0}%, T={:.0}°C, horyzont {:.0} lat",
         r.soc * 100.0,
@@ -200,6 +204,6 @@ pub fn print_single(r: &StorageResult) {
     }
     println!("  retencja:");
     for (y, cap) in &r.curve {
-        println!("    rok {y:>5.1}: {:5.1}%", cap * 100.0);
+        println!("    rok {:>6.2}: {:5.1}%", y, cap * 100.0);
     }
 }

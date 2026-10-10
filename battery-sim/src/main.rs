@@ -619,7 +619,7 @@ fn run_storage(cli: &Cli, cp: &CellParams, sp: &SimParams) {
     let years = cli.get_f64("--years", 10.0);
     let cell = Cell::new(cath, an, el, loading, np, cp);
     let r = storage::simulate_storage(&cell, cp, sp, soc, temp, years);
-    storage::print_single(&r);
+    storage::print_single(&cell, &r);
     if let Some(path) = cli.get("--csv") {
         let mut w = String::from("years,capacity_frac\n");
         for (y, cap) in &r.curve {
