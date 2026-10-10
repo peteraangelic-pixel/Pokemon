@@ -1,0 +1,8 @@
+frames           : 2000
+grid             : 64x64
+threads          : 4
+wall clock       : 55.589 s
+throughput       : 36.0 frames/s
+per frame        : 27.794 ms
+total components : 4285412
+avg components   : 2142.7
