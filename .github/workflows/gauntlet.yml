@@ -42,24 +42,20 @@ jobs:
           python-version: "3.11"
 
       - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Install Python deps
         run: |
           cd pokemon-agent
           python -m venv .venv
-          .venv/bin/pip install --quiet -r requirements.txt 2>/dev/null || .venv/bin/pip install --quiet kaggle-environments
+          .venv/bin/pip install --quiet kaggle-environments
 
       - name: Build rust_gauntlet
         run: |
           cd pokemon-agent/rust
-          cargo build --release --locked
-          ls -lh target/release/rust_gauntlet || ls -lh ../rust/bin/rust_gauntlet || echo "built"
+          cargo build --release
           mkdir -p ../rust/bin
-          cp target/release/rust_gauntlet ../rust/bin/rust_gauntlet || cp target/release/rust-gauntlet ../rust/bin/rust_gauntlet || true
+          cp target/release/rust_gauntlet ../rust/bin/rust_gauntlet 2>/dev/null || cp target/release/rust-gauntlet ../rust/bin/rust_gauntlet || ls target/release/
           ls -lh ../rust/bin/
 
       - name: Run gauntlet vs top7_live
@@ -70,9 +66,9 @@ jobs:
         run: |
           cd pokemon-agent
           echo "Testing $AGENT vs top7_live with $DECK $GAMES games"
-          .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tail -n 50
+          .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tail -n 100
           echo "--- Rust gauntlet ---"
-          timeout 180 ./rust/bin/rust_gauntlet --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tail -n 50
+          timeout 180 ./rust/bin/rust_gauntlet --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tail -n 100
 
       - name: Run vs walls
         env:
@@ -80,4 +76,4 @@ jobs:
           DECK: ${{ inputs.deck || 'pokemon-agent/decks/v10_34_sig4.csv' }}
         run: |
           cd pokemon-agent
-          .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games 2 --include-archetypes --only crustle_wall,sylveon_safeguard 2>&1 | tail -n 20
+          .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games 2 --include-archetypes --only crustle_wall,sylveon_safeguard 2>&1 | tail -n 30
