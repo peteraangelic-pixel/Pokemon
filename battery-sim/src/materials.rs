@@ -8,6 +8,13 @@
 //! Elektrolity: LP57 (ciekly, palny), GEL (zelowy/polstaly + separator
 //! ceramiczny), IONIC (ciecz jonowa, niepalny), SOLID (staly, niepalny).
 //!
+//! Systemy cd.: KPB (potas, vs K/K+), CHEVREL (magnez, vs Mg/Mg2+), katody
+//! "nowatorskie" (Li-air LIO2, rock-salt DRX, konwersyjna FEF3) oraz anody
+//! MG (magnez) i LIFREE (anode-free, cienkie Li). Funkcje `cath_system` /
+//! `an_systems` pilnuja zgodnosci referencji napiec -- mieszanie systemow
+//! (np. katoda Li z anoda Mg) byloby fizycznie bez sensu; build_grid odrzuca
+//! takie pary.
+//!
 //! Szacunkowe koszty materialow [USD/kg] (2025): `cost_*_usd_kg` na koncu pliku.
 
 /// Krzywa OCV: `[(SOC, V vs Li/Li+)]`.
@@ -249,6 +256,72 @@ pub const CATHODES: &[Cathode] = &[
         sd: 0.0001,
         dh_cath: 100.0,
     },
+    // --- katody "nowatorskie" (poza rynkiem seryjnym) ---
+    Cathode {
+        name: "LIO2",
+        cap_mah_g: 1000.0,
+        vcurve: &[(0.0, 2.70), (0.5, 2.90), (1.0, 3.00)],
+        vmax: 4.30,
+        dens: 0.9,
+        act: 0.70,
+        fade: 2.5,
+        t_stable: 180.0,
+        i0: 0.8,
+        sd: 0.01,
+        dh_cath: 200.0,
+    },
+    Cathode {
+        name: "DRX",
+        cap_mah_g: 250.0,
+        vcurve: &[(0.0, 3.60), (0.5, 4.10), (1.0, 4.50)],
+        vmax: 4.60,
+        dens: 4.2,
+        act: 0.95,
+        fade: 1.2,
+        t_stable: 300.0,
+        i0: 1.2,
+        sd: 0.0005,
+        dh_cath: 400.0,
+    },
+    Cathode {
+        name: "FEF3",
+        cap_mah_g: 200.0,
+        vcurve: &[(0.0, 2.80), (0.5, 2.50), (1.0, 2.20)],
+        vmax: 3.50,
+        dens: 3.5,
+        act: 0.90,
+        fade: 3.0,
+        t_stable: 250.0,
+        i0: 0.8,
+        sd: 0.002,
+        dh_cath: 300.0,
+    },
+    Cathode {
+        name: "KPB",
+        cap_mah_g: 130.0,
+        vcurve: &[(0.0, 3.00), (0.5, 3.30), (1.0, 3.80)],
+        vmax: 4.00,
+        dens: 2.0,
+        act: 0.90,
+        fade: 1.0,
+        t_stable: 320.0,
+        i0: 1.5,
+        sd: 0.0003,
+        dh_cath: 300.0,
+    },
+    Cathode {
+        name: "CHEVREL",
+        cap_mah_g: 80.0,
+        vcurve: &[(0.0, 1.30), (0.5, 1.20), (1.0, 1.10)],
+        vmax: 1.60,
+        dens: 4.5,
+        act: 0.90,
+        fade: 0.8,
+        t_stable: 400.0,
+        i0: 1.5,
+        sd: 0.0002,
+        dh_cath: 100.0,
+    },
 ];
 
 pub const ANODES: &[Anode] = &[
@@ -344,6 +417,41 @@ pub const ANODES: &[Anode] = &[
         dh: 350.0,
         dead_li: 0.0,
     },
+    // --- anody "nowatorskie" ---
+    Anode {
+        name: "MG",
+        cap_mah_g: 2205.0,
+        vcurve: &[(0.0, 0.30), (0.5, 0.15), (1.0, 0.05)],
+        dens: 1.74,
+        act: 0.99,
+        expansion: 0.00,
+        plat: 0.1,
+        sei: 2.0,
+        dend: 0.01,
+        t_stable: 650.0,
+        fade: 0.5,
+        i0: 2.0,
+        k_an: 500.0,
+        dh: 150.0,
+        dead_li: 0.0005,
+    },
+    Anode {
+        name: "LIFREE",
+        cap_mah_g: 38600.0,
+        vcurve: &[(0.0, 0.05), (1.0, 0.0)],
+        dens: 0.53,
+        act: 1.00,
+        expansion: 1.0,
+        plat: 0.0,
+        sei: 1.2,
+        dend: 0.05,
+        t_stable: 180.0,
+        fade: 0.5,
+        i0: 5.0,
+        k_an: 0.0,
+        dh: 300.0,
+        dead_li: 0.0002,
+    },
 ];
 
 pub const ELECTROLYTES: &[Electrolyte] = &[
@@ -411,6 +519,11 @@ pub fn cost_cath_usd_kg(name: &str) -> f64 {
         "NA_O3" => 8.0,
         "NA_PW" => 5.0,
         "NA_NFPP" => 9.0,
+        "LIO2" => 8.0,
+        "DRX" => 10.0,
+        "FEF3" => 3.0,
+        "KPB" => 5.0,
+        "CHEVREL" => 15.0,
         _ => 20.0,
     }
 }
@@ -423,6 +536,8 @@ pub fn cost_an_usd_kg(name: &str) -> f64 {
         "SIC" => 30.0,
         "LIMETAL" => 120.0,
         "HC" => 10.0,
+        "MG" => 3.0,
+        "LIFREE" => 120.0,
         _ => 15.0,
     }
 }
@@ -436,4 +551,32 @@ pub fn cost_el_usd_kg(name: &str) -> f64 {
         "SOLID" => 80.0,
         _ => 20.0,
     }
+}
+
+/// System elektrochemiczny katody ("Li" | "Na" | "K" | "Mg") — referencja napiec.
+pub fn cath_system(name: &str) -> &'static str {
+    if name.starts_with("NA_") {
+        "Na"
+    } else if name == "KPB" {
+        "K"
+    } else if name == "CHEVREL" {
+        "Mg"
+    } else {
+        "Li"
+    }
+}
+
+/// Systemy, w ktorych anoda pracuje (grafit i hard carbon akceptuja tez K/Na).
+pub fn an_systems(name: &str) -> &'static [&'static str] {
+    match name {
+        "MG" => &["Mg"],
+        "GRAPHITE" => &["Li", "K"],
+        "HC" => &["Na", "K"],
+        _ => &["Li"],
+    }
+}
+
+/// Czy para katoda/anoda ma sens (zgodne referencje napiec)?
+pub fn compatible(cath: &str, an: &str) -> bool {
+    an_systems(an).contains(&cath_system(cath))
 }

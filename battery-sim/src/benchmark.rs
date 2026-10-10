@@ -148,6 +148,10 @@ pub const CANDIDATES: &[(&str, &str, &str, f64, f64)] = &[
     ("NA_PW", "HC", "LP57", 30.0, 1.1),
     ("NA_O3", "HC", "GEL", 25.0, 1.1),
     ("NA_NFPP", "HC", "GEL", 25.0, 1.1),
+    ("DRX", "SIC", "SOLID", 20.0, 1.1),
+    ("DRX", "LIFREE", "SOLID", 20.0, 1.05),
+    ("LIO2", "LIMETAL", "IONIC", 10.0, 1.05),
+    ("KPB", "GRAPHITE", "LP57", 30.0, 1.1),
 ];
 
 /// Ocenia wszystkich kandydatow (2C, 25°C, 3000 cykli + test abusow).

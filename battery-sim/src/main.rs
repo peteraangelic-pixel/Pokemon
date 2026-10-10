@@ -251,7 +251,7 @@ fn run_demo(cp: &CellParams, sp: &SimParams) {
     }
 
     println!("\n== scenariusze pojedynczych ogniw ==");
-    let scenarios: [(&str, &str, &str, f64, f64, f64, f64); 10] = [
+    let scenarios: [(&str, &str, &str, f64, f64, f64, f64); 12] = [
         ("NMC811", "GRAPHITE", "LP57", 18.0, 1.1, 1.0, 25.0),
         ("NMC811", "GRAPHITE", "LP57", 18.0, 1.1, 2.0, 25.0),
         ("NMC811", "GRAPHITE", "LP57", 18.0, 1.1, 3.0, 25.0),
@@ -262,6 +262,8 @@ fn run_demo(cp: &CellParams, sp: &SimParams) {
         ("SULFUR", "LIMETAL", "IONIC", 20.0, 1.05, 1.0, 25.0),
         ("NMC811", "SIC", "GEL", 25.0, 1.1, 2.0, 25.0),
         ("NA_PW", "HC", "LP57", 30.0, 1.1, 3.0, 25.0),
+        ("DRX", "SIC", "SOLID", 20.0, 1.1, 2.0, 25.0),
+        ("LIO2", "LIMETAL", "IONIC", 10.0, 1.05, 1.0, 25.0),
     ];
     for (ca, an, el, ld, np, cch, tamb) in scenarios {
         let cell = Cell::new(
@@ -282,7 +284,7 @@ fn run_demo(cp: &CellParams, sp: &SimParams) {
         opts: HashMap::new(),
         flags: HashSet::new(),
     });
-    let abuse_cases: [(&str, &str, &str); 7] = [
+    let abuse_cases: [(&str, &str, &str); 8] = [
         ("NMC811", "GRAPHITE", "LP57"),
         ("NMC811", "GRAPHITE", "IONIC"),
         ("LFP", "LTO", "LP57"),
@@ -290,6 +292,7 @@ fn run_demo(cp: &CellParams, sp: &SimParams) {
         ("NMC811", "LIMETAL", "SOLID"),
         ("NMC811", "SIC", "LP57"),
         ("NA_NFPP", "HC", "GEL"),
+        ("DRX", "SIC", "SOLID"),
     ];
     for (ca, an, el) in abuse_cases {
         let cell = Cell::new(
@@ -313,6 +316,16 @@ fn run_cell(cli: &Cli, cp: &CellParams, sp: &SimParams) {
     let cath = need_cathode_cli(cli, "NMC811");
     let an = need_anode_cli(cli, "GRAPHITE");
     let el = need_electrolyte_cli(cli, "LP57");
+    if !materials::compatible(cath.name, an.name) {
+        eprintln!(
+            "Para {}/{} jest niespojna systemowo (katoda: {}, anoda: {}). Wybierz zgodne materialy (patrz `list`).",
+            cath.name,
+            an.name,
+            materials::cath_system(cath.name),
+            an.name
+        );
+        std::process::exit(2);
+    }
     let loading = cli.get_f64("--loading", 20.0);
     let np = cli.get_f64("--np", 1.1);
     let c_ch = cli.get_f64("--c-rate", 2.0);

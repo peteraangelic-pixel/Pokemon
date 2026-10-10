@@ -159,6 +159,11 @@ pub fn build_grid(
     let mut jobs = Vec::new();
     for &cath in cathodes {
         for &an in anodes {
+            // pary o roznych systemach (np. katoda Li z anoda Mg) sa fizycznie
+            // bez sensu -- odrzucamy je, zamiast liczyc bledne napiecia
+            if !crate::materials::compatible(cath.name, an.name) {
+                continue;
+            }
             for &el in electrolytes {
                 for &loading in loadings {
                     for &np in nps {

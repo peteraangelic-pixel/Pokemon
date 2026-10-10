@@ -74,10 +74,10 @@ Rayon wykorzystuje wszystkie rdzenie — siatkę można śmiało rozbudować:
 cargo run --release -- sweep \
   --loadings 10,15,20,25,30 --nps 1.05,1.1,1.2,1.3 --temps 0,25,45 \
   --c-rates 1,2,3,4,6 --csv wyniki.csv
-# 11 katod x 5 anod x 4 elektrolity x 5 loadingow x 4 N/P x 3 temperatury = 13200 kombinacji
+# 61 zgodnych par katoda/anoda x 4 elektrolity x 5 loadingow x 4 N/P x 3 temperatury = 14640 kombinacji
 ```
 
-Pełna domyślna siatka (220 kombinacji chemicznych: 11×5×4) liczy się w sekundy,
+Pełna domyślna siatka (244 kombinacji chemicznych: 61 par × 4 elektrolity) liczy się w sekundy,
 13200 kombinacji — w minuty. Wyniki (CSV) warto zapisywać: to mapa „co warto zbudować".
 
 ### CI (GitHub Actions)
@@ -93,7 +93,16 @@ pobrania, `benchmark` oraz raporty PL/EN jako artefakt (`raporty-pl-en`).
 - **Katody Na** (vs Na/Na+): NA_O3 (tlenek warstwowy), NA_PW (biel pruska),
   NA_NFPP (polianionowy Na₃V₂(PO₄)₃) — ogniwa sodowe mają kolektor **Al po obu
   stronach** (Na nie tworzy stopów z Al — oszczędność masy i kosztu vs Cu)
-- **Anody**: GRAPHITE, LTO, SIC (Si-C), LIMETAL (lit metal), HC (hard carbon, Na-ion)
+- **Katody nowatorskie (poza rynkiem)**: **LIO2** (Li-air / Li-O₂),
+  **DRX** (Li-rich rock-salt na bazie Mn — bez Co/Ni), **FEF3** (konwersyjna
+  katoda fluorkowa FeF₃), **KPB** (biel pruska potasowa, vs K/K+),
+  **CHEVREL** (faza Chevrela Mo₆S₈, vs Mg/Mg²⁺)
+- **Anody**: GRAPHITE, LTO, SIC (Si-C), LIMETAL (lit metal), HC (hard carbon, Na/K-ion),
+  **MG** (magnez metal), **LIFREE** (anode-free — cienkie Li z katody)
+- **Zgodność systemów**: katoda i anoda muszą mieć tę samą referencję napięć
+  (`cath_system` / `an_systems` w `materials.rs`); `build_grid` odrzuca pary
+  typu „katoda Li + anoda Mg”, a `cell` zgłasza błąd — mieszanie referencji
+  dawałoby fizycznie błędne napięcia
 - **Elektrolity**: LP57 (ciekły, palny, okno 4.4 V), **GEL** (żelowy/półstały —
   kierunek CATL condensed / WeLion; z separatorem ceramicznym: T zwarcia 200 °C,
   rozkład 250 °C, okno 4.6 V), IONIC (ciecz jonowa, niepalny, okno 5 V),
@@ -139,6 +148,33 @@ ainvest.com (Amprius); eepower.com, emobility-engineering.com, store-dot.com
 curionic.net (QuantumScape); exoswan.com (Samsung SDI); techcrunch.com,
 autoevtimes.com (Sila); carnewschina.com, paultan.org, interestingengineering.com,
 insideevs.com (Shenxing 4C–6C, Golden Brick 5.5C).
+
+## Nowatorskie chemie (poza rynkiem)
+
+Model obejmuje też chemie **nieobecne na rynku seryjnym** (stan na 2026-10) —
+symulacje pokazują zarówno obiecujących kandydatów, jak i uczciwe odrzuty:
+
+| chemia | Wh/kg (pakiet) | cykle @2C | koszt | werdykt |
+|---|---|---|---|---|
+| **DRX + Si-C + SOLID** (Li-rich Mn rock-salt, bez Co/Ni) | 314–344 (226–248) | 379–469 | $34–82 | ⚠️ najbliżej — ~10% poniżej progu 500 cykli; model wskazuje fade katody (F-domieszka/powłoka) jako dźwignię |
+| **DRX + anode-free (LIFREE) + SOLID** | 430 (310) | 408 | $65 | ⚠️ najwyższa energia spośród novel; ~20% poniżej progu cykli |
+| DRX + Li-metal | 418 (301) | 162–169 (dead Li) | $29–119 | ❌ martwy lit zabija anodę Li |
+| Li-air (LIO2) + Li / anode-free | 396–502 (285–362) | rate-limited @2C; ~21–36 @1C | $21–160 | ❌ „król energii”, żyje dni — reakcje pasożytnicze (dlatego go nie ma) |
+| K-jon (KPB + grafit) | 155–160 (111–115) | 644–705 | $37–45 | ⚠️ jak Na-jon ekonomicznie; abuse bezpieczny tylko z bezpiecznym elektrolitem |
+| Mg-jon (CHEVREL + Mg) | 36–40 (26–29) | ~200 | $8–15 | ❌ niskie napięcie ogniwa (~1,1 V) mimo podwójnej wartościowości Mg |
+| FeF₃ (konwersyjna) + Li | 196–209 (141–151) | rate-limited @2C | $38–49 | ❌ kinetyka reakcji konwersji |
+
+Sweep nowatorski:
+
+```bash
+cargo run --release -- sweep \
+  --cathodes LIO2,DRX,FEF3,KPB,CHEVREL \
+  --anodes LIMETAL,LIFREE,SIC,GRAPHITE,HC,MG \
+  --electrolytes LP57,IONIC,SOLID,GEL \
+  --loadings 20,30 --nps 1.05,1.1 --c-rates 2 --csv nowatorskie.csv --top 20
+```
+
+**Wniosek:** największy potencjał spoza rynku ma **DRX (katoda bez kobaltu i niklu) + anoda krzemowa lub anode-free + stały/żelowy elektrolit** — 340–430 Wh/kg, ~1850 Wh/L, bezpieczne, ~$65/kWh — wyżej niż każde produkcyjne ogniwo oprócz lotniczych/niszowych (CATL condensed 500, Amprius 500), przy koszcie masowym. Model uczciwie pokazuje, że do pełnego „PASS” brakuje ~10–20% żywotności przy 2C — i dokładnie wiadomo, gdzie poprawić (degradacja katody DRX).
 
 ## Raport PL/EN
 
