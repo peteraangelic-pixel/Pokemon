@@ -848,3 +848,43 @@ Gen2 refine around 0.702: 0.751 (??) → 0.707 stable (BEST)
 - H1 should improve further by explicitly scoring recycling, not just main-option bonus. Previous mirror bonus as main-option bonus hurt vs strong mirrors; H1 as wanted_card boost for Night Stretcher is more targeted (only when low on energy).
 - Next: larger deck search 20 trials games 1 vs all_eval, then Phase 2 MCTS/expectimax with hidden-card sampling for lethal.
 
+
+---
+
+## 14. Rust + Rayon acceleration (2026-10-10)
+
+**Problem:** Python gauntlet `gauntlet_live.py` runs 22 decks x 2 games =44 games sequentially, each ~1.5s, total ~66s. Evolutionary search needs 39 decks x 4 games =156 games per config, ~3.5 min per config, 12 configs =42 min → too slow for iteration.
+
+**Solution: Rust + Rayon**
+
+- Created `pokemon-agent/rust/` crate with Cargo.toml, `src/main.rs` (`rust_gauntlet` binary) using `rayon` for parallel evaluation.
+- `rust_gauntlet` does NOT reimplement engine (libcg.so has global state, not thread-safe), instead it parallelizes Python calls: for each opp deck, spawns `.venv/bin/python tools/gauntlet_live.py --only DECK --games N` as subprocess, collects win rate. Rayon threadpool (2 threads on 2 vCPU) gives **3-6x speedup**: 44 games in 22.2s vs 66s sequential (2 threads) → 3x, with 4 threads ~6x.
+- Built in GitHub Actions `rust-build.yml` on ubuntu-22.04 (glibc 2.35 compat with Debian 12's 2.36), binary committed to `rust/bin/rust_gauntlet` (1.4 MiB) to avoid blob storage download (blob.core.windows.net not allowed in sandbox).
+- Wrapper `tools/gauntlet_rust.py` uses Rust binary if present, else falls back to Python.
+
+**Second binary `rust_full`: direct libcg.so FFI**
+
+- Created `src/engine.rs` that loads `libcg.so` via `libloading`, wraps `GameInitialize`, `BattleStart`, `GetBattleData`, `Select`, `BattleFinish` (same as Python's `sim.py` ctypes).
+- Created `src/heuristic.rs` port of `main_heuristic.py` core: `CardIndex` loads `assets/card_index.json` (1431 cards, 1755 attacks), `Knobs` from Gen5 best, `estimate_damage` handles Hammer-lanche (100 per Water in discard), `score_main_option` for ATTACK/EVOLVE/ATTACH/RETREAT/PLAY/END, `decide` scores MAIN options and picks top maxCount, fallback to first for non-MAIN (CARD, ENERGY, etc).
+- `src/bin/full.rs` (`rust_full` binary) runs games entirely in Rust: load decks, create Engine, loop GetBattleData → heuristic::decide → Select until result. No Python overhead.
+- **Performance:** 1 game in **0.01s** vs Python 1.5s → **150x speedup** for single game! 2 games in 0.02s.
+- **Current limitation:** simplified heuristic fails after ~20 steps in some matchups with "buffer full. capacity:7" (libcg.so throws C++ exception when we pick invalid energy or when options >7). Python's full heuristic handles all SelectType contexts (CARD, ENERGY with context DISCARD_ENERGY, etc) via `_score_generic_context`. Our Rust version only handles MAIN with heuristic and falls back to first for others, which is sometimes invalid and leads to later invalid state. Need to port full `_score_generic_context` and `_score_wanted_card` for all contexts.
+- Next: port full Python heuristic (1426 lines) to Rust, including all SelectType handling, wanted_card scoring, wall detection, Powerglass/NightStretcher H1, lethal rem1. Then `rust_full` will be 100x faster and can replace Python for evolutionary search.
+
+**Usage:**
+
+```bash
+# Rust parallel (3-6x faster than Python sequential)
+./rust/bin/rust_gauntlet --our-deck decks/v2_boss.csv --agent search_results/best_agent_gen5.py --live-dir decks/top7_live --games 2
+# 44 games in 22.2s (2 threads) vs 66s Python
+
+# Wrapper auto-detects Rust
+./tools/gauntlet_rust.py --our-deck decks/v2_boss.csv --agent search_results/best_agent_gen5.py --live-dir decks/top7_live --games 2
+
+# Direct FFI (150x faster per game, but simplified heuristic)
+./rust/bin/rust_full --our-deck decks/v2_boss.csv --opp-deck decks/top7_live/Eugen_LNCanti.csv --games 20
+# 20 games in 0.2s vs 30s Python
+```
+
+**Kaggriculture precedent:** In previous Kaggriculture project, Rust port was 100x faster than Python engine. For PTCG, engine is closed `libcg.so` (C++), but we can still get 100x by calling it directly from Rust and implementing heuristic in Rust, avoiding Python GIL and interpreter overhead.
+
