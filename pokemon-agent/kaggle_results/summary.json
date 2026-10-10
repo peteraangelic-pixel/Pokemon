@@ -1,16 +1,16 @@
 {
-  "fetched_utc": "2026-10-10T15:05:36+00:00",
+  "fetched_utc": "2026-10-10T16:48:44+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 298,
+  "leaderboard_rows": 300,
   "submission_rows": 5,
   "our_leaderboard": [
     {
-      "Rank": "163",
+      "Rank": "216",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-10 15:01:25",
-      "Score": "600.0",
+      "LastSubmissionDate": "2026-10-10 15:03:51",
+      "Score": "460.1",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
@@ -21,8 +21,8 @@
       "fileName": "phase1_tuned_gen8_h1.tar.gz",
       "date": "2026-10-10 15:03:51.657000",
       "description": "Gen8 H1 Powerglass+NightStretcher recycle + lethal rem1 - 0.818 vs top7_live - should improve beyond 600",
-      "status": "SubmissionStatus.PENDING",
-      "publicScore": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "460.1",
       "privateScore": ""
     },
     {
@@ -31,7 +31,7 @@
       "date": "2026-10-10 15:01:25.883000",
       "description": "Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - fixes Powerglass mirrors",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "600.0",
+      "publicScore": "308.0",
       "privateScore": ""
     },
     {
@@ -40,7 +40,7 @@
       "date": "2026-10-10 14:57:35.047000",
       "description": "Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "483.6",
+      "publicScore": "426.4",
       "privateScore": ""
     },
     {
