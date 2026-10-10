@@ -1,0 +1,40 @@
+vc33 - ACTION6: count 388, levels completed 1, avg fps 60.53)
+vc33 - ACTION6: count 389, levels completed 1, avg fps 60.5)
+vc33 - ACTION6: count 390, levels completed 1, avg fps 60.47)
+vc33 - ACTION6: count 391, levels completed 1, avg fps 60.53)
+vc33 - ACTION6: count 392, levels completed 1, avg fps 60.49)
+vc33 - ACTION6: count 393, levels completed 1, avg fps 60.46)
+vc33 - RESET: count 394, levels completed 1, avg fps 60.52)
+vc33 - ACTION6: count 395, levels completed 1, avg fps 60.58)
+vc33 - ACTION6: count 396, levels completed 1, avg fps 60.55)
+vc33 - ACTION6: count 397, levels completed 1, avg fps 60.52)
+vc33 - ACTION6: count 398, levels completed 1, avg fps 60.49)
+vc33 - ACTION6: count 399, levels completed 1, avg fps 60.45)
+recording for vc33.myagent.novelty-v5 is available in /home/runner/work/Pokemon/Pokemon/arc-agi-3/baseline/recordings/vc33.myagent.novelty-v5.9e16f688-b8d3-4f20-911f-978a4dd5bc4d.recording.jsonl
+Exiting: agent reached MAX_ACTIONS of 400, took 6.6 seconds (60.61 average fps)
+state=NOT_FINISHED levels=1 actions=400
+policy evidence={'ACTION6': {'attempts': 393, 'changed': 163, 'level_gains': 1, 'game_overs': 7, 'revisits': 368}, 'RESET': {'attempts': 7, 'changed': 6, 'level_gains': 0, 'game_overs': 0, 'revisits': 7}}
+
+=== summary ===
+ar25: state=NOT_FINISHED, levels=0, actions=400
+bp35: state=NOT_FINISHED, levels=0, actions=400
+cd82: state=NOT_FINISHED, levels=0, actions=400
+dc22: state=NOT_FINISHED, levels=0, actions=400
+g50t: state=NOT_FINISHED, levels=0, actions=400
+ka59: state=NOT_FINISHED, levels=0, actions=400
+lf52: state=NOT_FINISHED, levels=1, actions=400
+ls20: state=NOT_FINISHED, levels=2, actions=400
+m0r0: state=NOT_FINISHED, levels=0, actions=400
+r11l: state=NOT_FINISHED, levels=1, actions=400
+re86: state=NOT_FINISHED, levels=0, actions=400
+s5i5: state=NOT_FINISHED, levels=0, actions=400
+sc25: state=NOT_FINISHED, levels=0, actions=400
+sk48: state=NOT_FINISHED, levels=0, actions=400
+sp80: state=NOT_FINISHED, levels=0, actions=400
+su15: state=NOT_FINISHED, levels=0, actions=400
+tn36: state=NOT_FINISHED, levels=0, actions=400
+tr87: state=NOT_FINISHED, levels=0, actions=400
+tu93: state=NOT_FINISHED, levels=0, actions=400
+vc33: state=NOT_FINISHED, levels=1, actions=400
+local scorecard score=0.6328239355351842
+outcome report=recordings/run-report.json
