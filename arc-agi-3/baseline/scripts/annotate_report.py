@@ -42,9 +42,22 @@ def main() -> int:
             emit(str(path), f"unparseable JSON: {exc}")
             continue
 
-        runs = payload.get("runs") if isinstance(payload, dict) else payload
-        if not isinstance(runs, list):
-            runs = [payload]
+        # Struktura raportu rozni sie miedzy wersjami runnera; najpierw
+        # probujemy znanych kluczy, potem dowolnej listy slownikow.
+        runs = None
+        if isinstance(payload, dict):
+            for key in ("runs", "results", "games", "outcomes"):
+                if isinstance(payload.get(key), list):
+                    runs = payload[key]
+                    break
+            if runs is None:
+                runs = [payload]
+        elif isinstance(payload, list):
+            runs = payload
+        if not runs:
+            runs = []
+        if isinstance(payload, dict) and "scorecard" in str(payload)[:2000]:
+            emit(f"scorecard -- {path.name}", str(payload.get("scorecard")))
 
         lines = []
         for run in runs:
@@ -76,6 +89,9 @@ def main() -> int:
                     lines.append("      evidence keys: " + ", ".join(sorted(flags)[:8]))
 
         emit(f"ARC-AGI-3 local run -- {path.name}", "\n".join(lines) or "(no runs)")
+        raw = json.dumps(payload, ensure_ascii=False)
+        if raw and raw not in ("{}", "[]"):
+            emit(f"raw JSON -- {path.name}", raw[:1200])
 
     return 0
 

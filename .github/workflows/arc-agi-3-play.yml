@@ -111,10 +111,16 @@ jobs:
       - name: Annotate outcome
         if: always()
         working-directory: arc-agi-3/baseline
+        env:
+          TS: ${{ github.run_id }}
         run: |
-          ls recordings/*.json 2>/dev/null || true
-          .venv/bin/python scripts/annotate_report.py recordings/*.json 2>/dev/null \
-            || python3 scripts/annotate_report.py recordings/*.json 2>/dev/null \
+          mkdir -p runs
+          # recordings/ jest w .gitignore -- kopiujemy do runs/, zeby agent
+          # mogl to przeczytac po git pull.
+          cp recordings/run-report.json "runs/report-$TS.json" 2>/dev/null || true
+          cp list-games.log "runs/list-games-$TS.log" 2>/dev/null || true
+          ls -la runs/
+          python3 scripts/annotate_report.py "runs/report-$TS.json" \
             || echo "::warning title=Annotate::no JSON report found"
 
       - name: Commit recordings and summaries
