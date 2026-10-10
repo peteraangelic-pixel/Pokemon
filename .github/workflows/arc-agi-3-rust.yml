@@ -87,21 +87,35 @@ jobs:
       # the branch is the only channel we can actually read.
       - name: Publish logs to the branch
         if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -u
           mkdir -p ../ci-logs
           cp -f clippy.log build.log test.log ../ci-logs/ 2>/dev/null || true
-          cd ../..
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f arc-agi-3/ci-logs
-          if git diff --cached --quiet; then
-            echo "no log changes to publish"
-          else
-            git commit -m "ci: logi clippy/build/test [skip ci]"
-            git pull --rebase origin "$GITHUB_REF_NAME"
-            git push origin "HEAD:$GITHUB_REF_NAME"
-          fi
+          publish() {
+            path="arc-agi-3/ci-logs/$1"
+            src="../ci-logs/$1"
+            [ -s "$src" ] || { echo "skip $1 (empty)"; return 0; }
+            sha=$(gh api "repos/$GITHUB_REPOSITORY/contents/$path?ref=$GITHUB_REF_NAME" \
+                    --jq .sha 2>/dev/null || echo "")
+            if [ -n "$sha" ]; then
+              gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
+                -f message="ci: logi [skip ci]" \
+                -f content="$(base64 -w0 "$src")" \
+                -f branch="$GITHUB_REF_NAME" \
+                -f sha="$sha" > /dev/null
+            else
+              gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
+                -f message="ci: logi [skip ci]" \
+                -f content="$(base64 -w0 "$src")" \
+                -f branch="$GITHUB_REF_NAME" > /dev/null
+            fi
+            echo "published $path"
+          }
+          publish clippy.log
+          publish build.log
+          publish test.log
 
       # The reference vectors are the whole point of this crate: if the Rust
       # segmentation ever diverges from the Python harness, the model would be
@@ -138,18 +152,23 @@ jobs:
 
       - name: Publish bench log to the branch
         if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -u
-          mkdir -p ../ci-logs
-          cp -f bench.log ../ci-logs/
-          cd ../..
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f arc-agi-3/ci-logs
-          if git diff --cached --quiet; then
-            echo "no bench log changes"
+          path="arc-agi-3/ci-logs/bench.log"
+          [ -s bench.log ] || { echo "bench log empty"; exit 0; }
+          sha=$(gh api "repos/$GITHUB_REPOSITORY/contents/$path?ref=$GITHUB_REF_NAME" \
+                  --jq .sha 2>/dev/null || echo "")
+          if [ -n "$sha" ]; then
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
+              -f message="ci: log benchmarku [skip ci]" \
+              -f content="$(base64 -w0 bench.log)" \
+              -f branch="$GITHUB_REF_NAME" -f sha="$sha" > /dev/null
           else
-            git commit -m "ci: log benchmarku przepustowosci [skip ci]"
-            git pull --rebase origin "$GITHUB_REF_NAME"
-            git push origin "HEAD:$GITHUB_REF_NAME"
+            gh api -X PUT "repos/$GITHUB_REPOSITORY/contents/$path" \
+              -f message="ci: log benchmarku [skip ci]" \
+              -f content="$(base64 -w0 bench.log)" \
+              -f branch="$GITHUB_REF_NAME" > /dev/null
           fi
+          echo "published $path"
