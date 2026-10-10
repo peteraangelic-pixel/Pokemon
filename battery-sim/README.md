@@ -228,6 +228,12 @@ cargo run --release -- sweep \
 
 Wyniki maratonu (20 000 cykli) i nowych materiałów: `ANALIZA_MARATHON.md`.
 
+## Finalne portfolio
+
+**Kanoniczna lista** baterii, którymi jesteśmy zadowoleni (6 kandydatów: 5 naszych
++ Na-jon jako produkt wejściowy) vs najlepsze na rynku — z wyjaśnieniem, dlaczego
+w innych miejscach projektu pojawiają się inne liczby: **[PORTFOLIO.md](PORTFOLIO.md)**.
+
 ## Wyniki i analiza sweepów
 
 - `grid.csv` — wielka siatka **14 640 kombinacji** (wynik z PC) + `ANALIZA_GRID.md` (analiza:
