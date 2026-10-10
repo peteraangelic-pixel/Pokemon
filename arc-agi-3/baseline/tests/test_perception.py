@@ -60,3 +60,28 @@ class MotionTrackingTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LethalClickTests(unittest.TestCase):
+    """A click that killed must be demoted, not merely deprioritised."""
+
+    def test_lethal_click_is_remembered(self) -> None:
+        from agent.policy import COMPLEX_ACTION, ExplorerPolicy, Snapshot
+
+        grid = tuple(tuple(1 for _ in range(6)) for _ in range(6))
+        frame = Snapshot("PLAYING", 0, (COMPLEX_ACTION,), (grid,))
+        policy = ExplorerPolicy()
+        policy.choose(frame)
+        pending = policy._pending
+        self.assertIsNotNone(pending)
+        # Symuluj: klikniecie zakonczylo sie zgonem.
+        for _ in range(2):
+            policy.choose(Snapshot("GAME_OVER", 0, (COMPLEX_ACTION,), (grid,)))
+            policy.choose(frame)
+        self.assertTrue(policy._lethal_clicks())
+
+    def test_motion_bonus_outweighs_colour_rarity(self) -> None:
+        from agent.policy import MOTION_BONUS, DEAD_CLICK_PENALTY
+
+        self.assertGreater(MOTION_BONUS, 1000)
+        self.assertGreater(DEAD_CLICK_PENALTY, 1000)

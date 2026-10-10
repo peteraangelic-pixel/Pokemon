@@ -2169,8 +2169,8 @@ class ExplorerPolicy:
         # klikniec, ktore nic nie daly.
         self._previous_components: tuple[Component, ...] = ()
         self._click_outcomes: dict[Coordinate, list[int]] = defaultdict(
-            lambda: [0, 0]
-        )  # [attempts, changed]
+            lambda: [0, 0, 0]
+        )  # [attempts, changed, game_overs]
         self._motion_observations = 0
         self._motion_cells_seen = 0
 
@@ -2212,8 +2212,20 @@ class ExplorerPolicy:
         """Targets clicked repeatedly with no observable effect."""
         return frozenset(
             point
-            for point, (attempts, changed) in self._click_outcomes.items()
-            if attempts >= DEAD_CLICK_MIN_ATTEMPTS and changed == 0
+            for point, outcome in self._click_outcomes.items()
+            if outcome[0] >= DEAD_CLICK_MIN_ATTEMPTS and outcome[1] == 0
+        )
+
+    def _lethal_clicks(self) -> frozenset[Coordinate]:
+        """Targets whose click was followed by a game over.
+
+        Motion is a strong signal for "interactive", but an interactive hazard
+        is also interactive. Without this the motion bonus measurably raised
+        deaths, so anything that has once killed is demoted harder than
+        anything merely inert.
+        """
+        return frozenset(
+            point for point, outcome in self._click_outcomes.items() if outcome[2] > 0
         )
 
     def graph_evidence(self) -> dict[str, int]:
@@ -2235,6 +2247,7 @@ class ExplorerPolicy:
             "motion_frames": self._motion_observations,
             "landmark_failures": self._tile_maze.landmark_failure_total(),
             "dead_clicks": len(self._dead_clicks()),
+            "lethal_clicks": len(self._lethal_clicks()),
             "tracked_clicks": len(self._click_outcomes),
         }
 
@@ -2324,6 +2337,7 @@ class ExplorerPolicy:
             outcome = self._click_outcomes[(self._pending.x, self._pending.y)]
             outcome[0] += 1
             outcome[1] += int(transition.changed or transition.level_gain > 0)
+            outcome[2] += int(transition.game_over)
         edge = self._edges.setdefault(
             (self._previous_signature, self._pending.key),
             GraphEdge(proposal=self._pending),
@@ -2391,7 +2405,7 @@ class ExplorerPolicy:
             candidates.append((600 + self._simple_priority(action), 1, action, proposal))
 
         if COMPLEX_ACTION in valid:
-            dead = self._dead_clicks()
+            dead = self._dead_clicks() | self._lethal_clicks()
             for salience, (x, y), reason in rank_click_targets(
                 snapshot, changed, excluded, motion=motion, dead=dead
             ):
