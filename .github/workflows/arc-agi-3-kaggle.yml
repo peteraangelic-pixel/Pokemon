@@ -96,14 +96,14 @@ jobs:
 
       - name: Public leaderboard
         run: |
-          kaggle competitions leaderboard -c "$COMP" --csv > "$OUTDIR/public_leaderboard.csv" 2>"$OUTDIR/public_leaderboard.err" \
+          kaggle competitions leaderboard -c "$COMP" --show --csv > "$OUTDIR/public_leaderboard.csv" 2>"$OUTDIR/public_leaderboard.err" \
             || cp "$OUTDIR/public_leaderboard.err" "$OUTDIR/public_leaderboard.csv"
           head -30 "$OUTDIR/public_leaderboard.csv"
 
       - name: Private leaderboard (empty until awards)
         continue-on-error: true
         run: |
-          kaggle competitions leaderboard -c "$COMP" --show-private --csv > "$OUTDIR/private_leaderboard.csv" 2>&1 \
+          kaggle competitions leaderboard -c "$COMP" --show --download /dev/null --csv > "$OUTDIR/private_leaderboard.csv" 2>&1 \
             || true
           head -30 "$OUTDIR/private_leaderboard.csv"
 
