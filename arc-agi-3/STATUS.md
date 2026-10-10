@@ -126,3 +126,60 @@ Pracujemy nad ARC-AGI-3 na Kaggle (deadline 2 XI 2026).
 Kontynuuj od kroku „Następny krok" w STATUS.md.
 Nie rób zmian w kodzie poza katalogiem arc-agi-3/.
 ```
+
+---
+
+## ETAP 2 (2026-10-10): most na Kaggle działa, leaderboard zmierzony
+
+### Jak czytać wyniki z CI — ostateczne ustalenie
+
+Trzy próby i wszystkie potwierdzają to samo, co zapisały poprzednie sesje
+w tym repo (`kaggle_poll.yml` na gałęzi `arena/c87f7a48-pokemon`):
+
+| Kanał | Działa? |
+|---|---|
+| Logi Actions (`gh run view --log`, `--log-failed`) | ❌ host poza allowlistą |
+| Artefakty (`upload-artifact`) | ❌ `*.blob.core.windows.net` poza allowlistą |
+| `gh workflow run` / API dispatch | ❌ **403** — token aplikacji nie może dispatchować |
+| Listowanie sekretów | ❌ 403 |
+| **Workflow commituje wyniki na branch** | ✅ jedyny czytelny kanał |
+| **`gh api .../jobs`** (status per krok) | ✅ |
+
+**Wzorzec:** `touch <trigger>.trigger && git push` → workflow robi robotę →
+commituje wyniki do `arc-agi-3/kaggle/results/` → agent czyta po `git pull`.
+Workflow: `.github/workflows/arc-agi-3-kaggle.yml`.
+
+### Sekret Kaggle: działa
+
+`KAGGLE_API_TOKEN` jest w sekretach tego repo (konto **petersharps**).
+Zweryfikowane: `kaggle competitions files -c arc-prize-2026-arc-agi-3`
+zwróciło prawdziwe dane → **jesteśmy zapisani do konkursu**, **0 zgłoszeń**.
+W danych konkursu jest m.in. pełne repo `ARC-AGI-3-Agents`.
+
+### Publiczny leaderboard — stan na 2026-10-10
+
+| Pozycja | Drużyna | Wynik |
+|---|---|---|
+| 1 | Yi-Chia Chen | **62.96** |
+| 2 | Tufa Labs | **56.52** |
+| 3 | mtg | 45.00 |
+| 4 | Majkel1337 | 42.66 |
+| 5 | NVARC3 | **40.97** ← próg nagrody |
+| 10 | fshindo | 38.20 |
+| 20 | Son & Mark & Ronen | 35.45 |
+
+**Rozkład jest dwugarbny:** 15 drużyn stłoczonych w 35–40, potem luka,
+i dwaj liderzy (56.52, 62.96). Mediana 38.17.
+
+**Luka z mediany do progu nagrody: +2.80 pkt.** To zupełnie inna sytuacja niż
+~7.5% lidera notowane we wrześniu przez poprzednią sesję — pole się przesunęło.
+
+### ⚠️ Nierozstrzygnięte: ARC-AGI-3 było już raz zamknięte
+
+W `riemann` wątek zamknięto 2026-09-04, głównie przez **eligibility**
+(open-source, angielskie write-upy, rozmowy z organizatorami, KYC).
+Szczegóły i twarde wyniki negatywne: **`arc-agi-3/PRIOR_WORK.md`**.
+
+Nagrody ARC Prize Foundation (Grand Prize $700K) tych wymogów mają — ale
+**konkurs Kaggle ($75 000 / top 5) ocenia wyłącznie wynikiem: bez write-upu
+i bez rozmowy**. Pytanie do właściciela: czy KYC przy wypłacie też dyskwalifikuje?
