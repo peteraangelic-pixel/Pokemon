@@ -79,11 +79,6 @@ jobs:
             exit 1
           fi
 
-      - name: Who am I on Kaggle
-        run: |
-          mkdir -p "$OUTDIR"
-          kaggle whoami 2>&1 | sed 's/\(key[^ ]*\).*/\1 <redacted>/I' | tee "$OUTDIR/whoami.txt" || true
-
       - name: Competition files
         run: |
           kaggle competitions files -c "$COMP" 2>&1 | tee "$OUTDIR/files.txt" || echo "FAILED (not joined, or wrong slug)" | tee "$OUTDIR/files.txt"
@@ -94,11 +89,49 @@ jobs:
             || echo "FAILED" > "$OUTDIR/submissions.csv"
           cat "$OUTDIR/submissions.csv" | head -20
 
-      - name: Public leaderboard
+      - name: Public leaderboard (full download)
         run: |
+          rm -rf /tmp/lb && mkdir -p /tmp/lb
+          kaggle competitions leaderboard -c "$COMP" --download /tmp/lb 2>&1 | tail -3 || true
+          Z=$(ls /tmp/lb/*.zip 2>/dev/null | head -1)
+          if [ -n "$Z" ]; then
+            cd /tmp/lb && unzip -o "$Z" >/dev/null 2>&1
+            F=$(ls /tmp/lb/*.csv 2>/dev/null | head -1)
+            cp "$F" "$OLDPWD/$OUTDIR/public_leaderboard_full.csv"
+            cd "$OLDPWD"
+          fi
           kaggle competitions leaderboard -c "$COMP" --show --csv > "$OUTDIR/public_leaderboard.csv" 2>"$OUTDIR/public_leaderboard.err" \
             || cp "$OUTDIR/public_leaderboard.err" "$OUTDIR/public_leaderboard.csv"
           head -30 "$OUTDIR/public_leaderboard.csv"
+
+      - name: Field statistics
+        run: |
+          F="$OUTDIR/public_leaderboard_full.csv"
+          [ -s "$F" ] || F="$OUTDIR/public_leaderboard.csv"
+          python3 - "$F" > "$OUTDIR/field_stats.md" <<'EOF'
+          import csv, statistics, sys
+          rows=[r for r in csv.DictReader(open(sys.argv[1])) if r.get('teamId')]
+          if not rows:
+              print("no rows"); raise SystemExit
+          sc=[float(r['score']) for r in rows]
+          sc.sort(reverse=True)
+          n=len(sc)
+          print(f"- Druzyn na publicznym LB: **{n}**")
+          print(f"- Top1 {sc[0]:.2f} | Top5 (próg nagrody) {sc[4]:.2f} | Top10 {sc[9]:.2f}" if n>=10 else f"- Top1 {sc[0]:.2f}")
+          print(f"- Mediana {statistics.median(sc):.2f} | Średnia {statistics.mean(sc):.2f}")
+          print(f"- Luka do top5 z mediany: {sc[4]-statistics.median(sc):+.2f} pkt")
+          print()
+          print("| próg | wynik |")
+          print("|---|---|")
+          for k in (1,3,5,10,20,50,100):
+              if n>=k: print(f"| top{k} | {sc[k-1]:.2f} |")
+          print()
+          print("Rozkład wyników (co 5 pkt):")
+          for lo in range(0,int(sc[0])+5,5):
+              c=sum(1 for x in sc if lo<=x<lo+5)
+              if c: print(f"  {lo:>3}-{lo+5:<3} | {'#'*min(c,60)} {c}")
+          EOF
+          cat "$OUTDIR/field_stats.md"
 
       - name: Private leaderboard (empty until awards)
         continue-on-error: true
