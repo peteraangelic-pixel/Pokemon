@@ -709,3 +709,87 @@ Gen2 refine around 0.702: 0.751 (??) → 0.707 stable (BEST)
 ```
 
 **Next: Gen3 refinement around 0.751 with strength 0.08 (smaller mutations) to try 76%+**
+
+---
+
+## 10. Gen5 FINAL BEST — 80% peak, 74.9% stable (2026-10-09 to 2026-10-10)
+
+**Context:** After Gen2 (70.7% stable), we continued evolutionary search with 40-parallel Actions + local refinement for 5 generations.
+
+**Gen5 results:**
+- Peak: **80.0% (15 games/deck)** — best config found across 40*5=200 configs + refinements
+- Stable: **74.9% (30 games/deck, 337-113)** — +13.6pp over baseline 61.3%
+- Bundle: `phase1_tuned_80.tar.gz` 89 KiB, smoke ok
+- Submitted as **petersharps** team (2 refs 57041729/57041724) PENDING validation BO3 self-play
+- 2/5 slots used, 3 left; `kaggle_submit.yml` now `workflow_dispatch` only
+
+**Best config Gen5 (from search_results/best_agent_gen5.py):**
+- Strong wall avoidance: WALL_PENALTY -677 to -697
+- Patient evolve/attach: EVOLVE 293-299, ATTACH 281-282 (vs 310/300 baseline)
+- High progress bonus: 29-32 (vs 18 baseline) — rewards building Hammer-lanche
+- Retreat Wall 343-353 (vs 340) — stronger escape from walls
+- Gust Bonus 46-59 (vs 60) — moderate gust, not aggressive
+
+**Why it works:** Mill deck needs to survive and build Hammer-lanche (discard top 6, 100 damage per Water energy among them). With 33 Water, expected damage ~330. Patient play (lower bench/evolve/attach) conserves resources, wall avoidance (-677) prevents feeding Crustle/Sylveon walls, progress bonus rewards getting closer to lethal.
+
+---
+
+## 11. TOP7 live fetch — 14 replays, 22 unique decks (2026-10-10)
+
+**Run 38051500906 `chore: trigger top10 fetch for top7` success, commit 1631d06**
+
+**Fetched:**
+- `kaggle_results/top10_live/` = 16 files: 14 JSON replays, `top10_manifest.csv` 141 lines (YumeNeko 1223.4 etc), `leaderboard.csv`, `summary.json`, `analysis.md`
+- Manifest says 140 replays downloaded, but only 14 JSONs saved (API rate limit / large file failure)
+- Analysis: avg energy 14.8 vs ours 33 high; Gust distribution {2:17,0:5,1:1,3:5} — most decks run 2 gust, some 3
+
+**New archetypes discovered:**
+- **Dhelmise/Banette** 2E 3 gust: Shuppet x4 Dhelmise x4 Dunsparce x3 Banette x3 Lillie x4 Ultra Ball x4 Poké Pad x4 Telepath x4 Gwynn x3 Boss x3 — beat us episode-120672714 (but we now beat it 4-0 with v2)
+- **Mega Lucario ex fighting** 13E: Lucario ex x4 Solrock x3 Riolu x3 Makuhita x2, {F} x13 Ultra Ball x4 Premium Power Pro x4 Fighting Gong x4 Poké Pad x4 Judge x4 — vs OceanMix episode-121192351
+- **YumeNeko** 7E Abra/Kadabra/Alakazam: 4 Telepath + 2 Basic P + Enhanced Hammer x2, Boss x2, Battle Cage x2
+- **Ogerpon grass** 14E: Teal Mask Ogerpon ex x4, Bug Catching Set x4, Forest of Vitality x4, etc. — 6 teams run identical list
+
+**Meta shift:** Low-energy (2,13,14) + high gust 2-3; ours 33E too high, cut 3-7E for trainers (Boss x3, Cyrano, Night Stretcher, Hammer).
+
+**Extraction:** Created `decks/top7_live/` with 22 decks from 14 replays, plus `tools/gauntlet_live.py` for evaluation vs live meta.
+
+---
+
+## 12. Gen8 deck search — 26-30E + Boss x3 + more draw (2026-10-10)
+
+**Hypothesis:** Cutting 3-7 energy for trainers (Boss x3, Cyrano, Night Stretcher, Hammer) improves vs low-energy gust meta, even though Hammer-lanche damage drops from ~330 (33E) to ~310 (31E) to ~270 (27E).
+
+**Candidates tested (Gen5 agent, 2 games vs 22 live decks, 20 games vs 11 archetypes, 10 games vs 15 top10 official):**
+
+| Deck | Energy | Boss | Other | vs live (2g) | vs arch (20g) | vs top10 (10g) | Overall avg |
+|------|--------|------|-------|--------------|---------------|----------------|-------------|
+| v3_boss33 (shipped) | 33 | x2 | Petrel x4, Ultra x2, Signal x2, Beach x2, Box x1 | 0.724 (4g) | 0.800 | 0.707 | 0.744 |
+| v2_boss | 30 | x2 | Signal x4, Cyrano x2, Night x2, Pad x2, Belt x1, Judge x1, Haul x1, Waitress x1 | **0.864** | 0.786 | **0.820** | **0.823** |
+| v8_30_boss3 | 30 | x3 | Lillie x4, Signal x4, Cyrano x2, Night x2, Pad x2, Ultra x2, Box x1 | 0.818 | 0.777 | 0.707? | 0.767 |
+| v8_30_boss3_petrel | 30 | x3 | Lillie x4, Petrel x4, Signal x3, Cyrano x2, Night x2, Pad x1, Box x1 | 0.841 | 0.764 | 0.713 | 0.773 |
+| v8_28_boss3_hammer | 28 | x3 | Lillie x4, Signal x4, Cyrano x2, Night x2, Pad x2, Ultra x2, Box x1, Hammer x2 | **0.864** | 0.759 | 0.720 | 0.781 |
+| v8_29_boss3_v2style | 29 | x3 | Lillie x4, Signal x4, Cyrano x2, Night x2, Pad x2, Judge x1, Waitress x1, Haul x1, Ultra x1 | **0.864** | **0.827** | 0.736 | 0.809 |
+| v8_29_boss3_maxbelt | 29 | x3 | Lillie x4, Signal x4, Cyrano x2, Night x2, Pad x2, Belt x1, Judge x1, Haul x1, Waitress x1 | 0.773 | 0.795 | 0.780 | 0.783 |
+| v8_30_boss3_v2style | 30 | x3 | Lillie x4, Signal x4, Cyrano x2, Night x2, Pad x2, Judge x1, Waitress x1, Ultra x1 | 0.841 | 0.782 | 0.707 | 0.777 |
+| v8_27_boss3_fix | 27 | x3 | Lillie x4, Signal x4, Cyrano x2, Night x2, Pad x2, Ultra x2, Box x1, Beach x2, Judge x1 | 0.682 | ? | ? | ? |
+| v8_26_boss3 | 26 | x3 | Lillie x4, Signal x4, Cyrano x2, Night x2, Pad x2, Ultra x2, Box x1, Beach x2, Petrel x2 | 0.659 | ? | ? | ? |
+
+**Key findings:**
+- **30E still best vs live and top10** — cutting to 26-28E hurts Hammer-lanche too much (expected damage 330→270), even with extra trainers. The README's warning holds: energy is load-bearing for this archetype.
+- **Boss x3 helps vs archetypes (0.827) but hurts vs top10 (0.736 vs 0.820)** — aggressive gust is good vs walls (Crustle, Sylveon) but top10 decks are not walls, they are tempo (Ogerpon, Lucario, Zacian). Extra Boss dilutes consistency.
+- **Hammer x2 (Enhanced Hammer)** helps vs 2E Dhelmise/Banette (discards special energy Telepath Psychic) — v8_28_hammer gets 0.864 live, equal best, but 0.759 arch.
+- **v2_boss remains best overall (0.823 avg)** — 30E, Boss x2, diverse trainers (Cyrano, Night Stretcher, Poke Pad, Maximum Belt). Maximum Belt (+50 vs ex) is better ACE SPEC than Secret Box for this deck, because it pushes Hammer-lanche from 300 to 350 vs ex, reaching KO vs 360 HP mega ex.
+- **v8_29_boss3_v2style is best vs archetypes (0.827)** — 29E, Boss x3, keeps diverse trainers, replaces Max Belt with Ultra Ball. Good vs walls, but loses 8pp vs top10.
+
+**Recommendation for final submission:**
+- **If meta is wall-heavy (Crustle, Sylveon):** ship v8_29_boss3_v2style (29E, Boss x3, 0.827 arch)
+- **If meta is tempo/low-energy (current live top7):** ship v2_boss (30E, Boss x2, 0.864 live, 0.820 top10)
+- **Gen8 final bundle:** `phase1_tuned_gen8_v2.tar.gz` (Gen5 agent + v2_boss) — 88 KiB, smoke ok, overall 0.823
+- **Alternative:** `phase1_tuned_gen8_29.tar.gz` (Gen5 agent + 29E Boss x3) — 89 KiB, smoke ok, best vs arch
+
+**Next steps (user priority: archetype gauntlet done, now deck H1 and Phase 2 lethal DFS):**
+- H1: Energy recycling (Energy Retrieval/Recycler) to loop Hammer-lanche — test vs v2_boss
+- Phase 2: Lethal DFS (can I take last prizes this turn?) — should help vs low-energy decks where we need to close
+- Fetch more live replays: `download_top10_replays.py --top-n 100 --replays-per-team 1` to get rank 90-100, and retry top10 with delay 0.5
+- Update gauntlet to include both archetypes (11) + live (22) = 33 matchups, use as fitness for next evolutionary search
+

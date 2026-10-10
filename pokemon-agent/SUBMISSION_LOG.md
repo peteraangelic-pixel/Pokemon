@@ -287,3 +287,28 @@ observation.
 - Trigger another 40-parallel in Actions with refined search space (narrow around -697 wall penalty)
 - Upload phase1_tuned_75 as next submission (one hypothesis per slot)
 
+
+---
+
+## 2026-10-10 — Gen8 deck search + TOP7 live gauntlet
+
+**TOP7 live fetch:** Run 38051500906 success, 14 JSONs, 22 unique decks extracted to `decks/top7_live/`, manifest 141 lines. Avg energy 14.8 vs ours 33, gust 2 dominant. New archetypes: Dhelmise/Banette 2E 3 gust, Mega Lucario ex 13E fighting, YumeNeko 7E Abra/Alakazam, Ogerpon grass 14E (6 teams identical).
+
+**Gauntlet live tool:** `tools/gauntlet_live.py` — evaluates our agent+deck vs live decks (22) + archetypes (11) + top10 official (15). Used for Gen8 fitness.
+
+**Gen8 candidates (Gen5 agent, 2g vs live, 20g vs arch, 10g vs top10):**
+- v2_boss (30E, Boss x2, Signal x4, Cyrano x2, Night x2, Pad x2, Belt x1, Judge x1, Haul x1, Waitress x1): live 0.864 (38-6), arch 0.786, top10 0.820 → **overall 0.823 BEST**
+- v3_boss33 (33E, Boss x2): live 0.724 (4g), arch 0.800, top10 0.707 → 0.744
+- v8_29_boss3_v2style (29E, Boss x3, Signal x4, Cyrano x2, Night x2, Pad x2, Judge x1, Waitress x1, Haul x1, Ultra x1): live 0.864, arch **0.827 BEST vs arch**, top10 0.736 → 0.809
+- v8_28_boss3_hammer (28E, Boss x3, Hammer x2): live 0.864, arch 0.759, top10 0.720 → 0.781
+- v8_30_boss3 (30E, Boss x3): live 0.818, arch 0.777, top10 ~0.707
+- v8_26_boss3 (26E, Boss x3): live 0.659 — cutting too much energy hurts Hammer-lanche (330→270 damage)
+
+**Finding:** 30E still best vs live/top10; Boss x3 helps vs walls (arch 0.827) but hurts vs tempo (top10 0.736 vs 0.820). Maximum Belt (ACE SPEC, +50 vs ex) better than Secret Box for this deck — pushes Hammer-lanche 300→350 vs ex, KO vs 360 HP mega.
+
+**Bundles:**
+- `phase1_tuned_gen8_v2.tar.gz` 88 KiB — Gen5 agent + v2_boss (30E, Boss x2, diverse) — overall 0.823, smoke ok — **RECOMMENDED FOR UPLOAD**
+- `phase1_tuned_gen8_29.tar.gz` 89 KiB — Gen5 agent + 29E Boss x3 v2style — arch 0.827, smoke ok — alternative if wall-heavy meta
+
+**Next:** Poll petersharps PENDING→COMPLETE; Gen8 search with fitness = top10_live 14 replays + gauntlet 11 archetypes, candidate decks 26-30E + Boss x3 + more draw, extract decks from new JSONs to `decks/top7_live/` (done). Next priority: H1 energy recycling + Phase 2 lethal DFS.
+
