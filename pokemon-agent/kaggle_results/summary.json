@@ -1,12 +1,12 @@
 {
-  "fetched_utc": "2026-10-10T15:03:15+00:00",
+  "fetched_utc": "2026-10-10T15:05:36+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
   "leaderboard_rows": 298,
-  "submission_rows": 4,
+  "submission_rows": 5,
   "our_leaderboard": [
     {
-      "Rank": "162",
+      "Rank": "163",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
       "LastSubmissionDate": "2026-10-10 15:01:25",
@@ -16,6 +16,15 @@
     }
   ],
   "latest_submissions": [
+    {
+      "ref": "57045512",
+      "fileName": "phase1_tuned_gen8_h1.tar.gz",
+      "date": "2026-10-10 15:03:51.657000",
+      "description": "Gen8 H1 Powerglass+NightStretcher recycle + lethal rem1 - 0.818 vs top7_live - should improve beyond 600",
+      "status": "SubmissionStatus.PENDING",
+      "publicScore": "",
+      "privateScore": ""
+    },
     {
       "ref": "57045458",
       "fileName": "phase1_tuned_gen8_powerglass.tar.gz",
@@ -31,7 +40,7 @@
       "date": "2026-10-10 14:57:35.047000",
       "description": "Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "600.0",
+      "publicScore": "483.6",
       "privateScore": ""
     },
     {
@@ -40,7 +49,7 @@
       "date": "2026-10-10 12:08:47.510000",
       "description": "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "412.8",
+      "publicScore": "420.2",
       "privateScore": ""
     },
     {
