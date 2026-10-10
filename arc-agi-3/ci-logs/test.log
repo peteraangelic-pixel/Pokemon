@@ -2,38 +2,38 @@
 [1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/arc3-676a7b74b1154d48)
 
 running 32 tests
-test grid::reference_vectors::reference_shape_sensitivity ... ok
-test grid::reference_vectors::reference_nesting_children ... ok
 test grid::reference_vectors::reference_diagonal_four_components ... ok
+test grid::reference_vectors::reference_shape_sensitivity ... ok
+test grid::reference_vectors::reference_single_block ... ok
+test grid::reference_vectors::reference_nesting_children ... ok
+test grid::reference_vectors::reference_translation_invariance ... ok
 test grid::reference_vectors::reference_boundaries ... ok
+test grid::tests::ascii_matches_python_layout ... ok
 test grid::reference_vectors::reference_two_adjacent_components ... ok
 test grid::tests::diagonal_components_are_not_adjacent ... ok
-test grid::tests::empty_grid_is_handled ... ok
 test grid::tests::hash_is_shape_sensitive ... ok
-test grid::tests::hash_is_translation_invariant ... ok
-test grid::tests::ascii_matches_python_layout ... ok
-test grid::reference_vectors::reference_single_block ... ok
+test grid::tests::empty_grid_is_handled ... ok
 test grid::tests::nesting_produces_children ... ok
+test grid::tests::hash_is_translation_invariant ... ok
 test grid::tests::single_component ... ok
-test grid::reference_vectors::reference_translation_invariance ... ok
-test replay::tests::counts_totals_and_unique ... ok
 test grid::tests::two_components_are_adjacent ... ok
 test replay::tests::detects_immediate_repeats ... ok
 test replay::tests::empty_sequence ... ok
+test replay::tests::counts_totals_and_unique ... ok
 test replay::tests::no_repeats_in_alternating_sequence ... ok
-test replay::tests::scan_of_missing_dir_is_tolerated ... ok
 test replay::tests::short_sequences_have_no_trigrams ... ok
 test score::tests::actions_at_cap_matches_cap ... ok
+test replay::tests::scan_of_missing_dir_is_tolerated ... ok
 test score::tests::beating_human_is_capped ... ok
-test replay::tests::detects_looping_trigrams ... ok
 test score::tests::cap_is_1_15_squared ... ok
 test score::tests::empty_inputs_are_zero ... ok
 test score::tests::just_under_cap_is_not_capped ... ok
 test score::tests::matching_human_scores_one ... ok
 test score::tests::mean_over_levels ... ok
+test score::tests::zero_agent_actions_is_zero_not_nan ... ok
 test score::tests::quadratic_penalty ... ok
 test score::tests::weighted_mean ... ok
-test score::tests::zero_agent_actions_is_zero_not_nan ... ok
+test replay::tests::detects_looping_trigrams ... ok
 
 test result: ok. 32 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
