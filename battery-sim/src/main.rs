@@ -539,6 +539,7 @@ Polecenia:
   benchmark   nasi kandydaci kontra ogniwa komercyjne (tabele)
   report      raport Markdown PL/EN (--lang pl|en --out plik.md)
   pitch       raport inwestorski, one-pager EN/PL (--lang en|pl --out plik.md)
+  investor    raport inwestycyjny (EN domyslnie, --lang pl) — hero: flagship, pipeline w linijkach
   ladder      drabiny testowe dla top-PASS z CSV: C-rate 1-6C, abuse 130-250C, moc 10C
               (--csv optim_winners.csv --top 12)
   storage     starzenie kalendarzowe (shelf life): --soc 1.0 --temp 25 --years 10
@@ -632,6 +633,21 @@ fn run_storage(cli: &Cli, cp: &CellParams, sp: &SimParams) {
     }
 }
 
+fn run_investor(cli: &Cli) {
+    let lang = cli.get("--lang").unwrap_or("en").to_lowercase();
+    let lang = if lang.starts_with("pl") { "pl" } else { "en" };
+    let def_out = if lang == "en" {
+        "investor-report.md"
+    } else {
+        "raport-inwestorski.md"
+    };
+    let out = cli.get("--out").unwrap_or(def_out);
+    match doc::write_investor(out, lang) {
+        Ok(n) => println!("Raport inwestycyjny ({lang}) zapisany: {out} ({n} linii)"),
+        Err(e) => eprintln!("Blad zapisu raportu: {e}"),
+    }
+}
+
 fn main() {
     let cli = parse_cli();
     let cp = CellParams::default();
@@ -645,6 +661,7 @@ fn main() {
         "benchmark" => benchmark::print_benchmark(&cp, &sp),
         "report" => run_report(&cli, &cp, &sp),
         "pitch" => run_pitch(&cli),
+        "investor" => run_investor(&cli),
         "ladder" => ladder::print_ladder(&cli, &cp, &sp),
         "storage" => run_storage(&cli, &cp, &sp),
         "help" | "--help" | "-h" => print_help(),

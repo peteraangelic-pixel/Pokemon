@@ -48,6 +48,7 @@ cargo run --release -- list           # baza materiałów (+ koszt USD/kg)
 cargo run --release -- benchmark      # nasi kandydaci kontra rynek
 cargo run --release -- report --lang en --out report.md   # raport po angielsku
 cargo run --release -- pitch --lang en --out pitch.md     # one-pager dla inwestora (EN)
+cargo run --release -- investor --lang en --out investor-report.md   # raport inwestycyjny (EN, hero: flagship)
 cargo run --release -- ladder --csv optim_winners.csv      # drabiny: C-rate / abuse / moc
 bash tools/optimize-winners.sh                            # zadanie dla PC: optymalizacja zwycięzców
 ```

@@ -196,6 +196,171 @@ fn render_en(rows: &[OurRow], cp: &CellParams, sp: &SimParams) -> String {
     s
 }
 
+/// Raport inwestycyjny (EN/PL) — esencjonalny: hero = flagship, pipeline w linijkach.
+pub fn write_investor(path: &str, lang: &str) -> io::Result<usize> {
+    let md = if lang == "en" {
+        render_investor_en()
+    } else {
+        render_investor_pl()
+    };
+    fs::write(path, &md)?;
+    Ok(md.lines().count())
+}
+
+fn render_investor_en() -> String {
+    format!(
+        r##"# The Battery Design Studio — Investor Report
+_Generated {date} · battery-sim v{ver} · contact: [YOUR NAME / EMAIL]_
+
+## The one-liner
+We built an open-source simulator that screens battery chemistries in minutes instead of months — and used it to design a cell that beats today's best production batteries on safety, fast charging and cost at the same time.
+
+## The problem, in numbers
+Today's EV cells make you pick two of {{energy, safety, cost}}:
+- **LFP (BYD Blade):** safe + cheap, 160 Wh/kg — the energy tax.
+- **NMC (CATL Qilin):** 255 Wh/kg pack, liquid flammable electrolyte, cobalt + nickel supply risk.
+- **Semi-solid (WeLion/NIO):** 360 Wh/kg cell, in production since 2024 — but unproven economics.
+And iteration is slow: one lab cycle per candidate takes weeks. A new cell design typically takes 2–4 years to qualify.
+
+## Our answer: one cell, all three
+**NMC811 cathode + Si-C anode + gel electrolyte** (every material already in mass production):
+
+| metric | our cell (simulated) | best production today |
+|---|---|---|
+| energy | **279 Wh/kg** cell (201 pack) | ~230–260 Wh/kg cell (NMC); 260 pack (WeLion semi-solid) |
+| fast-charge life | **670 cycles @2C** (10–80% in ~24 min) | ~500–800 @2C (fast-charge cells) |
+| abuse survival | **150 °C oven + overcharge: survives, margin to 170 °C** | liquid-electrolyte NMC/graphite cells fail the same cell-level test (real packs survive it only with heavy protection systems) |
+| discharge power | **5C** | 3–4C typical |
+| material cost | **~$67/kWh** | ~$55–80/kWh (LFP–NMC cells) |
+| time to production | **1–2 years, existing lines** | new chemistry: 3–5+ years |
+
+The 1–2 years is validation and automotive qualification — not invention. Every block is in mass production today: NMC811 (LG, SK, CATL), Si-C (Sila, Amprius), gel electrolytes (WeLion, CATL).
+
+## Why we win — the advantages that matter
+1. **Safety where it hurts.** Our cell survives a 150 °C oven + 1C overcharge for 3 h with margin to 170 °C. In the same test, a Qilin-class cell (graphite + liquid electrolyte) goes into thermal runaway and explodes at cell level — real packs survive only with heavy protection (venting, cooling, shutdowns).
+2. **Fast charging without the tax.** 670 cycles at 2C — the band the industry calls fast charge — with 10–80% in ~24 minutes.
+3. **LFP-class cost, NMC-class energy.** ~$67/kWh in materials for 279 Wh/kg — versus 160 Wh/kg for LFP cells at similar cost.
+4. **Buildable now.** Existing cathode/anode lines + a filling-step tweak. No new fab, no new chemistry, no 5-year wait.
+5. **The tool is the moat.** Open, reproducible, fast: ~118,000 combinations simulated (full + fine + mega grids), results verifiable by anyone in minutes (CI, CSV, public repo). A cell maker's R&D cannot match that iteration speed.
+
+## The pipeline (one line each)
+- **$27/kWh mass-market variant** (LMFP/LFP + anode-free): 270–298 Wh/kg — 1.7–1.9× Blade's energy at LFP-class safety and cost.
+- **367 Wh/kg premium** (NMC811 + anode-free): matches the best semi-solid pack on the market (260) at a fraction of the cost.
+- **Development-stage options:** 361 Wh/kg cobalt/nickel-free (DRX + Si-C); a 60 °C / >20-years-shelf specialty (solid electrolyte).
+- **Na-ion:** drop-in and already in mass production (CATL, late 2025) — our low-risk entry product and first tool customers.
+
+## Where we are (honest)
+- ~118,000 combinations simulated; two independent implementations agree digit-for-digit; deterministic across machines (verified on an external PC).
+- Public, reproducible repository; CI green; full condition matrices (temperature, C-rate, abuse, shelf life) for every candidate.
+- **We do not have physical cells yet.** This is a simulation-stage asset. The 12-month, €150k plan below is the bridge.
+
+## Market
+~$150B/yr cell market (est.), ~25%/yr growth (EV + grid storage), ~60–70% China share; Western OEMs actively de-risking cobalt/nickel. Beachheads: commercial vehicles & buses (fast charge + safety), drones/aviation (energy), hot climates & grid storage (heat + shelf life), materials suppliers (licensing).
+
+## Business model
+1. **First product (1–2 yrs):** the flagship cell design + the screening tool; in parallel, Na-ion tool/consulting (immediate revenue).
+2. Open-source tool + paid enterprise support.
+3. License the validated cell IP (pipeline above).
+
+## Risks — said out loud
+1. **Sim-to-lab gap** — mitigated by the milestone gate below; budgeted.
+2. **Crowded IP** — Si-C + gel/solid is heavily patented (CATL, WeLion, StoreDot, QuantumScape); freedom-to-operate review is in the budget before any public claims.
+3. **Si-C cost at scale** — currently +20–30% vs graphite; suppliers ramp through 2026+.
+4. **Team** — small; first hire is a cell engineer.
+
+## The plan — 12 months, €150k
+- **Months 1–3:** coin cells for the flagship + value variant (materials + cycling): ~€40k
+- **Months 4–9:** pouch cells + independent abuse testing (TÜV / UL 9540A / GB 38031-2025): ~€60k
+- **Months 9–12:** pilot-line engagement, OEM/supplier LOIs, FTO review: ~€50k
+**Gate:** if coin cells confirm ≥80% of modeled cycle life at 2C → proceed; if not → re-calibrate and re-screen (the tool makes that cheap).
+
+## The ask
+€150k for the 12-month validation plan (convertible note, or non-dilutive: NCBR / PARP / EIC Accelerator).
+
+Repo (public, reproducible): https://github.com/peteraangelic-pixel/Pokemon/tree/arena/d1882c0f-pokemon
+"##,
+        date = today(),
+        ver = env!("CARGO_PKG_VERSION")
+    )
+}
+
+fn render_investor_pl() -> String {
+    format!(
+        r##"# The Battery Design Studio — raport inwestycyjny
+_Wygenerowano {date} · battery-sim v{ver} · kontakt: [IMIĘ / E-MAIL]_
+
+## Jednym zdaniem
+Zbudowaliśmy open-source'owy symulator, który testuje chemie baterii w minuty zamiast miesięcy — i wykorzystaliśmy go do zaprojektowania ogniwa, które wygrywa z najlepszymi produkcyjnymi bateriami na raz pod względem bezpieczeństwa, szybkiego ładowania i kosztu.
+
+## Problem w liczbach
+Dziś ogniwa do EV każą wybierać dwa z trzech: {{energia, bezpieczeństwo, koszt}}.
+- **LFP (BYD Blade):** bezpieczne + tanie, 160 Wh/kg — podatek energetyczny.
+- **NMC (CATL Qilin):** 255 Wh/kg pakiet, palny ciekły elektrolit, ryzyko dostaw kobaltu/niklu.
+- **Półstałe (WeLion/NIO):** 360 Wh/kg ogniwo, produkcja od 2024 — ale ekonomia nieudowodniona.
+A iteracja projektowa jest wolna: jeden cykl labowy na kandydata = tygodnie. Nowy projekt ogniwa to typowo 2–4 lata do kwalifikacji.
+
+## Nasza odpowiedź: jedno ogniwo, wszystkie trzy
+**Katoda NMC811 + anoda Si-C + elektrolit żelowy** (każdy materiał już w masowej produkcji):
+
+| metryka | nasze ogniwo (symulacja) | najlepsze produkcyjne dziś |
+|---|---|---|
+| energia | **279 Wh/kg** ogniwo (201 pakiet) | ~230–260 Wh/kg ogniwo (NMC); 260 pakiet (WeLion półstałe) |
+| żywotność przy szybkim ładowaniu | **670 cykli @2C** (10–80% w ~24 min) | ~500–800 @2C (ogniwa fast-charge) |
+| przeżycie abuse | **piec 150 °C + przeładowanie: przeżywa, margines do 170 °C** | ogniwa z ciekłym elektrolitem (klasa Qilin) nie przechodzą tego testu na poziomie ogniwa (prawdziwe pakiety przeżywają dzięki ciężkim systemom ochrony) |
+| moc rozładowania | **5C** | typowo 3–4C |
+| koszt materiałowy | **~$67/kWh** | ~$55–80/kWh (ogniwa LFP–NMC) |
+| czas do produkcji | **1–2 lata, istniejące linie** | nowa chemia: 3–5+ lat |
+
+Te 1–2 lata to walidacja i kwalifikacja — nie wymyślanie. Każdy klocek jest dziś w masowej produkcji: NMC811 (LG, SK, CATL), Si-C (Sila, Amprius), elektrolity żelowe (WeLion, CATL).
+
+## Dlaczego wygrywamy — zalety, które mają znaczenie
+1. **Bezpieczeństwo tam, gdzie boli.** Nasze ogniwo przeżywa piec 150 °C + przeładowanie 1C przez 3 h z marginesem do 170 °C. W tym samym teście ogniwo klasy Qilin (grafit + ciekły elektrolit) wpada w thermal runaway i wybucha na poziomie ogniwa — prawdziwe pakiety przeżywają tylko dzięki ciężkim systemom ochrony (odpowietrzanie, chłodzenie, wyłączniki).
+2. **Szybkie ładowanie bez podatku.** 670 cykli przy 2C — pasmo, które przemysł nazywa fast-charge — 10–80% w ~24 minuty.
+3. **Koszt klasy LFP, energia klasy NMC.** ~$67/kWh materiałowo za 279 Wh/kg — wobec 160 Wh/kg dla ogniw LFP przy podobnym koszcie.
+4. **Da się złożyć teraz.** Istniejące linie katod/anod + modyfikacja napełniania. Bez nowej fabryki, bez nowej chemii, bez 5-letniego czekania.
+5. **Narzędzie to przewaga (moat).** Otwarte, reprodukowalne, szybkie: ~118 000 przesymulowanych kombinacji (siatki pełna + drobna + mega), wyniki weryfikowalne przez każdego w minuty (CI, CSV, publiczne repo). Dział R&D producenta ogniw nie ma takiej szybkości iteracji.
+
+## Pipeline (po jednej linii)
+- **Wariant masowy $27/kWh** (LMFP/LFP + anode-free): 270–298 Wh/kg — 1,7–1,9× energii Blade przy bezpieczeństwie i koszcie klasy LFP.
+- **Wariant premium 367 Wh/kg** (NMC811 + anode-free): dorównuje najlepszemu półstałemu pakietowi na rynku (260) przy ułamku kosztu.
+- **Opcje w rozwoju:** 361 Wh/kg bez kobaltu/niklu (DRX + Si-C); specjalista 60 °C / >20 lat na półce (elektrolit stały).
+- **Na-jon:** drop-in, już w masowej produkcji (CATL, koniec 2025) — nasz produkt wejściowy i pierwsi klienci narzędzia.
+
+## Gdzie jesteśmy (uczciwie)
+- ~118 000 przesymulowanych kombinacji; dwie niezależne implementacje zgadzają się co do cyfry; determinizm między maszynami potwierdzony (weryfikacja na zewnętrznym PC).
+- Publiczne, reprodukowalne repo; CI green; pełne macierze warunków (temperatura, C-rate, abuse, shelf life) dla każdego kandydata.
+- **Nie mamy jeszcze fizycznych ogniw.** To aktywo na etapie symulacji. Poniższy plan 12-miesięczny / 150 tys. EUR to most między nimi.
+
+## Rynek
+Rynek ogniw ~150 mld USD/rok (szacunek), ~25%/rok wzrostu (EV + magazyny), ~60–70% udziału Chin; zachodni producenci aktywnie ograniczają ryzyko Co/Ni. Przyczółki: pojazdy użytkowe/autobusy (szybkie ładowanie + bezpieczeństwo), drony/lotnictwo (energia), gorący klimat + magazyny (upał + shelf life), dostawcy materiałów (licencje).
+
+## Model biznesowy
+1. **Pierwszy produkt (1–2 lata):** projekt flagship + narzędzie; równolegle Na-jon (narzędzie/konsulting — przychód od razu).
+2. Narzędzie open-source + płatne wsparcie enterprise.
+3. Licencjonowanie IP ogniwa po walidacji (pipeline wyżej).
+
+## Ryzyka — głośno
+1. **Rozjazd symulacja–lab** — mitygowany bramką poniżej; budżetowany.
+2. **Tłok patentowy** — Si-C + żel/stałe elektrolity są gęsto opatentowane (CATL, WeLion, StoreDot, QuantumScape); przegląd FTO w budżecie, przed publicznymi deklaracjami.
+3. **Koszt Si-C w skali** — obecnie +20–30% vs grafit; dostawcy skalują przez 2026+.
+4. **Zespół** — mały; pierwszym zatrudnionym jest inżynier ogniw.
+
+## Plan — 12 miesięcy, 150 tys. EUR
+- **M1–3:** coin cells (flagship + wariant value): ~40 tys. EUR
+- **M4–9:** pouch cells + niezależne testy abuse (TÜV / UL 9540A / GB 38031-2025): ~60 tys. EUR
+- **M9–12:** linia pilotażowa, LOI od OEM/dostawców, przegląd FTO: ~50 tys. EUR
+**Bramka:** jeśli coin cells potwierdzą ≥80% modelowanej żywotności przy 2C → kontynuujemy; jeśli nie → rekalibracja i ponowny screen (narzędzie robi to tanio).
+
+## Asks
+150 tys. EUR na 12-miesięczny plan walidacji (nota konwertybilna albo niedźwigowe: NCBR / PARP / EIC Accelerator).
+
+Repo (publiczne, reprodukowalne): https://github.com/peteraangelic-pixel/Pokemon/tree/arena/d1882c0f-pokemon
+"##,
+        date = today(),
+        ver = env!("CARGO_PKG_VERSION")
+    )
+}
+
 /// Raport inwestorski (one-pager EN/PL) — konkretny, z liczbami i ryzykami.
 pub fn write_pitch(path: &str, lang: &str) -> io::Result<usize> {
     let md = if lang == "en" {
