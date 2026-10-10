@@ -20,24 +20,26 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
-      - name: Build rust_gauntlet
+      - name: Build rust binaries
         run: |
           cd pokemon-agent/rust
           cargo build --release
-          ls -lh target/release/rust_gauntlet
+          ls -lh target/release/rust_gauntlet target/release/rust_full
           ./target/release/rust_gauntlet --help
+          ./target/release/rust_full --help || true
           mkdir -p bin
           cp target/release/rust_gauntlet bin/rust_gauntlet
-          chmod +x bin/rust_gauntlet
-      - name: Commit binary
+          cp target/release/rust_full bin/rust_full || true
+          chmod +x bin/*
+      - name: Commit binaries
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pokemon-agent/rust/bin/rust_gauntlet
+          git add pokemon-agent/rust/bin/
           git diff --cached --stat
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "chore(rust): commit rust_gauntlet binary [skip ci]"
+            git commit -m "chore(rust): commit rust binaries [skip ci]"
             git push origin ${{ github.ref_name }}
           fi
