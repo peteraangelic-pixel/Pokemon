@@ -1,13 +1,41 @@
 {
-  "fetched_utc": "2026-10-09T11:20:50.910133+00:00",
+  "fetched_utc": "2026-10-10T00:58:12.848919+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
-  "own_submissions": 7,
-  "episodes_listed": 13,
-  "replays_downloaded": 8,
+  "own_submissions": 8,
+  "episodes_listed": 123,
+  "replays_downloaded": 14,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 8,
+  "total_json_on_disk": 21,
   "sample_analysis": [
+    {
+      "file": "episode-120895975-replay.json",
+      "episodeId": 120895975,
+      "teamNames": [
+        "Guenoir",
+        "Lauresowe 3D"
+      ],
+      "winner": "Guenoir",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 55
+    },
+    {
+      "file": "episode-120854554-replay.json",
+      "episodeId": 120854554,
+      "teamNames": [
+        "F.A.Nina",
+        "Lauresowe 3D"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 146
+    },
     {
       "file": "episode-120516202-replay.json",
       "episodeId": 120516202,
@@ -21,6 +49,62 @@
         -1
       ],
       "steps": 151
+    },
+    {
+      "file": "episode-120888139-replay.json",
+      "episodeId": 120888139,
+      "teamNames": [
+        "Aayush Jansari",
+        "Lauresowe 3D"
+      ],
+      "winner": "Aayush Jansari",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 200
+    },
+    {
+      "file": "episode-120880217-replay.json",
+      "episodeId": 120880217,
+      "teamNames": [
+        "nguyenbaotri-VIETNAM",
+        "Lauresowe 3D"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 142
+    },
+    {
+      "file": "episode-120876275-replay.json",
+      "episodeId": 120876275,
+      "teamNames": [
+        "The Prad K",
+        "Lauresowe 3D"
+      ],
+      "winner": "The Prad K",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 123
+    },
+    {
+      "file": "episode-120858462-replay.json",
+      "episodeId": 120858462,
+      "teamNames": [
+        "Sebastian Salutare",
+        "Lauresowe 3D"
+      ],
+      "winner": "Sebastian Salutare",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 84
     },
     {
       "file": "episode-120519812-replay.json",
@@ -37,6 +121,34 @@
       "steps": 110
     },
     {
+      "file": "episode-120886152-replay.json",
+      "episodeId": 120886152,
+      "teamNames": [
+        "Lauresowe 3D",
+        "Rodrigo S Faria"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 86
+    },
+    {
+      "file": "episode-120890090-replay.json",
+      "episodeId": 120890090,
+      "teamNames": [
+        "Jonathan Axl",
+        "Lauresowe 3D"
+      ],
+      "winner": "Jonathan Axl",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 138
+    },
+    {
       "file": "episode-120523473-replay.json",
       "episodeId": 120523473,
       "teamNames": [
@@ -51,18 +163,18 @@
       "steps": 171
     },
     {
-      "file": "episode-120517987-replay.json",
-      "episodeId": 120517987,
+      "file": "episode-120892086-replay.json",
+      "episodeId": 120892086,
       "teamNames": [
         "Lauresowe 3D",
-        "nguyenbaotri-VIETNAM"
+        "Avik Das"
       ],
       "winner": "Lauresowe 3D",
       "rewards": [
         1,
         -1
       ],
-      "steps": 330
+      "steps": 72
     },
     {
       "file": "episode-120517988-replay.json",
@@ -105,6 +217,62 @@
         -1
       ],
       "steps": 107
+    },
+    {
+      "file": "episode-120892057-replay.json",
+      "episodeId": 120892057,
+      "teamNames": [
+        "LivMaAn",
+        "Lauresowe 3D"
+      ],
+      "winner": "LivMaAn",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 405
+    },
+    {
+      "file": "episode-120878242-replay.json",
+      "episodeId": 120878242,
+      "teamNames": [
+        "Lauresowe 3D",
+        "nikepoke"
+      ],
+      "winner": "nikepoke",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 179
+    },
+    {
+      "file": "episode-120870325-replay.json",
+      "episodeId": 120870325,
+      "teamNames": [
+        "Lauresowe 3D",
+        "Jonathan Axl"
+      ],
+      "winner": "Lauresowe 3D",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 93
+    },
+    {
+      "file": "episode-120894012-replay.json",
+      "episodeId": 120894012,
+      "teamNames": [
+        "The Prad K",
+        "Lauresowe 3D"
+      ],
+      "winner": "The Prad K",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 76
     },
     {
       "file": "episode-120488910-replay.json",
