@@ -1,0 +1,407 @@
+Przechowywanie: SOC=100%, T=45°C, horyzont 10 lat
+  SEI na końcu: 50.8 nm | inwentarz Li: 78.8%
+  shelf life (do 80% pojemności): 3.5 lat
+  retencja:
+    rok   0.0: 100.0%
+    rok   0.5:  96.9%
+    rok   1.0:  93.9%
+    rok   1.5:  90.8%
+    rok   2.0:  87.8%
+    rok   2.5:  84.7%
+    rok   3.0:  81.7%
+    rok   3.5:  78.6%
+    rok   4.0:  75.6%
+    rok   4.5:  72.5%
+    rok   5.0:  69.4%
+    rok   5.5:  66.4%
+    rok   6.0:  63.3%
+    rok   6.5:  60.3%
+    rok   7.0:  57.2%
+    rok   7.5:  54.2%
+    rok   8.0:  51.1%
+    rok   8.5:  48.0%
+    rok   9.0:  45.0%
+    rok   9.5:  41.9%
+    rok  10.0:  38.9%
+    rok  10.0:  38.7%
+
+Drabiny dla top 12 PASS z optim_winners.csv (każda komórka = cykle do EOL / wynik abuse):
+
+== Wybrane konfiguracje (top 12 PASS) ==
+  konfiguracja                                Wh/kg    $/kWh   score
+  DRX/SIC/IONIC load=35 N/P=1.02 T=0°C        354.3      131    0.92
+  DRX/SIC/IONIC load=35 N/P=1.05 T=0°C        352.2      132    0.92
+  DRX/SIC/GEL load=35 N/P=1.02 T=-10°C        354.3       41    0.92
+  DRX/SIC/IONIC load=35 N/P=1.10 T=0°C        348.9      133    0.92
+  DRX/SIC/GEL load=35 N/P=1.05 T=-10°C        352.2       41    0.92
+  NMC811/LIFREE/GEL load=35 N/P=1.05 T=-10°C    358.7       50    0.92
+  NMC811/LIFREE/GEL load=35 N/P=1.02 T=-10°C    358.7       50    0.92
+  NMC811/LIFREE/GEL load=35 N/P=1.10 T=-10°C    358.5       50    0.92
+  NMC811/LIFREE/IONIC load=35 N/P=1.05 T=0°C    358.7      139    0.92
+  NMC811/LIFREE/IONIC load=35 N/P=1.02 T=0°C    358.7      139    0.92
+  NMC811/LIFREE/GEL load=35 N/P=1.20 T=-10°C    358.2       50    0.92
+  NMC811/LIFREE/IONIC load=35 N/P=1.10 T=0°C    358.5      139    0.92
+
+== Drabina C-rate (ładowanie; rozładowanie 1C) ==
+  konfiguracja                                 1C     2C     3C     4C     6C | max C z >=500 cyklami
+  DRX/SIC/IONIC load=35 N/P=1.02 T=0°C        458    605      1      1      1 | 2C
+  DRX/SIC/IONIC load=35 N/P=1.05 T=0°C        460    612      1      1      1 | 2C
+  DRX/SIC/GEL load=35 N/P=1.02 T=-10°C        459    590      1      1      1 | 2C
+  DRX/SIC/IONIC load=35 N/P=1.10 T=0°C        465    623      1      1      1 | 2C
+  DRX/SIC/GEL load=35 N/P=1.05 T=-10°C        461    596      1      1      1 | 2C
+  NMC811/LIFREE/GEL load=35 N/P=1.05 T=-10°C    599    543      1      1      1 | 2C
+  NMC811/LIFREE/GEL load=35 N/P=1.02 T=-10°C    599    542      1      1      1 | 2C
+  NMC811/LIFREE/GEL load=35 N/P=1.10 T=-10°C    599    543      1      1      1 | 2C
+  NMC811/LIFREE/IONIC load=35 N/P=1.05 T=0°C    587    541      1      1      1 | 2C
+  NMC811/LIFREE/IONIC load=35 N/P=1.02 T=0°C    587    540      1      1      1 | 2C
+  NMC811/LIFREE/GEL load=35 N/P=1.20 T=-10°C    599    544      1      1      1 | 2C
+  NMC811/LIFREE/IONIC load=35 N/P=1.10 T=0°C    587    541      1      1      1 | 2C
+
+== Drabina abuse (piec + overcharge 1C, 3 h) ==
+  konfiguracja                                      130°C          150°C          170°C          200°C          250°C | max bezpieczne T
+  DRX/SIC/IONIC load=35 N/P=1.02 T=0°C           131°C OK       156°C OK    171°C SHORT      202°C RUN      270°C RUN | 150°C
+  DRX/SIC/IONIC load=35 N/P=1.05 T=0°C           132°C OK       156°C OK    171°C SHORT      202°C RUN      270°C RUN | 150°C
+  DRX/SIC/GEL load=35 N/P=1.02 T=-10°C           132°C OK       158°C OK     200°C EXPL     203°C EXPL     335°C EXPL | 150°C
+  DRX/SIC/IONIC load=35 N/P=1.10 T=0°C           132°C OK       156°C OK    171°C SHORT      203°C RUN      271°C RUN | 150°C
+  DRX/SIC/GEL load=35 N/P=1.05 T=-10°C           132°C OK       158°C OK     202°C EXPL     203°C EXPL     335°C EXPL | 150°C
+  NMC811/LIFREE/GEL load=35 N/P=1.05 T=-10°C       130°C OK       151°C OK       175°C OK     201°C EXPL     322°C EXPL | 170°C
+  NMC811/LIFREE/GEL load=35 N/P=1.02 T=-10°C       130°C OK       151°C OK       175°C OK     201°C EXPL     322°C EXPL | 170°C
+  NMC811/LIFREE/GEL load=35 N/P=1.10 T=-10°C       130°C OK       151°C OK       175°C OK     201°C EXPL     322°C EXPL | 170°C
+  NMC811/LIFREE/IONIC load=35 N/P=1.05 T=0°C       130°C OK       150°C OK    170°C SHORT      200°C RUN      257°C RUN | 150°C
+  NMC811/LIFREE/IONIC load=35 N/P=1.02 T=0°C       130°C OK       150°C OK    170°C SHORT      200°C RUN      257°C RUN | 150°C
+  NMC811/LIFREE/GEL load=35 N/P=1.20 T=-10°C       130°C OK       151°C OK       175°C OK     201°C EXPL     322°C EXPL | 170°C
+  NMC811/LIFREE/IONIC load=35 N/P=1.10 T=0°C       130°C OK       150°C OK    170°C SHORT      200°C RUN      257°C RUN | 150°C
+
+== Moc (drabina rozladowania przy 25 °C: deliv = % pojemnosci oddanej w oknie) ==
+  konfiguracja                                  1C      2C      3C      5C | max D z deliv >=50%
+  DRX/SIC/IONIC load=35 N/P=1.02 T=0°C         76%     66%     57%     47% | 3C
+  DRX/SIC/IONIC load=35 N/P=1.05 T=0°C         76%     65%     57%     47% | 3C
+  DRX/SIC/GEL load=35 N/P=1.02 T=-10°C         81%     73%     67%     59% | 5C
+  DRX/SIC/IONIC load=35 N/P=1.10 T=0°C         75%     64%     56%     45% | 3C
+  DRX/SIC/GEL load=35 N/P=1.05 T=-10°C         81%     73%     67%     58% | 5C
+  NMC811/LIFREE/GEL load=35 N/P=1.05 T=-10°C     91%     81%     70%     53% | 5C
+  NMC811/LIFREE/GEL load=35 N/P=1.02 T=-10°C     91%     80%     69%     53% | 5C
+  NMC811/LIFREE/GEL load=35 N/P=1.10 T=-10°C     91%     80%     69%     52% | 5C
+  NMC811/LIFREE/IONIC load=35 N/P=1.05 T=0°C     88%     72%     57%     34% | 3C
+  NMC811/LIFREE/IONIC load=35 N/P=1.02 T=0°C     88%     72%     57%     34% | 3C
+  NMC811/LIFREE/GEL load=35 N/P=1.20 T=-10°C     91%     81%     69%     52% | 5C
+  NMC811/LIFREE/IONIC load=35 N/P=1.10 T=0°C     88%     72%     57%     34% | 3C
+
+== Podsumowanie ==
+  najszybsze ładowanie z >=500 cyklami: NMC811/LIFREE/IONIC load=35 N/P=1.10 T=0°C -> 2C
+  najwyzszy margines abuse: NMC811/LIFREE/GEL load=35 N/P=1.20 T=-10°C -> 170°C
+  najwyzsza moc (rozladowanie, deliv >=50%): NMC811/LIFREE/GEL load=35 N/P=1.20 T=-10°C -> 5C
+
+cathode,anode,electrolyte,loading_mg_cm2,np,temp_C,wh_kg,pack_wh_kg,wh_l,cost_usd_kwh,mah_g,energy_pass,cycles_fast,eol,c_best,t80_min,cycles_pass,t_max_cyc_C,safety_pass,abuse_tmax_C,abuse_explosion,abuse_runaway,abuse_short,passed,score
+LIO2,LIFREE,GEL,20.0,1.10,25,476.1,342.8,770,31,167.2,true,42,fade80,3,16.0,false,43.2,true,152.2,false,false,false,false,1.070
+LIO2,LIFREE,LP57,20.0,1.10,25,476.1,342.8,770,21,167.2,true,35,fade80,3,16.0,false,39.0,true,152.2,false,false,false,false,1.069
+LIO2,LIFREE,IONIC,20.0,1.10,25,476.1,342.8,770,149,167.2,true,1,rate-limited,2,24.2,false,48.1,true,150.6,false,false,false,false,1.045
+LIO2,LIMETAL,GEL,20.0,1.10,25,455.0,327.6,643,42,159.8,true,39,fade80,3,16.0,false,44.6,true,152.2,false,false,false,false,1.036
+LIO2,LIMETAL,LP57,20.0,1.10,25,455.0,327.6,643,32,159.8,true,32,fade80,3,16.0,false,39.8,true,152.2,false,false,false,false,1.034
+LIO2,LIMETAL,IONIC,20.0,1.10,25,455.0,327.6,643,160,159.8,true,1,rate-limited,2,24.2,false,39.4,true,150.6,false,false,false,false,1.011
+LIO2,LIFREE,SOLID,20.0,1.10,25,476.1,342.8,770,83,167.2,true,1,rate-limited,2,0.0,false,25.0,true,152.4,false,false,false,false,0.995
+DRX,LIFREE,SOLID,20.0,1.10,25,392.3,282.4,1637,65,96.9,true,339,fade80,2,24.2,false,29.0,true,150.3,false,false,false,false,0.978
+DRX,LIFREE,IONIC,20.0,1.10,25,392.3,282.4,1637,112,96.9,true,309,fade80,2,24.2,false,27.8,true,150.2,false,false,false,false,0.972
+DRX,LIFREE,GEL,20.0,1.10,25,392.3,282.4,1637,28,96.9,true,303,fade80,2,24.2,false,27.5,true,150.7,false,false,false,false,0.971
+DRX,LIFREE,LP57,20.0,1.10,25,392.3,282.4,1637,22,96.9,true,299,fade80,2,24.2,false,27.3,true,150.7,false,false,false,false,0.970
+LIO2,LIMETAL,SOLID,20.0,1.10,25,455.0,327.6,643,94,159.8,true,1,rate-limited,2,0.0,false,25.0,true,152.6,false,false,false,false,0.961
+DRX,LIMETAL,IONIC,20.0,1.10,25,382.0,275.0,1265,120,94.4,true,162,fade80,2,24.2,false,28.0,true,150.2,false,false,false,false,0.926
+DRX,LIMETAL,GEL,20.0,1.10,25,382.0,275.0,1265,36,94.4,true,160,fade80,2,24.2,false,27.6,true,150.7,false,false,false,false,0.926
+DRX,LIMETAL,LP57,20.0,1.10,25,382.0,275.0,1265,30,94.4,true,159,fade80,2,24.2,false,27.4,true,150.7,false,false,false,false,0.926
+LMR,LIFREE,SOLID,20.0,1.10,25,364.5,262.4,1521,75,92.9,true,208,fade80,2,24.2,false,28.5,true,150.3,false,false,false,false,0.907
+LMR,LIFREE,IONIC,20.0,1.10,25,364.5,262.4,1521,123,92.9,true,202,fade80,2,24.2,false,27.4,true,150.2,false,false,false,false,0.906
+LMR,LIFREE,GEL,20.0,1.10,25,364.5,262.4,1521,37,92.9,true,199,fade80,2,24.2,false,27.2,true,150.6,false,false,false,false,0.906
+LMR,LIFREE,LP57,20.0,1.10,25,364.5,262.4,1521,30,92.9,true,196,fade80,2,24.2,false,27.0,true,150.6,false,false,false,false,0.905
+NMC811,LIFREE,SOLID,20.0,1.10,25,315.4,227.1,1327,89,83.2,true,467,fade80,2,24.2,false,27.6,true,150.2,false,false,false,false,0.881
+DRX,LIMETAL,SOLID,20.0,1.10,25,382.0,275.0,1265,73,94.4,true,171,fade80,2,0.0,false,29.4,true,150.3,false,false,false,false,0.879
+LMR,LIMETAL,SOLID,20.0,1.10,25,355.3,255.8,1187,83,90.6,true,133,fade80,2,24.2,false,28.9,true,150.3,false,false,false,false,0.878
+LMR,LIMETAL,IONIC,20.0,1.10,25,355.3,255.8,1187,131,90.6,true,127,fade80,2,24.2,false,27.6,true,150.2,false,false,false,false,0.877
+NMC811,LIFREE,IONIC,20.0,1.10,25,315.4,227.1,1327,139,83.2,true,446,fade80,2,24.2,false,26.9,true,150.2,false,false,false,false,0.877
+LMR,LIMETAL,GEL,20.0,1.10,25,355.3,255.8,1187,45,90.6,true,126,fade80,2,24.2,false,27.3,true,150.6,false,false,false,false,0.876
+LMR,LIMETAL,LP57,20.0,1.10,25,355.3,255.8,1187,38,90.6,true,125,fade80,2,24.2,false,27.0,true,150.6,false,false,false,false,0.876
+NMC811,LIFREE,GEL,20.0,1.10,25,315.4,227.1,1327,50,83.2,true,441,fade80,2,24.2,false,26.7,true,150.5,false,false,false,false,0.876
+NMC811,LIFREE,LP57,20.0,1.10,25,315.4,227.1,1327,43,83.2,true,437,fade80,2,24.2,false,26.6,true,150.5,false,false,false,false,0.875
+DRX,SIC,IONIC,20.0,1.10,25,314.2,226.3,1079,133,84.8,true,411,fade80,2,24.2,false,28.5,true,153.1,false,false,false,false,0.868
+DRX,SIC,GEL,20.0,1.10,25,314.2,226.3,1079,42,84.8,true,398,fade80,2,24.2,false,28.2,true,153.8,false,false,false,false,0.865
+DRX,SIC,LP57,20.0,1.10,25,314.2,226.3,1079,34,84.8,true,388,fade80,2,24.2,false,27.9,true,153.8,false,false,false,false,0.863
+NCA,LIFREE,SOLID,20.0,1.10,25,302.8,218.0,1278,94,80.0,true,472,fade80,2,24.2,false,27.4,true,150.2,false,false,false,false,0.862
+LIO2,SIO,GEL,20.0,1.10,25,358.1,257.8,593,50,140.8,true,18,rate-limited,2,24.2,false,52.7,true,162.2,false,false,false,false,0.859
+SULFUR,LIFREE,IONIC,20.0,1.10,25,391.1,281.6,1312,193,184.2,true,1,rate-limited,2,0.0,false,25.0,true,158.2,false,false,false,false,0.859
+SULFUR,LIFREE,SOLID,20.0,1.10,25,391.1,281.6,1312,104,184.2,true,1,rate-limited,2,0.0,false,25.0,true,155.1,false,false,false,false,0.859
+SULFUR,LIFREE,GEL,20.0,1.10,25,391.1,281.6,1312,34,184.2,true,1,rate-limited,2,0.0,false,25.0,true,160.4,false,false,false,false,0.859
+NCA,LIFREE,IONIC,20.0,1.10,25,302.8,218.0,1278,144,80.0,true,452,fade80,2,24.2,false,26.7,true,150.1,false,false,false,false,0.858
+DRX,SIO,IONIC,20.0,1.10,25,327.2,235.6,1223,132,87.4,true,254,fade80,2,24.2,false,28.5,true,151.7,false,false,false,false,0.857
+LIO2,SIO,IONIC,20.0,1.10,25,358.1,257.8,593,183,140.8,true,6,rate-limited,2,24.2,false,54.3,true,156.8,false,false,false,false,0.857
+NCA,LIFREE,GEL,20.0,1.10,25,302.8,218.0,1278,55,80.0,true,446,fade80,2,24.2,false,26.6,true,150.5,false,false,false,false,0.857
+DRX,SIO,GEL,20.0,1.10,25,327.2,235.6,1223,41,87.4,true,246,fade80,2,24.2,false,28.2,true,152.3,false,false,false,false,0.856
+NCA,LIFREE,LP57,20.0,1.10,25,302.8,218.0,1278,48,80.0,true,441,fade80,2,24.2,false,26.5,true,150.5,false,false,false,false,0.856
+DRX,SIO,LP57,20.0,1.10,25,327.2,235.6,1223,34,87.4,true,239,fade80,2,24.2,false,28.0,true,152.3,false,false,false,false,0.854
+LMFP,GRAPHITE,SOLID,20.0,1.10,25,199.5,143.7,545,82,53.9,false,2939,fade80,2,0.0,true,27.2,true,152.6,false,false,false,false,0.853
+NMC532,GRAPHITE,SOLID,20.0,1.10,25,204.5,147.2,627,100,55.6,false,1144,fade80,2,24.2,true,27.3,true,152.7,false,false,false,false,0.839
+NMC811,SIC,SOLID,20.0,1.10,25,255.5,184.0,903,110,74.1,true,730,fade80,2,24.2,true,28.3,true,150.8,false,false,false,true,0.838
+DRX,SIC,SOLID,20.0,1.10,25,314.2,226.3,1079,82,84.8,true,469,fade80,2,0.0,false,30.0,true,151.1,false,false,false,false,0.830
+SULFUR,LIMETAL,IONIC,20.0,1.10,25,372.0,267.8,905,208,175.3,true,1,rate-limited,2,0.0,false,25.0,true,158.0,false,false,false,false,0.829
+SULFUR,LIMETAL,SOLID,20.0,1.10,25,372.0,267.8,905,119,175.3,true,1,rate-limited,2,0.0,false,25.0,true,155.3,false,false,false,false,0.829
+SULFUR,LIMETAL,GEL,20.0,1.10,25,372.0,267.8,905,49,175.3,true,1,rate-limited,2,0.0,false,25.0,true,160.2,false,false,false,false,0.829
+NMC811,SIC,IONIC,20.0,1.10,25,255.5,184.0,903,164,74.1,true,664,fade80,2,24.2,true,27.4,true,152.4,false,false,false,true,0.824
+NCA,SIC,SOLID,20.0,1.10,25,246.4,177.4,877,115,71.6,true,735,fade80,2,24.2,true,28.0,true,150.8,false,false,false,true,0.824
+NMC811,SIC,GEL,20.0,1.10,25,255.5,184.0,903,67,74.1,true,646,fade80,2,24.2,true,27.2,true,152.9,false,false,false,true,0.821
+NMC811,SIC,LP57,20.0,1.10,25,255.5,184.0,903,59,74.1,true,631,fade80,2,24.2,true,27.0,true,152.9,false,false,false,true,0.818
+NMC811,LIMETAL,SOLID,20.0,1.10,25,308.2,221.9,1058,98,81.3,true,196,fade80,2,24.2,false,27.9,true,150.2,false,false,false,false,0.815
+NMC811,LIMETAL,IONIC,20.0,1.10,25,308.2,221.9,1058,148,81.3,true,192,fade80,2,24.2,false,27.0,true,150.2,false,false,false,false,0.814
+NMC811,LIMETAL,LP57,20.0,1.10,25,308.2,221.9,1058,51,81.3,true,191,fade80,2,24.2,false,26.6,true,150.5,false,false,false,false,0.814
+NMC811,LIMETAL,GEL,20.0,1.10,25,308.2,221.9,1058,59,81.3,true,191,fade80,2,24.2,false,26.8,true,150.5,false,false,false,false,0.814
+DRX,SIO,SOLID,20.0,1.10,25,327.2,235.6,1223,81,87.4,true,276,fade80,2,0.0,false,29.9,true,150.8,false,false,false,false,0.812
+NCA,SIC,IONIC,20.0,1.10,25,246.4,177.4,877,170,71.6,true,674,fade80,2,24.2,true,27.2,true,152.3,false,false,false,true,0.812
+LMR,SIO,SOLID,20.0,1.10,25,304.5,219.2,1143,93,84.1,true,192,fade80,2,24.2,false,29.3,true,150.7,false,false,false,false,0.808
+NCA,SIC,GEL,20.0,1.10,25,246.4,177.4,877,72,71.6,true,656,fade80,2,24.2,true,27.0,true,152.7,false,false,false,true,0.808
+LIO2,SIO,SOLID,20.0,1.10,25,358.1,257.8,593,108,140.8,true,1,rate-limited,2,0.0,false,25.0,true,154.5,false,false,false,false,0.807
+LMR,SIO,IONIC,20.0,1.10,25,304.5,219.2,1143,145,84.1,true,176,fade80,2,24.2,false,28.1,true,151.7,false,false,false,false,0.805
+NCA,SIC,LP57,20.0,1.10,25,246.4,177.4,877,64,71.6,true,640,fade80,2,24.2,true,26.9,true,152.7,false,false,false,true,0.805
+LMR,SIO,GEL,20.0,1.10,25,304.5,219.2,1143,52,84.1,true,172,fade80,2,24.2,false,27.8,true,152.2,false,false,false,false,0.804
+LMR,SIO,LP57,20.0,1.10,25,304.5,219.2,1143,44,84.1,true,169,fade80,2,24.2,false,27.6,true,152.2,false,false,false,false,0.804
+NCA,GRAPHITE,SOLID,20.0,1.10,25,229.5,165.3,711,104,61.8,false,996,fade80,2,0.0,true,28.4,true,153.3,false,false,false,false,0.800
+LMR,SIC,IONIC,20.0,1.10,25,292.6,210.7,1011,146,81.8,true,232,fade80,2,24.2,false,28.0,true,152.9,false,false,false,false,0.797
+LMR,SIC,GEL,20.0,1.10,25,292.6,210.7,1011,52,81.8,true,232,fade80,2,24.2,false,27.7,true,153.5,false,false,false,false,0.797
+LMR,SIC,SOLID,20.0,1.10,25,292.6,210.7,1011,93,81.8,true,231,fade80,2,24.2,false,29.4,true,151.0,false,false,false,false,0.797
+LMFP,LIFREE,IONIC,20.0,1.10,25,253.7,182.7,833,123,67.2,true,540,fade80,2,24.2,true,26.3,true,150.1,false,false,false,true,0.797
+LMR,SIC,LP57,20.0,1.10,25,292.6,210.7,1011,44,81.8,true,227,fade80,2,24.2,false,27.5,true,153.5,false,false,false,false,0.796
+NCA,LIMETAL,SOLID,20.0,1.10,25,296.3,213.3,1026,102,78.3,true,197,fade80,2,24.2,false,27.6,true,150.2,false,false,false,false,0.796
+NCA,LIMETAL,IONIC,20.0,1.10,25,296.3,213.3,1026,152,78.3,true,193,fade80,2,24.2,false,26.8,true,150.1,false,false,false,false,0.795
+NCA,LIMETAL,GEL,20.0,1.10,25,296.3,213.3,1026,63,78.3,true,192,fade80,2,24.2,false,26.6,true,150.5,false,false,false,false,0.795
+NCA,LIMETAL,LP57,20.0,1.10,25,296.3,213.3,1026,56,78.3,true,191,fade80,2,24.2,false,26.5,true,150.5,false,false,false,false,0.795
+NMC532,LIFREE,SOLID,20.0,1.10,25,262.1,188.7,1042,91,69.9,true,464,fade80,2,24.2,false,26.8,true,150.2,false,false,false,false,0.795
+LMFP,LIFREE,GEL,20.0,1.10,25,253.7,182.7,833,34,67.2,true,531,fade80,2,24.2,true,26.2,true,150.4,false,false,false,true,0.795
+LMFP,LIFREE,LP57,20.0,1.10,25,253.7,182.7,833,27,67.2,true,524,fade80,2,24.2,true,26.1,true,150.4,false,false,false,true,0.793
+LMFP,SIC,IONIC,20.0,1.10,25,209.9,151.1,625,147,61.2,false,874,fade80,2,24.2,true,26.6,true,151.8,false,false,false,false,0.793
+NMC532,LIFREE,IONIC,20.0,1.10,25,262.1,188.7,1042,142,69.9,true,448,fade80,2,24.2,false,26.4,true,150.1,false,false,false,false,0.792
+NMC532,LIFREE,GEL,20.0,1.10,25,262.1,188.7,1042,51,69.9,true,442,fade80,2,24.2,false,26.2,true,150.4,false,false,false,false,0.790
+NMC532,LIFREE,LP57,20.0,1.10,25,262.1,188.7,1042,44,69.9,true,438,fade80,2,24.2,false,26.2,true,150.4,false,false,false,false,0.790
+LMFP,SIC,GEL,20.0,1.10,25,209.9,151.1,625,49,61.2,false,847,fade80,2,24.2,true,26.5,true,152.1,false,false,false,false,0.788
+LMFP,SIC,LP57,20.0,1.10,25,209.9,151.1,625,41,61.2,false,823,fade80,2,24.2,true,26.4,true,152.1,false,false,false,false,0.783
+LNMO,LTO,LP57,20.0,1.10,25,113.3,81.5,378,103,37.5,false,1772,fade80,3,16.0,true,25.9,true,150.3,false,false,false,false,0.781
+LNMO,LTO,GEL,20.0,1.10,25,113.3,81.5,378,112,37.5,false,1771,fade80,3,16.0,true,26.0,true,150.3,false,false,false,false,0.781
+DRX,GRAPHITE,SOLID,20.0,1.10,25,284.0,204.5,839,73,71.4,true,455,fade80,2,0.0,false,30.6,true,154.7,false,false,false,false,0.779
+NMC811,LTO,LP57,20.0,1.10,25,111.3,80.2,366,133,49.2,false,1703,fade80,3,16.0,true,26.8,true,150.5,false,false,false,false,0.778
+NMC811,LTO,GEL,20.0,1.10,25,111.3,80.2,366,145,49.2,false,1796,fade80,3,16.0,true,27.0,true,150.5,false,false,false,false,0.778
+NMC811,SIO,SOLID,20.0,1.10,25,265.3,191.0,1013,109,76.1,true,350,fade80,2,24.2,false,28.3,true,150.6,false,false,false,false,0.777
+NCA,LTO,LP57,20.0,1.10,25,108.5,78.1,359,141,48.1,false,1784,fade80,3,16.0,true,26.7,true,150.5,false,false,false,false,0.774
+NCA,LTO,GEL,20.0,1.10,25,108.5,78.1,359,153,48.1,false,1860,fade80,3,16.0,true,26.9,true,150.5,false,false,false,false,0.774
+NMC811,SIO,IONIC,20.0,1.10,25,265.3,191.0,1013,163,76.1,true,329,fade80,2,24.2,false,27.4,true,151.4,false,false,false,false,0.773
+LNMO,LIFREE,SOLID,20.0,1.10,25,247.6,178.3,975,77,54.5,true,470,fade80,2,24.2,false,26.2,true,150.1,false,false,false,false,0.773
+LIO2,SIC,SOLID,20.0,1.10,25,336.1,242.0,537,110,134.2,true,1,rate-limited,2,0.0,false,25.0,true,155.9,false,false,false,false,0.771
+NMC811,GRAPHITE,SOLID,20.0,1.10,25,236.9,170.5,726,99,63.7,true,795,fade80,2,0.0,true,28.6,true,153.6,false,false,false,true,0.771
+NMC811,SIO,GEL,20.0,1.10,25,265.3,191.0,1013,66,76.1,true,320,fade80,2,24.2,false,27.2,true,151.8,false,false,false,false,0.771
+NMC532,SIC,SOLID,20.0,1.10,25,215.9,155.4,747,112,63.4,false,713,fade80,2,24.2,true,27.3,true,150.7,false,false,false,false,0.771
+LFP,SIC,SOLID,20.0,1.10,25,192.7,138.7,593,100,62.6,false,895,fade80,2,24.2,true,27.3,true,150.6,false,false,false,false,0.770
+NMC811,SIO,LP57,20.0,1.10,25,265.3,191.0,1013,58,76.1,true,313,fade80,2,24.2,false,27.1,true,151.8,false,false,false,false,0.770
+LNMO,LIFREE,IONIC,20.0,1.10,25,247.6,178.3,975,118,54.5,true,448,fade80,2,24.2,false,26.0,true,150.1,false,false,false,false,0.769
+LNMO,LIFREE,GEL,20.0,1.10,25,247.6,178.3,975,44,54.5,true,442,fade80,2,24.2,false,25.9,true,150.3,false,false,false,false,0.767
+LFP,LIFREE,SOLID,20.0,1.10,25,235.9,169.9,810,78,69.0,false,533,fade80,2,24.2,true,26.8,true,150.2,false,false,false,false,0.767
+LCO,LIFREE,SOLID,20.0,1.10,25,250.2,180.1,1042,111,64.6,true,417,fade80,2,24.2,false,26.6,true,150.1,false,false,false,false,0.766
+LNMO,SIC,SOLID,20.0,1.10,25,212.0,152.6,748,92,50.4,false,715,fade80,2,24.2,true,26.5,true,150.5,false,false,false,false,0.765
+LFP,LIFREE,IONIC,20.0,1.10,25,235.9,169.9,810,134,69.0,false,521,fade80,2,24.2,true,26.3,true,150.1,false,false,false,false,0.764
+LFP,LIFREE,GEL,20.0,1.10,25,235.9,169.9,810,35,69.0,false,515,fade80,2,24.2,true,26.2,true,150.4,false,false,false,false,0.763
+LCO,LIFREE,IONIC,20.0,1.10,25,250.2,180.1,1042,160,64.6,true,397,fade80,2,24.2,false,26.2,true,150.1,false,false,false,false,0.762
+LFP,LIFREE,LP57,20.0,1.10,25,235.9,169.9,810,27,69.0,false,510,fade80,2,24.2,true,26.1,true,150.4,false,false,false,false,0.762
+NCA,SIO,SOLID,20.0,1.10,25,255.6,184.0,981,114,73.4,true,351,fade80,2,24.2,false,28.0,true,150.5,false,false,false,false,0.762
+LCO,LIFREE,GEL,20.0,1.10,25,250.2,180.1,1042,72,64.6,true,391,fade80,2,24.2,false,26.1,true,150.4,false,false,false,false,0.761
+NMC532,SIC,IONIC,20.0,1.10,25,215.9,155.4,747,167,63.4,false,664,fade80,2,24.2,true,26.7,true,151.9,false,false,false,false,0.761
+LCO,LIFREE,LP57,20.0,1.10,25,250.2,180.1,1042,65,64.6,true,386,fade80,2,24.2,false,26.1,true,150.4,false,false,false,false,0.760
+LMFP,SIC,SOLID,20.0,1.10,25,209.9,151.1,625,92,61.2,false,952,fade80,2,0.0,true,27.3,true,150.6,false,false,false,false,0.760
+NCA,SIO,IONIC,20.0,1.10,25,255.6,184.0,981,168,73.4,true,339,fade80,2,24.2,false,27.2,true,151.3,false,false,false,false,0.760
+NCA,SIO,GEL,20.0,1.10,25,255.6,184.0,981,71,73.4,true,333,fade80,2,24.2,false,27.0,true,151.7,false,false,false,false,0.758
+NMC532,SIC,GEL,20.0,1.10,25,215.9,155.4,747,68,63.4,false,648,fade80,2,24.2,true,26.6,true,152.2,false,false,false,false,0.758
+NCA,SIO,LP57,20.0,1.10,25,255.6,184.0,981,63,73.4,true,328,fade80,2,24.2,false,26.9,true,151.7,false,false,false,false,0.757
+NMC532,LTO,LP57,20.0,1.10,25,98.2,70.7,321,137,44.2,false,1712,fade80,3,16.0,true,26.3,true,150.4,false,false,false,false,0.757
+NMC532,LTO,IONIC,20.0,1.10,25,98.2,70.7,321,301,44.2,false,1835,fade80,3,16.0,true,26.6,true,150.1,false,false,false,false,0.757
+NMC532,LTO,GEL,20.0,1.10,25,98.2,70.7,321,149,44.2,false,1762,fade80,3,16.0,true,26.4,true,150.4,false,false,false,false,0.757
+LFP,SIC,IONIC,20.0,1.10,25,192.7,138.7,593,161,62.6,false,830,fade80,2,24.2,true,26.6,true,151.8,false,false,false,false,0.757
+LNMO,SIC,IONIC,20.0,1.10,25,212.0,152.6,748,137,50.4,false,667,fade80,2,24.2,true,26.2,true,151.3,false,false,false,false,0.755
+NMC532,SIC,LP57,20.0,1.10,25,215.9,155.4,747,60,63.4,false,633,fade80,2,24.2,true,26.5,true,152.2,false,false,false,false,0.755
+LMFP,LIFREE,SOLID,20.0,1.10,25,253.7,182.7,833,73,67.2,true,568,fade80,2,0.0,true,26.8,true,150.1,false,false,false,true,0.753
+LFP,SIC,GEL,20.0,1.10,25,192.7,138.7,593,51,62.6,false,802,fade80,2,24.2,true,26.5,true,152.2,false,false,false,false,0.751
+LNMO,GRAPHITE,IONIC,20.0,1.10,25,203.1,146.2,646,126,45.3,false,698,fade80,2,24.2,true,26.0,true,158.7,false,false,false,false,0.747
+LFP,SIC,LP57,20.0,1.10,25,192.7,138.7,593,43,62.6,false,776,fade80,2,24.2,true,26.4,true,152.2,false,false,false,false,0.746
+LNMO,LIFREE,LP57,20.0,1.10,25,247.6,178.3,975,38,54.5,true,331,fade80,2,24.2,false,25.9,true,150.3,false,false,false,false,0.745
+LNMO,SIC,GEL,20.0,1.10,25,212.0,152.6,748,57,50.4,false,575,fade80,2,24.2,true,26.1,true,151.6,false,false,false,false,0.737
+LCO,SIC,SOLID,20.0,1.10,25,208.2,149.9,755,133,59.0,false,599,fade80,2,24.2,true,27.0,true,150.6,false,false,false,false,0.736
+LCO,GRAPHITE,GEL,20.0,1.10,25,198.4,142.9,636,81,52.2,false,671,fade80,2,24.2,true,26.2,true,168.2,false,false,false,false,0.734
+NMC532,LIMETAL,SOLID,20.0,1.10,25,257.1,185.1,867,100,68.6,true,195,fade80,2,24.2,false,27.0,true,150.2,false,false,false,false,0.733
+LFP,LTO,LP57,20.0,1.10,25,83.0,59.8,251,122,43.9,false,3052,fade80,3,16.0,true,26.2,true,150.4,false,false,false,false,0.733
+LFP,LTO,IONIC,20.0,1.10,25,83.0,59.8,251,314,43.9,false,3339,fade80,3,16.0,true,26.6,true,150.1,false,false,false,false,0.733
+LFP,LTO,GEL,20.0,1.10,25,83.0,59.8,251,136,43.9,false,3089,fade80,3,16.0,true,26.4,true,150.4,false,false,false,false,0.733
+NMC532,LIMETAL,IONIC,20.0,1.10,25,257.1,185.1,867,150,68.6,true,192,fade80,2,24.2,false,26.4,true,150.1,false,false,false,false,0.732
+NMC532,LIMETAL,LP57,20.0,1.10,25,257.1,185.1,867,53,68.6,true,191,fade80,2,24.2,false,26.2,true,150.4,false,false,false,false,0.732
+NMC532,LIMETAL,GEL,20.0,1.10,25,257.1,185.1,867,60,68.6,true,191,fade80,2,24.2,false,26.3,true,150.4,false,false,false,false,0.732
+LCO,SIC,IONIC,20.0,1.10,25,208.2,149.9,755,186,59.0,false,555,fade80,2,24.2,true,26.5,true,151.7,false,false,false,false,0.727
+NA_O3,HC,SOLID,20.0,1.10,25,161.4,116.2,350,103,50.8,false,841,fade80,3,16.0,true,26.9,true,152.2,false,false,false,false,0.726
+LCO,SIC,GEL,20.0,1.10,25,208.2,149.9,755,91,59.0,false,542,fade80,2,24.2,true,26.4,true,152.0,false,false,false,false,0.724
+LMFP,LIMETAL,IONIC,20.0,1.10,25,249.0,179.3,718,132,66.0,true,207,fade80,2,24.2,false,26.3,true,150.1,false,false,false,false,0.723
+LMFP,LIMETAL,GEL,20.0,1.10,25,249.0,179.3,718,42,66.0,true,206,fade80,2,24.2,false,26.2,true,150.4,false,false,false,false,0.722
+LMFP,LIMETAL,LP57,20.0,1.10,25,249.0,179.3,718,35,66.0,true,205,fade80,2,24.2,false,26.1,true,150.4,false,false,false,false,0.722
+LCO,SIC,LP57,20.0,1.10,25,208.2,149.9,755,83,59.0,false,530,fade80,2,24.2,true,26.3,true,152.0,false,false,false,false,0.722
+LNMO,LTO,IONIC,20.0,1.10,25,113.3,81.5,378,224,37.5,false,1771,fade80,3,0.0,true,26.1,true,150.1,false,false,false,false,0.715
+LNMO,LTO,SOLID,20.0,1.10,25,113.3,81.5,378,161,37.5,false,1867,fade80,2,0.0,true,26.5,true,150.1,false,false,false,false,0.715
+LCO,LIMETAL,IONIC,20.0,1.10,25,245.8,176.9,871,168,63.5,true,182,fade80,2,24.2,false,26.2,true,150.1,false,false,false,false,0.712
+LNMO,LIMETAL,SOLID,20.0,1.10,25,243.9,175.6,844,84,53.6,true,196,fade80,2,24.2,false,26.3,true,150.1,false,false,false,false,0.712
+LCO,LIMETAL,GEL,20.0,1.10,25,245.8,176.9,871,81,63.5,true,181,fade80,2,24.2,false,26.1,true,150.4,false,false,false,false,0.712
+LCO,LIMETAL,LP57,20.0,1.10,25,245.8,176.9,871,74,63.5,true,180,fade80,2,24.2,false,26.1,true,150.4,false,false,false,false,0.712
+NMC811,LTO,IONIC,20.0,1.10,25,111.3,80.2,366,294,49.2,false,1948,fade80,3,0.0,true,27.3,true,150.2,false,false,false,false,0.711
+NMC811,LTO,SOLID,20.0,1.10,25,111.3,80.2,366,211,49.2,false,2128,fade80,2,0.0,true,28.8,true,150.2,false,false,false,false,0.711
+LNMO,LIMETAL,IONIC,20.0,1.10,25,243.9,175.6,844,125,53.6,true,192,fade80,2,24.2,false,26.0,true,150.1,false,false,false,false,0.711
+LNMO,LIMETAL,LP57,20.0,1.10,25,243.9,175.6,844,45,53.6,true,191,fade80,2,24.2,false,25.9,true,150.3,false,false,false,false,0.711
+LNMO,LIMETAL,GEL,20.0,1.10,25,243.9,175.6,844,51,53.6,true,191,fade80,2,24.2,false,25.9,true,150.3,false,false,false,false,0.711
+LNMO,GRAPHITE,GEL,20.0,1.10,25,203.1,146.2,646,51,45.3,false,517,fade80,2,24.2,true,26.0,true,159.5,false,false,false,false,0.711
+NMC532,SIO,SOLID,20.0,1.10,25,223.3,160.8,823,111,64.8,false,346,fade80,2,24.2,false,27.3,true,150.4,false,false,false,false,0.709
+LNMO,SIC,LP57,20.0,1.10,25,212.0,152.6,748,50,50.4,false,426,fade80,2,24.2,false,26.1,true,151.6,false,false,false,false,0.707
+NMC532,SIO,IONIC,20.0,1.10,25,223.3,160.8,823,166,64.8,false,335,fade80,2,24.2,false,26.7,true,151.1,false,false,false,false,0.707
+NCA,LTO,IONIC,20.0,1.10,25,108.5,78.1,359,303,48.1,false,1975,fade80,3,0.0,true,27.1,true,150.1,false,false,false,false,0.707
+NCA,LTO,SOLID,20.0,1.10,25,108.5,78.1,359,219,48.1,false,3023,fade80,3,0.0,true,28.4,true,150.2,false,false,false,false,0.707
+LMFP,SIO,IONIC,20.0,1.10,25,216.9,156.2,678,146,62.5,false,383,fade80,2,24.2,false,26.7,true,151.0,false,false,false,false,0.706
+NMC532,SIO,GEL,20.0,1.10,25,223.3,160.8,823,68,64.8,false,330,fade80,2,24.2,false,26.6,true,151.4,false,false,false,false,0.706
+LCO,LTO,LP57,20.0,1.10,25,98.6,71.0,333,167,42.0,false,1240,fade80,3,16.0,true,26.2,true,150.4,false,false,false,false,0.706
+LMFP,SIO,GEL,20.0,1.10,25,216.9,156.2,678,48,62.5,false,379,fade80,2,24.2,false,26.5,true,151.4,false,false,false,false,0.706
+NMC532,SIO,LP57,20.0,1.10,25,223.3,160.8,823,60,64.8,false,325,fade80,2,24.2,false,26.5,true,151.4,false,false,false,false,0.705
+LMFP,SIO,LP57,20.0,1.10,25,216.9,156.2,678,41,62.5,false,375,fade80,2,24.2,false,26.4,true,151.4,false,false,false,false,0.705
+LMR,GRAPHITE,SOLID,20.0,1.10,25,266.6,192.0,795,84,69.2,true,220,fade80,2,0.0,false,30.3,true,154.4,false,false,false,false,0.704
+LMFP,GRAPHITE,LP57,20.0,1.10,25,199.5,143.7,545,35,53.9,false,2623,fade80,2,24.2,true,26.2,false,160.0,true,true,true,false,0.702
+LMFP,GRAPHITE,GEL,20.0,1.10,25,199.5,143.7,545,42,53.9,false,2836,fade80,2,24.2,true,26.3,false,201.0,true,true,true,false,0.702
+LNMO,SIO,SOLID,20.0,1.10,25,217.8,156.8,808,92,51.3,false,348,fade80,2,24.2,false,26.5,true,150.3,false,false,false,false,0.701
+KPB,GRAPHITE,SOLID,20.0,1.10,25,146.6,105.6,295,91,45.1,false,911,fade80,2,24.2,true,26.7,true,152.0,false,false,false,false,0.700
+LNMO,SIO,IONIC,20.0,1.10,25,217.8,156.8,808,136,51.3,false,338,fade80,2,24.2,false,26.3,true,150.8,false,false,false,false,0.699
+LNMO,SIO,GEL,20.0,1.10,25,217.8,156.8,808,57,51.3,false,334,fade80,2,24.2,false,26.2,true,151.0,false,false,false,false,0.698
+LNMO,GRAPHITE,SOLID,20.0,1.10,25,203.1,146.2,646,84,45.3,false,697,fade80,2,0.0,true,26.4,true,151.9,false,false,false,false,0.698
+LNMO,SIO,LP57,20.0,1.10,25,217.8,156.8,808,50,51.3,false,331,fade80,2,24.2,false,26.1,true,151.0,false,false,false,false,0.697
+LFP,LIMETAL,SOLID,20.0,1.10,25,231.5,166.7,691,88,67.7,false,206,fade80,2,24.2,false,26.9,true,150.2,false,false,false,false,0.694
+LFP,LIMETAL,IONIC,20.0,1.10,25,231.5,166.7,691,143,67.7,false,204,fade80,2,24.2,false,26.3,true,150.1,false,false,false,false,0.694
+LFP,LIMETAL,GEL,20.0,1.10,25,231.5,166.7,691,44,67.7,false,204,fade80,2,24.2,false,26.2,true,150.4,false,false,false,false,0.694
+LFP,LIMETAL,LP57,20.0,1.10,25,231.5,166.7,691,36,67.7,false,203,fade80,2,24.2,false,26.1,true,150.4,false,false,false,false,0.694
+LCO,LTO,SOLID,20.0,1.10,25,98.6,71.0,333,242,42.0,false,1980,fade80,3,0.0,true,27.1,true,150.2,false,false,false,false,0.691
+NMC532,LTO,SOLID,20.0,1.10,25,98.2,70.7,321,216,44.2,false,2310,fade80,3,0.0,true,27.5,true,150.2,false,false,false,false,0.690
+LCO,SIO,SOLID,20.0,1.10,25,215.0,154.8,829,131,60.2,false,318,fade80,2,24.2,false,27.0,true,150.4,false,false,false,false,0.690
+LMFP,LTO,LP57,20.0,1.10,25,96.9,69.8,286,107,43.1,false,4009,fade80,3,0.0,true,26.2,true,150.4,false,false,false,false,0.688
+LMFP,LTO,IONIC,20.0,1.10,25,96.9,69.8,286,269,43.1,false,4910,fade80,3,0.0,true,26.5,true,150.1,false,false,false,false,0.688
+LMFP,LTO,SOLID,20.0,1.10,25,96.9,69.8,286,185,43.1,false,7659,fade80,3,0.0,true,27.4,true,150.2,false,false,false,false,0.688
+LMFP,LTO,GEL,20.0,1.10,25,96.9,69.8,286,119,43.1,false,4343,fade80,3,0.0,true,26.4,true,150.4,false,false,false,false,0.688
+LCO,SIO,IONIC,20.0,1.10,25,215.0,154.8,829,184,60.2,false,307,fade80,2,24.2,false,26.6,true,151.0,false,false,false,false,0.688
+LCO,SIO,GEL,20.0,1.10,25,215.0,154.8,829,90,60.2,false,303,fade80,2,24.2,false,26.5,true,151.3,false,false,false,false,0.687
+LCO,SIO,LP57,20.0,1.10,25,215.0,154.8,829,82,60.2,false,301,fade80,2,24.2,false,26.4,true,151.3,false,false,false,false,0.687
+LCO,GRAPHITE,SOLID,20.0,1.10,25,198.4,142.9,636,120,52.2,false,669,fade80,2,0.0,true,26.9,true,152.4,false,false,false,false,0.685
+LNMO,GRAPHITE,LP57,20.0,1.10,25,203.1,146.2,646,45,45.3,false,382,fade80,2,24.2,false,25.9,true,159.5,false,false,false,false,0.684
+LFP,SIO,SOLID,20.0,1.10,25,199.5,143.7,648,99,64.0,false,380,fade80,2,24.2,false,27.3,true,150.4,false,false,false,false,0.678
+SULFUR,SIO,SOLID,20.0,1.10,25,277.7,199.9,825,144,152.7,true,1,rate-limited,2,0.0,false,25.0,true,156.8,false,false,false,false,0.678
+LIO2,SIO,LP57,20.0,1.10,25,358.1,257.8,593,39,140.8,true,24,rate-limited,3,16.0,false,49.8,false,160.0,true,true,true,false,0.678
+LFP,GRAPHITE,IONIC,20.0,1.10,25,184.3,132.7,516,145,55.0,false,1851,fade80,2,24.2,true,26.5,false,160.2,false,false,true,false,0.678
+LFP,GRAPHITE,GEL,20.0,1.10,25,184.3,132.7,516,44,55.0,false,1634,fade80,2,24.2,true,26.3,false,201.2,true,true,true,false,0.678
+LMFP,LIMETAL,SOLID,20.0,1.10,25,249.0,179.3,718,82,66.0,true,211,fade80,2,0.0,false,26.9,true,150.2,false,false,false,false,0.674
+KPB,GRAPHITE,IONIC,20.0,1.10,25,146.6,105.6,295,149,45.1,false,778,fade80,2,24.2,true,26.1,true,159.2,false,false,false,false,0.673
+KPB,GRAPHITE,GEL,20.0,1.10,25,146.6,105.6,295,45,45.1,false,768,fade80,2,24.2,true,26.0,true,160.0,false,false,false,false,0.671
+LFP,GRAPHITE,LP57,20.0,1.10,25,184.3,132.7,516,36,55.0,false,1465,fade80,2,24.2,true,26.2,false,160.1,true,true,true,false,0.671
+DRX,LTO,GEL,20.0,1.10,25,135.3,97.4,435,101,53.7,false,769,fade80,3,16.0,true,28.1,true,150.7,false,false,false,false,0.670
+NA_NFPP,HC,SOLID,20.0,1.10,25,144.0,103.7,284,110,45.3,false,697,fade80,3,16.0,true,26.6,true,151.9,false,false,false,false,0.670
+LFP,SIO,IONIC,20.0,1.10,25,199.5,143.7,648,159,64.0,false,332,fade80,2,24.2,false,26.7,true,151.1,false,false,false,false,0.668
+LFP,SIO,GEL,20.0,1.10,25,199.5,143.7,648,51,64.0,false,323,fade80,2,24.2,false,26.5,true,151.4,false,false,false,false,0.667
+LCO,LTO,IONIC,20.0,1.10,25,98.6,71.0,333,322,42.0,false,1372,fade80,3,0.0,true,26.4,true,150.1,false,false,false,false,0.666
+LFP,SIO,LP57,20.0,1.10,25,199.5,143.7,648,43,64.0,false,316,fade80,2,24.2,false,26.4,true,151.4,false,false,false,false,0.665
+LCO,LIMETAL,SOLID,20.0,1.10,25,245.8,176.9,871,119,63.5,true,187,fade80,2,0.0,false,26.7,true,150.1,false,false,false,false,0.664
+DRX,LTO,SOLID,20.0,1.10,25,135.3,97.4,435,159,53.7,false,1067,fade80,2,0.0,true,31.0,true,150.3,false,false,false,false,0.663
+LMFP,SIO,SOLID,20.0,1.10,25,216.9,156.2,678,91,62.5,false,395,fade80,2,0.0,false,27.3,true,150.4,false,false,false,false,0.659
+DRX,LTO,LP57,20.0,1.10,25,135.3,97.4,435,90,53.7,false,714,fade80,3,16.0,true,27.7,true,150.7,false,false,false,false,0.659
+SULFUR,LIFREE,LP57,20.0,1.10,25,391.1,281.6,1312,21,184.2,true,1,rate-limited,2,0.0,false,25.0,false,160.0,true,true,true,false,0.659
+LMFP,GRAPHITE,IONIC,20.0,1.10,25,199.5,143.7,545,133,53.9,false,2947,fade80,2,0.0,true,26.4,false,160.0,false,false,true,false,0.653
+NCA,GRAPHITE,LP57,20.0,1.10,25,229.5,165.3,711,56,61.8,false,1002,fade80,2,24.2,true,26.6,false,160.0,true,true,true,false,0.650
+NCA,GRAPHITE,GEL,20.0,1.10,25,229.5,165.3,711,64,61.8,false,1001,fade80,2,24.2,true,26.8,false,202.8,true,true,true,false,0.650
+NCA,GRAPHITE,IONIC,20.0,1.10,25,229.5,165.3,711,154,61.8,false,999,fade80,2,24.2,true,27.1,false,160.1,false,false,true,false,0.650
+LCO,LTO,GEL,20.0,1.10,25,98.6,71.0,333,178,42.0,false,1293,fade80,3,0.0,true,26.3,true,150.4,false,false,false,false,0.650
+SULFUR,SIC,SOLID,20.0,1.10,25,258.0,185.7,690,146,145.0,true,1,rate-limited,2,0.0,false,25.0,true,158.1,false,false,false,false,0.646
+KPB,HC,SOLID,20.0,1.10,25,135.1,97.3,240,98,43.2,false,736,fade80,2,24.2,true,26.9,true,152.0,false,false,false,false,0.646
+LIO2,SIC,GEL,20.0,1.10,25,336.1,242.0,537,50,134.2,true,38,rate-limited,3,16.0,false,49.6,false,201.5,true,true,true,false,0.645
+LIO2,SIC,LP57,20.0,1.10,25,336.1,242.0,537,40,134.2,true,31,fade80,3,16.0,false,43.7,false,160.2,true,true,true,false,0.644
+NMC532,GRAPHITE,LP57,20.0,1.10,25,204.5,147.2,627,53,55.6,false,1149,fade80,2,24.2,true,26.2,false,160.2,true,true,true,false,0.640
+NMC532,GRAPHITE,GEL,20.0,1.10,25,204.5,147.2,627,60,55.6,false,1148,fade80,2,24.2,true,26.3,false,200.4,true,true,true,false,0.640
+NMC532,GRAPHITE,IONIC,20.0,1.10,25,204.5,147.2,627,152,55.6,false,1147,fade80,2,24.2,true,26.5,false,160.1,false,false,true,false,0.639
+NA_O3,HC,GEL,20.0,1.10,25,161.4,116.2,350,56,50.8,false,452,fade80,2,24.2,false,26.1,true,162.8,false,false,false,false,0.631
+SULFUR,LIMETAL,LP57,20.0,1.10,25,372.0,267.8,905,36,175.3,true,1,rate-limited,2,0.0,false,25.0,false,160.0,true,true,true,false,0.629
+NA_NFPP,HC,IONIC,20.0,1.10,25,144.0,103.7,284,169,45.3,false,577,fade80,2,24.2,true,26.1,true,158.2,false,false,false,false,0.629
+NA_NFPP,HC,GEL,20.0,1.10,25,144.0,103.7,284,63,45.3,false,569,fade80,2,24.2,true,26.0,true,158.8,false,false,false,false,0.627
+NA_NFPP,HC,LP57,20.0,1.10,25,144.0,103.7,284,55,45.3,false,562,fade80,2,24.2,true,25.9,true,158.8,false,false,false,false,0.626
+LIO2,SIC,IONIC,20.0,1.10,25,336.1,242.0,537,185,134.2,true,14,rate-limited,2,24.2,false,53.4,false,160.0,false,false,true,false,0.623
+DRX,LTO,IONIC,20.0,1.10,25,135.3,97.4,435,234,53.7,false,863,fade80,3,0.0,true,28.6,true,150.2,false,false,false,false,0.622
+NA_PW,HC,SOLID,20.0,1.10,25,165.9,119.5,289,93,51.2,false,617,fade80,3,0.0,true,27.4,true,152.4,false,false,false,false,0.622
+NMC811,GRAPHITE,GEL,20.0,1.10,25,236.9,170.5,726,59,63.7,true,799,fade80,2,24.2,true,26.9,false,200.1,true,true,true,false,0.622
+NMC811,GRAPHITE,IONIC,20.0,1.10,25,236.9,170.5,726,149,63.7,true,798,fade80,2,24.2,true,27.3,false,160.4,false,false,true,false,0.621
+DRX,GRAPHITE,IONIC,20.0,1.10,25,284.0,204.5,839,121,71.4,true,406,fade80,2,24.2,false,28.9,false,160.3,false,false,true,false,0.618
+NMC811,GRAPHITE,LP57,20.0,1.10,25,236.9,170.5,726,51,63.7,true,735,fade80,2,24.2,true,26.7,false,160.2,true,true,true,false,0.609
+NA_PW,HC,GEL,20.0,1.10,25,165.9,119.5,289,47,51.2,false,286,fade80,2,24.2,false,26.3,true,165.5,false,false,false,false,0.605
+DRX,GRAPHITE,GEL,20.0,1.10,25,284.0,204.5,839,36,71.4,true,316,fade80,2,24.2,false,28.0,false,204.3,true,true,true,false,0.600
+DRX,GRAPHITE,LP57,20.0,1.10,25,284.0,204.5,839,29,71.4,true,266,fade80,2,24.2,false,27.5,false,160.4,true,true,true,false,0.590
+FEF3,LIFREE,LP57,20.0,1.10,25,189.7,136.6,654,25,76.7,false,1,rate-limited,2,24.2,false,26.7,true,150.5,false,false,false,false,0.586
+FEF3,LIFREE,IONIC,20.0,1.10,25,189.7,136.6,654,173,76.7,false,1,rate-limited,2,24.2,false,27.0,true,150.1,false,false,false,false,0.586
+FEF3,LIFREE,SOLID,20.0,1.10,25,189.7,136.6,654,96,76.7,false,1,rate-limited,2,24.2,false,27.9,true,150.2,false,false,false,false,0.586
+FEF3,LIFREE,GEL,20.0,1.10,25,189.7,136.6,654,36,76.7,false,1,rate-limited,2,24.2,false,26.9,true,150.5,false,false,false,false,0.586
+FEF3,LIMETAL,LP57,20.0,1.10,25,185.7,133.7,548,38,75.1,false,1,rate-limited,2,24.2,false,26.8,true,150.5,false,false,false,false,0.580
+FEF3,LIMETAL,IONIC,20.0,1.10,25,185.7,133.7,548,185,75.1,false,1,rate-limited,2,24.2,false,27.1,true,150.1,false,false,false,false,0.580
+FEF3,LIMETAL,SOLID,20.0,1.10,25,185.7,133.7,548,109,75.1,false,1,rate-limited,2,24.2,false,28.0,true,150.2,false,false,false,false,0.580
+FEF3,LIMETAL,GEL,20.0,1.10,25,185.7,133.7,548,49,75.1,false,1,rate-limited,2,24.2,false,26.9,true,150.5,false,false,false,false,0.580
+KPB,HC,IONIC,20.0,1.10,25,135.1,97.3,240,159,43.2,false,388,fade80,2,24.2,false,26.2,true,159.3,false,false,false,false,0.577
+LMR,LTO,IONIC,20.0,1.10,25,125.6,90.4,406,260,52.4,false,373,fade80,3,16.0,false,28.1,true,150.2,false,false,false,false,0.576
+LMR,LTO,GEL,20.0,1.10,25,125.6,90.4,406,119,52.4,false,353,fade80,3,16.0,false,27.6,true,150.6,false,false,false,false,0.572
+KPB,HC,GEL,20.0,1.10,25,135.1,97.3,240,51,43.2,false,363,fade80,2,24.2,false,26.1,true,160.2,false,false,false,false,0.572
+LMR,LTO,LP57,20.0,1.10,25,125.6,90.4,406,107,52.4,false,341,fade80,3,16.0,false,27.3,true,150.6,false,false,false,false,0.569
+LMR,GRAPHITE,IONIC,20.0,1.10,25,266.6,192.0,795,133,69.2,true,221,fade80,2,24.2,false,28.1,false,160.3,false,false,true,false,0.554
+LMR,GRAPHITE,GEL,20.0,1.10,25,266.6,192.0,795,45,69.2,true,204,fade80,2,24.2,false,27.5,false,204.2,true,true,true,false,0.550
+LMR,LTO,SOLID,20.0,1.10,25,125.6,90.4,406,181,52.4,false,568,fade80,3,0.0,true,30.2,true,150.3,false,false,false,false,0.548
+LMR,GRAPHITE,LP57,20.0,1.10,25,266.6,192.0,795,38,69.2,true,191,fade80,2,24.2,false,27.2,false,160.4,true,true,true,false,0.548
+LIO2,GRAPHITE,LP57,20.0,1.10,25,287.3,206.8,466,32,103.4,true,6,rate-limited,2,24.2,false,47.7,false,160.8,true,true,true,false,0.544
+LIO2,GRAPHITE,IONIC,20.0,1.10,25,287.3,206.8,466,163,103.4,true,1,rate-limited,2,24.2,false,42.5,false,160.3,false,false,true,false,0.543
+LIO2,GRAPHITE,GEL,20.0,1.10,25,287.3,206.8,466,42,103.4,true,1,rate-limited,2,24.2,false,48.8,false,200.3,true,true,true,false,0.543
+LCO,GRAPHITE,LP57,20.0,1.10,25,198.4,142.9,636,74,52.2,false,671,fade80,2,24.2,true,26.1,false,160.1,true,true,true,false,0.534
+LCO,GRAPHITE,IONIC,20.0,1.10,25,198.4,142.9,636,170,52.2,false,670,fade80,2,24.2,true,26.3,false,160.1,false,false,true,false,0.534
+LFP,GRAPHITE,SOLID,20.0,1.10,25,184.3,132.7,516,88,55.0,false,1,rate-limited,2,0.0,false,26.8,true,152.7,false,false,false,false,0.528
+FEF3,SIO,LP57,20.0,1.10,25,153.2,110.3,496,47,70.6,false,1,rate-limited,2,24.2,false,27.2,true,151.7,false,false,false,false,0.528
+FEF3,SIO,IONIC,20.0,1.10,25,153.2,110.3,496,215,70.6,false,1,rate-limited,2,24.2,false,27.6,true,151.3,false,false,false,false,0.528
+FEF3,SIO,SOLID,20.0,1.10,25,153.2,110.3,496,128,70.6,false,1,rate-limited,2,24.2,false,28.5,true,150.6,false,false,false,false,0.528
+FEF3,SIO,GEL,20.0,1.10,25,153.2,110.3,496,60,70.6,false,1,rate-limited,2,24.2,false,27.4,true,151.7,false,false,false,false,0.528
+SULFUR,SIO,LP57,20.0,1.10,25,277.7,199.9,825,47,152.7,true,1,rate-limited,2,24.2,false,33.5,false,160.4,true,true,true,false,0.527
+FEF3,SIC,LP57,20.0,1.10,25,146.8,105.7,449,48,68.9,false,1,rate-limited,2,24.2,false,27.2,true,152.7,false,false,false,false,0.518
+FEF3,SIC,IONIC,20.0,1.10,25,146.8,105.7,449,219,68.9,false,1,rate-limited,2,24.2,false,27.5,true,152.2,false,false,false,false,0.518
+FEF3,SIC,SOLID,20.0,1.10,25,146.8,105.7,449,130,68.9,false,1,rate-limited,2,24.2,false,28.5,true,150.8,false,false,false,false,0.518
+FEF3,SIC,GEL,20.0,1.10,25,146.8,105.7,449,60,68.9,false,1,rate-limited,2,24.2,false,27.3,true,152.7,false,false,false,false,0.518
+FEF3,GRAPHITE,SOLID,20.0,1.10,25,143.7,103.5,397,111,59.8,false,1,rate-limited,2,24.2,false,28.5,true,153.3,false,false,false,false,0.513
+LIO2,GRAPHITE,SOLID,20.0,1.10,25,287.3,206.8,466,95,103.4,true,1,rate-limited,2,0.0,false,25.0,false,200.3,false,true,false,false,0.493
+SULFUR,SIO,IONIC,20.0,1.10,25,277.7,199.9,825,247,152.7,true,1,rate-limited,2,0.0,false,25.0,false,160.1,false,false,true,false,0.478
+SULFUR,SIO,GEL,20.0,1.10,25,277.7,199.9,825,62,152.7,true,1,rate-limited,2,0.0,false,25.0,false,202.0,true,true,true,false,0.478
+KPB,GRAPHITE,LP57,20.0,1.10,25,146.6,105.6,295,37,45.1,false,759,fade80,2,24.2,true,25.9,false,160.0,true,true,true,false,0.469
+LIO2,LTO,LP57,20.0,1.10,25,92.4,66.5,188,150,70.0,false,45,fade80,3,16.0,false,43.1,true,152.2,false,false,false,false,0.457
+SULFUR,SIC,LP57,20.0,1.10,25,258.0,185.7,690,47,145.0,true,1,rate-limited,2,0.0,false,25.0,false,160.2,true,true,true,false,0.446
+SULFUR,SIC,IONIC,20.0,1.10,25,258.0,185.7,690,252,145.0,true,1,rate-limited,2,0.0,false,25.0,false,160.3,false,false,true,false,0.446
+SULFUR,SIC,GEL,20.0,1.10,25,258.0,185.7,690,63,145.0,true,1,rate-limited,2,0.0,false,25.0,false,202.8,true,true,true,false,0.446
+NA_PW,HC,IONIC,20.0,1.10,25,165.9,119.5,289,151,51.2,false,392,fade80,3,16.0,false,26.5,false,160.1,false,false,true,false,0.444
+NA_O3,HC,IONIC,20.0,1.10,25,161.4,116.2,350,162,50.8,false,510,fade80,2,24.2,true,26.3,false,160.0,false,false,true,false,0.443
+LIO2,LTO,GEL,20.0,1.10,25,92.4,66.5,188,171,70.0,false,1,rate-limited,2,24.2,false,49.7,true,152.2,false,false,false,false,0.431
+NA_O3,HC,LP57,20.0,1.10,25,161.4,116.2,350,47,50.8,false,417,fade80,2,24.2,false,26.0,false,160.1,true,true,true,false,0.424
+NA_PW,HC,LP57,20.0,1.10,25,165.9,119.5,289,39,51.2,false,257,fade80,2,24.2,false,26.2,false,160.0,true,true,true,false,0.400
+SULFUR,GRAPHITE,LP57,20.0,1.10,25,225.2,162.1,529,36,109.7,false,1,rate-limited,2,0.0,false,25.0,false,161.1,true,true,true,false,0.394
+SULFUR,GRAPHITE,IONIC,20.0,1.10,25,225.2,162.1,529,213,109.7,false,1,rate-limited,2,0.0,false,25.0,false,160.7,false,false,true,false,0.394
+SULFUR,GRAPHITE,SOLID,20.0,1.10,25,225.2,162.1,529,121,109.7,false,1,rate-limited,2,0.0,false,25.0,false,200.0,false,true,false,false,0.394
+SULFUR,GRAPHITE,GEL,20.0,1.10,25,225.2,162.1,529,49,109.7,false,1,rate-limited,2,0.0,false,25.0,false,208.4,true,true,true,false,0.394
+CHEVREL,MG,SOLID,20.0,1.10,25,35.7,25.7,124,437,34.8,false,218,fade80,2,24.2,false,25.7,true,150.1,false,false,false,false,0.384
+CHEVREL,MG,IONIC,20.0,1.10,25,35.7,25.7,124,621,34.8,false,215,fade80,2,24.2,false,25.5,true,150.2,false,false,false,false,0.383
+CHEVREL,MG,GEL,20.0,1.10,25,35.7,25.7,124,293,34.8,false,214,fade80,2,24.2,false,25.5,true,150.4,false,false,false,false,0.383
+CHEVREL,MG,LP57,20.0,1.10,25,35.7,25.7,124,266,34.8,false,212,fade80,2,24.2,false,25.5,true,150.4,false,false,false,false,0.382
+LIO2,LTO,IONIC,20.0,1.10,25,92.4,66.5,188,426,70.0,false,1,rate-limited,2,0.0,false,25.0,true,150.6,false,false,false,false,0.381
+LIO2,LTO,SOLID,20.0,1.10,25,92.4,66.5,188,283,70.0,false,1,rate-limited,2,0.0,false,25.0,true,153.5,false,false,false,false,0.381
+KPB,HC,LP57,20.0,1.10,25,135.1,97.3,240,42,43.2,false,360,fade80,2,24.2,false,26.0,false,160.0,true,true,true,false,0.371
+LFP,LTO,SOLID,20.0,1.10,25,83.0,59.8,251,214,43.9,false,1,rate-limited,2,0.0,false,26.2,true,150.2,false,false,false,false,0.366
+FEF3,LTO,LP57,20.0,1.10,25,44.3,31.9,133,212,46.9,false,1,rate-limited,2,24.2,false,27.0,true,150.5,false,false,false,false,0.354
+FEF3,LTO,IONIC,20.0,1.10,25,44.3,31.9,133,598,46.9,false,1,rate-limited,2,24.2,false,27.5,true,150.1,false,false,false,false,0.354
+FEF3,LTO,SOLID,20.0,1.10,25,44.3,31.9,133,398,46.9,false,1,rate-limited,2,24.2,false,28.9,true,150.2,false,false,false,false,0.354
+FEF3,LTO,GEL,20.0,1.10,25,44.3,31.9,133,241,46.9,false,1,rate-limited,2,24.2,false,27.2,true,150.5,false,false,false,false,0.354
+FEF3,GRAPHITE,LP57,20.0,1.10,25,143.7,103.5,397,38,59.8,false,1,rate-limited,2,24.2,false,26.9,false,160.0,true,true,true,false,0.313
+FEF3,GRAPHITE,IONIC,20.0,1.10,25,143.7,103.5,397,189,59.8,false,1,rate-limited,2,24.2,false,27.3,false,160.1,false,false,true,false,0.313
+FEF3,GRAPHITE,GEL,20.0,1.10,25,143.7,103.5,397,49,59.8,false,1,rate-limited,2,24.2,false,27.1,false,203.3,true,true,true,false,0.313
+SULFUR,LTO,LP57,20.0,1.10,25,43.4,31.2,121,308,72.8,false,1,rate-limited,2,0.0,false,25.0,true,157.1,false,false,false,false,0.303
+SULFUR,LTO,IONIC,20.0,1.10,25,43.4,31.2,121,920,72.8,false,1,rate-limited,2,0.0,false,25.0,true,155.6,false,false,false,false,0.303
+SULFUR,LTO,SOLID,20.0,1.10,25,43.4,31.2,121,603,72.8,false,1,rate-limited,2,0.0,false,25.0,true,154.6,false,false,false,false,0.303
+SULFUR,LTO,GEL,20.0,1.10,25,43.4,31.2,121,354,72.8,false,1,rate-limited,2,0.0,false,25.0,true,157.1,false,false,false,false,0.303
