@@ -88,18 +88,19 @@ jobs:
       - name: Publish logs to the branch
         if: always()
         run: |
+          set -u
           mkdir -p ../ci-logs
           cp -f clippy.log build.log test.log ../ci-logs/ 2>/dev/null || true
-          cd /home/runner/work/Pokemon/Pokemon
+          cd ../..
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f arc-agi-3/ci-logs
           if git diff --cached --quiet; then
-            echo "no log changes"
+            echo "no log changes to publish"
           else
             git commit -m "ci: logi clippy/build/test [skip ci]"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
           fi
 
       # The reference vectors are the whole point of this crate: if the Rust
@@ -133,11 +134,22 @@ jobs:
         run: cargo build --release
 
       - name: Segmentation throughput (64x64 frames)
-        run: ./target/release/arc3 bench --size 64 --frames 2000
+        run: ./target/release/arc3 bench --size 64 --frames 2000 2>&1 | tee bench.log
 
-      - name: Upload binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: arc3-linux-x86_64
-          path: arc-agi-3/rust/target/release/arc3
-          if-no-files-found: error
+      - name: Publish bench log to the branch
+        if: always()
+        run: |
+          set -u
+          mkdir -p ../ci-logs
+          cp -f bench.log ../ci-logs/
+          cd ../..
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f arc-agi-3/ci-logs
+          if git diff --cached --quiet; then
+            echo "no bench log changes"
+          else
+            git commit -m "ci: log benchmarku przepustowosci [skip ci]"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
