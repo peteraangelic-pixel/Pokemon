@@ -1,0 +1,40 @@
+vc33 - ACTION6: count 370, levels completed 1, avg fps 106.02)
+vc33 - ACTION6: count 371, levels completed 1, avg fps 106.0)
+vc33 - ACTION6: count 372, levels completed 1, avg fps 106.29)
+vc33 - ACTION6: count 373, levels completed 1, avg fps 106.27)
+vc33 - ACTION6: count 374, levels completed 1, avg fps 106.25)
+vc33 - ACTION6: count 375, levels completed 1, avg fps 105.93)
+vc33 - ACTION6: count 376, levels completed 1, avg fps 105.92)
+vc33 - ACTION6: count 377, levels completed 1, avg fps 105.9)
+vc33 - ACTION6: count 378, levels completed 1, avg fps 105.88)
+vc33 - ACTION6: count 379, levels completed 1, avg fps 105.87)
+vc33 - ACTION6: count 380, levels completed 1, avg fps 105.85)
+vc33 - ACTION6: count 381, levels completed 1, avg fps 105.83)
+vc33 - ACTION6: count 382, levels completed 1, avg fps 106.11)
+vc33 - ACTION6: count 383, levels completed 1, avg fps 106.09)
+vc33 - ACTION6: count 384, levels completed 1, avg fps 106.08)
+vc33 - ACTION6: count 385, levels completed 1, avg fps 106.06)
+vc33 - ACTION6: count 386, levels completed 1, avg fps 106.04)
+vc33 - ACTION6: count 387, levels completed 1, avg fps 106.03)
+vc33 - ACTION6: count 388, levels completed 1, avg fps 106.01)
+vc33 - ACTION6: count 389, levels completed 1, avg fps 105.99)
+vc33 - ACTION6: count 390, levels completed 1, avg fps 105.98)
+vc33 - ACTION6: count 391, levels completed 1, avg fps 105.96)
+vc33 - ACTION6: count 392, levels completed 1, avg fps 105.95)
+vc33 - ACTION6: count 393, levels completed 1, avg fps 105.93)
+vc33 - ACTION6: count 394, levels completed 1, avg fps 105.91)
+vc33 - ACTION6: count 395, levels completed 1, avg fps 105.9)
+vc33 - ACTION6: count 396, levels completed 1, avg fps 105.88)
+vc33 - ACTION6: count 397, levels completed 1, avg fps 105.87)
+vc33 - ACTION6: count 398, levels completed 1, avg fps 105.57)
+vc33 - ACTION6: count 399, levels completed 1, avg fps 105.56)
+recording for vc33.myagent.novelty-v5 is available in /home/runner/work/Pokemon/Pokemon/arc-agi-3/baseline/recordings/vc33.myagent.novelty-v5.d86465d0-2a40-4f96-84f3-90c70d864ddc.recording.jsonl
+Exiting: agent reached MAX_ACTIONS of 400, took 3.78 seconds (105.82 average fps)
+state=NOT_FINISHED levels=1 actions=400
+policy evidence={'ACTION6': {'attempts': 394, 'changed': 153, 'level_gains': 1, 'game_overs': 6, 'revisits': 373}, 'RESET': {'attempts': 6, 'changed': 5, 'level_gains': 0, 'game_overs': 0, 'revisits': 6}}
+
+=== summary ===
+ls20: state=NOT_FINISHED, levels=2, actions=400
+vc33: state=NOT_FINISHED, levels=1, actions=400
+local scorecard score=5.35853172398624
+outcome report=recordings/run-report.json
