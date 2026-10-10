@@ -1,28 +1,37 @@
 {
-  "fetched_utc": "2026-10-10T00:37:01+00:00",
+  "fetched_utc": "2026-10-10T07:54:24+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "Lauresowe 3D",
-  "leaderboard_rows": 283,
-  "submission_rows": 8,
+  "leaderboard_rows": 291,
+  "submission_rows": 9,
   "our_leaderboard": [
     {
-      "Rank": "224",
+      "Rank": "235",
       "TeamId": "17063582",
       "TeamName": "Lauresowe 3D",
-      "LastSubmissionDate": "2026-10-09 23:54:51",
-      "Score": "375.0",
+      "LastSubmissionDate": "2026-10-10 01:13:30",
+      "Score": "362.0",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "lauresowe3d"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57026727",
+      "fileName": "phase2_metal.tar.gz",
+      "date": "2026-10-10 01:13:30.693000",
+      "description": "Metal YumeNeko #1 1210.3 deck + heuristic - mill off-meta fails live 375.0 vs 462.0",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "315.9",
+      "privateScore": ""
+    },
+    {
       "ref": "57023926",
       "fileName": "phase1_tuned_75.tar.gz",
       "date": "2026-10-09 23:54:51.533000",
       "description": "Gen2 75.1%->73.6% stable wall -697",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "375.0",
+      "publicScore": "362.0",
       "privateScore": ""
     },
     {
@@ -31,7 +40,7 @@
       "date": "2026-10-09 10:37:37.757000",
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "356.7",
+      "publicScore": "365.2",
       "privateScore": ""
     },
     {
