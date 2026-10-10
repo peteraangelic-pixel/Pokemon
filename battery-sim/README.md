@@ -48,6 +48,8 @@ cargo run --release -- list           # baza materiałów (+ koszt USD/kg)
 cargo run --release -- benchmark      # nasi kandydaci kontra rynek
 cargo run --release -- report --lang en --out report.md   # raport po angielsku
 cargo run --release -- pitch --lang en --out pitch.md     # one-pager dla inwestora (EN)
+cargo run --release -- ladder --csv optim_winners.csv      # drabiny: C-rate / abuse / moc
+bash tools/optimize-winners.sh                            # zadanie dla PC: optymalizacja zwycięzców
 ```
 
 Bez rayona (czysty `std`, własny pool wątków — przydaje się bez sieci):
@@ -202,6 +204,14 @@ cargo run --release -- pitch --lang en --out pitch.md
 cargo run --release -- pitch --lang pl --out pitch-pl.md
 ```
 
+## Wyniki i analiza sweepów
+
+- `grid.csv` — wielka siatka **14 640 kombinacji** (wynik z PC) + `ANALIZA_GRID.md` (analiza:
+  321 PASS, trzy zwycięskie architektury, werdykty nowych chemii).
+- `tools/optimize-winners.sh` — **zadanie optymalizacyjne dla PC**: drobna siatka 2880
+  kombinacji wokół zwycięzców + drabiny testowe (`ladder`: C-rate 1–6C, abuse 130–250 °C,
+  moc 1–5C). Wyniki: `optim_winners.csv` (gitignored — generowane) + `ANALIZA_OPTIM.md`.
+
 ## Prezentowanie wyników — ścieżka walidacji
 
 Symulacja to narzędzie do **selekcji kandydatów**, nie certyfikat. Zanim
@@ -235,7 +245,10 @@ battery-sim/
   src/par.rs            # równoległość: rayon albo pool std::thread
   src/report.rs         # tabele, CSV
   src/benchmark.rs      # nasi kandydaci kontra ogniwa komercyjne
-  src/doc.rs            # generator raportu Markdown (PL/EN)
+  src/doc.rs            # generator raportu Markdown (PL/EN) i pitchu inwestorskiego
+  src/ladder.rs         # drabiny testowe (C-rate / abuse / moc) dla top-PASS z CSV
+  tools/optimize-winners.sh  # zadanie dla PC: optymalizacja zwycięskich architektur
+  tools/setup-offline-toolchain.sh  # toolchain offline (bez rustup/crates.io)
   tools/model_prototype.py  # prototyp tego samego modelu w Pythonie
 ```
 

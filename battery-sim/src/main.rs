@@ -11,6 +11,7 @@
 mod benchmark;
 mod cell;
 mod doc;
+mod ladder;
 mod materials;
 mod par;
 mod report;
@@ -537,6 +538,8 @@ Polecenia:
   benchmark   nasi kandydaci kontra ogniwa komercyjne (tabele)
   report      raport Markdown PL/EN (--lang pl|en --out plik.md)
   pitch       raport inwestorski, one-pager EN/PL (--lang en|pl --out plik.md)
+  ladder      drabiny testowe dla top-PASS z CSV: C-rate 1-6C, abuse 130-250C, moc 10C
+              (--csv optim_winners.csv --top 12)
   help        ta pomoc
 
 Opcje (cell):
@@ -607,6 +610,7 @@ fn main() {
         "benchmark" => benchmark::print_benchmark(&cp, &sp),
         "report" => run_report(&cli, &cp, &sp),
         "pitch" => run_pitch(&cli),
+        "ladder" => ladder::print_ladder(&cli, &cp, &sp),
         "help" | "--help" | "-h" => print_help(),
         other => {
             eprintln!("Nieznane polecenie: {other}");
