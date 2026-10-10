@@ -4,41 +4,16 @@ on:
   workflow_dispatch:
     inputs:
       bundle:
-        description: "Bundle to submit"
+        description: "Bundle to submit (z bundles/)"
         default: "phase1_tuned_v10_34_sig4.tar.gz"
         required: false
       message:
         description: "Submission message"
-        default: "v10 34W Signal4 Boss4 Waitress2 Belt1 Pad1 Night1 - 0.932 vs top7_live 0.567 vs losses 0.750 vs walls - weighted 0.777 best"
+        default: "v10 34W Signal4 Boss4 Waitress2 Belt1 Pad1 Night1 - 0.932 vs top7_live 0.777 weighted BEST - only 2 last active!"
         required: false
-  push:
-    branches: ["arena/c87f7a48-pokemon"]
-    paths:
-      - "pokemon-agent/bundles/phase1_tuned_80.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_80.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_v2.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_v2.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_powerglass.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_powerglass.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_mirror.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_mirror.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_h1.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_gen8_h1.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v9_boss4.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_v9_boss4.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v9_boss4_h1.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_v9_boss4_h1.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v9_final.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_v9_final.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v9_final_h1.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_v9_final_h1.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4_h1.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4_h1.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v10_32_final.tar.gz"
-      - "pokemon-agent/bundles/phase1_tuned_v10_32_final.trigger"
-      - ".github/workflows/kaggle_submit.yml"
+
+# USUNIĘTE auto-trigger na push bundles – tylko ręczny dispatch!
+# Powód: tylko 2 ostatnie submissiony są aktywne w finale, auto-push zapychał sloty 5/dzień kiepskimi wersjami
 
 permissions:
   contents: read
@@ -70,13 +45,10 @@ jobs:
           if [ -n "$KAGGLE_API_TOKEN" ]; then
             printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
             chmod 600 ~/.kaggle/access_token
-            echo "Using KAGGLE_API_TOKEN for petersharps"
-            cat ~/.kaggle/access_token | head -c 20
-            echo ""
+            echo "Using KAGGLE_API_TOKEN"
           elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
             printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
             chmod 600 ~/.kaggle/kaggle.json
-            echo "Using USERNAME/KEY"
           else
             echo "No Kaggle credentials"
             exit 1
@@ -84,15 +56,13 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_v10_34_sig4.tar.gz' }}
-          MESSAGE: ${{ inputs.message || 'v10 34W Signal4 Boss4 Waitress2 Belt1 Pad1 Night1 - 0.932 vs top7_live 0.567 vs losses 0.750 vs walls - weighted 0.777 best' }}
+          BUNDLE: ${{ inputs.bundle }}
+          MESSAGE: ${{ inputs.message }}
         run: |
           cd pokemon-agent
           BUNDLE_PATH="bundles/$BUNDLE"
           ls -lh bundles/ | tail -20
-          echo "Submitting $BUNDLE_PATH to the-pokemon-company-ptcg-ai-battle-challenge-playground"
+          echo "Submitting $BUNDLE_PATH"
           echo "Message: $MESSAGE"
-          echo "Account: $(kaggle --version)"
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "$BUNDLE_PATH" -m "$MESSAGE" 2>&1 | tee submit.log
           cat submit.log
-          echo "Submitted as petersharps!"
