@@ -213,7 +213,7 @@ fn render_pitch_en() -> String {
 _Generated {date} · battery-sim v{ver} · contact: [YOUR NAME / EMAIL]_
 
 ## What this is
-An open-source physics simulator for battery cells (Rust; runs on a laptop; screens ~250 real material combinations in about a minute on a 16-core PC) **plus a specific cell design it produced**: cobalt-free, abuse-safe, **~359 Wh/kg with 543 fast-charge cycles** (plus a $27/kWh LFP variant for the mass market) — and a cobalt/nickel-free next-gen variant at ~354 Wh/kg that is past spec.
+An open-source physics simulator for battery cells (Rust; runs on a laptop; screens ~250 real material combinations in about a minute on a 16-core PC) **plus a portfolio of cell designs it produced**, led by one that can be built on existing production lines in 1–2 years: **NMC811 + Si-C + gel — 279 Wh/kg (201 Wh/kg pack), 670 fast-charge cycles @2C, survives 150 °C abuse + overcharge, ~$67/kWh material cost, 5C discharge power**. The portfolio also holds: a $27/kWh mass-market variant (LFP/LMFP + anode-free), a 367 Wh/kg premium variant (anode-free), a 361 Wh/kg cobalt/nickel-free novel variant (DRX + Si-C), and a specialty cell that is the only one in the model surviving 60 °C (LFP + anode-free + solid electrolyte, >20 years shelf life).
 
 We built it because we kept hitting the same wall: "which of these 200 real chemistries would actually work?" A lab answers that in weeks per candidate. We answer it in minutes.
 
@@ -248,9 +248,9 @@ Accuracy, stated plainly: energy density within ~±15% of cell-level literature;
 ~$150B/yr cell market (est.), ~25%/yr growth (EV + grid storage), ~60–70% China share; Western OEMs actively de-risking Co/Ni. Beachheads: commercial vehicles/buses (fast charge + safety), drones/aviation (energy), materials suppliers (licensing).
 
 ## Business model
-1. Open-source tool + paid enterprise support (custom materials, HPC grids).
-2. License the validated cell IP.
-3. Contract screening R&D for OEMs/suppliers.
+1. **First product (1–2 yrs, existing lines):** NMC811 + Si-C + gel cell design + the screening tool; in parallel a low-risk entry — Na-ion (drop-in; CATL already mass-produces the class) and the $27/kWh value variant.
+2. Open-source tool + paid enterprise support (custom materials, HPC grids).
+3. License the validated cell IP (portfolio: $27/kWh value, 367 Wh/kg premium, 361 Wh/kg cobalt-free, 60 °C specialty).
 
 ## Risks — said out loud
 1. **Sim-to-lab gap** (mitigated by the gate; budgeted).
@@ -274,7 +274,7 @@ fn render_pitch_pl() -> String {
 _Wygenerowano {date} · battery-sim v{ver} · kontakt: [IMIĘ / E-MAIL]_
 
 ## Co to jest
-Open-source'owy symulator fizyczny ogniw (Rust; działa na laptopie; ~250 kombinacji materiałów w ~1 min na 16-rdzeniowym PC) **oraz konkretny projekt ogniwa, który wyprodukował**: bez kobaltu, odporne na abuse, **~359 Wh/kg i 543 cykli szybkiego ładowania** (plus wariant LFP za $27/kWh na rynek masowy) — i wariant nowej generacji bez kobaltu/niklu ~354 Wh/kg, po specyfikacji.
+Open-source'owy symulator fizyczny ogniw (Rust; działa na laptopie; ~250 kombinacji materiałów w ~1 min na 16-rdzeniowym PC) **plus portfolio projektów ogniw, które wyprodukował**, na czele z jednym, który da się złożyć na istniejących liniach produkcyjnych w 1–2 lata: **NMC811 + Si-C + żel — 279 Wh/kg (201 Wh/kg pakiet), 670 cykli szybkiego ładowania @2C, przeżywa test 150 °C + przeładowanie, ~$67/kWh kosztu materiałowego, moc rozładowania 5C**. W portfolio są też: wariant masowy za $27/kWh (LFP/LMFP + anode-free), wariant premium 367 Wh/kg (anode-free), wariant nowatorski 361 Wh/kg bez kobaltu/niklu (DRX + Si-C) i wariant specjalistyczny — jedyny w modelu przeżywający 60 °C (LFP + anode-free + stały elektrolit, >20 lat na półce).
 
 Budowaliśmy go, bo sami trafialiśmy na tę samą ścianę: „która z tych 200 realnych chemii faktycznie zadziała?” Laboratorium odpowiada tygodniami na jednego kandydata. My odpowiadamy w minuty.
 
@@ -309,9 +309,9 @@ Dokładność, bez owijania: gęstość energii ±~15% względem literaturowych 
 Rynek ogniw ~150 mld USD/rok (szacunek), ~25%/rok wzrostu (EV + magazyny), ~60–70% udziału Chin; zachodni producenci aktywnie ograniczają ryzyko Co/Ni. Przyczółki: pojazdy użytkowe/autobusy (szybkie ładowanie + bezpieczeństwo), drony/lotnictwo (energia), dostawcy materiałów (licencje).
 
 ## Model biznesowy
-1. Narzędzie open-source + płatne wsparcie enterprise (własne materiały, siatki HPC).
-2. Licencjonowanie IP ogniwa po walidacji.
-3. Kontraktowe screenowanie R&D dla OEM/dostawców.
+1. **Pierwszy produkt (1–2 lata, istniejące linie):** projekt ogniwa NMC811 + Si-C + żel + narzędzie do screeningu; równolegle wejście niskiego ryzyka — Na-jon (drop-in; CATL produkuje już tę klasę masowo) i wariant za $27/kWh.
+2. Narzędzie open-source + płatne wsparcie enterprise (własne materiały, siatki HPC).
+3. Licencjonowanie IP ogniwa po walidacji (portfolio: $27/kWh value, 367 Wh/kg premium, 361 Wh/kg bez kobaltu, specjalista 60 °C).
 
 ## Ryzyka — głośno
 1. **Rozjazd symulacja–lab** (mitygowany bramką; budżetowany).
