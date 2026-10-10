@@ -1,0 +1,25 @@
+[1m[92m   Compiling[0m arc3 v0.1.0 (/home/runner/work/Pokemon/Pokemon/arc-agi-3/rust)
+[1m[91merror[E0277][0m[1m: the type `[HashSet<usize>]` cannot be indexed by `&usize`[0m
+   [1m[94m--> [0msrc/grid.rs:360:40
+    [1m[94m|[0m
+[1m[94m360[0m [1m[94m|[0m             .max_by_key(|e| (enclosers[e].len(), std::cmp::Reverse(e)))
+    [1m[94m|[0m                                        [1m[91m^[0m [1m[91mslice indices are of type `usize` or ranges of `usize`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mhelp[0m: the trait `SliceIndex<[HashSet<usize>]>` is not implemented for `&usize`
+[1m[96mhelp[0m: `usize` implements trait `SliceIndex<T>`
+   [1m[94m--> [0m/rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/core/src/bstr/traits.rs:197:0
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `SliceIndex<ByteStr>`
+   [1m[94m--> [0m/rustc/b940084d7eb6a299eb4bfeb8e34901bc051e7ac4/library/core/src/slice/index.rs:179:0
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `SliceIndex<[T]>`
+    [1m[94m= [0m[1mnote[0m: required for `Vec<HashSet<usize>>` to implement `std::ops::Index<&usize>`
+[1m[96mhelp[0m: dereference this index
+    [1m[94m|[0m
+[1m[94m360[0m [1m[94m| [0m            .max_by_key(|e| (enclosers[[92m*[0me].len(), std::cmp::Reverse(e)))
+    [1m[94m|[0m                                        [92m+[0m
+
+[1mFor more information about this error, try `rustc --explain E0277`.[0m
+[1m[91merror[0m: could not compile `arc3` (lib) due to 1 previous error
+[1m[33mwarning[0m: build failed, waiting for other jobs to finish...
+[1m[91merror[0m: could not compile `arc3` (lib test) due to 1 previous error
