@@ -1,4 +1,3 @@
-# Gen4 best 0.782
 """Phase 1 rule-based agent for "The Pokemon Company - PTCG AI Battle Challenge".
 
 Design goals
