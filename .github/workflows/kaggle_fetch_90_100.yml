@@ -1,0 +1,135 @@
+name: kaggle-fetch-90-100
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/fetch_90_100.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      - name: Fetch leaderboard and filter rank 90-100
+        run: |
+          cd pokemon-agent
+          mkdir -p kaggle_results/rank90_100_live
+          kaggle competitions leaderboard show -c the-pokemon-company-ptcg-ai-battle-challenge-playground --csv > kaggle_results/rank90_100_live/leaderboard.csv 2>&1 | head -20
+          cat kaggle_results/rank90_100_live/leaderboard.csv | head -20
+          python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open("kaggle_results/rank90_100_live/leaderboard.csv", encoding="utf-8-sig")))
+          print(f"Total {len(rows)}")
+          selected=[r for r in rows if 90 <= int(r.get("Rank",0)) <= 100]
+          print(f"Selected 90-100: {len(selected)}")
+          for r in selected:
+              print(f"{r['Rank']} {r['TeamId']} {r['TeamName']} {r['Score']}")
+          # Save manifest
+          import pathlib
+          pathlib.Path("kaggle_results/rank90_100_live/manifest.csv").write_text(open("kaggle_results/rank90_100_live/leaderboard.csv").read())
+          PY
+
+      - name: Fetch replays for rank 90-100 using old working script logic
+        run: |
+          cd pokemon-agent
+          # Use download_top10_replays.py but with custom team ids from manifest
+          # We'll extract TeamIds for rank 90-100 and download 3 replays each (to be faster)
+          python3 - <<'PY'
+          import csv, subprocess, os, sys, time, io, json
+          from pathlib import Path
+
+          def sh(args):
+              env=dict(os.environ)
+              env.setdefault("KAGGLE_QUIET","1")
+              p=subprocess.run(args, capture_output=True, text=True, env=env)
+              return p.returncode, p.stdout, p.stderr
+
+          def kaggle(args):
+              rc,out,err=sh([sys.executable, "-m", "kaggle"]+args)
+              if rc==0:
+                  return rc,out,err
+              return sh(["kaggle"]+args)
+
+          outdir=Path("kaggle_results/rank90_100_live")
+          rows=list(csv.DictReader(open(outdir / "leaderboard.csv", encoding="utf-8-sig")))
+          selected=[r for r in rows if 90 <= int(r.get("Rank",0)) <= 100]
+          print(f"Downloading for {len(selected)} teams")
+
+          for team_row in selected[:5]:  # limit to 5 teams for speed
+              team_id=team_row.get("TeamId")
+              team_name=team_row.get("TeamName")
+              rank=team_row.get("Rank")
+              print(f"\n=== Rank {rank} {team_name} Id {team_id} ===")
+              rc,out,err=kaggle(["competitions","team-submissions","-c","the-pokemon-company-ptcg-ai-battle-challenge-playground","--team-id",str(team_id)])
+              if rc!=0:
+                  print(f"  team-submissions failed: {err[:300]}")
+                  time.sleep(0.5)
+                  continue
+              try:
+                  sub_rows=list(csv.DictReader(io.StringIO(out)))
+              except Exception as e:
+                  print(f"  Parse failed: {e}")
+                  continue
+              if not sub_rows:
+                  print(f"  No submissions")
+                  continue
+              sub_rows=sorted(sub_rows, key=lambda x: x.get("date",""), reverse=True)
+              for sub in sub_rows[:1]:
+                  sub_ref=sub.get("ref")
+                  print(f"  Sub {sub_ref}")
+                  rc2,out2,err2=kaggle(["competitions","episodes","-c","the-pokemon-company-ptcg-ai-battle-challenge-playground","--submission-id",str(sub_ref)])
+                  if rc2!=0:
+                      print(f"    episodes failed: {err2[:300]}")
+                      continue
+                  try:
+                      ep_rows=list(csv.DictReader(io.StringIO(out2)))
+                  except:
+                      print(f"    Parse episodes failed")
+                      continue
+                  ep_rows=sorted(ep_rows, key=lambda x: x.get("id",""), reverse=True)
+                  for ep in ep_rows[:3]:  # 3 replays per team
+                      ep_id=ep.get("id")
+                      print(f"    Episode {ep_id}")
+                      rc3,out3,err3=kaggle(["competitions","episode-replay","-c","the-pokemon-company-ptcg-ai-battle-challenge-playground","--episode-id",str(ep_id)])
+                      if rc3==0 and out3.strip().startswith("{"):
+                          (outdir / f"episode-{ep_id}-replay.json").write_text(out3, encoding="utf-8")
+                          print(f"      Saved {len(out3)} bytes")
+                      else:
+                          print(f"      Failed: {err3[:200]}")
+                      time.sleep(0.3)
+                  time.sleep(0.5)
+          PY
+          ls -lh kaggle_results/rank90_100_live/ | tail -20
+
+      - name: Commit
+        run: |
+          git config user.name "arena-bot"
+          git config user.email "arena@bot.local"
+          git add pokemon-agent/kaggle_results/rank90_100_live/ || true
+          git commit -m "chore(kaggle): rank90-100 live replays [skip ci]" || echo "nothing"
+          git push origin ${{ github.ref_name }} || echo "push failed"
