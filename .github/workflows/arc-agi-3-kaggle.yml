@@ -152,6 +152,42 @@ jobs:
           kaggle competitions download -c "$COMP" -p "$OUTDIR/data" 2>&1 | tail -5 || true
           ls -lh "$OUTDIR/data" || true
 
+      - name: Publish as run annotations (readable via `gh run view`)
+        run: |
+          # Workflow commands become ANNOTATIONS, which the agent CAN read with
+          # `gh run view <run-id>` -- no log host, no artifact, no git round-trip.
+          python3 - "$OUTDIR" <<'PYEOF'
+          import csv, io, os, sys
+          d = sys.argv[1]
+
+          def emit(title, body):
+              body = body.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+              title = title.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+              print(f"::notice title={title}::{body}")
+
+          def rows(path):
+              try:
+                  lines = open(path).read().splitlines()
+              except OSError:
+                  return []
+              h = [i for i, l in enumerate(lines) if l.startswith('teamId')]
+              if not h:
+                  return []
+              return [r for r in csv.DictReader(lines[h[0]:]) if r.get('teamId')]
+
+          lb = rows(os.path.join(d, 'public_leaderboard.csv'))
+          if lb:
+              top = lb[:8]
+              body = "\n".join(f"{i+1}. {r['teamName']}  {float(r['score']):.2f}" for i, r in enumerate(top))
+              n = len(lb)
+              if n >= 5:
+                  body += f"\n\nprog nagrody (top5) = {float(lb[4]['score']):.2f}"
+              emit(f"ARC-AGI-3 public LB (top {len(top)})", body)
+
+          subs = rows(os.path.join(d, 'submissions.csv'))
+          emit("Nasze zgloszenia", f"{len(subs)} zgloszen" if subs else "brak zgloszen")
+          PYEOF
+
       - name: Summarise
         run: |
           {
