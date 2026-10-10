@@ -366,6 +366,58 @@ def _component_representatives(component: Component) -> tuple[Coordinate, ...]:
     return tuple(unique)
 
 
+def component_centroid(component: Component) -> tuple[float, float]:
+    """Area-weighted-free centre of a component, used only for matching."""
+    cells = component.cells
+    return (
+        sum(x for x, _ in cells) / len(cells),
+        sum(y for _, y in cells) / len(cells),
+    )
+
+
+def moving_component_cells(
+    previous: tuple[Component, ...],
+    current: tuple[Component, ...],
+    *,
+    min_shift: float = 1.5,
+    size_slack: int = 2,
+) -> frozenset[Coordinate]:
+    """Cells of components that translated or appeared since the last frame.
+
+    Colour statistics cannot separate an interactive object from static decor:
+    both are just "a small patch of a rare colour". Motion can. In these games
+    the things worth clicking are overwhelmingly the things that moved, so this
+    is the strongest perception signal available without a model.
+
+    Returns an empty set when there is no reference frame -- guessing on the
+    first observation would just add noise.
+    """
+    if not previous or not current:
+        return frozenset()
+
+    by_color: dict[int, list[Component]] = {}
+    for comp in previous:
+        by_color.setdefault(comp.color, []).append(comp)
+
+    out: set[Coordinate] = set()
+    for comp in current:
+        cx, cy = component_centroid(comp)
+        tolerance = max(size_slack, len(comp.cells) // 2)
+        best: float | None = None
+        for prev in by_color.get(comp.color, ()):
+            if abs(len(prev.cells) - len(comp.cells)) > tolerance:
+                continue
+            px, py = component_centroid(prev)
+            dist = ((cx - px) ** 2 + (cy - py) ** 2) ** 0.5
+            if best is None or dist < best:
+                best = dist
+        # No comparable predecessor means it appeared; a shifted centroid means
+        # it moved. Either way it deserves attention before static decor.
+        if best is None or best > min_shift:
+            out.update(comp.cells)
+    return frozenset(out)
+
+
 def _fallback_clicks(width: int, height: int) -> tuple[Coordinate, ...]:
     """A deterministic 4×4 lattice used only when perception has no target."""
     if width <= 0 or height <= 0:
@@ -388,12 +440,19 @@ def rank_click_targets(
     snapshot: Snapshot,
     changed: set[Coordinate] | None = None,
     excluded: set[Coordinate] | frozenset[Coordinate] | None = None,
+    motion: frozenset[Coordinate] | set[Coordinate] = frozenset(),
+    dead: frozenset[Coordinate] | set[Coordinate] = frozenset(),
 ) -> tuple[tuple[int, Coordinate, dict[str, Any]], ...]:
-    """Rank likely clickable pixels using rarity, component size, and change.
+    """Rank likely clickable pixels using motion, rarity, size and change.
 
     It intentionally does not assume a colour palette or a game's mechanics.
     A small non-background component is a better first probe than a uniformly
-    random coordinate, while a coordinate that recently changed gains a bonus.
+    random coordinate. Two perception signals outrank colour statistics:
+
+    * ``motion`` -- cells of components that moved or appeared since the last
+      frame. Motion is the cheapest available proxy for "this is interactive".
+    * ``dead``   -- targets clicked repeatedly with no observable effect, which
+      are demoted so the agent stops re-probing known-inert decor.
     """
     grid = primary_grid(snapshot.planes)
     width, height = grid_shape(grid)
@@ -421,13 +480,21 @@ def rank_click_targets(
         for x, y in _component_representatives(component):
             if (x, y) in excluded:
                 continue
-            score = base_score + (1000 if (x, y) in changed else 0)
+            score = base_score
+            if (x, y) in changed:
+                score += 1000
+            if (x, y) in motion:
+                score += MOTION_BONUS
+            if (x, y) in dead:
+                score -= DEAD_CLICK_PENALTY
             reason = {
-                "policy": "novelty-explorer-v5",
+                "policy": "novelty-explorer-v6",
                 "kind": "salient-component",
                 "color": component.color,
                 "component_size": component_size,
                 "recent_change": (x, y) in changed,
+                "moving": (x, y) in motion,
+                "known_dead": (x, y) in dead,
             }
             old = candidates.get((x, y))
             if old is None or score > old[0]:
@@ -439,14 +506,20 @@ def rank_click_targets(
         score = 120 - rank
         if point in changed:
             score += 1000
+        if point in motion:
+            score += MOTION_BONUS
+        if point in dead:
+            score -= DEAD_CLICK_PENALTY
         candidates.setdefault(
             point,
             (
                 score,
                 {
-                    "policy": "novelty-explorer-v5",
+                    "policy": "novelty-explorer-v6",
                     "kind": "lattice-fallback",
                     "recent_change": point in changed,
+                    "moving": point in motion,
+                    "known_dead": point in dead,
                 },
             ),
         )
@@ -458,6 +531,14 @@ def rank_click_targets(
     ]
     ordered.sort(key=lambda item: (-item[0], item[1][1], item[1][0]))
     return tuple(ordered)
+
+# Perception weights. Motion outranks colour rarity because a moving object is
+# interactive far more often than a merely rare colour is. The dead-click
+# penalty only has to break ties, not forbid: an inert target in one state can
+# be live in another.
+MOTION_BONUS = 1800
+DEAD_CLICK_PENALTY = 1500
+DEAD_CLICK_MIN_ATTEMPTS = 3
 
 TILE_SIZE = 5
 # Canonical control semantics used by ARC's directional protocol.  The order is
@@ -1004,6 +1085,10 @@ class TileMazeNavigator:
         # later levels, and the whole policy is one game instance anyway.
         self._terminal_landing_counts: dict[tuple[int, Coordinate], int] = {}
         self._visited: set[Coordinate] = set()
+        # Porażki punktów orientacyjnych przeżywają reset: to jedyny sygnał,
+        # który przełamuje oscylację, bo `_visited` jest czyszczone przy każdym
+        # powrocie do tego samego stanu.
+        self._landmark_failures: Counter[Coordinate] = Counter()
         self._active: tuple[Coordinate, frozenset[Coordinate]] | None = None
         self._last_avatar: Coordinate | None = None
         self._last_action: str | None = None
@@ -1154,6 +1239,10 @@ class TileMazeNavigator:
         self._used_resources.clear()
         self._route_deferred_resources.clear()
         self._meter_deferred_resources.clear()
+
+    def landmark_failure_total(self) -> int:
+        """How many committed landmark trips produced no level progress."""
+        return sum(self._landmark_failures.values())
 
     def _relation_is_live(self, view: TileMazeView) -> bool:
         """Whether the selected token relation still appears at its live tiles."""
@@ -1924,6 +2013,10 @@ class TileMazeNavigator:
         # counts as reached: accepting any halo tile prematurely abandons the
         # final move into an enterable target.
         if self._active is not None and view.avatar == self._active[0]:
+            # Jeśli dotarliśmy, a poziom się nie zmienił, to była to ślepa
+            # wyprawa. reset() czyści _visited, więc bez tego licznika agent
+            # wybierze ten sam punkt ponownie i wpadnie w cykl.
+            self._landmark_failures[self._active[0]] += 1
             self._visited.add(self._active[0])
             self._active = None
 
@@ -1948,6 +2041,8 @@ class TileMazeNavigator:
                     is not None
                 ):
                     self._token_evidence["terminal-landing-diverted"] += 1
+                if self._active is not None:
+                    self._landmark_failures[self._active[0]] += 1
                 self._active = None
 
         if self._active is None:
@@ -1978,6 +2073,7 @@ class TileMazeNavigator:
                     continue
                 candidates.append(
                     (
+                        min(3, self._landmark_failures[representative]),
                         len(candidate_path),
                         abs(view.avatar[0] - representative[0]) + abs(view.avatar[1] - representative[1]),
                         representative[1],
@@ -1989,7 +2085,7 @@ class TileMazeNavigator:
             if not candidates:
                 self._record_maze_action(view, None)
                 return None
-            _, _, _, representative, cells, path = min(candidates)
+            _, _, _, _, representative, cells, path = min(candidates)
             self._active = (representative, cells)
 
         if not path:
@@ -2069,6 +2165,14 @@ class ExplorerPolicy:
         # Diagnostyka grafu: czy w ogole rozpoznajemy powracajace stany.
         self._observations = 0
         self._frontier_resets = 0
+        # Percepcja: poprzednia klatka do wykrycia ruchu oraz historia
+        # klikniec, ktore nic nie daly.
+        self._previous_components: tuple[Component, ...] = ()
+        self._click_outcomes: dict[Coordinate, list[int]] = defaultdict(
+            lambda: [0, 0]
+        )  # [attempts, changed]
+        self._motion_observations = 0
+        self._motion_cells_seen = 0
 
     def diagnostics(self) -> dict[str, dict[str, int]]:
         """Return compact, serializable aggregate evidence for a replay."""
@@ -2082,6 +2186,35 @@ class ExplorerPolicy:
             }
             for action, stats in sorted(self._global_stats.items())
         }
+
+    def _observe_motion(
+        self, snapshot: Snapshot, excluded: frozenset[Coordinate]
+    ) -> frozenset[Coordinate]:
+        """Track which components moved or appeared since the previous frame.
+
+        The HUD band is stripped first so a progress strip animating on the
+        edge cannot masquerade as world motion.
+        """
+        grid = primary_grid(snapshot.planes)
+        masked = tuple(
+            tuple(-1 if (x, y) in excluded else cell for x, cell in enumerate(row))
+            for y, row in enumerate(grid)
+        )
+        components = connected_components(masked)
+        motion = moving_component_cells(self._previous_components, components)
+        self._previous_components = components
+        if motion:
+            self._motion_observations += 1
+            self._motion_cells_seen += len(motion)
+        return motion
+
+    def _dead_clicks(self) -> frozenset[Coordinate]:
+        """Targets clicked repeatedly with no observable effect."""
+        return frozenset(
+            point
+            for point, (attempts, changed) in self._click_outcomes.items()
+            if attempts >= DEAD_CLICK_MIN_ATTEMPTS and changed == 0
+        )
 
     def graph_evidence(self) -> dict[str, int]:
         """Expose state-graph health without any frame data.
@@ -2099,6 +2232,10 @@ class ExplorerPolicy:
             "graph_edges": len(self._edges),
             "state_action_pairs": len(self._state_stats),
             "frontier_resets": self._frontier_resets,
+            "motion_frames": self._motion_observations,
+            "landmark_failures": self._tile_maze.landmark_failure_total(),
+            "dead_clicks": len(self._dead_clicks()),
+            "tracked_clicks": len(self._click_outcomes),
         }
 
     def transition_trace(self, limit: int = 80) -> list[dict[str, Any]]:
@@ -2183,6 +2320,10 @@ class ExplorerPolicy:
             game_over=transition.game_over,
             revisit=transition.revisit,
         )
+        if self._pending.name == COMPLEX_ACTION and self._pending.x is not None:
+            outcome = self._click_outcomes[(self._pending.x, self._pending.y)]
+            outcome[0] += 1
+            outcome[1] += int(transition.changed or transition.level_gain > 0)
         edge = self._edges.setdefault(
             (self._previous_signature, self._pending.key),
             GraphEdge(proposal=self._pending),
@@ -2231,6 +2372,7 @@ class ExplorerPolicy:
         snapshot: Snapshot,
         changed: set[Coordinate],
         excluded: frozenset[Coordinate],
+        motion: frozenset[Coordinate] = frozenset(),
     ) -> tuple[ActionProposal, ...]:
         """Build a deterministic, finite action frontier for a new node."""
         valid = tuple(action for action in snapshot.available_actions if action != RESET)
@@ -2249,7 +2391,10 @@ class ExplorerPolicy:
             candidates.append((600 + self._simple_priority(action), 1, action, proposal))
 
         if COMPLEX_ACTION in valid:
-            for salience, (x, y), reason in rank_click_targets(snapshot, changed, excluded):
+            dead = self._dead_clicks()
+            for salience, (x, y), reason in rank_click_targets(
+                snapshot, changed, excluded, motion=motion, dead=dead
+            ):
                 proposal = ActionProposal(
                     name=COMPLEX_ACTION,
                     x=x,
@@ -2283,6 +2428,7 @@ class ExplorerPolicy:
         signature: str,
         changed: set[Coordinate],
         excluded: frozenset[Coordinate],
+        motion: frozenset[Coordinate] = frozenset(),
     ) -> StateNode:
         """Get a graph node, prioritising a validated inverse on discovery.
 
@@ -2296,7 +2442,7 @@ class ExplorerPolicy:
         if node is not None:
             return node
 
-        actions = list(self._candidate_actions(snapshot, changed, excluded))
+        actions = list(self._candidate_actions(snapshot, changed, excluded, motion))
         parent = self._nodes.get(self._previous_signature or "")
         incoming = self._pending
         transition = self._last_transition
@@ -2407,7 +2553,8 @@ class ExplorerPolicy:
             self._remember(snapshot, signature, excluded, proposal)
             return proposal
 
-        self._node(snapshot, signature, changed, excluded)
+        motion = self._observe_motion(snapshot, excluded)
+        self._node(snapshot, signature, changed, excluded, motion)
         proposal = self._tile_maze.choose(snapshot)
         if proposal is None:
             proposal = self._scheduled_frontier(signature)
