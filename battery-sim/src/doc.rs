@@ -181,3 +181,132 @@ fn render_en(rows: &[OurRow]) -> String {
     s.push_str("6. With validation data: talk to cell makers / material suppliers / OEMs; funding: NCBR, PARP, EIC Accelerator, Horizon Europe.\n");
     s
 }
+
+/// Raport inwestorski (one-pager EN/PL) — konkretny, z liczbami i ryzykami.
+pub fn write_pitch(path: &str, lang: &str) -> io::Result<usize> {
+    let md = if lang == "en" {
+        render_pitch_en()
+    } else {
+        render_pitch_pl()
+    };
+    fs::write(path, &md)?;
+    Ok(md.lines().count())
+}
+
+fn render_pitch_en() -> String {
+    format!(
+        r##"# battery-sim — investor one-pager
+_Generated {date} · battery-sim v{ver} · contact: [YOUR NAME / EMAIL]_
+
+## What this is
+An open-source physics simulator for battery cells (Rust; runs on a laptop; screens ~250 real material combinations in about a minute on a 16-core PC) **plus a specific cell design it produced**: cobalt-free, abuse-safe, ~280 Wh/kg with 670 fast-charge cycles — and a next-gen variant at ~430 Wh/kg that is ~90% of the way to spec.
+
+We built it because we kept hitting the same wall: "which of these 200 real chemistries would actually work?" A lab answers that in weeks per candidate. We answer it in minutes.
+
+## The problem, in numbers
+Today's EV cells make you pick two of {{energy, safety, cost}}:
+- LFP (BYD Blade): safe + cheap, **160 Wh/kg** — the energy tax.
+- NMC (CATL Qilin): **255 Wh/kg pack**, liquid flammable electrolyte, cobalt + nickel supply risk.
+- Semi-solid (WeLion/NIO): **360 Wh/kg cell**, in production since 2024 — but cost and cycle life unproven.
+
+Our screen of 250 combinations found cells that get all three at once: **279 Wh/kg (201 Wh/kg pack), 670 cycles @2C, passes 150 °C oven + overcharge abuse, ~$67/kWh material cost** (NMC811 + Si-C + gel electrolyte).
+
+## Why now
+1. The materials exist and are procurable today (NMC811 cathodes; Si-C anodes from Sila/Amprius-class suppliers; gel electrolytes from WeLion/CATL-class lines).
+2. The bottleneck is iteration speed: one lab design cycle takes weeks; our screen takes seconds and is reproducible (CI, CSV, public repo).
+3. Cobalt/nickel supply concentration (DRC, Indonesia) is a board-level risk for every OEM — a cobalt-free, high-energy cell sits exactly on that agenda.
+
+## Honest status
+We have: a calibrated simulator, ~600 simulations run, two concrete cell candidates, public reproducible results.
+We do not have: physical cells. This is a simulation-stage asset, and we present it as one.
+
+Accuracy, stated plainly: energy density within ~±15% of cell-level literature; cycle life within ~2x (direction right, absolute value needs lab confirmation); abuse survival matches known commercial outcomes (graphite + liquid = fire risk; LFP/LTO = safe; Si-C enables fast charge). It is a screening tool, not a lab.
+
+## Plan — 12 months, €150k
+- **Months 1–3** — coin cells for the 2 candidates (materials + cycling tests): ~€40k
+- **Months 4–9** — pouch cells + independent abuse testing (TÜV / UL 9540A / GB 38031-2025): ~€60k
+- **Months 9–12** — pilot-line engagement, OEM/supplier LOIs, freedom-to-operate review: ~€50k
+**Gate:** if coin cells confirm ≥80% of modeled cycle life at 2C → proceed. If not → re-calibrate and re-screen (the tool makes that cheap).
+
+## Market
+~$150B/yr cell market (est.), ~25%/yr growth (EV + grid storage), ~60–70% China share; Western OEMs actively de-risking Co/Ni. Beachheads: commercial vehicles/buses (fast charge + safety), drones/aviation (energy), materials suppliers (licensing).
+
+## Business model
+1. Open-source tool + paid enterprise support (custom materials, HPC grids).
+2. License the validated cell IP.
+3. Contract screening R&D for OEMs/suppliers.
+
+## Risks — said out loud
+1. **Sim-to-lab gap** (mitigated by the gate; budgeted).
+2. **Crowded IP**: Si-C + gel/solid electrolytes are heavily patented (CATL, WeLion, StoreDot, QuantumScape). FTO review is in the budget, before any public claims.
+3. **DRX variant** is ~10–20% short of the 500-cycle bar in the model; the fix is identified (cathode fade → F-doping/coating) but unproven.
+4. **Team**: small; first hire is a cell engineer.
+
+## The ask
+€150k for the 12-month validation plan (convertible note or non-dilutive: NCBR / PARP / EIC Accelerator).
+
+Repo (public, reproducible): https://github.com/peteraangelic-pixel/Pokemon/tree/arena/d1882c0f-pokemon
+"##,
+        date = today(),
+        ver = env!("CARGO_PKG_VERSION")
+    )
+}
+
+fn render_pitch_pl() -> String {
+    format!(
+        r##"# battery-sim — one-pager dla inwestora
+_Wygenerowano {date} · battery-sim v{ver} · kontakt: [IMIĘ / E-MAIL]_
+
+## Co to jest
+Open-source'owy symulator fizyczny ogniw (Rust; działa na laptopie; ~250 kombinacji materiałów w ~1 min na 16-rdzeniowym PC) **oraz konkretny projekt ogniwa, który wyprodukował**: bez kobaltu, odporne na abuse, ~280 Wh/kg i 670 cykli szybkiego ładowania — plus wariant nowej generacji ~430 Wh/kg, na ~90% specyfikacji.
+
+Budowaliśmy go, bo sami trafialiśmy na tę samą ścianę: „która z tych 200 realnych chemii faktycznie zadziała?” Laboratorium odpowiada tygodniami na jednego kandydata. My odpowiadamy w minuty.
+
+## Problem w liczbach
+Dziś ogniwa do EV każą wybierać dwa z trzech: {{energia, bezpieczeństwo, koszt}}.
+- LFP (BYD Blade): bezpieczne + tanie, **160 Wh/kg** — podatek energetyczny.
+- NMC (CATL Qilin): **255 Wh/kg pakiet**, palny ciekły elektrolit, ryzyko dostaw kobaltu/niklu.
+- Półstałe (WeLion/NIO): **360 Wh/kg ogniwo**, produkcja od 2024 — ale koszt i żywotność nieudowodnione.
+
+Nasz screen 250 kombinacji znalazł ogniwa, które mają wszystkie trzy naraz: **279 Wh/kg (201 Wh/kg pakiet), 670 cykli @2C, przechodzi test 150 °C + przeładowanie, ~$67/kWh kosztu materiałowego** (NMC811 + Si-C + elektrolit żelowy).
+
+## Dlaczego teraz
+1. Materiały istnieją i są kupowalne dziś (katody NMC811; anody Si-C klasy Sila/Amprius; elektrolity żelowe klasy WeLion/CATL).
+2. Wąskim gardłem jest szybkość iteracji: jeden cykl projektowy w labie = tygodnie; nasz screen = sekundy, wyniki reprodukowalne (CI, CSV, publiczne repo).
+3. Koncentracja dostaw kobaltu/niklu (DRC, Indonezja) to dziś temat zarządów — ogniwo wysokoenergetyczne bez kobaltu leży dokładnie w tym trendzie.
+
+## Uczciwy status
+Mamy: skalibrowany symulator, ~600 symulacji, dwóch konkretnych kandydatów, publiczne reprodukowalne wyniki.
+Nie mamy: fizycznych ogniw. To aktywo na etapie symulacji — i tak to przedstawiamy.
+
+Dokładność, bez owijania: gęstość energii ±~15% względem literaturowych ogniw; żywotność cykliczna w granicach ~2× (kierunek dobry, wartość bezwzględna do potwierdzenia w labie); przeżycie abuse zgadza się ze znanymi wynikami komercyjnymi (grafit+ciecz = ryzyko pożaru; LFP/LTO = bezpieczne; Si-C umożliwia szybkie ładowanie). To narzędzie selekcji, nie zamiennik laboratorium.
+
+## Plan — 12 miesięcy, 150 tys. EUR
+- **M1–3** — coin cells dla 2 kandydatów (materiały + testy cykliczne): ~40 tys. EUR
+- **M4–9** — pouch cells + niezależne testy abuse (TÜV / UL 9540A / GB 38031-2025): ~60 tys. EUR
+- **M9–12** — linia pilotażowa, LOI od OEM/dostawców, przegląd patentowy (FTO): ~50 tys. EUR
+**Bramka (gate):** jeśli coin cells potwierdzą ≥80% modelowanej żywotności przy 2C → kontynuujemy; jeśli nie → rekalibracja i ponowny screen (narzędzie robi to tanio).
+
+## Rynek
+Rynek ogniw ~150 mld USD/rok (szacunek), ~25%/rok wzrostu (EV + magazyny), ~60–70% udziału Chin; zachodni producenci aktywnie ograniczają ryzyko Co/Ni. Przyczółki: pojazdy użytkowe/autobusy (szybkie ładowanie + bezpieczeństwo), drony/lotnictwo (energia), dostawcy materiałów (licencje).
+
+## Model biznesowy
+1. Narzędzie open-source + płatne wsparcie enterprise (własne materiały, siatki HPC).
+2. Licencjonowanie IP ogniwa po walidacji.
+3. Kontraktowe screenowanie R&D dla OEM/dostawców.
+
+## Ryzyka — głośno
+1. **Rozjazd symulacja–lab** (mitygowany bramką; budżetowany).
+2. **Tłok patentowy**: Si-C + żel/stałe elektrolity są gęsto opatentowane (CATL, WeLion, StoreDot, QuantumScape). Przegląd FTO w budżecie, przed jakimikolwiek publicznymi deklaracjami.
+3. **Wariant DRX** jest w modelu ~10–20% poniżej progu 500 cykli; lekarstwo zidentyfikowane (degradacja katody → domieszkowanie F/powłoka), ale nieudowodnione.
+4. **Zespół**: mały; pierwszym zatrudnionym jest inżynier ogniw.
+
+## Asks
+150 tys. EUR na 12-miesięczny plan walidacji (nota konwertybilna albo niedźwigarowe: NCBR / PARP / EIC Accelerator).
+
+Repo (publiczne, reprodukowalne): https://github.com/peteraangelic-pixel/Pokemon/tree/arena/d1882c0f-pokemon
+"##,
+        date = today(),
+        ver = env!("CARGO_PKG_VERSION")
+    )
+}

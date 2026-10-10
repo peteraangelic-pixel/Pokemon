@@ -47,12 +47,22 @@ cargo run --release -- cell --cathode NMC811 --anode SIC --electrolyte SOLID --c
 cargo run --release -- list           # baza materiałów (+ koszt USD/kg)
 cargo run --release -- benchmark      # nasi kandydaci kontra rynek
 cargo run --release -- report --lang en --out report.md   # raport po angielsku
+cargo run --release -- pitch --lang en --out pitch.md     # one-pager dla inwestora (EN)
 ```
 
 Bez rayona (czysty `std`, własny pool wątków — przydaje się bez sieci):
 
 ```bash
 cargo run --release --no-default-features -- sweep
+```
+
+W środowisku bez rustup/crates.io (piaskownica, PC odcięty od sieci) — toolchain
+z PyPI + vendoring zależności z GitHub w jednym skrypcie:
+
+```bash
+bash tools/setup-offline-toolchain.sh ~/battery-sim-offline
+export PATH="$HOME/battery-sim-offline/rust-toolchain/prefix/bin:$PATH" CARGO_HOME="$HOME/battery-sim-offline/cargo-home"
+cargo build --release --offline
 ```
 
 ### przydatne opcje sweepu
@@ -182,6 +192,15 @@ cargo run --release -- sweep \
 kryteria, metodyka, kandydaci (tabela), porównanie z rynkiem, wnioski,
 ograniczenia modelu i ścieżka walidacji. PL domyślnie (`raport.md`), EN przez
 `--lang en` (`report.md`). W CI raporty są artefaktami do pobrania.
+
+Dla inwestorów jest osobny **one-pager** (`pitch`, EN domyślnie, `--lang pl` po polsku):
+konkretne liczby, uczciwy status (etap symulacji), plan 12-miesięczny z bramką
+(milestone gate), ryzyka wypisane głośno i „ask” — bez lania wody:
+
+```bash
+cargo run --release -- pitch --lang en --out pitch.md
+cargo run --release -- pitch --lang pl --out pitch-pl.md
+```
 
 ## Prezentowanie wyników — ścieżka walidacji
 

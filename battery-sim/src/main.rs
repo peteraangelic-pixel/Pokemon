@@ -536,6 +536,7 @@ Polecenia:
   baseline    pokaz ogniwo bazowe i kryteria
   benchmark   nasi kandydaci kontra ogniwa komercyjne (tabele)
   report      raport Markdown PL/EN (--lang pl|en --out plik.md)
+  pitch       raport inwestorski, one-pager EN/PL (--lang en|pl --out plik.md)
   help        ta pomoc
 
 Opcje (cell):
@@ -578,6 +579,21 @@ fn run_report(cli: &Cli, cp: &CellParams, sp: &SimParams) {
     }
 }
 
+fn run_pitch(cli: &Cli) {
+    let lang = cli.get("--lang").unwrap_or("en").to_lowercase();
+    let lang = if lang.starts_with("pl") { "pl" } else { "en" };
+    let def_out = if lang == "en" {
+        "pitch.md"
+    } else {
+        "pitch-pl.md"
+    };
+    let out = cli.get("--out").unwrap_or(def_out);
+    match doc::write_pitch(out, lang) {
+        Ok(n) => println!("Pitch ({lang}) zapisany: {out} ({n} linii)"),
+        Err(e) => eprintln!("Blad zapisu pitchu: {e}"),
+    }
+}
+
 fn main() {
     let cli = parse_cli();
     let cp = CellParams::default();
@@ -590,6 +606,7 @@ fn main() {
         "baseline" => run_baseline(&cp),
         "benchmark" => benchmark::print_benchmark(&cp, &sp),
         "report" => run_report(&cli, &cp, &sp),
+        "pitch" => run_pitch(&cli),
         "help" | "--help" | "-h" => print_help(),
         other => {
             eprintln!("Nieznane polecenie: {other}");
