@@ -1,0 +1,29 @@
+name: rust-build
+
+on:
+  push:
+    branches: [arena/c87f7a48-pokemon]
+    paths:
+      - "pokemon-agent/rust/**"
+      - ".github/workflows/rust-build.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build rust_gauntlet
+        run: |
+          cd pokemon-agent/rust
+          cargo build --release
+          ls -lh target/release/rust_gauntlet
+          ./target/release/rust_gauntlet --help
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust_gauntlet
+          path: pokemon-agent/rust/target/release/rust_gauntlet
