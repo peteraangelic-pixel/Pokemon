@@ -1,14 +1,14 @@
 # Kaggle results — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-09T10:49:44+00:00_
+_fetched 2026-10-10T00:37:01+00:00_
 
 ## Our leaderboard row
 
-- **score (μ): 462.0**
-  - Rank: 192
+- **score (μ): 375.0**
+  - Rank: 224
   - TeamId: 17063582
   - TeamName: Lauresowe 3D
-  - LastSubmissionDate: 2026-10-09 10:37:37
+  - LastSubmissionDate: 2026-10-09 23:54:51
   - SubmissionCount: 2
   - TeamMemberUserNames: lauresowe3d
 
@@ -16,9 +16,10 @@ _fetched 2026-10-09T10:49:44+00:00_
 
 | file | status | score | date |
 |---|---|---|---|
-| `phase1_heuristic (2).tar.gz` | SubmissionStatus.COMPLETE | 462.0 | 2026-10-09 10:37:37.757000 |
+| `phase1_tuned_75.tar.gz` | SubmissionStatus.COMPLETE | 375.0 | 2026-10-09 23:54:51.533000 |
+| `phase1_heuristic (2).tar.gz` | SubmissionStatus.COMPLETE | 356.7 | 2026-10-09 10:37:37.757000 |
 | `phase1_heuristic (1).tar.gz` | SubmissionStatus.ERROR |  | 2026-10-09 10:01:48.463000 |
-| `phase0_random (1).tar.gz` | SubmissionStatus.COMPLETE | 74.5 | 2026-10-09 10:01:38.317000 |
+| `phase0_random (1).tar.gz` | SubmissionStatus.COMPLETE | 85.4 | 2026-10-09 10:01:38.317000 |
 | `phase1_heuristic.tar.gz` | SubmissionStatus.ERROR |  | 2026-10-09 00:00:25.220000 |
 | `phase0_random.tar.gz` | SubmissionStatus.ERROR |  | 2026-10-09 00:00:14.997000 |
 | `main_heuristic.py` | SubmissionStatus.ERROR |  | 2026-10-08 22:11:32.857000 |
@@ -26,31 +27,31 @@ _fetched 2026-10-09T10:49:44+00:00_
 
 ## Field context
 
-271 teams; best 1210.3, median 640.9, worst -28.1
+283 teams; best 1221.7, median 643.2, worst -48.2
 
 | target | score needed |
 |---|---|
-| top 1 % (place 2) | 1190.8 |
-| top 5 % (place 13) | 1053.4 |
-| top 10 % (place 27) | 959.5 |
-| top 25 % (place 67) | 833.3 |
-| top 50 % (place 135) | 643.3 |
+| top 1 % (place 2) | 1183.6 |
+| top 5 % (place 14) | 1051.1 |
+| top 10 % (place 28) | 960.4 |
+| top 25 % (place 70) | 824.0 |
+| top 50 % (place 141) | 650.6 |
 
-- our latest submission: **462.0** ~ place 192/271 (top 71 %)
-- our leaderboard row: **462.0** ~ place 192/271 (top 71 %)
+- our latest submission: **375.0** ~ place 224/283 (top 79 %)
+- our leaderboard row: **375.0** ~ place 224/283 (top 79 %)
 
 ## Leaderboard top 10
 
 | Rank | TeamId | TeamName | LastSubmissionDate | Score | SubmissionCount | TeamMemberUserNames |
 |---|---|---|---|---|---|---|
-| 1 | 17012386 | YumeNeko | 2026-10-07 16:21:14 | 1210.3 | 2 | kashiwaba |
-| 2 | 16994149 | バーベナヘレナでコンボ決めたい連合 | 2026-10-09 07:52:36 | 1190.8 | 2 | nadyresearcher |
-| 3 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-06 14:26:05 | 1169.1 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
-| 4 | 16981890 | Stephen Schott | 2026-10-08 05:23:25 | 1155.1 | 2 | steve421471 |
-| 5 | 16991525 | Kentaro Totsuka | 2026-10-09 05:24:58 | 1152.8 | 2 | kotarot1 |
-| 6 | 17044570 | Colton Martin | 2026-10-08 19:34:12 | 1129.3 | 2 | coltonmartinnn |
-| 7 | 17058599 | Zedan Soorya | 2026-10-09 04:23:34 | 1115.8 | 2 | zedansoorya |
-| 8 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-07 19:13:26 | 1085.7 | 2 | busyaprime |
-| 9 | 17029072 | dajun666 | 2026-10-08 07:23:32 | 1069.1 | 2 | iamdajun666 |
-| 10 | 16994281 | JerryChen | 2026-10-08 12:06:22 | 1062.5 | 2 | horse602 |
+| 1 | 17012386 | YumeNeko | 2026-10-07 16:21:14 | 1221.7 | 2 | kashiwaba |
+| 2 | 16994149 | バーベナヘレナでコンボ決めたい連合 | 2026-10-09 07:52:36 | 1183.6 | 2 | nadyresearcher |
+| 3 | 16981890 | Stephen Schott | 2026-10-08 05:23:25 | 1156.6 | 2 | steve421471 |
+| 4 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-06 14:26:05 | 1155.6 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
+| 5 | 16994022 | Chonghao Peng | 2026-10-09 18:38:45 | 1130.2 | 2 | chonghaopeng |
+| 6 | 16991525 | Kentaro Totsuka | 2026-10-09 05:24:58 | 1126.6 | 2 | kotarot1 |
+| 7 | 17044570 | Colton Martin | 2026-10-08 19:34:12 | 1126.4 | 2 | coltonmartinnn |
+| 8 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-07 19:13:26 | 1094.5 | 2 | busyaprime |
+| 9 | 16986029 | Raja Biswas | 2026-10-09 14:22:43 | 1077.7 | 2 | conjuring92 |
+| 10 | 16981607 | pao | 2026-10-08 13:25:48 | 1077.6 | 2 | go5kuramubon,kaidomitsu,nmlibrary |
 

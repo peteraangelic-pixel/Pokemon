@@ -1,28 +1,37 @@
 {
-  "fetched_utc": "2026-10-09T10:49:44+00:00",
+  "fetched_utc": "2026-10-10T00:37:01+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "Lauresowe 3D",
-  "leaderboard_rows": 271,
-  "submission_rows": 7,
+  "leaderboard_rows": 283,
+  "submission_rows": 8,
   "our_leaderboard": [
     {
-      "Rank": "192",
+      "Rank": "224",
       "TeamId": "17063582",
       "TeamName": "Lauresowe 3D",
-      "LastSubmissionDate": "2026-10-09 10:37:37",
-      "Score": "462.0",
+      "LastSubmissionDate": "2026-10-09 23:54:51",
+      "Score": "375.0",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "lauresowe3d"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57023926",
+      "fileName": "phase1_tuned_75.tar.gz",
+      "date": "2026-10-09 23:54:51.533000",
+      "description": "Gen2 75.1%->73.6% stable wall -697",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "375.0",
+      "privateScore": ""
+    },
+    {
       "ref": "57005960",
       "fileName": "phase1_heuristic (2).tar.gz",
       "date": "2026-10-09 10:37:37.757000",
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "462.0",
+      "publicScore": "356.7",
       "privateScore": ""
     },
     {
@@ -40,7 +49,7 @@
       "date": "2026-10-09 10:01:38.317000",
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "74.5",
+      "publicScore": "85.4",
       "privateScore": ""
     },
     {
