@@ -2066,6 +2066,9 @@ class ExplorerPolicy:
         self._edges: dict[tuple[str, str], GraphEdge] = {}
         self._transition_trace: list[dict[str, Any]] = []
         self._tile_maze = TileMazeNavigator()
+        # Diagnostyka grafu: czy w ogole rozpoznajemy powracajace stany.
+        self._observations = 0
+        self._frontier_resets = 0
 
     def diagnostics(self) -> dict[str, dict[str, int]]:
         """Return compact, serializable aggregate evidence for a replay."""
@@ -2078,6 +2081,24 @@ class ExplorerPolicy:
                 "revisits": stats.revisits,
             }
             for action, stats in sorted(self._global_stats.items())
+        }
+
+    def graph_evidence(self) -> dict[str, int]:
+        """Expose state-graph health without any frame data.
+
+        ``distinct_ratio`` near 1.0 means every observation looks new, i.e. the
+        graph can never recognise a revisited state and exploration degenerates
+        into repeated probing.
+        """
+        distinct = len(self._state_visits)
+        return {
+            "observations": self._observations,
+            "distinct_states": distinct,
+            "distinct_ratio_permille": int(1000 * distinct / max(self._observations, 1)),
+            "graph_nodes": len(self._nodes),
+            "graph_edges": len(self._edges),
+            "state_action_pairs": len(self._state_stats),
+            "frontier_resets": self._frontier_resets,
         }
 
     def transition_trace(self, limit: int = 80) -> list[dict[str, Any]]:
@@ -2357,6 +2378,7 @@ class ExplorerPolicy:
         signature = masked_signature(snapshot, excluded)
         changed = self._observe_transition(snapshot, signature, excluded)
         self._state_visits[signature] += 1
+        self._observations += 1
 
         if snapshot.state in {"NOT_PLAYED", "GAME_OVER"}:
             if snapshot.state == "GAME_OVER":
@@ -2392,6 +2414,7 @@ class ExplorerPolicy:
         if proposal is None or proposal.name not in valid:
             # A reset is the deterministic way to revisit a known root when
             # this directed graph has no safe route to another unexplored node.
+            self._frontier_resets += 1
             proposal = ActionProposal(
                 RESET,
                 reasoning={

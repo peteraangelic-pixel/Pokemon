@@ -14,7 +14,7 @@ import logging
 import os
 import subprocess
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -38,9 +38,10 @@ class RunResult:
     actions: int
     policy_evidence: dict[str, dict[str, int]]
     policy_decisions: dict[str, int]
-    meter_evidence: dict[str, int]
-    token_evidence: dict[str, int]
-    policy_trace: list[dict[str, Any]]
+    meter_evidence: dict[str, int] = field(default_factory=dict)
+    token_evidence: dict[str, int] = field(default_factory=dict)
+    policy_trace: list[dict[str, Any]] = field(default_factory=list)
+    graph_evidence: dict[str, int] = field(default_factory=dict)
 
 
 def _state_name(value: object) -> str:
@@ -181,6 +182,7 @@ def main() -> None:
             actions=int(agent.action_counter),
             policy_evidence=agent.policy.diagnostics(),
             policy_decisions=agent.policy.decision_evidence(),
+            graph_evidence=getattr(agent.policy, "graph_evidence", dict)(),
             meter_evidence=agent.policy.meter_evidence(),
             token_evidence=agent.policy.token_evidence(),
             policy_trace=agent.policy.transition_trace(limit=_policy_trace_limit(args.max_steps)),

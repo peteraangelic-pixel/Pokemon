@@ -39,6 +39,7 @@ class LocalRunnerReportTests(unittest.TestCase):
             actions=17,
             policy_evidence={"ACTION6": {"attempts": 4, "changed": 3}},
             policy_decisions={"graph-click-frontier": 1},
+            graph_evidence={"observations": 17, "distinct_states": 3},
             meter_evidence={"candidate-observations": 2, "estimates-established": 1},
             token_evidence={"control-entries": 1, "orientation-improving-entries": 1},
             policy_trace=[
@@ -72,6 +73,7 @@ class LocalRunnerReportTests(unittest.TestCase):
             {
                 "actions": 17,
                 "game_id": "ls20",
+                "graph_evidence": {"observations": 17, "distinct_states": 3},
                 "levels_completed": 2,
                 "meter_evidence": {"candidate-observations": 2, "estimates-established": 1},
                 "policy_decisions": {"graph-click-frontier": 1},

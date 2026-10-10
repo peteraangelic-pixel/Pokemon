@@ -41,6 +41,7 @@ def main() -> int:
         overs = _sum(ev, "game_overs")
         decisions = run.get("policy_decisions") or {}
         mode = max(decisions.items(), key=lambda kv: kv[1])[0] if decisions else "-"
+        graph = run.get("graph_evidence") or {}
         rows.append(
             (
                 run.get("game_id", "?"),
@@ -50,23 +51,30 @@ def main() -> int:
                 changed,
                 overs,
                 mode,
+                graph.get("distinct_ratio_permille", -1),
+                graph.get("distinct_states", -1),
+                graph.get("observations", -1),
             )
         )
         total_actions += attempts
         total_revisits += revisits
         total_game_overs += overs
 
-    print(f"{'game':<6}{'lvl':>4}{'acts':>7}{'revisit':>9}{'%re':>7}{'changed':>9}{'deaths':>7}  mode")
-    print("-" * 78)
-    for g, lvl, a, rv, ch, go, mode in sorted(rows, key=lambda r: -(r[3] / max(r[2], 1))):
-        print(f"{g:<6}{lvl:>4}{a:>7}{rv:>9}{100*rv/max(a,1):>6.1f}%{ch:>9}{go:>7}  {mode}")
-    print("-" * 78)
+    print(f"{'game':<6}{'lvl':>4}{'acts':>7}{'revisit':>9}{'%re':>7}{'states':>8}{'%new':>7}{'deaths':>7}  mode")
+    print("-" * 82)
+    for g, lvl, a, rv, ch, go, mode, perm, ds, obs in sorted(rows, key=lambda r: -(r[3] / max(r[2], 1))):
+        print(f"{g:<6}{lvl:>4}{a:>7}{rv:>9}{100*rv/max(a,1):>6.1f}%{ds:>8}{perm/10:>6.1f}%{go:>7}  {mode}")
+    print("-" * 82)
     print(f"{'TOTAL':<6}{sum(r[1] for r in rows):>4}{total_actions:>7}{total_revisits:>9}"
           f"{100*total_revisits/max(total_actions,1):>6.1f}%")
     print()
     print(f"games={len(rows)}  levels_completed={sum(r[1] for r in rows)}  "
           f"game_overs={total_game_overs}")
     print(f"mean revisit rate: {100*total_revisits/max(total_actions,1):.1f}%")
+    print()
+    print("Kolumna '%new' = ile obserwacji wyglada dla agenta na NOWY stan.")
+    print("Bliskie 100% oznacza, ze graf nie rozpoznaje powrotow i eksploracja")
+    print("degraduje do powtarzania tych samych prob.")
 
     # Czy niski odsetek powtórzeń idzie w parze z ukończonymi poziomami?
     moved = [r for r in rows if r[1] > 0]
