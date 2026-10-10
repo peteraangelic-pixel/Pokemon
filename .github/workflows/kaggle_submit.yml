@@ -5,11 +5,11 @@ on:
     inputs:
       bundle:
         description: "Bundle to submit"
-        default: "phase1_tuned_gen8_v2.tar.gz"
+        default: "phase1_tuned_gen8_powerglass.tar.gz"
         required: false
       message:
         description: "Submission message"
-        default: "Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors"
+        default: "Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - should improve vs Powerglass mirrors"
         required: false
   push:
     branches: ["arena/c87f7a48-pokemon"]
@@ -18,6 +18,10 @@ on:
       - "pokemon-agent/bundles/phase1_tuned_80.trigger"
       - "pokemon-agent/bundles/phase1_tuned_gen8_v2.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_gen8_v2.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_gen8_powerglass.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_gen8_powerglass.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_gen8_mirror.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_gen8_mirror.trigger"
       - ".github/workflows/kaggle_submit.yml"
 
 permissions:
@@ -64,8 +68,8 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_gen8_v2.tar.gz' }}
-          MESSAGE: ${{ inputs.message || 'Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K' }}
+          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_gen8_powerglass.tar.gz' }}
+          MESSAGE: ${{ inputs.message || 'Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - fixes Powerglass mirrors' }}
         run: |
           cd pokemon-agent
           BUNDLE_PATH="bundles/$BUNDLE"
