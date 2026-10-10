@@ -5,17 +5,19 @@ on:
     inputs:
       bundle:
         description: "Bundle to submit (e.g. phase1_tuned_75.tar.gz)"
-        default: "phase1_tuned_75.tar.gz"
+        default: "phase1_tuned_78.tar.gz"
         required: false
       message:
         description: "Submission message"
-        default: "Gen2 75.1%->73.6% stable wall -697 + evolve 294 + attach 281"
+        default: "Gen4 78.2%->73.3% stable wall -650 evolve 293 progress 32"
         required: false
   push:
     branches: ["arena/c87f7a48-pokemon"]
     paths:
       - "pokemon-agent/bundles/phase1_tuned_75.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_77.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_78.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_78.trigger"
       - ".github/workflows/kaggle_submit.yml"
 
 permissions:
@@ -60,8 +62,8 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_75.tar.gz' }}
-          MESSAGE: ${{ inputs.message || 'Gen2 75.1%->73.6% stable wall -697' }}
+          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_78.tar.gz' }}
+          MESSAGE: ${{ inputs.message || 'Gen4 78.2%->73.3% stable wall -650 evolve 293 progress 32' }}
         run: |
           cd pokemon-agent
           BUNDLE_PATH="bundles/$BUNDLE"
