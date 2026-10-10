@@ -1,10 +1,31 @@
 # Kaggle snapshot -- arc-prize-2026-arc-agi-3
 
-Generated: 2026-10-10T20:05:01Z  (run 38082317876)
+Generated: 2026-10-10T20:07:29Z  (run 38082484062)
 
 ## Public leaderboard (top 30)
 ```
-Either --show or --download must be specified
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOFFno3lU5fl3iS3qg0wGfI5k_hiPSXtNo5Xw6M0NzkCgo0vnem7ByuH_nK3xaOdVO8
+teamId,teamName,submissionDate,score
+15499660,Yi-Chia Chen,2026-10-09 23:45:09.703000,62.96
+15486995,Tufa Labs,2026-10-09 15:56:59.453000,56.52
+16153655,mtg,2026-10-10 08:44:07.696000,45.00
+16958599,Majkel1337,2026-10-09 17:40:05.333000,42.66
+15770880,NVARC3,2026-10-09 18:49:29.236000,40.97
+16021367,the last dance 🕺,2026-10-09 21:20:16.810000,39.30
+16805955,dreach.ai,2026-10-09 09:13:58.573000,39.11
+16958955,Nhan Duc Nguyen,2026-10-09 09:29:44.410000,38.84
+16132261,artificialagencylab.com,2026-10-09 20:30:32.850000,38.62
+16992721,fshindo,2026-10-10 02:56:26.956000,38.20
+16569113,復活の混テキスト,2026-10-09 16:31:18.193000,38.15
+16760493,SparseTech,2026-10-09 21:47:35.790000,37.98
+15508513,keithtyser,2026-10-10 05:17:20.740000,37.22
+16768259,_hans,2026-10-09 14:59:58.486000,37.07
+16371045,Lord Han Solo,2026-10-09 21:34:57.240000,36.61
+15513620,AI_hwlee,2026-10-09 04:33:03.996000,36.54
+16081764,YUTO KOJIMA,2026-10-10 00:08:59.303000,36.14
+17017088,Andrew Reed,2026-10-10 00:03:30.580000,36.14
+16898435,lalalia,2026-10-10 07:49:32.033000,35.79
+15605182,Son & Mark & Ronen,2026-10-09 06:07:51.156000,35.45
 ```
 
 ## Our submissions
@@ -14,7 +35,7 @@ No submissions found
 
 ## Competition files
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEx5i2xKc0wIRQMASH5qwqCGlz0O2qXv4vAOp44gL8NVoYmenVyGvSJkCwqkIX_3OVf1Pc-ZItpAa6WQTguAl4BS9EOZKJOVlTBqZZYjuHonSXK9IQmougFRx__nSOrxSfXcXq85NJdC91k
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGbL9wBRhX3QJaM_UT3lhpCVP5C5hYR4HNcGLUrPwM__j6YAANOtAzxQm_V7Nd7vVxQbnNJh9swWM9iPpvC40OPRufFNKBmsuSsEm_wMToLARoT6Kg72aHqbgp2wMdoPzlE1Zk1tFTLUoqc
 name                                                         size  creationDate                
 -----------------------------------------------------  ----------  --------------------------  
 ARC-AGI-3-Agents/.env.example                                 599  2026-04-17 20:12:29.398000  

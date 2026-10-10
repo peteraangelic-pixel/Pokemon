@@ -1,4 +1,1 @@
-usage: kaggle [-h] [-v] [-W]
-              {competitions,c,datasets,d,kernels,k,models,m,files,forums,f,benchmarks,b,config,auth,quota}
-              ...
-kaggle: error: unrecognized arguments: --show-private
+404 Client Error: Not Found for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/DownloadLeaderboard
