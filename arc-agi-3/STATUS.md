@@ -7,16 +7,38 @@
 
 ---
 
-## Stan: ETAP 0 — analiza zrobiona, kod nietknięty
+## Stan: ETAP 1 — crate Rust działa, baseline Kaggle nie odpalony
 
 | Pozycja | Wartość |
 |---|---|
 | Konkurs zaakceptowany na Kaggle | ✅ (użytkownik potwierdził) |
 | Sklonowany baseline | ✅ `Tufalabs/duck-harness` (MIT) — **tylko w `.cache/duck`, NIE w repo** |
 | Analiza architektury | ✅ `README.md` w tym katalogu |
+| **Crate Rust: segmentacja** | ✅ port zgodny bajt-w-bajt z Pythonem |
+| **Crate Rust: RHAE** | ✅ |
+| **Crate Rust: replay** | ✅ |
+| **CI zielone** | ✅ clippy `-D warnings` + 32 testy |
+| Zmierzony zysk Rust vs Python | ✅ ~121× realistyczna klatka, ~276× patologiczna — `rust/BENCHMARK.md` |
 | Uruchomiony baseline na Kaggle | ❌ **następny krok** |
-| Jakakolwiek zmiana w kodzie | ❌ |
+| Starter kit + `make play-local` | ❌ **następny krok** (wymaga tokena Kaggle) |
 | Wynik własny na leaderboardzie | ❌ |
+
+### Sprzęt użytkownika (ustalone)
+
+- **5950X (16 rdzeni) + 64 GB RAM**
+- **GPU 8–16 GB VRAM** → lokalnie tylko modele 7–8B. Iteracja logiki agenta OK, testy 27B wymagają Kaggle.
+- Wniosek: skoro nasze poprawki dotyczą **scaffoldingu, nie modelu**, można je walidować na małym modelu lokalnie. To oszczędza kwotę GPU na Kaggle.
+
+### ⚠️ Ustalenia o CI (ważne przy dalszej pracy)
+
+Sandbox sięga tylko `api.github.com`. W efekcie:
+- `gh run view --log` **nie działa** (logi leżą na `results-receiver.actions.githubusercontent.com`)
+- artefakty **nie działają** (`*.blob.core.windows.net`)
+- `git push` z runnera **nie działa**
+
+**Działający kanał:** CI komituje logi do `arc-agi-3/ci-logs/` przez GitHub Contents API (`gh api -X PUT`). Te pliki nie są w `paths:`, więc nie tworzą pętli. Czytaj je lokalnie po `git pull`.
+
+**Pułapka, którą już naprawiliśmy:** `cmd 2>&1 | tee log` maskuje status wyjścia — build i testy raportowały sukces mimo błędu kompilacji. Każdy taki krok ma teraz `set -o pipefail`.
 
 ⚠️ **`.cache/` jest wyłączone ze snapshotów.** Po nowym uruchomieniu trzeba zrobić
 `git clone --depth 1 https://github.com/Tufalabs/duck-harness.git` od nowa.
