@@ -2,9 +2,9 @@
 frames           : 2000
 grid             : 64x64
 threads          : 4
-wall clock       : 31.841 s
-throughput       : 62.8 frames/s
-per frame        : 15.920 ms
+wall clock       : 55.615 s
+throughput       : 36.0 frames/s
+per frame        : 27.807 ms
 total components : 4285412
 avg components   : 2142.7
 
@@ -12,8 +12,8 @@ avg components   : 2142.7
 frames           : 5000
 grid             : 64x64
 threads          : 4
-wall clock       : 1.632 s
-throughput       : 3063.8 frames/s
-per frame        : 0.326 ms
+wall clock       : 2.837 s
+throughput       : 1762.4 frames/s
+per frame        : 0.567 ms
 total components : 88192
 avg components   : 17.6
