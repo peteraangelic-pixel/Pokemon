@@ -70,7 +70,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      GAMES: ${{ inputs.games || 'ls20,vc33' }}
       STEPS: ${{ inputs.steps || '400' }}
     steps:
       - uses: actions/checkout@v4
@@ -94,8 +93,15 @@ jobs:
 
       - name: Play public games
         working-directory: arc-agi-3/baseline
+        env:
+          INPUT_GAMES: ${{ inputs.games }}
         run: |
           set -o pipefail
+          # Kolejnosc: dispatch input > games.conf (committed) > domyslne.
+          GAMES="$INPUT_GAMES"
+          [ -z "$GAMES" ] && GAMES="$(head -1 games.conf 2>/dev/null | tr -d '[:space:]')"
+          [ -z "$GAMES" ] && GAMES="ls20,vc33"
+          echo "games=$GAMES steps=$STEPS"
           # Direct call (Makefile's play-local writes no JSON report, and we
           # need one for the annotations channel).
           .venv/bin/python scripts/play_local.py \
