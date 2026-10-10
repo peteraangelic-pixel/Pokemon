@@ -243,11 +243,40 @@ The 1–2 years is validation and automotive qualification — not invention. Ev
 4. **Buildable now.** Existing cathode/anode lines + a filling-step tweak. No new fab, no new chemistry, no 5-year wait.
 5. **The tool is the moat.** Open, reproducible, fast: ~118,000 combinations simulated (full + fine + mega grids), results verifiable by anyone in minutes (CI, CSV, public repo). A cell maker's R&D cannot match that iteration speed.
 
-## The pipeline (one line each)
-- **$27/kWh mass-market variant** (LMFP/LFP + anode-free): 270–298 Wh/kg — 1.7–1.9× Blade's energy at LFP-class safety and cost.
+## Two more ideas — simpler to build
+
+The flagship needs Si-C supply and a gel-filling step. These two don't:
+
+### A. Sodium-ion: Na-PW cathode + hard carbon + standard electrolyte
+**The easiest of all — in mass production today** (CATL Naxtra, late 2025, on adapted Li-ion lines). Zero new processes.
+
+| metric | our design | vs competition |
+|---|---|---|
+| energy | 176 Wh/kg (127 pack) | CATL Naxtra: 175 — parity; BYD Blade (LFP): 160 — **+10%** |
+| cost | ~$39/kWh materials | Naxtra-class; **no Li, Co, Ni, Cu** (Al–Al collectors) |
+| fast-charge life | 259 cycles @2C | — |
+| cold | 90% capacity at −40 °C | LFP/NMC lose significantly |
+| our edge | full condition matrix (temperature / C-rate / abuse / shelf life) + optimization | we deliver the *optimized* variant + the tool |
+
+**Why it wins:** the only chemistry that is drop-in today, cheaper than LFP at scale, cold-proof, safer — and we deliver it *optimized*, with a reproducible model behind it.
+
+### B. The $27/kWh value cell: LMFP/LFP + anode-free + standard liquid electrolyte
+**LFP-class safety and cost, 1.7–1.9× Blade's energy** — on LFP production lines, with today's standard electrolyte (no gel, no solid).
+
+| metric | our design | vs competition |
+|---|---|---|
+| energy | 270–298 Wh/kg (195–214 pack) | BYD Blade (LFP): 160 — **1.7–1.9× more at the same safety class** |
+| cost | **~$27/kWh** materials | Blade-class cost; NMC cells cost 2–3× more per kWh |
+| fast-charge life | 512–824 cycles (1–2C) | — |
+| heat | LMFP variant survives 60 °C | NMC degrades 40–50% faster at 45 °C |
+| build | LFP lines (LMFP = cathode tweak) + standard LP57 filling; only new step: anode-free (Samsung SDI's own 2027 bet) | flagship needs Si-C supply + gel process; this needs neither |
+
+**Why it wins:** the mass-market cell — Blade's safety at Blade's cost, with NMC-class energy. Every block except anode-free is today's production.
+
+## The rest of the pipeline (one line each)
 - **367 Wh/kg premium** (NMC811 + anode-free): matches the best semi-solid pack on the market (260) at a fraction of the cost.
-- **Development-stage options:** 361 Wh/kg cobalt/nickel-free (DRX + Si-C); a 60 °C / >20-years-shelf specialty (solid electrolyte).
-- **Na-ion:** drop-in and already in mass production (CATL, late 2025) — our low-risk entry product and first tool customers.
+- **361 Wh/kg cobalt/nickel-free** (DRX + Si-C): development stage.
+- **60 °C / >20-years-shelf specialty** (LFP + anode-free + solid): development stage.
 
 ## Where we are (honest)
 - ~118,000 combinations simulated; two independent implementations agree digit-for-digit; deterministic across machines (verified on an external PC).
@@ -257,10 +286,11 @@ The 1–2 years is validation and automotive qualification — not invention. Ev
 ## Market
 ~$150B/yr cell market (est.), ~25%/yr growth (EV + grid storage), ~60–70% China share; Western OEMs actively de-risking cobalt/nickel. Beachheads: commercial vehicles & buses (fast charge + safety), drones/aviation (energy), hot climates & grid storage (heat + shelf life), materials suppliers (licensing).
 
-## Business model
-1. **First product (1–2 yrs):** the flagship cell design + the screening tool; in parallel, Na-ion tool/consulting (immediate revenue).
-2. Open-source tool + paid enterprise support.
-3. License the validated cell IP (pipeline above).
+## How we make money (licensing, not a startup)
+We are a small, hobby-stage studio: **we license ideas, we don't run labs.**
+1. You test the designs in your lab (your engineers, your budget) — this report is the spec.
+2. If the numbers hold: license the IP (non-exclusive, per-field, up-front + royalties), or co-fund the €150k validation for co-exclusivity.
+3. The open-source tool + paid enterprise support is the side income.
 
 ## Risks — said out loud
 1. **Sim-to-lab gap** — mitigated by the milestone gate below; budgeted.
@@ -275,7 +305,7 @@ The 1–2 years is validation and automotive qualification — not invention. Ev
 **Gate:** if coin cells confirm ≥80% of modeled cycle life at 2C → proceed; if not → re-calibrate and re-screen (the tool makes that cheap).
 
 ## The ask
-€150k for the 12-month validation plan (convertible note, or non-dilutive: NCBR / PARP / EIC Accelerator).
+Not money — **a lab**. Send this report to your cell team. If the flagship or one of the two simpler designs holds up in coin cells, we license (or you fund the validation and we share the upside). We're open to offers.
 
 Repo (public, reproducible): https://github.com/peteraangelic-pixel/Pokemon/tree/arena/d1882c0f-pokemon
 "##,
@@ -320,11 +350,40 @@ Te 1–2 lata to walidacja i kwalifikacja — nie wymyślanie. Każdy klocek jes
 4. **Da się złożyć teraz.** Istniejące linie katod/anod + modyfikacja napełniania. Bez nowej fabryki, bez nowej chemii, bez 5-letniego czekania.
 5. **Narzędzie to przewaga (moat).** Otwarte, reprodukowalne, szybkie: ~118 000 przesymulowanych kombinacji (siatki pełna + drobna + mega), wyniki weryfikowalne przez każdego w minuty (CI, CSV, publiczne repo). Dział R&D producenta ogniw nie ma takiej szybkości iteracji.
 
-## Pipeline (po jednej linii)
-- **Wariant masowy $27/kWh** (LMFP/LFP + anode-free): 270–298 Wh/kg — 1,7–1,9× energii Blade przy bezpieczeństwie i koszcie klasy LFP.
-- **Wariant premium 367 Wh/kg** (NMC811 + anode-free): dorównuje najlepszemu półstałemu pakietowi na rynku (260) przy ułamku kosztu.
-- **Opcje w rozwoju:** 361 Wh/kg bez kobaltu/niklu (DRX + Si-C); specjalista 60 °C / >20 lat na półce (elektrolit stały).
-- **Na-jon:** drop-in, już w masowej produkcji (CATL, koniec 2025) — nasz produkt wejściowy i pierwsi klienci narzędzia.
+## Dwa kolejne pomysły — prostsze do wdrożenia
+
+Flagship wymaga dostaw Si-C i kroku napełniania żelem. Te dwa nie:
+
+### A. Sód-jon: katoda Na-PW + hard carbon + standardowy elektrolit
+**Najłatwiejszy ze wszystkich — w produkcji masowej dziś** (CATL Naxtra, koniec 2025, na adaptowanych liniach Li-ion). Zero nowych procesów.
+
+| metryka | nasz projekt | vs konkurencja |
+|---|---|---|
+| energia | 176 Wh/kg (127 pakiet) | CATL Naxtra: 175 — remis; BYD Blade (LFP): 160 — **+10%** |
+| koszt | ~$39/kWh materiałowo | klasa Naxtra; **bez Li, Co, Ni, Cu** (kolektory Al–Al) |
+| żywotność @2C | 259 cykli | — |
+| mróz | 90% pojemności przy −40 °C | LFP/NMC tracą znacząco |
+| nasza przewaga | pełna macierz warunków (temperatura / C-rate / abuse / shelf life) + optymalizacja | dostarczamy wariant *zoptymalizowany* + narzędzie |
+
+**Dlaczego wygrywa:** jedyna chemia, którą da się wdrożyć dziś, tańsza od LFP w skali, odporna na mróz i bezpieczniejsza — i dostarczamy ją *zoptymalizowaną*, z reprodukowalnym modelem za nią.
+
+### B. Ogniwo value $27/kWh: LMFP/LFP + anode-free + standardowy elektrolit ciekły
+**Bezpieczeństwo i koszt klasy LFP, 1,7–1,9× energii Blade** — na liniach LFP, na dzisiejszym standardowym elektrolicie (bez żelu, bez stałego elektrolitu).
+
+| metryka | nasz projekt | vs konkurencja |
+|---|---|---|
+| energia | 270–298 Wh/kg (195–214 pakiet) | BYD Blade (LFP): 160 — **1,7–1,9× więcej przy tej samej klasie bezpieczeństwa** |
+| koszt | **~$27/kWh** materiałowo | koszt klasy Blade; ogniwa NMC 2–3× droższe za kWh |
+| żywotność @1–2C | 512–824 cykli | — |
+| upał | wariant LMFP przeżywa 60 °C | NMC degraduje o 40–50% szybciej przy 45 °C |
+| wdrożenie | linie LFP (LMFP = modyfikacja katody) + standardowe napełnianie LP57; jedyny nowy krok: anode-free (własny bet Samsung SDI na 2027) | flagship potrzebuje dostaw Si-C + procesu żelu; ten nie |
+
+**Dlaczego wygrywa:** ogniwo masowe — bezpieczeństwo Blade za koszt Blade, z energią klasy NMC. Każdy klocek poza anode-free to dzisiejsza produkcja.
+
+## Reszta pipeline (po jednej linii)
+- **Premium 367 Wh/kg** (NMC811 + anode-free): dorównuje najlepszemu półstałemu pakietowi (260) przy ułamku kosztu.
+- **361 Wh/kg bez kobaltu/niklu** (DRX + Si-C): etap rozwojowy.
+- **Specjalista 60 °C / >20 lat na półce** (LFP + anode-free + stały): etap rozwojowy.
 
 ## Gdzie jesteśmy (uczciwie)
 - ~118 000 przesymulowanych kombinacji; dwie niezależne implementacje zgadzają się co do cyfry; determinizm między maszynami potwierdzony (weryfikacja na zewnętrznym PC).
@@ -334,10 +393,11 @@ Te 1–2 lata to walidacja i kwalifikacja — nie wymyślanie. Każdy klocek jes
 ## Rynek
 Rynek ogniw ~150 mld USD/rok (szacunek), ~25%/rok wzrostu (EV + magazyny), ~60–70% udziału Chin; zachodni producenci aktywnie ograniczają ryzyko Co/Ni. Przyczółki: pojazdy użytkowe/autobusy (szybkie ładowanie + bezpieczeństwo), drony/lotnictwo (energia), gorący klimat + magazyny (upał + shelf life), dostawcy materiałów (licencje).
 
-## Model biznesowy
-1. **Pierwszy produkt (1–2 lata):** projekt flagship + narzędzie; równolegle Na-jon (narzędzie/konsulting — przychód od razu).
-2. Narzędzie open-source + płatne wsparcie enterprise.
-3. Licencjonowanie IP ogniwa po walidacji (pipeline wyżej).
+## Jak zarabiamy (licencjonowanie, nie startup)
+Jesteśmy małym, hobbystycznym studiem: **licencjonujemy pomysły, nie prowadzimy labów.**
+1. Ty testujesz projekty w swoim labie (Twoi inżynierowie, Twój budżet) — ten raport to specyfikacja.
+2. Jak liczby się zgadzają: licencja IP (niewyłączna, na pole zastosowania, płatna z góry + tantiemy) albo współfinansowanie walidacji 150 tys. EUR za współwyłączność.
+3. Narzędzie open-source + płatne wsparcie enterprise to poboczny przychód.
 
 ## Ryzyka — głośno
 1. **Rozjazd symulacja–lab** — mitygowany bramką poniżej; budżetowany.
@@ -351,8 +411,8 @@ Rynek ogniw ~150 mld USD/rok (szacunek), ~25%/rok wzrostu (EV + magazyny), ~60�
 - **M9–12:** linia pilotażowa, LOI od OEM/dostawców, przegląd FTO: ~50 tys. EUR
 **Bramka:** jeśli coin cells potwierdzą ≥80% modelowanej żywotności przy 2C → kontynuujemy; jeśli nie → rekalibracja i ponowny screen (narzędzie robi to tanio).
 
-## Asks
-150 tys. EUR na 12-miesięczny plan walidacji (nota konwertybilna albo niedźwigowe: NCBR / PARP / EIC Accelerator).
+## Czego chcemy
+Nie pieniędzy — **labu**. Daj ten raport swojemu zespołowi od ogniw. Jak flagship albo któryś z dwóch prostszych projektów potwierdzi się w coin-cellach — licencjonujemy (albo finansujecie walidację, a my dzielimy upside). Czekamy na oferty.
 
 Repo (publiczne, reprodukowalne): https://github.com/peteraangelic-pixel/Pokemon/tree/arena/d1882c0f-pokemon
 "##,
