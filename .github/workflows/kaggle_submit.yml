@@ -5,11 +5,11 @@ on:
     inputs:
       bundle:
         description: "Bundle to submit"
-        default: "phase1_tuned_gen8_powerglass.tar.gz"
+        default: "phase1_tuned_gen8_h1.tar.gz"
         required: false
       message:
         description: "Submission message"
-        default: "Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - should improve vs Powerglass mirrors"
+        default: "Gen8 H1 Powerglass+NightStretcher recycle + lethal rem1 - 0.818 vs top7_live - should improve beyond 600"
         required: false
   push:
     branches: ["arena/c87f7a48-pokemon"]
@@ -22,6 +22,8 @@ on:
       - "pokemon-agent/bundles/phase1_tuned_gen8_powerglass.trigger"
       - "pokemon-agent/bundles/phase1_tuned_gen8_mirror.tar.gz"
       - "pokemon-agent/bundles/phase1_tuned_gen8_mirror.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_gen8_h1.tar.gz"
+      - "pokemon-agent/bundles/phase1_tuned_gen8_h1.trigger"
       - ".github/workflows/kaggle_submit.yml"
 
 permissions:
@@ -68,8 +70,8 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_gen8_powerglass.tar.gz' }}
-          MESSAGE: ${{ inputs.message || 'Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - fixes Powerglass mirrors' }}
+          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_gen8_h1.tar.gz' }}
+          MESSAGE: ${{ inputs.message || 'Gen8 H1 Powerglass+NightStretcher recycle + lethal rem1 - 0.818 vs top7_live - should improve beyond 600' }}
         run: |
           cd pokemon-agent
           BUNDLE_PATH="bundles/$BUNDLE"
