@@ -94,8 +94,6 @@ impl Default for Knobs {
     }
 }
 
-pub fn is_primary_line(card_id: i32) -> bool { matches!(card_id, 721 | 722 | 723) }
-
 pub fn estimate_damage(attack_id: i32, index: &CardIndex, obs: &Value, me_idx: usize) -> i32 {
     if let Some(atk) = index.attack(attack_id) {
         let mut dmg = atk.damage;
@@ -145,17 +143,21 @@ pub fn score_main_option(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize
         }
         return score;
     }
-    if opt.get("inPlayArea").is_some() && opt.get("index").is_some() && opt["type"].as_i64() == Some(3) {
-        return knobs.evolve + 10;
+    // EVOLVE type 9, ATTACH 8, RETREAT 12, PLAY 7, etc - from OptionType
+    if let Some(t) = opt["type"].as_i64() {
+        match t {
+            9 => return knobs.evolve + 10, // EVOLVE
+            8 => { // ATTACH
+                let mut score = knobs.attach;
+                if opt["inPlayArea"].as_i64() == Some(4) { score += 12; } // ACTIVE=4
+                return score;
+            },
+            12 => return knobs.retreat_base, // RETREAT
+            7 => return 200, // PLAY
+            14 => return 0, // END
+            _ => {}
+        }
     }
-    if opt.get("inPlayArea").is_some() && opt["type"].as_i64() == Some(4) {
-        let mut score = knobs.attach;
-        if opt["inPlayArea"].as_i64() == Some(0) { score += 12; }
-        return score;
-    }
-    if opt["type"].as_i64() == Some(2) { return knobs.retreat_base; }
-    if opt["type"].as_i64() == Some(6) { return 200; }
-    if opt["type"].as_i64() == Some(0) { return 0; }
     100
 }
 
@@ -164,7 +166,18 @@ pub fn decide(obs: &Value, index: &CardIndex, knobs: &Knobs) -> Vec<i32> {
     if select.is_null() { return vec![]; }
     let options = match select["option"].as_array() { Some(arr) => arr, None => return vec![] };
     let max_count = select["maxCount"].as_i64().unwrap_or(0) as usize;
+    let stype = select["type"].as_i64().unwrap_or(0);
+
     if max_count == 0 || options.is_empty() { return vec![]; }
+
+    // For non-MAIN selects (CARD=1, ENERGY=4, etc), use first max_count (safe fallback)
+    // Only MAIN (0) needs heuristic scoring
+    if stype != 0 {
+        // For YES_NO (9), COUNT (8), etc, first option is usually safe
+        // But for CARD selects, we could score wanted cards - for now first
+        return (0..max_count.min(options.len())).map(|i| i as i32).collect();
+    }
+
     let me_idx = obs["current"]["yourIndex"].as_i64().unwrap_or(0) as usize;
     let opp_idx = 1 - me_idx;
     let mut scored: Vec<(i32, usize)> = Vec::new();
