@@ -1,0 +1,139 @@
+name: evolve-gen8
+
+# Tempo-aware config evolution (gen8) on GitHub Actions — offloaded compute.
+#
+# Builds the Rust+Rayon orchestrator (rust/src/bin/evolve_tempo.rs), runs a big
+# evolution round over the real Python agent + libcg.so engine, verifies the
+# best config with the Python FFI gauntlet, bakes it into a new agent file,
+# and commits everything back.
+#
+# Pool: decks/v14_losses (w3) + 6 top-meta decks (w2) + decks/weak_field (w1).
+# Fitness: 0.65*weighted_winrate + 0.20*prize_pace_by_T9 + 0.15*early_first_prize.
+#
+# Trigger: manual (workflow_dispatch). 2 vCPU runner => --workers 2.
+
+on:
+  workflow_dispatch:
+    inputs:
+      pop:
+        description: "Population size"
+        required: false
+        default: "150"
+      gens:
+        description: "Generations"
+        required: false
+        default: "5"
+      games:
+        description: "Games per matchup"
+        required: false
+        default: "30"
+      seed:
+        description: "RNG seed"
+        required: false
+        default: "7"
+
+permissions:
+  contents: write
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 540
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install engine (ships libcg.so for FFI)
+        run: pip install --quiet kaggle-environments
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Build Rust evolution orchestrator
+        run: |
+          cd pokemon-agent/rust
+          cargo build --release --bin evolve_tempo 2>&1 | tee build_evolvetempo.log
+          ./target/release/evolve_tempo --help | tee -a build_evolvetempo.log
+
+      - name: Run evolution (Rust+Rayon)
+        run: |
+          cd pokemon-agent
+          POP="${{ inputs.pop || '150' }}"
+          GENS="${{ inputs.gens || '5' }}"
+          GAMES="${{ inputs.games || '30' }}"
+          SEED="${{ inputs.seed || '7' }}"
+          rust/target/release/evolve_tempo \
+            --agent agents/main_heuristic_v11.py \
+            --our-deck decks/v12_30_boss4.csv \
+            --loss-dir decks/v14_losses \
+            --weak-dir decks/weak_field \
+            --games "$GAMES" --pop "$POP" --gens "$GENS" --workers 2 --seed "$SEED" \
+            --python python3 --repo . \
+            --out search_results/gen8_rust.json \
+            2>&1 | tee kaggle_results/gen8_run.log
+
+      - name: Bake best config into agents/main_heuristic_gen8.py
+        run: |
+          cd pokemon-agent
+          python3 - <<'EOF'
+          import json, re, pathlib
+          d = json.load(open("search_results/gen8_rust.json"))
+          best = d["best"]["config"]
+          src = pathlib.Path("agents/main_heuristic_v11.py").read_text()
+          for k, v in best.items():
+              src = re.sub(
+                  r'(setdefault\("PTCG_%s", ")[^"]+("\))' % k,
+                  lambda m: m.group(1) + str(v) + m.group(2),
+                  src, count=1)
+              src = re.sub(
+                  r'(_env_int\("PTCG_%s", -?\d+\))' % k,
+                  lambda m: m.group(1), src, count=1)
+          pathlib.Path("agents/main_heuristic_gen8.py").write_text(src)
+          print("baked", len(best), "keys")
+          EOF
+
+      - name: Verify gen8 vs base (Python FFI gauntlet, 30 games)
+        run: |
+          cd pokemon-agent
+          {
+            echo "# gen8 verification — 2026 Actions run"
+            echo
+            for D in decks/v12_30_boss4.csv; do
+              for A in agents/main_heuristic_gen8.py agents/main_heuristic_v11.py; do
+                TAG=$(basename $A .py)
+                for POOL in decks/v14_losses decks/weak_field; do
+                  echo "## $TAG + $D vs $POOL (30g)"
+                  python3 tools/gauntlet_ffi.py --agent $A --our-deck $D \
+                    --opp-dir $POOL --games 30 2>&1 | tail -8
+                  echo
+                done
+              done
+            done
+          } > kaggle_results/gen8_verify.md
+          cat kaggle_results/gen8_verify.md
+
+      - name: Commit results
+        if: always()
+        run: |
+          set -eo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git add -f pokemon-agent/search_results/gen8_rust.json || true
+          git add -f pokemon-agent/search_results/evolve_pool.json || true
+          git add -f pokemon-agent/agents/main_heuristic_gen8.py || true
+          git add -f pokemon-agent/kaggle_results/gen8_run.log || true
+          git add -f pokemon-agent/kaggle_results/gen8_verify.md || true
+          git add -f pokemon-agent/rust/build_evolvetempo.log || true
+          git diff --cached --stat || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "gen8: Rust+Rayon evolution results + agents/main_heuristic_gen8.py [skip ci]"
+            git push origin "${GITHUB_REF_NAME}"
+          fi
