@@ -1,0 +1,11 @@
+Darren_Sheehan                             292- 8- 0  0.973
+OceanMix                                   270-30- 0  0.900
+Kentaro_Totsuka                            270-30- 0  0.900
+YumeNeko                                   264-36- 0  0.880
+
+TOTAL 1096W-104L-0D = 0.913  (4 decks x 300 games, 13s)
+worst 5:
+  YumeNeko                                   264-36-0  0.880
+  Kentaro_Totsuka                            270-30-0  0.900
+  OceanMix                                   270-30-0  0.900
+  Darren_Sheehan                             292-8-0  0.973
