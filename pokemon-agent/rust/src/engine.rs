@@ -2,7 +2,7 @@ use libloading::{Library, Symbol};
 use std::ffi::{CStr, CString};
 use std::os::raw::{c_int, c_void, c_char, c_uchar};
 use serde_json::Value;
-use std::sync::OnceLock;
+use std::sync::{OnceLock, Mutex};
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -22,7 +22,11 @@ pub struct SerialData {
 }
 
 static INIT: OnceLock<()> = OnceLock::new();
-static mut GLOBAL_LIB: Option<Library> = None;
+static ENGINE_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+
+fn engine_lock() -> &'static Mutex<()> {
+    ENGINE_LOCK.get_or_init(|| Mutex::new(()))
+}
 
 pub struct Engine {
     lib: Library,
@@ -31,10 +35,11 @@ pub struct Engine {
 
 impl Engine {
     pub fn new(lib_path: &str) -> anyhow::Result<Self> {
+        // Serialize all engine operations to avoid C++ global state races
+        // The C++ engine (libcg.so) is not thread-safe even with separate battle_ptr
+        let _guard = engine_lock().lock().unwrap();
         unsafe {
             let lib = Library::new(lib_path)?;
-            // Call GameInitialize only once per process to avoid buffer full after many games
-            // The C++ engine has global state that leaks if initialized repeatedly
             let init_needed = INIT.get().is_none();
             if init_needed {
                 let init: Symbol<unsafe extern "C" fn()> = lib.get(b"GameInitialize")?;
@@ -52,6 +57,8 @@ impl Engine {
         cards.extend(deck0.iter().map(|&x| x as c_int));
         cards.extend(deck1.iter().map(|&x| x as c_int));
 
+        // Lock for the actual C++ call
+        let _guard = engine_lock().lock().unwrap();
         unsafe {
             let func: Symbol<unsafe extern "C" fn(*const c_int) -> StartData> = self.lib.get(b"BattleStart")?;
             let start_data = func(cards.as_ptr());
@@ -59,11 +66,21 @@ impl Engine {
                 anyhow::bail!("BattleStart returned null ptr, error_player={}, error_type={}", start_data.error_player, start_data.error_type);
             }
             self.battle_ptr = start_data.battle_ptr;
-            self.get_battle_data()
+            // get_battle_data also needs lock, but we already hold it, so call inner
+            let func2: Symbol<unsafe extern "C" fn(*mut c_void) -> SerialData> = self.lib.get(b"GetBattleData")?;
+            let sd = func2(self.battle_ptr);
+            if sd.json.is_null() {
+                anyhow::bail!("GetBattleData returned null json");
+            }
+            let c_str = CStr::from_ptr(sd.json);
+            let json_str = c_str.to_string_lossy();
+            let v: Value = serde_json::from_str(&json_str)?;
+            Ok(v)
         }
     }
 
     pub fn get_battle_data(&self) -> anyhow::Result<Value> {
+        let _guard = engine_lock().lock().unwrap();
         unsafe {
             let func: Symbol<unsafe extern "C" fn(*mut c_void) -> SerialData> = self.lib.get(b"GetBattleData")?;
             let sd = func(self.battle_ptr);
@@ -78,17 +95,27 @@ impl Engine {
     }
 
     pub fn select(&self, indices: &[i32]) -> anyhow::Result<Value> {
+        let _guard = engine_lock().lock().unwrap();
         unsafe {
             let func: Symbol<unsafe extern "C" fn(*mut c_void, *const c_int, c_int) -> c_int> = self.lib.get(b"Select")?;
             let ret = func(self.battle_ptr, indices.as_ptr() as *const c_int, indices.len() as c_int);
             if ret != 0 {
                 anyhow::bail!("Select returned error {}", ret);
             }
-            self.get_battle_data()
+            let func2: Symbol<unsafe extern "C" fn(*mut c_void) -> SerialData> = self.lib.get(b"GetBattleData")?;
+            let sd = func2(self.battle_ptr);
+            if sd.json.is_null() {
+                anyhow::bail!("GetBattleData returned null json after Select");
+            }
+            let c_str = CStr::from_ptr(sd.json);
+            let json_str = c_str.to_string_lossy();
+            let v: Value = serde_json::from_str(&json_str)?;
+            Ok(v)
         }
     }
 
     pub fn battle_finish(&mut self) {
+        let _guard = engine_lock().lock().unwrap();
         if !self.battle_ptr.is_null() {
             unsafe {
                 if let Ok(func) = self.lib.get::<unsafe extern "C" fn(*mut c_void)>(b"BattleFinish") {
