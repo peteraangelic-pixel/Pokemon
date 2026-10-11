@@ -1,8 +1,80 @@
-# Konkursy AI — przegląd (rewizja 3, stan na 10 października 2026)
+# Konkursy AI — przegląd (rewizja 4, stan na 11 października 2026)
 
-Dodane kryteria po Twoich uwagach: **bariera językowa** i **realne szanse (pula / liczba uczestników)**.
+Kryteria po Twoich uwagach: **bariera językowa** i **realne szanse (pula / liczba uczestników)**.
 
-## Co się zmieniło
+> **Rewizja 4 powstaje po dniu mierzenia, nie szacowania.** Wszystkie liczby
+> poniżej pochodzą z realnych przebiegów na 20 grach publicznych ARC-AGI-3
+> (8000 akcji na przebieg) oraz z odczytu Kaggle przez API.
+
+## 🧭 Co się zmieniło od rewizji 3: ARC-AGI-3 przestał być „pewniakiem"
+
+Rewizja 3 stawiała ARC-AGI-3 jako numer jeden z argumentem „tylko 28 teamów,
+wygrywa inżynieria". **Dziś mamy dane, które ten obraz korygują w dół.**
+
+### Twarde liczby z Kaggle (odczyt przez API, 10 X 2026)
+
+| Pozycja | Drużyna | Wynik |
+|---|---|---|
+| 1 | Yi-Chia Chen | 62.96 |
+| 2 | Tufa Labs | 56.52 |
+| 3 | mtg | 45.00 |
+| 4 | Majkel1337 | 42.66 |
+| **5** | NVARC3 | **40.97** ← próg nagrody |
+
+**15 z 20 drużyn jest stłoczonych w przedziale 35–40. Mediana 38.17.**
+Luka z mediany do progu nagrody to **+2.80 punktu** — mniejsza, niż myśleliśmy.
+
+### Co osiągnęliśmy my (zmierzone, nie szacowane)
+
+| Etap | Powtórzenia akcji | Poziomy | Zgony | Nowe stany |
+|---|---|---|---|---|
+| start (baseline z poprzednich sesji) | 82.3% | 5 | 78 | 1433 |
+| **po trzech eksperymentach A/B** | **80.6%** | **5** | 81 | **1568** |
+
+**To jest postęp o 1.7 punktu procentowego i zero poziomów.** Nie jest to
+przełom i nie należy go tak czytać.
+
+### Trzy hipotezy — dwie obalone danymi
+
+1. ❌ **„Agent nie pamięta, co już zrobił"** — obalone. Deduplikacja stanów
+   działa (cd82 widzi 5 stanów przez 400 akcji). `frontier_resets = 0` we
+   wszystkich grach: agent **nigdy nie wyczerpuje opcji**, więc dokładanie
+   pamięci nic nie daje.
+2. ❌ **„Zła klasyfikacja planszy"** — obalone. cd82 ma `tile_fill=180`,
+   ls20 (jedyne z 2 poziomami) tylko `111`. cd82 jest **bardziej** labiryntem
+   niż gra, która działa. Zaostrzenie progu odcięłoby ls20.
+3. ✅ **„Pamięć martwych kliknięć"** — potwierdzone, ale to drobny zysk
+   (−1.7 pp, poziomy bez zmiany).
+
+### Najważniejszy wynik negatywny
+
+Bonus za celowanie w **poruszające się** obiekty dał spektakularny zysk na
+jednej grze (su15: 57% → 33.8% powtórzeń), ale globalnie **kosztował poziom
+i +10 zgonów**. Podniesienie kary za znane zabójcze kliknięcia z 1500 na 2500
+nie zmieniło **nic, co do sztuki** — agent ginie od kliknięć w rzeczy, których
+jeszcze nie dotykał, więc kara za *znane* zagrożenia z definicji nie działa.
+
+### Wniosek, który trzeba wpisać do planu
+
+**Sufit tego agenta to semantyka — zrozumienie, co w danej grze robić.**
+Heurystyka kolorów i ruchu tego nie zastąpi. Baseline sam z siebie progu 40.97
+nie dosięgnie.
+
+**Ale**: mamy teraz coś, czego nie mieliśmy — **działającą drogę zgłoszeniową**
+(notebook `petersharps/arc-agi-3-novelty-explorer` na Kaggle, konto
+potwierdzone) oraz **precyzyjny profil 20 gier** będący punktem odniesienia dla
+każdej kolejnej zmiany. Nie wydaliśmy ani minuty GPU.
+
+### Co to znaczy dla innych konkursów
+
+Skoro ARC-AGI-3 **nie jest już pewniakiem**, pozycje 2–4 z rewizji 3
+(hackathony, AWS CDS Agentic AI) **rosną**. Nie rezygnujemy z ARC —
+dokończymy próbę z modelem, bo droga już działa — ale nie stawiamy na niego
+wszystkiego.
+
+---
+
+## Co się zmieniło (rewizja 3)
 
 | Konkurs | rev 1 | rev 2 | rev 3 | Powód |
 |---|---|---|---|---|
@@ -13,7 +85,11 @@ Dodane kryteria po Twoich uwagach: **bariera językowa** i **realne szanse (pula
 
 ---
 
-# 🥇 1. ARC-AGI-3 — i teraz jeszcze mocniej
+# 🥇 1. ARC-AGI-3 — w trakcie; patrz KOREKTA w rewizji 4 na górze
+
+> ⚠️ **Ten podrozdział powstał przed pomiarami.** Argumenty „tylko 28 teamów"
+> i „wygrywa inżynieria" są nadal prawdziwe, ale **rewizja 4 na górze pliku
+> koryguje optymizm w dół** na podstawie realnych przebiegów. Czytaj oba.
 
 ## Dlaczego to nasz numer jeden (trzy powody, nie jeden)
 
@@ -222,7 +298,10 @@ Jeśli bardzo Ci zależy na Agenthonie: mogę poświęcić 30–60 minut na ści
 ## ✅ Rób tak
 - **Jeden konkurs = jedna sesja.** Każda sesja dostaje własny branch; ta jest `arena/7cc8a7e0-pokemon`.
 - Sensowny podział:
-  - **Sesja A (ta)** → **ARC-AGI-3** (główny cel)
+  - **Sesja A (ta)** → **ARC-AGI-3** (główny cel — *w toku; patrz rewizja 4*).
+    Stan: notebook na Kaggle (`petersharps/arc-agi-3-novelty-explorer`),
+    zmierzony baseline 80.6% powtórzeń / 5 poziomów, droga zgłoszeniowa
+    zwalidowana, model jeszcze nie wgrany.
   - **Sesja B** → **AWS CDS Agentic AI** ($40k, deadline 28 X)
   - **Sesja C** → Gemma 4 (piszesz, że już masz)
   - **Sesja D** → Pokémon TCG Playground
