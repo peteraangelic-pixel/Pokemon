@@ -7,13 +7,13 @@ petersharps/arc-agi-3-novelty-explorer has status "KernelWorkerStatus.COMPLETE"
 
 ## Pliki wyjsciowe
 ```
-submission.parquet: Skipping, found more recently modified local copy (use --force to force download)
+Output file downloaded to /tmp/kout/submission.parquet
 Kernel log downloaded to /tmp/kout/arc-agi-3-novelty-explorer.log 
 total 24
-drwxr-xr-x  2 runner runner 4096 Oct 11 20:58 .
-drwxrwxrwt 15 root   root   4096 Oct 11 20:58 ..
--rw-r--r--  1 runner runner 9451 Oct 11 20:58 arc-agi-3-novelty-explorer.log
--rw-r--r--  1 runner runner 2747 Oct 11 20:58 submission.parquet
+drwxr-xr-x  2 runner runner 4096 Oct 11 21:00 .
+drwxrwxrwt 15 root   root   4096 Oct 11 21:00 ..
+-rw-r--r--  1 runner runner 9451 Oct 11 21:00 arc-agi-3-novelty-explorer.log
+-rw-r--r--  1 runner runner 2747 Oct 11 21:00 submission.parquet
 ```
 
 ## Log kernela (ostatnie 120 linii)
