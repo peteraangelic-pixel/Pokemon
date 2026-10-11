@@ -6,7 +6,7 @@ on:
       top_k:
         description: "Last N episodes per live submission"
         required: false
-        default: "7"
+        default: "15"
       include_official:
         description: "Try official top-episodes dataset (large, slow)"
         required: false
