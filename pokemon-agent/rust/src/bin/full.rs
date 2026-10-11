@@ -10,7 +10,7 @@ mod heuristic {
     include!("../heuristic.rs");
 }
 use engine::Engine;
-use heuristic::{CardIndex, Knobs};
+use heuristic::{CardIndex, Knobs, Plan};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -36,7 +36,7 @@ fn load_deck(path: &Path) -> Result<Vec<i32>> {
     Ok(ids)
 }
 
-fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: &CardIndex, knobs: &Knobs, seat: usize, game_idx: usize) -> Result<i32> {
+fn run_one_game(our_deck: &[i32], opp_deck: &[i32], our_plan: &Plan, opp_plan: &Plan, lib_path: &str, card_index: &CardIndex, knobs: &Knobs, seat: usize, game_idx: usize) -> Result<i32> {
     let (d0, d1) = if seat == 0 { (our_deck, opp_deck) } else { (opp_deck, our_deck) };
     let mut engine = Engine::new(lib_path)?;
     let mut obs = engine.battle_start(d0, d1)?;
@@ -64,10 +64,17 @@ fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: 
 
         let stype = select["type"].as_i64().unwrap_or(-1);
         let maxc = select["maxCount"].as_i64().unwrap_or(0);
-        let minc = select["minCount"].as_i64().unwrap_or(0);
         let opt_len = select["option"].as_array().map(|a| a.len()).unwrap_or(0);
 
-        let decision = heuristic::decide(&obs, card_index, knobs);
+        // decide whose turn
+        let me_idx = obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize;
+        let (plan, deck) = if me_idx == seat {
+            (our_plan, our_deck)
+        } else {
+            (opp_plan, opp_deck)
+        };
+
+        let decision = heuristic::decide(&obs, card_index, plan, knobs, deck);
 
         if decision.len() as i64 > maxc || decision.len() as i64 > opt_len as i64 {
             eprintln!("Game {} Step {}: INVALID decision len {} > max {} or opts {} stype={} decision={:?}", game_idx, step, decision.len(), maxc, opt_len, stype, decision);
@@ -75,8 +82,7 @@ fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: 
             return Ok(0);
         }
 
-        // Log every 20 steps
-        if step % 20 == 0 {
+        if step % 100 == 0 {
             eprintln!("Game {} Step {}: stype={} max={} opts={} decision={:?}", game_idx, step, stype, maxc, opt_len, decision);
         }
 
@@ -89,7 +95,7 @@ fn run_one_game(our_deck: &[i32], opp_deck: &[i32], lib_path: &str, card_index: 
             }
         }
 
-        if step > 1000 {
+        if step > 2000 {
             eprintln!("Game {} Step {}: too many steps, abort", game_idx, step);
             break;
         }
@@ -103,9 +109,13 @@ fn main() -> Result<()> {
     let opp_deck = load_deck(Path::new(&args.opp_deck))?;
     let card_index = CardIndex::load(&args.card_index)?;
     let knobs = Knobs::default();
+    let our_plan = Plan::build(&our_deck, &card_index);
+    let opp_plan = Plan::build(&opp_deck, &card_index);
 
     println!("Our deck: {} cards, Opp deck: {} cards", our_deck.len(), opp_deck.len());
     println!("Card index: {} cards, {} attacks", card_index.cards.len(), card_index.attacks.len());
+    println!("Our primary: {:?} line size {}", our_plan.primary, our_plan.line.len());
+    println!("Opp primary: {:?} line size {}", opp_plan.primary, opp_plan.line.len());
     println!("Lib: {}", args.lib_path);
     println!("Games: {}", args.games);
 
@@ -113,7 +123,7 @@ fn main() -> Result<()> {
     let mut results = Vec::new();
     for g in 0..args.games {
         let seat = g % 2;
-        match run_one_game(&our_deck, &opp_deck, &args.lib_path, &card_index, &knobs, seat, g) {
+        match run_one_game(&our_deck, &opp_deck, &our_plan, &opp_plan, &args.lib_path, &card_index, &knobs, seat, g) {
             Ok(r) => results.push(r),
             Err(e) => {
                 eprintln!("Game {} failed: {}", g, e);
