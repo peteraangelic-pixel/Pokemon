@@ -200,12 +200,20 @@ jobs:
             kaggle kernels status "$KERNEL" 2>&1 | tail -5 || echo "(brak)"
             echo '```'
             echo
-            echo "## Output (tail)"
+            echo "## Pliki wyjsciowe"
             echo '```'
             kaggle kernels output "$KERNEL" -p /tmp/kout 2>&1 | tail -5 || true
             ls -la /tmp/kout 2>/dev/null | head -20 || true
             echo '```'
+            echo
+            echo "## Log kernela (ostatnie 120 linii)"
+            echo '```'
+            find /tmp/kout -name '*.log' -exec tail -120 {} \; 2>/dev/null || echo "(brak logu)"
+            echo '```'
           } > "$OUTDIR/NOTEBOOK.md" 2>&1
+          # Zachowaj log i submission jako artefakty w repo (male pliki).
+          find /tmp/kout -name '*.log' -exec cp {} "$OUTDIR/kernel-run.log" \; 2>/dev/null || true
+          cp /tmp/kout/submission.parquet "$OUTDIR/submission.parquet" 2>/dev/null || true
           cat "$OUTDIR/NOTEBOOK.md"
 
       - name: Summarise
