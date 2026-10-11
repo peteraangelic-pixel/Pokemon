@@ -204,10 +204,10 @@ os.environ.setdefault("PTCG_ATTACK", "195")
 os.environ.setdefault("PTCG_RETREAT_BASE", "122")
 os.environ.setdefault("PTCG_RETREAT_NO_ATK", "219")
 os.environ.setdefault("PTCG_RETREAT_KO", "277")
-os.environ.setdefault("PTCG_RETREAT_WALL", "344")
-os.environ.setdefault("PTCG_GUST_BONUS", "59")
+os.environ.setdefault("PTCG_RETREAT_WALL", "350")
+os.environ.setdefault("PTCG_GUST_BONUS", "70")
 os.environ.setdefault("PTCG_WALL_PENALTY", "-650")
-os.environ.setdefault("PTCG_WALL_ESCAPE", "211")
+os.environ.setdefault("PTCG_WALL_ESCAPE", "230")
 os.environ.setdefault("PTCG_ATTACH_WALL_BONUS", "30")
 os.environ.setdefault("PTCG_ATTACH_WALL_PENALTY", "-35")
 os.environ.setdefault("PTCG_BEACH_WALL", "335")
@@ -246,10 +246,10 @@ ATTACK_SCORE = _env_int("PTCG_ATTACK", 200)
 RETREAT_BASE = _env_int("PTCG_RETREAT_BASE", 120)
 RETREAT_NO_ATK = _env_int("PTCG_RETREAT_NO_ATK", 205)
 RETREAT_KO = _env_int("PTCG_RETREAT_KO", 285)
-RETREAT_WALL = _env_int("PTCG_RETREAT_WALL", 340)
-GUST_BONUS = _env_int("PTCG_GUST_BONUS", 60)
+RETREAT_WALL = _env_int("PTCG_RETREAT_WALL", 350)
+GUST_BONUS = _env_int("PTCG_GUST_BONUS", 70)
 WALL_PENALTY = _env_int("PTCG_WALL_PENALTY", -500)
-WALL_ESCAPE_BONUS = _env_int("PTCG_WALL_ESCAPE", 200)
+WALL_ESCAPE_BONUS = _env_int("PTCG_WALL_ESCAPE", 230)
 ATTACH_WALL_BONUS = _env_int("PTCG_ATTACH_WALL_BONUS", 40)
 ATTACH_WALL_PENALTY = _env_int("PTCG_ATTACH_WALL_PENALTY", -20)
 BEACH_WALL_SCORE = _env_int("PTCG_BEACH_WALL", 345)
@@ -821,134 +821,6 @@ def _wall_gust_bonus(cid, obs: dict, me_idx: int, opp_idx: int) -> int:
     return 0
 
 
-def _count_water_in_discard(obs: dict, me_idx: int) -> int:
-    try:
-        p = obs["current"]["players"][me_idx]
-        discard = p.get("discard") or []
-        cnt = 0
-        for d in discard:
-            if not isinstance(d, dict):
-                continue
-            if _energy_id_of(d.get("id")) == Energy.WATER:
-                cnt += 1
-        return cnt
-    except Exception:
-        return 0
-
-
-def _gust_lethal_bonus(cid, obs: dict, me_idx: int, opp_idx: int) -> int:
-    """Bonus for Boss's Orders when it can gust a low-HP bench for a prize KO.
-
-    Scans opponent bench for targets we can KO with our current Active (or a
-    ready bench attacker after retreat). Returns large bonus if lethal.
-    """
-    if not card(cid).get("gu"):
-        return 0
-    try:
-        opp = obs["current"]["players"][opp_idx]
-        bench = [b for b in (opp.get("bench") or []) if b]
-        if not bench:
-            return 0
-        my_active = _active(obs, me_idx)
-        my_bench = _bench(obs, me_idx)
-        # collect potential attackers: active + ready bench
-        attackers = []
-        if my_active:
-            attackers.append(my_active)
-        for b in my_bench:
-            if _attack_ready(b):
-                attackers.append(b)
-
-        best = 0
-        for target in bench:
-            tid = target.get("id")
-            thp = int(target.get("hp") or 0)
-            if thp <= 0 or thp > 340:
-                continue
-            # skip if all attackers are walled vs this target
-            can_hit = False
-            max_dmg_vs_target = 0
-            for atk_poke in attackers:
-                aid = atk_poke.get("id")
-                if damage_prevented(aid, tid, 10 ** 6):
-                    continue
-                # best damage this attacker can do to this target
-                bd = 0
-                for atk_id in card(aid).get("atk") or []:
-                    raw = _estimate_damage_raw(atk_id, obs, me_idx, opp_idx)
-                    if raw <= 0:
-                        continue
-                    if damage_prevented(aid, tid, raw):
-                        continue
-                    at = card(aid).get("pt")
-                    df = card(tid)
-                    if at is not None and df.get("w") is not None and at == df.get("w"):
-                        raw += 30
-                    if at is not None and df.get("res") is not None and at == df.get("res"):
-                        raw -= 30
-                    raw = max(raw, 0)
-                    # Belt: +50 vs ex
-                    try:
-                        tools = atk_poke.get("tools") or []
-                        has_belt = any(card(t.get("id")).get("n") == "Maximum Belt" for t in tools if isinstance(t, dict))
-                        # also check attached tools via board? simplified
-                        if has_belt and (card(tid).get("ex") or card(tid).get("mex")):
-                            raw += 50
-                    except Exception:
-                        pass
-                    bd = max(bd, raw)
-                if bd > 0:
-                    can_hit = True
-                    max_dmg_vs_target = max(max_dmg_vs_target, bd)
-            if not can_hit:
-                continue
-            if max_dmg_vs_target >= thp:
-                # lethal gust
-                bonus = 90 + 25 * prize_value(tid)
-                if thp <= 70:
-                    bonus += 30
-                elif thp <= 120:
-                    bonus += 15
-                # extra if target is a threat (has energy)
-                try:
-                    if len(target.get("energies") or []) >= 2:
-                        bonus += 15
-                except Exception:
-                    pass
-                best = max(best, bonus)
-        return best
-    except Exception:
-        return 0
-
-
-def _retrieval_bonus(cid, obs: dict, me_idx: int) -> int:
-    """Boost Energy Retrieval (1118) when we have water energy in discard and need it."""
-    if int(cid) != 1118:
-        return 0
-    try:
-        water_disc = _count_water_in_discard(obs, me_idx)
-        if water_disc == 0:
-            return -20  # don't waste it if no target
-        p = obs["current"]["players"][me_idx]
-        need = 0
-        for slot in (p.get("active") or []) + (p.get("bench") or []):
-            if not slot:
-                continue
-            en_need = _energies_needed(slot)
-            if 0 < en_need < 99:
-                need += en_need
-        hand = p.get("hand") or []
-        energy_in_hand = sum(1 for h in hand if _energy_id_of(h.get("id")) == Energy.WATER)
-        bonus = 25 + 12 * water_disc + 8 * need
-        if energy_in_hand == 0:
-            bonus += 25
-        if need >= 2:
-            bonus += 20
-        return bonus
-    except Exception:
-        return 0
-
-
 def estimate_attack_damage(aid, obs: dict, me_idx: int, opp_idx: int) -> int:
     """Damage an attack would do, after the defender's protection abilities.
 
@@ -1281,13 +1153,9 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         if ct == CardType.SUPPORTER:
             if cur.get("supporterPlayed"):
                 return 25
-            return (SUPPORTER_SCORE + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
-                    + _gust_lethal_bonus(cid, obs, me_idx, opp_idx)
-                    + _retrieval_bonus(cid, obs, me_idx))
+            return SUPPORTER_SCORE + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
         if ct == CardType.ITEM:
-            return (ITEM_SCORE + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
-                    + _gust_lethal_bonus(cid, obs, me_idx, opp_idx)
-                    + _retrieval_bonus(cid, obs, me_idx))
+            return ITEM_SCORE + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
         if ct == CardType.STADIUM:
             if cur.get("stadiumPlayed"):
                 return 25

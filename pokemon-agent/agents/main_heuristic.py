@@ -1,3 +1,4 @@
+# Gen5 best 0.8 (mutated around Gen4 0.782, strength 0.03)
 """Phase 1 rule-based agent for "The Pokemon Company - PTCG AI Battle Challenge".
 
 Design goals
@@ -191,18 +192,75 @@ class Ctx:
 # --------------------------------------------------------------------------
 
 #: Do we choose to go first when the engine asks (SelectContext.IS_FIRST)?
-#: Going first means we set up first but cannot play a Supporter on our very
-#: first turn.  Exposed as a knob because it is a cheap A/B hypothesis.
+os.environ.setdefault("PTCG_SUPPORTER", "346")
+os.environ.setdefault("PTCG_ITEM", "325")
+os.environ.setdefault("PTCG_BENCH", "304")
+os.environ.setdefault("PTCG_EVOLVE", "292")
+os.environ.setdefault("PTCG_ATTACH", "287")
+os.environ.setdefault("PTCG_STADIUM", "270")
+os.environ.setdefault("PTCG_ABILITY", "259")
+os.environ.setdefault("PTCG_ATTACK_KO", "273")
+os.environ.setdefault("PTCG_ATTACK", "195")
+os.environ.setdefault("PTCG_RETREAT_BASE", "122")
+os.environ.setdefault("PTCG_RETREAT_NO_ATK", "219")
+os.environ.setdefault("PTCG_RETREAT_KO", "277")
+os.environ.setdefault("PTCG_RETREAT_WALL", "350")
+os.environ.setdefault("PTCG_GUST_BONUS", "70")
+os.environ.setdefault("PTCG_WALL_PENALTY", "-650")
+os.environ.setdefault("PTCG_WALL_ESCAPE", "230")
+os.environ.setdefault("PTCG_ATTACH_WALL_BONUS", "30")
+os.environ.setdefault("PTCG_ATTACH_WALL_PENALTY", "-35")
+os.environ.setdefault("PTCG_BEACH_WALL", "335")
+os.environ.setdefault("PTCG_FIGHTER_READY", "22")
+os.environ.setdefault("PTCG_FIGHTER_NOT_READY", "-63")
+os.environ.setdefault("PTCG_PRIZE_PENALTY", "16")
+os.environ.setdefault("PTCG_ENABLE_BONUS", "14")
+os.environ.setdefault("PTCG_PROGRESS_BONUS", "32")
+os.environ.setdefault("PTCG_ACTIVE_BONUS", "6")
+os.environ.setdefault("PTCG_PRIMARY_BONUS", "7")
+
 GO_FIRST = os.environ.get("PTCG_GO_FIRST", "1") not in ("0", "false", "False", "")
 
-#: Score variable-damage attacks ("100 damage for each ...") from the effect
-#: text instead of trusting the printed ``damage`` field.  Kept as a knob so the
-#: change can be A/B tested head-to-head on the local arena.
+#: Score variable-damage attacks
 VAR_DAMAGE = os.environ.get("PTCG_VAR_DMG", "1") not in ("0", "false", "False", "")
 
-# When our Active literally cannot damage the defender (anti-ex walls), switch
-# in an attacker that can instead of attacking into the wall for zero.
+# Wall handling
 WALL_SWITCH = os.environ.get("PTCG_WALL", "1") not in ("0", "false", "False", "")
+
+# --- Tunable scoring bands (for evolutionary search, 40 parallel versions) ---
+def _env_int(name, default):
+    try:
+        return int(os.environ.get(name, str(default)))
+    except:
+        return default
+
+SUPPORTER_SCORE = _env_int("PTCG_SUPPORTER", 340)
+ITEM_SCORE = _env_int("PTCG_ITEM", 330)
+BENCH_SCORE = _env_int("PTCG_BENCH", 320)
+EVOLVE_SCORE = _env_int("PTCG_EVOLVE", 310)
+ATTACH_SCORE = _env_int("PTCG_ATTACH", 300)
+STADIUM_SCORE = _env_int("PTCG_STADIUM", 290)
+ABILITY_SCORE = _env_int("PTCG_ABILITY", 270)
+ATTACK_KO_SCORE = _env_int("PTCG_ATTACK_KO", 260)
+ATTACK_SCORE = _env_int("PTCG_ATTACK", 200)
+RETREAT_BASE = _env_int("PTCG_RETREAT_BASE", 120)
+RETREAT_NO_ATK = _env_int("PTCG_RETREAT_NO_ATK", 205)
+RETREAT_KO = _env_int("PTCG_RETREAT_KO", 285)
+RETREAT_WALL = _env_int("PTCG_RETREAT_WALL", 350)
+GUST_BONUS = _env_int("PTCG_GUST_BONUS", 70)
+WALL_PENALTY = _env_int("PTCG_WALL_PENALTY", -500)
+WALL_ESCAPE_BONUS = _env_int("PTCG_WALL_ESCAPE", 230)
+ATTACH_WALL_BONUS = _env_int("PTCG_ATTACH_WALL_BONUS", 40)
+ATTACH_WALL_PENALTY = _env_int("PTCG_ATTACH_WALL_PENALTY", -20)
+BEACH_WALL_SCORE = _env_int("PTCG_BEACH_WALL", 345)
+FIGHTER_READY_BONUS = _env_int("PTCG_FIGHTER_READY", 60)
+FIGHTER_NOT_READY = _env_int("PTCG_FIGHTER_NOT_READY", -40)
+PRIZE_PENALTY = _env_int("PTCG_PRIZE_PENALTY", 25)
+ENABLE_BONUS = _env_int("PTCG_ENABLE_BONUS", 30)
+PROGRESS_BONUS = _env_int("PTCG_PROGRESS_BONUS", 18)
+ACTIVE_BONUS = _env_int("PTCG_ACTIVE_BONUS", 12)
+PRIMARY_BONUS = _env_int("PTCG_PRIMARY_BONUS", 10)
+
 
 #: Special-condition preference when we inflict one (higher == better).
 _COND_ATTACK_ORDER = {
@@ -876,20 +934,20 @@ def _fighter_score(poke, obs=None, opp_active=None) -> int:
     hp = int(poke.get("hp") or 0)
     score = hp + 2 * best_dmg
     if _attack_ready(poke):
-        score += 60            # it can actually do something this turn
+        score += FIGHTER_READY_BONUS            # it can actually do something this turn
     else:
-        score -= 40            # sitting there taking hits
-    score -= 25 * prize_value(cid)  # expensive Pokemon are liabilities in front
+        score += FIGHTER_NOT_READY            # sitting there taking hits
+    score -= PRIZE_PENALTY * prize_value(cid)  # expensive Pokemon are liabilities in front
     # --- wall awareness ---
     if WALL_SWITCH and obs is not None and opp_active is not None:
         try:
             if damage_prevented(cid, opp_active.get("id"), 10 ** 6):
-                score -= 500   # this Pokemon is blanked by the wall
+                score += WALL_PENALTY   # this Pokemon is blanked by the wall
             else:
                 # non-walled attacker is precious when we are walled
                 my_active = _active(obs, _me_idx_from_obs(obs))
                 if my_active and damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
-                    score += 200
+                    score += WALL_ESCAPE_BONUS
         except Exception:
             pass
     return score
@@ -982,7 +1040,7 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
 
         opp_hp = int(opp_active.get("hp") or 0)
         ko = est > 0 and est >= opp_hp
-        score = 260 if ko else 200
+        score = ATTACK_KO_SCORE if ko else ATTACK_SCORE
         score += min(est, 240) // 4
         if ko:
             score += 25 * prize_value(opp_active.get("id"))
@@ -996,7 +1054,7 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         return score
 
     if otype == OptionType.RETREAT:
-        score = 120
+        score = RETREAT_BASE
         if my_active is None:
             return score
         opp_power = _best_attack_damage(opp_active, (opp_active or {}).get("id"), my_active.get("id"), obs, opp_idx, me_idx)
@@ -1006,9 +1064,9 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
             plan_power(p.get("id")) >= plan_power(my_active.get("id")) - 40 for p in my_bench
         )
         if not can_attack and my_bench:
-            score = 205  # get a live attacker in front instead of idling
+            score = RETREAT_NO_ATK  # get a live attacker in front instead of idling
         if opp_power >= my_hp and my_bench and backup_ok and my_hp <= 80:
-            score = 285  # escape a knockout, then develop
+            score = RETREAT_KO  # escape a knockout, then develop
 
         if WALL_SWITCH and opp_active is not None and my_bench:
             # Our Active is walled: every attack it has is blanked by the
@@ -1019,13 +1077,13 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
             if damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
                 for p in my_bench:
                     if not damage_prevented(p.get("id"), opp_active.get("id"), 10 ** 6):
-                        score = max(score, 340)
+                        score = max(score, RETREAT_WALL)
                         break
         return score
 
     if otype == OptionType.EVOLVE:
         src = _hand_id(obs, me_idx, opt.get("index"))
-        score = 310
+        score = EVOLVE_SCORE
         if is_primary_line(src):
             score += 25
         if opt.get("inPlayArea") == Area.ACTIVE:
@@ -1038,9 +1096,9 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         target_area = opt.get("inPlayArea")
         target_idx = opt.get("inPlayIndex", 0)
         target = _pokemon_at(obs, me_idx, target_area, target_idx)
-        score = 300
+        score = ATTACH_SCORE
         if c.get("ct") == CardType.TOOL:
-            score = 288
+            score = ATTACH_SCORE - 12
             if target_area == Area.ACTIVE:
                 score += 8
             return score
@@ -1052,13 +1110,13 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
             if cost is None:
                 score += 5
             elif have + 1 >= cost and have < cost:
-                score += 30   # this attachment enables the attack
+                score += ENABLE_BONUS   # this attachment enables the attack
             elif have < cost:
-                score += 18   # progress toward it
+                score += PROGRESS_BONUS   # progress toward it
             else:
                 score += 4    # already online; extra energy is low value
             if target_area == Area.ACTIVE:
-                score += 12
+                score += ACTIVE_BONUS
             if is_primary_line(target.get("id")):
                 score += 10
             # --- wall v2: when walled, feed the bench attacker that can hit ---
@@ -1067,15 +1125,15 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
                     my_active = _active(obs, me_idx)
                     if my_active and damage_prevented(my_active.get("id"), opp_active.get("id"), 10 ** 6):
                         if not damage_prevented(target.get("id"), opp_active.get("id"), 10 ** 6):
-                            score += 40  # this energy builds our escape plan
+                            score += ATTACH_WALL_BONUS  # this energy builds our escape plan
                         else:
-                            score -= 20  # don't feed another walled attacker
+                            score += ATTACH_WALL_PENALTY  # don't feed another walled attacker
                 except Exception:
                     pass
         return score
 
     if otype == OptionType.ABILITY:
-        return 270
+        return ABILITY_SCORE
 
     if otype == OptionType.PLAY:
         cid = _hand_id(obs, me_idx, opt.get("index"))
@@ -1095,9 +1153,9 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         if ct == CardType.SUPPORTER:
             if cur.get("supporterPlayed"):
                 return 25
-            return 340 + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
+            return SUPPORTER_SCORE + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
         if ct == CardType.ITEM:
-            return 330 + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
+            return ITEM_SCORE + _wall_gust_bonus(cid, obs, me_idx, opp_idx)
         if ct == CardType.STADIUM:
             if cur.get("stadiumPlayed"):
                 return 25
