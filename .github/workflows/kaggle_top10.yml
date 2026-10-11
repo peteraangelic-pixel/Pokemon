@@ -60,13 +60,32 @@ jobs:
           printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
           chmod 600 ~/.kaggle/access_token
 
-      - name: Download TOP10 live replays (fresh, not 3-day-old dataset)
+      # Fetch parameters resolution order: dispatch inputs > trigger file > defaults.
+      # The trigger file (top10.trigger) may carry key=value pairs, e.g.
+      #   top_n=30 replays_per_team=1 max_files=40 Sat Oct 11 11:10 UTC 2026
+      - name: Resolve fetch parameters
+        run: |
+          TOP_N="${{ inputs.top_n || '' }}"
+          RPT="${{ inputs.replays_per_team || '' }}"
+          MAXF=""
+          for f in pokemon-agent/kaggle_results/top10.trigger pokemon-agent/kaggle_results/top10_live.trigger; do
+            [ -f "$f" ] || continue
+            [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$RPT" ] || RPT=$(sed -n 's/.*replays_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            MAXF=$(sed -n 's/.*max_files=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+          done
+          echo "top_n=${TOP_N:-10}" >> "$GITHUB_ENV"
+          echo "rpt=${RPT:-7}" >> "$GITHUB_ENV"
+          echo "maxf=${MAXF:-30}" >> "$GITHUB_ENV"
+          echo "Using top_n=${TOP_N:-10} replays_per_team=${RPT:-7} max_files=${MAXF:-30}"
+
+      - name: Download TOP-N live replays (fresh, not 3-day-old dataset)
         run: |
           set -e
           python pokemon-agent/tools/download_top10_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
-            --top-n "${{ inputs.top_n || '10' }}" \
-            --replays-per-team "${{ inputs.replays_per_team || '7' }}" \
+            --top-n "$top_n" \
+            --replays-per-team "$rpt" \
             --outdir pokemon-agent/kaggle_results/top10_live \
             --delay 0.2 2>&1 | tee pokemon-agent/kaggle_results/top10_live/fetch.log
           echo "=== summary ==="
@@ -137,10 +156,10 @@ jobs:
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
           find pokemon-agent/kaggle_results/top10 -type f -size +5M -delete || true
           find pokemon-agent/kaggle_results/top10_live -type f -size +5M -delete || true
-          # Keep at most 30 jsons each
-          # keep only the NEWEST 30 jsons (episode ids sort lexicographically)
-          ls -1 pokemon-agent/kaggle_results/top10/*.json 2>/dev/null | head -n -31 | xargs rm -f || true
-          ls -1 pokemon-agent/kaggle_results/top10_live/*.json 2>/dev/null | head -n -31 | xargs rm -f || true
+          # keep only the NEWEST $maxf jsons each (episode ids sort lexicographically)
+          # analysis.json/summary.json are NOT episode files; exclude them from the count
+          ls -1 pokemon-agent/kaggle_results/top10/episode-*.json 2>/dev/null | head -n -$((maxf + 1)) | xargs rm -f || true
+          ls -1 pokemon-agent/kaggle_results/top10_live/episode-*.json 2>/dev/null | head -n -$((maxf + 1)) | xargs rm -f || true
           git add pokemon-agent/kaggle_results/top10/ pokemon-agent/kaggle_results/top10_live/ || true
           git status --short | head -20
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/top10* )" ]; then
