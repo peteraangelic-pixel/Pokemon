@@ -98,7 +98,7 @@ jobs:
         run: |
           {
             echo "=== kaggle kernels push --help ==="; kaggle kernels push --help 2>&1
-            echo; echo "=== kaggle kernels submit --help ==="; kaggle kernels submit --help 2>&1
+            echo; echo "=== kaggle kernels submit --help ==="; kaggle kernels submit --help 2>&1 || true
           } >> "$OUTDIR/API_PROBE.md" 2>&1
           true
 
