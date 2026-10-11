@@ -1,1 +1,1 @@
-fetch 90-100 Sat Oct 10 12:18:54 UTC 2026
+2026-10-11T10:46:06Z trigger top30 weak
