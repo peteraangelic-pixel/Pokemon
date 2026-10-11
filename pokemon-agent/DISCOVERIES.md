@@ -209,10 +209,18 @@ Result: draws 12–16% → 7.5% (88→60 @600g paired), WR 0.78–0.85 → **0.9
 
 ## 12. Open problems (next candidates)
 
+- ~~Stall endgame: attack the wall with Swirling Waves requires 3W attach
+  cadence~~ **SOLVED by 8560a56a's v22b** (ATTACH-to-active-Kyogre +40 while
+  W<3, Swirling 1043 +120 at 3W): interleaved A/B vs v21 — stall +5.0pp
+  (draws 12.2%→6.1%), m35W +6.0pp, Bill +3.0pp, top30/broad neutral, zero
+  regressions → **v22b = current submission candidate** (`bundles/phase1_tuned_v22b_hybrid_planner.tar.gz`).
+- ⚠️ `tools/ab_interleaved.py` shipped on 8560a56a with `pa = pb = [0,0,0]`
+  aliasing (both arms always print IDENTICAL totals, z always 0) and a
+  `_manifest.csv` glob crash. Both fixed on this branch — with the buggy
+  version NO A/B result is trustworthy (our first run printed identical
+  841-42-77 for both agents). Always sanity-check that A/B arms can differ.
 - Per-archetype ATTACKER plan (current rules bias scores; swapping the whole
   attack plan vs Mega/stall is untested).
-- Stall endgame: attack the wall with Swirling Waves requires 3W attach cadence
-  — v21 penalizes the loop but does not yet plan the attach sequence.
 - Mirror remains a deck-level coin flip (30W vs 35W damage race) — no agent
   rule fixes it; only live opponent detection could justify deck swaps, which
   the engine does not allow pre-match.
