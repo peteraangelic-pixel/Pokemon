@@ -1553,13 +1553,6 @@ if _DEBUG:
 # tools/test_kaggle_import.py asserts this ordering using get_last_callable
 # itself, so moving it again will fail the build rather than the upload.
 # ---------------------------------------------------------------------------
-def agent(obs: dict) -> list[int]:
-    try:
-        return _decide(obs)
-    except Exception:
-        return _fallback(obs)
-
-
 # --- v21: archetype-scan hybrid (2026-10-11) ----------------------------------
 # Obs facts (verified with tools/gauntlet_ffi_dbg.py):
 #   - opponent DECK is NOT visible (only deckCount); hand is None.
@@ -1685,3 +1678,9 @@ def _score_main_option_v21(opt, obs, me_idx, opp_idx):
 
 
 _score_main_option = _score_main_option_v21
+
+def agent(obs: dict) -> list[int]:
+    try:
+        return _decide(obs)
+    except Exception:
+        return _fallback(obs)

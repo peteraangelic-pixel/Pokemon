@@ -62,7 +62,11 @@ jobs:
           IN_WAIT: ${{ inputs.wait_seconds }}
         run: |
           set -euo pipefail
-          BUNDLE="${IN_BUNDLE:-$(tr -d '[:space:]' < pokemon-agent/kaggle_results/at_reset.trigger)}"
+          # The trigger file on the CURRENT branch tip wins over the dispatch
+          # input: phase 1 resolves the bundle at arm time, but the branch may
+          # have been re-armed with a better bundle while phase 1 slept.
+          BUNDLE="$(tr -d '[:space:]' < pokemon-agent/kaggle_results/at_reset.trigger 2>/dev/null || true)"
+          [ -n "$BUNDLE" ] || BUNDLE="$IN_BUNDLE"
           test -f "pokemon-agent/bundles/$BUNDLE" || { echo "bundle $BUNDLE not found"; ls pokemon-agent/bundles; exit 1; }
           NOW=$(date -u +%s)
           FIRE=$(( $(date -u -d 'tomorrow 00:00' +%s) + 90 ))

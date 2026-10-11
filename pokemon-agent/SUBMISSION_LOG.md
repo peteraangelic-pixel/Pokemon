@@ -868,3 +868,28 @@ Zob. kaggle_results/comparison_m3v18/RESULTS.md (sekcja 19:55). Kluczowe: (1) v1
 
 ### 20:45 UTC — v21 HYBRID: skan archetypu (board-scan, talia niewidoczna) + draw→win vs stall; Actions matrix verification w toku
 Diagnoza remisów (100% step_limit, stan zamrożenia po wypaleniu obu decków) → 3 tryby reguł przełączane skanem boardu/discardu przeciwnika. Lokalnie: stall 0.915 (+7-13pp), Bill 0.663 (+4.6pp), top30 0.833 @100g (rekord), broad neutralnie. Głęboka weryfikacja parowana v11/v21 na 13 jobach Actions (hybrid-verify). Po wynikach: decyzja o wymianie submissionu na v21 (pierwszy realny kandydat od plateau!).
+
+### 21:00 UTC — DECYZJA: v21 HYBRID leci po resecie (Actions matrix: +1.10pp / 43.6k parowanych gier, 3.4σ)
+
+**Wyniki hybrid-verify (13 jobów × 4 rdzenie, v11 vs v21 PAROWANE w tym samym runie — pełne pliki: kaggle_results/hybrid_verify/):**
+
+| job | v11 | v21 | Δ |
+|---|---|---|---|
+| stall_yaruki600 | 0.815 | 0.857 | **+4.2pp** (draws 88→60) |
+| bill600 (#1 live) | 0.620 | 0.645 | **+2.5pp** |
+| leo600 | 0.773 | 0.797 | **+2.4pp** |
+| mirror35_600 | 0.467 | 0.502 | **+3.5pp** |
+| mirror30_600 | 0.512 | 0.528 | +1.6pp |
+| top30_b200 (4600g) | 0.803 | 0.826 | +2.3pp |
+| broad_q1..q4 (8400g każda) | 0.604-0.616 | 0.617-0.623 | +0.1..+1.9pp (wszystkie ≥0) |
+| utility300 | 0.887 | 0.892 | +0.5pp |
+| mirror_live300 | 0.502 | 0.491 | -1.1pp (szum, jedyny <0) |
+| **AGREGAT 43 600 g** | **0.6385** | **0.6494** | **+1.10pp ≈ 3.4σ** |
+
+**Submission plan po resecie 00:00 UTC (2 sloty z 5):**
+1. c87f7a48: v11+30W (baseline, ich at-reset)
+2. **NASZ at-reset: phase1_tuned_v21_hybrid.tar.gz** — przeuzbrojony (DISARM usunięty, trigger=v21); workflow patch: trigger z branch-tip ma priorytet nad inputem dispatchu (faza-2 czyta trigger przy wybudzeniu ~22:37), message dynamiczny.
+
+**Krytyczna historia bundle:** builder odmówił wysyłki v21 (wrapper po def agent → Kaggle-loader wybrałby wrapper jako agenta!) — splice bloku v21 przed def agent; smoke OK (kaggle-loader + self-play BO1/BO3); sanity po splice: stall 0.910, top30-half 0.812 — zachowanie bez zmian. To tłumaczy też, dlaczego wcześniejsze "ulepszone" bundle (v18/v19b z wrapperami po agent) były podwójnie martwe: martwy kod ORAZ loader-boundary.
+
+**Rust+Rayon status (pytanie użytkownika):** do oceny agentów PYTHONOWYCH Rust nie może być użyty wiernie (silnik rust ma własną przybliżoną heurystykę — odnotowane w repo), więc compute poszedł na równoległy FFI-matrix na Actions (13 runnerów); Rust+Rayon pozostaje narzędziem do przeszukiwania PRZESTRZENI DECKÓW (wagi energetyczne), nie agentów.
