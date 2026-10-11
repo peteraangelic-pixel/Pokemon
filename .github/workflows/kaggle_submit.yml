@@ -14,11 +14,7 @@ on:
   push:
     branches: ["arena/c87f7a48-pokemon"]
     paths:
-      - "pokemon-agent/bundles/phase1_tuned_v9_final.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v11_super.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v12_30_boss4.trigger"
-      - "pokemon-agent/bundles/phase1_tuned_v12_30_boss4_v11c.trigger"
+      - "pokemon-agent/bundles/*.trigger"
       - ".github/workflows/kaggle_submit.yml"
 
 permissions:
