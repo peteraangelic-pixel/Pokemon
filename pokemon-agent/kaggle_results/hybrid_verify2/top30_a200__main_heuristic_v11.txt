@@ -1,0 +1,31 @@
+Darren_Sheehan                             192- 8- 0  0.960
+Kentaro_Totsuka                            185-15- 0  0.925
+Raja_Biswas                                184-16- 0  0.920
+バーベナヘレナでコンボ決めたい連合                          183-17- 0  0.915
+YumeNeko                                   179-21- 0  0.895
+Majiro_ns                                  173-27- 0  0.865
+OceanMix                                   170-30- 0  0.850
+Leon_Liu                                   170-30- 0  0.850
+Cristobal_Tudela                           166-34- 0  0.830
+やる気元気ミワハルキ_2nd_ver_                        166- 6-28  0.830
+Mathieu_W                                  162-38- 0  0.810
+KyryloBakumenko                            161-39- 0  0.805
+Colton_Martin                              157-43- 0  0.785
+ANMOL_GARG                                 156-44- 0  0.780
+Xinyu_Li                                   155-45- 0  0.775
+JerryChen                                  155-45- 0  0.775
+Chonghao_Peng                              154-46- 0  0.770
+Stephen_Schott                             153-47- 0  0.765
+Akmal_Xodarev__Busya_PRIME_                153-47- 0  0.765
+Zedan_Soorya                               152-48- 0  0.760
+leo_turing                                 151-49- 0  0.755
+Mengfei_Li                                 134-66- 0  0.670
+Bill_Vlasak                                108-92- 0  0.540
+
+TOTAL 3719W-853L-28D = 0.808  (23 decks x 200 games, 44s)
+worst 5:
+  Bill_Vlasak                                108-92-0  0.540
+  Mengfei_Li                                 134-66-0  0.670
+  leo_turing                                 151-49-0  0.755
+  Zedan_Soorya                               152-48-0  0.760
+  Akmal_Xodarev__Busya_PRIME_                153-47-0  0.765
