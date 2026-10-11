@@ -226,25 +226,39 @@ jobs:
             sort -u .gitignore -o .gitignore
           fi
 
-      # 0.01 vs last place 36.49 => the agent almost certainly did not play.
-      # Pull every diagnostic Kaggle exposes so we can prove why.
+      # The kernel *output* (2747 B parquet + 9451 B log) is from the real
+      # competition rerun -- `kernels files` only lists the 868 B placeholder.
+      # This is the only evidence of what the agent actually did.
       - name: Diagnoza po zgloszeniu (read-only)
         run: |
           REF=petersharps/arc-agi-3-novelty-explorer
-          SUB=$(tr -d '[:space:]' < arc-agi-3/kaggle/submission_id.txt 2>/dev/null || echo "")
-          {
-            echo "=== kernels files (outputy notebooka) ==="
-            kaggle kernels files "$REF" --csv 2>&1 | head -20
-            echo; echo "=== kernels output (download) ==="
-            mkdir -p /tmp/kout
-            kaggle kernels output "$REF" -p /tmp/kout 2>&1 | tail -5
-            ls -la /tmp/kout 2>&1 | head -20
-            echo; echo "=== episodes (json) ==="
-            if [ -n "$SUB" ]; then kaggle competitions episodes "$SUB" --format json 2>&1 | head -40; fi
-            echo; echo "=== submissions ==="
-            kaggle competitions submissions -c "$COMP" --csv 2>&1 | head -5
-          } > "$OUTDIR/POSTMORTEM.md" 2>&1
-          head -70 "$OUTDIR/POSTMORTEM.md"
+          mkdir -p "$OUTDIR/comp_run"
+          kaggle kernels output "$REF" -p "$OUTDIR/comp_run" 2>&1 | tail -3 || true
+          ls -la "$OUTDIR/comp_run" || true
+          pip install --quiet --disable-pip-version-check pandas pyarrow 2>&1 | tail -2 || true
+          python3 - "$OUTDIR/comp_run" > "$OUTDIR/COMP_RUN.md" 2>&1 <<'EOF'
+          import sys, pathlib
+          d = pathlib.Path(sys.argv[1])
+          print("=== LOG Z BIEGU KONKURSOWEGO ===")
+          for lg in sorted(d.glob('*.log')):
+              print(f"--- {lg.name} ({lg.stat().st_size} B) ---")
+              print(lg.read_text(errors='replace'))
+          print()
+          print("=== SUBMISSION.PARQUET ===")
+          for p in sorted(d.glob('*.parquet')):
+              print("plik:", p.name, p.stat().st_size, "bajtow")
+              try:
+                  import pandas as pd
+                  df = pd.read_parquet(p)
+                  print("ksztalt:", df.shape)
+                  print("kolumny:", list(df.columns))
+                  print(df.to_string()[:4000])
+                  if 'score' in df:
+                      print("SUMA score:", df['score'].sum())
+              except Exception as e:
+                  print("parse error:", repr(e))
+          EOF
+          head -90 "$OUTDIR/COMP_RUN.md"
 
       - name: Download competition files (opt-in)
         if: inputs.download
