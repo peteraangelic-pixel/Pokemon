@@ -1,16 +1,16 @@
 {
-  "fetched_utc": "2026-10-11T13:25:39+00:00",
+  "fetched_utc": "2026-10-11T13:54:28+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
   "leaderboard_rows": 317,
   "submission_rows": 10,
   "our_leaderboard": [
     {
-      "Rank": "257",
+      "Rank": "222",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-11 01:18:52",
-      "Score": "372.1",
+      "LastSubmissionDate": "2026-10-11 13:25:13",
+      "Score": "484.1",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
@@ -21,8 +21,8 @@
       "fileName": "phase1_tuned_v14_top30_v11f.tar.gz",
       "date": "2026-10-11 13:25:13.063000",
       "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
-      "status": "SubmissionStatus.PENDING",
-      "publicScore": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "484.1",
       "privateScore": ""
     },
     {
@@ -30,8 +30,8 @@
       "fileName": "phase1_tuned_v14_top30_v11f.tar.gz",
       "date": "2026-10-11 13:25:08.083000",
       "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
-      "status": "SubmissionStatus.PENDING",
-      "publicScore": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "385.0",
       "privateScore": ""
     },
     {
