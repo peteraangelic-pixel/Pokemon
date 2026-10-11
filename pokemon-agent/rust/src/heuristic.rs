@@ -277,8 +277,16 @@ fn pokemon_at<'a>(obs: &'a Value, owner: usize, area: i64, idx: usize) -> Option
     let players = obs_current(obs).get("players")?.as_array()?;
     let p = players.get(owner)?;
     match area {
-        4 => p.get("active")?.as_array()?.get(idx).filter(|x| !x.is_null()).cloned(),
-        5 => p.get("bench")?.as_array()?.get(idx).filter(|x| !x.is_null()).cloned(),
+        4 => {
+            let arr = p.get("active")?.as_array()?;
+            let v = arr.get(idx)?;
+            if v.is_null() { None } else { Some(v) }
+        },
+        5 => {
+            let arr = p.get("bench")?.as_array()?;
+            let v = arr.get(idx)?;
+            if v.is_null() { None } else { Some(v) }
+        },
         _ => None,
     }
 }

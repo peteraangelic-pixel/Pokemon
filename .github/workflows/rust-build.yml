@@ -22,7 +22,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Build rust binaries
         run: |
-          set -e
+          set -eo pipefail
           cd pokemon-agent/rust
           echo "=== cargo build ===" | tee build.log
           cargo build --release --bin rust_gauntlet --bin rust_full --bin gauntlet_rust --bin search_deck_rust 2>&1 | tee -a build.log
@@ -31,6 +31,7 @@ jobs:
           ./target/release/rust_gauntlet --help 2>&1 | tee -a build.log
           ./target/release/rust_full --help 2>&1 | tee -a build.log || true
           ./target/release/gauntlet_rust --help 2>&1 | tee -a build.log
+          ./target/release/search_deck_rust --help 2>&1 | tee -a build.log || true
           mkdir -p bin
           cp target/release/rust_gauntlet bin/rust_gauntlet || true
           cp target/release/rust_full bin/rust_full || true
@@ -40,16 +41,19 @@ jobs:
       - name: Commit binaries and logs
         if: always()
         run: |
-          set -e
+          set -eo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
           mkdir -p pokemon-agent/rust/bin
           if [ -f pokemon-agent/rust/build.log ]; then
             cp pokemon-agent/rust/build.log pokemon-agent/rust/bin/build.log || true
+            cp pokemon-agent/rust/build.log pokemon-agent/rust/build.log.txt || true
           fi
-          git add pokemon-agent/rust/bin/ || true
+          git add -f pokemon-agent/rust/bin/ || true
+          git add -f pokemon-agent/rust/build.log.txt || true
           git diff --cached --stat || true
+          cat pokemon-agent/rust/build.log | tail -n 200 || true
           if git diff --cached --quiet; then
             echo "No changes"
           else
