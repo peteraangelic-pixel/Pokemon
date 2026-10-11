@@ -1,0 +1,7 @@
+YumeNeko                                   90-10- 0  0.900
+OceanMix                                   90-10- 0  0.900
+
+TOTAL 180W-20L-0D = 0.900  (2 decks x 100 games, 2s)
+worst 5:
+  OceanMix                                   90-10-0  0.900
+  YumeNeko                                   90-10-0  0.900

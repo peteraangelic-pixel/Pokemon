@@ -1,0 +1,7 @@
+YumeNeko                                   89-11- 0  0.890
+OceanMix                                   85-15- 0  0.850
+
+TOTAL 174W-26L-0D = 0.870  (2 decks x 100 games, 2s)
+worst 5:
+  OceanMix                                   85-15-0  0.850
+  YumeNeko                                   89-11-0  0.890

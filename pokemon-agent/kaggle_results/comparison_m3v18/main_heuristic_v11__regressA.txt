@@ -1,0 +1,7 @@
+F_A_Nina                                   80-20- 0  0.800
+tanzaku                                    64-36- 0  0.640
+
+TOTAL 144W-56L-0D = 0.720  (2 decks x 100 games, 2s)
+worst 5:
+  tanzaku                                    64-36-0  0.640
+  F_A_Nina                                   80-20-0  0.800

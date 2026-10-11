@@ -1,0 +1,7 @@
+F_A_Nina                                   78-22- 0  0.780
+tanzaku                                    77-23- 0  0.770
+
+TOTAL 155W-45L-0D = 0.775  (2 decks x 100 games, 2s)
+worst 5:
+  tanzaku                                    77-23-0  0.770
+  F_A_Nina                                   78-22-0  0.780

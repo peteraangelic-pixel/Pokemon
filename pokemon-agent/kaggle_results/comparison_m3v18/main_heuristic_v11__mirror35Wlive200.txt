@@ -1,0 +1,7 @@
+Tom_Curry11                                102-98- 0  0.510
+vrmichalski                                97-103- 0  0.485
+
+TOTAL 199W-201L-0D = 0.497  (2 decks x 200 games, 1s)
+worst 5:
+  vrmichalski                                97-103-0  0.485
+  Tom_Curry11                                102-98-0  0.510

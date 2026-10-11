@@ -1,0 +1,31 @@
+Darren_Sheehan                             29- 1- 0  0.967
+やる気元気ミワハルキ_2nd_ver_                        28- 0- 2  0.933
+YumeNeko                                   27- 3- 0  0.900
+Xinyu_Li                                   27- 3- 0  0.900
+Raja_Biswas                                27- 3- 0  0.900
+Majiro_ns                                  27- 3- 0  0.900
+Leon_Liu                                   27- 3- 0  0.900
+バーベナヘレナでコンボ決めたい連合                          26- 4- 0  0.867
+Stephen_Schott                             26- 4- 0  0.867
+KyryloBakumenko                            26- 4- 0  0.867
+Kentaro_Totsuka                            26- 4- 0  0.867
+Akmal_Xodarev__Busya_PRIME_                26- 4- 0  0.867
+Cristobal_Tudela                           25- 5- 0  0.833
+Zedan_Soorya                               23- 7- 0  0.767
+OceanMix                                   23- 7- 0  0.767
+Mengfei_Li                                 23- 7- 0  0.767
+ANMOL_GARG                                 23- 7- 0  0.767
+leo_turing                                 21- 9- 0  0.700
+Mathieu_W                                  21- 9- 0  0.700
+JerryChen                                  21- 9- 0  0.700
+Colton_Martin                              21- 9- 0  0.700
+Chonghao_Peng                              19-11- 0  0.633
+Bill_Vlasak                                16-14- 0  0.533
+
+TOTAL 558W-130L-2D = 0.809  (23 decks x 30 games, 8s)
+worst 5:
+  Bill_Vlasak                                16-14-0  0.533
+  Chonghao_Peng                              19-11-0  0.633
+  Colton_Martin                              21-9-0  0.700
+  JerryChen                                  21-9-0  0.700
+  Mathieu_W                                  21-9-0  0.700

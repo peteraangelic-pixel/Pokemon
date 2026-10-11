@@ -830,3 +830,17 @@ observation.
 2. fetch-top7 (job w kaggle_fetch_mid) padał na fetch step — do retriggeru; podejrzenie throttlingu Kaggle przy wielu równoległych workflow.
 3. Mirror 35W (0.35-0.42) i Ogerpon-28G coinflip nadal otwarte — wymagają zmian deckowych/strukturalnych, nie wag.
 4. top30_live do dociągania do 210/210 (kolejne odpalenia top30_live.trigger, inkrementalnie).
+
+### 17:55 UTC — Porównanie z drugą gałęzią (v11m3) i naszym v18 — plateau potwierdzone, v11+30W stoi
+
+**Kontekst:** arena/8560a56a-pokemon @ d99ed65 (17:04 UTC) dodała mirror structural fix: v11m3 (D full), v11m3_B (atk-only), v11m3_C (atk+retreat) + mirror_fix_2026_10_11.md (mechanika Hammer/Riptide/Frost, pułapka harness /tmp card_index, protokół porównawczy: mirrory ≥200g, próg +5pp, regresja ≤3pp). Ich verdict: neutral, v11+30W stands.
+
+**Nasza niezależna weryfikacja (FFI libcg.so lokalnie, deck v12_30_boss4, ~7k gier + 900g H2H):**
+- Deck-only 30g: top30_live v11 0.797 / v18 0.796 / m3_C 0.813 / m3(D) 0.809; broad v11 0.605 / v18 0.610 / m3_C 0.604 / m3(D) 0.625
+- Mirrory głęboko: gen8 300g×2 + 35W-live 200g×2 (1000g/agent): v11 0.476 / v18 0.483 / m3_C 0.498 / m3(D) 0.475 — wszystkie ≤1.4σ od siebie, żaden nie łapie progu +5pp
+- Regresje (F_A_Nina, tanzaku, OceanMix, YumeNeko): bez spadków >3pp u jakiegokolwiek wariantu
+- H2H 300g: v11 0.523 vs m3_C, v11 0.520 vs v18, m3_C 0.473 vs m3(D) — wszystkie remisy statystyczne
+
+**Werdykt:** plateau ważne dla wszystkich 4 agentów. v11m3_C = najlepszy wariant mirrorowy na zapas (jedyne ≥0.495 wszędzie na mirrorach), v18 bez przewagi, v11+30W = submission bez zmian (at-reset uzbrojony na 00:00 UTC). Szczegóły + surowe logi: kaggle_results/comparison_m3v18/RESULTS.md. Agenci v11m3* skopiowani do agents/ z gałęzi 8560a56a (reproducybilność).
+
+**210 replayów top30 — wyjaśnienie + akcja:** poprzedni trigger nosił po zamarzniętej sesji parametry top_n=20/max_files=140 (stąd limit 140, a nie 210); do tego API Kaggle zwraca per drużynę tylko ostatnie dostępne epizody (często 1-3 z 7), a pliki akumulują się między runami (72→83). Zmunowany nowy trigger top_n=30/replays_per_team=7/max_files=210 — run w toku; kolejne odpalenia co kilka godzin dobijają do realnego maksimum poniżej 210, ile pozwala API.
