@@ -637,3 +637,49 @@ observation.
 - Agent v11f GUST 70 RETREAT_WALL 350 lethal gust+retrieval — 0.692 vs broad BEST, 0.848 vs top30_live BEST
 - Combine v10_34_sig4 + v11f = `phase1_tuned_v15_34W_v11f` — predicted better live than v14's 0.564 broad, should fix low-energy losses and mirror
 
+
+---
+
+## 2026-10-11 — v15 dopracowany by nie było zawodu
+
+**Problem v14:** 29W Boss3 Cyrano4 Retrieval2 Petrel2 — najgorszy vs broad_field 0.564 (44W34L) — przegrywa damage race z 35W (290 vs 350) i disruption z 10-14E Hammer (Dragapult, Lucario, Ogerpon).
+
+**Testy FFI gauntlet (Python agent, real libcg.so, 2-8 gier per deck):**
+
+| Deck | Agent | broad_field 39 decków | top30_live 23 decki | combined 41 |
+|---|---|---|---|---|
+| v10_34_sig4 34W Boss4 | best_from_search | 0.628 (49-29) | 0.783 (36-10) | - |
+| v12_30_boss4 30W Boss4 Lillie4 Waitress3 | best_from_search | 0.679 (53-25) | 0.848 (39-7) | - |
+| v13_29_top30 29W Boss3 | best_from_search | **0.564** (44-34) worst | 0.761? | - |
+| v10_34_sig4 | v11f (GUST70 WALL350) | 0.564 (44-34) | 0.761 (35-11) | 0.744 (61-21) |
+| v12_30_boss4 | v11f | **0.692 BEST** (54-24) | 0.870 (40-6) | 0.744 (122-42) 4g |
+| v12_30_boss4 | v11 (GUST80 WALL360 + H1 Night+Powerglass) | 0.641 (50-28) 2g, 0.622 8g | **0.891 BEST** (41-5) 2g, 0.826 4g | **0.768 BEST** (126-38) 4g |
+| v15_32_boss4 32W | v11f | 0.679 (53-25) 2g, 0.619 8g | 0.761 2g, 0.804 8g | - |
+| v15_30_hammer1 30W Hammer1 | v11f | 0.615 | 0.870 | - |
+
+**Wniosek:** Najlepszy vs broad (słabi) i vs top30 to **v12_30_boss4 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1** — 0.692 broad, 0.870 top30_live, 0.768 combined — lepszy niż wszystkie v15 31-34W testowane (0.603-0.679 broad). Hammer nie pomaga (0.615, 0.538). Powerglass z search Rust nie przekłada się na Python agenta (0.513 broad).
+
+**Dlaczego v12_30_boss4 działa:**
+- 30W vs 35W = 300 vs 350 dmg — 50 mniej, ale ma Lillie4 Waitress3 Cyrano1 Pad2 Night1 = szybki setup, więc wygrywa tempo mimo mniej energii
+- Boss4 vs low-energy gust3 — potrzebne vs Lucario/Ogerpon/Dragapult walls
+- Signal4 + Lillie4 = draw, nie brick
+
+**v15 bundles zbudowane (89 KiB, smoke ok, flat, agent() present):**
+- `phase1_tuned_v15_30_boss4_v11.tar.gz` — v12_30_boss4 + v11 (GUST80 WALL360 + H1 NightStretcher boost gdy discard Water>=2 + Powerglass boost + extra wall bonus 30 vs Sylveon/Crustle) — **0.768 combined BEST, 0.891 top30 BEST**
+- `phase1_tuned_v15_30_boss4_v11f.tar.gz` — v12_30_boss4 + v11f (GUST70 WALL350) — **0.692 broad BEST, 0.870 top30**
+- `phase1_tuned_v15_34_sig4_v11f.tar.gz` — v10_34_sig4 34W + v11f — backup vs 35W mirror (340 vs 350, blisko)
+
+**Hipoteza v15:**
+> v14 29W Boss3 był najgorszy vs broad 0.564. v15 wraca do 30W Boss4 Lillie4 Waitress3 — najlepszy vs broad 0.692 i vs top30 0.870 w FFI. v11 agent dodaje H1 (Night Stretcher recykling Water gdy discard>=2 i deck<8) i gust 80 +30 vs walls, co naprawia przegrane vs (ノ◡ <) 14F Lucario i tanzaku 14G Ogerpon. Powinien poprawić μ z 484→650+ i nie przegrywać ze słabymi 99-274 rank.
+
+**Plan submit jutro 00:00 UTC (reset limitu 5/dzień):**
+1. `v15_30_boss4_v11` jako #1 — best combined 0.768
+2. `v15_30_boss4_v11f` jako #2 — best broad 0.692 backup
+3. Jeśli oba poniżej 600, to `v15_34_sig4_v11f` jako #3 — 34W vs 35W mirror
+
+**Druga gałąź arena/8560a56a-pokemon:**
+- Ostatni commit 0891c87 13:20 UTC "decks: top30_live refreshed to 54/210 from fresh fetch 7 per top30"
+- Zawiera 24 decki top30_live (tak samo jak nasza gałąź), 409 replays downloaded, summary.json top_n=30 replays_per_team=7, teams=30
+- Brak lepszych decków/agentów niż u nas — SUBMISSION_LOG kończy się na v13, brak v14/v15
+- Wniosek: nie ma przewagi, nasza gałąź ma nowsze v14 484.1 i v15 gotowe, więc zostajemy na arena/c87f7a48-pokemon
+
