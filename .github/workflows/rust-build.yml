@@ -22,24 +22,37 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Build rust binaries
         run: |
+          set -e
           cd pokemon-agent/rust
-          cargo build --release
-          ls -lh target/release/rust_gauntlet target/release/rust_full
-          ./target/release/rust_gauntlet --help
-          ./target/release/rust_full --help || true
+          echo "=== cargo build ===" | tee build.log
+          cargo build --release --bin rust_gauntlet --bin rust_full --bin gauntlet_rust --bin search_deck_rust 2>&1 | tee -a build.log
+          echo "=== ls ===" | tee -a build.log
+          ls -lh target/release/rust_gauntlet target/release/rust_full target/release/gauntlet_rust target/release/search_deck_rust 2>&1 | tee -a build.log
+          ./target/release/rust_gauntlet --help 2>&1 | tee -a build.log
+          ./target/release/rust_full --help 2>&1 | tee -a build.log || true
+          ./target/release/gauntlet_rust --help 2>&1 | tee -a build.log
           mkdir -p bin
-          cp target/release/rust_gauntlet bin/rust_gauntlet
+          cp target/release/rust_gauntlet bin/rust_gauntlet || true
           cp target/release/rust_full bin/rust_full || true
+          cp target/release/gauntlet_rust bin/gauntlet_rust || true
+          cp target/release/search_deck_rust bin/search_deck_rust || true
           chmod +x bin/*
-      - name: Commit binaries
+      - name: Commit binaries and logs
+        if: always()
         run: |
+          set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pokemon-agent/rust/bin/
-          git diff --cached --stat
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          mkdir -p pokemon-agent/rust/bin
+          if [ -f pokemon-agent/rust/build.log ]; then
+            cp pokemon-agent/rust/build.log pokemon-agent/rust/bin/build.log || true
+          fi
+          git add pokemon-agent/rust/bin/ || true
+          git diff --cached --stat || true
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "chore(rust): commit rust binaries [skip ci]"
-            git push origin ${{ github.ref_name }}
+            git commit -m "chore(rust): commit rust binaries + build.log [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
