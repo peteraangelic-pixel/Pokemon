@@ -1,5 +1,5 @@
 {
-  "id": "petersharps/arc-agi-3-llm-agent",
+  "id": "petersharps/arc-agi-3-llm-agent-qwen3-6-27b",
   "title": "ARC-AGI-3 LLM Agent (Qwen3.6 27B)",
   "code_file": "submission.ipynb",
   "language": "python",
@@ -8,13 +8,7 @@
   "enable_gpu": true,
   "enable_tpu": false,
   "enable_internet": false,
-  "keywords": [
-    "arc-agi-3",
-    "arc-prize-2026",
-    "llm-agent",
-    "qwen",
-    "vllm"
-  ],
+  "keywords": [],
   "dataset_sources": [
     "driessmit1/arc3-vllm-h100-wheelhouse-v3",
     "driessmit1/vrfai-qwen3-6-27b-fp8-hf-snapshot"
