@@ -91,6 +91,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--competition", default=DEFAULT_SLUG)
     ap.add_argument("--top-n", type=int, default=10, help="top N teams from leaderboard")
+    ap.add_argument("--rank-min", type=int, default=0, help="if >0: select teams with leaderboard Rank >= this (overrides top-n)")
+    ap.add_argument("--rank-max", type=int, default=0, help="if >0: select teams with leaderboard Rank <= this")
     ap.add_argument("--replays-per-team", type=int, default=7, help="last M replays per team")
     ap.add_argument("--outdir", default=str(DEFAULT_OUT))
     ap.add_argument("--delay", type=float, default=0.2, help="delay between API calls")
@@ -156,9 +158,18 @@ def main() -> int:
             return 0
 
     lb_sorted = sorted(lb_rows, key=get_score, reverse=True)
-    top_teams = lb_sorted[: args.top_n]
-
-    print(f"\nTop {args.top_n} teams:")
+    if args.rank_min or args.rank_max:
+        # Select a rank band (e.g. --rank-min 90 --rank-max 100)
+        def get_rank(r):
+            try:
+                return int(r.get("Rank") or r.get("rank") or 0)
+            except:
+                return 0
+        top_teams = [t for t in lb_sorted if get_rank(t) and args.rank_min <= get_rank(t) <= args.rank_max]
+        print(f"\nRank band {args.rank_min}-{args.rank_max}: {len(top_teams)} teams")
+    else:
+        top_teams = lb_sorted[: args.top_n]
+        print(f"\nTop {args.top_n} teams:")
     for i, t in enumerate(top_teams, 1):
         print(f"  {i}. {t.get('TeamName')} (id={t.get('TeamId')}) score={t.get('Score')}")
 

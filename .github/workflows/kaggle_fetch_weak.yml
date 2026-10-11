@@ -1,0 +1,116 @@
+name: kaggle-fetch-weak
+
+# Fetch replays for a leaderboard RANK BAND (default 90-100, the "weak
+# players" tier) via the working download_top10_replays.py (positional kaggle
+# CLI args — the inline-CLI version in kaggle_fetch_90_100.yml on the parent
+# branch used invalid syntax and downloaded nothing).
+#
+# Trigger by pushing a change to pokemon-agent/kaggle_results/fetch_weak.trigger:
+#   rank_min=90 rank_max=100 replays_per_team=3 max_files=40 <date>
+#
+# Commits back the extracted deck set (decks/weak_field/, small CSVs) plus
+# just 5 newest raw episodes; raw >5MB files are pruned.
+
+on:
+  workflow_dispatch:
+    inputs:
+      rank_min:
+        description: "Rank band start"
+        required: false
+        default: "90"
+      rank_max:
+        description: "Rank band end"
+        required: false
+        default: "100"
+      replays_per_team:
+        description: "Replays per team"
+        required: false
+        default: "3"
+  push:
+    branches: ["arena/8560a56a-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/fetch_weak.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      # Params: dispatch inputs > trigger file > defaults.
+      - name: Resolve fetch parameters
+        run: |
+          RMIN="${{ inputs.rank_min || '' }}"
+          RMAX="${{ inputs.rank_max || '' }}"
+          RPT="${{ inputs.replays_per_team || '' }}"
+          TRIG=pokemon-agent/kaggle_results/fetch_weak.trigger
+          if [ -f "$TRIG" ]; then
+            [ -n "$RMIN" ] || RMIN=$(sed -n 's/.*rank_min=\([0-9][0-9]*\).*/\1/p' "$TRIG" | head -1)
+            [ -n "$RMAX" ] || RMAX=$(sed -n 's/.*rank_max=\([0-9][0-9]*\).*/\1/p' "$TRIG" | head -1)
+            [ -n "$RPT" ] || RPT=$(sed -n 's/.*replays_per_team=\([0-9][0-9]*\).*/\1/p' "$TRIG" | head -1)
+          fi
+          echo "rmin=${RMIN:-90}" >> "$GITHUB_ENV"
+          echo "rmax=${RMAX:-100}" >> "$GITHUB_ENV"
+          echo "rpt=${RPT:-3}" >> "$GITHUB_ENV"
+          echo "Using rank band ${RMIN:-90}-${RMAX:-100}, replays_per_team=${RPT:-3}"
+
+      - name: Download replays for the rank band
+        run: |
+          set -e
+          cd pokemon-agent
+          python tools/download_top10_replays.py \
+            --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
+            --rank-min "$rmin" \
+            --rank-max "$rmax" \
+            --replays-per-team "$rpt" \
+            --outdir kaggle_results/weak_field_live \
+            --delay 0.2 2>&1 | tee kaggle_results/weak_field_live/fetch.log
+          ls -lh kaggle_results/weak_field_live/ | tail -20
+
+      # Extract deck CSVs BEFORE pruning raw episodes.
+      - name: Build weak_field deck set
+        run: |
+          cd pokemon-agent
+          python tools/build_weak_field.py \
+            --dir kaggle_results/weak_field_live \
+            --out decks/weak_field \
+            --rank-min "$rmin" --rank-max "$rmax"
+
+      - name: Commit back (decks + 5 newest episodes)
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          find pokemon-agent/kaggle_results/weak_field_live -type f -size +5M -delete || true
+          # keep just the 5 newest raw episodes (episode ids sort chronologically)
+          ls -1 pokemon-agent/kaggle_results/weak_field_live/episode-*.json 2>/dev/null | sort | tail -n +6 | xargs rm -f || true
+          git add pokemon-agent/kaggle_results/weak_field_live/ pokemon-agent/decks/weak_field/ || true
+          git status --short | head -20
+          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/weak_field_live/ pokemon-agent/decks/weak_field/)" ]; then
+            git commit -m "chore(kaggle): weak tier (${rmin}-${rmax}) replays + decks [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

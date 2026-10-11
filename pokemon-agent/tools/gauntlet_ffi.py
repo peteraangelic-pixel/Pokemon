@@ -27,7 +27,33 @@ from multiprocessing import Pool
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-LIB = ROOT / ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
+
+def _find_lib() -> Path:
+    """libcg.so — WITHOUT importing kaggle_environments.
+
+    IMPORTANT (root-caused 2026-10-11, crash 'buffer full. capacity:7'):
+    kaggle-environments >= 1.33 auto-initializes the C engine when the
+    package is imported (envs/cabt/cg/sim.py runs GameInitialize at import).
+    Calling GameInitialize a second time overflows the engine's internal
+    init buffer (capacity 7) and aborts the process with a C++ exception.
+    So this tool must resolve the .so path without importing the package,
+    and must be the ONLY thing that calls GameInitialize in its process.
+    (Same root cause as the rust_full crash, fixed there with a OnceLock.)"""
+    candidates = [
+        ROOT / ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so",
+    ]
+    try:
+        import sysconfig
+        purelib = Path(sysconfig.get_paths()["purelib"])
+        candidates.append(purelib / "kaggle_environments/envs/cabt/cg/libcg.so")
+    except Exception:
+        pass
+    for c in candidates:
+        if c.exists():
+            return c
+    raise SystemExit("libcg.so not found — `bash setup.sh` or `pip install kaggle-environments`")
+
+LIB = _find_lib()
 
 class StartData(ctypes.Structure):
     _fields_ = [("battlePtr", ctypes.c_void_p), ("errorPlayer", ctypes.c_int), ("errorType", ctypes.c_int)]
@@ -35,11 +61,13 @@ class SerialData(ctypes.Structure):
     _fields_ = [("json", ctypes.c_char_p), ("data", ctypes.POINTER(ctypes.c_ubyte)), ("count", ctypes.c_int), ("selectPlayer", ctypes.c_int)]
 
 _lib = None
+_NO_INIT = False
 def get_lib():
     global _lib
     if _lib is None:
         lib = ctypes.cdll.LoadLibrary(str(LIB))
-        lib.GameInitialize()
+        if not _NO_INIT:
+            lib.GameInitialize()
         lib.BattleStart.restype = StartData
         lib.BattleStart.argtypes = [ctypes.POINTER(ctypes.c_int)]
         lib.BattleFinish.argtypes = [ctypes.c_void_p]
@@ -144,7 +172,15 @@ def main():
     ap.add_argument("--games", type=int, default=8, help="games per opponent deck (both seats)")
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--only", default="", help="comma-separated name filter (substring)")
+    ap.add_argument("--lib", default="", help="explicit libcg.so path (overrides auto-detect)")
+    ap.add_argument("--no-init", action="store_true",
+                    help="skip GameInitialize (only if something else in this process already initialized the engine)")
     args = ap.parse_args()
+    if args.lib:
+        global LIB
+        LIB = Path(args.lib)
+    global _NO_INIT
+    _NO_INIT = args.no_init
 
     agent_path = str((ROOT / args.agent) if not os.path.isabs(args.agent) else args.agent)
     our_deck_path = (ROOT / args.our_deck) if not os.path.isabs(args.our_deck) else Path(args.our_deck)

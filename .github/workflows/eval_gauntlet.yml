@@ -1,0 +1,114 @@
+name: eval-gauntlet
+
+# Run the full gauntlet evaluation ON GITHUB ACTIONS (offloaded compute) and
+# commit the report.  This is the place to kick off big evals: the runner
+# (2 vCPU, 7 GB) has the Kaggle token context, the committed Rust binaries
+# and a clean Python env — and it doesn't burn a local session.
+#
+# Trigger by pushing a change to pokemon-agent/kaggle_results/eval.trigger:
+#   games=10 agent=agents/best_from_search.py decks=v10_34_sig4,v12_30_boss4,v13_29_both <date>
+#
+# Report: pokemon-agent/kaggle_results/eval_report.md (committed).
+
+on:
+  workflow_dispatch:
+    inputs:
+      games:
+        description: "Games per matchup"
+        required: false
+        default: "10"
+  push:
+    branches: ["arena/8560a56a-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/eval.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install engine (ships libcg.so for the FFI tool)
+        run: pip install --quiet kaggle-environments
+
+      - name: Resolve eval parameters
+        run: |
+          G="${{ inputs.games || '' }}"
+          A=""
+          D=""
+          TRIG=pokemon-agent/kaggle_results/eval.trigger
+          if [ -f "$TRIG" ]; then
+            [ -n "$G" ] || G=$(sed -n 's/.*games=\([0-9][0-9]*\).*/\1/p' "$TRIG" | head -1)
+            A=$(sed -n 's/.*agent=\([^ ]*\).*/\1/p' "$TRIG" | head -1)
+            D=$(sed -n 's/.*decks=\([^ ]*\).*/\1/p' "$TRIG" | head -1)
+          fi
+          echo "eval_games=${G:-10}" >> "$GITHUB_ENV"
+          echo "eval_agent=${A:-agents/best_from_search.py}" >> "$GITHUB_ENV"
+          echo "eval_decks=${D:-v10_34_sig4,v12_30_boss4,v13_29_both}" >> "$GITHUB_ENV"
+          echo "games=${G:-10} agent=${A:-agents/best_from_search.py} decks=${D:-v10_34_sig4,v12_30_boss4,v13_29_both}"
+
+      - name: Run FFI gauntlet matrix (ground-truth Python policy)
+        run: |
+          set -e
+          cd pokemon-agent
+          mkdir -p kaggle_results
+          {
+            echo "# Eval report $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo
+            echo "agent=\`$eval_agent\` games/matchup=$eval_games"
+            echo
+            echo "| deck | pool | W-L-D | rate |"
+            echo "|---|---|---|---|"
+          } >> kaggle_results/eval_report.md
+          IFS=',' read -ra DECKS <<< "$eval_decks"
+          for d in "${DECKS[@]}"; do
+            [ -f "decks/$d.csv" ] || { echo "deck $d missing, skip" ; continue; }
+            for pool in decks/top30_live decks/broad_field decks/weak_field decks/_arch; do
+              [ -d "$pool" ] || continue
+              line=$(python tools/gauntlet_ffi.py \
+                --agent "$eval_agent" --our-deck "decks/$d.csv" --opp-dir "$pool" \
+                --games "$eval_games" --workers 2 2>&1 | grep -E "^TOTAL" | head -1) || true
+              if [ -n "$line" ]; then
+                wld=$(echo "$line" | grep -oE '[0-9]+W-[0-9]+L-[0-9]+D')
+                rate=$(echo "$line" | grep -oP '= \K[0-9.]+')
+                nd=$(echo "$line" | grep -oP '(\d+) decks' | grep -oE '[0-9]+')
+                echo "| $d | $pool | $wld ($nd decks) | $rate |" >> kaggle_results/eval_report.md
+              fi
+            done
+          done
+
+      - name: Cross-check with native Rust gauntlet (committed binary)
+        run: |
+          cd pokemon-agent
+          chmod +x rust/bin/gauntlet_rust 2>/dev/null || true
+          d="${eval_decks%%,*}"
+          {
+            echo
+            echo "## Rust cross-check (gen6 port, deck=$d)"
+            echo '```'
+            rust/bin/gauntlet_rust --our-deck "decks/$d.csv" --live-dir decks/top30_live --games "$eval_games" 2>&1 | tail -3 || echo "rust gauntlet failed"
+            echo '```'
+          } >> kaggle_results/eval_report.md
+
+      - name: Commit report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git add pokemon-agent/kaggle_results/eval_report.md || true
+          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/eval_report.md)" ]; then
+            git commit -m "eval: gauntlet report [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

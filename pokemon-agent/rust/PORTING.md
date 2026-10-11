@@ -22,25 +22,28 @@
 | `src/main.rs` (`rust_gauntlet`) | rayon fan-out over deck pairs, each game runs the **Python agent in a subprocess** (JSON-lines protocol) | works, but per-decision pipe IPC (~0.1–0.5 ms) eats the per-core gain → ≈ same throughput as `gauntlet_ffi.py --workers N` |
 | `src/bin/full.rs` (`rust_full`) | native engine + native (rough) heuristic, no Python at all | **crashes**: `abort: Rust cannot catch foreign exceptions` on ENERGY selects, `buffer full. capacity:7` |
 
-## The `rust_full` crash — analysis
+## The `buffer full. capacity:7` crash — ROOT CAUSED (2026-10-11)
 
-- Trigger: ENERGY selects (`stype=4`, context 30, Swirling-Waves energy discard /
-  attach) after the rough heuristic has attached a pile of energy. Reproduced
-  consistently with the rough policy; **never** with the real Python policy
-  (200+ FFI games, 138 ENERGY selects, clean).
-- The panic is a C++ exception thrown *inside* `libcg.so` during `Select` and
-  unwinding across the FFI boundary. `buffer full. capacity:7` reads like a
-  fixed 7-slot engine buffer overflowing.
-- Working hypothesis: the rough "first option" policy reaches a board state
-  (e.g. an energy attach the real policy would never pick — an 8th energy on a
-  line the engine's internal buffer was sized for 7) that trips a real engine
-  edge case. The C library then throws instead of rejecting the select.
-- Next steps on a dev machine (needs toolchain + gdb):
-  1. `gdb` the abort, print the C++ exception type/message — it will name the buffer.
-  2. Add a C++ shim (`extern "C" int safe_select(...)`) around `Select` that
-     `try/catches` and returns an error code, so one bad select can never abort the process.
-  3. Re-derive the ENERGY-select logic from `best_from_search.py::_score_option`
-     (it is a *scoring* problem, not "first option").
+**Cause: `GameInitialize` called more than once per process.** The engine
+keeps an internal init buffer with capacity 7; each `GameInitialize` call
+appends to it, and the 2nd/3rd call (or accumulation across Engine
+instances) overflows it → C++ `std::runtime_error("buffer full. capacity:7")`
+aborts the process.
+
+- Rust side: old `Engine::new()` called `GameInitialize` per Engine (per game)
+  → 7 games in → abort. **Fix already on this branch:** `engine.rs` now uses
+  `OnceLock` (init once) + a global `Mutex` around all C++ calls (the engine
+  is not thread-safe even with separate `battle_ptr`).
+- Python side (found 2026-10-11, kaggle-environments 1.33.0): **importing the
+  package auto-initializes the engine** (`envs/cabt/cg/sim.py` runs
+  `GameInitialize` at import). `tools/gauntlet_ffi.py` used to
+  `import kaggle_environments` for path discovery, then called
+  `GameInitialize` itself → 2nd init → abort. **Fix:** resolve `libcg.so` via
+  `sysconfig`/known venv layout without importing the package; the tool is
+  now the sole initializer in its process. `--lib`/`--no-init` flags exist
+  for special cases.
+- General rule: in any process, `GameInitialize` happens exactly once, by
+  exactly one code path.
 
 ## Why the speedup here is NOT the 200x from Kaggriculture
 
