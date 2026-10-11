@@ -83,4 +83,16 @@ jobs:
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "$BUNDLE_PATH" -m "$MESSAGE" 2>&1 | tee "kaggle_results/submit_logs/${BUNDLE%.tar.gz}_$(date -u +%H%M%S).log"
           echo "=== last submissions ==="
           kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground 2>&1 | head -6 | tee -a "kaggle_results/submit_logs/${BUNDLE%.tar.gz}_$(date -u +%H%M%S).log"
+
+      - name: Commit submit log (always, even on failure)
+        if: always()
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && break || sleep $((i*10))
+          done
+          git add -f kaggle_results/submit_logs/ 2>/dev/null || true
+          if git diff --cached --quiet; then echo "no log"; else git commit -m "submit log [skip ci]"; for i in 1 2 3; do git push origin "HEAD:${GITHUB_REF_NAME}" && break || { sleep $((i*5)); git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true; }; done; fi
           cat submit.log
