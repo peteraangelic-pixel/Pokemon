@@ -1,0 +1,31 @@
+Darren_Sheehan                             196- 4- 0  0.980
+Kentaro_Totsuka                            183-17- 0  0.915
+Raja_Biswas                                175-25- 0  0.875
+Majiro_ns                                  171-29- 0  0.855
+バーベナヘレナでコンボ決めたい連合                          170-30- 0  0.850
+YumeNeko                                   170-30- 0  0.850
+Cristobal_Tudela                           169-31- 0  0.845
+OceanMix                                   168-31- 1  0.840
+Leon_Liu                                   166-34- 0  0.830
+Chonghao_Peng                              166-34- 0  0.830
+KyryloBakumenko                            163-37- 0  0.815
+leo_turing                                 161-39- 0  0.805
+JerryChen                                  160-40- 0  0.800
+やる気元気ミワハルキ_2nd_ver_                        160- 9-31  0.800
+ANMOL_GARG                                 156-44- 0  0.780
+Mathieu_W                                  155-45- 0  0.775
+Colton_Martin                              155-45- 0  0.775
+Zedan_Soorya                               154-46- 0  0.770
+Stephen_Schott                             149-51- 0  0.745
+Mengfei_Li                                 146-54- 0  0.730
+Akmal_Xodarev__Busya_PRIME_                146-54- 0  0.730
+Xinyu_Li                                   145-55- 0  0.725
+Bill_Vlasak                                124-76- 0  0.620
+
+TOTAL 3708W-860L-32D = 0.806  (23 decks x 200 games, 66s)
+worst 5:
+  Bill_Vlasak                                124-76-0  0.620
+  Xinyu_Li                                   145-55-0  0.725
+  Akmal_Xodarev__Busya_PRIME_                146-54-0  0.730
+  Mengfei_Li                                 146-54-0  0.730
+  Stephen_Schott                             149-51-0  0.745
