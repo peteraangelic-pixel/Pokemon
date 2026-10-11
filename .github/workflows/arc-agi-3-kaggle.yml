@@ -180,6 +180,52 @@ jobs:
             || true
           head -30 "$OUTDIR/private_leaderboard.csv"
 
+      # After a real submission, list the games the agent actually played and
+      # pull agent logs. This is the diagnostic we never had before.
+      - name: Episodes i logi naszego zgloszenia (read-only)
+        run: |
+          SUB=$(tr -d '[:space:]' < arc-agi-3/kaggle/submission_id.txt 2>/dev/null || echo "")
+          echo "submission_id=$SUB"
+          if [ -z "$SUB" ]; then echo "brak submission_id.txt"; exit 0; fi
+          kaggle competitions episodes "$SUB" --csv > "$OUTDIR/episodes.csv" 2>&1 || true
+          echo "--- episodes (head) ---"
+          head -25 "$OUTDIR/episodes.csv"
+          echo "--- ile epizodow ---"
+          python3 - "$OUTDIR/episodes.csv" <<'EOF'
+          import csv, sys
+          try:
+              rows = list(csv.DictReader(open(sys.argv[1])))
+          except Exception as e:
+              print("parse error:", e); sys.exit(0)
+          print("episodes:", len(rows))
+          if rows:
+              print("columns:", list(rows[0].keys()))
+              for r in rows[:15]:
+                  print({k: r.get(k) for k in ("id","game_id","score","actions","levels") if k in r})
+          EOF
+          mkdir -p "$OUTDIR/episode_logs"
+          # pull logs for the first few episodes only (keep the repo small)
+          IDS=$(python3 - "$OUTDIR/episodes.csv" <<'EOF'
+          import csv, sys
+          try: rows = list(csv.DictReader(open(sys.argv[1])))
+          except Exception: rows = []
+          key = "id" if rows and "id" in rows[0] else (list(rows[0].keys())[0] if rows else None)
+          print(" ".join(str(r.get(key)) for r in rows[:4] if r.get(key)))
+          EOF
+          )
+          echo "episode ids: $IDS"
+          for eid in $IDS; do
+            kaggle competitions logs "$eid" 0 -p "$OUTDIR/episode_logs" 2>&1 | tail -2 || true
+          done
+          du -sh "$OUTDIR/episode_logs" 2>/dev/null || true
+          ls -la "$OUTDIR/episode_logs" 2>/dev/null | head -10
+          # keep huge artefacts out of git
+          if [ -n "$(find "$OUTDIR/episode_logs" -size +2M 2>/dev/null)" ]; then
+            echo "logi za duze do gita -- dodaje do .gitignore"
+            echo "$OUTDIR/episode_logs/" >> .gitignore
+            sort -u .gitignore -o .gitignore
+          fi
+
       - name: Download competition files (opt-in)
         if: inputs.download
         run: |
