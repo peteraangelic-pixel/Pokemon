@@ -1,28 +1,46 @@
 {
-  "fetched_utc": "2026-10-10T16:48:44+00:00",
+  "fetched_utc": "2026-10-11T01:06:09+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 300,
-  "submission_rows": 5,
+  "leaderboard_rows": 306,
+  "submission_rows": 7,
   "our_leaderboard": [
     {
-      "Rank": "216",
+      "Rank": "256",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-10 15:03:51",
-      "Score": "460.1",
+      "LastSubmissionDate": "2026-10-11 00:35:33",
+      "Score": "328.0",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57056900",
+      "fileName": "phase1_tuned_v10_34_sig4.tar.gz",
+      "date": "2026-10-11 00:35:33.680000",
+      "description": "v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "276.5",
+      "privateScore": ""
+    },
+    {
+      "ref": "57056872",
+      "fileName": "phase1_tuned_v9_final.tar.gz",
+      "date": "2026-10-11 00:34:53.167000",
+      "description": "v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "328.0",
+      "privateScore": ""
+    },
+    {
       "ref": "57045512",
       "fileName": "phase1_tuned_gen8_h1.tar.gz",
       "date": "2026-10-10 15:03:51.657000",
       "description": "Gen8 H1 Powerglass+NightStretcher recycle + lethal rem1 - 0.818 vs top7_live - should improve beyond 600",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "460.1",
+      "publicScore": "426.7",
       "privateScore": ""
     },
     {
@@ -31,7 +49,7 @@
       "date": "2026-10-10 15:01:25.883000",
       "description": "Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - fixes Powerglass mirrors",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "308.0",
+      "publicScore": "341.1",
       "privateScore": ""
     },
     {
