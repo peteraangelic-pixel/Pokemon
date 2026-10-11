@@ -174,3 +174,18 @@ Uruchomione (hybrid-verify); wyniki: kaggle_results/hybrid_verify/. Kryterium: p
 mirror35W +4.4pp, stall +1.5pp, ALE Bill -5.5pp, mirror30 -4.4pp; agregat -0.14pp vs v21.
 (3) Early-gust nie łączy się addytywnie z trybami v21 (oba atakują wczesne tempo). Ewentualny
 kolejny krok: gust warunkowy (pomiń boost gdy tryb LUCARIO/MIRROR) — do testu.
+
+---
+
+# 22:00 UTC — v22b vs v21 (interleaved paired A/B, po fixach ab_interleaved)
+
+| pool | N/arm | v21 | v22b | Δ |
+|---|---|---|---|---|
+| stall やる気 | 360 | 0.850 | **0.900** | **+5.00pp** (z=1.44; draws 12.2%→6.1%) |
+| mirror 35W | 200 | 0.470 | **0.530** | +6.00pp |
+| Bill Vlasak | 200 | 0.600 | **0.630** | +3.0pp |
+| mirror 30W | 200 | 0.485 | 0.480 | −0.5pp (szum) |
+| top30_live (23 talie) | 690 | 0.825 | 0.829 | +0.43pp |
+| broad_field (56 talii) | 1120 | 0.622 | 0.626 | +0.36pp |
+
+Werdykt: v22b ⊇ v21, zyski dokładnie tam gdzie v21 już wygrywa, zero regresji → **submit 00:00 UTC**.

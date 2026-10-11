@@ -904,3 +904,19 @@ Diagnoza remisów (100% step_limit, stan zamrożenia po wypaleniu obu decków) �
 - **v21 potwierdzony w DRUGIM niezależnym matrixie (+1.40pp po +1.10pp wczorajszym; ~92k sparowanych gier łącznie)**
 
 **Decyzja:** submit 00:00 UTC bez zmian — v21 z naszej gałęzi, v11+30W z c87f7a48 (ich trigger nadal v11; nie mają naszego bundla na gałęzi). v22 = artefakt (agents/main_heuristic_v22.py + logi hybrid_verify2/); early-gust do ewentualnego blendu per-archetyp (gust tylko gdy tryb != LUCARIO) — na kolejną sesję.
+
+### 22:00 UTC — v22b (v21 + stall attach planner z 8560a56a) WYRÓŻNIONY na submit 00:00 UTC; bug w ich ab_interleaved naprawiony
+
+**Kontekst:** 8560a56a (9db1034) potwierdziła niezależnie nasze v21 i dorzuciła planner attach vs stall (ATTACH→aktywny Kyogre +40 pod 3W, Swirling 1043 +120 przy 3W) + tools/ab_interleaved.py.
+
+**Znalazłem 2 bugi w ich narzędziu (naprawione na naszej gałęzi):**
+1. `pa = pb = [0,0,0]` — aliasing list: ramiona A/B zawsze drukują identyczne wyniki (z=0). Z tą wersją ich claim +5.71pp NIE wyjdzie — pomiar był z inną wersją albo niewiarygodny.
+2. glob `*.csv` łapał `_manifest.csv` (crash na nagłówku CSV).
+
+**Nasza weryfikacja v22b vs v21 (interleaved paired, po fixach — porównywalne ramiona w jednym procesie):**
+- stall やる気 360g: A 0.850 → B **0.900** (+5.00pp, z=1.44), **remisy 12.2% → 6.1%**
+- mirror35W 200g: **+6.00pp** (0.470→0.530) | Bill 200g: **+3.0pp** (0.600→0.630) | mirror30W: −0.5pp (szum)
+- top30_live pełna 690g: +0.43pp (0.825→0.829) | broad_field pełna 1120g: +0.36pp (0.622→0.626) — **zero regresji**
+- decision-diff probe: planner faktycznie zmienia decyzje (3/260 punktów; ATTACH-boost i Swirling-force)
+
+**Submit plan 00:00 UTC:** (1) c87f7a48: v11+30W, (2) MY: **phase1_tuned_v22b_hybrid_planner.tar.gz** (build+smoke+loader ✓; trigger przeuzbrojony przed wybudzeniem fazy-2 ~22:37). v22b = v21 + planner = supery na obu odkrytych dziś warstwach (hybryda archetypów + planer stall-attach).
