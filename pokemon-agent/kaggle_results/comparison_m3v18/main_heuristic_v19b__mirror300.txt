@@ -1,0 +1,7 @@
+Mirror_30W                                 145-155- 0  0.483
+Mirror_35W                                 143-157- 0  0.477
+
+TOTAL 288W-312L-0D = 0.480  (2 decks x 300 games, 2s)
+worst 5:
+  Mirror_35W                                 143-157-0  0.477
+  Mirror_30W                                 145-155-0  0.483

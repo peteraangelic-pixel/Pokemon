@@ -1,0 +1,64 @@
+sergeicu                                   99- 1- 0  0.990
+awewrasdffetfe                             96- 4- 0  0.960
+pika28samson                               95- 5- 0  0.950
+Kevin_Hulin                                94- 6- 0  0.940
+SC                                         91- 9- 0  0.910
+Ryan_Fernandes                             90-10- 0  0.900
+Stephen_Schott                             87-13- 0  0.870
+Kydyrbek_Kozykorpesh                       87-13- 0  0.870
+Richard_Guo                                86-14- 0  0.860
+praveen_02706                              84-16- 0  0.840
+tanzaku                                    81-19- 0  0.810
+Kazama_Hareka                              81-19- 0  0.810
+Tanishq_das                                78-22- 0  0.780
+mo                                         76-24- 0  0.760
+Tien_N_                                    76-24- 0  0.760
+Guenoir                                    75-25- 0  0.750
+Kevin_Rio_Harristyando                     74-26- 0  0.740
+F_A_Nina                                   73-27- 0  0.730
+鲁尚武_LuShangWu                              70-30- 0  0.700
+YOUKE144                                   68-32- 0  0.680
+Arka_Latua                                 60-40- 0  0.600
+kloaken                                    59-41- 0  0.590
+cottonandcolor                             59-41- 0  0.590
+Rodrigo_S_Faria                            58-42- 0  0.580
+Pranshul_Maithani                          58-42- 0  0.580
+Tom_Curry11                                57-43- 0  0.570
+The_Prad_K                                 57-43- 0  0.570
+Yash_Dalal                                 55-45- 0  0.550
+RAHUL_REDDY_PULICHARLA                     55-45- 0  0.550
+Jonathan_Axl                               54-46- 0  0.540
+Atharva_Naik                               54-46- 0  0.540
+Nozprod                                    54-45- 1  0.540
+Pawit_Sahare                               53-47- 0  0.530
+Aditya_ingale                              52-48- 0  0.520
+AByT3s                                     52-48- 0  0.520
+char0n1                                    51-49- 0  0.510
+Praneeth_Yeddu                             51-49- 0  0.510
+thebrownkid                                50-50- 0  0.500
+PeterSharps                                50-50- 0  0.500
+renyxin                                    49-51- 0  0.490
+Noel_Bobby                                 49-51- 0  0.490
+Mitsuaki_Inoue                             49-51- 0  0.490
+Hitisha_Goyal                              49-51- 0  0.490
+BSCode                                     49-51- 0  0.490
+eastnix                                    48-52- 0  0.480
+Riccardo_Lo_Bianco                         48-52- 0  0.480
+DavideSanta                                46-54- 0  0.460
+Avik_Das                                   46-54- 0  0.460
+vrmichalski                                45-55- 0  0.450
+Shixiang_Yan                               45-55- 0  0.450
+Elbachir_Salik                             45-55- 0  0.450
+tategami                                   44-56- 0  0.440
+Mandavi_Singh                              43-57- 0  0.430
+tai1907                                    42-58- 0  0.420
+ant                                        42-58- 0  0.420
+nguyenbaotri-VIETNAM                       39-61- 0  0.390
+
+TOTAL 3478W-2121L-1D = 0.621  (56 decks x 100 games, 31s)
+worst 5:
+  nguyenbaotri-VIETNAM                       39-61-0  0.390
+  ant                                        42-58-0  0.420
+  tai1907                                    42-58-0  0.420
+  Mandavi_Singh                              43-57-0  0.430
+  tategami                                   44-56-0  0.440

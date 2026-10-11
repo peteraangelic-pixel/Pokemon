@@ -1,0 +1,31 @@
+Majiro_ns                                  29- 1- 0  0.967
+バーベナヘレナでコンボ決めたい連合                          28- 2- 0  0.933
+Darren_Sheehan                             28- 2- 0  0.933
+Kentaro_Totsuka                            27- 3- 0  0.900
+YumeNeko                                   26- 4- 0  0.867
+やる気元気ミワハルキ_2nd_ver_                        26- 2- 2  0.867
+Raja_Biswas                                25- 5- 0  0.833
+Leon_Liu                                   25- 5- 0  0.833
+Cristobal_Tudela                           25- 5- 0  0.833
+KyryloBakumenko                            24- 6- 0  0.800
+Colton_Martin                              24- 6- 0  0.800
+leo_turing                                 23- 7- 0  0.767
+Zedan_Soorya                               23- 7- 0  0.767
+Chonghao_Peng                              23- 7- 0  0.767
+Xinyu_Li                                   22- 8- 0  0.733
+Mengfei_Li                                 22- 8- 0  0.733
+Akmal_Xodarev__Busya_PRIME_                22- 8- 0  0.733
+ANMOL_GARG                                 22- 8- 0  0.733
+Stephen_Schott                             21- 9- 0  0.700
+Mathieu_W                                  21- 9- 0  0.700
+OceanMix                                   20-10- 0  0.667
+JerryChen                                  19-11- 0  0.633
+Bill_Vlasak                                15-15- 0  0.500
+
+TOTAL 540W-148L-2D = 0.783  (23 decks x 30 games, 8s)
+worst 5:
+  Bill_Vlasak                                15-15-0  0.500
+  JerryChen                                  19-11-0  0.633
+  OceanMix                                   20-10-0  0.667
+  Mathieu_W                                  21-9-0  0.700
+  Stephen_Schott                             21-9-0  0.700

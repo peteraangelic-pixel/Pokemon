@@ -1,0 +1,31 @@
+Darren_Sheehan                             29- 1- 0  0.967
+OceanMix                                   28- 2- 0  0.933
+Kentaro_Totsuka                            28- 2- 0  0.933
+YumeNeko                                   27- 3- 0  0.900
+Majiro_ns                                  27- 3- 0  0.900
+バーベナヘレナでコンボ決めたい連合                          26- 4- 0  0.867
+Stephen_Schott                             26- 4- 0  0.867
+Raja_Biswas                                25- 5- 0  0.833
+Leon_Liu                                   25- 5- 0  0.833
+Cristobal_Tudela                           25- 5- 0  0.833
+Akmal_Xodarev__Busya_PRIME_                25- 5- 0  0.833
+Mengfei_Li                                 24- 6- 0  0.800
+やる気元気ミワハルキ_2nd_ver_                        24- 1- 5  0.800
+leo_turing                                 23- 7- 0  0.767
+Mathieu_W                                  23- 7- 0  0.767
+ANMOL_GARG                                 23- 7- 0  0.767
+JerryChen                                  22- 8- 0  0.733
+Xinyu_Li                                   21- 9- 0  0.700
+KyryloBakumenko                            21- 9- 0  0.700
+Colton_Martin                              21- 9- 0  0.700
+Chonghao_Peng                              21- 9- 0  0.700
+Zedan_Soorya                               20-10- 0  0.667
+Bill_Vlasak                                20-10- 0  0.667
+
+TOTAL 554W-131L-5D = 0.803  (23 decks x 30 games, 10s)
+worst 5:
+  Bill_Vlasak                                20-10-0  0.667
+  Zedan_Soorya                               20-10-0  0.667
+  Chonghao_Peng                              21-9-0  0.700
+  Colton_Martin                              21-9-0  0.700
+  KyryloBakumenko                            21-9-0  0.700

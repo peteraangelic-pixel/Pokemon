@@ -1,0 +1,31 @@
+Chonghao_Peng                              23- 7- 0  0.767
+KyryloBakumenko                            21- 9- 0  0.700
+JerryChen                                  21- 9- 0  0.700
+Darren_Sheehan                             21- 9- 0  0.700
+Colton_Martin                              21- 9- 0  0.700
+YumeNeko                                   19-11- 0  0.633
+Xinyu_Li                                   19-11- 0  0.633
+Mathieu_W                                  19-11- 0  0.633
+Leon_Liu                                   19-11- 0  0.633
+ANMOL_GARG                                 19-11- 0  0.633
+やる気元気ミワハルキ_2nd_ver_                        19- 8- 3  0.633
+leo_turing                                 18-12- 0  0.600
+Stephen_Schott                             18-12- 0  0.600
+Cristobal_Tudela                           17-13- 0  0.567
+Bill_Vlasak                                17-13- 0  0.567
+Akmal_Xodarev__Busya_PRIME_                17-13- 0  0.567
+Raja_Biswas                                16-14- 0  0.533
+OceanMix                                   16-14- 0  0.533
+Majiro_ns                                  16-14- 0  0.533
+Kentaro_Totsuka                            16-14- 0  0.533
+Zedan_Soorya                               15-15- 0  0.500
+バーベナヘレナでコンボ決めたい連合                          11-19- 0  0.367
+Mengfei_Li                                 10-20- 0  0.333
+
+TOTAL 408W-279L-3D = 0.591  (23 decks x 30 games, 7s)
+worst 5:
+  Mengfei_Li                                 10-20-0  0.333
+  バーベナヘレナでコンボ決めたい連合                          11-19-0  0.367
+  Zedan_Soorya                               15-15-0  0.500
+  Kentaro_Totsuka                            16-14-0  0.533
+  Majiro_ns                                  16-14-0  0.533

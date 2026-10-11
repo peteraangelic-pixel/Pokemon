@@ -848,3 +848,16 @@ observation.
 ### 18:05 UTC — Wynik pełnego fetchu top30 (top_n=30 ×7): 105/210 unikalnych
 
 Run 38159427346: 420 replayów pobranych surowo, po deduplikacji **105 unikalnych epizodów** (83→105), 24/30 talii top30 w decks/top30_live. To potwierdza sufit API: polecane 210 = 30×7, ale drużyny mają obecnie mniej niż 7 dostępnych ostatnich epizodów każda (reszta to duplikaty już zebrane). Kolejne reruny top30_live.trigger będą akumulować nowe epizody w miarę grania drużyn (72→83→105 w trzy runy dziś). At-reset: nadal faza snu, ogień ~00:01:30 UTC.
+
+### 19:25 UTC — Best-of-both-branches rozstrzygnięte @~9k gier FFI; v19 REJECT potwierdzony; v19b jedyny ślad (poniżej progu); nasz at-reset DISARM (duplikat)
+
+**Krytyczna przygoda:** platforma odtworzyła sandboks między turami (świeży clone na 31e7007, .git bez naszych commitów) — wszystkie commity były bezpieczne na origin; `git reset --hard origin/arena/a450b00f-pokemon` przywróciło stan. PUSH wymaga jawnego refspec po takim reclone.
+
+**Podwójny submit o 00:00 UNIKNIĘTY:** c87f7a48 uzbroiła własny at-reset (18:06, ten sam bundle phase1_tuned_v15_30_boss4_v11) — merger our branch na ich stronom odpalił im workflow z naszym triggerem. Nie możemy cancelować runów (403), więc: marker `at_reset.DISARM` + guard step w kaggle_submit_at_reset.yml → nasza faza 2 (startuje ~22:37 z dispatchu) zobaczy marker na tip i wyjdzie bez submitu. Jeden submit o 00:01:30 wykona c87f7a48. (Kwota: 5 slotów/dzień wg docstringu v19.)
+
+**Matryca 9 agentów (szczegóły: comparison_m3v18/RESULTS.md dodatek):**
+- **v19 REJECT potwierdzony niezależnie**: 0.591 top30 / 0.536 broad @30g (u nas), 0.630 top30 @100g (8560a56a) — early-gust rule nokuje non-mirror.
+- **Claim "v18 broad 0.641 @100g" obalony**: v11 0.621 / v19b 0.617 / v18 0.608 @5600g każdy.
+- **v19b** (= v18 + gust-vs-wall T≤2 +30, retrieval przy ≤1E +30): **top30 0.814 @100g — najlepszy wynik w projekcie** (+1.7-2.9pp vs v11, z≈2-3), broad/mirrors/H2H remis. PONIŻEJ progu +5pp → do re-testu @200g przed jakąkolwiek zmianą; jedyne żywe tropy po plateau.
+- v13/m3_B/m3_C/m3(D)/gen8r: remisy z v11 (szczegóły w RESULTS.md).
+- **Submission po resecie: v11+30W bez zmian.**
