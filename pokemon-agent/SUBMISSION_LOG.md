@@ -893,3 +893,14 @@ Diagnoza remisów (100% step_limit, stan zamrożenia po wypaleniu obu decków) �
 **Krytyczna historia bundle:** builder odmówił wysyłki v21 (wrapper po def agent → Kaggle-loader wybrałby wrapper jako agenta!) — splice bloku v21 przed def agent; smoke OK (kaggle-loader + self-play BO1/BO3); sanity po splice: stall 0.910, top30-half 0.812 — zachowanie bez zmian. To tłumaczy też, dlaczego wcześniejsze "ulepszone" bundle (v18/v19b z wrapperami po agent) były podwójnie martwe: martwy kod ORAZ loader-boundary.
 
 **Rust+Rayon status (pytanie użytkownika):** do oceny agentów PYTHONOWYCH Rust nie może być użyty wiernie (silnik rust ma własną przybliżoną heurystykę — odnotowane w repo), więc compute poszedł na równoległy FFI-matrix na Actions (13 runnerów); Rust+Rayon pozostaje narzędziem do przeszukiwania PRZESTRZENI DECKÓW (wagi energetyczne), nie agentów.
+
+### 21:35 UTC — c87f7a48: sami odkryli dead-code (eb244eb) + naprawili warstwę (v24-v27, v25 early-gust BEST u nich); nasz 3-way matrix: v22 (=v21+v25 gust) NIE dokłada; v21 pozostaje na 00:00
+
+**Ich postęp (ce76473 + eb244eb):** niezależny cross-check 3 gałęzi (zgodny z naszym) + odkrycie martwego kodu v18/v19/v19b + NAPRAWIONE warianty: v25 (early gust +25 T0-1, defined ids) top30 +1.8pp@100g/+2.0pp@200g, broad -1.6pp, mirror +0.4pp — ich "kandydat #2". v26/v27 podobnie: +1-2pp top30, kosztem broad ~1pp. Bundle v25/v27/v18_fixed zbudowali.
+
+**Nasza weryfikacja nałożenia (v22 = v21 + ich gust +25 T0-1):** lokalny smoke OK (stall 0.853, Bill 0.627, top30-half 0.827), potem pełny 3-way matrix (hybrid-verify2, 13 jobów, 48.2k gier/agent):
+- AGREGAT: v11 0.6554 / **v21 0.6694 (+1.40pp)** / v22 0.6680 (+1.26pp; **v22-v21 = -0.14pp**)
+- v22 to WYMIANA, nie dodatek: leo +3.1pp, mirror35W +4.4pp, stall +1.5pp vs Bill **-5.5pp**, mirror30 -4.4pp vs v21
+- **v21 potwierdzony w DRUGIM niezależnym matrixie (+1.40pp po +1.10pp wczorajszym; ~92k sparowanych gier łącznie)**
+
+**Decyzja:** submit 00:00 UTC bez zmian — v21 z naszej gałęzi, v11+30W z c87f7a48 (ich trigger nadal v11; nie mają naszego bundla na gałęzi). v22 = artefakt (agents/main_heuristic_v22.py + logi hybrid_verify2/); early-gust do ewentualnego blendu per-archetyp (gust tylko gdy tryb != LUCARIO) — na kolejną sesję.
