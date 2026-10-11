@@ -51,6 +51,6 @@ options:
   -q, --quiet           Suppress printing information about the upload/download progress
 
 === competitions submission-limits (read-only) ===
-Submissions today: 0
-Lifetime submissions: 0
-Remaining today: 1
+Submissions today: 1
+Lifetime submissions: 1
+Remaining today: 0

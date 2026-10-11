@@ -1,10 +1,10 @@
 # Kaggle snapshot -- arc-prize-2026-arc-agi-3
 
-Generated: 2026-10-11T13:04:32Z  (run 38141685620)
+Generated: 2026-10-11T13:17:16Z  (run 38142516155)
 
 ## Public leaderboard (top 30)
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOF0GjPq7_tVhuLDOn-s28aWrYJfaR-3Xw0zyI8YrJH6FCcRgAXTRy6rtgjdpO4xcrE
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEXSJiHksERQcPnGnbiM9ElSfWhnLlL0wIeMsDGUkvBKBo12jO889CkMJGsBtB3g2E
 teamId,teamName,submissionDate,score
 15499660,Yi-Chia Chen,2026-10-10 16:00:41.873000,62.96
 15486995,Tufa Labs,2026-10-09 15:56:59.453000,56.52
@@ -16,7 +16,7 @@ teamId,teamName,submissionDate,score
 16805955,dreach.ai,2026-10-10 20:39:40.236000,39.11
 16958955,Nhan Duc Nguyen,2026-10-10 14:15:01.340000,38.84
 16132261,artificialagencylab.com,2026-10-10 20:27:53.913000,38.62
-16992721,fshindo,2026-10-10 02:56:26.956000,38.20
+16992721,fshindo,2026-10-11 04:13:46.023000,38.20
 16569113,復活の混テキスト,2026-10-10 21:55:58.906000,38.15
 16760493,SparseTech,2026-10-10 22:28:35.500000,37.98
 15508513,keithtyser,2026-10-10 05:17:20.740000,37.22
@@ -30,12 +30,13 @@ teamId,teamName,submissionDate,score
 
 ## Our submissions
 ```
-No submissions found
+ref,fileName,date,description,status,publicScore,privateScore
+57075036,submission.parquet,2026-10-11 13:15:18.633000,novelty-explorer baseline 9012b4f531459100e4158d1ca08d6d9523514750,SubmissionStatus.PENDING,,
 ```
 
 ## Competition files
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEqicYn3-UgP84cGLMQ4EJhDVThIGm4O-54dAQR2s0aGm0zU8r1Sn1QlKTtOPi9RXEpzCw21XuDjt2kk0j2meXXFqR5zaCKqK_cyRoCVNxave9NU-Wjpoc6i1tlk0mRWM3j5Tj4UkbcahID
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGo762JQlbssxl35Nq73UnG7sFCfHIxtAaigrPGdCTyA_HR5PdslrVkCGlhb5Verd6iIU8Ro-NbKLni20exblUrNNBLrv16TQ8gH4h6z0BkxBxxpKe5Vn1rfiXwfp6mX8Mcs79fCCjq1YaW
 name                                                         size  creationDate                
 -----------------------------------------------------  ----------  --------------------------  
 ARC-AGI-3-Agents/.env.example                                 599  2026-04-17 20:12:29.398000  
