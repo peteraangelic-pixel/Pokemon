@@ -2,7 +2,7 @@ name: gauntlet-quick-test
 
 on:
   push:
-    branches: ["arena/c87f7a48-pokemon"]
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
     paths:
       - "pokemon-agent/agents/*.py"
       - "pokemon-agent/decks/*.csv"

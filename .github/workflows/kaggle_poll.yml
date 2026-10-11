@@ -36,7 +36,7 @@ on:
         required: false
         default: "the-pokemon-company-ptcg-ai-battle-challenge-playground"
   push:
-    branches: ["arena/c87f7a48-pokemon"]
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
     paths:
       - "pokemon-agent/kaggle_results/poll.trigger"
   schedule:

@@ -24,7 +24,7 @@ on:
         default: "40"
         required: false
   push:
-    branches: ["arena/c87f7a48-pokemon"]
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
     paths:
       - "pokemon-agent/search_results_parallel.trigger"
       - ".github/workflows/kaggle_search.yml"

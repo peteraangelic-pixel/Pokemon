@@ -3,7 +3,7 @@ name: kaggle-fetch-90-100
 on:
   workflow_dispatch:
   push:
-    branches: ["arena/c87f7a48-pokemon"]
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
     paths:
       - "pokemon-agent/kaggle_results/fetch_90_100.trigger"
 

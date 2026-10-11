@@ -27,7 +27,7 @@ on:
         required: false
         default: "7"
   push:
-    branches: ["arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
     paths:
       - "pokemon-agent/kaggle_results/top10.trigger"
       - "pokemon-agent/kaggle_results/top10_live.trigger"

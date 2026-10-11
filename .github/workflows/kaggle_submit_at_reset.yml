@@ -1,0 +1,133 @@
+name: kaggle-submit-at-reset
+
+# Submits a bundle right AFTER the daily Kaggle reset (00:00 UTC).
+#
+# Why not plain kaggle-submit: the daily quota is exhausted on submission day,
+# and the reset can be more than 6h away -- longer than a job may run
+# (GitHub-hosted runners cap a job at 6h). So this workflow works in phases:
+#
+#   Phase 1 (push trigger: kaggle_results/at_reset.trigger, content = bundle
+#   filename from bundles/): sleeps ~4.5h, then re-dispatches this workflow
+#   with the remaining wait. workflow_dispatch is explicitly exempt from the
+#   GITHUB_TOKEN recursion block, so the chained dispatch fires.
+#
+#   Phase 2 (workflow_dispatch): sleeps the remaining seconds and submits
+#   ~90s after 00:00 UTC, as the first submission of the fresh day.
+#
+# ARM IT:
+#   echo "phase1_tuned_v15_30_boss4_v11.tar.gz" > pokemon-agent/kaggle_results/at_reset.trigger
+#   git add ... && git commit -m "arm: submit v11+30W after 00:00 UTC reset" && git push
+
+on:
+  push:
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/at_reset.trigger"
+  workflow_dispatch:
+    inputs:
+      bundle:
+        description: "Bundle filename in pokemon-agent/bundles/"
+        required: false
+        default: "phase1_tuned_v15_30_boss4_v11.tar.gz"
+      wait_seconds:
+        description: "Seconds to sleep before submitting (empty = compute to next 00:00 UTC + 90s)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  submit-at-reset:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Resolve bundle and wait
+        id: plan
+        env:
+          IN_BUNDLE: ${{ inputs.bundle }}
+          IN_WAIT: ${{ inputs.wait_seconds }}
+        run: |
+          set -euo pipefail
+          BUNDLE="${IN_BUNDLE:-$(tr -d '[:space:]' < pokemon-agent/kaggle_results/at_reset.trigger)}"
+          test -f "pokemon-agent/bundles/$BUNDLE" || { echo "bundle $BUNDLE not found"; ls pokemon-agent/bundles; exit 1; }
+          NOW=$(date -u +%s)
+          FIRE=$(( $(date -u -d 'tomorrow 00:00' +%s) + 90 ))
+          if [ -n "$IN_WAIT" ]; then WAIT="$IN_WAIT"; else WAIT=$((FIRE - NOW)); fi
+          if [ "$WAIT" -gt 17000 ]; then LONG=true; else LONG=false; fi
+          {
+            echo "bundle=$BUNDLE"
+            echo "wait=$WAIT"
+            echo "long=$LONG"
+          } >> "$GITHUB_OUTPUT"
+          echo "utc_now=$(date -u +%FT%TZ) bundle=$BUNDLE fire_in=${WAIT}s long=$LONG"
+
+      - name: Sleep first stretch, then hand over to a fresh job
+        if: steps.plan.outputs.long == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUNDLE: ${{ steps.plan.outputs.bundle }}
+          WAIT: ${{ steps.plan.outputs.wait }}
+        run: |
+          set -euo pipefail
+          echo "Waiting 16000s, then re-dispatching with remaining $((WAIT - 16000))s"
+          sleep 16000
+          gh api \
+            --method POST \
+            "repos/${{ github.repository }}/actions/workflows/kaggle-submit-at-reset.yml/dispatches" \
+            -f "ref=${{ github.ref_name }}" \
+            -f "inputs[bundle]=$BUNDLE" \
+            -f "inputs[wait_seconds]=$((WAIT - 16000))"
+          echo "Re-dispatched."
+
+      - name: Sleep until just past the reset
+        if: steps.plan.outputs.long == 'false'
+        run: |
+          echo "Sleeping ${{ steps.plan.outputs.wait }}s until fire time"
+          sleep "${{ steps.plan.outputs.wait }}"
+          date -u
+
+      - name: Install kaggle
+        if: steps.plan.outputs.long == 'false'
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        if: steps.plan.outputs.long == 'false'
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+            echo "Using KAGGLE_API_TOKEN"
+          elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+            chmod 600 ~/.kaggle/kaggle.json
+          else
+            echo "No Kaggle credentials"; exit 1
+          fi
+
+      - name: Submit after reset
+        if: steps.plan.outputs.long == 'false'
+        env:
+          BUNDLE: ${{ steps.plan.outputs.bundle }}
+        run: |
+          set -euo pipefail
+          cd pokemon-agent
+          echo "Submitting bundles/$BUNDLE at $(date -u +%FT%TZ)"
+          kaggle competitions submit \
+            -c the-pokemon-company-ptcg-ai-battle-challenge-playground \
+            -f "bundles/$BUNDLE" \
+            -m "v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict)" \
+            2>&1 | tee submit_at_reset.log
+          kaggle competitions submissions \
+            -c the-pokemon-company-ptcg-ai-battle-challenge-playground 2>&1 | tail -8
