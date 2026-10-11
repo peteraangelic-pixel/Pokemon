@@ -36,6 +36,13 @@ i o rząd wielkości poniżej progu nagrody.
 - notebook działa na CPU (`enable_internet: false`) — nasz agent nie potrzebuje GPU ✔
 - `arc-agi 0.9.8` + `arcengine 0.9.3` instalują się z lokalnych wheeli ✔
 
+### STATUS: ZGŁOSZONE 2026-10-11 13:15 UTC
+
+Zgłoszenie **id 57075036** wysłane przez API (`-k` + `-f submission.parquet`
++ `-v 5`). Status `PENDING`. Bieg konkursowy trwa do 9 godzin.
+Wynik i listę rozegranych gier odczytamy komendą
+`kaggle competitions episodes 57075036`.
+
 ### Czego się spodziewać po numerze
 
 Wynik w okolicach **1–5** to **nie jest porażka projektu** — to jest zmierzony
