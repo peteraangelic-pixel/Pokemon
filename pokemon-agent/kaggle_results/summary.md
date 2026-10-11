@@ -1,6 +1,6 @@
 # Kaggle results — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-11T21:51:29+00:00_
+_fetched 2026-10-11T21:55:01+00:00_
 
 ## Our leaderboard row
 
@@ -29,15 +29,15 @@ _fetched 2026-10-11T21:51:29+00:00_
 
 ## Field context
 
-321 teams; best 1225.3, median 648.6, worst -213.0
+321 teams; best 1225.6, median 647.5, worst -213.0
 
 | target | score needed |
 |---|---|
-| top 1 % (place 3) | 1205.5 |
-| top 5 % (place 16) | 1061.7 |
+| top 1 % (place 3) | 1204.3 |
+| top 5 % (place 16) | 1063.4 |
 | top 10 % (place 32) | 1008.8 |
 | top 25 % (place 80) | 847.4 |
-| top 50 % (place 160) | 650.6 |
+| top 50 % (place 160) | 648.6 |
 
 - our latest submission: **335.6** ~ place 266/321 (top 83 %)
 - our leaderboard row: **335.6** ~ place 266/321 (top 83 %)
@@ -46,14 +46,14 @@ _fetched 2026-10-11T21:51:29+00:00_
 
 | Rank | TeamId | TeamName | LastSubmissionDate | Score | SubmissionCount | TeamMemberUserNames |
 |---|---|---|---|---|---|---|
-| 1 | 17071115 | Bill Vlasak | 2026-10-11 11:43:04 | 1225.3 | 2 | billvlasak |
-| 2 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-11 12:20:43 | 1209.4 | 2 | busyaprime |
-| 3 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-11 09:17:58 | 1205.5 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
-| 4 | 17080215 | leo_turing | 2026-10-11 05:04:23 | 1198.4 | 2 | leoturing |
+| 1 | 17071115 | Bill Vlasak | 2026-10-11 11:43:04 | 1225.6 | 2 | billvlasak |
+| 2 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-11 12:20:43 | 1213.7 | 2 | busyaprime |
+| 3 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-11 09:17:58 | 1204.3 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
+| 4 | 17080215 | leo_turing | 2026-10-11 05:04:23 | 1193.2 | 2 | leoturing |
 | 5 | 17029228 | ANMOL GARG | 2026-10-10 23:05:05 | 1174.4 | 2 | anmolgargnsut |
 | 6 | 17012386 | YumeNeko | 2026-10-07 16:21:14 | 1169.9 | 2 | kashiwaba |
 | 7 | 16991525 | Kentaro Totsuka | 2026-10-10 04:02:26 | 1121.8 | 2 | kotarot1 |
-| 8 | 16981890 | Stephen Schott | 2026-10-08 05:23:25 | 1110.1 | 2 | steve421471 |
-| 9 | 17044570 | Colton Martin | 2026-10-08 19:34:12 | 1104.9 | 2 | coltonmartinnn |
-| 10 | 17032277 | Xinyu Li | 2026-10-11 05:38:20 | 1089.3 | 2 | xil070 |
+| 8 | 17044570 | Colton Martin | 2026-10-08 19:34:12 | 1104.9 | 2 | coltonmartinnn |
+| 9 | 16981890 | Stephen Schott | 2026-10-08 05:23:25 | 1104.3 | 2 | steve421471 |
+| 10 | 17032131 | Mengfei Li | 2026-10-11 08:43:35 | 1089.6 | 2 | meli19 |
 
