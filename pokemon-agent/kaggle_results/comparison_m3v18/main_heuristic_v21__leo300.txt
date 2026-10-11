@@ -1,0 +1,5 @@
+leo_turing                                 222-78- 0  0.740
+
+TOTAL 222W-78L-0D = 0.740  (1 decks x 300 games, 6s)
+worst 5:
+  leo_turing                                 222-78-0  0.740

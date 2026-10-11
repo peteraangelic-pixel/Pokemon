@@ -144,6 +144,7 @@ def main():
     ap.add_argument("--games", type=int, default=8, help="games per opponent deck (both seats)")
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--only", default="", help="comma-separated name filter (substring)")
+    ap.add_argument("--slice", default="", help="A:B rows of the sorted deck list (parallel jobs)")
     args = ap.parse_args()
 
     agent_path = str((ROOT / args.agent) if not os.path.isabs(args.agent) else args.agent)

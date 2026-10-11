@@ -1,0 +1,90 @@
+name: hybrid-verify
+
+# Deep paired verification of v11 (baseline) vs v21 (archetype-scan hybrid).
+# Each matrix job runs BOTH agents against the same opponents in the same run
+# (paired comparison cancels engine run-to-run drift). 13 jobs x 4-core runners.
+#
+# Trigger: push pokemon-agent/kaggle_results/hybrid_verify.trigger
+
+on:
+  push:
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/hybrid_verify.trigger"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: stall_yaruki600, dir: top30_live,  only: "やる気",      games: 600, slice: "" }
+          - { name: utility300,      dir: top30_live,  only: "Kentaro,Darren,OceanMix,YumeNeko", games: 300, slice: "" }
+          - { name: bill600,         dir: top30_live,  only: "Bill_Vlasak", games: 600, slice: "" }
+          - { name: leo600,          dir: top30_live,  only: "leo_turing",  games: 600, slice: "" }
+          - { name: mirror30_600,    dir: gen8_meta,   only: "Mirror_30W",  games: 600, slice: "" }
+          - { name: mirror35_600,    dir: gen8_meta,   only: "Mirror_35W",  games: 600, slice: "" }
+          - { name: mirror_live300,  dir: broad_field, only: "vrmichalski,Tom_Curry11,Jonathan_Axl,Shixiang_Yan", games: 300, slice: "" }
+          - { name: top30_a200,      dir: top30_live,  only: "", games: 200, slice: "0:12" }
+          - { name: top30_b200,      dir: top30_live,  only: "", games: 200, slice: "12:24" }
+          - { name: broad_q1_150,    dir: broad_field, only: "", games: 150, slice: "0:14" }
+          - { name: broad_q2_150,    dir: broad_field, only: "", games: 150, slice: "14:28" }
+          - { name: broad_q3_150,    dir: broad_field, only: "", games: 150, slice: "28:42" }
+          - { name: broad_q4_150,    dir: broad_field, only: "", games: 150, slice: "42:56" }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet kaggle-environments
+
+      - name: Run paired v11 vs v21
+        env:
+          DIR: ${{ matrix.dir }}
+          ONLY: ${{ matrix.only }}
+          GAMES: ${{ matrix.games }}
+          SLICE: ${{ matrix.slice }}
+        run: |
+          set -e
+          cd pokemon-agent
+          mkdir -p kaggle_results/hybrid_verify
+          for AG in main_heuristic_v11 main_heuristic_v21; do
+            ARGS="--agent agents/$AG.py --our-deck decks/v12_30_boss4.csv --opp-dir decks/$DIR --games $GAMES --workers 3"
+            [ -n "$ONLY" ]  && ARGS="$ARGS --only '$ONLY'"
+            [ -n "$SLICE" ] && ARGS="$ARGS --slice $SLICE"
+            echo "=== $AG vs $DIR [$ONLY] slice=$SLICE x$GAMES ==="
+            eval ".venv/bin/python tools/gauntlet_ffi.py $ARGS" \
+              | tee "kaggle_results/hybrid_verify/${{ matrix.name }}__${AG}.txt"
+          done
+
+      - name: Commit results (rebase-retry)
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && break || sleep $((i*10))
+          done
+          git add -f pokemon-agent/kaggle_results/hybrid_verify/ || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "hybrid-verify: ${{ matrix.name }} [skip ci]"
+            for i in 1 2 3; do
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break || { sleep $((i*5)); git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true; }
+            done
+          fi

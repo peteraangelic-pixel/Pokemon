@@ -1,0 +1,31 @@
+Leon_Liu                                   93- 7- 0  0.930
+バーベナヘレナでコンボ決めたい連合                          92- 8- 0  0.920
+Darren_Sheehan                             92- 8- 0  0.920
+Raja_Biswas                                91- 9- 0  0.910
+Majiro_ns                                  90-10- 0  0.900
+Kentaro_Totsuka                            90-10- 0  0.900
+YumeNeko                                   89-11- 0  0.890
+やる気元気ミワハルキ_2nd_ver_                        89- 3- 8  0.890
+Cristobal_Tudela                           88-12- 0  0.880
+OceanMix                                   87-13- 0  0.870
+Akmal_Xodarev__Busya_PRIME_                85-15- 0  0.850
+Xinyu_Li                                   84-16- 0  0.840
+leo_turing                                 81-19- 0  0.810
+Stephen_Schott                             81-19- 0  0.810
+Mathieu_W                                  81-19- 0  0.810
+Chonghao_Peng                              81-19- 0  0.810
+Mengfei_Li                                 80-20- 0  0.800
+JerryChen                                  75-25- 0  0.750
+KyryloBakumenko                            74-26- 0  0.740
+Bill_Vlasak                                74-26- 0  0.740
+ANMOL_GARG                                 74-26- 0  0.740
+Zedan_Soorya                               73-27- 0  0.730
+Colton_Martin                              72-28- 0  0.720
+
+TOTAL 1916W-376L-8D = 0.833  (23 decks x 100 games, 31s)
+worst 5:
+  Colton_Martin                              72-28-0  0.720
+  Zedan_Soorya                               73-27-0  0.730
+  ANMOL_GARG                                 74-26-0  0.740
+  Bill_Vlasak                                74-26-0  0.740
+  KyryloBakumenko                            74-26-0  0.740
