@@ -1,0 +1,31 @@
+バーベナヘレナでコンボ決めたい連合                          192- 8- 0  0.960
+Darren_Sheehan                             192- 8- 0  0.960
+Kentaro_Totsuka                            184-16- 0  0.920
+OceanMix                                   180-20- 0  0.900
+Cristobal_Tudela                           180-20- 0  0.900
+YumeNeko                                   177-23- 0  0.885
+Raja_Biswas                                175-25- 0  0.875
+Majiro_ns                                  174-26- 0  0.870
+Leon_Liu                                   171-29- 0  0.855
+Mengfei_Li                                 170-30- 0  0.850
+やる気元気ミワハルキ_2nd_ver_                        169- 8-23  0.845
+KyryloBakumenko                            167-33- 0  0.835
+ANMOL_GARG                                 163-37- 0  0.815
+Stephen_Schott                             162-38- 0  0.810
+Mathieu_W                                  161-39- 0  0.805
+Xinyu_Li                                   160-40- 0  0.800
+Chonghao_Peng                              153-47- 0  0.765
+leo_turing                                 151-49- 0  0.755
+JerryChen                                  151-49- 0  0.755
+Zedan_Soorya                               150-50- 0  0.750
+Colton_Martin                              150-50- 0  0.750
+Akmal_Xodarev__Busya_PRIME_                149-51- 0  0.745
+Bill_Vlasak                                118-82- 0  0.590
+
+TOTAL 3799W-778L-23D = 0.826  (23 decks x 200 games, 63s)
+worst 5:
+  Bill_Vlasak                                118-82-0  0.590
+  Akmal_Xodarev__Busya_PRIME_                149-51-0  0.745
+  Colton_Martin                              150-50-0  0.750
+  Zedan_Soorya                               150-50-0  0.750
+  JerryChen                                  151-49-0  0.755
