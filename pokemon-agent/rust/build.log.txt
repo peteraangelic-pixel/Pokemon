@@ -3,78 +3,78 @@
 [1m[92m     Locking[0m 41 packages to highest compatible versions
 [1m[92m      Adding[0m libloading v0.8.9 [1m[33m(available: v0.9.0)[0m
 [1m[92m Downloading[0m crates ...
-[1m[92m  Downloaded[0m anstyle-query v1.1.5
-[1m[92m  Downloaded[0m heck v0.5.0
-[1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
-[1m[92m  Downloaded[0m colorchoice v1.0.5
 [1m[92m  Downloaded[0m anstream v1.0.0
-[1m[92m  Downloaded[0m aho-corasick v1.1.5
-[1m[92m  Downloaded[0m cfg-if v1.0.5
-[1m[92m  Downloaded[0m strsim v0.11.1
-[1m[92m  Downloaded[0m utf8parse v0.2.2
-[1m[92m  Downloaded[0m clap_lex v1.1.1
-[1m[92m  Downloaded[0m anstyle v1.0.14
 [1m[92m  Downloaded[0m anstyle-parse v1.0.0
-[1m[92m  Downloaded[0m quote v1.0.47
-[1m[92m  Downloaded[0m zmij v1.0.23
-[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
-[1m[92m  Downloaded[0m libloading v0.8.9
-[1m[92m  Downloaded[0m clap_derive v4.6.7
-[1m[92m  Downloaded[0m either v1.19.0
-[1m[92m  Downloaded[0m anyhow v1.0.104
-[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m anstyle-query v1.1.5
+[1m[92m  Downloaded[0m anstyle v1.0.14
 [1m[92m  Downloaded[0m itoa v1.0.18
-[1m[92m  Downloaded[0m unicode-ident v1.0.26
-[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
+[1m[92m  Downloaded[0m strsim v0.11.1
+[1m[92m  Downloaded[0m cfg-if v1.0.5
+[1m[92m  Downloaded[0m clap_derive v4.6.7
 [1m[92m  Downloaded[0m serde_core v1.0.229
+[1m[92m  Downloaded[0m utf8parse v0.2.2
+[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
+[1m[92m  Downloaded[0m either v1.19.0
 [1m[92m  Downloaded[0m proc-macro2 v1.0.107
-[1m[92m  Downloaded[0m serde_derive v1.0.229
-[1m[92m  Downloaded[0m rayon-core v1.13.0
+[1m[92m  Downloaded[0m aho-corasick v1.1.5
+[1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
+[1m[92m  Downloaded[0m clap_lex v1.1.1
+[1m[92m  Downloaded[0m heck v0.5.0
+[1m[92m  Downloaded[0m colorchoice v1.0.5
+[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m zmij v1.0.23
+[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
+[1m[92m  Downloaded[0m libloading v0.8.9
+[1m[92m  Downloaded[0m quote v1.0.47
 [1m[92m  Downloaded[0m serde v1.0.229
+[1m[92m  Downloaded[0m unicode-ident v1.0.26
+[1m[92m  Downloaded[0m anyhow v1.0.104
+[1m[92m  Downloaded[0m serde_derive v1.0.229
 [1m[92m  Downloaded[0m clap v4.6.7
+[1m[92m  Downloaded[0m rayon-core v1.13.0
 [1m[92m  Downloaded[0m memchr v2.8.3
-[1m[92m  Downloaded[0m regex v1.13.1
 [1m[92m  Downloaded[0m serde_json v1.0.152
 [1m[92m  Downloaded[0m clap_builder v4.6.7
 [1m[92m  Downloaded[0m rayon v1.12.0
+[1m[92m  Downloaded[0m regex v1.13.1
 [1m[92m  Downloaded[0m syn v3.0.7
-[1m[92m  Downloaded[0m regex-syntax v0.8.11
 [1m[92m  Downloaded[0m regex-automata v0.4.18
+[1m[92m  Downloaded[0m regex-syntax v0.8.11
 [1m[92m   Compiling[0m proc-macro2 v1.0.107
 [1m[92m   Compiling[0m quote v1.0.47
 [1m[92m   Compiling[0m unicode-ident v1.0.26
 [1m[92m   Compiling[0m crossbeam-utils v0.8.23
 [1m[92m   Compiling[0m crossbeam-epoch v0.9.21
 [1m[92m   Compiling[0m memchr v2.8.3
-[1m[92m   Compiling[0m utf8parse v0.2.2
-[1m[92m   Compiling[0m serde_core v1.0.229
 [1m[92m   Compiling[0m crossbeam-deque v0.8.8
+[1m[92m   Compiling[0m serde_core v1.0.229
+[1m[92m   Compiling[0m utf8parse v0.2.2
 [1m[92m   Compiling[0m anstyle-parse v1.0.0
 [1m[92m   Compiling[0m syn v3.0.7
 [1m[92m   Compiling[0m rayon-core v1.13.0
 [1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
+[1m[92m   Compiling[0m zmij v1.0.23
 [1m[92m   Compiling[0m colorchoice v1.0.5
 [1m[92m   Compiling[0m anstyle-query v1.1.5
 [1m[92m   Compiling[0m anstyle v1.0.14
-[1m[92m   Compiling[0m zmij v1.0.23
 [1m[92m   Compiling[0m anstream v1.0.0
 [1m[92m   Compiling[0m aho-corasick v1.1.5
+[1m[92m   Compiling[0m anyhow v1.0.104
 [1m[92m   Compiling[0m serde_json v1.0.152
-[1m[92m   Compiling[0m regex-syntax v0.8.11
 [1m[92m   Compiling[0m heck v0.5.0
+[1m[92m   Compiling[0m regex-syntax v0.8.11
 [1m[92m   Compiling[0m strsim v0.11.1
 [1m[92m   Compiling[0m clap_lex v1.1.1
 [1m[92m   Compiling[0m serde v1.0.229
-[1m[92m   Compiling[0m anyhow v1.0.104
 [1m[92m   Compiling[0m clap_builder v4.6.7
-[1m[92m   Compiling[0m clap_derive v4.6.7
 [1m[92m   Compiling[0m serde_derive v1.0.229
+[1m[92m   Compiling[0m clap_derive v4.6.7
 [1m[92m   Compiling[0m regex-automata v0.4.18
-[1m[92m   Compiling[0m cfg-if v1.0.5
-[1m[92m   Compiling[0m itoa v1.0.18
 [1m[92m   Compiling[0m either v1.19.0
-[1m[92m   Compiling[0m rayon v1.12.0
+[1m[92m   Compiling[0m itoa v1.0.18
+[1m[92m   Compiling[0m cfg-if v1.0.5
 [1m[92m   Compiling[0m libloading v0.8.9
+[1m[92m   Compiling[0m rayon v1.12.0
 [1m[92m   Compiling[0m regex v1.13.1
 [1m[92m   Compiling[0m clap v4.6.7
 [1m[92m   Compiling[0m rust_gauntlet v0.1.0 (/home/runner/work/Pokemon/Pokemon/pokemon-agent/rust)
@@ -98,19 +98,19 @@
 [1m[94m12[0m [1m[94m|[0m use heuristic::{CardIndex, Knobs, Plan};
    [1m[94m|[0m                 [1m[33m^^^^^^^^^[0m  [1m[33m^^^^^[0m  [1m[33m^^^^[0m
 
-[1m[33mwarning[0m[1m: unused import: `CString`[0m
- [1m[94m--> [0msrc/bin/../engine.rs:2:22
-  [1m[94m|[0m
-[1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
-  [1m[94m|[0m                      [1m[33m^^^^^^^[0m
-  [1m[94m|[0m
-  [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
-
 [1m[33mwarning[0m[1m: unused import: `PathBuf`[0m
  [1m[94m--> [0msrc/bin/full.rs:3:23
   [1m[94m|[0m
 [1m[94m3[0m [1m[94m|[0m use std::path::{Path, PathBuf};
   [1m[94m|[0m                       [1m[33m^^^^^^^[0m
+  [1m[94m|[0m
+  [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: unused import: `CString`[0m
+ [1m[94m--> [0msrc/bin/../engine.rs:2:22
+  [1m[94m|[0m
+[1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
+  [1m[94m|[0m                      [1m[33m^^^^^^^[0m
   [1m[94m|[0m
   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
@@ -132,31 +132,25 @@
     [1m[94m|[0m
     [1m[94m= [0m[1mnote[0m: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
 
-[1m[33mwarning[0m[1m: unused variable: `plan`[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:433:51
-    [1m[94m|[0m
-[1m[94m433[0m [1m[94m|[0m fn fighter_score(poke: &Value, index: &CardIndex, plan: &Plan, knobs: &Knobs, obs: &Value, opp_active: Option<&Value>) -> i32 {
-    [1m[94m|[0m                                                   [1m[33m^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_plan`[0m
-
 [1m[33mwarning[0m[1m: unused variable: `deck`[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:763:77
+   [1m[94m--> [0msrc/bin/../heuristic.rs:758:77
     [1m[94m|[0m
-[1m[94m763[0m [1m[94m|[0m fn retrieval_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, deck: &[i32]) -> i32 {
+[1m[94m758[0m [1m[94m|[0m fn retrieval_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, deck: &[i32]) -> i32 {
     [1m[94m|[0m                                                                             [1m[33m^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_deck`[0m
 
 [1m[33mwarning[0m[1m: unused variable: `deck`[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:996:112
+   [1m[94m--> [0msrc/bin/../heuristic.rs:991:112
     [1m[94m|[0m
-[1m[94m996[0m [1m[94m|[0m fn score_generic_card(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, deck: &[i32]) -> i32 {
+[1m[94m991[0m [1m[94m|[0m fn score_generic_card(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, deck: &[i32]) -> i32 {
     [1m[94m|[0m                                                                                                                [1m[33m^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_deck`[0m
 
 [1m[33mwarning[0m[1m: value assigned to `score` is never read[0m
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1029:33
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1024:33
      [1m[94m|[0m
-[1m[94m1029[0m [1m[94m|[0m                 let mut score = 0;
+[1m[94m1024[0m [1m[94m|[0m                 let mut score = 0;
      [1m[94m|[0m                                 [1m[33m^[0m [1m[33mthis value is reassigned later and never used[0m
 [1m[94m...[0m
-[1m[94m1035[0m [1m[94m|[0m                 } else { score = 20; }
+[1m[94m1030[0m [1m[94m|[0m                 } else { score = 20; }
      [1m[94m|[0m                          [1m[94m----------[0m [1m[94m`score` is overwritten here before the previous value is read[0m
      [1m[94m|[0m
      [1m[94m= [0m[1mnote[0m: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
@@ -402,164 +396,14 @@
 [1m[33mwarning[0m[1m: function `fighter_score` is never used[0m
    [1m[94m--> [0msrc/bin/../heuristic.rs:433:4
     [1m[94m|[0m
-[1m[94m433[0m [1m[94m|[0m fn fighter_score(poke: &Value, index: &CardIndex, plan: &Plan, knobs: &Knobs, obs: &Value, opp_active: Option<&Value>) -> i32 {
+[1m[94m433[0m [1m[94m|[0m fn fighter_score(poke: &Value, index: &CardIndex, _plan: &Plan, knobs: &Knobs, obs: &Value, opp_active: Option<&Value>) -> i32 {
     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^[0m
 
 [1m[33mwarning[0m[1m: function `me_idx_from_obs` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:474:4
+   [1m[94m--> [0msrc/bin/../heuristic.rs:469:4
     [1m[94m|[0m
-[1m[94m474[0m [1m[94m|[0m fn me_idx_from_obs(obs: &Value) -> usize { obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize }
+[1m[94m469[0m [1m[94m|[0m fn me_idx_from_obs(obs: &Value) -> usize { obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize }
     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `regex_per_each` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:476:4
-    [1m[94m|[0m
-[1m[94m476[0m [1m[94m|[0m fn regex_per_each() -> &'static Regex {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `regex_mill` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:480:4
-    [1m[94m|[0m
-[1m[94m480[0m [1m[94m|[0m fn regex_mill() -> &'static Regex {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `regex_deck_count` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:484:4
-    [1m[94m|[0m
-[1m[94m484[0m [1m[94m|[0m fn regex_deck_count() -> &'static Regex {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `deck_energy_remaining` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:489:4
-    [1m[94m|[0m
-[1m[94m489[0m [1m[94m|[0m fn deck_energy_remaining(obs: &Value, me_idx: usize, energy_type: i32, deck: &[i32], index: &CardIndex) -> f64 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `deck_energy_rate` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:524:4
-    [1m[94m|[0m
-[1m[94m524[0m [1m[94m|[0m fn deck_energy_rate(obs: &Value, me_idx: usize, energy_type: i32, deck: &[i32], index: &CardIndex) -> f64 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `count_for_each` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:530:4
-    [1m[94m|[0m
-[1m[94m530[0m [1m[94m|[0m fn count_for_each(subject: &str, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex) -> f64 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `estimate_damage_raw` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:581:4
-    [1m[94m|[0m
-[1m[94m581[0m [1m[94m|[0m fn estimate_damage_raw(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `estimate_damage_raw_with_deck` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:616:4
-    [1m[94m|[0m
-[1m[94m616[0m [1m[94m|[0m fn estimate_damage_raw_with_deck(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize, deck: &[i32]) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `estimate_attack_damage` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:652:8
-    [1m[94m|[0m
-[1m[94m652[0m [1m[94m|[0m pub fn estimate_attack_damage(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize, deck: &[i32]) -> i32 {
-    [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `mill_would_deck_out` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:662:4
-    [1m[94m|[0m
-[1m[94m662[0m [1m[94m|[0m fn mill_would_deck_out(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize) -> bool {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `wall_gust_bonus` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:679:4
-    [1m[94m|[0m
-[1m[94m679[0m [1m[94m|[0m fn wall_gust_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `count_water_in_discard` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:688:4
-    [1m[94m|[0m
-[1m[94m688[0m [1m[94m|[0m fn count_water_in_discard(obs: &Value, me_idx: usize, index: &CardIndex) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `gust_lethal_bonus` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:699:4
-    [1m[94m|[0m
-[1m[94m699[0m [1m[94m|[0m fn gust_lethal_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize, deck: &[i32]) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `retrieval_bonus` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:763:4
-    [1m[94m|[0m
-[1m[94m763[0m [1m[94m|[0m fn retrieval_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, deck: &[i32]) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `can_my_active_attack` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:796:4
-    [1m[94m|[0m
-[1m[94m796[0m [1m[94m|[0m fn can_my_active_attack(obs: &Value) -> bool {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `score_main_option` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:804:4
-    [1m[94m|[0m
-[1m[94m804[0m [1m[94m|[0m fn score_main_option(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, knobs: &Knobs, deck: [1m[94m...[0m
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `score_wanted_card` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:974:4
-    [1m[94m|[0m
-[1m[94m974[0m [1m[94m|[0m fn score_wanted_card(cid: i32, index: &CardIndex, plan: &Plan, obs: &Value, me_idx: usize) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `discard_rank` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:991:4
-    [1m[94m|[0m
-[1m[94m991[0m [1m[94m|[0m fn discard_rank(cid: i32, index: &CardIndex, plan: &Plan, obs: &Value, me_idx: usize) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `score_generic_card` is never used[0m
-   [1m[94m--> [0msrc/bin/../heuristic.rs:996:4
-    [1m[94m|[0m
-[1m[94m996[0m [1m[94m|[0m fn score_generic_card(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, deck: &[i32]) -> i32 {
-    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `score_generic_context` is never used[0m
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1048:4
-     [1m[94m|[0m
-[1m[94m1048[0m [1m[94m|[0m fn score_generic_context(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, deck: &[i32], ct[1m[94m...[0m
-     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `score_yes_no` is never used[0m
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1059:4
-     [1m[94m|[0m
-[1m[94m1059[0m [1m[94m|[0m fn score_yes_no(opt: &Value, obs: &Value, me_idx: usize, ctx: i64, _select: &Value) -> i32 {
-     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: static `GLOBAL_INDEX_PTR` is never used[0m
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1080:12
-     [1m[94m|[0m
-[1m[94m1080[0m [1m[94m|[0m static mut GLOBAL_INDEX_PTR: *const CardIndex = std::ptr::null();
-     [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `set_global_index` is never used[0m
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1084:4
-     [1m[94m|[0m
-[1m[94m1084[0m [1m[94m|[0m fn set_global_index(idx: &CardIndex) { unsafe { GLOBAL_INDEX_PTR = idx as *const CardIndex; } }
-     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `decide` is never used[0m
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1086:8
-     [1m[94m|[0m
-[1m[94m1086[0m [1m[94m|[0m pub fn decide(obs: &Value, index: &CardIndex, plan: &Plan, knobs: &Knobs, deck: &[i32]) -> Vec<i32> {
-     [1m[94m|[0m        [1m[33m^^^^^^[0m
-
-[1m[33mwarning[0m[1m: function `decide_legacy` is never used[0m
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1144:8
-     [1m[94m|[0m
-[1m[94m1144[0m [1m[94m|[0m pub fn decide_legacy(obs: &Value, index: &CardIndex, knobs: &Knobs) -> Vec<i32> {
-     [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^[0m
 
 [1m[33mwarning[0m[1m: method `get_battle_data` is never used[0m
   [1m[94m--> [0msrc/bin/../engine.rs:82:12
@@ -625,21 +469,171 @@
 [1m[94m196[0m [1m[94m|[0m     pub primary_bonus: i32,
     [1m[94m|[0m         [1m[33m^^^^^^^^^^^^^[0m
 
+[1m[33mwarning[0m[1m: function `regex_deck_count` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:479:4
+    [1m[94m|[0m
+[1m[94m479[0m [1m[94m|[0m fn regex_deck_count() -> &'static Regex {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `decide_legacy` is never used[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1139:8
+     [1m[94m|[0m
+[1m[94m1139[0m [1m[94m|[0m pub fn decide_legacy(obs: &Value, index: &CardIndex, knobs: &Knobs) -> Vec<i32> {
+     [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `regex_per_each` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:471:4
+    [1m[94m|[0m
+[1m[94m471[0m [1m[94m|[0m fn regex_per_each() -> &'static Regex {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `regex_mill` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:475:4
+    [1m[94m|[0m
+[1m[94m475[0m [1m[94m|[0m fn regex_mill() -> &'static Regex {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `deck_energy_remaining` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:484:4
+    [1m[94m|[0m
+[1m[94m484[0m [1m[94m|[0m fn deck_energy_remaining(obs: &Value, me_idx: usize, energy_type: i32, deck: &[i32], index: &CardIndex) -> f64 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `deck_energy_rate` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:519:4
+    [1m[94m|[0m
+[1m[94m519[0m [1m[94m|[0m fn deck_energy_rate(obs: &Value, me_idx: usize, energy_type: i32, deck: &[i32], index: &CardIndex) -> f64 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `count_for_each` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:525:4
+    [1m[94m|[0m
+[1m[94m525[0m [1m[94m|[0m fn count_for_each(subject: &str, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex) -> f64 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `estimate_damage_raw` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:576:4
+    [1m[94m|[0m
+[1m[94m576[0m [1m[94m|[0m fn estimate_damage_raw(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `estimate_damage_raw_with_deck` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:611:4
+    [1m[94m|[0m
+[1m[94m611[0m [1m[94m|[0m fn estimate_damage_raw_with_deck(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize, deck: &[i32]) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `estimate_attack_damage` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:647:8
+    [1m[94m|[0m
+[1m[94m647[0m [1m[94m|[0m pub fn estimate_attack_damage(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize, deck: &[i32]) -> i32 {
+    [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `mill_would_deck_out` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:657:4
+    [1m[94m|[0m
+[1m[94m657[0m [1m[94m|[0m fn mill_would_deck_out(aid: i32, index: &CardIndex, obs: &Value, me_idx: usize) -> bool {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `wall_gust_bonus` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:674:4
+    [1m[94m|[0m
+[1m[94m674[0m [1m[94m|[0m fn wall_gust_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^[0m
+
 [1m[33mwarning[0m[1m: unused variable: `our_seat_base`[0m
    [1m[94m--> [0msrc/bin/gauntlet_rust.rs:102:153
     [1m[94m|[0m
 [1m[94m102[0m [1m[94m|[0m [1m[94m...[0mobs, games: usize, our_seat_base: usize) -> (usize, usize, usize) {
     [1m[94m|[0m                       [1m[33m^^^^^^^^^^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_our_seat_base`[0m
 
-[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 71 warnings (1 duplicate) (run `cargo fix --bin "search_deck_rust" -p rust_gauntlet` to apply 7 suggestions)
-[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 18 warnings (11 duplicates) (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 2 suggestions)
-[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 18 warnings (16 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 2 suggestions)
-[1m[92m    Finished[0m `release` profile [optimized] target(s) in 27.04s
+[1m[33mwarning[0m[1m: function `count_water_in_discard` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:683:4
+    [1m[94m|[0m
+[1m[94m683[0m [1m[94m|[0m fn count_water_in_discard(obs: &Value, me_idx: usize, index: &CardIndex) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `gust_lethal_bonus` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:694:4
+    [1m[94m|[0m
+[1m[94m694[0m [1m[94m|[0m fn gust_lethal_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: usize, deck: &[i32]) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `retrieval_bonus` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:758:4
+    [1m[94m|[0m
+[1m[94m758[0m [1m[94m|[0m fn retrieval_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, deck: &[i32]) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `can_my_active_attack` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:791:4
+    [1m[94m|[0m
+[1m[94m791[0m [1m[94m|[0m fn can_my_active_attack(obs: &Value) -> bool {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `score_main_option` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:799:4
+    [1m[94m|[0m
+[1m[94m799[0m [1m[94m|[0m fn score_main_option(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, knobs: &Knobs, deck: [1m[94m...[0m
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `score_wanted_card` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:969:4
+    [1m[94m|[0m
+[1m[94m969[0m [1m[94m|[0m fn score_wanted_card(cid: i32, index: &CardIndex, plan: &Plan, obs: &Value, me_idx: usize) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `discard_rank` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:986:4
+    [1m[94m|[0m
+[1m[94m986[0m [1m[94m|[0m fn discard_rank(cid: i32, index: &CardIndex, plan: &Plan, obs: &Value, me_idx: usize) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `score_generic_card` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:991:4
+    [1m[94m|[0m
+[1m[94m991[0m [1m[94m|[0m fn score_generic_card(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, deck: &[i32]) -> i32 {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `score_generic_context` is never used[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1043:4
+     [1m[94m|[0m
+[1m[94m1043[0m [1m[94m|[0m fn score_generic_context(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, deck: &[i32], ct[1m[94m...[0m
+     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `score_yes_no` is never used[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1054:4
+     [1m[94m|[0m
+[1m[94m1054[0m [1m[94m|[0m fn score_yes_no(opt: &Value, obs: &Value, me_idx: usize, ctx: i64, _select: &Value) -> i32 {
+     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: static `GLOBAL_INDEX_PTR` is never used[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1075:12
+     [1m[94m|[0m
+[1m[94m1075[0m [1m[94m|[0m static mut GLOBAL_INDEX_PTR: *const CardIndex = std::ptr::null();
+     [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `set_global_index` is never used[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1079:4
+     [1m[94m|[0m
+[1m[94m1079[0m [1m[94m|[0m fn set_global_index(idx: &CardIndex) { unsafe { GLOBAL_INDEX_PTR = idx as *const CardIndex; } }
+     [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `decide` is never used[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1081:8
+     [1m[94m|[0m
+[1m[94m1081[0m [1m[94m|[0m pub fn decide(obs: &Value, index: &CardIndex, plan: &Plan, knobs: &Knobs, deck: &[i32]) -> Vec<i32> {
+     [1m[94m|[0m        [1m[33m^^^^^^[0m
+
+[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 70 warnings (6 duplicates) (run `cargo fix --bin "search_deck_rust" -p rust_gauntlet` to apply 4 suggestions)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 17 warnings (7 duplicates) (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 3 suggestions)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 17 warnings (13 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 3 suggestions)
+[1m[92m    Finished[0m `release` profile [optimized] target(s) in 29.55s
 === ls ===
--rwxr-xr-x 2 runner runner 3.8M Oct 11 10:44 target/release/gauntlet_rust
--rwxr-xr-x 2 runner runner 3.6M Oct 11 10:44 target/release/rust_full
--rwxr-xr-x 2 runner runner 1.4M Oct 11 10:44 target/release/rust_gauntlet
--rwxr-xr-x 2 runner runner 1.1M Oct 11 10:44 target/release/search_deck_rust
+-rwxr-xr-x 2 runner runner 3.8M Oct 11 10:47 target/release/gauntlet_rust
+-rwxr-xr-x 2 runner runner 3.6M Oct 11 10:47 target/release/rust_full
+-rwxr-xr-x 2 runner runner 1.4M Oct 11 10:47 target/release/rust_gauntlet
+-rwxr-xr-x 2 runner runner 1.1M Oct 11 10:47 target/release/search_deck_rust
 Parallel gauntlet using Rayon
 
 Usage: rust_gauntlet [OPTIONS]
