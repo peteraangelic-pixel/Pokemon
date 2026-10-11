@@ -1,17 +1,17 @@
 # Kaggle snapshot -- arc-prize-2026-arc-agi-3
 
-Generated: 2026-10-11T10:41:29Z  (run 38132817693)
+Generated: 2026-10-11T13:04:32Z  (run 38141685620)
 
 ## Public leaderboard (top 30)
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOFiTTPdFqj5hAvLwi8rBbOD36ADvIsly1haRMdrdMhxn7qNzsNxk6SYe9CBdi77IFU
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOF0GjPq7_tVhuLDOn-s28aWrYJfaR-3Xw0zyI8YrJH6FCcRgAXTRy6rtgjdpO4xcrE
 teamId,teamName,submissionDate,score
 15499660,Yi-Chia Chen,2026-10-10 16:00:41.873000,62.96
 15486995,Tufa Labs,2026-10-09 15:56:59.453000,56.52
 16153655,mtg,2026-10-10 08:44:07.696000,45.00
 16958599,Majkel1337,2026-10-10 23:20:51.100000,42.66
+16021367,the last dance 🕺,2026-10-10 22:06:46.303000,42.55
 15770880,NVARC3,2026-10-10 17:40:02.423000,40.97
-16021367,the last dance 🕺,2026-10-09 21:20:16.810000,39.30
 15605182,Son & Mark & Ronen,2026-10-10 14:43:46.713000,39.24
 16805955,dreach.ai,2026-10-10 20:39:40.236000,39.11
 16958955,Nhan Duc Nguyen,2026-10-10 14:15:01.340000,38.84
@@ -35,7 +35,7 @@ No submissions found
 
 ## Competition files
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOHgT6SDjvXL_X7QJjH6AEY83EGyi94U2KEA5cyU1vbAnfHtcrtDsrbZS-60B1cWtnD4q4yjCGa4326_Tn5WlTAfBFeCMASLxMhGX1jLASZkVONCfWRCEzqHVTzeOrQpt7iM6gK6qbOQXc4q
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEqicYn3-UgP84cGLMQ4EJhDVThIGm4O-54dAQR2s0aGm0zU8r1Sn1QlKTtOPi9RXEpzCw21XuDjt2kk0j2meXXFqR5zaCKqK_cyRoCVNxave9NU-Wjpoc6i1tlk0mRWM3j5Tj4UkbcahID
 name                                                         size  creationDate                
 -----------------------------------------------------  ----------  --------------------------  
 ARC-AGI-3-Agents/.env.example                                 599  2026-04-17 20:12:29.398000  

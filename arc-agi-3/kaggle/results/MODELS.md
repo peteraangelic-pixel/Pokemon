@@ -2,7 +2,7 @@
 
 ## qwen3.8-flash-next
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOH-ELvStfELYuxVv8KknD40zSLaEposbEwo-Kvp6HH__q3ssAZhZdqL3S6v3lvBgzY
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOHJ_C8CQHAr8ppNGy6kX8_OHDt5p8mn927IrsuGVhE6Tyt3pfoQcVD-F5s7ldhYmGc
 id,ref,title,subtitle,author
 748517,keithtyser/qwen3-8-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4,Pinned RadixArk ModelOpt NVFP4 checkpoint for private offline evaluation,chiefkeith
 765336,dfranzen/intel-qwen3.8-flash-next-w4a16-autoround,Intel-Qwen3.8-Flash-Next-W4A16-AutoRound,,Daniel Franzen
@@ -19,7 +19,7 @@ id,ref,title,subtitle,author
 
 ## qwen3-next
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOE2jF2lMq4C4srXpfLYXzgTKNFnYzH7TVJBYXLjvYxKF2AkdVBqaWHVYI6tthy1zfI
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOFBI6Xw8zWA2WeKxb3SFegaqjz5neuzdZbAKRjjlzRkQwpt1m5iINd33Y_TTASp3KE
 id,ref,title,subtitle,author
 446705,qwen-lm/qwen3-next-80b,Qwen3 Next 80B,"Qwen3-Next-80B-A3B is the first installment in the Qwen3-Next series and features the following key enchancements like Hybrid Attention, High-Sparsity Mixture-of-Experts (MoE), Stability Optimizations and Multi-Token Prediction (MTP)",QwenLM
 748517,keithtyser/qwen3-8-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4,Pinned RadixArk ModelOpt NVFP4 checkpoint for private offline evaluation,chiefkeith
@@ -36,7 +36,7 @@ id,ref,title,subtitle,author
 
 ## qwen2.5
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEPY8kkBFq6-v3duFj5VRxVNvwVc87paw2G_pjDKwMPZ7U68EXFjiiI2Qdm0JBz5J4
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGILGDtBKLNeoDMrXuN2JmlIeAISw4kJTAmeJrZ_yUpdrXPRgSJDwMbH1B7E1uc48M
 id,ref,title,subtitle,author
 164048,qwen-lm/qwen2.5,Qwen2.5,Qwen2.5 is the latest series of Qwen large language models. Qwen2.5 has a number of base language models and instruction-tuned language models ranging from 0.5 to 72 billion parameters.,QwenLM
 161088,qwen-lm/qwen2.5-coder,Qwen2.5 Coder,"Qwen2.5-Coder is the latest series of Code-Specific Qwen large language models, Qwen2.5-Coder has covered six mainstream model sizes, 0.5, 1.5, 3, 7, 14, 32 billion parameters, to meet the needs of different developers.",QwenLM
@@ -53,7 +53,7 @@ id,ref,title,subtitle,author
 
 ## qwen3
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEKh1x7OibYNZpvc5Dj0ZfTLbEyB3qfs3-ndOw-NlwSGW5fWhonWJGHItZ3kMn076Q
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOF4Ya0U1sdX_1sRqxeSiGyZrg97b8s5UNFlPW1_UA1PyMnlIPK2xxgrtAmbNTywd9k
 id,ref,title,subtitle,author
 566606,qwen-lm/qwen3-tts,Qwen3-TTS,"Qwen3-TTS covers multiple dialectal voice profile and feature strong contextual understanding, enabling adaptive control of tone, speaking rate, and emotional expression based on instructions and text semantics.",QwenLM
 446705,qwen-lm/qwen3-next-80b,Qwen3 Next 80B,"Qwen3-Next-80B-A3B is the first installment in the Qwen3-Next series and features the following key enchancements like Hybrid Attention, High-Sparsity Mixture-of-Experts (MoE), Stability Optimizations and Multi-Token Prediction (MTP)",QwenLM
