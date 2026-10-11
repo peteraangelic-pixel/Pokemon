@@ -1,0 +1,11 @@
+vrmichalski                                153-147- 0  0.510
+Tom_Curry11                                150-150- 0  0.500
+Jonathan_Axl                               150-150- 0  0.500
+Shixiang_Yan                               146-154- 0  0.487
+
+TOTAL 599W-601L-0D = 0.499  (4 decks x 300 games, 7s)
+worst 5:
+  Shixiang_Yan                               146-154-0  0.487
+  Jonathan_Axl                               150-150-0  0.500
+  Tom_Curry11                                150-150-0  0.500
+  vrmichalski                                153-147-0  0.510
