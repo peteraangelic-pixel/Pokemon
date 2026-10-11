@@ -13,6 +13,10 @@ name: evolve-gen8
 # Trigger: manual (workflow_dispatch). 2 vCPU runner => --workers 2.
 
 on:
+  push:
+    branches: ["arena/8560a56a-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/evolve_gen8.trigger"
   workflow_dispatch:
     inputs:
       pop:
