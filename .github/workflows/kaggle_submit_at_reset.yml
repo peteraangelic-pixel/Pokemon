@@ -47,6 +47,14 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
 
+      - name: Disarm check
+        run: |
+          if [ -f pokemon-agent/kaggle_results/at_reset.DISARM ]; then
+            echo "DISARMED - marker present, aborting WITHOUT submitting."
+            echo "(Phase-1 sleep started before disarming; this stops the chained phase 2.)"
+            exit 0
+          fi
+
       - name: Resolve bundle and wait
         id: plan
         env:
