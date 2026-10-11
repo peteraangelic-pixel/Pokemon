@@ -1,16 +1,16 @@
 {
-  "fetched_utc": "2026-10-11T16:56:11+00:00",
+  "fetched_utc": "2026-10-11T21:51:29+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 320,
+  "leaderboard_rows": 321,
   "submission_rows": 10,
   "our_leaderboard": [
     {
-      "Rank": "269",
+      "Rank": "266",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
       "LastSubmissionDate": "2026-10-11 13:25:13",
-      "Score": "321.9",
+      "Score": "335.6",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
@@ -22,7 +22,7 @@
       "date": "2026-10-11 13:25:13.063000",
       "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "321.9",
+      "publicScore": "335.6",
       "privateScore": ""
     },
     {
@@ -31,7 +31,7 @@
       "date": "2026-10-11 13:25:08.083000",
       "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "308.8",
+      "publicScore": "310.2",
       "privateScore": ""
     },
     {
