@@ -1,8 +1,8 @@
-# Replay Analysis — 82 replays
+# Replay Analysis — 84 replays
 
 Our team (inferred): **PeterSharps**
 
-Total replays: 82
+Total replays: 84
 
 ## Win/Loss vs opponents
 
@@ -17,6 +17,7 @@ Total replays: 82
 | nguyenbaotri-VIETNAM | 2 | 0 | 2 | 0.00 |
 | Kevin Rio Harristyando | 2 | 1 | 1 | 0.50 |
 | char0n1 | 2 | 1 | 1 | 0.50 |
+| PeterSharps | 2 | 2 | 0 | 1.00 |
 | vrmichalski | 2 | 1 | 1 | 0.50 |
 | Atharva Naik | 1 | 0 | 1 | 0.00 |
 | YOUKE144 | 1 | 1 | 0 | 1.00 |
@@ -49,7 +50,7 @@ Total replays: 82
 | Mandavi Singh | 1 | 0 | 1 | 0.00 |
 | Tanishq das | 1 | 0 | 1 | 0.00 |
 | Praneeth Yeddu | 1 | 0 | 1 | 0.00 |
-| PeterSharps | 1 | 1 | 0 | 1.00 |
+| MarPez | 1 | 0 | 1 | 0.00 |
 | (ノ◡ <) | 1 | 0 | 1 | 0.00 |
 | Yorukuma | 1 | 0 | 1 | 0.00 |
 | Tom Curry11 | 1 | 0 | 1 | 0.00 |
@@ -63,8 +64,8 @@ Total replays: 82
 
 ## Deck meta (all decks seen)
 
-- Energy distribution: {33: 47, 36: 1, 26: 4, 35: 19, 15: 6, 12: 5, 10: 6, 14: 7, 0: 2, 20: 3, 28: 4, 30: 9, 29: 22, 11: 1, 18: 1, 34: 13, 17: 1, 2: 2, 31: 1, 22: 1, 9: 1, 23: 1, 7: 1, 8: 2, 13: 1, 24: 1}
-- Gust (Boss/Catcher) distribution: {0: 46, 2: 52, 3: 31, 4: 29, 1: 4}
+- Energy distribution: {33: 47, 36: 1, 26: 4, 35: 19, 15: 6, 12: 5, 10: 7, 14: 7, 0: 2, 20: 3, 28: 4, 30: 9, 29: 25, 11: 1, 18: 1, 34: 13, 17: 1, 2: 2, 31: 1, 22: 1, 9: 1, 23: 1, 7: 1, 8: 2, 13: 1, 24: 1}
+- Gust (Boss/Catcher) distribution: {0: 46, 2: 52, 3: 35, 4: 29, 1: 4}
 
 ### Example decks that beat us
 
@@ -227,6 +228,11 @@ Total replays: 82
   - Energy: 23, Gust: 2
   - Pokemon: Teal Mask Ogerpon ex x4, Mega Kangaskhan ex x3, Latias ex x1, Fezandipiti ex x1
   - Trainers: Basic {G} Energy x23, Lillie's Determination x4, Waitress x4, Bug Catching Set x4, Mega Signal x3, Tera Orb x3
+
+- **episode-121978792-replay.json** vs MarPez (winner MarPez, 394 steps)
+  - Energy: 10, Gust: 3
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
+  - Trainers: Basic {R} Energy x4, Basic {P} Energy x4, Buddy-Buddy Poffin x4, Crushing Hammer x4, Ultra Ball x4, Poké Pad x4
 
 - **episode-121978794-replay.json** vs (ノ◡ <) (winner (ノ◡ <), 192 steps)
   - Energy: 14, Gust: 3
