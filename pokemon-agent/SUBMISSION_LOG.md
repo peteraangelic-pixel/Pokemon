@@ -920,3 +920,11 @@ Diagnoza remisów (100% step_limit, stan zamrożenia po wypaleniu obu decków) �
 - decision-diff probe: planner faktycznie zmienia decyzje (3/260 punktów; ATTACH-boost i Swirling-force)
 
 **Submit plan 00:00 UTC:** (1) c87f7a48: v11+30W, (2) MY: **phase1_tuned_v22b_hybrid_planner.tar.gz** (build+smoke+loader ✓; trigger przeuzbrojony przed wybudzeniem fazy-2 ~22:37). v22b = v21 + planner = supery na obu odkrytych dziś warstwach (hybryda archetypów + planer stall-attach).
+
+### 22:10 UTC — Raport z 8560a56a: potwierdzili v21 + dostarczyli stall attach planner (v22b) + 400 CreateSubmission = zamknięte okno przed resetem (hipoteza)
+
+**Ich postęp (dfabf21 + 9db1034):** (1) niezależna weryfikacja naszego v21 ("first credible improvement", dead-code potwierdzony, mechanizm stall-remisów odtworzony); (2) **v22b = v21 + stall attach planner** (ATTACH→Kyogre +40 pod 3W, Swirling 1043 +120 przy 3W); (3) tools/ab_interleaved.py (A/B w jednym procesie); (4) warianty decków nowych archetypów.
+
+**Bugi w ich ab_interleaved (naprawione u nas):** `pa = pb = [0,0,0]` (aliasing — ramiona zawsze identyczne! ich +5.71pp nie mogło wyjść z tej wersji) + glob łapiący `_manifest.csv`. Po fixach nasz pomiar: **v22b vs v21: stall +5.0pp (remisy 12→6%), m35W +6.0, Bill +3.0, top30/broad neutralnie, zero regresji** (szczegóły w RESULTS.md 22:00). Planner aktywny (decision-diff: zmienia decyzje).
+
+**Krytyka operacyjna nocy:** (1) stara faza-2 (dispatch 21:26) miała snapshot PRZED swapem na v22b → o 00:00 poleci v21; (2) nowy short-path run (38177962144) poleci z v22b; (3) c87f7a48 wystawia v11+30W → **trzy konfiguracje na 00:01:30 (A/B/C na żywej drabince, 3/5 slotów nowego dnia)**; (4) retry v22b dzisiaj (3×) — **400 CreateSubmission** przy świeżych bajtach/czystym message → hipoteza: zamknięte okno submisji 1-2h przed resetem (o 13:25 szło); 400 nic nie kosztuje; porównamy po 00:00.
