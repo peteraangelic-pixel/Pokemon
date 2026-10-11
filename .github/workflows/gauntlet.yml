@@ -53,10 +53,24 @@ jobs:
       - name: Build rust_gauntlet
         run: |
           cd pokemon-agent/rust
-          cargo build --release
+          set -eo pipefail
+          # Only rust_gauntlet is needed here; a full build makes quick-test
+          # fail whenever ANY aux bin has a compile error.
+          cargo build --release --bin rust_gauntlet 2>&1 | tee build.log
           mkdir -p ../rust/bin
-          cp target/release/rust_gauntlet ../rust/bin/rust_gauntlet 2>/dev/null || cp target/release/rust-gauntlet ../rust/bin/rust_gauntlet || ls target/release/
+          cp target/release/rust_gauntlet ../rust/bin/rust_gauntlet
           ls -lh ../rust/bin/
+
+      - name: Commit build log on failure
+        if: failure()
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          cp pokemon-agent/rust/build.log pokemon-agent/rust/bin/quicktest_build.log || true
+          git add -f pokemon-agent/rust/bin/quicktest_build.log || true
+          if git diff --cached --quiet; then echo "no log"; else git commit -m "ci: quick-test build log [skip ci]"; git push origin "HEAD:${GITHUB_REF_NAME}"; fi
 
       - name: Run gauntlet vs top7_live
         env:
