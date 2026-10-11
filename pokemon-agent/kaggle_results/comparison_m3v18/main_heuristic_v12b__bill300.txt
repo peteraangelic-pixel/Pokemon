@@ -1,0 +1,5 @@
+Bill_Vlasak                                180-120- 0  0.600
+
+TOTAL 180W-120L-0D = 0.600  (1 decks x 300 games, 4s)
+worst 5:
+  Bill_Vlasak                                180-120-0  0.600

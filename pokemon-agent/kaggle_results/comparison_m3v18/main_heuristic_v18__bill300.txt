@@ -1,0 +1,5 @@
+Bill_Vlasak                                200-100- 0  0.667
+
+TOTAL 200W-100L-0D = 0.667  (1 decks x 300 games, 4s)
+worst 5:
+  Bill_Vlasak                                200-100-0  0.667

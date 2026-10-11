@@ -1,0 +1,31 @@
+Darren_Sheehan                             97- 3- 0  0.970
+YumeNeko                                   93- 7- 0  0.930
+バーベナヘレナでコンボ決めたい連合                          91- 9- 0  0.910
+Leon_Liu                                   88-12- 0  0.880
+Kentaro_Totsuka                            87-13- 0  0.870
+Stephen_Schott                             86-14- 0  0.860
+OceanMix                                   85-15- 0  0.850
+Majiro_ns                                  84-16- 0  0.840
+Akmal_Xodarev__Busya_PRIME_                82-18- 0  0.820
+Zedan_Soorya                               80-20- 0  0.800
+Cristobal_Tudela                           80-20- 0  0.800
+Raja_Biswas                                79-21- 0  0.790
+Mathieu_W                                  79-21- 0  0.790
+JerryChen                                  79-21- 0  0.790
+Colton_Martin                              79-21- 0  0.790
+やる気元気ミワハルキ_2nd_ver_                        78- 2-20  0.780
+leo_turing                                 76-24- 0  0.760
+Chonghao_Peng                              76-24- 0  0.760
+KyryloBakumenko                            74-26- 0  0.740
+Xinyu_Li                                   72-28- 0  0.720
+Mengfei_Li                                 72-28- 0  0.720
+ANMOL_GARG                                 72-28- 0  0.720
+Bill_Vlasak                                53-47- 0  0.530
+
+TOTAL 1842W-438L-20D = 0.801  (23 decks x 100 games, 39s)
+worst 5:
+  Bill_Vlasak                                53-47-0  0.530
+  ANMOL_GARG                                 72-28-0  0.720
+  Mengfei_Li                                 72-28-0  0.720
+  Xinyu_Li                                   72-28-0  0.720
+  KyryloBakumenko                            74-26-0  0.740

@@ -1,0 +1,5 @@
+leo_turing                                 245-54- 1  0.817
+
+TOTAL 245W-54L-1D = 0.817  (1 decks x 300 games, 5s)
+worst 5:
+  leo_turing                                 245-54-1  0.817

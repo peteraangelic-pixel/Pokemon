@@ -1,0 +1,5 @@
+leo_turing                                 230-70- 0  0.767
+
+TOTAL 230W-70L-0D = 0.767  (1 decks x 300 games, 5s)
+worst 5:
+  leo_turing                                 230-70-0  0.767

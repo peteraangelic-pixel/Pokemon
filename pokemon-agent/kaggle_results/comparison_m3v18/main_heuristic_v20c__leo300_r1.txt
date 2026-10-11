@@ -1,0 +1,5 @@
+leo_turing                                 247-53- 0  0.823
+
+TOTAL 247W-53L-0D = 0.823  (1 decks x 300 games, 5s)
+worst 5:
+  leo_turing                                 247-53-0  0.823

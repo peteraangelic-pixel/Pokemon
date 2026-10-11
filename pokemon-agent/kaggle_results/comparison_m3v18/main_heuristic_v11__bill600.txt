@@ -1,0 +1,5 @@
+Bill_Vlasak                                365-235- 0  0.608
+
+TOTAL 365W-235L-0D = 0.608  (1 decks x 600 games, 7s)
+worst 5:
+  Bill_Vlasak                                365-235-0  0.608

@@ -1,0 +1,5 @@
+Bill_Vlasak                                362-238- 0  0.603
+
+TOTAL 362W-238L-0D = 0.603  (1 decks x 600 games, 7s)
+worst 5:
+  Bill_Vlasak                                362-238-0  0.603

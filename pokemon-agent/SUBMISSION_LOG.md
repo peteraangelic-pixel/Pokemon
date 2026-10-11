@@ -861,3 +861,7 @@ Run 38159427346: 420 replayów pobranych surowo, po deduplikacji **105 unikalnyc
 - **v19b** (= v18 + gust-vs-wall T≤2 +30, retrieval przy ≤1E +30): **top30 0.814 @100g — najlepszy wynik w projekcie** (+1.7-2.9pp vs v11, z≈2-3), broad/mirrors/H2H remis. PONIŻEJ progu +5pp → do re-testu @200g przed jakąkolwiek zmianą; jedyne żywe tropy po plateau.
 - v13/m3_B/m3_C/m3(D)/gen8r: remisy z v11 (szczegóły w RESULTS.md).
 - **Submission po resecie: v11+30W bez zmian.**
+
+### 20:00 UTC — DEAD-CODE DISCOVERY + v20/v20b/v20c: reguły nie przeskoczą v11+30W (3×600g, remis absolutny vs #1)
+
+Zob. kaggle_results/comparison_m3v18/RESULTS.md (sekcja 19:55). Kluczowe: (1) v18/v19b ≡ v11 (martwy kod, NameError w `except: pass`) — wszystkie wcześniejsze porównania na obu gałęziach unieważnione; (2) live-beaters: Bill_Vlasak #1 (Mega Lucario+20F) 0.613, Mengfei 0.710, 36/300 remisów z Banette stall; (3) trzy działające warstwy reguł (anti-Mega-Lucario prize protection, Riptide/Hammer deckout) — max +1.5pp (szum), Riptide-boost systematycznie szkodliwy Water-mirrorom; (4) werdykt: plateau potwierdzone działającym kodem, submission v11+30W bez zmian; rezerwy w planie atakującym/hybride per-archetyp (osobna sesja).

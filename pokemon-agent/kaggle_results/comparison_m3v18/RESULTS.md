@@ -82,3 +82,43 @@ Nasza niezależna weryfikacja (FFI, deck v12_30_boss4):
 - **8560a56a: v11+30W** (ich tabela @100g: v11 wygrywa 3/4 pule); artefakty m3_C/m3_B/gen8r — wszystkie remisy.
 - **Winner across branches: v11 + 30W (phase1_tuned_v15_30_boss4_v11)** — i to leci po resecie 00:00 UTC
   z c87f7a48 (nasz egzemplarz DISARM-ed, żeby nie spalić 2 slotów na identyczny submit).
+
+---
+
+# 19:55 UTC — "Czy da się ulepszyć v11+30W?" — pełna odpowiedź empiryczna (v20/v20b/v20c)
+
+## Odkrycie nr 1: warstwa ulepszeń v18/v19/v19b była MARTWYM KODEM
+`MIRROR_IDS`, `RIPTIDE_ID`, `HAMMER_ID`, `WALL_IDS` nie są zdefiniowane w ŻADNYM agencie
+(w tym w v11) — NameError połykany przez `except: pass`. **v18 ≡ v19b ≡ v11 funkcjonalnie**
+(wer. programistyczna: brak symboli w namespace po załadowaniu). Wszystkie porównania
+"v18 vs v11" na WSZYSTKICH gałęziach były porównaniami v11 z v11. Jedyne żywe zmiany
+w rodzinie: v19 (katastrofa 0.591 — miał aktywne, nie-dominujące-na-wall reguły poza warstwą).
+
+## Odkrycie nr 2: kto realnie przegrywa z v11+30W w aktualnym top30 (@300g/matchup)
+Bill_Vlasak (**#1 na leaderboardzie, 1243.5**) → **0.613** (Mega Lucario ex 340HP/pt4,
+Mega Brave 270, Aura Jab re-attach 3F, **20× Fighting Energy** — głodowanie niemożliwe);
+Mengfei_Li 0.710; reszta top30 0.77-0.83; vs ミワハルキ (Banette stall) 12% REMISÓW (36/300).
+Prize math: nasz Mega Abomasnow pt=4, Kyogre/Snover pt=1 — meczup z Lucario to aukcja
+4-prize'owych Mega.
+
+## Próby ulepszeń (napisane OD PODSTAWY, działające — zweryfikowane wrapper+namespace)
+| wariant | reguły | Bill @600g | leo @300g | broad @100g | mirrory 300×2 | top30 @100g |
+|---|---|---|---|---|---|---|
+| v11 baseline | — | 0.608/0.613/0.630 (3 runy) | 0.767/0.783/0.733 | 0.621/0.613 | 0.480 | ~0.79 |
+| v20 | B + Riptide boost + Hammer guard | 0.645 (1 run) | 0.817 | 0.596/0.591 ✗ | 0.480 | 0.801 |
+| v20b | tylko B (anti-Mega) | 0.603 | 0.783 | 0.611 ✓ | 0.493 | 0.811 |
+| **v20c** | **B + Hammer guard ≤10** | **0.638/0.603/0.610 → 0.617** | **0.823/0.757/0.790 → 0.790** | 0.603 | 0.508 | — |
+
+Reguła A/Riptide: systematycznie rani WSZYSTKIE talie Water-line (5/5 najgorszych spadków
+broad miały 721/722/723) → wykreślona. Reguła B: Leo +8.4pp (1 run) rozpłynęło się w +1.5pp
+po powtórzeniach. Bill: v20c 0.617 vs v11 0.617 (3×600g każdy) — REMIS ABSOLUTNY.
+
+## Werdykt
+**NIE — na poziomie reguł decyzyjnych tej rodziny heurystyki v11+30W pozostaje optimum.**
+Plateau potwierdzone teraz kodem DZIAŁAJĄCYM (wcześniej martwym), na świeżych danych live
+(#1 leaderboardu w puli), z powtórzeniami 3×600g. Sufit szumu międzyrunowego silnika:
+±3pp na 600g/meczup — nic nie przekracza progu +5pp.
+**Realne rezerwy są głębiej:** plan atakujący vs Mega/stall (skład atakujących), deck
+(31-35W przetestowane przez innych), lub hybida 2-agentowa (reguły per-archetyp) — to
+już projekt na osobną sesję z większym compute. v20c zostaje jako artefakt (neutralny,
+najlepiej przebadany kandydat na przyszłe modyfikacje).

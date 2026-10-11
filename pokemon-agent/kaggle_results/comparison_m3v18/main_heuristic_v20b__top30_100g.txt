@@ -1,0 +1,31 @@
+Darren_Sheehan                             97- 3- 0  0.970
+YumeNeko                                   92- 8- 0  0.920
+バーベナヘレナでコンボ決めたい連合                          91- 9- 0  0.910
+Leon_Liu                                   91- 9- 0  0.910
+Kentaro_Totsuka                            91- 9- 0  0.910
+OceanMix                                   89-11- 0  0.890
+Raja_Biswas                                87-13- 0  0.870
+Majiro_ns                                  87-13- 0  0.870
+Cristobal_Tudela                           85-15- 0  0.850
+Chonghao_Peng                              85-15- 0  0.850
+Zedan_Soorya                               84-16- 0  0.840
+Mathieu_W                                  84-16- 0  0.840
+やる気元気ミワハルキ_2nd_ver_                        83- 5-12  0.830
+ANMOL_GARG                                 81-19- 0  0.810
+Stephen_Schott                             78-22- 0  0.780
+leo_turing                                 76-24- 0  0.760
+Xinyu_Li                                   75-25- 0  0.750
+Colton_Martin                              74-26- 0  0.740
+Mengfei_Li                                 73-27- 0  0.730
+Akmal_Xodarev__Busya_PRIME_                72-28- 0  0.720
+KyryloBakumenko                            71-29- 0  0.710
+JerryChen                                  66-34- 0  0.660
+Bill_Vlasak                                53-47- 0  0.530
+
+TOTAL 1865W-423L-12D = 0.811  (23 decks x 100 games, 30s)
+worst 5:
+  Bill_Vlasak                                53-47-0  0.530
+  JerryChen                                  66-34-0  0.660
+  KyryloBakumenko                            71-29-0  0.710
+  Akmal_Xodarev__Busya_PRIME_                72-28-0  0.720
+  Mengfei_Li                                 73-27-0  0.730

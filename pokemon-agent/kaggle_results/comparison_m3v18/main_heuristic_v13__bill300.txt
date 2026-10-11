@@ -1,0 +1,5 @@
+Bill_Vlasak                                178-122- 0  0.593
+
+TOTAL 178W-122L-0D = 0.593  (1 decks x 300 games, 4s)
+worst 5:
+  Bill_Vlasak                                178-122-0  0.593

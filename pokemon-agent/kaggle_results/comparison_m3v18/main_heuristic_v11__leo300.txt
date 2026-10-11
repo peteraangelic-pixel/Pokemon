@@ -1,0 +1,5 @@
+leo_turing                                 220-80- 0  0.733
+
+TOTAL 220W-80L-0D = 0.733  (1 decks x 300 games, 5s)
+worst 5:
+  leo_turing                                 220-80-0  0.733

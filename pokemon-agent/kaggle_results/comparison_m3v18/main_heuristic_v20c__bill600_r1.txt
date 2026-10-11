@@ -1,0 +1,5 @@
+Bill_Vlasak                                383-217- 0  0.638
+
+TOTAL 383W-217L-0D = 0.638  (1 decks x 600 games, 8s)
+worst 5:
+  Bill_Vlasak                                383-217-0  0.638

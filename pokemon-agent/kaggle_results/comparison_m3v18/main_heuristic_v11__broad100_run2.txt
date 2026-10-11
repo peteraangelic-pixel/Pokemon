@@ -1,0 +1,64 @@
+sergeicu                                   96- 4- 0  0.960
+Kydyrbek_Kozykorpesh                       93- 7- 0  0.930
+praveen_02706                              91- 9- 0  0.910
+awewrasdffetfe                             90-10- 0  0.900
+SC                                         90-10- 0  0.900
+pika28samson                               89-11- 0  0.890
+Richard_Guo                                88-12- 0  0.880
+Kevin_Hulin                                88-12- 0  0.880
+Ryan_Fernandes                             87-13- 0  0.870
+Stephen_Schott                             83-17- 0  0.830
+F_A_Nina                                   82-18- 0  0.820
+mo                                         74-26- 0  0.740
+Kazama_Hareka                              74-25- 1  0.740
+Guenoir                                    73-27- 0  0.730
+tanzaku                                    72-28- 0  0.720
+Tien_N_                                    72-28- 0  0.720
+Tanishq_das                                71-29- 0  0.710
+鲁尚武_LuShangWu                              68-32- 0  0.680
+YOUKE144                                   68-32- 0  0.680
+Kevin_Rio_Harristyando                     64-36- 0  0.640
+Arka_Latua                                 64-36- 0  0.640
+vrmichalski                                59-41- 0  0.590
+PeterSharps                                59-41- 0  0.590
+kloaken                                    58-42- 0  0.580
+RAHUL_REDDY_PULICHARLA                     57-43- 0  0.570
+renyxin                                    56-44- 0  0.560
+Yash_Dalal                                 56-44- 0  0.560
+Jonathan_Axl                               56-44- 0  0.560
+The_Prad_K                                 55-45- 0  0.550
+Shixiang_Yan                               55-45- 0  0.550
+cottonandcolor                             54-46- 0  0.540
+Mitsuaki_Inoue                             53-47- 0  0.530
+Mandavi_Singh                              53-47- 0  0.530
+Aditya_ingale                              53-47- 0  0.530
+Nozprod                                    53-46- 1  0.530
+Pranshul_Maithani                          52-48- 0  0.520
+Avik_Das                                   52-48- 0  0.520
+BSCode                                     51-49- 0  0.510
+Atharva_Naik                               51-49- 0  0.510
+tategami                                   50-50- 0  0.500
+char0n1                                    50-50- 0  0.500
+Rodrigo_S_Faria                            50-50- 0  0.500
+thebrownkid                                48-52- 0  0.480
+Praneeth_Yeddu                             48-52- 0  0.480
+Hitisha_Goyal                              48-52- 0  0.480
+Elbachir_Salik                             48-52- 0  0.480
+tai1907                                    47-53- 0  0.470
+eastnix                                    47-53- 0  0.470
+Pawit_Sahare                               47-53- 0  0.470
+Tom_Curry11                                46-54- 0  0.460
+AByT3s                                     46-54- 0  0.460
+Noel_Bobby                                 43-57- 0  0.430
+Riccardo_Lo_Bianco                         42-58- 0  0.420
+ant                                        41-59- 0  0.410
+DavideSanta                                37-63- 0  0.370
+nguyenbaotri-VIETNAM                       33-67- 0  0.330
+
+TOTAL 3431W-2167L-2D = 0.613  (56 decks x 100 games, 33s)
+worst 5:
+  nguyenbaotri-VIETNAM                       33-67-0  0.330
+  DavideSanta                                37-63-0  0.370
+  ant                                        41-59-0  0.410
+  Riccardo_Lo_Bianco                         42-58-0  0.420
+  Noel_Bobby                                 43-57-0  0.430

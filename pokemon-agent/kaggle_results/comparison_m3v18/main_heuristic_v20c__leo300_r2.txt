@@ -1,0 +1,5 @@
+leo_turing                                 227-73- 0  0.757
+
+TOTAL 227W-73L-0D = 0.757  (1 decks x 300 games, 5s)
+worst 5:
+  leo_turing                                 227-73-0  0.757

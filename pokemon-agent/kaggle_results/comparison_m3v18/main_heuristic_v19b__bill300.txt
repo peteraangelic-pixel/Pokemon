@@ -1,0 +1,5 @@
+Bill_Vlasak                                186-114- 0  0.620
+
+TOTAL 186W-114L-0D = 0.620  (1 decks x 300 games, 4s)
+worst 5:
+  Bill_Vlasak                                186-114-0  0.620

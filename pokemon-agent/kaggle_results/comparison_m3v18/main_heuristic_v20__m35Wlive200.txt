@@ -1,0 +1,1 @@
+no opponent decks in /home/user/Pokemon/pokemon-agent/decks/top30_live (filter: 'vrmichalski,Tom_Curry11')

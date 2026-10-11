@@ -1,0 +1,5 @@
+leo_turing                                 235-65- 0  0.783
+
+TOTAL 235W-65L-0D = 0.783  (1 decks x 300 games, 5s)
+worst 5:
+  leo_turing                                 235-65-0  0.783
