@@ -1,6 +1,7 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57056900,phase1_tuned_v10_34_sig4.tar.gz,2026-10-11 00:35:33.680000,v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw,SubmissionStatus.COMPLETE,276.5,
-57056872,phase1_tuned_v9_final.tar.gz,2026-10-11 00:34:53.167000,v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw,SubmissionStatus.COMPLETE,328.0,
+57058104,phase1_tuned_v12_30_boss4.tar.gz,2026-10-11 01:18:52.883000,v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro,SubmissionStatus.COMPLETE,348.7,
+57056900,phase1_tuned_v10_34_sig4.tar.gz,2026-10-11 00:35:33.680000,v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw,SubmissionStatus.COMPLETE,378.9,
+57056872,phase1_tuned_v9_final.tar.gz,2026-10-11 00:34:53.167000,v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw,SubmissionStatus.COMPLETE,314.6,
 57045512,phase1_tuned_gen8_h1.tar.gz,2026-10-10 15:03:51.657000,Gen8 H1 Powerglass+NightStretcher recycle + lethal rem1 - 0.818 vs top7_live - should improve beyond 600,SubmissionStatus.COMPLETE,426.7,
 57045458,phase1_tuned_gen8_powerglass.tar.gz,2026-10-10 15:01:25.883000,Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - fixes Powerglass mirrors,SubmissionStatus.COMPLETE,341.1,
 57045377,phase1_tuned_gen8_v2.tar.gz,2026-10-10 14:57:35.047000,Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K,SubmissionStatus.COMPLETE,426.4,
