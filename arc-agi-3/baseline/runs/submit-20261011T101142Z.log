@@ -1,0 +1,8 @@
+.venv/bin/python scripts/build_notebook.py --accelerator cpu
+Wrote notebooks/submission.ipynb (accelerator: cpu).
+Synced notebooks/kernel-metadata.json enable_gpu=False.
+KAGGLE_API_TOKEN=$(cat .kaggle/access_token) .venv/bin/kaggle kernels push -p notebooks
+Your kernel title does not resolve to the specified id. This may result in surprising behavior. We suggest making your title something that resolves to the specified id. See https://en.wikipedia.org/wiki/Clean_URL#Slug for more information on how slugs are determined.
+The following are not valid tags and could not be added to the kernel: ['arc-agi-3', 'arc-prize-2026', 'deterministic-exploration']
+Kernel version 1 successfully pushed.  Please check progress at https://www.kaggle.com/code/petersharps/arc-prize-2026-arc-agi-3-novelty-explorer
+Notebook pushed. Inspect its Kaggle run before selecting an official competition submission.
