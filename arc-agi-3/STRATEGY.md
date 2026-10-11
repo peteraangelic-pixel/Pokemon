@@ -1,3 +1,51 @@
+# WERDYKT (11 X 2026): czy mamy cokolwiek do pokazania?
+
+## Krótka odpowiedź: **nie mamy czegoś z realną szansą. Ale warto zgłosić.**
+
+### Dlaczego nie mamy szansy
+
+Szacowany wynik naszego agenta na publicznym leaderboardzie: **rzędu 1–5**.
+Próg nagrody: **40.97**.
+
+Podstawa szacunku — jedyny dostępny punkt kalibracji od innego uczestnika
+(`anandsingh8687`, agent z prawdziwym modelem na Duck harness):
+lokalny bieg na 25 grach, wynik 5.265, **31 z 183 poziomów** → **2.37 na
+publicznym LB**. My mamy 5 poziomów na 20 gier (i to przy samodzielnie
+nałożonym limicie 400 akcji na grę, więc w zawodach dostalibyśmy więcej —
+ale bez modelu sufit i tak jest nisko).
+
+Dla skali: losowy agent dostaje 0.12. Będziemy wyraźnie wyżej niż losowy,
+i o rząd wielkości poniżej progu nagrody.
+
+### Dlaczego mimo to warto kliknąć „Submit to Competition"
+
+1. **To jedyny sposób, żeby przetestować ścieżkę konkursową.** Do tej pory
+   notebook wykonał się tylko w fazie *Save & Run All*, która **celowo pisze
+   atrapę** (`Wrote save-phase placeholder submission.parquet`). Właściwy kod
+   (`KAGGLE_IS_COMPETITION_RERUN=1` → `python main.py --agent myagent`)
+   **nigdy nie został uruchomiony**. Może się wywalić.
+2. **Dostajemy punkt odniesienia.** Bez tego nie wiemy, czy brakuje nam 2
+   punkty czy 40 — a to zmienia decyzję o dalszej pracy.
+3. **Nic to nie kosztuje.** Limit to jedno zgłoszenie dziennie, a nie mamy
+   dziś żadnego lepszego kandydata.
+
+### Co sprawdziliśmy przed wydaniem tej rekomendacji
+
+- `main.py` istnieje w `arcprize/ARC-AGI-3-Agents` i przyjmuje `--agent` ✔
+- `agents/templates/` ma strukturę zgodną z tym, co wstawia nasz notebook ✔
+- notebook działa na CPU (`enable_internet: false`) — nasz agent nie potrzebuje GPU ✔
+- `arc-agi 0.9.8` + `arcengine 0.9.3` instalują się z lokalnych wheeli ✔
+
+### Czego się spodziewać po numerze
+
+Wynik w okolicach **1–5** to **nie jest porażka projektu** — to jest zmierzony
+poziom „agent bez modelu". Taka liczba jest potrzebna, żeby każdą kolejną
+zmianę (model, concurrency, anti-loop) móc ocenić względem czegoś twardego.
+
+**Nie zniechęcaj się tym numerem. On jest punktem startu, nie wynikiem.**
+
+---
+
 # ARC-AGI-3: co robi czołówka i co musimy zbudować
 
 Stan na 11 X 2026. Wnioski z analizy publicznych notebooków konkursu
