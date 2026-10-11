@@ -165,8 +165,11 @@ jobs:
           TS=$(date -u +%Y%m%dT%H%M%SZ)
           cp submit.log "runs/submit-$TS.log" 2>/dev/null || true
           cp status.log "runs/status-$TS.log" 2>/dev/null || true
-          git add runs || true
-          if [ -n "$(git status --porcelain runs)" ]; then
+          # notebooks/submission.ipynb jest w .gitignore; metadane juz nie --
+          # zapisujemy wykryty kernel id, zeby kolejne pushy aktualizowaly
+          # ten sam kernel zamiast tworzyc nowe.
+          git add runs notebooks/kernel-metadata.json || true
+          if [ -n "$(git status --porcelain runs notebooks/kernel-metadata.json)" ]; then
             git commit -m "chore(arc): kaggle notebook push $TS [skip ci]"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           else
