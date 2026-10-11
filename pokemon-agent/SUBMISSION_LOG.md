@@ -844,3 +844,7 @@ observation.
 **Werdykt:** plateau ważne dla wszystkich 4 agentów. v11m3_C = najlepszy wariant mirrorowy na zapas (jedyne ≥0.495 wszędzie na mirrorach), v18 bez przewagi, v11+30W = submission bez zmian (at-reset uzbrojony na 00:00 UTC). Szczegóły + surowe logi: kaggle_results/comparison_m3v18/RESULTS.md. Agenci v11m3* skopiowani do agents/ z gałęzi 8560a56a (reproducybilność).
 
 **210 replayów top30 — wyjaśnienie + akcja:** poprzedni trigger nosił po zamarzniętej sesji parametry top_n=20/max_files=140 (stąd limit 140, a nie 210); do tego API Kaggle zwraca per drużynę tylko ostatnie dostępne epizody (często 1-3 z 7), a pliki akumulują się między runami (72→83). Zmunowany nowy trigger top_n=30/replays_per_team=7/max_files=210 — run w toku; kolejne odpalenia co kilka godzin dobijają do realnego maksimum poniżej 210, ile pozwala API.
+
+### 18:05 UTC — Wynik pełnego fetchu top30 (top_n=30 ×7): 105/210 unikalnych
+
+Run 38159427346: 420 replayów pobranych surowo, po deduplikacji **105 unikalnych epizodów** (83→105), 24/30 talii top30 w decks/top30_live. To potwierdza sufit API: polecane 210 = 30×7, ale drużyny mają obecnie mniej niż 7 dostępnych ostatnich epizodów każda (reszta to duplikaty już zebrane). Kolejne reruny top30_live.trigger będą akumulować nowe epizody w miarę grania drużyn (72→83→105 w trzy runy dziś). At-reset: nadal faza snu, ogień ~00:01:30 UTC.
