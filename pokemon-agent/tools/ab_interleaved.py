@@ -110,7 +110,8 @@ def main():
             decks = [pool]
         if not decks:
             continue
-        pa = pb = [0, 0, 0]
+        pa = [0, 0, 0]
+        pb = [0, 0, 0]
         print(f"pool {pool} ({len(decks)} decks)")
         for f in decks:
             opp_agent = load(args.agent_a, G.load_deck(f), "opp")
