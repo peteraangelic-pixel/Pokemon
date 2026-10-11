@@ -164,7 +164,19 @@ Result: draws 12–16% → 7.5% (88→60 @600g paired), WR 0.78–0.85 → **0.9
 
 ## 9. Submission logistics (learned the hard way)
 
-- Quota ~5 slots/day, reset **00:00 UTC** (submissions are per-day).
+- Quota ~5 slots/day, reset **00:00 UTC** — BUT **only 2 submissions can be
+  ACTIVE at a time**; anything beyond the 2 is disabled/inactive (user-confirmed
+  2026-10-11). Plan accordingly: an N-way "submit everything same day" A/B/C is
+  NOT possible — pick 2, or submit sequentially across days keeping the best 2.
+  Also: near the reset the submit endpoint can return **400 CreateSubmission**
+  (upload OK, registration refused) — observed 3x between 21:50-22:00 UTC;
+  hypothesis: submission window closes 1-2h before 00:00. Submit early in the
+  day, not at its end.
+- ⚠️ A DISARM marker file only stops jobs that START after it lands. A job
+  that already passed its disarm check and is SLEEPING toward the reset will
+  submit anyway — the sandbox token cannot cancel runs (403). To stop an
+  in-flight scheduled submission, cancel the run in the GitHub web UI
+  (Actions → run → Cancel) — that requires browser rights the sandbox lacks.
 - Two branches both armed at-reset with the SAME bundle → would burn 2 slots
   on duplicates. Fix patterns implemented in
   `.github/workflows/kaggle_submit_at_reset.yml`:
