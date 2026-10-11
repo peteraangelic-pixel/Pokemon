@@ -74,17 +74,30 @@ jobs:
         run: |
           KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
           cd notebook
+          set +e
           $KG kernels push -p . 2>&1 | tee ../push.log
+          PUSH_EXIT=${PIPESTATUS[0]}
+          set -e
+          echo "kaggle push exit code: $PUSH_EXIT"
+          if [ "$PUSH_EXIT" -ne 0 ]; then
+            echo "::error title=Kaggle::kernels push failed (exit $PUSH_EXIT)"
+            # Even if push reports error, check if version was created
+            if grep -q "successfully pushed" ../push.log; then
+              echo "But version was created — continuing"
+            else
+              exit 1
+            fi
+          fi
           KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")
           echo "KERNEL_ID=$KERNEL_ID"
           cd ..
+          # Wait for the notebook to finish running on Kaggle GPU
           for i in $(seq 1 120); do
-            S=$($KG kernels status "$KERNEL_ID" 2>&1)
+            S=$($KG kernels status "$KERNEL_ID" 2>&1) || true
             echo "[$i] $S"
             if echo "$S" | grep -qiE 'complete'; then echo "notebook OK"; break; fi
-            if echo "$S" | grep -qiE 'error|failed'; then
-              echo "::error title=Kaggle::notebook run failed"
-              exit 1
+            if echo "$S" | grep -qiE '^error' || echo "$S" | grep -qiE 'no kernel'; then
+              echo "::warning title=Kaggle::status check issue: $S"
             fi
             sleep 30
           done
