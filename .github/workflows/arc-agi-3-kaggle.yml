@@ -274,6 +274,23 @@ jobs:
           PYEOF
           ls -la "$OUTDIR/PUBLIC_APPROACHES.md" 2>/dev/null || echo "(brak podsumowania)"
 
+      - name: Jakie modele sa dostepne na Kaggle (notebook nie ma internetu)
+        continue-on-error: true
+        run: |
+          mkdir -p "$OUTDIR"
+          {
+            echo "# Modele dostepne na Kaggle (bez internetu w notebooku)"
+            echo
+            for q in "qwen3.8-flash-next" "qwen3-next" "qwen2.5" "qwen3"; do
+              echo "## $q"
+              echo '```'
+              kaggle models list --search "$q" --page-size 12 --csv 2>&1 | head -13 || true
+              echo '```'
+              echo
+            done
+          } > "$OUTDIR/MODELS.md" 2>&1
+          head -60 "$OUTDIR/MODELS.md"
+
       - name: Summarise
         run: |
           {
