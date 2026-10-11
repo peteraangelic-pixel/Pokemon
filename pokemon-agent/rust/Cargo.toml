@@ -19,6 +19,10 @@ path = "src/bin/gauntlet_rust.rs"
 name = "search_deck_rust"
 path = "src/bin/search_deck_rust.rs"
 
+[[bin]]
+name = "analyze_playstyle_rust"
+path = "src/bin/analyze_playstyle_rust.rs"
+
 [dependencies]
 rayon = "1.10"
 serde = { version = "1.0", features = ["derive"] }

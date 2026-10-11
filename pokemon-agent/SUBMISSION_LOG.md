@@ -546,3 +546,45 @@ observation.
 - Dokończyć search_deck_rust z wymogiem Boss>=3 i test vs top30+archetypes combined
 - Zbudować top30_live prawdziwe z Kaggle API (30 teamów x3 replays) via Actions, nie mix top10+top7_live
 - Przepisać resztę narzędzi Python (analyze_replays, deck_rules) na Rust+Rayon
+
+---
+
+## 2026-10-11 — merge arena/8560a56a-pokemon + 7 replays per top30 plan
+
+**Audit 7 replays per top30:**
+- User asks: 7 replays per top30 player? = 210 JSONs to discover playstyle (gust timing, retrieval, wall escape) and recreate locally.
+- Current state before merge:
+  - `kaggle_results/top10_live/` 14 JSONs (summary.json claims 140 downloaded, but API sparse + pruning to 5 newest)
+  - `kaggle_results/replays/` 67 JSONs own team vs opponents (episodes_57004890.csv 70 eps)
+  - `kaggle_results/rank90_100_live/` 1 JSON (requested 15, got 1)
+  - `decks/top30/` 30 CSVs built from top10 + top7_live dedup, NOT from dedicated top30 fetch, so only deck lists, no playstyle
+  - No `top30_live/` dir on this branch, no 7-per-team
+
+**Branch arena/8560a56a-pokemon valuable ideas (5ae376b) merged:**
+- `decks/top30_live/` 23/30 decks refreshed 2026-10-11 11:10 UTC via `top_n=30 replays_per_team=1 max_files=40` — 23/30 vs our 0/30 before, manifest with rank/score/episode/file
+- `decks/broad_field/` 40 decks that beat us (opp_rank 99-274, our_record 0/1, 1/2) — critical, addresses "nie testuj już na top7 bo jak widać mało to daje bo jak wrzucamy agenta który wygrywa z top7 to ten agent przegrywa ze słabymi zawodnikami i dlatego mamy jedno z ostatnich miejsc na leaderboardzie! Testuj może od teraz na top30!"
+- `decks/_arch/` 11 archetypes (alakazam, bronzong_lock, charizard_mega, crustle_wall, dragapult, gardevoir_mega, ours, pikachu_tera, raging_bolt, sylveon_safeguard, trevenant)
+- `rust/PORTING.md` crash analysis buffer full capacity:7 + acceptance gate
+- `rust/src/bin/gauntlet_native.rs` native rayon driver
+- `tools/build_top30.py`, `build_broad_field.py`, `gauntlet_ffi.py` (20x faster)
+- `kaggle_top10.yml` improvements: parse params from trigger file, build deck sets, prune to 5 newest
+- `rust-build.yml` builds all 4 binaries
+
+**New workflow kaggle_top30.yml + trigger:**
+- `kaggle_results/top30_live.trigger` with `top_n=30 replays_per_team=7 max_files=210`
+- Workflow downloads 30*7=210 JSONs via download_top10_replays.py, builds top30_live + broad_field, runs analyze_replays + analyze_playstyle, uploads artifact, commits deck CSVs keeping newest 210
+- Previous top10 workflow kept 5 newest, too aggressive for playstyle learning; new keeps 210
+
+**New tool analyze_playstyle.py:**
+- Parses logs type 4 (card plays) + turn, extracts gust (Boss 1182, Prime Catcher 1088), retrieval (Lillie 1227, Waitress 1235, Night Stretcher 1097, Sacred Ash 1129, Cyrano 1205), energy
+- Aggregates per team: gust/game, first gust turn avg, retrieval/game, energy/game
+- Tested on existing 14 JSONs: Lillie 121 plays, Dawn 92, Night Stretcher 38, Waitress 16 — confirms retrieval meta
+
+**Commit 1c40798:** merge + new workflow + playstyle tool, pushed to arena/c87f7a48-pokemon
+
+**Next:**
+1. Trigger kaggle_top30.yml (push trigger file already done) to fetch 210 JSONs — needs KAGGLE_API_TOKEN secret in repo
+2. Run analyze_playstyle on 210 to get gust timing distribution (early disruption vs late close)
+3. Rebuild top30_live to 30/30 (currently 23/30) and use gauntlet_rust (Rust+Rayon 200x, 60 games 1s vs Python 22.3s) to test vs top30_live + broad_field as new benchmark (not top7)
+4. Update agent to mimic top playstyle: earlier gust vs walls, retrieval when low energy, wall escape via Surfing Beach
+

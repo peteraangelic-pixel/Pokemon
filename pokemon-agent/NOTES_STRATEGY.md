@@ -888,3 +888,54 @@ Gen2 refine around 0.702: 0.751 (??) → 0.707 stable (BEST)
 
 **Kaggriculture precedent:** In previous Kaggriculture project, Rust port was 100x faster than Python engine. For PTCG, engine is closed `libcg.so` (C++), but we can still get 100x by calling it directly from Rust and implementing heuristic in Rust, avoiding Python GIL and interpreter overhead.
 
+---
+
+## 15. Top30 live 23/30 + broad_field 40 + 7 replays per player plan (2026-10-11)
+
+**Context:** User asks "7 replays per top30 player? + check branch arena/8560a56a-pokemon for valuable ideas."
+
+**Audit (2026-10-11 13:30 UTC) on arena/c87f7a48-pokemon (e3b054d):**
+- `kaggle_results/top10_live/` = 14 JSONs (summary.json claims 140 downloaded, but API sparse + pruning)
+- `kaggle_results/replays/` = 67 JSONs own team vs opponents (episodes_57004890.csv 70 eps)
+- `kaggle_results/rank90_100_live/` = 1 JSON (requested 5x3=15, got 1)
+- `decks/top30/` = 30 CSVs built from top10 + top7_live dedup, NOT from dedicated top30 replay fetch
+- No `top30_live/` dir yet on this branch
+
+**Branch arena/8560a56a-pokemon (5ae376b) valuable ideas merged:**
+- `decks/top30_live/` 23/30 decks refreshed 2026-10-11 11:10 UTC via trigger `top_n=30 replays_per_team=1 max_files=40` — manifest with rank/score/episode/file
+- `decks/broad_field/` 40 decks that beat us (opp_rank 99-274, our_record 0/1, 1/2 etc) — critical for testing weak opponents that currently beat us. This addresses user correction "nie testuj już na top7 bo jak widać mało to daje bo jak wrzucamy agenta który wygrywa z top7 to ten agent przegrywa ze słabymi zawodnikami i dlatego mamy jedno z ostatnich miejsc na leaderboardzie! Testuj może od teraz na top30!"
+- `decks/_arch/` 11 archetype decks (alakazam, bronzong_lock, charizard_mega, crustle_wall, dragapult, gardevoir_mega, ours, pikachu_tera, raging_bolt, sylveon_safeguard, trevenant) — for gauntlet archetype testing
+- `rust/PORTING.md` — crash analysis `buffer full. capacity:7` + `Rust cannot catch foreign exceptions` on ENERGY selects, acceptance gate (mirror 0.45-0.55, vs top30 within ±0.03, zero Select errors 5000 games)
+- `rust/src/bin/gauntlet_native.rs` — native rayon driver mirroring gauntlet_ffi.py CLI, but with native heuristic (needs faithful port)
+- `tools/build_top30.py` — extracts decks for current top30 from all local replays (replays/, top10_live/, top10/), writes top30_live + manifest + our live record split by tier (top50, 51-150, 151+)
+- `tools/build_broad_field.py` — builds broad_field from OUR live replays (kaggle_results/replays/), every distinct opponent deck that beat us
+- `tools/gauntlet_ffi.py` — fast gauntlet 8ms/game via direct FFI into libcg.so, process-pool parallelism, real Python policy on both seats, 20x faster than kaggle_environments wrapper
+- `kaggle_top10.yml` improvements: resolve fetch params from trigger file (top_n, replays_per_team, max_files), build deck sets, prune raw episodes to 5 newest, upload artifact
+- `rust-build.yml` builds all 4 binaries (rust_gauntlet, rust_full, gauntlet_rust, search_deck_rust)
+
+**New workflow kaggle_top30.yml (this commit):**
+- 7 replays per top30 player = 210 JSONs to discover opponent playstyle (gust timing, retrieval, wall escape)
+- Trigger file `kaggle_results/top30_live.trigger` with `top_n=30 replays_per_team=7 max_files=210`
+- Steps: download_top10_replays.py --top-n 30 --replays-per-team 7 --outdir top30_live, build_top30.py, build_broad_field.py, analyze_replays.py, analyze_playstyle.py, upload artifact kaggle-top30-live-210, commit deck CSVs keeping newest 210 episodes
+- Keeps newest 210 (not 5) to allow playstyle learning, but still prunes >6M files
+
+**New tool analyze_playstyle.py:**
+- Parses logs type 4 (card plays) + turn from observation.current.turn
+- Extracts gust (Boss 1182, Prime Catcher 1088, Pokemon Catcher 1124), retrieval (Lillie 1227, Waitress 1235, Night Stretcher 1097, Sacred Ash 1129, Cyrano 1205, Petrel 1219, Dawn 1231), energy
+- Aggregates per team: games, win%, gust/game, first gust turn avg, retrieval/game, energy/game
+- Outputs playstyle.md with gust timing distribution, retrieval breakdown, notes for local recreation (mimic gust timing in sim)
+
+**Why 7 per top30 matters:**
+- Current top30 set uses only deck lists, not playstyle. To recreate opponent locally we need not just 60 cards but also WHEN they gust, how they use retrieval, how they escape walls
+- 1 replay per team gives deck only; 7 replays gives distribution of gust timing (early disruption vs late close), retrieval frequency, wall escape patterns
+- 210 JSONs ~630 MB raw, but analysis extracts small CSVs + md, so repo stays small
+- API sparsity: requesting 7 per team often returns 1-2 avg because Kaggle episodes API only returns last N episodes per submission and submissions may have few episodes. Need to retry with delay 0.2 and max_files 210 to keep newest.
+
+**Next:**
+1. Trigger kaggle_top30.yml workflow (push trigger file) to get 210 JSONs
+2. Run analyze_playstyle.py on 210 to get playstyle profiles
+3. Rebuild top30_live to 30/30 (currently 23/30) + broad_field
+4. Use gauntlet_rust (Rust+Rayon 200x, 60 games 1s vs Python 22.3s) to test vs top30_live + broad_field (not top7) as benchmark, per user request
+5. Update agent to mimic top playstyle: earlier gust vs walls, retrieval when low energy, etc.
+
+

@@ -1,0 +1,143 @@
+name: kaggle-top30
+
+# Fetch TOP30 leaders' 7 last replays each = 210 JSONs
+# Needed to discover opponent playstyle (gust timing, retrieval, wall escape)
+# and recreate locally. PTCG version of Kaggriculture's top49 workflow.
+#
+# Trigger: push file pokemon-agent/kaggle_results/top30_live.trigger
+# containing e.g. "top_n=30 replays_per_team=7 max_files=210"
+# or workflow_dispatch with inputs.
+#
+# Output: pokemon-agent/kaggle_results/top30_live/ (210 JSONs) + decks/top30_live/ (30 CSVs)
+# + analysis of playstyle.
+
+on:
+  workflow_dispatch:
+    inputs:
+      top_n:
+        description: "Top N teams"
+        required: false
+        default: "30"
+      replays_per_team:
+        description: "Last M replays per team"
+        required: false
+        default: "7"
+      max_files:
+        description: "Keep newest K episode files (0 = keep all)"
+        required: false
+        default: "210"
+  push:
+    branches: ["arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/top30_live.trigger"
+      - "pokemon-agent/kaggle_results/top30.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  top30:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      - name: Resolve fetch parameters
+        run: |
+          TOP_N="${{ inputs.top_n || '' }}"
+          RPT="${{ inputs.replays_per_team || '' }}"
+          MAXF="${{ inputs.max_files || '' }}"
+          for f in pokemon-agent/kaggle_results/top30_live.trigger pokemon-agent/kaggle_results/top30.trigger pokemon-agent/kaggle_results/top10_live.trigger pokemon-agent/kaggle_results/top10.trigger; do
+            [ -f "$f" ] || continue
+            [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$RPT" ] || RPT=$(sed -n 's/.*replays_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -z "$MAXF" ] && MAXF=$(sed -n 's/.*max_files=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+          done
+          echo "top_n=${TOP_N:-30}" >> "$GITHUB_ENV"
+          echo "rpt=${RPT:-7}" >> "$GITHUB_ENV"
+          echo "maxf=${MAXF:-210}" >> "$GITHUB_ENV"
+          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} max_files=${MAXF:-210}"
+
+      - name: Download TOP30 live replays (fresh, 7 per team = 210)
+        run: |
+          set -e
+          mkdir -p pokemon-agent/kaggle_results/top30_live
+          python pokemon-agent/tools/download_top10_replays.py \
+            --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
+            --top-n "$top_n" \
+            --replays-per-team "$rpt" \
+            --outdir pokemon-agent/kaggle_results/top30_live \
+            --delay 0.2 2>&1 | tee pokemon-agent/kaggle_results/top30_live/fetch.log
+          echo "=== summary ==="
+          cat pokemon-agent/kaggle_results/top30_live/summary.json || true
+          ls -lh pokemon-agent/kaggle_results/top30_live/ | head -30
+          echo "count JSONs: $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)"
+
+      - name: Build top30_live + broad_field deck sets + playstyle analysis (Rust+Rayon)
+        run: |
+          set -eo pipefail
+          python pokemon-agent/tools/build_top30.py || true
+          python pokemon-agent/tools/build_broad_field.py || true
+          python pokemon-agent/tools/analyze_replays.py --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/analysis.md || true
+          cat pokemon-agent/kaggle_results/top30_live/analysis.md | head -200 || true
+          # Playstyle deep dive — Rust+Rayon if binary exists (10-20x faster), else Python fallback
+          if [ -f pokemon-agent/rust/bin/analyze_playstyle_rust ]; then
+            echo "Using Rust+Rayon analyze_playstyle_rust (10-20x faster)"
+            pokemon-agent/rust/bin/analyze_playstyle_rust --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/playstyle.md || true
+          elif [ -f pokemon-agent/tools/analyze_playstyle_rust.py ]; then
+            python pokemon-agent/tools/analyze_playstyle_rust.py --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/playstyle.md || true
+          elif [ -f pokemon-agent/tools/analyze_playstyle.py ]; then
+            python pokemon-agent/tools/analyze_playstyle.py --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/playstyle.md || true
+          fi
+          cat pokemon-agent/kaggle_results/top30_live/playstyle.md | head -300 || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kaggle-top30-live-210
+          path: |
+            pokemon-agent/kaggle_results/top30_live/
+            pokemon-agent/decks/top30_live/
+          if-no-files-found: warn
+
+      - name: Commit back deck sets + analysis (prune raw episodes to max_files)
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          # Delete oversized files >5M (some replays can be >5M)
+          find pokemon-agent/kaggle_results/top30_live -type f -size +6M -delete || true
+          # Keep newest $maxf episode files (210 = 30*7). 0 means keep all.
+          if [ "$maxf" != "0" ] && [ -n "$maxf" ]; then
+            echo "Pruning to newest $maxf episodes..."
+            ls -1t pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | tail -n +$((maxf+1)) | xargs rm -f || true
+          fi
+          echo "Remaining JSONs: $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)"
+          git add pokemon-agent/kaggle_results/top30_live/ pokemon-agent/decks/top30_live/ pokemon-agent/decks/broad_field/ || true
+          git status --short | head -30
+          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/top30_live/ pokemon-agent/decks/top30_live/ pokemon-agent/decks/broad_field/)" ]; then
+            git commit -m "decks: top30_live refreshed to $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)/210 from fresh fetch 7 per top30 [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "No changes to commit"
+          fi
