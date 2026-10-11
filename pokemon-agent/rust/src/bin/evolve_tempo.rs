@@ -348,7 +348,7 @@ fn main() -> Result<()> {
         for (idx, cfg, res, fit, wwr) in sorted.iter().take(5) {
             let diff: Map<String, Value> = cfg
                 .iter()
-                .filter(|(k, v)| base.get(*k).map_or(true, |bv| bv != v))
+                .filter(|(k, v)| base.get(*k).map_or(true, |bv| bv != *v))
                 .map(|(k, v)| (k.clone(), json!(v)))
                 .collect();
             eprintln!(

@@ -792,3 +792,23 @@ observation.
 **Oczekiwane po push:** poll → aktualny ranking/score v14; top30 → kolejna porcja replayów; heavy → PRAWDZIWY verdict v18 (mirror deckout fix: Riptide boost deck<15, Hammer penalize) na 100g broad + tempo 20g; at_reset → faza 1 czeka, ogień ~00:01:30 UTC.
 
 **Open (z poprzedniej sesji, nadal aktualne):** mirror 35W coinflip (42% nowych porażek), Ogerpon-28G coinflip, nowy archetyp Mega Excadrill/Genesect bez decklisty. Po powrocie heavy-v18: porównać z v11 baseline (0.619 broad 20g / 0.587 live 100g) i zdecydować, czy v18 zastępuje v11 w submitcie #2.
+
+### 17:15 UTC — Heavy v18 PRAWDZIWY wynik (pierwszy w historii) + naprawy CI
+
+**Heavy v18 @ FFI 100g broad_field (46 decków, 16s):** TOTAL **0.625** (2873W-1726L-1D).
+**Tempo 20g gen8_meta:** win **0.769**, first 19.0, prize_T9 1.81, fitness **0.740**.
+
+| agent | tempo win | tempo fitness | mirror 35W | broad 100g |
+|---|---|---|---|---|
+| v11 | 0.713 | 0.692 | ~0.42-0.59 | 0.619 (20g) |
+| v13 | 0.762 | 0.751 | — | 0.622 (30g) |
+| **v18 (Riptide<15/Hammer fix)** | 0.769 | 0.740 | **0.35 (7-13)** | **0.625** |
+
+**Werdykt: v18 NIE bije v11** — mirror 35W dalej 0.35 (fix deckoutu nie działa na inherent deck disadvantage), broad w tym samym plateau, fitness poniżej v13. **Decyzja o submie v11+30W po resecie STOI.** v18 zostaje jako kandydat #2 (tempo win najlepszy z grupy, ale fitness i mirror gorsze).
+
+**Rating LIVE spadł:** v14 484.1 → **321.9** (rank 222 → 269) między 13:54 a 16:56 — agent gubi μ w żywej grze, submit po resecie tym pilniejszy.
+
+**Naprawy CI (commit "fix evolve_tempo compile + artifact colons"):**
+- `rust/src/bin/evolve_tempo.rs` — 2 błędy kompilacji blokujące rust-build i quick-test (exit 101): E0277 `bv != v` przy `&&i32` z filter (→ `bv != *v`), E0308 krotka 4 vs 5 elementów w `sorted.remove(0)` (→ `let (_, cfg, res, fit, wwr)`).
+- `kaggle_poll.yml` — sanitize nazw plików z dwukropkami przed upload-artifact (colon w `rank90_100_live/publicleaderboard-*.csv` wywalał upload, poll zgłaszał failure mimo poprawnego fetch+commit); istniejące pliki zmienione (`:` → `-`).
+- fetch-mid: job fetch-mid ✓, padł tylko poboczny fetch-top7 (fetch step exit 1, bez loga — najpewniej throttling Kaggle przy 5 równoległych workflow; do retriggeru gdy trzeba).
