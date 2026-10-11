@@ -1,0 +1,5 @@
+Mirror_30W                                 307-293- 0  0.512
+
+TOTAL 307W-293L-0D = 0.512  (1 decks x 600 games, 3s)
+worst 5:
+  Mirror_30W                                 307-293-0  0.512
