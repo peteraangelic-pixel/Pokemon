@@ -226,6 +226,26 @@ jobs:
             sort -u .gitignore -o .gitignore
           fi
 
+      # 0.01 vs last place 36.49 => the agent almost certainly did not play.
+      # Pull every diagnostic Kaggle exposes so we can prove why.
+      - name: Diagnoza po zgloszeniu (read-only)
+        run: |
+          REF=petersharps/arc-agi-3-novelty-explorer
+          SUB=$(tr -d '[:space:]' < arc-agi-3/kaggle/submission_id.txt 2>/dev/null || echo "")
+          {
+            echo "=== kernels files (outputy notebooka) ==="
+            kaggle kernels files "$REF" --csv 2>&1 | head -20
+            echo; echo "=== kernels output (download) ==="
+            mkdir -p /tmp/kout
+            kaggle kernels output "$REF" -p /tmp/kout 2>&1 | tail -5
+            ls -la /tmp/kout 2>&1 | head -20
+            echo; echo "=== episodes (json) ==="
+            if [ -n "$SUB" ]; then kaggle competitions episodes "$SUB" --format json 2>&1 | head -40; fi
+            echo; echo "=== submissions ==="
+            kaggle competitions submissions -c "$COMP" --csv 2>&1 | head -5
+          } > "$OUTDIR/POSTMORTEM.md" 2>&1
+          head -70 "$OUTDIR/POSTMORTEM.md"
+
       - name: Download competition files (opt-in)
         if: inputs.download
         run: |
