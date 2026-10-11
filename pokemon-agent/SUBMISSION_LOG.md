@@ -724,3 +724,28 @@ observation.
 1. v12b_30_boss4 as #1 (new best structural)
 2. v11_30_boss4 as #2 backup (plateau best, 0.711 100g core in other branch)
 
+
+## 2026-10-11 15:07 UTC — v13 = v11f + v12b opening (merge v15 and v12, answer to "jakie v12")
+
+**User:** "jakie v12, przecież mieliśmy już opracowane v15_30_boss4_v11f i v16_gen8!"
+
+**Odpowiedź:** v12 był intermediate z opening fix vs Solrock/Lucario. v15_30_boss4_v11f był best broad 0.644 (10g) ale 0.593 v14 20g. v16_gen8_tempo to overfit gen8_meta 0.874 fitness ale broad 0.546 — nie nadaje się.
+
+**v13 = v11f (GUST70 WALL350, best broad) + LOW_E_AGGRO_IDS opening fix z v12b:**
+- agents/main_heuristic_v13.py
+- Deck v12_30_boss4 30W Boss4
+
+**FFI 20-30g:**
+- top30 20g: v13 0.835 BEST (v11f 0.824, v11 0.791, v12b 0.783)
+- top30 30g: v13 0.791 tie v11f 0.791
+- broad 20g: v13 0.633 (v11f 0.646 best, v11 0.617)
+- broad 30g: v13 0.622 BEST vs v11f 0.615 (+0.7pp)
+- v14 losses 20g: v13 0.686 BEST tie v12b
+- tempo 20g gen8_meta: v13 0.762 win first 17.3 prize 1.95 fitness 0.751 BEST (v12b 0.756/0.748, v11 0.713/0.692)
+
+**Bundle:** phase1_tuned_v16_30_boss4_v13.tar.gz 89 KiB — NEW BEST, zastępuje v16_gen8_tempo (overfit) jako v16.
+
+**Upload order:**
+1. v16_30_boss4_v13 as #1 (merge best broad + opening fix, 0.622 broad 30g, 0.791 top30 30g, 0.686 v14)
+2. v15_30_boss4_v11 as #2 backup (0.813 top30 10g)
+

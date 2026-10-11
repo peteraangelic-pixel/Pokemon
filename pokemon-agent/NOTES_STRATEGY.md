@@ -982,3 +982,38 @@ v12b beats v11 on all three pools with 20-30g sample: +0.9pp v14 losses, +5.2pp 
 - Keep v11_30_boss4 as backup (previous plateau best).
 - Future structural: matchup-specific opening already done, next is gust timing T0-1 + retrieval counter Hammer (Hammer is in v14 losses: Dragapult 10E, Lucario 13E etc have Hammer to discard our energy), and faster milling in mirror (boost ATTACH when opponent mirror, Kyogre shuffle logic).
 
+
+## 17. v13 = v11f + v12b opening fix — merge v15 and v12 (2026-10-11 15:07 UTC)
+
+**User feedback:** "jakie v12, przecież mieliśmy już opracowane v15_30_boss4_v11f i v16_gen8!"
+
+**Wyjaśnienie:**
+- v15_30_boss4_v11f = deck 30_boss4 + agent v11f (GUST70 WALL350) — poprzedni best broad 0.692 (4g) / 0.644 (10g) / 0.646 (20g) / 0.615 (30g)
+- v16_gen8_tempo = best_agent_gen8.py z search_results_gen8 (fitness 0.874 win 0.875 first 11.4 prize 2.31 na 8-deck meta) — overfit, broad 0.546 (10g) 0.519 vs broad_field, nie nadaje się do submitu
+- v12b = v11 + opening fix (LOW_E_AGGRO) — poprawia v14 losses 0.681->0.690 i top30 0.772->0.824 (20g) ale sam v11 to nie v11f
+
+**Merge v13 = v11f + LOW_E_AGGRO:**
+- Plik: agents/main_heuristic_v13.py — kopia v11f + penalize Kyogre -150 boost Snover +80 vs {676 Solrock, 677-678 Lucario, 119-121 Dragapult, 96 Ogerpon, 92-93 Applin, 89 Grookey, 330 Sylveon, 345 Crustle, 710 Alakazam, 1349 Sinistcha}
+- Deck: v12_30_boss4 (30W Boss4 Lillie4 Waitress3 Signal4) — nadal najlepszy overall vs 34_sig4 (0.622 vs 0.615 broad, 0.824 vs 0.780 top30)
+
+**Wyniki FFI (real libcg.so, 20-30g):**
+
+| Agent | Deck | top30 10g | top30 20g | top30 30g | broad 10g | broad 20g | broad 30g | v14 10g | v14 20g | tempo 20g |
+|---|---|---|---|---|---|---|---|---|---|---|
+| v15_30_boss4_v11 | 30_boss4 | 0.813 | 0.791 | - | 0.613 | 0.617 | - | 0.657 | 0.629 | - |
+| v15_30_boss4_v11f | 30_boss4 | 0.783 | 0.824 | 0.791 | 0.644 | 0.646 | 0.615 | 0.686 | 0.593 | - |
+| v16_gen8_tempo | 30_boss4 | 0.774 | - | - | 0.546 | - | - | 0.657 | - | 0.874 fit but overfit |
+| v12b_30_boss4 | 30_boss4 | 0.774 | 0.783 | - | 0.631 | 0.613 | - | 0.686 | 0.686 | 0.756 win 0.748 fit first 18.6 |
+| **v13 (v11f+open)** | **30_boss4** | - | **0.835 BEST** | **0.791 tie** | - | **0.633** | **0.622 BEST** | - | **0.686 BEST** | **0.762 win 0.751 fit first 17.3 BEST** |
+
+v13 bije v15_30_boss4_v11f na broad 30g 0.622 vs 0.615 (+0.7pp) i remis top30 0.791, oraz bije v12b na top30 0.835 vs 0.783 (+5.2pp). Tempo fitness 0.751 > v12b 0.748 > v11 0.692.
+
+**Dlaczego v16_gen8_tempo jest zły:**
+- Fitness 0.874 na gen8_meta (8 decków) ale first 11.4 prize 2.31 to overfit do małej puli, vs broad_field spada do 0.546 (10g) i 0.519 (vs broad) — klasyczny overfit, nie nadaje się do submitu. Potwierdza plateau: wagi z gen8 nie generalizują.
+
+**Bundle:**
+- phase1_tuned_v16_30_boss4_v13.tar.gz (89 KiB) — NEW BEST, merge v15_30_boss4_v11f + opening fix
+- Zastępuje v16_gen8_tempo (overfit) jako v16
+
+**Next:**
+- v13 jest nowym baseline po merge. Dalszy strukturalny fix: gust timing T0-1 (Boss early vs walls) + retrieval counter Hammer (Dragapult/Lucario mają Hammer discard energy) + faster mirror milling (boost ATTACH when opponent mirror).
