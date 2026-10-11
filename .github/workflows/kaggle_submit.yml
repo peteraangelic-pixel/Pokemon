@@ -17,7 +17,7 @@ on:
       - "pokemon-agent/bundles/*.trigger"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   submit:
@@ -78,5 +78,9 @@ jobs:
           ls -lh bundles/ | tail -20
           echo "Submitting $BUNDLE_PATH"
           echo "Message: $MESSAGE"
-          kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "$BUNDLE_PATH" -m "$MESSAGE" 2>&1 | tee submit.log
+          set -o pipefail
+          mkdir -p kaggle_results/submit_logs
+          kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "$BUNDLE_PATH" -m "$MESSAGE" 2>&1 | tee "kaggle_results/submit_logs/${BUNDLE%.tar.gz}_$(date -u +%H%M%S).log"
+          echo "=== last submissions ==="
+          kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground 2>&1 | head -6 | tee -a "kaggle_results/submit_logs/${BUNDLE%.tar.gz}_$(date -u +%H%M%S).log"
           cat submit.log
