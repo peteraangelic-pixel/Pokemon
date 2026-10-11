@@ -1,6 +1,5 @@
 {
-  "id": "lauresowe3d/arc-agi3-novelty-explorer",
-  "title": "ARC Prize 2026 \u2014 ARC-AGI-3 Novelty Explorer",
+  "title": "arc-agi3-novelty-explorer",
   "code_file": "submission.ipynb",
   "language": "python",
   "kernel_type": "notebook",
