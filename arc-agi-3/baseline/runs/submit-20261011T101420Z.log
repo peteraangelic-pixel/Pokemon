@@ -1,0 +1,16 @@
+.venv/bin/python scripts/build_notebook.py --accelerator cpu
+Wrote notebooks/submission.ipynb (accelerator: cpu).
+Synced notebooks/kernel-metadata.json enable_gpu=False.
+KAGGLE_API_TOKEN=$(cat .kaggle/access_token) .venv/bin/kaggle kernels push -p notebooks
+Your kernel title does not resolve to the specified id. This may result in surprising behavior. We suggest making your title something that resolves to the specified id. See https://en.wikipedia.org/wiki/Clean_URL#Slug for more information on how slugs are determined.
+409 Client Error: Conflict for url: https://api.kaggle.com/v1/kernels.KernelsApiService/SaveKernel
+make: *** [Makefile:59: submit] Error 1
+
+--- obce id: tworze nowy kernel ---
+.venv/bin/python scripts/build_notebook.py --accelerator cpu
+Wrote notebooks/submission.ipynb (accelerator: cpu).
+Synced notebooks/kernel-metadata.json enable_gpu=False.
+KAGGLE_API_TOKEN=$(cat .kaggle/access_token) .venv/bin/kaggle kernels push -p notebooks
+ID or slug must be specified in the metadata
+make: *** [Makefile:59: submit] Error 1
+
