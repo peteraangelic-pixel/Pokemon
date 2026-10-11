@@ -1,0 +1,1 @@
+petersharps/arc-agi-3-novelty-explorer has status "KernelWorkerStatus.COMPLETE"
