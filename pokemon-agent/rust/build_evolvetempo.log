@@ -3,84 +3,84 @@
 [1m[92m      Adding[0m libloading v0.8.9 [1m[33m(available: v0.9.0)[0m
 [1m[92m      Adding[0m rand v0.8.8 [1m[33m(available: v0.10.3)[0m
 [1m[92m Downloading[0m crates ...
-[1m[92m  Downloaded[0m aho-corasick v1.1.5
-[1m[92m  Downloaded[0m rand_chacha v0.3.1
 [1m[92m  Downloaded[0m anstyle-query v1.1.5
-[1m[92m  Downloaded[0m clap_builder v4.6.7
-[1m[92m  Downloaded[0m clap_lex v1.1.1
-[1m[92m  Downloaded[0m itoa v1.0.18
-[1m[92m  Downloaded[0m heck v0.5.0
-[1m[92m  Downloaded[0m anyhow v1.0.104
-[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
-[1m[92m  Downloaded[0m getrandom v0.2.17
+[1m[92m  Downloaded[0m anstream v1.0.0
+[1m[92m  Downloaded[0m aho-corasick v1.1.5
 [1m[92m  Downloaded[0m anstyle-parse v1.0.0
-[1m[92m  Downloaded[0m utf8parse v0.2.2
-[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
-[1m[92m  Downloaded[0m rand_core v0.6.4
-[1m[92m  Downloaded[0m anstyle v1.0.14
-[1m[92m  Downloaded[0m strsim v0.11.1
+[1m[92m  Downloaded[0m rand_chacha v0.3.1
+[1m[92m  Downloaded[0m either v1.19.0
 [1m[92m  Downloaded[0m ppv-lite86 v0.2.21
 [1m[92m  Downloaded[0m cfg-if v1.0.5
 [1m[92m  Downloaded[0m colorchoice v1.0.5
-[1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
-[1m[92m  Downloaded[0m quote v1.0.47
-[1m[92m  Downloaded[0m libloading v0.8.9
-[1m[92m  Downloaded[0m unicode-ident v1.0.26
-[1m[92m  Downloaded[0m zmij v1.0.23
-[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
-[1m[92m  Downloaded[0m clap_derive v4.6.7
-[1m[92m  Downloaded[0m either v1.19.0
-[1m[92m  Downloaded[0m serde_core v1.0.229
-[1m[92m  Downloaded[0m proc-macro2 v1.0.107
-[1m[92m  Downloaded[0m serde v1.0.229
-[1m[92m  Downloaded[0m serde_derive v1.0.229
-[1m[92m  Downloaded[0m anstream v1.0.0
-[1m[92m  Downloaded[0m rayon-core v1.13.0
-[1m[92m  Downloaded[0m clap v4.6.7
 [1m[92m  Downloaded[0m rand v0.8.8
-[1m[92m  Downloaded[0m serde_json v1.0.153
-[1m[92m  Downloaded[0m memchr v2.8.3
+[1m[92m  Downloaded[0m quote v1.0.47
+[1m[92m  Downloaded[0m serde_core v1.0.229
+[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
 [1m[92m  Downloaded[0m regex v1.13.1
-[1m[92m  Downloaded[0m rayon v1.12.0
-[1m[92m  Downloaded[0m regex-syntax v0.8.11
+[1m[92m  Downloaded[0m clap_builder v4.6.7
+[1m[92m  Downloaded[0m getrandom v0.2.17
+[1m[92m  Downloaded[0m heck v0.5.0
+[1m[92m  Downloaded[0m strsim v0.11.1
+[1m[92m  Downloaded[0m anstyle v1.0.14
+[1m[92m  Downloaded[0m itoa v1.0.18
+[1m[92m  Downloaded[0m zmij v1.0.23
+[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
+[1m[92m  Downloaded[0m rayon-core v1.13.0
+[1m[92m  Downloaded[0m memchr v2.8.3
+[1m[92m  Downloaded[0m proc-macro2 v1.0.107
+[1m[92m  Downloaded[0m utf8parse v0.2.2
+[1m[92m  Downloaded[0m clap_derive v4.6.7
+[1m[92m  Downloaded[0m serde_derive v1.0.229
 [1m[92m  Downloaded[0m syn v3.0.7
+[1m[92m  Downloaded[0m serde_json v1.0.153
+[1m[92m  Downloaded[0m libloading v0.8.9
+[1m[92m  Downloaded[0m clap_lex v1.1.1
+[1m[92m  Downloaded[0m unicode-ident v1.0.26
+[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
+[1m[92m  Downloaded[0m rand_core v0.6.4
+[1m[92m  Downloaded[0m regex-syntax v0.8.11
+[1m[92m  Downloaded[0m anyhow v1.0.104
+[1m[92m  Downloaded[0m clap v4.6.7
+[1m[92m  Downloaded[0m serde v1.0.229
+[1m[92m  Downloaded[0m rayon v1.12.0
 [1m[92m  Downloaded[0m zerocopy v0.8.62
 [1m[92m  Downloaded[0m regex-automata v0.4.18
 [1m[92m  Downloaded[0m libc v0.2.190
 [1m[92m   Compiling[0m proc-macro2 v1.0.107
 [1m[92m   Compiling[0m quote v1.0.47
 [1m[92m   Compiling[0m unicode-ident v1.0.26
-[1m[92m   Compiling[0m libc v0.2.190
 [1m[92m   Compiling[0m crossbeam-utils v0.8.23
+[1m[92m   Compiling[0m libc v0.2.190
 [1m[92m   Compiling[0m zerocopy v0.8.62
 [1m[92m   Compiling[0m cfg-if v1.0.5
 [1m[92m   Compiling[0m crossbeam-epoch v0.9.21
-[1m[92m   Compiling[0m utf8parse v0.2.2
 [1m[92m   Compiling[0m memchr v2.8.3
 [1m[92m   Compiling[0m syn v3.0.7
 [1m[92m   Compiling[0m serde_core v1.0.229
 [1m[92m   Compiling[0m crossbeam-deque v0.8.8
+[1m[92m   Compiling[0m utf8parse v0.2.2
 [1m[92m   Compiling[0m getrandom v0.2.17
 [1m[92m   Compiling[0m anstyle-parse v1.0.0
-[1m[92m   Compiling[0m anstyle v1.0.14
-[1m[92m   Compiling[0m colorchoice v1.0.5
 [1m[92m   Compiling[0m anstyle-query v1.1.5
-[1m[92m   Compiling[0m zmij v1.0.23
 [1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
+[1m[92m   Compiling[0m anstyle v1.0.14
+[1m[92m   Compiling[0m zmij v1.0.23
+[1m[92m   Compiling[0m colorchoice v1.0.5
 [1m[92m   Compiling[0m rayon-core v1.13.0
 [1m[92m   Compiling[0m anstream v1.0.0
 [1m[92m   Compiling[0m rand_core v0.6.4
 [1m[92m   Compiling[0m aho-corasick v1.1.5
+[1m[92m   Compiling[0m anyhow v1.0.104
 [1m[92m   Compiling[0m serde v1.0.229
 [1m[92m   Compiling[0m regex-syntax v0.8.11
+[1m[92m   Compiling[0m serde_json v1.0.153
 [1m[92m   Compiling[0m heck v0.5.0
 [1m[92m   Compiling[0m strsim v0.11.1
 [1m[92m   Compiling[0m ppv-lite86 v0.2.21
 [1m[92m   Compiling[0m clap_lex v1.1.1
-[1m[92m   Compiling[0m serde_json v1.0.153
-[1m[92m   Compiling[0m anyhow v1.0.104
-[1m[92m   Compiling[0m rand_chacha v0.3.1
 [1m[92m   Compiling[0m clap_builder v4.6.7
+[1m[92m   Compiling[0m rand_chacha v0.3.1
 [1m[92m   Compiling[0m regex-automata v0.4.18
 [1m[92m   Compiling[0m clap_derive v4.6.7
 [1m[92m   Compiling[0m serde_derive v1.0.229
@@ -92,17 +92,24 @@
 [1m[92m   Compiling[0m rand v0.8.8
 [1m[92m   Compiling[0m libloading v0.8.9
 [1m[92m   Compiling[0m rust_gauntlet v0.1.0 (/home/runner/work/Pokemon/Pokemon/pokemon-agent/rust)
-[1m[91merror[E0277][0m[1m: can't compare `i32` with `&i32`[0m
-   [1m[94m--> [0msrc/bin/evolve_tempo.rs:351:69
-    [1m[94m|[0m
-[1m[94m351[0m [1m[94m|[0m                 .filter(|(k, v)| base.get(*k).map_or(true, |bv| *bv != *v))
-    [1m[94m|[0m                                                                     [1m[91m^^[0m [1m[91mno implementation for `i32 == &i32`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mhelp[0m: the trait `PartialEq<&i32>` is not implemented for `i32`
-[1m[96mhelp[0m: consider dereferencing here
-    [1m[94m|[0m
-[1m[94m351[0m [1m[94m| [0m                .filter(|(k, v)| base.get(*k).map_or(true, |bv| *bv != [92m*[0m*v))
-    [1m[94m|[0m                                                                        [92m+[0m
+[1m[92m    Finished[0m `release` profile [optimized] target(s) in 22.44s
+tempo-aware heuristic config evolution (Rust+Rayon)
 
-[1mFor more information about this error, try `rustc --explain E0277`.[0m
-[1m[91merror[0m: could not compile `rust_gauntlet` (bin "evolve_tempo") due to 1 previous error
+Usage: evolve_tempo [OPTIONS]
+
+Options:
+      --agent <AGENT>            [default: agents/main_heuristic_v11.py]
+      --our-deck <OUR_DECK>      [default: decks/v12_30_boss4.csv]
+      --loss-dir <LOSS_DIR>      [default: decks/v14_losses]
+      --meta-decks <META_DECKS>  [default: YumeNeko,OceanMix,Kentaro_Totsuka,ANMOL_GARG,Leon_Liu,Darren_Sheehan]
+      --weak-dir <WEAK_DIR>      [default: decks/weak_field]
+      --meta-dir <META_DIR>      [default: decks/top30_live]
+      --games <GAMES>            [default: 30]
+      --pop <POP>                [default: 80]
+      --gens <GENS>              [default: 4]
+      --workers <WORKERS>        [default: 8]
+      --seed <SEED>              [default: 7]
+      --out <OUT>                [default: search_results/gen8_rust.json]
+      --python <PYTHON>          [default: python3]
+      --repo <REPO>              repo root (parent of pokemon-agent/) — where worker_eval.py resolves .venv/libcg.so and card data [default: .]
+  -h, --help                     Print help
