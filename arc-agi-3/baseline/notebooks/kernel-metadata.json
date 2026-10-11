@@ -1,10 +1,6 @@
 {
-<<<<<<< HEAD
-  "title": "arc-agi3-novelty-explorer",
-=======
   "id": "petersharps/arc-agi-3-novelty-explorer",
   "title": "ARC-AGI-3 Novelty Explorer",
->>>>>>> f184414 (fix(arc): wlasciwy kernel id (konto petersharps) + podglad konta w CI)
   "code_file": "submission.ipynb",
   "language": "python",
   "kernel_type": "notebook",
