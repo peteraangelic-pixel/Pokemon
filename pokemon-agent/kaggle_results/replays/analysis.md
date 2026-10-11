@@ -1,8 +1,8 @@
-# Replay Analysis — 81 replays
+# Replay Analysis — 84 replays
 
 Our team (inferred): **PeterSharps**
 
-Total replays: 81
+Total replays: 84
 
 ## Win/Loss vs opponents
 
@@ -17,6 +17,7 @@ Total replays: 81
 | nguyenbaotri-VIETNAM | 2 | 0 | 2 | 0.00 |
 | Kevin Rio Harristyando | 2 | 1 | 1 | 0.50 |
 | char0n1 | 2 | 1 | 1 | 0.50 |
+| PeterSharps | 2 | 2 | 0 | 1.00 |
 | vrmichalski | 2 | 1 | 1 | 0.50 |
 | Atharva Naik | 1 | 0 | 1 | 0.00 |
 | YOUKE144 | 1 | 1 | 0 | 1.00 |
@@ -49,7 +50,6 @@ Total replays: 81
 | Mandavi Singh | 1 | 0 | 1 | 0.00 |
 | Tanishq das | 1 | 0 | 1 | 0.00 |
 | Praneeth Yeddu | 1 | 0 | 1 | 0.00 |
-| PeterSharps | 1 | 1 | 0 | 1.00 |
 | MarPez | 1 | 0 | 1 | 0.00 |
 | (ノ◡ <) | 1 | 0 | 1 | 0.00 |
 | Yorukuma | 1 | 0 | 1 | 0.00 |
@@ -59,11 +59,13 @@ Total replays: 81
 | Kevin Hulin | 1 | 1 | 0 | 1.00 |
 | Bros 360x | 1 | 0 | 1 | 0.00 |
 | tanzaku | 1 | 0 | 1 | 0.00 |
+| 加油华为 | 1 | 0 | 1 | 0.00 |
+| ant | 1 | 1 | 0 | 1.00 |
 
 ## Deck meta (all decks seen)
 
-- Energy distribution: {33: 47, 36: 1, 26: 4, 35: 19, 15: 6, 12: 5, 10: 7, 14: 7, 0: 2, 20: 3, 28: 3, 30: 9, 29: 21, 11: 1, 18: 1, 34: 13, 17: 1, 2: 2, 31: 1, 22: 1, 9: 1, 23: 1, 7: 1, 8: 1, 13: 1, 24: 1}
-- Gust (Boss/Catcher) distribution: {0: 46, 2: 52, 3: 30, 4: 29, 1: 3}
+- Energy distribution: {33: 47, 36: 1, 26: 4, 35: 19, 15: 6, 12: 5, 10: 7, 14: 7, 0: 2, 20: 3, 28: 4, 30: 9, 29: 25, 11: 1, 18: 1, 34: 13, 17: 1, 2: 2, 31: 1, 22: 1, 9: 1, 23: 1, 7: 1, 8: 2, 13: 1, 24: 1}
+- Gust (Boss/Catcher) distribution: {0: 46, 2: 52, 3: 35, 4: 29, 1: 4}
 
 ### Example decks that beat us
 
@@ -267,6 +269,11 @@ Total replays: 81
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
   - Trainers: Basic {W} Energy x35, Mega Signal x4, Lillie's Determination x4, Waitress x4, Cyrano x2, Maximum Belt x1
 
+- **episode-121990733-replay.json** vs 加油华为 (winner 加油华为, 232 steps)
+  - Energy: 8, Gust: 3
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Budew x2
+  - Trainers: Buddy-Buddy Poffin x4, Crushing Hammer x4, Ultra Ball x4, Crispin x4, Lillie's Determination x4, Basic {R} Energy x4
+
 ### Example decks we beat
 
 - **episode-121271682-replay.json** vs YOUKE144 (170 steps)
@@ -348,6 +355,10 @@ Total replays: 81
 - **episode-121986752-replay.json** vs vrmichalski (184 steps)
   - Energy: 35, Gust: 0
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
+
+- **episode-121990734-replay.json** vs ant (159 steps)
+  - Energy: 28, Gust: 1
+  - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x1, Mantine x1
 
 ## Recommendations
 

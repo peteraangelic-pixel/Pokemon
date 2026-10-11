@@ -6,7 +6,7 @@ on:
       top_k:
         description: "Last N episodes per live submission"
         required: false
-        default: "7"
+        default: "15"
       include_official:
         description: "Try official top-episodes dataset (large, slow)"
         required: false
@@ -60,7 +60,7 @@ jobs:
       - name: Fetch our replays
         run: |
           if [ "${{ inputs.include_official }}" = "true" ]; then OFFICIAL="--include-official"; else OFFICIAL="--no-official"; fi
-          python pokemon-agent/tools/fetch_replays.py --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" --outdir pokemon-agent/kaggle_results/replays --top-k "${{ inputs.top_k || '7' }}" $OFFICIAL 2>&1 | tee /tmp/fetch.log
+          python pokemon-agent/tools/fetch_replays.py --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" --outdir pokemon-agent/kaggle_results/replays --top-k "${{ inputs.top_k || '15' }}" $OFFICIAL 2>&1 | tee /tmp/fetch.log
           cp /tmp/fetch.log pokemon-agent/kaggle_results/replays/fetch.log || true
           cat pokemon-agent/kaggle_results/replays/summary.md || true
 
@@ -89,6 +89,6 @@ jobs:
           fi
           git add pokemon-agent/kaggle_results/replays/ || true
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/replays)" ]; then
-            git commit -m "chore(kaggle): replays + analysis top ${{ inputs.top_k || '7' }} [skip ci]"
+            git commit -m "chore(kaggle): replays + analysis top ${{ inputs.top_k || '15' }} [skip ci]"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi

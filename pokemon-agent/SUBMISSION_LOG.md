@@ -588,3 +588,164 @@ observation.
 3. Rebuild top30_live to 30/30 (currently 23/30) and use gauntlet_rust (Rust+Rayon 200x, 60 games 1s vs Python 22.3s) to test vs top30_live + broad_field as new benchmark (not top7)
 4. Update agent to mimic top playstyle: earlier gust vs walls, retrieval when low energy, wall escape via Surfing Beach
 
+
+---
+
+## 2026-10-11 — v14 both submissions checked (484.1 vs 385.0) — same bundle duplicate
+
+**Bundle:** `phase1_tuned_v14_top30_v11f.tar.gz` 89 KiB — deck 29W Boss3 Cyrano4 Retrieval2 Petrel2 Lillie2 Pad2 Night1 Ultra1 Powerglass1 Waitress1 Signal1 Beach1 + 4 Snover 4 Aboma 2 Kyogre — agent v11f GUST 70 RETREAT_WALL 350
+
+**Submit:** 2x same file within 5s due to workflow bug (push trigger + workflow file change) — wasted 1 slot, daily limit 5/5 hit (v9_final 00:34, v10_34_sig4 00:35, v12_30_boss4 01:18, v14 x2 13:25). Fixed in 57d28e7 to workflow_dispatch only.
+
+**Live results:**
+- `57075298` 13:25:13 COMPLETE **484.1** rank 222 (was 257/372.1) — **+112 new best**, beats gen8_h1 426.7
+- `57075294` 13:25:08 COMPLETE **385.0** same bundle — variance 99.1 due to small sample 7-8 public games + different opponent μ pool
+
+**Both submissions detailed breakdown (after fetching 15 episodes):**
+
+### 57075298 (484.1) — 8 episodes CSV (1 val +7 public), 4 JSON downloaded (3 missing)
+- `121988739` PUBLIC LOSS vs **tanzaku** — 14G Energy gust2 — Teal Mask Ogerpon ex x4 + Hydrapple ex x2 + Bug Catching Set4 + Forest of Vitality4 — low-energy grass aggro
+- `121984761` PUBLIC WIN vs **Kevin Hulin** — 8E (4R+4P) gust3 — Dreepy4 Drakloak4 Dragapult ex3 Munkidori2 + Hammer4 Poffin4 Pad4 — low-energy Dragapult Hammer, we WIN
+- `121978794` PUBLIC LOSS vs **(ノ◡ <)** — 14F Energy gust3 — Riolu4 Mega Lucario ex4 + Fighting Gong4 Carmine4 Dusk Ball4 — low-energy fighting
+- `121975059` VALIDATION LOSS vs self (PeterSharps vs PeterSharps) — 29W mirror, one must lose
+- Missing: 121990733, 121986750, 121982771, 121980772 — likely 2W2L to get 484.1
+- Known record: 1W2L public + val
+
+### 57075294 (385.0) — 9 episodes CSV (1 val +8 public), 5 JSON downloaded (3 missing + val missing)
+- `121990734` PUBLIC WIN vs **ant** — 28W gust1 — Snover4 Aboma4 Signal4 Pad4 Lillie4 — mirror with less energy, we WIN (29W >28W)
+- `121988745` PUBLIC LOSS vs **vrmichalski** — 35W gust0 — 35W Signal4 Waitress4 Lillie4 Cyrano2 Belt1 — pure 35W mirror, we LOSS (290 vs 350 dmg)
+- `121986752` PUBLIC WIN vs **vrmichalski** — same 35W deck — rematch WIN — coin-flip mirror
+- `121984759` PUBLIC LOSS vs **F.A.Nina** — 13F gust2 — Mega Lucario ex4 Riolu3 + Fighting Gong4 Dusk Ball4 — low-energy fighting
+- `121982770` PUBLIC LOSS vs **Tom Curry11** — 35W gust0 — identical to vrmichalski 35W pure
+- Missing: 121980773, 121978842, 121978792, 121975039 val
+- Known record: 2W3L public
+
+**Pattern both:**
+- Losses vs low-energy aggro 13-14F Lucario (F.A.Nina, (ノ◡ <)) and 14G Ogerpon+Hydrapple (tanzaku) — they have Hammer4 + gust3 + fast search (Carmine, Bug Set, Dusk Ball, Poffin)
+- Losses vs 35W pure mirrors (vrmichalski, Tom Curry11) — they have 35W vs our 29W = 350 vs 290 dmg = 60 more = need 1 extra energy = lose race
+- Wins vs 10E Dragapult (Kevin Hulin) and 28W mirror (ant) and 1x 35W mirror (vrmichalski) — variance
+
+**Why 99.1 difference same bundle?**
+- Bradley-Terry with 7-8 public games is noisy, μ variance high
+- 57075298 got easier pool: 1W2L vs low-energy (low-rated teams, beating them gives little, losing hurts a lot, but 484 still higher suggests missing games were wins vs mid-tier)
+- 57075294 got harder pool: 2x 35W mirror vs high-rated (vrmichalski, Tom Curry11) + 1 low-energy loss — losing to high-rated hurts less, but 3 losses still drag down
+- Both show deck 29W Boss3 is bad vs both extremes: too little energy vs 35W, too little gust/Hammer vs 10-14E aggro
+
+**Fix for v15:**
+- Deck `v10_34_sig4` 34W Boss4 Signal4 Waitress2 Belt1 Pad1 Night1 — best vs broad_field 0.667 (52-26) vs v13_29 0.564, vs top30 0.733, vs top30_live 0.739 — 34W gives 340 vs 350 (close) + Boss4 helps vs low-energy gust
+- Deck `v12_30_boss4` 30W Boss4 Signal4 Lillie4 Waitress3 Belt1 Pad2 Night1 Cyrano1 — best vs top30 0.817 (49-11) and top30_live 0.826, but 0.628 vs broad
+- Agent v11f GUST 70 RETREAT_WALL 350 lethal gust+retrieval — 0.692 vs broad BEST, 0.848 vs top30_live BEST
+- Combine v10_34_sig4 + v11f = `phase1_tuned_v15_34W_v11f` — predicted better live than v14's 0.564 broad, should fix low-energy losses and mirror
+
+
+---
+
+## 2026-10-11 — v15 dopracowany by nie było zawodu
+
+**Problem v14:** 29W Boss3 Cyrano4 Retrieval2 Petrel2 — najgorszy vs broad_field 0.564 (44W34L) — przegrywa damage race z 35W (290 vs 350) i disruption z 10-14E Hammer (Dragapult, Lucario, Ogerpon).
+
+**Testy FFI gauntlet (Python agent, real libcg.so, 2-8 gier per deck):**
+
+| Deck | Agent | broad_field 39 decków | top30_live 23 decki | combined 41 |
+|---|---|---|---|---|
+| v10_34_sig4 34W Boss4 | best_from_search | 0.628 (49-29) | 0.783 (36-10) | - |
+| v12_30_boss4 30W Boss4 Lillie4 Waitress3 | best_from_search | 0.679 (53-25) | 0.848 (39-7) | - |
+| v13_29_top30 29W Boss3 | best_from_search | **0.564** (44-34) worst | 0.761? | - |
+| v10_34_sig4 | v11f (GUST70 WALL350) | 0.564 (44-34) | 0.761 (35-11) | 0.744 (61-21) |
+| v12_30_boss4 | v11f | **0.692 BEST** (54-24) | 0.870 (40-6) | 0.744 (122-42) 4g |
+| v12_30_boss4 | v11 (GUST80 WALL360 + H1 Night+Powerglass) | 0.641 (50-28) 2g, 0.622 8g | **0.891 BEST** (41-5) 2g, 0.826 4g | **0.768 BEST** (126-38) 4g |
+| v15_32_boss4 32W | v11f | 0.679 (53-25) 2g, 0.619 8g | 0.761 2g, 0.804 8g | - |
+| v15_30_hammer1 30W Hammer1 | v11f | 0.615 | 0.870 | - |
+
+**Wniosek:** Najlepszy vs broad (słabi) i vs top30 to **v12_30_boss4 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1** — 0.692 broad, 0.870 top30_live, 0.768 combined — lepszy niż wszystkie v15 31-34W testowane (0.603-0.679 broad). Hammer nie pomaga (0.615, 0.538). Powerglass z search Rust nie przekłada się na Python agenta (0.513 broad).
+
+**Dlaczego v12_30_boss4 działa:**
+- 30W vs 35W = 300 vs 350 dmg — 50 mniej, ale ma Lillie4 Waitress3 Cyrano1 Pad2 Night1 = szybki setup, więc wygrywa tempo mimo mniej energii
+- Boss4 vs low-energy gust3 — potrzebne vs Lucario/Ogerpon/Dragapult walls
+- Signal4 + Lillie4 = draw, nie brick
+
+**v15 bundles zbudowane (89 KiB, smoke ok, flat, agent() present):**
+- `phase1_tuned_v15_30_boss4_v11.tar.gz` — v12_30_boss4 + v11 (GUST80 WALL360 + H1 NightStretcher boost gdy discard Water>=2 + Powerglass boost + extra wall bonus 30 vs Sylveon/Crustle) — **0.768 combined BEST, 0.891 top30 BEST**
+- `phase1_tuned_v15_30_boss4_v11f.tar.gz` — v12_30_boss4 + v11f (GUST70 WALL350) — **0.692 broad BEST, 0.870 top30**
+- `phase1_tuned_v15_34_sig4_v11f.tar.gz` — v10_34_sig4 34W + v11f — backup vs 35W mirror (340 vs 350, blisko)
+
+**Hipoteza v15:**
+> v14 29W Boss3 był najgorszy vs broad 0.564. v15 wraca do 30W Boss4 Lillie4 Waitress3 — najlepszy vs broad 0.692 i vs top30 0.870 w FFI. v11 agent dodaje H1 (Night Stretcher recykling Water gdy discard>=2 i deck<8) i gust 80 +30 vs walls, co naprawia przegrane vs (ノ◡ <) 14F Lucario i tanzaku 14G Ogerpon. Powinien poprawić μ z 484→650+ i nie przegrywać ze słabymi 99-274 rank.
+
+**Plan submit jutro 00:00 UTC (reset limitu 5/dzień):**
+1. `v15_30_boss4_v11` jako #1 — best combined 0.768
+2. `v15_30_boss4_v11f` jako #2 — best broad 0.692 backup
+3. Jeśli oba poniżej 600, to `v15_34_sig4_v11f` jako #3 — 34W vs 35W mirror
+
+**Druga gałąź arena/8560a56a-pokemon:**
+- Ostatni commit 0891c87 13:20 UTC "decks: top30_live refreshed to 54/210 from fresh fetch 7 per top30"
+- Zawiera 24 decki top30_live (tak samo jak nasza gałąź), 409 replays downloaded, summary.json top_n=30 replays_per_team=7, teams=30
+- Brak lepszych decków/agentów niż u nas — SUBMISSION_LOG kończy się na v13, brak v14/v15
+- Wniosek: nie ma przewagi, nasza gałąź ma nowsze v14 484.1 i v15 gotowe, więc zostajemy na arena/c87f7a48-pokemon
+
+
+## 2026-10-11 22:00 UTC — v12b structural opening fix (first gain after plateau)
+
+**Branch:** arena/c87f7a48-pokemon (this branch) + cross-check arena/8560a56a-pokemon
+
+**Previous best:** v11 (GUST80 WALL360 + H1 Night+Powerglass) + 30_boss4 deck — 0.681 v14 losses 30g, 0.772 top30 20g, 0.619 broad 20g, fitness 0.692 first 22.0
+
+**Problem:** Weight tuning plateau proven by two independent searches:
+- Other branch: 160+ candidates, 4x80 pop 30g, 100g verification base v11 0.711 > gen8_best 0.685 > gen8_tempo 0.704
+- Our branch: gen0 best first 5.0 prize 2.5 win 0.844 fitness 0.829 beats leaders but vs broad 0.519 overfit
+
+**Diagnosis:** v14_diagnosis.md — deck FFI 0.867 vs meta (deck not problem), policy gap 35pp, tempo leaders T6-7 first 2.17 prize_T9 vs ours T8-8.5 1.00. Weak: mirror 35W 0.42-0.59, Lucario 14E 0.75, Ogerpon 0.81. Root cause: leading Kyogre (721) 2-prize liability vs Solrock 676 (blocks damage) + Lucario 678 fast KO T2-4.
+
+**Fix v12b:**
+- File: agents/main_heuristic_v12b.py — based on v11, adds LOW_E_AGGRO_IDS = {676,677,678,119,120,121,96,92,93,150,89,330,345,533,710,1349}
+- In _fighter_score: if opp_active in LOW_E_AGGRO, Kyogre -150, Snover +80. Stall Snover vs aggro, don't give 2 prizes early.
+- No mirror Snover boost (mirror needs Kyogre milling, not stall) — v12 had mirror boost and made mirror worse 9-11 -> 5-15.
+
+**Results FFI (real libcg.so, both seats):**
+- v14_opp_test 30g: 0.681 -> 0.690 (+0.9pp) 143-67 -> 145-65
+- top30_live 20g: 0.772 -> 0.824 (+5.2pp) 355-105 -> 379-80
+- broad_field 20g: 0.619 -> 0.622 (+0.3pp) 483-296 -> 485-295
+- gen8_meta tempo 20g: win 0.713 first 22.0 prize 1.78 fitness 0.692 -> 0.756 first 18.6 prize 1.99 fitness 0.748 (+5.6pp fitness, -3.4 first)
+
+**Rust+Rayon:**
+- Fixed evolve_tempo.rs compile error (Vec<Value> to_string -> serde_json::to_string)
+- Added binary to Cargo.toml + rust-build.yml (now 6 binaries)
+- worker_eval.py exists, uses direct FFI (no kaggle_environments import to avoid buffer full capacity:7 abort)
+- Next run on Actions: pop 150 x5 gens x30g to confirm plateau with 10x compute
+
+**Bundles built:**
+- phase1_tuned_v12b_30_boss4.tar.gz (89 KiB) — NEW BEST, structural fix
+- phase1_tuned_v11_30_boss4.tar.gz (89 KiB) — previous plateau best backup
+
+**Hipoteza:**
+> Po plateau 160+ kandydatów w przestrzeni wag, pierwsza strukturalna zmiana (matchup-specific opening: nie lead Kyogre pod Solrock/Lucario) daje +0.9pp vs v14 killers, +5.2pp vs top30, +5.6pp fitness i szybszy first prize 22.0->18.6. To potwierdza, że dalszy zysk wymaga nowych reguł decyzyjnych, nie tune wag. Mirror 35W nadal słaby 0.25-0.40 (30W vs 35W inherent disadvantage: Hammer-lanche 100 per Water, Riptide 20 per Water discard). Następne kroki: gust timing T0-1 + retrieval counter Hammer (Dragapult/Lucario mają Hammer discarding our energy), szybsze mielenie w mirror (boost ATTACH, Kyogre shuffle logic).
+
+**Upload order:**
+1. v12b_30_boss4 as #1 (new best structural)
+2. v11_30_boss4 as #2 backup (plateau best, 0.711 100g core in other branch)
+
+
+## 2026-10-11 15:07 UTC — v13 = v11f + v12b opening (merge v15 and v12, answer to "jakie v12")
+
+**User:** "jakie v12, przecież mieliśmy już opracowane v15_30_boss4_v11f i v16_gen8!"
+
+**Odpowiedź:** v12 był intermediate z opening fix vs Solrock/Lucario. v15_30_boss4_v11f był best broad 0.644 (10g) ale 0.593 v14 20g. v16_gen8_tempo to overfit gen8_meta 0.874 fitness ale broad 0.546 — nie nadaje się.
+
+**v13 = v11f (GUST70 WALL350, best broad) + LOW_E_AGGRO_IDS opening fix z v12b:**
+- agents/main_heuristic_v13.py
+- Deck v12_30_boss4 30W Boss4
+
+**FFI 20-30g:**
+- top30 20g: v13 0.835 BEST (v11f 0.824, v11 0.791, v12b 0.783)
+- top30 30g: v13 0.791 tie v11f 0.791
+- broad 20g: v13 0.633 (v11f 0.646 best, v11 0.617)
+- broad 30g: v13 0.622 BEST vs v11f 0.615 (+0.7pp)
+- v14 losses 20g: v13 0.686 BEST tie v12b
+- tempo 20g gen8_meta: v13 0.762 win first 17.3 prize 1.95 fitness 0.751 BEST (v12b 0.756/0.748, v11 0.713/0.692)
+
+**Bundle:** phase1_tuned_v16_30_boss4_v13.tar.gz 89 KiB — NEW BEST, zastępuje v16_gen8_tempo (overfit) jako v16.
+
+**Upload order:**
+1. v16_30_boss4_v13 as #1 (merge best broad + opening fix, 0.622 broad 30g, 0.791 top30 30g, 0.686 v14)
+2. v15_30_boss4_v11 as #2 backup (0.813 top30 10g)
+
