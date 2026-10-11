@@ -1,15 +1,15 @@
 - Druzyn na publicznym LB: **20**
-- Top1 62.96 | Top5 (próg nagrody) 40.97 | Top10 38.20
-- Mediana 38.17 | Średnia 40.46
-- Luka do top5 z mediany: +2.80 pkt
+- Top1 62.96 | Top5 (próg nagrody) 40.97 | Top10 38.62
+- Mediana 38.41 | Średnia 40.73
+- Luka do top5 z mediany: +2.56 pkt
 
 | próg | wynik |
 |---|---|
 | top1 | 62.96 |
 | top3 | 45.00 |
 | top5 | 40.97 |
-| top10 | 38.20 |
-| top20 | 35.45 |
+| top10 | 38.62 |
+| top20 | 36.14 |
 
 Rozkład wyników (co 5 pkt):
    35-40  | ############### 15
