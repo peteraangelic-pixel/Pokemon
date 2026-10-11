@@ -1,10 +1,10 @@
 # Kaggle snapshot -- arc-prize-2026-arc-agi-3
 
-Generated: 2026-10-11T10:20:51Z  (run 38131606083)
+Generated: 2026-10-11T10:39:03Z  (run 38132674513)
 
 ## Public leaderboard (top 30)
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOFLTwQ7NNfreySJNXXMf3lc4GXu2ub2raQcNtmQS8J1xM-72AoPmK3XVrr4Q2kvJRA
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOH3zWCYaFqGA73L5zaZGTvUnO0x_3Wt0L0jziQCug7mJmGKQ_op8TPnj0Q_dZwPjRk
 teamId,teamName,submissionDate,score
 15499660,Yi-Chia Chen,2026-10-10 16:00:41.873000,62.96
 15486995,Tufa Labs,2026-10-09 15:56:59.453000,56.52
@@ -25,7 +25,7 @@ teamId,teamName,submissionDate,score
 15487522,Md Boktiar Mahbub Murad,2026-10-10 19:30:23.656000,36.89
 15513620,AI_hwlee,2026-10-09 04:33:03.996000,36.54
 16081764,YUTO KOJIMA,2026-10-11 00:04:42.196000,36.14
-17017088,Andrew Reed,2026-10-10 00:03:30.580000,36.14
+17017088,Andrew Reed,2026-10-11 01:31:47.963000,36.14
 ```
 
 ## Our submissions
@@ -35,7 +35,7 @@ No submissions found
 
 ## Competition files
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGGTqKwcYRuttxKdv9miuQW8p938kwhtBzYAhNXfuotRCvz-u8yaMwpLwN3WVpwcxDAApJyf9zUrOy3G7olcOycQaD-1XEQCSOpA1os92TBOiwOF5Wt3Sxu-egRog4sb1XznXQkNCuGp2Gm
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOHDWsdqibXuYnHuXMtSncbxl7sldUJfQLssHN35nQ0DPKINGa4k2q5AunYi9cOVGGFNVmlwr0mcjx8pdfTZhPakG3jypu4_hj493wf15H-YBS67OaV0znzcSXyQ_dCgMIz4HGH3WLNLACHN
 name                                                         size  creationDate                
 -----------------------------------------------------  ----------  --------------------------  
 ARC-AGI-3-Agents/.env.example                                 599  2026-04-17 20:12:29.398000  
