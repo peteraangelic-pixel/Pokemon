@@ -78,8 +78,9 @@ jobs:
 
       - name: Download replays for the rank band
         run: |
-          set -e
           cd pokemon-agent
+          mkdir -p kaggle_results/weak_field_live
+          # no `set -e`: capture the tool's real exit code; log is always committed after.
           python tools/download_top10_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --rank-min "$rmin" \
@@ -87,7 +88,11 @@ jobs:
             --replays-per-team "$rpt" \
             --outdir kaggle_results/weak_field_live \
             --delay 0.2 2>&1 | tee kaggle_results/weak_field_live/fetch.log
+          rc=${PIPESTATUS[0]}
+          echo "download tool exit code: $rc"
+          tail -40 kaggle_results/weak_field_live/fetch.log
           ls -lh kaggle_results/weak_field_live/ | tail -20
+          exit $rc
 
       # Extract deck CSVs BEFORE pruning raw episodes.
       - name: Build weak_field deck set
@@ -98,19 +103,23 @@ jobs:
             --out decks/weak_field \
             --rank-min "$rmin" --rank-max "$rmax"
 
-      - name: Commit back (decks + 5 newest episodes)
+      - name: Commit back (decks + 5 newest episodes + fetch.log ALWAYS)
         if: always()
         run: |
-          set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          # Diagnostics: always commit the fetch log so failures are visible in-repo.
+          if [ -f pokemon-agent/kaggle_results/weak_field_live/fetch.log ]; then
+            tail -c 200000 pokemon-agent/kaggle_results/weak_field_live/fetch.log > pokemon-agent/kaggle_results/weak_field_live/fetch.log.tail
+            mv pokemon-agent/kaggle_results/weak_field_live/fetch.log.tail pokemon-agent/kaggle_results/weak_field_live/fetch.log
+          fi
           find pokemon-agent/kaggle_results/weak_field_live -type f -size +5M -delete || true
           # keep just the 5 newest raw episodes (episode ids sort chronologically)
           ls -1 pokemon-agent/kaggle_results/weak_field_live/episode-*.json 2>/dev/null | sort | tail -n +6 | xargs rm -f || true
           git add pokemon-agent/kaggle_results/weak_field_live/ pokemon-agent/decks/weak_field/ || true
           git status --short | head -20
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/weak_field_live/ pokemon-agent/decks/weak_field/)" ]; then
-            git commit -m "chore(kaggle): weak tier (${rmin}-${rmax}) replays + decks [skip ci]"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            git commit -m "chore(kaggle): weak tier (${rmin}-${rmax}) replays + decks [skip ci]" || echo "commit failed"
+            git push origin "HEAD:${GITHUB_REF_NAME}" || echo "push failed"
           fi
