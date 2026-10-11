@@ -79,6 +79,29 @@ jobs:
             exit 1
           fi
 
+      # SAFE: only prints help. Does NOT send anything, does NOT consume the
+      # 1-submission-per-day quota. ARC-AGI-3 is a CODE competition (submit a
+      # notebook), unlike the file-based kaggriculture contest where
+      # `kaggle competitions submit -f tarball` worked.
+      - name: Probe Kaggle API for a submit path (read-only)
+        run: |
+          {
+            echo "=== kaggle --version ==="; kaggle --version 2>&1
+            echo; echo "=== kaggle --help ==="; kaggle --help 2>&1
+            echo; echo "=== kaggle competitions --help ==="; kaggle competitions --help 2>&1
+            echo; echo "=== kaggle kernels --help ==="; kaggle kernels --help 2>&1
+          } > "$OUTDIR/API_PROBE.md" 2>&1
+          echo "--- grep: cokolwiek z 'submit' ---"
+          grep -inE 'submit' "$OUTDIR/API_PROBE.md" || echo "(brak)"
+
+      - name: Probe kernel push/submit help (read-only)
+        run: |
+          {
+            echo "=== kaggle kernels push --help ==="; kaggle kernels push --help 2>&1
+            echo; echo "=== kaggle kernels submit --help ==="; kaggle kernels submit --help 2>&1
+          } >> "$OUTDIR/API_PROBE.md" 2>&1
+          true
+
       - name: Competition files
         run: |
           kaggle competitions files -c "$COMP" 2>&1 | tee "$OUTDIR/files.txt" || echo "FAILED (not joined, or wrong slug)" | tee "$OUTDIR/files.txt"
