@@ -1,0 +1,9 @@
+{
+  "fetched_utc": "2026-10-11T13:12:39.686632+00:00",
+  "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
+  "top_n": 10,
+  "replays_per_team": 3,
+  "teams": 11,
+  "replays_downloaded": 60,
+  "manifest": "kaggle_results/weak_field_live/top10_manifest.csv"
+}
