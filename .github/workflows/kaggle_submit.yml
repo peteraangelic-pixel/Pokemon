@@ -9,11 +9,15 @@ on:
         required: false
       message:
         description: "Submission message"
-        default: "v10 34W Signal4 Boss4 Waitress2 Belt1 Pad1 Night1 - 0.932 vs top7_live 0.777 weighted BEST - only 2 last active!"
+        default: "v10 34W Signal4 Boss4 Waitress2 Belt1 Pad1 Night1 - 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw"
         required: false
-
-# USUNIĘTE auto-trigger na push bundles – tylko ręczny dispatch!
-# Powód: tylko 2 ostatnie submissiony są aktywne w finale, auto-push zapychał sloty 5/dzień kiepskimi wersjami
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/bundles/phase1_tuned_v9_final.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_v10_34_sig4.trigger"
+      - "pokemon-agent/bundles/phase1_tuned_v11_super.trigger"
+      - ".github/workflows/kaggle_submit.yml"
 
 permissions:
   contents: read
@@ -56,10 +60,20 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle }}
-          MESSAGE: ${{ inputs.message }}
+          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_v10_34_sig4.tar.gz' }}
+          MESSAGE: ${{ inputs.message || 'v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw' }}
         run: |
           cd pokemon-agent
+          # If triggered by push of .trigger file, determine bundle from trigger name
+          if [ -z "${{ inputs.bundle }}" ]; then
+            # Check which trigger file was changed in last commit
+            TRIGGER=$(git diff --name-only HEAD~1 HEAD | grep trigger | head -1 || echo "")
+            if [ -n "$TRIGGER" ]; then
+              BUNDLE=$(basename $TRIGGER .trigger).tar.gz
+              echo "Detected trigger $TRIGGER -> bundle $BUNDLE"
+              echo "BUNDLE=$BUNDLE" >> $GITHUB_ENV
+            fi
+          fi
           BUNDLE_PATH="bundles/$BUNDLE"
           ls -lh bundles/ | tail -20
           echo "Submitting $BUNDLE_PATH"
