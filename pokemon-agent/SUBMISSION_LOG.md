@@ -588,3 +588,52 @@ observation.
 3. Rebuild top30_live to 30/30 (currently 23/30) and use gauntlet_rust (Rust+Rayon 200x, 60 games 1s vs Python 22.3s) to test vs top30_live + broad_field as new benchmark (not top7)
 4. Update agent to mimic top playstyle: earlier gust vs walls, retrieval when low energy, wall escape via Surfing Beach
 
+
+---
+
+## 2026-10-11 — v14 both submissions checked (484.1 vs 385.0) — same bundle duplicate
+
+**Bundle:** `phase1_tuned_v14_top30_v11f.tar.gz` 89 KiB — deck 29W Boss3 Cyrano4 Retrieval2 Petrel2 Lillie2 Pad2 Night1 Ultra1 Powerglass1 Waitress1 Signal1 Beach1 + 4 Snover 4 Aboma 2 Kyogre — agent v11f GUST 70 RETREAT_WALL 350
+
+**Submit:** 2x same file within 5s due to workflow bug (push trigger + workflow file change) — wasted 1 slot, daily limit 5/5 hit (v9_final 00:34, v10_34_sig4 00:35, v12_30_boss4 01:18, v14 x2 13:25). Fixed in 57d28e7 to workflow_dispatch only.
+
+**Live results:**
+- `57075298` 13:25:13 COMPLETE **484.1** rank 222 (was 257/372.1) — **+112 new best**, beats gen8_h1 426.7
+- `57075294` 13:25:08 COMPLETE **385.0** same bundle — variance 99.1 due to small sample 7-8 public games + different opponent μ pool
+
+**Both submissions detailed breakdown (after fetching 15 episodes):**
+
+### 57075298 (484.1) — 8 episodes CSV (1 val +7 public), 4 JSON downloaded (3 missing)
+- `121988739` PUBLIC LOSS vs **tanzaku** — 14G Energy gust2 — Teal Mask Ogerpon ex x4 + Hydrapple ex x2 + Bug Catching Set4 + Forest of Vitality4 — low-energy grass aggro
+- `121984761` PUBLIC WIN vs **Kevin Hulin** — 8E (4R+4P) gust3 — Dreepy4 Drakloak4 Dragapult ex3 Munkidori2 + Hammer4 Poffin4 Pad4 — low-energy Dragapult Hammer, we WIN
+- `121978794` PUBLIC LOSS vs **(ノ◡ <)** — 14F Energy gust3 — Riolu4 Mega Lucario ex4 + Fighting Gong4 Carmine4 Dusk Ball4 — low-energy fighting
+- `121975059` VALIDATION LOSS vs self (PeterSharps vs PeterSharps) — 29W mirror, one must lose
+- Missing: 121990733, 121986750, 121982771, 121980772 — likely 2W2L to get 484.1
+- Known record: 1W2L public + val
+
+### 57075294 (385.0) — 9 episodes CSV (1 val +8 public), 5 JSON downloaded (3 missing + val missing)
+- `121990734` PUBLIC WIN vs **ant** — 28W gust1 — Snover4 Aboma4 Signal4 Pad4 Lillie4 — mirror with less energy, we WIN (29W >28W)
+- `121988745` PUBLIC LOSS vs **vrmichalski** — 35W gust0 — 35W Signal4 Waitress4 Lillie4 Cyrano2 Belt1 — pure 35W mirror, we LOSS (290 vs 350 dmg)
+- `121986752` PUBLIC WIN vs **vrmichalski** — same 35W deck — rematch WIN — coin-flip mirror
+- `121984759` PUBLIC LOSS vs **F.A.Nina** — 13F gust2 — Mega Lucario ex4 Riolu3 + Fighting Gong4 Dusk Ball4 — low-energy fighting
+- `121982770` PUBLIC LOSS vs **Tom Curry11** — 35W gust0 — identical to vrmichalski 35W pure
+- Missing: 121980773, 121978842, 121978792, 121975039 val
+- Known record: 2W3L public
+
+**Pattern both:**
+- Losses vs low-energy aggro 13-14F Lucario (F.A.Nina, (ノ◡ <)) and 14G Ogerpon+Hydrapple (tanzaku) — they have Hammer4 + gust3 + fast search (Carmine, Bug Set, Dusk Ball, Poffin)
+- Losses vs 35W pure mirrors (vrmichalski, Tom Curry11) — they have 35W vs our 29W = 350 vs 290 dmg = 60 more = need 1 extra energy = lose race
+- Wins vs 10E Dragapult (Kevin Hulin) and 28W mirror (ant) and 1x 35W mirror (vrmichalski) — variance
+
+**Why 99.1 difference same bundle?**
+- Bradley-Terry with 7-8 public games is noisy, μ variance high
+- 57075298 got easier pool: 1W2L vs low-energy (low-rated teams, beating them gives little, losing hurts a lot, but 484 still higher suggests missing games were wins vs mid-tier)
+- 57075294 got harder pool: 2x 35W mirror vs high-rated (vrmichalski, Tom Curry11) + 1 low-energy loss — losing to high-rated hurts less, but 3 losses still drag down
+- Both show deck 29W Boss3 is bad vs both extremes: too little energy vs 35W, too little gust/Hammer vs 10-14E aggro
+
+**Fix for v15:**
+- Deck `v10_34_sig4` 34W Boss4 Signal4 Waitress2 Belt1 Pad1 Night1 — best vs broad_field 0.667 (52-26) vs v13_29 0.564, vs top30 0.733, vs top30_live 0.739 — 34W gives 340 vs 350 (close) + Boss4 helps vs low-energy gust
+- Deck `v12_30_boss4` 30W Boss4 Signal4 Lillie4 Waitress3 Belt1 Pad2 Night1 Cyrano1 — best vs top30 0.817 (49-11) and top30_live 0.826, but 0.628 vs broad
+- Agent v11f GUST 70 RETREAT_WALL 350 lethal gust+retrieval — 0.692 vs broad BEST, 0.848 vs top30_live BEST
+- Combine v10_34_sig4 + v11f = `phase1_tuned_v15_34W_v11f` — predicted better live than v14's 0.564 broad, should fix low-energy losses and mirror
+
