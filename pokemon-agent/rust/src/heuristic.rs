@@ -430,7 +430,7 @@ fn best_attack_damage(poke: &Value, attacker_cid: i32, defender_cid: i32, index:
     }
     best
 }
-fn fighter_score(poke: &Value, index: &CardIndex, plan: &Plan, knobs: &Knobs, obs: &Value, opp_active: Option<&Value>) -> i32 {
+fn fighter_score(poke: &Value, index: &CardIndex, _plan: &Plan, knobs: &Knobs, obs: &Value, opp_active: Option<&Value>) -> i32 {
     let cid = match poke.get("id").and_then(|x| x.as_i64()) { Some(id) => id as i32, None => return -1000 };
     let have = poke.get("energies").and_then(|x| x.as_array()).map(|a| a.len()).unwrap_or(0);
     let mut best_dmg = 0;
@@ -453,18 +453,13 @@ fn fighter_score(poke: &Value, index: &CardIndex, plan: &Plan, knobs: &Knobs, ob
                 score += knobs.wall_penalty;
             } else {
                 // if our current active is walled, this bench attacker is precious
-                // we check current active walled
-                if let Some(my_active) = active_pokemon(obs, 0) { // me_idx unknown, use 0? will be fixed via obs yourIndex
-                    // try to get me_idx from obs
-                    let me_idx = obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize;
-                    if let Some(my_act) = active_pokemon(obs, me_idx) {
-                        if let Some(my_cid) = my_act.get("id").and_then(|x| x.as_i64()).map(|x| x as i32) {
-                            if damage_prevented(my_cid, opp_id, 1_000_000, index) {
-                                score += knobs.wall_escape;
-                            }
+                let me_idx = obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize;
+                if let Some(my_act) = active_pokemon(obs, me_idx) {
+                    if let Some(my_cid) = my_act.get("id").and_then(|x| x.as_i64()).map(|x| x as i32) {
+                        if my_cid != cid && damage_prevented(my_cid, opp_id, 1_000_000, index) {
+                            score += knobs.wall_escape;
                         }
                     }
-                    let _ = my_active;
                 }
             }
         }
