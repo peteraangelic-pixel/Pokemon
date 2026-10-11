@@ -568,6 +568,9 @@ DEAD_CLICK_PENALTY = _env_int("ARC3_DEAD_PENALTY", 1500)
 # Bezpieczeństwo musi przeważać nad eksploracją: jeśli kara byłaby mniejsza
 # niż bonus za ruch, agent nadal klikałby w poruszające się zagrożenie.
 LETHAL_CLICK_PENALTY = _env_int("ARC3_LETHAL_PENALTY", 2500)
+# Minimalna czesc niejednorodnych kafelkow, zeby uznac plansze za labirynt
+# (permille). Domyslnie 0 = zachowanie sprzed zmiany.
+MAZE_MIN_FILL_PERMILLE = _env_int("ARC3_MAZE_MIN_FILL", 0)
 DEAD_CLICK_MIN_ATTEMPTS = _env_int("ARC3_DEAD_MIN_ATTEMPTS", 3)
 
 TILE_SIZE = 5
@@ -623,6 +626,10 @@ class TileMazeView:
     token_targets: tuple[TokenTarget, ...]
     control_tiles: tuple[Coordinate, ...]
     resource_tiles: tuple[Coordinate, ...]
+    # Jaka czesc kafelkow jest niejednorodna (permille). Prawdziwy labirynt z
+    # paskowanych kafelkow ma ich duzo; plansza, ktora tylko przypomina
+    # labirynt jednym paskowanym obiektem, bedzie miala blisko zera.
+    tile_fill_permille: int = 0
 
 
 def _tile(grid: Grid, x: int, y: int) -> tuple[tuple[int, ...], ...] | None:
@@ -953,6 +960,13 @@ def tile_maze_view(snapshot: Snapshot) -> TileMazeView | None:
                 # visually gluing a one-tile control to itself.
                 special.add(coordinate)
 
+    # Prawdziwy labirynt kafelkowy ma wiele rozroznialnych kafelkow. Plansza,
+    # na ktorej tylko pojedynczy obiekt jest paskowany, a reszta to wielkie
+    # jednorodne pola, labiryntem nie jest -- a wlasnie takie plansze
+    # klasyfikator bral za labirynt i wpadal w cykl.
+    tile_total = max(1, len(origins_x) * len(origins_y))
+    tile_fill_permille = int(1000 * len(special) / tile_total)
+
     groups_by_cell: dict[Coordinate, frozenset[Coordinate]] = {}
     landmarks: list[tuple[Coordinate, frozenset[Coordinate]]] = []
     for group in _tile_groups(special):
@@ -961,6 +975,8 @@ def tile_maze_view(snapshot: Snapshot) -> TileMazeView | None:
         landmarks.append((_group_representative(group), group))
     landmarks.sort(key=lambda item: (item[0][1], item[0][0]))
     if not landmarks:
+        return None
+    if tile_fill_permille < MAZE_MIN_FILL_PERMILLE:
         return None
 
     tile_shape = (len(origins_x), len(origins_y))
@@ -1034,6 +1050,7 @@ def tile_maze_view(snapshot: Snapshot) -> TileMazeView | None:
         token_targets=token_targets,
         control_tiles=control_tiles,
         resource_tiles=resource_tiles,
+        tile_fill_permille=tile_fill_permille,
     )
 
 
@@ -1119,6 +1136,8 @@ class TileMazeNavigator:
         # który przełamuje oscylację, bo `_visited` jest czyszczone przy każdym
         # powrocie do tego samego stanu.
         self._landmark_failures: Counter[Coordinate] = Counter()
+        # Diagnostyka: jak bardzo plansza wyglada na labirynt kafelkowy.
+        self._last_tile_fill: int = -1
         self._active: tuple[Coordinate, frozenset[Coordinate]] | None = None
         self._last_avatar: Coordinate | None = None
         self._last_action: str | None = None
@@ -1269,6 +1288,10 @@ class TileMazeNavigator:
         self._used_resources.clear()
         self._route_deferred_resources.clear()
         self._meter_deferred_resources.clear()
+
+    def last_tile_fill(self) -> int:
+        """Tile fill (permille) of the most recent accepted maze view, -1 if none."""
+        return self._last_tile_fill
 
     def landmark_failure_total(self) -> int:
         """How many committed landmark trips produced no level progress."""
@@ -2016,6 +2039,7 @@ class TileMazeNavigator:
                 self._token_evidence["view-grace-observations"] += 1
             return None
         self._view_misses = 0
+        self._last_tile_fill = view.tile_fill_permille
         if self._levels_completed is not None and snapshot.levels_completed != self._levels_completed:
             self.reset(reason="level-changed")
         self._levels_completed = snapshot.levels_completed
@@ -2278,6 +2302,7 @@ class ExplorerPolicy:
             "landmark_failures": self._tile_maze.landmark_failure_total(),
             "dead_clicks": len(self._dead_clicks()),
             "lethal_clicks": len(self._lethal_clicks()),
+            "tile_fill_permille": self._tile_maze.last_tile_fill(),
             "tracked_clicks": len(self._click_outcomes),
         }
 
