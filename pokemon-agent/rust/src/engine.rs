@@ -2,6 +2,7 @@ use libloading::{Library, Symbol};
 use std::ffi::{CStr, CString};
 use std::os::raw::{c_int, c_void, c_char, c_uchar};
 use serde_json::Value;
+use std::sync::OnceLock;
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -20,6 +21,9 @@ pub struct SerialData {
     pub select_player: c_int,
 }
 
+static INIT: OnceLock<()> = OnceLock::new();
+static mut GLOBAL_LIB: Option<Library> = None;
+
 pub struct Engine {
     lib: Library,
     battle_ptr: *mut c_void,
@@ -29,8 +33,14 @@ impl Engine {
     pub fn new(lib_path: &str) -> anyhow::Result<Self> {
         unsafe {
             let lib = Library::new(lib_path)?;
-            let init: Symbol<unsafe extern "C" fn()> = lib.get(b"GameInitialize")?;
-            init();
+            // Call GameInitialize only once per process to avoid buffer full after many games
+            // The C++ engine has global state that leaks if initialized repeatedly
+            let init_needed = INIT.get().is_none();
+            if init_needed {
+                let init: Symbol<unsafe extern "C" fn()> = lib.get(b"GameInitialize")?;
+                init();
+                let _ = INIT.set(());
+            }
             Ok(Self { lib, battle_ptr: std::ptr::null_mut() })
         }
     }
