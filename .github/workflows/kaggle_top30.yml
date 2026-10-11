@@ -91,18 +91,23 @@ jobs:
           ls -lh pokemon-agent/kaggle_results/top30_live/ | head -30
           echo "count JSONs: $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)"
 
-      - name: Build top30_live + broad_field deck sets + playstyle analysis
+      - name: Build top30_live + broad_field deck sets + playstyle analysis (Rust+Rayon)
         run: |
           set -eo pipefail
           python pokemon-agent/tools/build_top30.py || true
           python pokemon-agent/tools/build_broad_field.py || true
           python pokemon-agent/tools/analyze_replays.py --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/analysis.md || true
           cat pokemon-agent/kaggle_results/top30_live/analysis.md | head -200 || true
-          # Playstyle deep dive if tool exists
-          if [ -f pokemon-agent/tools/analyze_playstyle.py ]; then
+          # Playstyle deep dive — Rust+Rayon if binary exists (10-20x faster), else Python fallback
+          if [ -f pokemon-agent/rust/bin/analyze_playstyle_rust ]; then
+            echo "Using Rust+Rayon analyze_playstyle_rust (10-20x faster)"
+            pokemon-agent/rust/bin/analyze_playstyle_rust --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/playstyle.md || true
+          elif [ -f pokemon-agent/tools/analyze_playstyle_rust.py ]; then
+            python pokemon-agent/tools/analyze_playstyle_rust.py --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/playstyle.md || true
+          elif [ -f pokemon-agent/tools/analyze_playstyle.py ]; then
             python pokemon-agent/tools/analyze_playstyle.py --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/playstyle.md || true
-            cat pokemon-agent/kaggle_results/top30_live/playstyle.md | head -300 || true
           fi
+          cat pokemon-agent/kaggle_results/top30_live/playstyle.md | head -300 || true
 
       - uses: actions/upload-artifact@v4
         if: always()
