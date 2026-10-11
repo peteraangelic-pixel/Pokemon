@@ -749,3 +749,25 @@ observation.
 1. v16_30_boss4_v13 as #1 (merge best broad + opening fix, 0.622 broad 30g, 0.791 top30 30g, 0.686 v14)
 2. v15_30_boss4_v11 as #2 backup (0.813 top30 10g)
 
+
+## 2026-10-11 16:30 UTC — v17 REJECT @100g (other branch 9ac8e19 cross-validation)
+
+**Other branch tested our v17 (d02dca0, cfe7f73):**
+
+- Our `phase1_tuned_v17_final.tar.gz` = v13 + 34W, NOT v17.py (0 diff lines vs v13). v17.py exists in repo but not in bundle.
+- Results @100g core 10 + new pool 10 (25k games):
+  - v11+30W: 0.703 core / 0.647 new pool / 0.587 live distribution BEST
+  - v13+34W (our final bundle): 0.706 core (+1-2pp noise) / 0.634 new pool
+  - v17+31_v2 (our v17): 0.687 / 0.614 WORST
+  - Claim "0.696 broad 5g" = noise, 4th confirmation 5-20g is noise. "vs wall 0.550 BEST" = 0.45-0.48 @100g.
+
+**New losses (22 episodes, 12 losses):** 5 mirror (Avik Das, Shixiang Yan, AByT3s, Mitsuaki Inoue, Jonathan Axl) = 42% new losses, 2 Lucario 13E, Alakazam+Dusknoir, Dragapult, Mega Excadrill/Genesect new archetype.
+
+**Deck ablation @100g:** 30W ctrl 0.703, 31W+Retr 0.702, 34W plain 0.689 (mirror 0.62 best, Yume 0.67 worst) – all within 1σ, no robust improvement.
+
+**Ogerpon-28G counter @100g x4:** v11+30W 0.510, v13+30W 0.505, +Pokégear 3.0 0.47-0.52 – coin flip for every variant.
+
+**Verdict:** v11+30W (v12_30_boss4 deck + v11 agent) stays submission version. Our v17 REJECT.
+
+**Action:** Don't upload v17_final (v13+34W) or v17+31_v2. Upload v11+30W = `phase1_tuned_v15_30_boss4_v11.tar.gz` (or `phase1_tuned_v11_30_boss4.tar.gz`) as #1 for tomorrow 00:00 UTC reset. File `kaggle_results/v17_cross_validation_other_branch.md` has full data.
+
