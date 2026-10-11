@@ -93,6 +93,6 @@ jobs:
           for i in 1 2 3; do
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && break || sleep $((i*10))
           done
-          git add -f kaggle_results/submit_logs/ 2>/dev/null || true
+          git add -f pokemon-agent/kaggle_results/submit_logs/ 2>/dev/null || true
           if git diff --cached --quiet; then echo "no log"; else git commit -m "submit log [skip ci]"; for i in 1 2 3; do git push origin "HEAD:${GITHUB_REF_NAME}" && break || { sleep $((i*5)); git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true; }; done; fi
           cat submit.log
