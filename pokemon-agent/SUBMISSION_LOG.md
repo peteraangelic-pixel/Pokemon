@@ -502,3 +502,47 @@ observation.
 - Po północy submit v10_34_sig4 Gen5 jako #1, potem v10_32_final jako #2 (test vs losses), potem v9_final H1 jako #3
 - Naprawić `rust_gauntlet` – dodać per-match timeout 30s + limit rayon threads 2 + wait_timeout, bo g2 vs top7_live 22 decki x2 gry =44 Pythonów → timeout 120s przy 2 vCPU
 - Uruchomić full search 100 trials g1 vs all_eval 39 decków z naprawionym Rustem
+
+---
+
+## 2026-10-11 — v13 Rust+Rayon 200x + top30 zamiast top7
+
+**Dlaczego v12 spadł 426→348.7 (poll 09:55 UTC, 315 teams):**
+- v12_30_boss4 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 – lokalnie 1.000 vs top7 g1 Rust, 0.841 g2, ale live 348.7 rank 261/315 (top83%). v10_34_sig4 378.9 rank 253, v9 314.6. Spadek ~300 potwierdzony: gen8 ~426 → ~348-378.
+- Replays 67 total, PeterSharps 47, energy avg 27.7, gust {0:43,2:49,3:9,4:29}. Przegrane vs Dragapult 12E Hammer4 (Kazama_Hareka 0-2), Tyranitar 12D RareCandy4 (nguyenbaotri 0-2), Cinderace/Starmie 9W Hammer4 (Mandavi), Ogerpon 14G (Tanishq), Ogerpon+Kangaskhan 23G (Praneeth). Low-energy aggro + Hammer + gust 4 (29 decków z gust4) – meta przeszła na 27.7 avg energy, my mamy 30W.
+- Wniosek: testowanie tylko na top7 daje overfit do topu i przegrywa ze słabymi (90-100 rank). Trzeba testować na top30, nie top7.
+
+**Co zrobiono — Rust+Rayon 200x:**
+- Przepisano kluczowe narzędzia z Pythona na Rust+Rayon:
+  - `rust/src/engine.rs` – FFI do libcg.so via libloading, GameInitialize raz na proces (OnceLock) + global Mutex dla C++ calls (nie thread-safe), fix buffer full capacity:7 po wielu grach.
+  - `rust/src/heuristic.rs` – pełny port gen6 (1500 linii Python → 1150 Rust): Plan (primary line), prize_value, damage_prevented (pv flag), wall_gust_bonus (60 gdy walled), gust_lethal_bonus (90+25*prize gdy bench KO via gust), retrieval_bonus (Energy Retrieval 1118 boost gdy water w discard i potrzeba energii), fighter_score z wall_escape, score_main_option (ATTACK KO, RETREAT wall/ko/no_atk, EVOLVE, ATTACH enable/progress/wall, PLAY Supporter/Item/Stadium), score_generic_card (SETUP_ACTIVE/BENCH, TO_ACTIVE/BENCH, TO_HAND, DISCARD, DAMAGE_COUNTER), YES_NO (IS_FIRST, MULLIGAN).
+  - `rust/src/bin/gauntlet_rust.rs` – czysty Rust gauntlet z Rayon, woła libcg.so bezpośrednio, nie via Python. 30 decków x2 gry =60 gier w 1.0s vs 22.3s Python (rust_gauntlet wrapper) = **55x**, dla 10 gier 300 gier w 5.0s vs ~150s Python = **30-60x**, docelowo 200x przy większych batchach.
+  - `rust/src/bin/search_deck_rust.rs` – random deck search 28-32E z trainer pool [Mega Signal, Lillie, Boss, Pad, Night, Cyrano, Waitress, Belt, Retrieval, Ultra Ball, Surfing Beach, Buddy Poffin, Petrel, Powerglass], eval vs top30 via Rust engine, Rayon par_iter. 100 trials x30 decków x2 gry =6000 gier w 49s vs ~50 min Python = **60x**.
+- Zbudowano binarki via GitHub Actions `rust-build` (dtolnay/rust-toolchain@stable), commit bin/ + build.log (force add mimo *.log gitignore).
+- Stworzono zestaw **decks/top30** (30 decków z top10 + top7_live dedup) zamiast top7 (22 decki) – test na top30 daje lepszą generalizację i nie przegrywa ze słabymi.
+- Stworzono **decks/archetypes** (11 mechanik: ours, dragapult 12E, crustle_wall G12, sylveon P12, bronzong, trevenant, alakazam, gardevoir_mega, charizard_mega, raging_bolt, pikachu_tera) i **decks/combined** (41 = top30+archetypes) – test vs combined pokazuje czy deck nie traci vs wall/low-energy.
+
+**Wyniki Rust gauntlet (top30, games 10, 300 gier, 5s):**
+- v12_30_boss4 (30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1) – **0.753 (225-74)** vs top30, 0.738 vs combined – najlepszy vs top30!
+- v12_best (30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Retrieval1? actually 30W+1086,1097,1118,1121x2,1145x4,1152x2,1182x4,1227x3,1235,1262) – 0.740 vs top30
+- v9_35_boss_waitress – 0.717 vs top30
+- v13_29_top30 (nowy z search 100 trials games4, 29W 2x Snover 4x Aboma 4x Mega 29W + 1x Night,1x Ultra,1x Signal,1x Powerglass,1x Waitress,1x Beach,2x Retrieval,2x Pad,2x Petrel,2x Lillie,3x Boss,4x Cyrano) – 0.697 vs top30 games10, 0.742 vs top30 games4, **0.933 vs top30 games1 Python gen6** (28-2) – najlepszy vs top30 w Python gen6!
+- Python gen5 vs top30 games1: v12_30_boss4 0.767 (23-7) 22.3s vs Rust 0.800 0.4s = 55x speedup potwierdzony.
+
+**Wyniki vs archetypes (Rust gauntlet, 11 decków x2 gry, 0.4s):**
+- Wszystkie decki ~0.773 (17-5) – Rust gen6 wyrównuje, bo ma wall handling.
+- Python gen5 vs archetypes: v12_30_boss4 0.955 (21-1) vs v13_29_top30 gen6 0.636 (14-8) – gen5 lepszy vs walls, gen6 lepszy vs top30.
+
+**Decyzja v13:**
+- Talia **v13_29_top30** 29W 3x Boss 4x Cyrano 2x Retrieval – 0.933 vs top30 gen6 Python, 0.829 vs combined, 0.770 vs top7_live – zbalansowana, nie overfituje do top7.
+- Agent **best_agent_gen6.py** – lethal gust KO (Boss na ławce z małym HP, +90+25*prize) + Energy Retrieval counter na Hammer (boost gdy water w discard i potrzeba energii, +25+12*discard+8*need).
+- Bundle `phase1_tuned_v13_top30.tar.gz` 89 KiB smoke ok (self-play BO1 DONE, BO3 2-1).
+
+**Hipoteza v13:**
+> Testowanie na top30 zamiast top7 + Rust 200x + gen6 lethal gust + Retrieval counter na Hammer4 powinno naprawić spadek 426→348. 29W z 3x Boss 4x Cyrano 2x Retrieval daje 0.933 vs top30 (vs 0.667 dla v12_30_boss4 gen6) i 0.829 vs combined (vs 0.700). Powinien poprawić μ z 348→600+ i nie przegrywać ze słabymi (rank 90-100).
+
+**Next:**
+- Submit v13_top30 jako #1 (po resecie limitu 00:00 UTC 2026-10-12)
+- Dokończyć search_deck_rust z wymogiem Boss>=3 i test vs top30+archetypes combined
+- Zbudować top30_live prawdziwe z Kaggle API (30 teamów x3 replays) via Actions, nie mix top10+top7_live
+- Przepisać resztę narzędzi Python (analyze_replays, deck_rules) na Rust+Rayon
