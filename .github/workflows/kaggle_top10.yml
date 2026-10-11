@@ -27,7 +27,7 @@ on:
         required: false
         default: "7"
   push:
-    branches: ["arena/c87f7a48-pokemon"]
+    branches: ["arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
     paths:
       - "pokemon-agent/kaggle_results/top10.trigger"
       - "pokemon-agent/kaggle_results/top10_live.trigger"
@@ -138,8 +138,9 @@ jobs:
           find pokemon-agent/kaggle_results/top10 -type f -size +5M -delete || true
           find pokemon-agent/kaggle_results/top10_live -type f -size +5M -delete || true
           # Keep at most 30 jsons each
-          ls -1 pokemon-agent/kaggle_results/top10/*.json 2>/dev/null | tail -n +31 | xargs rm -f || true
-          ls -1 pokemon-agent/kaggle_results/top10_live/*.json 2>/dev/null | tail -n +31 | xargs rm -f || true
+          # keep only the NEWEST 30 jsons (episode ids sort lexicographically)
+          ls -1 pokemon-agent/kaggle_results/top10/*.json 2>/dev/null | head -n -31 | xargs rm -f || true
+          ls -1 pokemon-agent/kaggle_results/top10_live/*.json 2>/dev/null | head -n -31 | xargs rm -f || true
           git add pokemon-agent/kaggle_results/top10/ pokemon-agent/kaggle_results/top10_live/ || true
           git status --short | head -20
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/top10* )" ]; then
