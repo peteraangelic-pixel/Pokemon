@@ -122,3 +122,30 @@ Plateau potwierdzone teraz kodem DZIAŁAJĄCYM (wcześniej martwym), na świeży
 (31-35W przetestowane przez innych), lub hybida 2-agentowa (reguły per-archetyp) — to
 już projekt na osobną sesję z większym compute. v20c zostaje jako artefakt (neutralny,
 najlepiej przebadany kandydat na przyszłe modyfikacje).
+
+---
+
+# 20:40 UTC — v21: agent-hybryda (skan archetypu) + remisownik→zwycięzca — PRZEŁOM vs stall
+
+## Diagnoza (tools/gauntlet_ffi_dbg.py — nowy instrument: obs dump + draw/end snapshots)
+1. **Talia przeciwnika NIE jest widoczna** (tylko deckCount; ręka None). WIDOCZNE: ich aktyw+ława (id) i discard.
+2. Remisy vs stall = 100% `step_limit` przy turze ~1240-1660. Stan: nasz ostatni pokemon (Kyogre 1-2W albo Abomasnow 1W) vs ich ściana (Latias 210/Clefairy 190/Slowking 120/Fezandipiti 210/Meowth 170), **prize 0-0, oba decki ~0, ręka pusta**.
+3. Mechanizm: (a) Riptide tasuje W z discardu do decku → W-discard=0 → 0 dmg; (b) Hammer wy-millował nam deck; (c) silnik NIE egzekwuje deckoutu przy draw stebie → wieczna pętla. Ich deck wypala się SAM (~T35-51: wygrane z oppDeckCount=0!).
+
+## v21 (agents/main_heuristic_v21.py) = v11 + skan (aktyw/ława/discard) + 3 tryby:
+- STALL (Slowpoke/Latias/Clefairy/Meowth/Fezandipiti/Kyurem/Smoochum/Annihilape/Conkeldurr/Zeraora w boardzie): Hammer -40 gdy deck≤30, -200 gdy ≤20 (nie wypalaj sobie amunicji — ich deck padnie pierwszy), Riptide -120 przy deck>12 (koniec pętli 0-dmg), +30 do ataków (ściany się nie leczą).
+- LUCARIO (677/678): ochrona 4-prize Abomasnow (retreat/Frost gdy zagrożony, z v20b).
+- MIRROR (721/722/723): Hammer guard ≤10 na prawdziwym deckCount.
+
+## Lokalne wyniki (deck v12_30_boss4; baseline v11 z wielu runów)
+| matchup | v11 | v21 | Δ |
+|---|---|---|---|
+| **stall やる気 200g** | 0.780-0.850 (draws 12-16%) | **0.915 (draws 7.5%, L 1%)** | **+7-13pp** |
+| Bill_Vlasak #1 (Lucario) 300g | 0.617±0.011 | **0.663** | **+4.6pp** |
+| mirror gen8 300g×2 | 0.480 | **0.525** | +4.5pp (?) |
+| top30_live @100g | 0.785-0.801 | **0.833** (draws 8/2300) | +3-5pp |
+| broad_field @100g | 0.613-0.621 | 0.618 | neutralnie ✓ |
+| leo_turing 300g | 0.775 | 0.740 | -3.5pp (szum/poza jedną próbą) |
+
+## Weryfikacja na skali (GitHub Actions matrix, 13 jobów × 4 rdzenie, PAROWANE v11+v21 w tym samym runie)
+Uruchomione (hybrid-verify); wyniki: kaggle_results/hybrid_verify/. Kryterium: potwierdzenie +Δ w parach na ≥2/3 kluczowych meczupach i brak regresji >2pp na broad/top30.

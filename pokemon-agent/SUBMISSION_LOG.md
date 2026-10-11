@@ -865,3 +865,6 @@ Run 38159427346: 420 replayów pobranych surowo, po deduplikacji **105 unikalnyc
 ### 20:00 UTC — DEAD-CODE DISCOVERY + v20/v20b/v20c: reguły nie przeskoczą v11+30W (3×600g, remis absolutny vs #1)
 
 Zob. kaggle_results/comparison_m3v18/RESULTS.md (sekcja 19:55). Kluczowe: (1) v18/v19b ≡ v11 (martwy kod, NameError w `except: pass`) — wszystkie wcześniejsze porównania na obu gałęziach unieważnione; (2) live-beaters: Bill_Vlasak #1 (Mega Lucario+20F) 0.613, Mengfei 0.710, 36/300 remisów z Banette stall; (3) trzy działające warstwy reguł (anti-Mega-Lucario prize protection, Riptide/Hammer deckout) — max +1.5pp (szum), Riptide-boost systematycznie szkodliwy Water-mirrorom; (4) werdykt: plateau potwierdzone działającym kodem, submission v11+30W bez zmian; rezerwy w planie atakującym/hybride per-archetyp (osobna sesja).
+
+### 20:45 UTC — v21 HYBRID: skan archetypu (board-scan, talia niewidoczna) + draw→win vs stall; Actions matrix verification w toku
+Diagnoza remisów (100% step_limit, stan zamrożenia po wypaleniu obu decków) → 3 tryby reguł przełączane skanem boardu/discardu przeciwnika. Lokalnie: stall 0.915 (+7-13pp), Bill 0.663 (+4.6pp), top30 0.833 @100g (rekord), broad neutralnie. Głęboka weryfikacja parowana v11/v21 na 13 jobach Actions (hybrid-verify). Po wynikach: decyzja o wymianie submissionu na v21 (pierwszy realny kandydat od plateau!).
