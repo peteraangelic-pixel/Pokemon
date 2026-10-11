@@ -102,6 +102,18 @@ jobs:
           } >> "$OUTDIR/API_PROBE.md" 2>&1
           true
 
+      # SAFE: help only, plus read-only submission-limits. Does not submit.
+      - name: Probe competitions submit / episodes (read-only)
+        run: |
+          {
+            echo "=== competitions submit --help ==="; kaggle competitions submit --help 2>&1
+            echo; echo "=== competitions episodes --help ==="; kaggle competitions episodes --help 2>&1
+            echo; echo "=== competitions replay --help ==="; kaggle competitions replay --help 2>&1
+            echo; echo "=== competitions logs --help ==="; kaggle competitions logs --help 2>&1
+            echo; echo "=== competitions submission-limits (read-only) ==="; kaggle competitions submission-limits -c "$COMP" 2>&1
+          } > "$OUTDIR/API_PROBE2.md" 2>&1
+          cat "$OUTDIR/API_PROBE2.md"
+
       - name: Competition files
         run: |
           kaggle competitions files -c "$COMP" 2>&1 | tee "$OUTDIR/files.txt" || echo "FAILED (not joined, or wrong slug)" | tee "$OUTDIR/files.txt"
