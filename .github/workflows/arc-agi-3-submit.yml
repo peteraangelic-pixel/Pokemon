@@ -71,9 +71,12 @@ jobs:
 
       - name: Which Kaggle account
         working-directory: arc-agi-3/baseline
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
-          .venv/bin/kaggle config view 2>/dev/null | grep -i '^ *username' || \
-            .venv/bin/kaggle competitions list 2>&1 | head -2 || true
+          .venv/bin/kaggle kernels list --mine --csv 2>&1 | head -3 || true
+          echo "---"
+          .venv/bin/kaggle competitions submissions -c arc-prize-2026-arc-agi-3 --csv 2>&1 | head -3 || true
 
       - name: Build notebook
         working-directory: arc-agi-3/baseline
