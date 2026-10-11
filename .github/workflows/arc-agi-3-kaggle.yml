@@ -216,6 +216,64 @@ jobs:
           cp /tmp/kout/submission.parquet "$OUTDIR/submission.parquet" 2>/dev/null || true
           cat "$OUTDIR/NOTEBOOK.md"
 
+      - name: Publiczne notebooki konkursu (rekonesans)
+        continue-on-error: true
+        run: |
+          mkdir -p "$OUTDIR/public"
+          echo "=== kernels w konkursie ==="
+          kaggle kernels list --competition "$COMP" --page-size 50 --csv > "$OUTDIR/kernels_competition.csv" 2>&1 || true
+          head -50 "$OUTDIR/kernels_competition.csv" || true
+          echo
+          echo "=== wyszukiwanie ==="
+          kaggle kernels list --search "arc-agi-3" --page-size 50 --csv > "$OUTDIR/kernels_search.csv" 2>&1 || true
+          head -50 "$OUTDIR/kernels_search.csv" || true
+
+      - name: Pobierz i zANALIZUJ (bez kopiowania kodu)
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/pub
+          python3 - "$OUTDIR" <<'PYEOF'
+          import csv, json, subprocess, sys, os
+          outdir = sys.argv[1]
+          rows = []
+          for name in ("kernels_competition.csv", "kernels_search.csv"):
+              p = os.path.join(outdir, name)
+              if not os.path.exists(p):
+                  continue
+              try:
+                  with open(p) as fh:
+                      rows.extend(r for r in csv.DictReader(fh) if r.get("ref"))
+              except Exception as exc:
+                  print("skip", name, exc)
+          seen, refs = set(), []
+          for r in rows:
+              ref = r["ref"]
+              if ref in seen:
+                  continue
+              seen.add(ref)
+              if ref.startswith("petersharps/"):
+                  continue
+              refs.append(ref)
+          print("znaleziono kerneli:", len(refs))
+          ok = []
+          for ref in refs[:12]:
+              dest = os.path.join("/tmp/pub", ref.replace("/", "__"))
+              os.makedirs(dest, exist_ok=True)
+              r = subprocess.run(["kaggle", "kernels", "pull", ref, "-p", dest],
+                                 capture_output=True, text=True)
+              if r.returncode == 0:
+                  ok.append(ref)
+                  print("pulled", ref)
+              else:
+                  print("FAIL", ref, (r.stderr or r.stdout)[:120])
+          with open(os.path.join(outdir, "pulled_kernels.txt"), "w") as fh:
+              fh.write("\n".join(ok) + ("\n" if ok else ""))
+          # Zachowujemy tylko zANALIZOWANE podsumowanie -- nie ich kod.
+          subprocess.run([sys.executable, "arc-agi-3/kaggle/scan_public_kernels.py",
+                          "/tmp/pub", os.path.join(outdir, "PUBLIC_APPROACHES.md")])
+          PYEOF
+          ls -la "$OUTDIR/PUBLIC_APPROACHES.md" 2>/dev/null || echo "(brak podsumowania)"
+
       - name: Summarise
         run: |
           {
