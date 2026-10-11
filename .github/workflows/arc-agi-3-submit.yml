@@ -87,9 +87,49 @@ jobs:
 
       - name: Push notebook (Save & Run All only)
         working-directory: arc-agi-3/baseline
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
         run: |
           set -o pipefail
-          make submit 2>&1 | tail -20 | tee submit.log
+          # kernel-metadata.json przyszedl z innego repo i ma obce id
+          # (lauresowe3d/...). Przy pierwszym pushu usuwamy id -- Kaggle tworzy
+          # nowy kernel pod naszym kontem, a jego prawdziwy slug zapisujemy
+          # spowrotem do pliku, zeby kolejne pushy byly aktualizacja.
+          python3 - <<'PYEOF' 2>&1 | tee submit.log
+          import json, re, subprocess, sys
+          from pathlib import Path
+
+          MD = Path("notebooks/kernel-metadata.json")
+          meta = json.loads(MD.read_text())
+
+          def push():
+              r = subprocess.run(
+                  ["make", "submit"], capture_output=True, text=True
+              )
+              return r.returncode, (r.stdout or "") + (r.stderr or "")
+
+          code, out = push()
+          print(out)
+
+          if code != 0 and ("does not resolve" in out or "409" in out):
+              print("--- obce id: tworze nowy kernel ---")
+              meta.pop("id", None)
+              # Tytul musi sie slugowac do sensownego identyfikatora.
+              meta["title"] = "arc-agi3-novelty-explorer"
+              MD.write_text(json.dumps(meta, indent=2) + "\n")
+              code, out = push()
+              print(out)
+
+          m = re.search(r"kaggle\.com/(?:code|kernels)/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)", out)
+          if m:
+              kernel_id = f"{m.group(1)}/{m.group(2)}"
+              print(f"--- KERNEL_ID={kernel_id} ---")
+              meta["id"] = kernel_id
+              MD.write_text(json.dumps(meta, indent=2) + "\n")
+              print(f"::notice title=Kaggle kernel::{kernel_id}")
+
+          sys.exit(0)
+          PYEOF
 
       - name: Notebook status
         working-directory: arc-agi-3/baseline
