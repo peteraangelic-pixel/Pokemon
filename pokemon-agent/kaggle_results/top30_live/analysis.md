@@ -1,257 +1,169 @@
-# Replay Analysis — 351 replays
+# Replay Analysis — 272 replays
 
-Our team (inferred): **Zedan Soorya**
+Our team (inferred): **Akmal Xodarev (Busya PRIME)**
 
-Total replays: 351
+Total replays: 272
 
 ## Win/Loss vs opponents
 
 | Opponent | Games | Wins | Losses | Win rate |
 |---|---|---|---|---|
-| Raja Biswas | 4 | 4 | 0 | 1.00 |
-| Mengfei Li | 4 | 0 | 4 | 0.00 |
-| KyryloBakumenko | 3 | 3 | 0 | 1.00 |
-| バーベナヘレナでコンボ決めたい連合 | 3 | 3 | 0 | 1.00 |
-| Prime Directive | 2 | 2 | 0 | 1.00 |
-| Mathieu W | 2 | 1 | 1 | 0.50 |
-| Colton Martin | 2 | 2 | 0 | 1.00 |
-| Xinyu Li | 2 | 0 | 2 | 0.00 |
-| OceanMix | 2 | 1 | 1 | 0.50 |
-| Chonghao Peng | 2 | 1 | 1 | 0.50 |
-| YumeNeko | 2 | 1 | 1 | 0.50 |
+| ANMOL GARG | 5 | 4 | 1 | 0.80 |
+| Stephen Schott | 4 | 3 | 1 | 0.75 |
+| Bill Vlasak | 3 | 1 | 2 | 0.33 |
+| Chonghao Peng | 3 | 3 | 0 | 1.00 |
+| やる気元気ミワハルキ 2nd ver. | 2 | 1 | 1 | 0.50 |
 | Leon Liu | 2 | 1 | 1 | 0.50 |
-| EkremKutukculer | 1 | 1 | 0 | 1.00 |
-| Stephen Schott | 1 | 0 | 1 | 0.00 |
-| leo_turing | 1 | 0 | 1 | 0.00 |
-| Dariush Afshar | 1 | 0 | 1 | 0.00 |
-| Majiro_ns | 1 | 1 | 0 | 1.00 |
-| ANMOL GARG | 1 | 0 | 1 | 0.00 |
-| Cristobal Tudela | 1 | 0 | 1 | 0.00 |
-| choqui62 | 1 | 0 | 1 | 0.00 |
-| Briano | 1 | 1 | 0 | 1.00 |
+| YumeNeko | 2 | 2 | 0 | 1.00 |
+| leo_turing | 2 | 2 | 0 | 1.00 |
+| Prashant Rawat | 1 | 1 | 0 | 1.00 |
+| Tolga Kiremit | 1 | 1 | 0 | 1.00 |
+| Darren Sheehan | 1 | 0 | 1 | 0.00 |
+| saravana Kishore | 1 | 0 | 1 | 0.00 |
+| No Free MIST Energy | 1 | 1 | 0 | 1.00 |
 | Kentaro Totsuka | 1 | 0 | 1 | 0.00 |
-| Vidit Parashar | 1 | 0 | 1 | 0.00 |
-| Akmal Xodarev (Busya PRIME) | 1 | 0 | 1 | 0.00 |
-| アライ塾Kaggle支部 | 1 | 1 | 0 | 1.00 |
-| match051 | 1 | 1 | 0 | 1.00 |
-| armorGAWA | 1 | 1 | 0 | 1.00 |
-| Aditya Goyal | 1 | 1 | 0 | 1.00 |
+| JerryChen | 1 | 1 | 0 | 1.00 |
 
 ## Deck meta (all decks seen)
 
-- Energy distribution: {2: 74, 14: 388, 6: 55, 10: 39, 28: 2, 3: 15, 15: 23, 8: 7, 4: 30, 35: 3, 7: 4, 1: 8, 9: 4, 11: 12, 13: 26, 0: 5, 12: 2, 33: 1, 5: 1, 18: 1, 26: 1, 20: 1}
-- Gust (Boss/Catcher) distribution: {3: 122, 2: 510, 1: 42, 0: 23, 4: 5}
+- Energy distribution: {6: 72, 14: 282, 10: 24, 28: 2, 15: 27, 35: 4, 1: 4, 3: 16, 2: 52, 4: 11, 9: 2, 11: 12, 13: 14, 8: 9, 12: 2, 33: 2, 18: 1, 17: 1, 24: 1, 31: 1, 29: 1, 34: 1, 20: 1, 22: 2}
+- Gust (Boss/Catcher) distribution: {2: 405, 3: 86, 0: 27, 1: 24, 4: 2}
 
 ### Example decks that beat us
 
-- **episode-121931226-replay.json** vs Stephen Schott (winner Stephen Schott, 299 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Ultra Ball x4, Bug Catching Set x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121933070-replay.json** vs leo_turing (winner leo_turing, 490 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Ultra Ball x4, Bug Catching Set x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121935075-replay.json** vs Dariush Afshar (winner Dariush Afshar, 353 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Ultra Ball x4, Bug Catching Set x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121937128-replay.json** vs ANMOL GARG (winner ANMOL GARG, 334 steps)
-  - Energy: 2, Gust: 2
-  - Pokemon: Abra x4, Kadabra x4, Dudunsparce x3, Dunsparce x3
-  - Trainers: Telepath Psychic Energy x4, Rare Candy x4, Buddy-Buddy Poffin x4, Poké Pad x4, Hilda x3, Dawn x3
-
-- **episode-121939092-replay.json** vs Cristobal Tudela (winner Cristobal Tudela, 320 steps)
+- **episode-122006580-replay.json** vs Bill Vlasak (winner Bill Vlasak, 569 steps)
   - Energy: 6, Gust: 2
   - Pokemon: Grookey x4, Thwackey x4, Dipplin x4, Applin x4
-  - Trainers: Basic {G} Energy x6, Buddy-Buddy Poffin x4, Bug Catching Set x4, Poké Pad x4, Lillie's Determination x4, Festival Grounds x4
+  - Trainers: Basic {G} Energy x6, Buddy-Buddy Poffin x4, Bug Catching Set x4, Poké Pad x4, Festival Grounds x4, Lillie's Determination x4
 
-- **episode-121941102-replay.json** vs choqui62 (winner choqui62, 313 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Bug Catching Set x4, Ultra Ball x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121941108-replay.json** vs Xinyu Li (winner Xinyu Li, 370 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Ultra Ball x4, Bug Catching Set x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121941168-replay.json** vs Mengfei Li (winner Mengfei Li, 284 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Bug Catching Set x4, Ultra Ball x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121943097-replay.json** vs Xinyu Li (winner Xinyu Li, 273 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Ultra Ball x4, Bug Catching Set x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121943110-replay.json** vs Mathieu W (winner Mathieu W, 520 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Bug Catching Set x4, Ultra Ball x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121953142-replay.json** vs YumeNeko (winner YumeNeko, 533 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Dipplin x2, Hydrapple ex x2, Applin x2
-  - Trainers: Basic {G} Energy x14, Bug Catching Set x4, Lillie's Determination x4, Energy Switch x3, Ultra Ball x3, Forest of Vitality x3
-
-- **episode-121955132-replay.json** vs OceanMix (winner OceanMix, 507 steps)
-  - Energy: 13, Gust: 2
-  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
-  - Trainers: Basic {F} Energy x13, Ultra Ball x4, Premium Power Pro x4, Fighting Gong x4, Poké Pad x4, Judge x4
-
-- **episode-121957111-replay.json** vs Mengfei Li (winner Mengfei Li, 436 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Bug Catching Set x4, Ultra Ball x4, Forest of Vitality x4, Dawn x2
-
-- **episode-121957126-replay.json** vs Kentaro Totsuka (winner Kentaro Totsuka, 338 steps)
-  - Energy: 2, Gust: 3
-  - Pokemon: Abra x4, Kadabra x4, Alakazam x4, Dunsparce x3
-  - Trainers: Telepath Psychic Energy x4, Enhanced Hammer x4, Buddy-Buddy Poffin x4, Poké Pad x4, Hilda x4, Dawn x4
-
-- **episode-121959094-replay.json** vs Vidit Parashar (winner Vidit Parashar, 172 steps)
-  - Energy: 11, Gust: 2
-  - Pokemon: Duraludon x4, Archaludon ex x4, Cinderace x4, Cornerstone Mask Ogerpon ex x2
-  - Trainers: Basic {M} Energy x10, Ultra Ball x4, Poké Pad x4, Explorer’s Guidance x4, Lillie's Determination x4, Night Stretcher x3
-
-- **episode-121961059-replay.json** vs Akmal Xodarev (Busya PRIME) (winner Akmal Xodarev (Busya PRIME), 289 steps)
+- **episode-122018440-replay.json** vs Bill Vlasak (winner Bill Vlasak, 563 steps)
   - Energy: 6, Gust: 2
-  - Pokemon: Dipplin x4, Grookey x4, Applin x4, Thwackey x4
-  - Trainers: Basic {G} Energy x6, Poké Pad x4, Festival Grounds x4, Bug Catching Set x4, Lillie's Determination x4, Buddy-Buddy Poffin x4
+  - Pokemon: Grookey x4, Thwackey x4, Dipplin x4, Applin x4
+  - Trainers: Basic {G} Energy x6, Buddy-Buddy Poffin x4, Bug Catching Set x4, Poké Pad x4, Festival Grounds x4, Lillie's Determination x4
 
-- **episode-121963054-replay.json** vs Leon Liu (winner Leon Liu, 367 steps)
+- **episode-122026261-replay.json** vs Darren Sheehan (winner Darren Sheehan, 345 steps)
   - Energy: 10, Gust: 3
   - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
   - Trainers: Basic {R} Energy x4, Basic {P} Energy x4, Buddy-Buddy Poffin x4, Crushing Hammer x4, Ultra Ball x4, Poké Pad x4
 
-- **episode-121966994-replay.json** vs Mengfei Li (winner Mengfei Li, 432 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Bug Catching Set x4, Ultra Ball x4, Forest of Vitality x4, Dawn x2
+- **episode-122030161-replay.json** vs やる気元気ミワハルキ 2nd ver. (winner やる気元気ミワハルキ 2nd ver., 312 steps)
+  - Energy: 2, Gust: 3
+  - Pokemon: Dhelmise x4, Shuppet x4, Banette x3, Dunsparce x3
+  - Trainers: Lillie's Determination x4, Ultra Ball x4, Poké Pad x4, Telepath Psychic Energy x4, Gwynn x3, Boss’s Orders x3
 
-- **episode-121968967-replay.json** vs Mengfei Li (winner Mengfei Li, 283 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Bug Catching Set x4, Ultra Ball x4, Forest of Vitality x4, Dawn x2
+- **episode-122032158-replay.json** vs saravana Kishore (winner saravana Kishore, 147 steps)
+  - Energy: 35, Gust: 0
+  - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
+  - Trainers: Basic {W} Energy x35, Mega Signal x4, Lillie's Determination x4, Waitress x4, Cyrano x2, Maximum Belt x1
 
-- **episode-121970926-replay.json** vs Chonghao Peng (winner Chonghao Peng, 341 steps)
+- **episode-122039943-replay.json** vs ANMOL GARG (winner ANMOL GARG, 524 steps)
+  - Energy: 2, Gust: 2
+  - Pokemon: Abra x4, Kadabra x4, Dudunsparce x3, Dunsparce x3
+  - Trainers: Telepath Psychic Energy x4, Rare Candy x4, Buddy-Buddy Poffin x4, Poké Pad x4, Hilda x3, Dawn x3
+
+- **episode-122043877-replay.json** vs Stephen Schott (winner Stephen Schott, 247 steps)
   - Energy: 14, Gust: 2
   - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-  - Trainers: Basic {G} Energy x14, Bug Catching Set x4, Ultra Ball x4, Lillie's Determination x4, Forest of Vitality x4, Poké Pad x2
+  - Trainers: Basic {G} Energy x14, Lillie's Determination x4, Ultra Ball x4, Bug Catching Set x4, Forest of Vitality x4, Dawn x2
+
+- **episode-122063536-replay.json** vs Kentaro Totsuka (winner Kentaro Totsuka, 589 steps)
+  - Energy: 2, Gust: 3
+  - Pokemon: Abra x4, Kadabra x4, Alakazam x4, Dunsparce x3
+  - Trainers: Telepath Psychic Energy x4, Enhanced Hammer x4, Buddy-Buddy Poffin x4, Poké Pad x4, Hilda x4, Dawn x4
+
+- **episode-122073385-replay.json** vs Leon Liu (winner Leon Liu, 641 steps)
+  - Energy: 10, Gust: 3
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
+  - Trainers: Basic {R} Energy x4, Basic {P} Energy x4, Buddy-Buddy Poffin x4, Crushing Hammer x4, Ultra Ball x4, Poké Pad x4
 
 ### Example decks we beat
 
-- **episode-121899380-replay.json** vs Prime Directive (416 steps)
+- **episode-121949109-replay.json** vs Prashant Rawat (175 steps)
+  - Energy: 11, Gust: 0
+  - Pokemon: Dwebble x4, Crustle x4
+
+- **episode-121953125-replay.json** vs Tolga Kiremit (104 steps)
+  - Energy: 12, Gust: 0
+  - Pokemon: Dwebble x4, Crustle x4, Bunnelby x2, Diggersby x2
+
+- **episode-122018488-replay.json** vs Chonghao Peng (462 steps)
   - Energy: 14, Gust: 2
   - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
 
-- **episode-121917209-replay.json** vs KyryloBakumenko (455 steps)
+- **episode-122036021-replay.json** vs Chonghao Peng (359 steps)
   - Energy: 14, Gust: 2
   - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
 
-- **episode-121921204-replay.json** vs Raja Biswas (218 steps)
-  - Energy: 15, Gust: 1
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121921255-replay.json** vs Mathieu W (312 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-
-- **episode-121925212-replay.json** vs KyryloBakumenko (452 steps)
+- **episode-122041907-replay.json** vs Chonghao Peng (320 steps)
   - Energy: 14, Gust: 2
   - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
 
-- **episode-121927213-replay.json** vs EkremKutukculer (497 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-
-- **episode-121931221-replay.json** vs Raja Biswas (468 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
-
-- **episode-121933066-replay.json** vs Prime Directive (315 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121935078-replay.json** vs Colton Martin (342 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-
-- **episode-121937089-replay.json** vs Majiro_ns (501 steps)
+- **episode-122045844-replay.json** vs ANMOL GARG (487 steps)
   - Energy: 2, Gust: 2
-  - Pokemon: Abra x4, Kadabra x4, Alakazam x3, Dunsparce x3
+  - Pokemon: Abra x4, Kadabra x4, Dudunsparce x3, Dunsparce x3
 
-- **episode-121945113-replay.json** vs Colton Martin (317 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
-
-- **episode-121949121-replay.json** vs KyryloBakumenko (444 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121951142-replay.json** vs OceanMix (284 steps)
-  - Energy: 13, Gust: 2
-  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
-
-- **episode-121951143-replay.json** vs バーベナヘレナでコンボ決めたい連合 (512 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121953133-replay.json** vs Chonghao Peng (468 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121953174-replay.json** vs Briano (360 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121955126-replay.json** vs YumeNeko (336 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Dipplin x2, Hydrapple ex x2, Applin x2
-
-- **episode-121961069-replay.json** vs バーベナヘレナでコンボ決めたい連合 (357 steps)
-  - Energy: 6, Gust: 2
-  - Pokemon: Applin x4, Dipplin x4, Grookey x4, Thwackey x4
-
-- **episode-121961078-replay.json** vs バーベナヘレナでコンボ決めたい連合 (512 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121961086-replay.json** vs アライ塾Kaggle支部 (303 steps)
-  - Energy: 0, Gust: 0
-  - Pokemon: Team Rocket's Murkrow x4, Team Rocket's Honchkrow x3, Team Rocket's Articuno x2, Team Rocket's Porygon x2
-
-- **episode-121963047-replay.json** vs Raja Biswas (275 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
-
-- **episode-121965013-replay.json** vs match051 (323 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Chikorita x2, Meganium x2, Dipplin x2
-
-- **episode-121965024-replay.json** vs armorGAWA (342 steps)
-  - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
-
-- **episode-121966985-replay.json** vs Leon Liu (539 steps)
+- **episode-122045870-replay.json** vs Leon Liu (313 steps)
   - Energy: 10, Gust: 3
   - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
 
-- **episode-121968957-replay.json** vs Aditya Goyal (345 steps)
+- **episode-122047814-replay.json** vs Stephen Schott (377 steps)
   - Energy: 14, Gust: 2
-  - Pokemon: Teal Mask Ogerpon ex x4, Meowth ex x2, Bayleef x2, Meganium x2
+  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
 
-- **episode-121970933-replay.json** vs Raja Biswas (288 steps)
-  - Energy: 15, Gust: 1
+- **episode-122047844-replay.json** vs ANMOL GARG (423 steps)
+  - Energy: 6, Gust: 2
+  - Pokemon: Grookey x4, Thwackey x4, Dipplin x4, Applin x4
+
+- **episode-122049775-replay.json** vs ANMOL GARG (336 steps)
+  - Energy: 2, Gust: 2
+  - Pokemon: Abra x4, Kadabra x4, Dudunsparce x3, Dunsparce x3
+
+- **episode-122051748-replay.json** vs Stephen Schott (453 steps)
+  - Energy: 14, Gust: 2
+  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
+
+- **episode-122053709-replay.json** vs YumeNeko (199 steps)
+  - Energy: 2, Gust: 2
+  - Pokemon: Abra x4, Kadabra x4, Dudunsparce x3, Dunsparce x3
+
+- **episode-122055673-replay.json** vs YumeNeko (513 steps)
+  - Energy: 2, Gust: 2
+  - Pokemon: Abra x4, Kadabra x4, Dudunsparce x3, Dunsparce x3
+
+- **episode-122057638-replay.json** vs No Free MIST Energy (470 steps)
+  - Energy: 14, Gust: 2
+  - Pokemon: Teal Mask Ogerpon ex x4, Dipplin x2, Hydrapple ex x2, Applin x2
+
+- **episode-122057641-replay.json** vs leo_turing (327 steps)
+  - Energy: 6, Gust: 2
+  - Pokemon: Grookey x4, Thwackey x4, Dipplin x4, Applin x4
+
+- **episode-122059607-replay.json** vs leo_turing (384 steps)
+  - Energy: 6, Gust: 2
+  - Pokemon: Grookey x4, Thwackey x4, Dipplin x4, Applin x4
+
+- **episode-122059634-replay.json** vs Stephen Schott (491 steps)
+  - Energy: 14, Gust: 2
+  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
+
+- **episode-122061574-replay.json** vs やる気元気ミワハルキ 2nd ver. (238 steps)
+  - Energy: 2, Gust: 3
+  - Pokemon: Dhelmise x4, Shuppet x4, Banette x3, Dunsparce x3
+
+- **episode-122065498-replay.json** vs ANMOL GARG (258 steps)
+  - Energy: 6, Gust: 2
+  - Pokemon: Grookey x4, Thwackey x4, Dipplin x4, Applin x4
+
+- **episode-122071439-replay.json** vs Bill Vlasak (295 steps)
+  - Energy: 6, Gust: 2
+  - Pokemon: Grookey x4, Thwackey x4, Dipplin x4, Applin x4
+
+- **episode-122081198-replay.json** vs JerryChen (289 steps)
+  - Energy: 14, Gust: 2
   - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
 
 ## Recommendations
 
-- Average energy in meta: 11.0. Our current 33 is high; top players use 26-30. Cutting 3-7 energy for trainers (Boss, Cyrano, Night Stretcher) trades ~20-40 damage per Hammer-lanche for consistency.
+- Average energy in meta: 11.3. Our current 33 is high; top players use 26-30. Cutting 3-7 energy for trainers (Boss, Cyrano, Night Stretcher) trades ~20-40 damage per Hammer-lanche for consistency.
 
 - Mirror losses (identical deck) suggest play, not deck, is the bottleneck. Lethal DFS and better energy attachment prioritization are next.

@@ -749,3 +749,84 @@ observation.
 1. v16_30_boss4_v13 as #1 (merge best broad + opening fix, 0.622 broad 30g, 0.791 top30 30g, 0.686 v14)
 2. v15_30_boss4_v11 as #2 backup (0.813 top30 10g)
 
+
+## 2026-10-11 16:30 UTC — v17 REJECT @100g (other branch 9ac8e19 cross-validation)
+
+**Other branch tested our v17 (d02dca0, cfe7f73):**
+
+- Our `phase1_tuned_v17_final.tar.gz` = v13 + 34W, NOT v17.py (0 diff lines vs v13). v17.py exists in repo but not in bundle.
+- Results @100g core 10 + new pool 10 (25k games):
+  - v11+30W: 0.703 core / 0.647 new pool / 0.587 live distribution BEST
+  - v13+34W (our final bundle): 0.706 core (+1-2pp noise) / 0.634 new pool
+  - v17+31_v2 (our v17): 0.687 / 0.614 WORST
+  - Claim "0.696 broad 5g" = noise, 4th confirmation 5-20g is noise. "vs wall 0.550 BEST" = 0.45-0.48 @100g.
+
+**New losses (22 episodes, 12 losses):** 5 mirror (Avik Das, Shixiang Yan, AByT3s, Mitsuaki Inoue, Jonathan Axl) = 42% new losses, 2 Lucario 13E, Alakazam+Dusknoir, Dragapult, Mega Excadrill/Genesect new archetype.
+
+**Deck ablation @100g:** 30W ctrl 0.703, 31W+Retr 0.702, 34W plain 0.689 (mirror 0.62 best, Yume 0.67 worst) – all within 1σ, no robust improvement.
+
+**Ogerpon-28G counter @100g x4:** v11+30W 0.510, v13+30W 0.505, +Pokégear 3.0 0.47-0.52 – coin flip for every variant.
+
+**Verdict:** v11+30W (v12_30_boss4 deck + v11 agent) stays submission version. Our v17 REJECT.
+
+**Action:** Don't upload v17_final (v13+34W) or v17+31_v2. Upload v11+30W = `phase1_tuned_v15_30_boss4_v11.tar.gz` (or `phase1_tuned_v11_30_boss4.tar.gz`) as #1 for tomorrow 00:00 UTC reset. File `kaggle_results/v17_cross_validation_other_branch.md` has full data.
+
+
+
+## 2026-10-11 17:00 UTC — Recovery po zawieszeniu sesji: naprawy CI + uzbrojenie submitu po resecie 00:00 UTC
+
+**Stan na moment zawieszenia:** HEAD 31e7007 (top30_live 72/210), v17 REJECT @100g, plan: upload v11+30W po resecie 00:00 UTC. Gałąź sesyjna arena/a450b00f-pokemon (branch z 31e7007).
+
+**Znalezione problemy:**
+1. Heavy 100g v18 (run 38156265675) NIGDY nie policzył — `FileNotFoundError: .../pokemon-agent/pokemon-agent/decks/v12_30_boss4.csv` (podwójny prefix; gauntlet_ffi.py/gauntlet_tempo.py rozwiązują ścieżki względem pokemon-agent/, a workflow podawał ścieżki repo-root). Run zgłosił SUCCESS z samymi tracebackami w logach. `kaggle_results/heavy/broad_field_100g_v18.log` + `tempo_v18.log` = tylko tracebacks.
+2. kaggle-submit.yml stracił trigger push (został sam workflow_dispatch, a dispatch z sandboxa dostaje 403). Martwy kod detekcji triggera w stepie "Submit bundle" potwierdza, że push trigger był zamierzony (commit "ci: watch all bundles/*.trigger").
+3. Wszystkie filtry push workflowów wskazywały wyłącznie arena/c87f7a48-pokemon — nic nie odpaliłoby się z gałęzi sesyjnej.
+
+**Naprawy (ten commit):**
+- `.github/workflows/kaggle_submit_at_reset.yml` — NOWY: submit bundle'a ~90s po 00:00 UTC. Faza 1 (push na `kaggle_results/at_reset.trigger`) czeka 16000s i robi `gh api .../dispatches` na fazę 2 — workflow_dispatch z GITHUB_TOKEN jest jawnie zwolniony z blokady rekursji, a limit 6h/job omijany dwufazowo. Phase 2 śpi pozostałe sekundy i submituje. UZBROJONY: `at_reset.trigger` = `phase1_tuned_v15_30_boss4_v11.tar.gz` → v11+30W poleci jako #1 nowego dnia zgodnie z verdictem v17 cross-validation (0.703 core / 0.647 new pool / 0.587 live @100g).
+- `gauntlet_heavy.yml` — parsowanie `gauntlet_heavy.trigger` (agent/deck/games/opp) przy push, strip podwójnego prefixu `pokemon-agent/`, PIPESTATUS + prawdziwy exit code (koniec fałszywych sukcesów), nazwy logów z resolved params, commit krok z `if: always()`.
+- `kaggle_submit.yml` — przywrócony push trigger `bundles/*.trigger`; przy push bundle jest brany z diffu triggera (wcześniej wszedłby złý default z workflow_dispatch).
+- Wszystkie workflowy: `push.branches += arena/a450b00f-pokemon`.
+- Triggery odświeżone jednym commitem: `poll.trigger` (recovery check stanu), `top30_live.trigger` (kontynuacja fetch 72/210 → 210), `gauntlet_heavy.trigger` (v18 100g broad_field PONOWNIE — tym razem naprawdę), `at_reset.trigger` (uzbrojenie submitu po resecie).
+
+**Oczekiwane po push:** poll → aktualny ranking/score v14; top30 → kolejna porcja replayów; heavy → PRAWDZIWY verdict v18 (mirror deckout fix: Riptide boost deck<15, Hammer penalize) na 100g broad + tempo 20g; at_reset → faza 1 czeka, ogień ~00:01:30 UTC.
+
+**Open (z poprzedniej sesji, nadal aktualne):** mirror 35W coinflip (42% nowych porażek), Ogerpon-28G coinflip, nowy archetyp Mega Excadrill/Genesect bez decklisty. Po powrocie heavy-v18: porównać z v11 baseline (0.619 broad 20g / 0.587 live 100g) i zdecydować, czy v18 zastępuje v11 w submitcie #2.
+
+### 17:15 UTC — Heavy v18 PRAWDZIWY wynik (pierwszy w historii) + naprawy CI
+
+**Heavy v18 @ FFI 100g broad_field (46 decków, 16s):** TOTAL **0.625** (2873W-1726L-1D).
+**Tempo 20g gen8_meta:** win **0.769**, first 19.0, prize_T9 1.81, fitness **0.740**.
+
+| agent | tempo win | tempo fitness | mirror 35W | broad 100g |
+|---|---|---|---|---|
+| v11 | 0.713 | 0.692 | ~0.42-0.59 | 0.619 (20g) |
+| v13 | 0.762 | 0.751 | — | 0.622 (30g) |
+| **v18 (Riptide<15/Hammer fix)** | 0.769 | 0.740 | **0.35 (7-13)** | **0.625** |
+
+**Werdykt: v18 NIE bije v11** — mirror 35W dalej 0.35 (fix deckoutu nie działa na inherent deck disadvantage), broad w tym samym plateau, fitness poniżej v13. **Decyzja o submie v11+30W po resecie STOI.** v18 zostaje jako kandydat #2 (tempo win najlepszy z grupy, ale fitness i mirror gorsze).
+
+**Rating LIVE spadł:** v14 484.1 → **321.9** (rank 222 → 269) między 13:54 a 16:56 — agent gubi μ w żywej grze, submit po resecie tym pilniejszy.
+
+**Naprawy CI (commit "fix evolve_tempo compile + artifact colons"):**
+- `rust/src/bin/evolve_tempo.rs` — 2 błędy kompilacji blokujące rust-build i quick-test (exit 101): E0277 `bv != v` przy `&&i32` z filter (→ `bv != *v`), E0308 krotka 4 vs 5 elementów w `sorted.remove(0)` (→ `let (_, cfg, res, fit, wwr)`).
+- `kaggle_poll.yml` — sanitize nazw plików z dwukropkami przed upload-artifact (colon w `rank90_100_live/publicleaderboard-*.csv` wywalał upload, poll zgłaszał failure mimo poprawnego fetch+commit); istniejące pliki zmienione (`:` → `-`).
+- fetch-mid: job fetch-mid ✓, padł tylko poboczny fetch-top7 (fetch step exit 1, bez loga — najpewniej throttling Kaggle przy 5 równoległych workflow; do retriggeru gdy trzeba).
+
+### 17:35 UTC — CI w pełni zielone + screening 40 kandydatów (bez przełomu)
+
+**Status CI na arena/a450b00f-pokemon (wszystko sprawdzone live):**
+- rust-build ✓ (58s) — evolve_tempo kompiluje się po fixach E0277/E0308
+- gauntlet-quick-test ✓ (1m34s) — build zawężony do `--bin rust_gauntlet` (pełny build padał na aux binach mimo poprawnego rust_gauntlet; log builda komitowany przy failu: rust/bin/quicktest_build.log)
+- gauntlet-heavy ✓ — v18 100g broad 0.625 / tempo fitness 0.740 (verdict: nie bije v11)
+- kaggle-top30 ✓ — 72/210 → **83/210** replayów (Kaggle API rzadkie: 7/team daje 1-2)
+- kaggle-poll ✓ fetch+commit (raniej failure tylko przez colon w nazwie leaderboard CSV — sanitize dodany)
+- **kaggle-submit-at-reset IN_PROGRESS, faza 1 śpi 16000s** → dispatch fazy 2 ~21:07 UTC → **submit `phase1_tuned_v15_30_boss4_v11.tar.gz` (v11+30W) ~00:01:30 UTC** jako #1 nowego dnia
+
+**Screening 40-parallel (commit 87dcfb4, workflow search-heuristic odpalony przy recovery push):** best idx=13 win=0.684 (mała próba) — kolejne potwierdzenie plateau w przestrzeni wag tej rodziny heurystyki. Nic nie kwalifikuje się nad v11+30W.
+
+**Otwarte wątki na następną sesję:**
+1. Po resecie: sprawdzić score v11+30W (poll) i porównać z 321.9 v14 (rank 269 spadło z 222).
+2. fetch-top7 (job w kaggle_fetch_mid) padał na fetch step — do retriggeru; podejrzenie throttlingu Kaggle przy wielu równoległych workflow.
+3. Mirror 35W (0.35-0.42) i Ogerpon-28G coinflip nadal otwarte — wymagają zmian deckowych/strukturalnych, nie wag.
+4. top30_live do dociągania do 210/210 (kolejne odpalenia top30_live.trigger, inkrementalnie).

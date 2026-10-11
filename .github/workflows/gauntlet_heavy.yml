@@ -1,0 +1,129 @@
+name: gauntlet-heavy-100g
+
+on:
+  workflow_dispatch:
+    inputs:
+      agent:
+        description: "Agent path"
+        default: "pokemon-agent/agents/main_heuristic_v18.py"
+        required: false
+      deck:
+        description: "Deck path"
+        default: "pokemon-agent/decks/v12_30_boss4.csv"
+        required: false
+      games:
+        description: "Games per matchup"
+        default: "100"
+        required: false
+      opp_dir:
+        description: "Opponent dir: broad_field, top30_live, v14_opp_test, gen8_meta"
+        default: "broad_field"
+        required: false
+  push:
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/gauntlet_heavy.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  heavy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet kaggle-environments
+
+      - name: Build Rust binaries
+        run: |
+          cd pokemon-agent/rust
+          cargo build --release --bin rust_gauntlet --bin evolve_tempo --bin gauntlet_rust 2>&1 | tail -20
+          ls -lh target/release/rust_gauntlet target/release/evolve_tempo target/release/gauntlet_rust 2>&1 | tail -10
+
+      - name: Resolve params (dispatch inputs or gauntlet_heavy.trigger)
+        id: p
+        run: |
+          set -euo pipefail
+          AGENT="${{ inputs.agent || 'pokemon-agent/agents/main_heuristic_v18.py' }}"
+          DECK="${{ inputs.deck || 'pokemon-agent/decks/v12_30_boss4.csv' }}"
+          GAMES="${{ inputs.games || '100' }}"
+          OPP_DIR="${{ inputs.opp_dir || 'broad_field' }}"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            T=pokemon-agent/kaggle_results/gauntlet_heavy.trigger
+            if [ -f "$T" ]; then
+              kv() { grep -o "$1=[^ ]*" "$T" | head -1 | cut -d= -f2; }
+              A=$(kv agent); D=$(kv deck); G=$(kv games); O=$(kv opp)
+              if [ -n "$A" ]; then case "$A" in */*) AGENT="$A";; *) AGENT="pokemon-agent/agents/$A";; esac; fi
+              if [ -n "$D" ]; then case "$D" in */*) DECK="$D";; *) DECK="pokemon-agent/decks/$D";; esac; fi
+              [ -n "$G" ] && GAMES="$G"
+              [ -n "$O" ] && OPP_DIR="$O"
+            fi
+          fi
+          {
+            echo "agent=$AGENT"
+            echo "deck=$DECK"
+            echo "games=$GAMES"
+            echo "opp_dir=$OPP_DIR"
+            echo "agent_name=$(basename "$AGENT" .py)"
+          } >> "$GITHUB_OUTPUT"
+          echo "params: agent=$AGENT deck=$DECK games=$GAMES opp=$OPP_DIR"
+
+      - name: Run heavy gauntlet
+        env:
+          AGENT: ${{ steps.p.outputs.agent }}
+          DECK: ${{ steps.p.outputs.deck }}
+          GAMES: ${{ steps.p.outputs.games }}
+          OPP_DIR: ${{ steps.p.outputs.opp_dir }}
+          AGENT_NAME: ${{ steps.p.outputs.agent_name }}
+        run: |
+          set -euo pipefail
+          # tools/gauntlet_ffi.py / gauntlet_tempo.py resolve paths against
+          # pokemon-agent/ (ROOT). Strip a repo-root "pokemon-agent/" prefix to
+          # avoid pokemon-agent/pokemon-agent/... -- the bug that made the
+          # 2026-10-11 runs die with FileNotFoundError but still report success.
+          AGENT_REL=${AGENT#pokemon-agent/}
+          DECK_REL=${DECK#pokemon-agent/}
+          cd pokemon-agent
+          echo "Heavy test: $AGENT_REL + $DECK_REL vs $OPP_DIR $GAMES games"
+          echo "=== FFI gauntlet ==="
+          set +e
+          .venv/bin/python tools/gauntlet_ffi.py --agent "$AGENT_REL" --our-deck "$DECK_REL" --opp-dir "decks/$OPP_DIR" --games "$GAMES" --workers 8 2>&1 | tee /tmp/heavy.log
+          RC=${PIPESTATUS[0]}
+          set -e
+          echo "gauntlet_ffi rc=$RC"
+          echo "=== Tempo ==="
+          set +e
+          .venv/bin/python tools/gauntlet_tempo.py --agent "$AGENT_REL" --our-deck "$DECK_REL" --opp-dir decks/gen8_meta --games 20 2>&1 | tee /tmp/tempo.log
+          RC2=${PIPESTATUS[0]}
+          set -e
+          echo "gauntlet_tempo rc=$RC2"
+          mkdir -p kaggle_results/heavy
+          cp /tmp/heavy.log "kaggle_results/heavy/${OPP_DIR}_${GAMES}g_${AGENT_NAME}.log"
+          cp /tmp/tempo.log "kaggle_results/heavy/tempo_${AGENT_NAME}.log"
+          exit $(( RC != 0 || RC2 != 0 ))
+
+      - name: Commit results
+        if: always()
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git add -f pokemon-agent/kaggle_results/heavy/ || true
+          git diff --cached --stat
+          if git diff --cached --quiet; then echo "No changes"; else git commit -m "heavy gauntlet: ${{ steps.p.outputs.opp_dir || 'broad_field' }} ${{ steps.p.outputs.games || '100' }}g ${{ steps.p.outputs.agent_name || 'v18' }} [skip ci]"; git push origin "HEAD:${GITHUB_REF_NAME}"; fi

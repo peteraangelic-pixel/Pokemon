@@ -36,7 +36,7 @@ on:
         required: false
         default: "the-pokemon-company-ptcg-ai-battle-challenge-playground"
   push:
-    branches: ["arena/c87f7a48-pokemon"]
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
     paths:
       - "pokemon-agent/kaggle_results/poll.trigger"
   schedule:
@@ -129,6 +129,12 @@ jobs:
           else
             echo "no summary produced -- see the fetch step above"
           fi
+
+      - name: Sanitize artifact filenames (colons break upload-artifact)
+        if: always()
+        run: |
+          find pokemon-agent/kaggle_results -name '*:*' -type f \
+            -exec bash -c 'for f; do mv "$f" "${f//:/-}"; done' _ {} +
 
       - uses: actions/upload-artifact@v4
         if: always()

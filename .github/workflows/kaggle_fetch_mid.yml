@@ -22,7 +22,7 @@ on:
         default: "7"
         required: false
   push:
-    branches: ["arena/c87f7a48-pokemon"]
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
     paths:
       - "pokemon-agent/kaggle_results/fetch_mid.trigger"
       - ".github/workflows/kaggle_fetch_mid.yml"

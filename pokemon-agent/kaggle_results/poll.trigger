@@ -1,1 +1,1 @@
-poll v14 check Sun Oct 11 13:54:06 UTC 2026
+poll: recovery check after session freeze 2026-10-11T16:55:06Z

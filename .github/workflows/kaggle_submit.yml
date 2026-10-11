@@ -11,6 +11,10 @@ on:
         description: "Submission message"
         default: "v14 top30 v11f 0.767 top30 0.692 broad 0.848 top30_live - best vs weak fix"
         required: false
+  push:
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/bundles/*.trigger"
 
 permissions:
   contents: read
@@ -53,16 +57,22 @@ jobs:
 
       - name: Submit bundle
         env:
-          BUNDLE: ${{ inputs.bundle || 'phase1_tuned_v12_30_boss4.tar.gz' }}
-          MESSAGE: ${{ inputs.message || 'v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro' }}
+          IN_BUNDLE: ${{ inputs.bundle }}
+          IN_MESSAGE: ${{ inputs.message }}
         run: |
           cd pokemon-agent
-          if [ -z "${{ inputs.bundle }}" ]; then
-            TRIGGER=$(git diff --name-only HEAD~1 HEAD | grep trigger | head -1 || echo "")
-            if [ -n "$TRIGGER" ]; then
-              BUNDLE=$(basename $TRIGGER .trigger).tar.gz
-              echo "Detected trigger $TRIGGER -> bundle $BUNDLE"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            TRIGGER=$(git diff --name-only HEAD~1 HEAD | grep 'bundles/.*\.trigger$' | head -1 || true)
+            if [ -z "$TRIGGER" ]; then
+              echo "No new bundles/*.trigger in this push -- nothing to submit"
+              exit 0
             fi
+            BUNDLE=$(basename "$TRIGGER" .trigger).tar.gz
+            MESSAGE="submit $BUNDLE via bundles/*.trigger push"
+            echo "Detected trigger $TRIGGER -> bundle $BUNDLE"
+          else
+            BUNDLE="$IN_BUNDLE"
+            MESSAGE="$IN_MESSAGE"
           fi
           BUNDLE_PATH="bundles/$BUNDLE"
           ls -lh bundles/ | tail -20

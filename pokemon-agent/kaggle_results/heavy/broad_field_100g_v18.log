@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_ffi.py", line 196, in <module>
+    main()
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_ffi.py", line 151, in main
+    our_deck = load_deck(str(our_deck_path))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_ffi.py", line 54, in load_deck
+    return [int(t) for line in open(path) for t in line.replace(",", " ").split() if t]
+                               ^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/Pokemon/Pokemon/pokemon-agent/pokemon-agent/decks/v12_30_boss4.csv'

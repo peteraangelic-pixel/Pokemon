@@ -1017,3 +1017,29 @@ v13 bije v15_30_boss4_v11f na broad 30g 0.622 vs 0.615 (+0.7pp) i remis top30 0.
 
 **Next:**
 - v13 jest nowym baseline po merge. Dalszy strukturalny fix: gust timing T0-1 (Boss early vs walls) + retrieval counter Hammer (Dragapult/Lucario mają Hammer discard energy) + faster mirror milling (boost ATTACH when opponent mirror).
+
+## 18. v17 cross-validation @100g — REJECT (other branch 9ac8e19, 25k games)
+
+**Other branch (arena/8560a56a-pokemon) tested our v17:**
+
+- Our bundles `phase1_tuned_v17_final.tar.gz` main.py == **v13** (0 diff) + 34W deck, NOT v17.py agent. So "v17 final" = rejected LOW_E_AGGRO rule + 34W.
+- Our `v17 + 31_v2` bundle = 0.687 core / 0.614 new-loss pool @100g, worst of group.
+- Our claim "0.696 broad 5g" = noise, confirmed 4th time that 5-20g is noise. "vs wall 0.550 BEST" = 0.45-0.48 @100g.
+
+**5 rounds @100g, ~25k games:**
+
+| combo | core 10 | new pool 10 | live distribution (4 mirror+4 Ogerpon+2 aggro) |
+|---|---|---|---|
+| v11 + 30W (v12_30_boss4) | 0.703 / 0.686 | 0.647 | 0.587 BEST |
+| v13 + 34W (our v17_final bundle) | 0.706 (+1-2pp noise) | 0.634 | - |
+| v17 + 31_v2 (our v17) | 0.687 | 0.614 WORST | - |
+| 31/32/33/34W variants | 0.670-0.708 noise | - | 0.53-0.57 |
+
+- 30W wins everywhere (live 0.587 vs 0.53-0.57 others). 34W thesis only holds in pure mirror (0.61-0.62 vs 0.55) but costs tempo vs aggro, net zero.
+- Ogerpon 28G (4x Ogerpon ex, 28G, 12 accel): 0.38-0.43 @100g is coin flip for all variants (0.47-0.52, same matchup 0.30 and 0.42 in different 100g runs). Pokégear 3.0 + Retrieval don't fix.
+- New losses (22 episodes, 12 losses, fetched via Actions): 5 = MIRROR (42% new losses, main live problem), 2× Lucario 13E, Alakazam+Dusknoir, Dragapult, **new archetype Mega Excadrill/Genesect** (no deck list yet).
+
+**Verdict: v11 + 30W stays submission version.** No deck change 31-34W, Retrieval, Pokégear, -Waitress/-Cyrano is reliable improvement over 30W on core or live. Open problems: mirror coinflip (42% new losses), Ogerpon-28G coinflip, Excadrill.
+
+**Data:** `kaggle_results/v17_cross_validation_other_branch.md` (copied from other branch 9ac8e19)
+

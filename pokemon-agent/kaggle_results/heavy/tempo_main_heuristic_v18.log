@@ -1,0 +1,12 @@
+Our deck: /home/runner/work/Pokemon/Pokemon/pokemon-agent/decks/v12_30_boss4.csv 60 cards
+Opp dir: /home/runner/work/Pokemon/Pokemon/pokemon-agent/decks/gen8_meta 8 decks, 20 games each
+Alakazam_2E                              19W-1L-0D  first=9.9 prize_T9=2.2 opp_first=72.3 opp_prize_T9=0.4 turns=11.8
+Dipplin_6E                               18W-2L-0D  first=8.2 prize_T9=1.4 opp_first=64.7 opp_prize_T9=0.1 turns=16.1
+Dragapult_10E                            15W-5L-0D  first=10.6 prize_T9=2.0 opp_first=46.0 opp_prize_T9=0.5 turns=12.2
+Lucario_13E                              15W-5L-0D  first=20.2 prize_T9=2.1 opp_first=54.1 opp_prize_T9=0.3 turns=12.7
+Mirror_30W                               13W-7L-0D  first=24.6 prize_T9=1.4 opp_first=25.6 opp_prize_T9=1.2 turns=9.6
+Mirror_35W                               7W-13L-0D  first=49.1 prize_T9=0.8 opp_first=14.9 opp_prize_T9=1.6 turns=8.1
+Ogerpon_14E                              17W-3L-0D  first=22.4 prize_T9=2.1 opp_first=38.0 opp_prize_T9=0.2 turns=17.2
+Sinistcha_3E                             19W-1L-0D  first=7.2 prize_T9=2.4 opp_first=78.0 opp_prize_T9=0.1 turns=17.0
+
+TOTAL 123W-37L-0D winrate=0.769 first=19.0 (opp 49.2) prize_T9=1.81 (opp 0.56) turns=13.1 fitness=0.740
