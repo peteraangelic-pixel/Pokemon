@@ -1,0 +1,5 @@
+Bill_Vlasak                                356-244- 0  0.593
+
+TOTAL 356W-244L-0D = 0.593  (1 decks x 600 games, 5s)
+worst 5:
+  Bill_Vlasak                                356-244-0  0.593

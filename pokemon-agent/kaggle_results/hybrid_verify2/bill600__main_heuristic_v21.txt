@@ -1,0 +1,5 @@
+Bill_Vlasak                                389-211- 0  0.648
+
+TOTAL 389W-211L-0D = 0.648  (1 decks x 600 games, 5s)
+worst 5:
+  Bill_Vlasak                                389-211-0  0.648
