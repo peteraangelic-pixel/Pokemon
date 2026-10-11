@@ -812,3 +812,21 @@ observation.
 - `rust/src/bin/evolve_tempo.rs` — 2 błędy kompilacji blokujące rust-build i quick-test (exit 101): E0277 `bv != v` przy `&&i32` z filter (→ `bv != *v`), E0308 krotka 4 vs 5 elementów w `sorted.remove(0)` (→ `let (_, cfg, res, fit, wwr)`).
 - `kaggle_poll.yml` — sanitize nazw plików z dwukropkami przed upload-artifact (colon w `rank90_100_live/publicleaderboard-*.csv` wywalał upload, poll zgłaszał failure mimo poprawnego fetch+commit); istniejące pliki zmienione (`:` → `-`).
 - fetch-mid: job fetch-mid ✓, padł tylko poboczny fetch-top7 (fetch step exit 1, bez loga — najpewniej throttling Kaggle przy 5 równoległych workflow; do retriggeru gdy trzeba).
+
+### 17:35 UTC — CI w pełni zielone + screening 40 kandydatów (bez przełomu)
+
+**Status CI na arena/a450b00f-pokemon (wszystko sprawdzone live):**
+- rust-build ✓ (58s) — evolve_tempo kompiluje się po fixach E0277/E0308
+- gauntlet-quick-test ✓ (1m34s) — build zawężony do `--bin rust_gauntlet` (pełny build padał na aux binach mimo poprawnego rust_gauntlet; log builda komitowany przy failu: rust/bin/quicktest_build.log)
+- gauntlet-heavy ✓ — v18 100g broad 0.625 / tempo fitness 0.740 (verdict: nie bije v11)
+- kaggle-top30 ✓ — 72/210 → **83/210** replayów (Kaggle API rzadkie: 7/team daje 1-2)
+- kaggle-poll ✓ fetch+commit (raniej failure tylko przez colon w nazwie leaderboard CSV — sanitize dodany)
+- **kaggle-submit-at-reset IN_PROGRESS, faza 1 śpi 16000s** → dispatch fazy 2 ~21:07 UTC → **submit `phase1_tuned_v15_30_boss4_v11.tar.gz` (v11+30W) ~00:01:30 UTC** jako #1 nowego dnia
+
+**Screening 40-parallel (commit 87dcfb4, workflow search-heuristic odpalony przy recovery push):** best idx=13 win=0.684 (mała próba) — kolejne potwierdzenie plateau w przestrzeni wag tej rodziny heurystyki. Nic nie kwalifikuje się nad v11+30W.
+
+**Otwarte wątki na następną sesję:**
+1. Po resecie: sprawdzić score v11+30W (poll) i porównać z 321.9 v14 (rank 269 spadło z 222).
+2. fetch-top7 (job w kaggle_fetch_mid) padał na fetch step — do retriggeru; podejrzenie throttlingu Kaggle przy wielu równoległych workflow.
+3. Mirror 35W (0.35-0.42) i Ogerpon-28G coinflip nadal otwarte — wymagają zmian deckowych/strukturalnych, nie wag.
+4. top30_live do dociągania do 210/210 (kolejne odpalenia top30_live.trigger, inkrementalnie).
