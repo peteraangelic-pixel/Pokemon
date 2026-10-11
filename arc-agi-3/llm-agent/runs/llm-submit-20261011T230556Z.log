@@ -1,0 +1,4 @@
+400 Client Error: Bad Request for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/CreateCodeSubmission
+exit_code(v=2)=1
+400 Client Error: Bad Request for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/CreateCodeSubmission
+exit_code(v=1)=1
