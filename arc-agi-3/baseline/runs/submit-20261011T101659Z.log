@@ -1,0 +1,10 @@
+.venv/bin/python scripts/build_notebook.py --accelerator cpu
+Wrote notebooks/submission.ipynb (accelerator: cpu).
+Synced notebooks/kernel-metadata.json enable_gpu=False.
+KAGGLE_API_TOKEN=$(cat .kaggle/access_token) .venv/bin/kaggle kernels push -p notebooks
+The following are not valid tags and could not be added to the kernel: ['arc-agi-3', 'arc-prize-2026', 'deterministic-exploration']
+Kernel version 2 successfully pushed.  Please check progress at https://www.kaggle.com/code/petersharps/arc-agi-3-novelty-explorer
+Notebook pushed. Inspect its Kaggle run before selecting an official competition submission.
+
+--- KERNEL_ID=petersharps/arc-agi-3-novelty-explorer ---
+::notice title=Kaggle kernel::petersharps/arc-agi-3-novelty-explorer
