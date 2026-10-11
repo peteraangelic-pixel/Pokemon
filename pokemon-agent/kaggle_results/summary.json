@@ -1,28 +1,46 @@
 {
-  "fetched_utc": "2026-10-11T09:55:39+00:00",
+  "fetched_utc": "2026-10-11T13:25:39+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 315,
-  "submission_rows": 8,
+  "leaderboard_rows": 317,
+  "submission_rows": 10,
   "our_leaderboard": [
     {
-      "Rank": "253",
+      "Rank": "257",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
       "LastSubmissionDate": "2026-10-11 01:18:52",
-      "Score": "378.9",
+      "Score": "372.1",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57075298",
+      "fileName": "phase1_tuned_v14_top30_v11f.tar.gz",
+      "date": "2026-10-11 13:25:13.063000",
+      "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
+      "status": "SubmissionStatus.PENDING",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "57075294",
+      "fileName": "phase1_tuned_v14_top30_v11f.tar.gz",
+      "date": "2026-10-11 13:25:08.083000",
+      "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
+      "status": "SubmissionStatus.PENDING",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
       "ref": "57058104",
       "fileName": "phase1_tuned_v12_30_boss4.tar.gz",
       "date": "2026-10-11 01:18:52.883000",
       "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "348.7",
+      "publicScore": "327.2",
       "privateScore": ""
     },
     {
@@ -31,7 +49,7 @@
       "date": "2026-10-11 00:35:33.680000",
       "description": "v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "378.9",
+      "publicScore": "372.1",
       "privateScore": ""
     },
     {
