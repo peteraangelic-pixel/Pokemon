@@ -96,18 +96,57 @@ jobs:
             sleep 20
           done
 
+      - name: Determine kernel version number
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) .venv/bin/kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('notebooks/kernel-metadata.json'))['id'])")
+          echo "=== kernels status ==="
+          $KG kernels status "$KERNEL_ID" 2>&1 | tee kstatus.txt || true
+          echo "=== kernels list --mine (head) ==="
+          $KG kernels list --mine --csv 2>&1 | head -8 | tee klist.csv || true
+          python3 - <<'PY' > version.txt
+          import re, pathlib
+          txt = pathlib.Path('kstatus.txt').read_text(errors='replace')
+          m = re.search(r'version\D{0,20}?(\d+)', txt, re.I)
+          print(m.group(1) if m else '')
+          PY
+          echo "parsed_version=$(tr -d '[:space:]' < version.txt)"
+
       - name: Submit to competition
         run: |
           KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) .venv/bin/kaggle"
           KERNEL_ID=$(python3 -c "import json;print(json.load(open('notebooks/kernel-metadata.json'))['id'])")
-          echo "submitting kernel $KERNEL_ID"
-          set +e
-          $KG competitions submit -c "$COMP" -k "$KERNEL_ID" \
-            -m "novelty-explorer baseline $GITHUB_SHA" 2>&1 | tee competition-submit.log
-          CODE=${PIPESTATUS[0]}
-          set -e
-          echo "submit_exit_code=$CODE"
-          echo "exit_code=$CODE" >> competition-submit.log
+          VER=$(tr -d '[:space:]' < version.txt)
+          n=${VER:-0}
+          echo "submitting kernel $KERNEL_ID (parsed version='$n')"
+          # A rejected submit does NOT consume the daily quota (verified:
+          # exit_code=1 left "Remaining today: 1"), so walking candidate
+          # versions is safe. Stop at the first accepted one.
+          CANDS=""
+          if [ "$n" -ge 1 ]; then
+            CANDS="$n"
+            i=1
+            while [ "$i" -le 8 ]; do
+              p=$((n-i))
+              if [ "$p" -ge 1 ]; then CANDS="$CANDS $p"; fi
+              i=$((i+1))
+            done
+          fi
+          echo "candidate versions: $CANDS"
+          for v in $CANDS; do
+            echo "--- trying -v $v ---"
+            set +e
+            $KG competitions submit -c "$COMP" -k "$KERNEL_ID" \
+              -f submission.parquet -v "$v" \
+              -m "novelty-explorer baseline $GITHUB_SHA" 2>&1 | tee -a competition-submit.log
+            CODE=${PIPESTATUS[0]}
+            set -e
+            echo "exit_code(v=$v)=$CODE" | tee -a competition-submit.log
+            if [ "$CODE" -eq 0 ]; then
+              echo "ACCEPTED_VERSION=$v" | tee -a competition-submit.log
+              break
+            fi
+          done
 
       - name: Record submission id
         run: |
