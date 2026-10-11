@@ -1,0 +1,5 @@
+leo_turing                                 441-159- 0  0.735
+
+TOTAL 441W-159L-0D = 0.735  (1 decks x 600 games, 10s)
+worst 5:
+  leo_turing                                 441-159-0  0.735
