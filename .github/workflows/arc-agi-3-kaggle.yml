@@ -188,6 +188,26 @@ jobs:
           emit("Nasze zgloszenia", f"{len(subs)} zgloszen" if subs else "brak zgloszen")
           PYEOF
 
+      - name: Notebook status
+        env:
+          KERNEL: ${{ inputs.kernel || 'petersharps/arc-agi-3-novelty-explorer' }}
+        run: |
+          {
+            echo "# Notebook: $KERNEL"
+            echo
+            echo "## Status"
+            echo '```'
+            kaggle kernels status "$KERNEL" 2>&1 | tail -5 || echo "(brak)"
+            echo '```'
+            echo
+            echo "## Output (tail)"
+            echo '```'
+            kaggle kernels output "$KERNEL" -p /tmp/kout 2>&1 | tail -5 || true
+            ls -la /tmp/kout 2>/dev/null | head -20 || true
+            echo '```'
+          } > "$OUTDIR/NOTEBOOK.md" 2>&1
+          cat "$OUTDIR/NOTEBOOK.md"
+
       - name: Summarise
         run: |
           {
