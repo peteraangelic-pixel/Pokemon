@@ -1,0 +1,5 @@
+leo_turing                                 464-136- 0  0.773
+
+TOTAL 464W-136L-0D = 0.773  (1 decks x 600 games, 10s)
+worst 5:
+  leo_turing                                 464-136-0  0.773

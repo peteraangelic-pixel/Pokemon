@@ -1,0 +1,5 @@
+leo_turing                                 478-122- 0  0.797
+
+TOTAL 478W-122L-0D = 0.797  (1 decks x 600 games, 12s)
+worst 5:
+  leo_turing                                 478-122-0  0.797
