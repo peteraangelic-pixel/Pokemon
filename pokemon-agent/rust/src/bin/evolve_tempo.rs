@@ -140,7 +140,7 @@ struct PoolEntry {
 
 fn build_pool(args: &Args) -> Result<Vec<PoolEntry>> {
     let mut opp: Vec<PoolEntry> = Vec::new();
-    let mut add_dir = |d: &str, weight: f64, prefix: &str, out: &mut Vec<PoolEntry>| {
+    let add_dir = |d: &str, weight: f64, prefix: &str, out: &mut Vec<PoolEntry>| {
         let dir = Path::new(d);
         if !dir.is_dir() {
             eprintln!("warn: pool dir {} missing, skipping", d);
@@ -316,7 +316,7 @@ fn main() -> Result<()> {
     }
     fs::write(
         &pool_file,
-        pool.iter().map(|p| json!({"name": p.name, "deck": p.deck})).collect::<Vec<_>>().to_string(),
+        serde_json::to_string(&pool.iter().map(|p| json!({"name": p.name, "deck": p.deck})).collect::<Vec<_>>())?,
     )?;
 
     let mut best: Option<(Config, EvalResult, f64, f64)> = None;
@@ -348,7 +348,7 @@ fn main() -> Result<()> {
         for (idx, cfg, res, fit, wwr) in sorted.iter().take(5) {
             let diff: Map<String, Value> = cfg
                 .iter()
-                .filter(|(k, v)| base.get(*k).map_or(true, |bv| bv != v))
+                .filter(|(k, v)| base.get(*k).map_or(true, |bv| *bv != *v))
                 .map(|(k, v)| (k.clone(), json!(v)))
                 .collect();
             eprintln!(
@@ -368,7 +368,7 @@ fn main() -> Result<()> {
         history.push(json!({"gen": g, "top": top}));
 
         if best.as_ref().map_or(true, |(_, _, bf, _)| sorted[0].3 > *bf) {
-            let (cfg, res, fit, wwr) = sorted.remove(0);
+            let (_, cfg, res, fit, wwr) = sorted.remove(0);
             best = Some((cfg, res, fit, wwr));
         }
 
