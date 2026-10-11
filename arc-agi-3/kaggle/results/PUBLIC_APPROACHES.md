@@ -5,7 +5,7 @@
 
 ## `arc-prize-2026-sovereign-agent.ipynb`
 
-- komórek: 23, rozmiar: 584,128 B
+- komórek: 23, rozmiar: 595,567 B
 - **modele**: qwen, llama, nemotron
 - **silniki**: vllm, transformers, torch, llama.cpp
 - **techniki**: bfs, beam, replay, cache, precompute, precompute, offline, memory, summary, summarize, context, truncate, prune, cot, reflection, json, structured, retry, segmentation, connected, component, object, diff, delta
@@ -13,6 +13,18 @@
 Opis autora (fragment):
 
 > # About this notebook This notebook contains my solution for **ARC Prize 2026 — ARC-AGI-3, Milestone 2**, built on [Tufa Labs’ Duck harness](https://www.kaggle.com/code/jeroencottaar/tufa-labs-duck-harness-june-30-milestone-winner). Full credit goes to Jeroen Cottaar and Tufa Labs for the original Duck solver, harness, and notebook. The attached source bundle is an unchanged copy of Tufa Labs’ original bundle. **All my modifications to the harness are included in the patch at the beginning of this notebook**, which is applied automatically during setup. The patch is based on the original [Duck harness](https://github.com/Tufalabs/duck-harness) at commit `7652836`. I also switched to [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next), using [Intel’s AutoRound quantization](https://huggingface.co/Intel/Qwen3.8-Flash-Next-W4A16-AutoRound) and a separate quantized [MTP draf
+
+## `tufa-duck-baseline-arc3.ipynb`
+
+- komórek: 21, rozmiar: 35,085 B
+- **modele**: qwen
+- **silniki**: vllm, torch
+- **techniki**: cache, offline, context, cot, json, segmentation, object, delta
+- importy: IPython, arc_agi, datetime, hashlib, html, inference, json, os, pandas, pathlib, pickle, subprocess, sys, sysconfig, taaf, tarfile, time, urllib
+
+Opis autora (fragment):
+
+> # Tufa Duck Baseline ARC3 Reproducible Kaggle notebook for Tufa Labs' The Duck ARC-AGI-3 harness. The solver implementation is mounted from the pinned, public TAAF source bundle; its framework and agent architecture are preserved. For ordinary notebook runs, the offline smoke path plays one bundled game and writes a non-scoring placeholder output. A real competition rerun uses Kaggle's live Arcade gateway and evaluates every game. ARC-AGI-3 is a code competition: Kaggle records the actions and produces the scored run output; there is no user-authored `submission.csv` schema. ## Source, model, and API settings - Upstream: [Tufalabs/duck-harness](https://github.com/Tufalabs/duck-harness), with TAAF source supplied by the attached source-share dataset because competition reruns have internet disabled. - Model: `vrfai/Qwen3.6-27B-FP8`, loaded from the attached model snapshot. - Inference end
 
 ## `arc-agi-3-v21-taaf-27b.ipynb`
 
@@ -25,16 +37,6 @@ Opis autora (fragment):
 Opis autora (fragment):
 
 > # Tufa Labs ARC3 submission ![Tufa Labs](attachment:tufa_labs.png) **Note**: this notebook is a more readable version of the notebook that scored our milestone-winning 1.21; unfortunately, we haven't had the same lucky result with this one. The original one is also shared here, but using it is not recommended: https://www.kaggle.com/code/jeroencottaar/taaf-duck-harness-kaggle **Note**: if you make a copy of this notebook, you will have to manually select the proper GPU (RTX Pro 6000). Link to writeup explaining what's going on here: https://www.kaggle.com/competitions/arc-prize-2026-arc-agi-3/discussion/717133 Link to Machine Learning Street Talk interview by Tim Scarfe about this duck harness: https://x.com/MLStreetTalk/status/2072326433922297975?s=20 This notebook executes the ARC-AGI-3 solver written by the Tufa Labs team; in alphabetical order: Harold Bessis, Jeroen Cottaar, Isaiah P
-
-## `arc3-arena-hero-v2-p37-int3.ipynb`
-
-- komórek: 3, rozmiar: 3,816 B
-- **techniki**: json, diff
-- importy: hashlib, json, os, pandas, pathlib, subprocess, sys, tarfile, time
-
-Opis autora (fragment):
-
-> # Flash Duck-transfer arena competition candidate Public validation: 110 independent cyclic replicas of the 20 public games, 1800 s of gameplay. Competition rerun: discover the hidden gateway roster, nine hours total including setup and a ten-minute cleanup reserve. One RTX PRO 6000 Blackwell 96 GB; fixed winning model/agent/scheduler settings. Public replicas test scaling and stability, not hidden-game generalization. The gateway records actions and creates the real submission artifact.
 
 ## `arc3-arena-hero-v2-runb.ipynb`
 
@@ -57,9 +59,9 @@ Opis autora (fragment):
 
 > # About this notebook This notebook contains my solution for **ARC Prize 2026 — ARC-AGI-3, Milestone 2**, built on [Tufa Labs’ Duck harness](https://www.kaggle.com/code/jeroencottaar/tufa-labs-duck-harness-june-30-milestone-winner). Full credit goes to Jeroen Cottaar and Tufa Labs for the original Duck solver, harness, and notebook. The attached source bundle is an unchanged copy of Tufa Labs’ original bundle. **All my modifications to the harness are included in the patch at the beginning of this notebook**, which is applied automatically during setup. The patch is based on the original [Duck harness](https://github.com/Tufalabs/duck-harness) at commit `7652836`. I also switched to [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next), using [Intel’s AutoRound quantization](https://huggingface.co/Intel/Qwen3.8-Flash-Next-W4A16-AutoRound) and a separate quantized [MTP draf
 
-## `cage-ael-a1.ipynb`
+## `arc3-m2-solution.ipynb`
 
-- komórek: 25, rozmiar: 578,044 B
+- komórek: 23, rozmiar: 569,175 B
 - **modele**: qwen, llama, nemotron
 - **silniki**: vllm, transformers, torch, llama.cpp
 - **techniki**: bfs, beam, replay, cache, precompute, precompute, offline, memory, summary, summarize, context, truncate, prune, cot, reflection, json, structured, retry, segmentation, connected, component, object, diff, delta
@@ -68,24 +70,30 @@ Opis autora (fragment):
 
 > ### About this notebook **Update (v3):** This version reruns the open-sourced submission (v1) with **4 passes on all 25 demo games**, using a runtime budget scaled to match the time available per game in the competition. I couldn’t complete this run before publishing, as I had run out of Kaggle compute. The notebook is otherwise identical. **For details on the solution, see my [write-up](https://www.kaggle.com/writeups/dfranzen/arc-agi-3-milestone-2).** This notebook contains my solution for **ARC Prize 2026 — ARC-AGI-3, Milestone 2**, built on [Tufa Labs’ Duck harness](https://www.kaggle.com/code/jeroencottaar/tufa-labs-duck-harness-june-30-milestone-winner). Full credit goes to Jeroen Cottaar and Tufa Labs for the original Duck solver, harness, and notebook. The attached source bundle is an unchanged copy of Tufa Labs’ original bundle. **All my modifications to the harness are included
 
+## `continual-training-seed102-reverse.ipynb`
+
+- komórek: 4, rozmiar: 2,509 B
+- **modele**: qwen
+- **techniki**: offline, memory
+
 ## `arcmx.ipynb`
 
-- komórek: 3, rozmiar: 82,463 B
-- **modele**: qwen, llama
+- komórek: 4, rozmiar: 97,238 B
+- **modele**: qwen
 - **silniki**: transformers, torch
-- **techniki**: offline, memory, context, json
-- importy: agents, arcengine, ast, builtins, collections, concurrent, datetime, gc, hashlib, importlib, json, logging, numpy, os, pathlib, pydantic, random, re, resource, site, subprocess, sys, time, torch, traceback, transformers, typing, zipfile
+- **techniki**: cache, offline, memory, summary, json, diff
+- importy: agents, arcengine, collections, gc, json, logging, math, numpy, os, pandas, pathlib, pydantic, re, shutil, signal, site, subprocess, sys, time, torch, transformers, typing, zipfile
 
-## `b3-4de-hmm.ipynb`
+## `arc-agi-3-how-noisy-is-one-run.ipynb`
 
-- komórek: 62, rozmiar: 445,341 B
-- **silniki**: transformers, torch
-- **techniki**: cache, offline, memory, summary, summarize, context, json, backtrack, connected, component, object, diff, delta
-- importy: IPython, PIL, atexit, dataclasses, datetime, dinov2, faulthandler, gc, hashlib, importlib, io, json, math, matplotlib, numpy, os, pandas, pathlib, random, re, signal, subprocess, sys, tempfile, threading, time, torch, traceback, typing, warnings
+- komórek: 10, rozmiar: 3,400 B
+- **modele**: qwen
+- **techniki**: diff
+- importy: glob, math, numpy, pandas
 
 Opis autora (fragment):
 
-> # HMM-Navi / DIVE-HMM — B3.4e Diagnostic: Strong Sequence Baseline Audit B3.4d closed topology/place-node modeling as a main contribution: after fair decoding, no single graph transition control produced robust functional gain over static SALAD. The remaining question is whether the project has been comparing against an overly weak temporal baseline. B3.4e therefore audits **stronger established-style sequence alignment controls** on the exact same frozen 4Seasons pairs and SALAD similarity matrices. This notebook does **not** claim to reproduce an official SeqSLAM or AdaptSeqVPR implementation. Instead it implements transparent, fixed, classical-style controls: - static SALAD; - fixed frame-index HMM controls; - causal SeqSLAM-style multi-slope trajectory scoring; - causal dual-direction flexible-step Viterbi alignment; - offline dual-direction flexible-step Viterbi as a non-causal diag
+> # ARC-AGI-3: how noisy is one run? This notebook uses the per-run results of the public **Duck** harness baseline (Tufa Labs, [github.com/Tufalabs/duck-harness](https://github.com/Tufalabs/duck-harness); Qwen3.6-27B FP8, 20 runs on each of the 25 public games) to answer three practical questions: 1. How much does the score of the *same* agent vary from run to run? 2. Which public games actually carry signal? 3. How many runs do you need before a score change can be told apart from noise? All credit for the runs goes to Tufa Labs. Data: the attached dataset. ## 1. Run-to-run variation per game The same code on the same game can score anywhere from 0 to several points. Averages over one run per game hide this. ## 2. Which games carry signal? A game where every run scores 0 tells you nothing about a change to your agent. Below: games where at least half the runs score above zero. ## 3. How 
 
 ## `cprs-arc-agi-3-super-agent-v22.ipynb`
 
@@ -111,23 +119,12 @@ Opis autora (fragment):
 
 ## `arc-agi-3-m2-top-submission.ipynb`
 
-- komórek: 23, rozmiar: 570,520 B
+- komórek: 23, rozmiar: 594,610 B
 - **modele**: qwen, llama, nemotron
 - **silniki**: vllm, transformers, torch, llama.cpp
 - **techniki**: bfs, beam, replay, cache, precompute, precompute, offline, memory, summary, summarize, context, truncate, prune, cot, reflection, json, structured, retry, segmentation, connected, component, object, diff, delta
 
 Opis autora (fragment):
 
-> ### About this notebook **Update (v3):** This version reruns the open-sourced submission (v1) with **4 passes on all 25 demo games**, using a runtime budget scaled to match the time available per game in the competition. I couldn’t complete this run before publishing, as I had run out of Kaggle compute. The notebook is otherwise identical. **For details on the solution, see my [write-up](https://www.kaggle.com/writeups/dfranzen/arc-agi-3-milestone-2).** This notebook contains my solution for **ARC Prize 2026 — ARC-AGI-3, Milestone 2**, built on [Tufa Labs’ Duck harness](https://www.kaggle.com/code/jeroencottaar/tufa-labs-duck-harness-june-30-milestone-winner). Full credit goes to Jeroen Cottaar and Tufa Labs for the original Duck solver, harness, and notebook. The attached source bundle is an unchanged copy of Tufa Labs’ original bundle. **All my modifications to the harness are included
-
-## `arc-agi-3-m2-franzen-fork.ipynb`
-
-- komórek: 23, rozmiar: 569,171 B
-- **modele**: qwen, llama, nemotron
-- **silniki**: vllm, transformers, torch, llama.cpp
-- **techniki**: bfs, beam, replay, cache, precompute, precompute, offline, memory, summary, summarize, context, truncate, prune, cot, reflection, json, structured, retry, segmentation, connected, component, object, diff, delta
-
-Opis autora (fragment):
-
-> ### About this notebook **Update (v3):** This version reruns the open-sourced submission (v1) with **4 passes on all 25 demo games**, using a runtime budget scaled to match the time available per game in the competition. I couldn’t complete this run before publishing, as I had run out of Kaggle compute. The notebook is otherwise identical. **For details on the solution, see my [write-up](https://www.kaggle.com/writeups/dfranzen/arc-agi-3-milestone-2).** This notebook contains my solution for **ARC Prize 2026 — ARC-AGI-3, Milestone 2**, built on [Tufa Labs’ Duck harness](https://www.kaggle.com/code/jeroencottaar/tufa-labs-duck-harness-june-30-milestone-winner). Full credit goes to Jeroen Cottaar and Tufa Labs for the original Duck solver, harness, and notebook. The attached source bundle is an unchanged copy of Tufa Labs’ original bundle. **All my modifications to the harness are included
+> # ARC-AGI-3 Milestone 2: Apex Sovereign Agent (D-Prime SOTA Architecture) ### Targeting 1st Rank on ARC Prize 2026 Leaderboard - **Engine**: Qwen3.8-Flash-Next W4A16 AutoRound + Albucino MTP Draft Model (Pennyroyal SGLang v2.5.3) - **Hardware**: Nvidia RTX Pro 6000 (Blackwell SM120, 96GB VRAM) - **Scheduler**: Champion D-Prime Form Priority ($A \cdot M \cdot C + B \cdot \phi$) with dynamic pace tracking - **Resilience**: Hyper-Resilient retry session (180s read timeout, zero timeout yield) - **Action Guards**: Board dump suppression, noop repeat guard, death loop lookahead, auto frame diff - **Submission Contract**: Pre-materialized submission contract preventing zero-byte evaluation errors ## 0. Harness patch Patch to add our modifications to the original tufa harness. ## 1. Environment and submission mode Detect whether this is a real competition rerun (which minimises diagnostics), se
 

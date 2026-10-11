@@ -1,19 +1,20 @@
 # Kaggle snapshot -- arc-prize-2026-arc-agi-3
 
-Generated: 2026-10-11T13:17:16Z  (run 38142516155)
+Generated: 2026-10-11T20:55:06Z  (run 38174140748)
 
 ## Public leaderboard (top 30)
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOEXSJiHksERQcPnGnbiM9ElSfWhnLlL0wIeMsDGUkvBKBo12jO889CkMJGsBtB3g2E
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGS9Q8BxP9KLBFy-TN8KrWHORdIt35AUX23TpKswSBtW4-3H_v2aW9ygGhrzmUETgM
 teamId,teamName,submissionDate,score
 15499660,Yi-Chia Chen,2026-10-10 16:00:41.873000,62.96
 15486995,Tufa Labs,2026-10-09 15:56:59.453000,56.52
-16153655,mtg,2026-10-10 08:44:07.696000,45.00
+16153655,mtg,2026-10-11 09:44:35.843000,45.00
 16958599,Majkel1337,2026-10-10 23:20:51.100000,42.66
-16021367,the last dance 🕺,2026-10-10 22:06:46.303000,42.55
+16021367,the last dance 🕺,2026-10-11 20:12:49.270000,42.55
 15770880,NVARC3,2026-10-10 17:40:02.423000,40.97
 15605182,Son & Mark & Ronen,2026-10-10 14:43:46.713000,39.24
-16805955,dreach.ai,2026-10-10 20:39:40.236000,39.11
+16805955,dreach.ai,2026-10-11 08:24:13.323000,39.11
+16754530,AFF AI CLUB,2026-10-11 05:08:11.783000,38.98
 16958955,Nhan Duc Nguyen,2026-10-10 14:15:01.340000,38.84
 16132261,artificialagencylab.com,2026-10-10 20:27:53.913000,38.62
 16992721,fshindo,2026-10-11 04:13:46.023000,38.20
@@ -22,21 +23,20 @@ teamId,teamName,submissionDate,score
 15508513,keithtyser,2026-10-10 05:17:20.740000,37.22
 16768259,_hans,2026-10-10 17:27:14.540000,37.07
 16371045,Lord Han Solo,2026-10-10 20:03:17.673000,36.98
-15487522,Md Boktiar Mahbub Murad,2026-10-10 19:30:23.656000,36.89
+15487522,Md Boktiar Mahbub Murad,2026-10-11 07:39:47.356000,36.89
 15513620,AI_hwlee,2026-10-09 04:33:03.996000,36.54
-16081764,YUTO KOJIMA,2026-10-11 00:04:42.196000,36.14
-17017088,Andrew Reed,2026-10-11 01:31:47.963000,36.14
+16782490,Team Alicia,2026-10-11 04:45:14.923000,36.49
 ```
 
 ## Our submissions
 ```
 ref,fileName,date,description,status,publicScore,privateScore
-57075036,submission.parquet,2026-10-11 13:15:18.633000,novelty-explorer baseline 9012b4f531459100e4158d1ca08d6d9523514750,SubmissionStatus.PENDING,,
+57075036,submission.parquet,2026-10-11 13:15:18.633000,novelty-explorer baseline 9012b4f531459100e4158d1ca08d6d9523514750,SubmissionStatus.COMPLETE,0.01,
 ```
 
 ## Competition files
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGo762JQlbssxl35Nq73UnG7sFCfHIxtAaigrPGdCTyA_HR5PdslrVkCGlhb5Verd6iIU8Ro-NbKLni20exblUrNNBLrv16TQ8gH4h6z0BkxBxxpKe5Vn1rfiXwfp6mX8Mcs79fCCjq1YaW
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGdKW3vJXY1kX7bo-0CGuDqYJ9BhDnx3JdoLIy6_MO4MOr6hVo3DaHUFGNJDijto8PixA1_AZW48IGu2_5ZxYxDZ_NenV-0FheijDPo-9GgFk-M5B5bQV8AA3WylXSpwjVwjd1m3JAfPC-H
 name                                                         size  creationDate                
 -----------------------------------------------------  ----------  --------------------------  
 ARC-AGI-3-Agents/.env.example                                 599  2026-04-17 20:12:29.398000  
