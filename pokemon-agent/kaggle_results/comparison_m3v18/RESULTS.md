@@ -149,3 +149,28 @@ najlepiej przebadany kandydat na przyszłe modyfikacje).
 
 ## Weryfikacja na skali (GitHub Actions matrix, 13 jobów × 4 rdzenie, PAROWANE v11+v21 w tym samym runie)
 Uruchomione (hybrid-verify); wyniki: kaggle_results/hybrid_verify/. Kryterium: potwierdzenie +Δ w parach na ≥2/3 kluczowych meczupach i brak regresji >2pp na broad/top30.
+
+---
+
+# 21:55 UTC — 3-way matrix (hybrid_verify2): v11 vs v21 vs v22 (v21 + early-gust c87f7a48)
+
+48 200 parowanych gier/agent (13 jobów Actions; pełne logi: kaggle_results/hybrid_verify2/).
+
+| job | v11 | v21 | v22 |
+|---|---|---|---|
+| bill600 | 0.607 | **0.648** | 0.593 |
+| leo600 | 0.735 | 0.767 | **0.798** |
+| mirror30_600 | 0.542 | 0.512 | 0.468 |
+| mirror35_600 | 0.493 | 0.488 | **0.532** |
+| mirror_live300 | **0.522** | 0.499 | 0.499 |
+| stall_yaruki600 | 0.847 | 0.855 | **0.870** |
+| top30_a/b200 | 0.808/0.806 | **0.837/0.827** | 0.834/0.822 |
+| broad q1-q4 | 0.603-0.617 | 0.620-0.629 | 0.615-0.627 |
+| utility300 | 0.909 | **0.921** | 0.913 |
+| **AGREGAT** | 0.6554 | **0.6694 (+1.40pp)** | 0.6680 (+1.26pp) |
+
+**Wnioski:** (1) v21 potwierdzony w drugim niezależnym matrixie (+1.10pp → +1.40pp; ~92k gier łącznie).
+(2) v22 (early gust +25 T0-1 z ich v25 nałożony na v21) = **wymiana, nie dodatek**: leo +3.1pp,
+mirror35W +4.4pp, stall +1.5pp, ALE Bill -5.5pp, mirror30 -4.4pp; agregat -0.14pp vs v21.
+(3) Early-gust nie łączy się addytywnie z trybami v21 (oba atakują wczesne tempo). Ewentualny
+kolejny krok: gust warunkowy (pomiń boost gdy tryb LUCARIO/MIRROR) — do testu.
