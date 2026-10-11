@@ -32,3 +32,7 @@ anyhow = "1.0"
 libloading = "0.8"
 regex = "1.10"
 rand = "0.8"
+
+[[bin]]
+name = "evolve_tempo"
+path = "src/bin/evolve_tempo.rs"

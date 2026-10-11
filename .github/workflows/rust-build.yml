@@ -25,9 +25,9 @@ jobs:
           set -eo pipefail
           cd pokemon-agent/rust
           echo "=== cargo build ===" | tee build.log
-          cargo build --release --bin rust_gauntlet --bin rust_full --bin gauntlet_rust --bin search_deck_rust --bin analyze_playstyle_rust 2>&1 | tee -a build.log
+          cargo build --release --bin rust_gauntlet --bin rust_full --bin gauntlet_rust --bin search_deck_rust --bin analyze_playstyle_rust --bin evolve_tempo 2>&1 | tee -a build.log
           echo "=== ls ===" | tee -a build.log
-          ls -lh target/release/rust_gauntlet target/release/rust_full target/release/gauntlet_rust target/release/search_deck_rust target/release/analyze_playstyle_rust 2>&1 | tee -a build.log
+          ls -lh target/release/rust_gauntlet target/release/rust_full target/release/gauntlet_rust target/release/search_deck_rust target/release/analyze_playstyle_rust target/release/evolve_tempo 2>&1 | tee -a build.log
           ./target/release/rust_gauntlet --help 2>&1 | tee -a build.log
           ./target/release/rust_full --help 2>&1 | tee -a build.log || true
           ./target/release/gauntlet_rust --help 2>&1 | tee -a build.log
@@ -39,6 +39,7 @@ jobs:
           cp target/release/gauntlet_rust bin/gauntlet_rust || true
           cp target/release/search_deck_rust bin/search_deck_rust || true
           cp target/release/analyze_playstyle_rust bin/analyze_playstyle_rust || true
+          cp target/release/evolve_tempo bin/evolve_tempo || true
           chmod +x bin/*
       - name: Commit binaries and logs
         if: always()

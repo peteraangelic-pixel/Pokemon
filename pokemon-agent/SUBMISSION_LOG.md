@@ -683,3 +683,44 @@ observation.
 - Brak lepszych decków/agentów niż u nas — SUBMISSION_LOG kończy się na v13, brak v14/v15
 - Wniosek: nie ma przewagi, nasza gałąź ma nowsze v14 484.1 i v15 gotowe, więc zostajemy na arena/c87f7a48-pokemon
 
+
+## 2026-10-11 22:00 UTC — v12b structural opening fix (first gain after plateau)
+
+**Branch:** arena/c87f7a48-pokemon (this branch) + cross-check arena/8560a56a-pokemon
+
+**Previous best:** v11 (GUST80 WALL360 + H1 Night+Powerglass) + 30_boss4 deck — 0.681 v14 losses 30g, 0.772 top30 20g, 0.619 broad 20g, fitness 0.692 first 22.0
+
+**Problem:** Weight tuning plateau proven by two independent searches:
+- Other branch: 160+ candidates, 4x80 pop 30g, 100g verification base v11 0.711 > gen8_best 0.685 > gen8_tempo 0.704
+- Our branch: gen0 best first 5.0 prize 2.5 win 0.844 fitness 0.829 beats leaders but vs broad 0.519 overfit
+
+**Diagnosis:** v14_diagnosis.md — deck FFI 0.867 vs meta (deck not problem), policy gap 35pp, tempo leaders T6-7 first 2.17 prize_T9 vs ours T8-8.5 1.00. Weak: mirror 35W 0.42-0.59, Lucario 14E 0.75, Ogerpon 0.81. Root cause: leading Kyogre (721) 2-prize liability vs Solrock 676 (blocks damage) + Lucario 678 fast KO T2-4.
+
+**Fix v12b:**
+- File: agents/main_heuristic_v12b.py — based on v11, adds LOW_E_AGGRO_IDS = {676,677,678,119,120,121,96,92,93,150,89,330,345,533,710,1349}
+- In _fighter_score: if opp_active in LOW_E_AGGRO, Kyogre -150, Snover +80. Stall Snover vs aggro, don't give 2 prizes early.
+- No mirror Snover boost (mirror needs Kyogre milling, not stall) — v12 had mirror boost and made mirror worse 9-11 -> 5-15.
+
+**Results FFI (real libcg.so, both seats):**
+- v14_opp_test 30g: 0.681 -> 0.690 (+0.9pp) 143-67 -> 145-65
+- top30_live 20g: 0.772 -> 0.824 (+5.2pp) 355-105 -> 379-80
+- broad_field 20g: 0.619 -> 0.622 (+0.3pp) 483-296 -> 485-295
+- gen8_meta tempo 20g: win 0.713 first 22.0 prize 1.78 fitness 0.692 -> 0.756 first 18.6 prize 1.99 fitness 0.748 (+5.6pp fitness, -3.4 first)
+
+**Rust+Rayon:**
+- Fixed evolve_tempo.rs compile error (Vec<Value> to_string -> serde_json::to_string)
+- Added binary to Cargo.toml + rust-build.yml (now 6 binaries)
+- worker_eval.py exists, uses direct FFI (no kaggle_environments import to avoid buffer full capacity:7 abort)
+- Next run on Actions: pop 150 x5 gens x30g to confirm plateau with 10x compute
+
+**Bundles built:**
+- phase1_tuned_v12b_30_boss4.tar.gz (89 KiB) — NEW BEST, structural fix
+- phase1_tuned_v11_30_boss4.tar.gz (89 KiB) — previous plateau best backup
+
+**Hipoteza:**
+> Po plateau 160+ kandydatów w przestrzeni wag, pierwsza strukturalna zmiana (matchup-specific opening: nie lead Kyogre pod Solrock/Lucario) daje +0.9pp vs v14 killers, +5.2pp vs top30, +5.6pp fitness i szybszy first prize 22.0->18.6. To potwierdza, że dalszy zysk wymaga nowych reguł decyzyjnych, nie tune wag. Mirror 35W nadal słaby 0.25-0.40 (30W vs 35W inherent disadvantage: Hammer-lanche 100 per Water, Riptide 20 per Water discard). Następne kroki: gust timing T0-1 + retrieval counter Hammer (Dragapult/Lucario mają Hammer discarding our energy), szybsze mielenie w mirror (boost ATTACH, Kyogre shuffle logic).
+
+**Upload order:**
+1. v12b_30_boss4 as #1 (new best structural)
+2. v11_30_boss4 as #2 backup (plateau best, 0.711 100g core in other branch)
+
