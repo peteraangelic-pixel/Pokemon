@@ -92,12 +92,14 @@ jobs:
         run: |
           cd pokemon-agent
           chmod +x rust/bin/gauntlet_rust 2>/dev/null || true
+          # Runner has no .venv — point the binary at the pip-installed libcg.so.
+          LIB=$(python -c "import sysconfig,pathlib;print(pathlib.Path(sysconfig.get_paths()['purelib'])/'kaggle_environments/envs/cabt/cg/libcg.so')")
           d="${eval_decks%%,*}"
           {
             echo
-            echo "## Rust cross-check (gen6 port, deck=$d)"
+            echo "## Rust cross-check (gen6 port, deck=$d, lib=$LIB)"
             echo '```'
-            rust/bin/gauntlet_rust --our-deck "decks/$d.csv" --live-dir decks/top30_live --games "$eval_games" 2>&1 | tail -3 || echo "rust gauntlet failed"
+            rust/bin/gauntlet_rust --our-deck "decks/$d.csv" --live-dir decks/top30_live --games "$eval_games" --lib-path "$LIB" 2>&1 | tail -30 || echo "rust gauntlet failed"
             echo '```'
           } >> kaggle_results/eval_report.md
 
