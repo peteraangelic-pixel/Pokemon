@@ -368,7 +368,7 @@ fn main() -> Result<()> {
         history.push(json!({"gen": g, "top": top}));
 
         if best.as_ref().map_or(true, |(_, _, bf, _)| sorted[0].3 > *bf) {
-            let (cfg, res, fit, wwr) = sorted.remove(0);
+            let (_, cfg, res, fit, wwr) = sorted.remove(0);
             best = Some((cfg, res, fit, wwr));
         }
 
