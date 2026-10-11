@@ -106,9 +106,22 @@ jobs:
           $KG kernels list --mine --csv 2>&1 | head -8 | tee klist.csv || true
           python3 - <<'PY' > version.txt
           import re, pathlib
-          txt = pathlib.Path('kstatus.txt').read_text(errors='replace')
-          m = re.search(r'version\D{0,20}?(\d+)', txt, re.I)
-          print(m.group(1) if m else '')
+          # push log says: "Kernel version 4 successfully pushed."
+          pats = [r'version\s+(\d+)\s+successfully', r'version\D{0,20}?(\d+)']
+          found = ''
+          for name in ('submit.log', 'kstatus.txt', 'klist.csv'):
+              pth = pathlib.Path(name)
+              if not pth.exists():
+                  continue
+              txt = pth.read_text(errors='replace')
+              for pat in pats:
+                  m = re.search(pat, txt, re.I)
+                  if m:
+                      found = m.group(1)
+                      break
+              if found:
+                  break
+          print(found)
           PY
           echo "parsed_version=$(tr -d '[:space:]' < version.txt)"
 
@@ -183,6 +196,9 @@ jobs:
           cp competition-submit.log "runs/comp-submit-$TS.log" 2>/dev/null || true
           cp submissions.csv      "runs/comp-submissions-$TS.csv" 2>/dev/null || true
           cp submission-limits.txt "runs/comp-limits-before-$TS.txt" 2>/dev/null || true
+          cp kstatus.txt          "runs/comp-kstatus-$TS.txt" 2>/dev/null || true
+          cp klist.csv            "runs/comp-klist-$TS.csv" 2>/dev/null || true
+          cp version.txt          "runs/comp-version-$TS.txt" 2>/dev/null || true
           cp submission-limits-after.txt "runs/comp-limits-after-$TS.txt" 2>/dev/null || true
           git add runs || true
           if [ -n "$(git status --porcelain runs)" ]; then
