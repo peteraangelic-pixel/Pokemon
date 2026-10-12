@@ -1,0 +1,3 @@
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r005-output/out_dfranzen__arc-agi-3-milestone-2-solution/benchmark.json
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r005-output/out_dfranzen__arc-agi-3-milestone-2-solution/summary.txt
+Kernel log downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r005-output/out_dfranzen__arc-agi-3-milestone-2-solution/arc-agi-3-milestone-2-solution.log

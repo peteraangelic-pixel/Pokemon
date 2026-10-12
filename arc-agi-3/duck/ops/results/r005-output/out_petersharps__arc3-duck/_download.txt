@@ -1,0 +1,3 @@
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r005-output/out_petersharps__arc3-duck/benchmark.json
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r005-output/out_petersharps__arc3-duck/summary.txt
+Kernel log downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r005-output/out_petersharps__arc3-duck/arc3-duck.log

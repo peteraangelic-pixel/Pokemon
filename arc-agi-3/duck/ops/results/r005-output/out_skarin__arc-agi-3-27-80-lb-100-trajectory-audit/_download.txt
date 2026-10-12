@@ -1,0 +1,1 @@
+Kernel log downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r005-output/out_skarin__arc-agi-3-27-80-lb-100-trajectory-audit/arc-agi-3-27-80-lb-100-trajectory-audit.log

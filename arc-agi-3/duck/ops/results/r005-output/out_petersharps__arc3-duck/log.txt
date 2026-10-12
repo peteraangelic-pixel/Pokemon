@@ -1,0 +1,235 @@
+[     4.6s]E 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+[     4.6s]E 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+[     4.6s]E 0.00s - to python to disable frozen modules.
+[     4.6s]E 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[     4.9s]E 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+[     4.9s]E 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+[     4.9s]E 0.00s - to python to disable frozen modules.
+[     4.9s]E 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[     5.6s]  ARC3_VARIANT {"env": {}, "git": "3926c08cc2c7", "name": "v1-franzen-repro", "patch_files": [], "patches": [], "smoke": {"games": ["ft09", "ls20"], "minutes": 8}}
+[     5.6s]  ARC3_PREFLIGHT gpu: NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB
+[     5.6s]  ARC3_PREFLIGHT rerun: False
+[     5.6s]  ARC3_PREFLIGHT_OK
+[     5.8s]  Writing /kaggle/harness-changes.patch
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[     6.6s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[     6.6s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[     6.6s]  harness patch applied successfully
+[     6.6s]  taaf.kaggle: TRUE_SUBMISSION=False
+[     6.6s]  ARC3 variant env: {}
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[     6.6s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[     6.6s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[     6.6s]E 
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[     6.6s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[     6.6s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[     6.7s]  Precaching: Started...
+[    15.9s]  Precaching: loaded 211 files (6.70 GB) in 9.26 seconds.
+[    15.9s]  
+[    17.9s]  taaf.kaggle: wrote /usr/local/lib/python3.12/dist-packages/taaf_kaggle_sources.pth (3 source roots)
+[    18.1s]  === installing Pennyroyal (offline) ===
+[    18.1s]  $ /tmp/sgl-intel/bin/uv venv --python /usr/bin/python3 /tmp/sgl-intel/venv
+[    18.3s]  $ /tmp/sgl-intel/bin/uv pip install --python /tmp/sgl-intel/venv/bin/python --no-index --find-links /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels -r /kaggle/input/datasets/dfranzen/pennyroyal-v253/requirements.lock
+[    25.9s]  $ /tmp/sgl-intel/bin/uv pip install --python /tmp/sgl-intel/venv/bin/python --no-index --find-links /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels --reinstall --no-deps /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels/sglang-0.5.19+gd00d88efc8d6-cp312-cp312-linux_x86_64.whl
+[    46.6s]  $ /tmp/sgl-intel/venv/lib/python3.12/site-packages/nvidia/cu13/bin/nvcc --version
+[    46.6s]  nvcc: NVIDIA (R) Cuda compiler driver
+[    46.6s]  Copyright (c) 2005-2025 NVIDIA Corporation
+[    46.6s]  Built on Wed_Aug_20_01:58:59_PM_PDT_2025
+[    46.6s]  Cuda compilation tools, release 13.0, V13.0.88
+[    46.6s]  Build cuda_13.0.r13.0/compiler.36424714_0
+[    46.6s]  Host compiler: g++-11
+[    46.6s]  $ /tmp/sgl-intel/venv/bin/python -c 'import pathlib, sglang, torch
+[    46.6s]  print("sglang", sglang.__version__, "| torch", torch.__version__)
+[    46.6s]  assert torch.cuda.is_available(), "CUDA unavailable"
+[    46.6s]  print("GPU:", torch.cuda.get_device_name(0), "capability:", torch.cuda.get_device_capability(0))
+[    46.6s]  '
+[    54.7s]  sglang 0.5.19+gd00d88efc8d6 | torch 2.13.0+cu130
+[    54.7s]  GPU: NVIDIA RTX PRO 6000 Blackwell Server Edition capability: (12, 0)
+[    54.9s]  Target: /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1 | shards: 38 | PLE dtype: checkpoint default (typically BF16)
+[    54.9s]  Draft source: /kaggle/input/models/dfranzen/albucino-qwen3-8-flash-next-drafter/transformers/default/1
+[    54.9s]  SGLang draft view: /tmp/sgl-intel/draft-view-746747f37bf36968 (2 linked weight shards)
+[    54.9s]  
+[    54.9s]  /tmp/sgl-intel/venv/bin/sglang serve --model-path /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1 --load-format safetensors --model-loader-extra-config '{"enable_multithread_load":false}' --served-model-name flashnext --host 127.0.0.1 --port 8001 --tensor-parallel-size 1 --dtype bfloat16 --quantization auto-round --kv-cache-dtype fp8_e4m3 --mem-fraction-static 0.96 --context-length 139264 --page-size 64 --max-running-requests 10 --chunked-prefill-size 8192 --max-prefill-tokens 16384 --cuda-graph-max-bs-decode 10 --cuda-graph-bs-decode 1 2 4 7 8 9 10 --mamba-ssm-dtype bfloat16 --max-mamba-cache-size 60 --mamba-radix-cache-strategy extra_buffer --mamba-track-interval 64 --mamba-backend flashinfer --linear-attn-decode-backend flashinfer --linear-attn-prefill-backend flashinfer --moe-runner-backend auto --ple-offload-embedding --trust-remote-code --mm-feature-transport cpu --image-processor-backend pil --reasoning-parser qwen3 --tool-call-parser qwen3_coder --default-chat-template-kwargs '{"preserve_thinking":true}' --watchdog-timeout 1800 --schedule-policy lpm --warmups structured_output --enable-cache-report --enable-metrics --enable-request-time-stats-logging --weight-loader-prefetch-checkpoints --weight-loader-drop-cache-after-load --chat-template /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1/chat_template.jinja --gdn-mtp-cache-mode none --speculative-algorithm NEXTN --speculative-num-steps 3 --speculative-eagle-topk 1 --speculative-num-draft-tokens 4 --speculative-draft-model-path /tmp/sgl-intel/draft-view-746747f37bf36968 --speculative-draft-model-quantization compressed-tensors --speculative-moe-runner-backend auto --speculative-draft-kv-cache-dtype fp8_e4m3 --speculative-accept-threshold-single 1.0 --speculative-accept-threshold-acc 1.0 --speculative-token-map /kaggle/input/datasets/dfranzen/pennyroyal-v253/hot_tokens_64k.pt
+[    54.9s]  
+[    54.9s]  pid 506 -> /kaggle/working/serve.log
+[    54.9s]    0s ...
+[    84.9s]    30s ...
+[   114.9s]  Precaching: Started...
+[   114.9s]    60s ...
+[   144.9s]    90s ...
+[   174.9s]    120s ...
+[   204.9s]    150s ...
+[   234.9s]    180s ...
+[   264.9s]    210s ...
+[   294.9s]    240s ...
+[   324.9s]    270s ...
+[   354.9s]    300s ...
+[   385.0s]    330s ...
+[   414.9s]    360s ...
+[   428.7s]  Precaching: loaded 62 files (185.40 GB) in 313.60 seconds.
+[   428.7s]  
+[   445.0s]    390s ...
+[   475.0s]    420s ...
+[   505.0s]    450s ...
+[   535.0s]    480s ...
+[   565.0s]    510s ...
+[   595.0s]    540s ...
+[   611.0s]  
+[   611.0s]  READY after 556s -> http://127.0.0.1:8001/v1
+[   613.0s]  ARC3 smoke: games=['ft09', 'ls20'] minutes=8
+[   613.0s]  benchmark.solver: HarnessSolver(label='duck-harness', runtime_environment=None, job_dir=None, soft_end_time=None, minimal_diagnostics=False, model='local', analyzer_timeout=900.0, max_actions_per_game=None, max_runtime_s_per_game=480, max_generated_tokens_per_game=None, concurrency=2, save_request_logs=True, start_local_server=False, local_server_config='', local_server_api_key_file='', local_server_repo_dir='/Users/jeroencottaar/code/ARC3-Inference', local_server_port=None, local_server_tensor_parallel_size=None, local_server_count=1, cancel_drain_timeout_s=120.0)
+[   613.0s]  [sys] RAM 106.3/176.9 | swap none | proc 0.3 GB, 60 threads, 64 fds | GPU0 91.1/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   613.0s]  [sys] RAM 106.3/176.9 | swap none | proc 0.3 GB, 60 threads, 64 fds | GPU0 91.1/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   613.2s]  Starting benchmark...
+[   613.4s]  ARC3 offline games: ['ls20-9607627b', 'ft09-0d8bbf25']
+[   613.6s]E priority gate active: 10 concurrent streams
+[   613.6s]E 
+[   613.6s]E priority gate active: 10 concurrent streams
+[   613.6s]E ft09-0d8bbf25: warmup RESET issued before the analyzer is reachable
+[   613.6s]E 
+[   613.6s]E ft09-0d8bbf25: warmup RESET issued before the analyzer is reachable
+[   733.1s]  [sys] RAM 106.3/176.9 | swap none | proc 0.3 GB, 62 threads, 67 fds | GPU0 92.5/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   853.1s]  [sys] RAM 106.7/176.9 | swap none | proc 0.3 GB, 62 threads, 67 fds | GPU0 92.5/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   973.1s]  [sys] RAM 107.1/176.9 | swap none | proc 0.3 GB, 62 threads, 67 fds | GPU0 93.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1093.1s]  [sys] RAM 106.8/176.9 | swap none | proc 0.3 GB, 62 threads, 67 fds | GPU0 93.2/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.1/19.5
+[  1093.7s]E analyzer request timed out at action 43; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=50.04746176699996)
+[  1093.7s]E 
+[  1093.7s]E analyzer request timed out at action 43; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=50.04746176699996)
+[  1093.7s]E analyzer request timed out at action 74; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=59.730980671)
+[  1093.7s]E 
+[  1093.7s]E analyzer request timed out at action 74; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=59.730980671)
+[  1093.9s]  [finished] ls20-9607627b state=gave_up level=1/7 score=2.06 actions=42 tokens=44053 per-level=29/22,13/123,0/73,0/84,0/96,0/192,0/186 note="tokens=53934"
+[  1093.9s]  [finished] ft09-0d8bbf25 state=gave_up level=4/6 score=47.62 actions=73 tokens=53893 per-level=7/43,7/12,14/23,24/28,21/65,0/37 note="tokens=53893"
+[  1095.1s]  benchmark: regenerated diagnostics in /kaggle/working in 1.10s
+[  1095.1s]  benchmark: duck-harness-kaggle
+[  1095.1s]  solver:    duck-harness
+[  1095.1s]  games:     2
+[  1095.1s]  passes:    1
+[  1095.1s]  runs:      2 (won: 0)
+[  1095.1s]  started:   2026-10-12 14:39:44
+[  1095.1s]  ended:     2026-10-12 14:47:44
+[  1095.1s]  duration:  8m 0s
+[  1095.1s]  mean score:    24.84
+[  1095.1s]  median score:  24.84
+[  1095.1s]  total actions: 115
+[  1095.1s]  total tokens:  97946
+[  1095.1s]  generated tokens/sec: 203.93 (job wallclock)
+[  1095.1s]  total wallclock: 960.2s
+[  1095.1s]  
+[  1095.1s]  per-game (mean across passes):
+[  1095.1s]    ft09-0d8bbf25: score=47.62, levels=4.0/6, actions=73, tokens=53893
+[  1095.1s]    ls20-9607627b: score=2.06, levels=1.0/7, actions=42, tokens=44053
+[  1095.1s]  
+[  1095.1s]  diagnostics: /kaggle/working/diagnostics.html
+[  1095.8s]E /usr/local/lib/python3.12/dist-packages/IPython/core/display.py:724: UserWarning: Consider using IPython.display.IFrame instead
+[  1095.8s]E   warnings.warn("Consider using IPython.display.IFrame instead")
+[  1095.8s]E 
+[  1095.8s]E /usr/local/lib/python3.12/dist-packages/IPython/core/display.py:724: UserWarning: Consider using IPython.display.IFrame instead
+[  1095.8s]E   warnings.warn("Consider using IPython.display.IFrame instead")
+[  1095.9s]  ARC3 smoke results:
+[  1095.9s]    ls20-9607627b            state=gave_up    levels=1/7 actions=42 non_reset=42 gen_tokens=44053 score=2.06
+[  1095.9s]    ft09-0d8bbf25            state=gave_up    levels=4/6 actions=73 non_reset=72 gen_tokens=53893 score=47.62
+[  1095.9s]  ARC3 smoke: games=2 gen_tokens=97946 non_reset_actions=114 crashed=[]
+[  1095.9s]  ARC3_SMOKE_OK
+[  1097.8s]E /usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+[  1097.8s]E   cells[i][c] = re.sub('\\\\\|', '|', cell)
+[  1097.9s]E /usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+[  1097.9s]E   text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[  1098.3s]E [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[  1098.5s]E [NbConvertApp] Writing 1281314 bytes to __notebook__.ipynb
+[  1099.7s]E [NbConvertApp] Converting notebook __notebook__.ipynb to html
+[  1100.7s]E [NbConvertApp] Writing 2886308 bytes to __results__.html

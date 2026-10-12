@@ -1,0 +1,18 @@
+benchmark: duck-harness-kaggle
+solver:    duck-harness
+games:     2
+passes:    1
+runs:      2 (won: 0)
+started:   2026-10-12 14:39:44
+ended:     2026-10-12 14:47:44
+duration:  8m 0s
+mean score:    24.84
+median score:  24.84
+total actions: 115
+total tokens:  97946
+generated tokens/sec: 203.93 (job wallclock)
+total wallclock: 960.2s
+
+per-game (mean across passes):
+  ft09-0d8bbf25: score=47.62, levels=4.0/6, actions=73, tokens=53893
+  ls20-9607627b: score=2.06, levels=1.0/7, actions=42, tokens=44053
