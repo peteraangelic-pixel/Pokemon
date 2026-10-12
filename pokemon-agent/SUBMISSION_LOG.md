@@ -994,3 +994,16 @@ Pule: meta1012(69), water(27), top30(72), broad(56) z naszą polityką + **thick
 **Werdykt:** (1) dźwignia deckowa potwierdzona trzeci raz, teraz w faktoryzacji i przeciw thickbotowi; (2) **v24 nie wchodzi**: lokalnie neutralno-ujemny także vs thickbot (−1.74pp, n.s.), czyli hipoteza "wartość tylko-live" nie ma nawet lokalnego poparcia — zostaje jako OTWARTA (test może dać tylko live WR z replayów; ich własny forensics to przyznaje); (3) kandydat do submitu pozostaje **bundles/ptcg_v22b_35w.tar.gz** (smoke ✓ loader ✓ meta 0.659 ✓).
 
 **Next (kolejka):** port LOW_E_AGGRO (v12b opening fix) do v22b — c87f7a48 wskazał brak (4/11 nocnych przegranych = Lucario); specyficzność skanów STALL/LUCARIO (Fezandipiti false-positive); v25 threat-aware retreat (8560a56a).
+
+### 2026-10-12 09:25 UTC — v22c (ŻYWY LOW_E_AGGRO) neutralny; our-replays automat przyjęty: v21 0.450 / v22b 0.474 live (158 epizodów); c87f7a48 v21b fix = martwy kod
+
+**1. v21b z c87f7a48 zawierał DEAD CODE:** hak LOW_E_AGGRO robił `score -= 150` PRZED istnieniem `score` (UnboundLocalError połykany przez except) i w `_score_damage_target` PRZED `score = 0` (nadpisanie). Naprawiony port = `agents/main_heuristic_v22c.py` (deterministyczny skrypt, asercje, liveness ✓).
+
+**2. Faktoryzacja #2 (54 800 gier, 5 pul, matrix-verify):** A v22b+30 0.6010 | B v22b+35 **0.6245** (+2.35pp z=4.1) | C v22c+30 0.5976 (−0.34 n.s.) | D v22c+35 0.6236 (vs B −0.13 n.s.). Efekt talii stabilny (+2.35/+2.59); **efekt v22c ≈ 0** (−0.09…−0.34 n.s.); jedyny sygnał+: thick_mirrors D 0.5700 vs B 0.5496 (+2.0pp, z≈2.5). **v22c ODŁOŻONY** (plik w repo, nie w bundlu); kandydat bez zmian: **ptcg_v22b_35w**.
+
+**3. Nasza gałąź przyjęła tooling 8560a56a** (fetch_replays top-k 80 + summarize_episodes + kaggle_our_replays.yml; naprawiony commit-back push-retry — pierwotny wyścigł się z równoległymi bot-commitami matrixa). Pierwszy automatyczny digest:
+- **v21: 80 epizodów 36W-44L = 0.450** (mirror KYOGRE 0.63!, LUCARIO 0.42, MEOWTH+FEZANDIP 0.25, "?" 0.31)
+- **v22b: 78 epizodów 37W-41L = 0.474** (mirror 0.48, LUCARIO 0.33, "?" 0.43, MEOWTH+FEZANDIP 0.60)
+- Wnioski: obie aktywne <50%; mirror v21 wyraźnie żywy; **nowa dziura archetypowa MEOWTH+FEZANDIP (v21 3-9)**; LUCARIO potwierdzona u obu.
+
+**4. Postęp c87f7a48:** zaimportował nasze 35W-noBoss+meta1012+ab_decks (konwergencja gałęzi ✓), ma v11f-484-baseline i v21b bundlowane; ich post-mortem: rollback do v11f (ODRADZAM — μ-szum ±110; live WR mówi v21/v22b > era v11: 0.45-0.47 vs 0.36) + port LOW_E_AGGRO (u nich martwy, u nas żywy-neutralny) + odświeżenie pul.
