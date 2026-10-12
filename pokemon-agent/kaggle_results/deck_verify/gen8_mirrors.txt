@@ -1,0 +1,5 @@
+pool decks/gen8_meta/Mirror_30W.csv (1 decks)
+  A 295W-305L-0D (0.492) | B 324W-276L-0D (0.540) | B-A +4.83pp (z=+1.68)
+pool decks/gen8_meta/Mirror_35W.csv (1 decks)
+  A 312W-288L-0D (0.520) | B 308W-292L-0D (0.513) | B-A -0.67pp (z=-0.23)
+TOTAL A 607W-593L-0D (0.5058) | B 632W-568L-0D (0.5267) | B-A +2.08pp (z=+1.02)
