@@ -89,6 +89,8 @@ def main():
     ap.add_argument("--agent-b", required=True)
     ap.add_argument("--our-deck", required=True)
     ap.add_argument("--pools", required=True, help="comma list; each item is a deck .csv or a dir of .csv")
+    ap.add_argument("--agent-opp", default=None,
+                    help="agent file for the OPPONENT seat (default: agent-a's file)")
     ap.add_argument("--blocks", type=int, default=7, help="blocks per pool per agent")
     ap.add_argument("--block-games", type=int, default=100)
     args = ap.parse_args()
@@ -96,25 +98,27 @@ def main():
     our_deck = G.load_deck(args.our_deck)
     a = load(args.agent_a, our_deck, "a")
     b = load(args.agent_b, our_deck, "b")
-    # NOTE: opponent side always uses agent A's policy for BOTH pools' opponents.
-    # (Policy-delta measurement: opponent is a fixed reference policy; if you
-    # want the strict "same policy, deck-only delta" semantics, pass the same
-    # file for --agent-a and --agent-b and vary --our-deck instead.)
+    # NOTE: opponent side uses --agent-opp (default: agent A's policy) for
+    # BOTH pools' opponents.  A fixed reference opponent keeps the A/B
+    # comparison clean; pass agents/opp_thickbot.py to measure against a
+    # board-developing surrogate of the live field (2026-10-12 forensics:
+    # self-play hides the thin-board defect because both sides share it).
 
     totals = {"A": [0, 0, 0], "B": [0, 0, 0]}
     for pool in [p for p in args.pools.split(",") if p.strip()]:
         pool = pool.strip()
         if os.path.isdir(pool):
-            decks = sorted(p for p in glob.glob(os.path.join(pool, "*.csv")) if not os.path.basename(p).startswith("_"))
+            decks = sorted(glob.glob(os.path.join(pool, "*.csv")))
         else:
             decks = [pool]
         if not decks:
             continue
         pa = [0, 0, 0]
         pb = [0, 0, 0]
-        print(f"pool {pool} ({len(decks)} decks)")
+        opp_file = args.agent_opp or args.agent_a
+        print(f"pool {pool} ({len(decks)} decks) opp={opp_file}")
         for f in decks:
-            opp_agent = load(args.agent_a, G.load_deck(f), "opp")
+            opp_agent = load(opp_file, G.load_deck(f), "opp")
             for i in range(args.blocks):
                 ra = run_block(a, opp_agent, our_deck, G.load_deck(f), args.block_games)
                 rb = run_block(b, opp_agent, our_deck, G.load_deck(f), args.block_games)
