@@ -67,12 +67,42 @@ print("ARC runtime installed")
 # Check bitsandbytes
 try:
     import bitsandbytes
-    print(f"bitsandbytes: {bitsandbytes.__version__}")
+    print(f"bitsandbytes already installed: {bitsandbytes.__version__}")
 except ImportError:
-    print("Installing bitsandbytes...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "bitsandbytes", "--quiet"])
-    import bitsandbytes
-    print(f"bitsandbytes installed: {bitsandbytes.__version__}")'''))
+    print("bitsandbytes not found, installing from dataset...")
+    # Find bitsandbytes dataset
+    bnb_path = None
+    for p in Path("/kaggle/input").iterdir():
+        if "bitsandbytes" in p.name.lower():
+            bnb_path = p
+            print(f"Found bitsandbytes at: {bnb_path}")
+            break
+    
+    if bnb_path and bnb_path.exists():
+        # Install from local wheel files
+        wheels = list(bnb_path.glob("*.whl"))
+        if wheels:
+            print(f"Installing from {len(wheels)} wheel(s)...")
+            subprocess.check_call([
+                sys.executable, "-m", "pip", "install",
+                "--no-index", "--no-deps",
+                *[str(w) for w in wheels],
+                "--quiet"
+            ])
+            import bitsandbytes
+            print(f"bitsandbytes installed: {bitsandbytes.__version__}")
+        else:
+            # Try pip install --find-links
+            subprocess.check_call([
+                sys.executable, "-m", "pip", "install",
+                "--no-index", "--find-links", str(bnb_path),
+                "bitsandbytes", "--quiet"
+            ])
+            import bitsandbytes
+            print(f"bitsandbytes installed: {bitsandbytes.__version__}")
+    else:
+        print("ERROR: bitsandbytes dataset not found!")
+        raise RuntimeError("bitsandbytes not available")'''))
 
     # Cell 3: Find model
     cells.append(make_cell('''# Find model path

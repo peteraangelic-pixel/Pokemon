@@ -1,0 +1,146 @@
+name: Check Model Mount Path
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.check-model.trigger"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Create test notebook
+        run: |
+          mkdir -p test-notebook
+          cat > test-notebook/kernel-metadata.json << 'META'
+          {
+            "id": "petersharps/test-model-mount",
+            "title": "Test Model Mount Path",
+            "code_file": "submission.ipynb",
+            "language": "python",
+            "kernel_type": "notebook",
+            "is_private": true,
+            "enable_gpu": true,
+            "enable_tpu": false,
+            "enable_internet": false,
+            "keywords": [],
+            "dataset_sources": [],
+            "kernel_sources": [],
+            "competition_sources": [],
+            "model_sources": [
+              "dfranzen/intel-qwen3.8-flash-next-w4a16-autoround"
+            ]
+          }
+          META
+          
+          cat > test-notebook/submission.ipynb << 'NB'
+          {
+            "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}},
+            "nbformat": 4,
+            "nbformat_minor": 4,
+            "cells": [
+              {
+                "cell_type": "code",
+                "source": [
+                  "import os\n",
+                  "import subprocess\n",
+                  "\n",
+                  "print('=== GPU ===')\n",
+                  "subprocess.run(['nvidia-smi', '--query-gpu=name,memory.total,memory.free', '--format=csv,noheader'])\n",
+                  "\n",
+                  "print('\\n=== /kaggle/input contents ===')\n",
+                  "for root, dirs, files in os.walk('/kaggle/input'):\n",
+                  "    level = root.replace('/kaggle/input', '').count(os.sep)\n",
+                  "    indent = ' ' * 2 * level\n",
+                  "    print(f'{indent}{os.path.basename(root)}/')\n",
+                  "    if level < 3:\n",
+                  "        subindent = ' ' * 2 * (level + 1)\n",
+                  "        for file in files[:20]:\n",
+                  "            fpath = os.path.join(root, file)\n",
+                  "            size = os.path.getsize(fpath) if os.path.isfile(fpath) else 0\n",
+                  "            print(f'{subindent}{file} ({size/1e6:.1f}MB)')\n",
+                  "        if len(files) > 20:\n",
+                  "            print(f'{subindent}... and {len(files)-20} more files')\n",
+                  "\n",
+                  "print('\\n=== Looking for model files ===')\n",
+                  "for p in ['/kaggle/input', '/kaggle/usr/lib']:\n",
+                  "    if os.path.exists(p):\n",
+                  "        for item in sorted(os.listdir(p)):\n",
+                  "            full = os.path.join(p, item)\n",
+                  "            if os.path.isdir(full):\n",
+                  "                size = sum(os.path.getsize(os.path.join(dp, f)) for dp, dn, fn in os.walk(full) for f in fn)\n",
+                  "                print(f'  {item}/ ({size/1e9:.1f}GB)')\n",
+                  "                for f in sorted(os.listdir(full))[:10]:\n",
+                  "                    fp = os.path.join(full, f)\n",
+                  "                    sz = os.path.getsize(fp) if os.path.isfile(fp) else 0\n",
+                  "                    print(f'    {f} ({sz/1e6:.1f}MB)')\n",
+                  "\n",
+                  "print('\\n=== Check for config.json ===')\n",
+                  "for root, dirs, files in os.walk('/kaggle/input'):\n",
+                  "    for f in files:\n",
+                  "        if f in ('config.json', 'tokenizer_config.json', 'tokenizer.json', 'config.json'):\n",
+                  "            print(f'  {os.path.join(root, f)}')\n",
+                  "        if f.endswith('.safetensors') or f.endswith('.bin'):\n",
+                  "            fp = os.path.join(root, f)\n",
+                  "            print(f'  MODEL: {fp} ({os.path.getsize(fp)/1e9:.2f}GB)')\n",
+                  "\n",
+                  "print('\\n=== Check /kaggle/model ===')\n",
+                  "for p in ['/kaggle/model', '/kaggle/models']:\n",
+                  "    if os.path.exists(p):\n",
+                  "        print(f'{p} exists!')\n",
+                  "        for f in sorted(os.listdir(p)):\n",
+                  "            print(f'  {f}')\n"
+                ],
+                "metadata": {"trusted": true},
+                "outputs": [],
+                "execution_count": null
+              }
+            ]
+          }
+          NB
+          
+          cd test-notebook
+          # Fix notebook JSON (remove leading spaces from source lines)
+          python3 << 'PY'
+          import json
+          with open('submission.ipynb') as f:
+              content = f.read()
+          # Remove leading spaces from each line in source
+          lines = content.split('\n')
+          fixed = []
+          for line in lines:
+              if line.startswith('          '):
+                  fixed.append(line[10:])
+              else:
+                  fixed.append(line)
+          with open('submission.ipynb', 'w') as f:
+              f.write('\n'.join(fixed))
+          # Verify valid JSON
+          nb = json.load(open('submission.ipynb'))
+          print(f"Valid notebook with {len(nb['cells'])} cells")
+          PY
+          
+          KG="env KAGGLE_API_TOKEN=$(cat ../.kaggle/access_token) kaggle"
+          $KG kernels push -p . 2>&1
+          echo "KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")"
