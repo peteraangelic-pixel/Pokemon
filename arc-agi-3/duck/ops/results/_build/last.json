@@ -1,14 +1,30 @@
 {
-  "env": {},
-  "git": "3926c08cc2c7",
-  "name": "v1-franzen-repro",
-  "patch_files": [],
-  "patches": [],
+  "env": {
+    "ARC3_EXPERIMENT_HINT": "1",
+    "ARC3_LEVEL_NOTES": "1",
+    "ARC3_STUCK_AUDIT_TOKENS": "60000"
+  },
+  "git": "0f1f21227fa0",
+  "name": "v2-think-less",
+  "patch_files": [
+    "/kaggle/duck-extra-00.patch"
+  ],
+  "patches": [
+    "0001-level-notes-audit-experiment-hint.patch"
+  ],
   "smoke": {
     "games": [
-      "ft09",
-      "ls20"
+      "cn04",
+      "dc22",
+      "g50t",
+      "ka59",
+      "ls20",
+      "m0r0",
+      "s5i5",
+      "sc25",
+      "su15",
+      "tn36"
     ],
-    "minutes": 8
+    "minutes": 48
   }
 }
