@@ -1,12 +1,12 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-12T07:14:18.351595+00:00_
+_fetched 2026-10-12T07:20:27.585005+00:00_
 
 - Own submissions: 15
 - Episodes listed: 153
-- Replays downloaded (our last 30 per live sub): 60
+- Replays downloaded (our last 80 per live sub): 153
 - Official dataset: none found (0 files)
-- Total JSON on disk: 60
+- Total JSON on disk: 153
 
 ## Recent episodes (our agents)
 
@@ -33,23 +33,23 @@ _fetched 2026-10-12T07:14:18.351595+00:00_
 
 ## Sample replay analysis (first 20)
 
+- episode-122308629-replay.json: teams=['MarPez', 'PeterSharps'] winner=MarPez steps=154
+- episode-122308632-replay.json: teams=['CCCC', 'PeterSharps'] winner=CCCC steps=111
 - episode-122456283-replay.json: teams=['PeterSharps', 'Santiago Maniches'] winner=Santiago Maniches steps=127
+- episode-122310571-replay.json: teams=['Eugen LNCanti', 'PeterSharps'] winner=Eugen LNCanti steps=84
+- episode-122335819-replay.json: teams=['vrmichalski', 'PeterSharps'] winner=vrmichalski steps=55
 - episode-122396058-replay.json: teams=['PeterSharps', 'Majiro_ns'] winner=Majiro_ns steps=79
+- episode-122295098-replay.json: teams=['PeterSharps', 'PeterSharps'] winner=PeterSharps steps=99
 - episode-122382461-replay.json: teams=['ant', 'PeterSharps'] winner=ant steps=110
+- episode-122349437-replay.json: teams=['PeterSharps', 'nikepoke'] winner=PeterSharps steps=262
+- episode-122370800-replay.json: teams=['PeterSharps', 'char0n1'] winner=char0n1 steps=114
 - episode-122464102-replay.json: teams=['Hitisha Goyal', 'PeterSharps'] winner=Hitisha Goyal steps=144
+- episode-122331933-replay.json: teams=['鲁尚武 LuShangWu', 'PeterSharps'] winner=PeterSharps steps=238
 - episode-122386346-replay.json: teams=['Navneet Prabhat', 'PeterSharps'] winner=PeterSharps steps=70
+- episode-122295100-replay.json: teams=['PeterSharps', 'PeterSharps'] winner=PeterSharps steps=65
+- episode-122345538-replay.json: teams=['PeterSharps', 'char0n1'] winner=PeterSharps steps=80
+- episode-122366916-replay.json: teams=['PeterSharps', 'Ryan Fernandes'] winner=PeterSharps steps=213
+- episode-122366913-replay.json: teams=['renyxin', 'PeterSharps'] winner=PeterSharps steps=45
 - episode-122429062-replay.json: teams=['Sai Parthasarathy', 'PeterSharps'] winner=PeterSharps steps=72
+- episode-122359140-replay.json: teams=['Elbachir Salik', 'PeterSharps'] winner=PeterSharps steps=150
 - episode-122378584-replay.json: teams=['Pawit Sahare', 'PeterSharps'] winner=PeterSharps steps=78
-- episode-122477686-replay.json: teams=['char0n1', 'PeterSharps'] winner=char0n1 steps=107
-- episode-122452402-replay.json: teams=['PeterSharps', 'eastnix'] winner=PeterSharps steps=84
-- episode-122390212-replay.json: teams=['PeterSharps', 'アライ塾Kaggle支部'] winner=アライ塾Kaggle支部 steps=249
-- episode-122394117-replay.json: teams=['Mitsuaki Inoue', 'PeterSharps'] winner=PeterSharps steps=181
-- episode-122434902-replay.json: teams=['PeterSharps', 'Raiuga'] winner=Raiuga steps=145
-- episode-122384402-replay.json: teams=['the soul hunter', 'PeterSharps'] winner=PeterSharps steps=187
-- episode-122403829-replay.json: teams=['Chonghao Peng', 'PeterSharps'] winner=Chonghao Peng steps=335
-- episode-122388282-replay.json: teams=['Tom Curry11', 'PeterSharps'] winner=PeterSharps steps=72
-- episode-122493226-replay.json: teams=['PeterSharps', 'inego'] winner=PeterSharps steps=239
-- episode-122399944-replay.json: teams=['Eugen LNCanti', 'PeterSharps'] winner=PeterSharps steps=89
-- episode-122378574-replay.json: teams=['Steveneg13', 'PeterSharps'] winner=Steveneg13 steps=71
-- episode-122398004-replay.json: teams=['PeterSharps', 'Mitsuaki Inoue'] winner=Mitsuaki Inoue steps=114
-- episode-122370799-replay.json: teams=['PeterSharps', 'Wei Hsiang Lin111'] winner=PeterSharps steps=226
