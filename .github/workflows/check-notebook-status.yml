@@ -1,0 +1,58 @@
+name: Check Notebook Status
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "test-notebook/.status.trigger"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Check all kernels
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          
+          echo "=== All my kernels ==="
+          $KG kernels list --mine -v 2>&1 | tee kernels.log
+          
+          echo -e "\n=== Specific kernel status ==="
+          $KG kernels status "petersharps/test-model-mount" 2>&1 | tee -a kernels.log
+          
+          echo -e "\n=== Try to get output with verbose ==="
+          mkdir -p /tmp/out
+          $KG kernels output "petersharps/test-model-mount" -p /tmp/out -v 2>&1 | tee -a kernels.log || echo "Exit code: $?"
+          
+          echo -e "\n=== Files in /tmp/out ==="
+          ls -laR /tmp/out/ 2>&1 | tee -a kernels.log || echo "No files"
+      
+      - name: Announce
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os
+          body = open('kernels.log').read() if os.path.exists('kernels.log') else '(no log)'
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Kernel Status::{body[:4500]}")
+          PY
