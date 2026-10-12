@@ -32,25 +32,18 @@ jobs:
       
       - name: Check limits
         run: |
-          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
           COMP="arc-prize-2026-arc-agi-3"
           
           echo "=== Submission limits ==="
-          $KG competitions submission-limits -c "$COMP" 2>&1
+          kaggle competitions submission-limits -c "$COMP" 2>&1 | tee limits.txt
           
           echo -e "\n=== Current submissions ==="
-          $KG competitions submissions -c "$COMP" --csv 2>&1 | head -20
+          kaggle competitions submissions -c "$COMP" --csv 2>&1 | head -20 | tee submissions.txt
       
       - name: Announce
         if: always()
         run: |
-          python3 - <<'PY'
-          import subprocess
-          result = subprocess.run(
-              ["bash", "-c", "KG=\"env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle\"; $KG competitions submission-limits -c arc-prize-2026-arc-agi-3 2>&1"],
-              capture_output=True, text=True, env={"KAGGLE_API_TOKEN": open(".kaggle/access_token").read().strip()}
-          )
-          body = result.stdout + result.stderr
-          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
-          print(f"::notice title=Submission Limits::{body[:2000]}")
-          PY
+          body=$(cat limits.txt submissions.txt 2>/dev/null || echo "no data")
+          body=$(echo "$body" | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
+          echo "::notice title=Submission Limits::$body"
