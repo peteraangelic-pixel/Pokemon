@@ -1,0 +1,72 @@
+name: Find Duck/Franzen Notebooks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.find-duck.trigger"
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Search for Duck/Franzen notebooks
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          echo "=== Search: duck baseline ==="
+          kaggle kernels list -s "duck baseline arc" --csv 2>&1 | head -20 | tee duck-search.txt
+          
+          echo -e "\n=== Search: Tufa Labs ==="
+          kaggle kernels list -s "tufa labs" --csv 2>&1 | head -20 | tee tufa-search.txt
+          
+          echo -e "\n=== Search: Franzen ==="
+          kaggle kernels list -s "franzen arc" --csv 2>&1 | head -20 | tee franzen-search.txt
+          
+          echo -e "\n=== Search: qwen3.6 27b arc ==="
+          kaggle kernels list -s "qwen3.6 27b arc" --csv 2>&1 | head -20 | tee qwen-search.txt
+          
+          echo -e "\n=== Search: arc-agi-3 RTX ==="
+          kaggle kernels list -s "arc-agi-3 RTX" --csv 2>&1 | head -20 | tee rtx-search.txt
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "=== Duck Search ==="
+            cat duck-search.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== Tufa Search ==="
+            cat tufa-search.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== Franzen Search ==="
+            cat franzen-search.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== Qwen Search ==="
+            cat qwen-search.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== RTX Search ==="
+            cat rtx-search.txt 2>/dev/null || echo "(no data)"
+          } > /tmp/search-report.txt
+          
+          python3 - <<'PY'
+          body = open('/tmp/search-report.txt').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Notebook Search::{body[:4500]}")
+          PY
