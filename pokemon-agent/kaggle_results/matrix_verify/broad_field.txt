@@ -1,0 +1,8 @@
+arms: ['A_v22b_30', 'B_v22b_35', 'C_v24_30', 'D_v24_35'] | opp policy: agents/main_heuristic_v22b.py
+pool decks/broad_field (56 decks)
+  A_v22b_30 1425-814-1 (0.636) | B_v22b_35 1427-813-0 (0.637) | C_v24_30 1340-899-1 (0.598) | D_v24_35 1419-820-1 (0.633)
+TOTAL:
+  A_v22b_30: 1425W-814L-1D (0.6362, n=2240)  <- control
+  B_v22b_35: 1427W-813L-0D (0.6371, n=2240)  vs ctrl +0.09pp (z=+0.06)
+  C_v24_30: 1340W-899L-1D (0.5982, n=2240)  vs ctrl -3.79pp (z=-2.61)
+  D_v24_35: 1419W-820L-1D (0.6335, n=2240)  vs ctrl -0.27pp (z=-0.19)
