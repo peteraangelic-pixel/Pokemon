@@ -1,5 +1,5 @@
 {
-  "id": "r003",
-  "op": "topics",
-  "args": {"sort": "top", "show": [744792, 739938, 732854, 742148, 742801, 697944, 705405]}
+  "id": "r004",
+  "op": "push",
+  "args": {"dir": "arc-agi-3/duck/notebook/out", "variant": "v1", "wait_min": 300}
 }

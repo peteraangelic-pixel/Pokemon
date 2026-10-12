@@ -44,7 +44,8 @@ jobs:
         run: |
           OP=$(python3 -c "import json;print(json.load(open('arc-agi-3/duck/ops/request.json'))['op'])")
           if [ "$OP" = "push" ] && [ -f arc-agi-3/duck/notebook/build.py ]; then
-            python3 arc-agi-3/duck/notebook/build.py
+            python3 arc-agi-3/duck/notebook/build.py --request arc-agi-3/duck/ops/request.json
+            mkdir -p arc-agi-3/duck/ops/results/_build && cp arc-agi-3/duck/notebook/out/BUILD_INFO.json arc-agi-3/duck/ops/results/_build/last.json
           fi
 
       - name: Run op

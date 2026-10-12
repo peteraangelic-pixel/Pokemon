@@ -249,6 +249,8 @@ def report_log(ctx: Ctx, kernel: str, args: dict) -> None:
     text = download_output(ctx, kernel)
     marker = args.get("marker", SMOKE_MARKER)
     ctx.say(f"SMOKE_MARKER_PRESENT={marker in text}")
+    arc3 = [ln for ln in text.splitlines() if "ARC3" in ln or "Traceback" in ln or "Error" in ln]
+    ctx.block("ARC3 / error lines", "\n".join(arc3[-60:]), 60)
     key = interesting(text)
     ctx.block("Log (filtered, last 80 lines)", "\n".join(key.splitlines()[-80:]), 80)
 

@@ -1,0 +1,7 @@
+{
+  "name": "v1-franzen-repro",
+  "description": "Faithful reproduction of Franzen's Milestone-2 solution under our account: calibrates our pipeline and the LB noise. No behavioural change in the competition rerun.",
+  "env": {},
+  "patches": [],
+  "smoke": {"games": ["ft09", "ls20"], "minutes": 8}
+}
