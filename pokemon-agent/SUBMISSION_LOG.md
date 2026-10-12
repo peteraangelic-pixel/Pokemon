@@ -928,3 +928,29 @@ Diagnoza remisów (100% step_limit, stan zamrożenia po wypaleniu obu decków) �
 **Bugi w ich ab_interleaved (naprawione u nas):** `pa = pb = [0,0,0]` (aliasing — ramiona zawsze identyczne! ich +5.71pp nie mogło wyjść z tej wersji) + glob łapiący `_manifest.csv`. Po fixach nasz pomiar: **v22b vs v21: stall +5.0pp (remisy 12→6%), m35W +6.0, Bill +3.0, top30/broad neutralnie, zero regresji** (szczegóły w RESULTS.md 22:00). Planner aktywny (decision-diff: zmienia decyzje).
 
 **Krytyka operacyjna nocy:** (1) stara faza-2 (dispatch 21:26) miała snapshot PRZED swapem na v22b → o 00:00 poleci v21; (2) nowy short-path run (38177962144) poleci z v22b; (3) c87f7a48 wystawia v11+30W → **trzy konfiguracje na 00:01:30 (A/B/C na żywej drabince, 3/5 slotów nowego dnia)**; (4) retry v22b dzisiaj (3×) — **400 CreateSubmission** przy świeżych bajtach/czystym message → hipoteza: zamknięte okno submisji 1-2h przed resetem (o 13:25 szło); 400 nic nie kosztuje; porównamy po 00:00.
+
+### 2026-10-12 07:20 UTC — Rozliczenie nocy: co weszło, co aktywne, kto nas bije; wnioski (3 sesje chwały vs twarda tabela)
+
+**Weszło 5 submisji 00:01-00:19 (w nowy dzień):**
+| czas | bundle | μ początkowe | status |
+|---|---|---|---|
+| 00:01:34 | v21_hybrid | **600.0** | WYŁĄCZONY przez kolejne submisje (max-2-ACTIVE) |
+| 00:01:37 | v21_hybrid | 449.9 | WYŁĄCZONY |
+| 00:01:40 | v15_30_boss4_v11 | 407.0 | WYŁĄCZONY |
+| 00:18:24 | v21_hybrid | 385.1 | **AKTYWNY** (sub 57089461) |
+| 00:19:26 | v22b_stall_planner | 407.1 | **AKTYWNY** (sub 57089489) |
+
+Team μ 407.1, rank 254 (wczoraj wieczorem 335.6/269 → +71.5 μ, +15 miejsc). Uwaga procesowa: 00:01-trójka to przespane automaty z obu gałęzi (v21×2 stamtąd); najlepszy egzemplarz (600) padł ofiarą max-2-ACTIVE — **tej nocy kosztowało nas to najlepszą submisję**.
+
+**Live per aktywna submisja (pobrane replaye, małe N!):** v21 4W-6L (0.400), v22b 4W-5L (0.444); stare submisje (v14 era) 27W-48L (0.36) — kontynuacja tonięcia. Samples ~10 gier/sub — to szum, ale kierunkowo: nie ma katastrofy po swapie, i nie ma cudu.
+
+**11 nocnych przegranych aktywnych — archetypy:**
+- **Mega Lucario ex ×4** (Inoue E15; seven/karinkaito/lswuwu E13 + Solrock/Hariyama package) — zgodnie z diagnozą Bill Vlasak z wczoraj; Lucario jest wszędzie i nas kosztuje
+- **Ogerpon TEAL + Dipplin/Hydrapple + Meganium ×3** (tanzaku, Raiuga, Santiago; E13-14) — "coinflip" Ogerpon-28G potwierdzony live, teraz z Meganium
+- **Mirror 29-35W ×3** (Pawit E35, char0n1 E35, Hitisha E29) — przegrywamy race talii 30W vs 33-35W
+- **NOWY: Duraludon/Archaludon ex/Cinderace ×1** (Prashant Rawat E11) — metal dragon accel, do analizy
+
+**Wnioski (odpowiedź na "wciąż kiepsko mimo 3 sesji chwały"):**
+1. **Kalibracyjne μ jest bardzo szumne**: identyczny v21 = 600.0 / 449.9 / 385.1 (spread 215pp na tym samym agencie!). Żadnych wniosków "kto lepszy" z tych liczb; prawdę pokaże dopiero setki gier live lub nasze FFI-matrixy.
+2. **3 sesje zgodziły się co do tego co reguły mogą** (stall +5pp, mirror-guard, planner) — i to weszło. Ale **twarde luki są na poziomie TALII**: mirror 30W vs meta 33-35W (meta-energy: 29W×37, 30W×29, 33W×52, 35W×30 — przeciwnicy grają więcej wody niż my), Lucario prize-race (2×4-prize Mega), Ogerpon coinflip. Agent v22b tego nie naprawi, bo to nie są problemy decyzyjne.
+3. **Wniosek operacyjny:** przy max-2-ACTIVE nie strzelać seriami — jedna submisja, 24h pomiaru, dopiero wtedy decyzja. Kolejny krok kandydat: talia 32-33W przetestowana na świeżym top30_live (105 replayów → decki przeciwników już w repo) + gust-conditional + ewentualnie karta na Lucario.
