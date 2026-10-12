@@ -72,16 +72,18 @@ jobs:
           path: pokemon-agent/kaggle_results/our_replays/
           if-no-files-found: warn
 
-      - name: Commit back (small files only)
+      - name: Commit back (small files only, push-retry vs parallel bot commits)
         if: always()
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
           find pokemon-agent/kaggle_results/our_replays -type f -size +5M -delete || true
-          git add -A pokemon-agent/kaggle_results/our_replays/ || true
-          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/our_replays)" ]; then
-            git commit -m "chore(kaggle): our replays (v21+v22b episodes) [skip ci]"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" >/dev/null 2>&1 || true
+            git add -A pokemon-agent/kaggle_results/our_replays/ || true
+            if git diff --cached --quiet; then echo "nothing to commit"; break; fi
+            git commit -m "chore(kaggle): our replays digest [skip ci]" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then break; fi
+            sleep $((i*10))
+          done
