@@ -277,3 +277,27 @@ Lesson: 31-34W variants tested EARLIER ("noise") were judged against the OLD
 opponent pools, cut draw supporters too aggressively, and predated the v22b
 agent. Deck evaluation must use the CURRENT meta snapshot (re-extract decks
 from fresh replays regularly — decks/meta1012/ pattern) and interleaved A/B.
+## 14. Mirror mechanics + sub-structure (adopted from c87f7a48 mirror_fix_2026_10_11, 2026-10-12)
+
+Exact mechanics (data/attacks.json, verified by c87f7a48): Hammer-lanche (1046,
+2W) discards top 6 of YOUR deck, 100 dmg per Water among them (30W→~300,
+35W→~350); Riptide (1042, 1W) = 20 dmg per W in discard, then shuffles those W
+BACK into the deck (self-refilling); Frost Barrier (1047, 3W) flat 200 + 30
+prevention, NO mill; Swirling Waves (1043, 3W) 130 + discard 2E. Retreat costs:
+Snover 3W, Kyogre 3W, Abomasnow 4W. The mirror is a 2-resource race (HP+deck).
+
+**Mirror sub-structure (stable across their runs):** vs 29W mirrors we WIN the
+damage race (0.57-0.63); vs 35W we LOSE it (0.44-0.56); 30W ≈ 0.50. This
+explains WHY 35W-noBoss works (my deck lever, §13): it converts the losing
+35W matchup toward even WITHOUT cutting tempo supporters — their earlier 34W
+test fixed the race partially but hurt aggro tempo (support cuts). Prediction:
+small giveback possible vs 29W opponents, net positive (confirmed by my
+water_meta pools +2.4/+2.9pp over mixed-W decks).
+
+Diagnosed but NOT adopted (their B/C/D attempts all neutral @100-200g):
+Riptide is under-scored vs Hammer (~212 vs ~282) even at low deck — v11-family
+idles on 0-dmg Riptides (T4 Riptide with 0W in discard). Margin/wd-scaling
+re-scoring variants: no reliable gain → low priority. Their stale open item
+"stall attach planning" is SOLVED by v22b planner (§13/ship log). Still open
+everywhere: per-archetype ATTACKER plan; Banette/stall meta re-check every few
+days (decks refresh); v25 threat-aware retreat (mine, next).
