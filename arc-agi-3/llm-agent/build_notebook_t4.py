@@ -626,8 +626,8 @@ if TRUE_SUBMISSION:
     (framework / ".env").write_text(env_content)
 
     # Set model on agent class
-    sys.path.insert(0, str(target))
-    from llm_agent import LLMAgent as AgentClass
+    sys.path.insert(0, str(framework))
+    from agents.templates.llm_agent import LLMAgent as AgentClass
     AgentClass.set_model(model, tokenizer)
 
     # Wait for gateway
