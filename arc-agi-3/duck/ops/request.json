@@ -1,9 +1,5 @@
 {
-  "id": "r006",
-  "op": "output",
-  "args": {
-    "kernels": ["dfranzen/arc-agi-3-milestone-2-solution"],
-    "pattern": "(bp35|lf52|sk48|wa30|g50t|sp80|ka59|sc25)[^/]*_p0\\.txt$",
-    "keep": "_p0\\.txt$"
-  }
+  "id": "r007",
+  "op": "push",
+  "args": {"dir": "arc-agi-3/duck/notebook/out", "variant": "v2", "wait_min": 200}
 }

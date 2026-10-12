@@ -287,7 +287,12 @@ def build(variant_name: str) -> Path:
             body += "\n"
         target = f"/kaggle/duck-extra-{i:02d}.patch"
         patch_files.append(target)
-        patch_cells.append(code_cell(f"%%writefile {target}\n{body}"))
+        # Written via a JSON string literal (exact bytes, no %%writefile newline quirks).
+        patch_cells.append(code_cell(
+            f"# ARC3 Duck harness patch: patches/{rel}\n"
+            f"from pathlib import Path as _P\n"
+            f"_P({target!r}).write_text({json.dumps(body)})\n"
+            f"print('wrote {target}', len(_P({target!r}).read_text()), 'chars')\n"))
 
     banner = {"name": variant["name"], "git": sha, "env": variant["env"],
               "patches": variant["patches"], "patch_files": patch_files, "smoke": smoke}

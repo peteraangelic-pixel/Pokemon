@@ -294,6 +294,12 @@ def op_push(ctx: Ctx, args: dict) -> None:
     ctx.say(f"STATUS={status} after {int(time.time() - t0)}s")
     if status.upper() in {"COMPLETE", "ERROR"}:
         report_log(ctx, kernel, args)
+        summ = ctx.out / "output" / "summary.txt"
+        if summ.exists():
+            ctx.block("summary.txt", summ.read_text(), 60)
+        bj = ctx.out / "output" / "benchmark.json"
+        if bj.exists():
+            ctx.save("output/table.txt", bench_table(bj))
 
 
 def report_log(ctx: Ctx, kernel: str, args: dict) -> None:

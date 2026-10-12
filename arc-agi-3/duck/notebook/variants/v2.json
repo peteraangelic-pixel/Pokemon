@@ -1,0 +1,7 @@
+{
+  "name": "v2-think-less",
+  "description": "Layer 1 package. (a) ARC3_EXPERIMENT_HINT replaces 'Optimize for as few in-game actions as possible' with guidance that thinking time is the scarce resource and cheap in-game experiments are affordable (Franzen's run: solved levels use 0.64x human actions, 67% of runs end out of budget). (b) ARC3_LEVEL_NOTES: 'LEVEL k NOTES' kept in the system prompt across history drains. (c) ARC3_STUCK_AUDIT_TOKENS=60000: strategy audit every 60k tokens spent on one level. Save run = A/B eval on 10 mid-difficulty demo games for 48 min each (Franzen baseline on the same games: 29.48 mean, 3.25 levels/game).",
+  "env": {"ARC3_EXPERIMENT_HINT": "1", "ARC3_LEVEL_NOTES": "1", "ARC3_STUCK_AUDIT_TOKENS": "60000"},
+  "patches": ["0001-level-notes-audit-experiment-hint.patch"],
+  "smoke": {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 48}
+}
