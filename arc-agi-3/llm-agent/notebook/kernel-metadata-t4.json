@@ -1,5 +1,5 @@
 {
-  "id": "petersharps/arc-agi-3-llm-agent-t4",
+  "id": "petersharps/arc-agi-3-llm-agent-qwen2-5-7b-nf4-for-t4",
   "title": "ARC-AGI-3 LLM Agent (Qwen2.5-7B NF4 for T4)",
   "code_file": "submission-t4.ipynb",
   "language": "python",
@@ -10,7 +10,8 @@
   "enable_internet": false,
   "keywords": [],
   "dataset_sources": [
-    "ragnar123/qwen2-5-7b-instruct"
+    "ragnar123/qwen2-5-7b-instruct",
+    "eeee13/bitsandbytes"
   ],
   "kernel_sources": [],
   "competition_sources": [
