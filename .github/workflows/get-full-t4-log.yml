@@ -2,6 +2,10 @@ name: Get Full T4 Log
 
 on:
   workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.get-full-log.trigger"
 
 jobs:
   get:
