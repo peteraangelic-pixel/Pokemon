@@ -1,0 +1,69 @@
+name: Check T4 Notebook Status
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.check-t4.trigger"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Check T4 notebook status
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          
+          echo "=== All my kernels ==="
+          $KG kernels list --mine -v 2>&1 | tee t4-status.log
+          
+          echo -e "\n=== T4 kernel status ==="
+          # Find the T4 kernel
+          KERNEL_ID="petersharps/arc-agi-3-llm-agent-t4"
+          $KG kernels status "$KERNEL_ID" 2>&1 | tee -a t4-status.log || echo "Kernel not found with this ID"
+          
+          echo -e "\n=== Try to get output ==="
+          mkdir -p /tmp/t4-out
+          $KG kernels output "$KERNEL_ID" -p /tmp/t4-out/ 2>&1 | tee -a t4-status.log || echo "No output yet"
+          
+          echo -e "\n=== Output files ==="
+          find /tmp/t4-out -type f -exec ls -la {} \; 2>&1 | tee -a t4-status.log
+          
+          echo -e "\n=== Log contents ==="
+          for f in /tmp/t4-out/*.log; do
+            if [ -f "$f" ]; then
+              echo "--- $f ($(wc -c < "$f") bytes) ---"
+              cat "$f" | head -500
+              echo ""
+            fi
+          done | tee -a t4-status.log
+      
+      - name: Announce
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os
+          body = open('t4-status.log').read() if os.path.exists('t4-status.log') else '(no log)'
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=T4 Notebook Status::{body[:4500]}")
+          PY
