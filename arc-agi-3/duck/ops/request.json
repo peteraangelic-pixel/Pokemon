@@ -1,18 +1,15 @@
 {
-  "id": "r001",
+  "id": "r002",
   "op": "recon",
   "args": {
-    "page_size": 60,
-    "detail": 3,
+    "page_size": 20,
     "pull": [
-      "sujanmajhisuzan/arc-agi-3-m2-top-submission",
-      "jingshuifu/arc3-m2-solution",
-      "lordhansolo/built-on-tufa-labs-duck-harness-milestone-2",
-      "shiiin9/affectify-arc-31-54-in-a-single-sub",
-      "destinyfire1/tufa-duck-baseline-arc3",
-      "gedouluhui/arc3-arena-hero-v2-runb"
+      "dfranzen/arc-agi-3-milestone-2-solution",
+      "heliosli/try-merging-it-you-might-get-lucky-and-win-gold",
+      "leoprovorov/fable-astra-play-arc-3-handbook-harness",
+      "bang1850/arc-prize-2026-sovereign-agent",
+      "skarin/arc-agi-3-27-80-lb-100-trajectory-audit"
     ],
-    "topics": [717133],
-    "topics_query": "writeup"
+    "topics": []
   }
 }

@@ -301,21 +301,14 @@ def op_submissions(ctx: Ctx, args: dict) -> None:
     _, subs = kg("competitions", "submissions", COMP, "--csv")
     ctx.save("submissions.csv", subs)
     ctx.block("Our submissions", subs, 20)
-    refs = re.findall(r"^(\d{6,}),", subs, re.M)
-    for ref in refs[: int(args.get("detail", 5))]:
-        _, det = kg("competitions", "submission", ref)
-        ctx.save(f"submission_{ref}.txt", det)
-        ctx.block(f"Submission {ref}", det, 15)
     lim = limits_text()
     ctx.save("limits.txt", lim)
     ctx.block("Limits", lim, 10)
 
 
 def op_topics(ctx: Ctx, args: dict) -> None:
-    cmd = ["competitions", "topics", "list", COMP, "--csv"]
-    if args.get("query"):
-        cmd += ["--search", args["query"]]
-    _, out = kg(*cmd)
+    _, out = kg("competitions", "topics", "list", COMP, "--sort-by", args.get("sort", "top"),
+                "--page-size", "60", "--csv")
     ctx.save("topics.csv", out)
     ctx.block("Discussion topics", "\n".join(out.splitlines()[:40]), 42)
     for tid in args.get("show", []):
