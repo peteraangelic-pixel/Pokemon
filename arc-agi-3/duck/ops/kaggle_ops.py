@@ -136,23 +136,73 @@ def kernel_status(kernel: str) -> str:
     return (m.group(1) if m else out).replace("KernelWorkerStatus.", "")
 
 
-def download_output(ctx: Ctx, kernel: str, sub: str = "output") -> str:
+def download_output(ctx: Ctx, kernel: str, sub: str = "output", pattern: str | None = None,
+                    keep: str = r"(benchmark\.json|summary\.txt|BUILD_INFO\.json)$",
+                    max_bytes: int = 2_000_000) -> str:
+    """Download a kernel's output (optionally only files matching ``pattern``)
+    and return the notebook log as text. Small artefacts and files matching
+    ``keep`` are committed; everything else large is dropped."""
     dest = ctx.out / sub
     dest.mkdir(parents=True, exist_ok=True)
-    code, out = kg("kernels", "output", kernel, "-p", str(dest), "-o", timeout=900)
-    ctx.save(f"{sub}/_download.txt", out)
+    cmd = ["kernels", "output", kernel, "-p", str(dest), "-o"]
+    if pattern:
+        cmd += ["--file-pattern", pattern]
+    code, out = kg(*cmd, timeout=1800)
+    ctx.save(f"{sub}/_download.txt", "\n".join(out.splitlines()[-200:]))
     text = ""
-    for log in sorted(dest.glob("*.log")):
-        text = log_to_text(log.read_text(errors="replace"))
+    m = re.search(r"Kernel log downloaded to (\S+)", out)
+    log_path = Path(m.group(1)) if m else None
+    if log_path is None or not log_path.exists():
+        cands = [p for p in dest.glob("*.log") if p.name != "serve.log"]
+        log_path = cands[0] if cands else None
+    if log_path is not None and log_path.exists():
+        text = log_to_text(log_path.read_text(errors="replace"))
         ctx.save(f"{sub}/log.txt", text)
-        log.unlink()  # raw JSON log is redundant once converted
-    # keep small text artefacts, drop big binaries from the commit
+        log_path.unlink()
+    keep_re = re.compile(keep)
     for f in dest.rglob("*"):
-        if f.is_file() and f.stat().st_size > 2_000_000:
+        if not f.is_file():
+            continue
+        limit = 25_000_000 if keep_re.search(f.name) else max_bytes
+        if f.stat().st_size > limit or f.suffix in {".mp4", ".pkl"}:
             f.unlink()
     return text
 
 
+def bench_table(path: Path) -> str:
+    """Per-run table from a TAAF benchmark.json."""
+    try:
+        b = json.loads(path.read_text())
+    except Exception as e:  # noqa: BLE001
+        return f"(cannot read {path}: {e})"
+    rows = []
+    for r in b.get("game_runs", []):
+        rows.append(f"{r['game_id']:<16} {r['state']:<10} lv={r['levels_completed']}/{r['number_of_levels']} "
+                    f"acts={len(r.get('history', []))} score={r.get('final_score') or 0:.2f} "
+                    f"apl={r.get('actions_per_level')} base={r.get('base_actions_per_level')}")
+    return "\n".join(rows)
+
+
+def op_output(ctx: Ctx, args: dict) -> None:
+    """Download outputs of args.kernels (refs, optionally ref/version)."""
+    pattern = args.get("pattern", r"(benchmark\.json|summary\.txt)$")
+    for ref in args.get("kernels", []):
+        sub = "out_" + ref.replace("/", "__")
+        text = download_output(ctx, ref, sub=sub, pattern=pattern)
+        ctx.say(f"## {ref}")
+        summ = ctx.out / sub / "summary.txt"
+        if summ.exists():
+            ctx.block("summary.txt", summ.read_text(), 60)
+        bj = ctx.out / sub / "benchmark.json"
+        if bj.exists():
+            ctx.save(f"{sub}/table.txt", bench_table(bj))
+            ctx.say(f"benchmark.json: {bj.stat().st_size} bytes, table in {sub}/table.txt")
+        else:
+            ctx.say("no benchmark.json")
+        ctx.say(f"log lines: {len(text.splitlines())} SMOKE_MARKER_PRESENT={SMOKE_MARKER in text}")
+        arc3 = [ln for ln in text.splitlines() if "ARC3" in ln or "Traceback" in ln]
+        if arc3:
+            ctx.block("ARC3 lines", "\n".join(arc3[-40:]), 40)
 def limits_text() -> str:
     return kg("competitions", "submission-limits", COMP)[1]
 
@@ -321,6 +371,7 @@ def op_topics(ctx: Ctx, args: dict) -> None:
 OPS = {
     "recon": op_recon, "pull": op_pull, "push": op_push, "status": op_status,
     "submit": op_submit, "submissions": op_submissions, "topics": op_topics,
+    "output": op_output,
 }
 
 
