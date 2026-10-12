@@ -1,0 +1,67 @@
+name: Find M2 Solution
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.find-m2.trigger"
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Search for M2 Solution
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          echo "=== Search: M2 Solution ==="
+          kaggle kernels list -s "M2 Solution" --csv 2>&1 | head -20 | tee m2-search.txt
+          
+          echo -e "\n=== Search: ARC3 M2 ==="
+          kaggle kernels list -s "ARC3 M2" --csv 2>&1 | head -20 | tee arc3-m2.txt
+          
+          echo -e "\n=== Search: Tufa Duck ==="
+          kaggle kernels list -s "Tufa Duck" --csv 2>&1 | head -20 | tee tufa-duck.txt
+          
+          echo -e "\n=== Top notebooks by score ==="
+          kaggle kernels list -c "arc-prize-2026-arc-agi-3" --sort-by "score" --csv 2>&1 | head -30 | tee top-notebooks.txt
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "=== M2 Search ==="
+            cat m2-search.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== ARC3 M2 ==="
+            cat arc3-m2.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== Tufa Duck ==="
+            cat tufa-duck.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== Top Notebooks ==="
+            cat top-notebooks.txt 2>/dev/null || echo "(no data)"
+          } > /tmp/notebooks-report.txt
+          
+          python3 - <<'PY'
+          body = open('/tmp/notebooks-report.txt').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Notebook Search::{body[:4500]}")
+          PY
