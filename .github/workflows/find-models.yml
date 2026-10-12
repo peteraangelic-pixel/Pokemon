@@ -1,0 +1,63 @@
+name: Find Compatible Models
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.find-models.trigger"
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Search Datasets for Models
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          
+          echo "=== Datasets with qwen ===" | tee models.log
+          $KG datasets list --search "qwen" 2>&1 | head -40 | tee -a models.log
+          
+          echo -e "\n=== Datasets with LLM models ===" | tee -a models.log
+          $KG datasets list --search "llm model" 2>&1 | head -30 | tee -a models.log
+          
+          echo -e "\n=== dfranzen datasets ===" | tee -a models.log
+          $KG datasets list -o dfranzen 2>&1 | head -20 | tee -a models.log
+          
+          echo -e "\n=== boristown datasets ===" | tee -a models.log
+          $KG datasets list -o boristown 2>&1 | head -20 | tee -a models.log
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "### Available Datasets with Models"
+            echo '```'
+            cat models.log 2>/dev/null || echo "(no log)"
+            echo '```'
+          } > /tmp/models.md
+          
+          python3 - <<'PY'
+          body = open('/tmp/models.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Models::{body[:4000]}")
+          PY
