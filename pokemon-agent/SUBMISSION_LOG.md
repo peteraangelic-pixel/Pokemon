@@ -972,3 +972,25 @@ Team μ 407.1, rank 254 (wczoraj wieczorem 335.6/269 → +71.5 μ, +15 miejsc). 
 | **AGREGAT** | **0.637** | **0.656** | **+1.89pp** | **~4.4σ** |
 
 deck.csv (kanoniczny) → v22_35w_noBoss. **Bundle: bundles/ptcg_v22b_35w.tar.gz** (v22b agent + 35W-noBoss; smoke+loader ✓; unpacked plays 0.659 meta ✓). NIE SUBMITOWANY — max-2-ACTIVE: obecnie aktywne v21+v22b(30W); po submitcie nowego system wyłączy jedną ze starych (kolejność wg nas nieznana) — decyzja po stronie użytkownika.
+
+### 2026-10-12 09:35 UTC — SOLIDNE PORÓWNANIE (faktoryzowane, 54 800 gier): v24 z 8560a56a NIE poprawia lokalnie; kandydat = v22b + 35W-noBoss (+2.48pp, z=4.22)
+
+**Design (tools/ab_matrix.py — nowe narzędzie, 4 ramiona, rotowane bloki, 1 proces):**
+A=v22b+30W (kontrola, obecnie live) | B=v22b+35W-noBoss | C=v24+30W | D=v24+35W (merge).
+Pule: meta1012(69), water(27), top30(72), broad(56) z naszą polityką + **thick_mirrors z opp_thickbot (rozwijający się przeciwnik — poprawka measurement-trap od 8560a56a)**.
+
+**AGREGAT n=13 700/ramię (54 800 gier):**
+| ramię | WR | vs A | z |
+|---|---|---|---|
+| A v22b+30W | 0.6005 | — | — |
+| **B v22b+35W** | **0.6253** | **+2.48pp** | **+4.22** |
+| C v24+30W | 0.5945 | −0.60pp | −1.01 |
+| D v24+35W | 0.6180 | +1.75pp (+2.97) / vs B −0.73pp (−1.25) | |
+
+**Dekompozycja:** efekt talii 35W: +2.48pp (v22b) / +2.35pp (v24) — stabilny; efekt v24: −0.60/−0.73pp (neutralno-ujemny); interakcja +0.13pp (brak).
+
+**Per-pula B vs A:** meta +2.29 (z=2.19), water +2.44 (z=1.96), top30 +2.25 (z=1.61), broad +0.09 (neutral), **thick_mirrors +4.93 (z=3.64)** — nic nie jest regresją.
+
+**Werdykt:** (1) dźwignia deckowa potwierdzona trzeci raz, teraz w faktoryzacji i przeciw thickbotowi; (2) **v24 nie wchodzi**: lokalnie neutralno-ujemny także vs thickbot (−1.74pp, n.s.), czyli hipoteza "wartość tylko-live" nie ma nawet lokalnego poparcia — zostaje jako OTWARTA (test może dać tylko live WR z replayów; ich własny forensics to przyznaje); (3) kandydat do submitu pozostaje **bundles/ptcg_v22b_35w.tar.gz** (smoke ✓ loader ✓ meta 0.659 ✓).
+
+**Next (kolejka):** port LOW_E_AGGRO (v12b opening fix) do v22b — c87f7a48 wskazał brak (4/11 nocnych przegranych = Lucario); specyficzność skanów STALL/LUCARIO (Fezandipiti false-positive); v25 threat-aware retreat (8560a56a).
