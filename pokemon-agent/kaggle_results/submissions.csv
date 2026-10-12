@@ -1,6 +1,11 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57075298,phase1_tuned_v14_top30_v11f.tar.gz,2026-10-11 13:25:13.063000,v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro,SubmissionStatus.COMPLETE,335.6,
-57075294,phase1_tuned_v14_top30_v11f.tar.gz,2026-10-11 13:25:08.083000,v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro,SubmissionStatus.COMPLETE,310.2,
+57089489,phase1_tuned_v22b_stall_planner.tar.gz,2026-10-12 00:19:26.437000,phase1_tuned_v22b_stall_planner.tar.gz - 2026-10-12T00:19:25Z - v22b BEST stall +7.2pp 0.863->0.935 draws 11%->2.7% safe bit-identical outside stall - 2/2 ACTIVE,SubmissionStatus.COMPLETE,407.1,
+57089461,phase1_tuned_v21_hybrid.tar.gz,2026-10-12 00:18:24.233000,phase1_tuned_v21_hybrid.tar.gz - 2026-10-12T00:18:22Z - v21 BEST overall +1.21pp weighted 0.6650->0.6771 top30 +1.6pp broad +1.1pp mirror +2.2pp - 1/2 ACTIVE,SubmissionStatus.COMPLETE,385.1,
+57088401,phase1_tuned_v15_30_boss4_v11.tar.gz,2026-10-12 00:01:40.280000,v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict),SubmissionStatus.COMPLETE,407.0,
+57088394,phase1_tuned_v21_hybrid.tar.gz,2026-10-12 00:01:37.633000,v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict),SubmissionStatus.COMPLETE,449.9,
+57088390,phase1_tuned_v21_hybrid.tar.gz,2026-10-12 00:01:34.877000,v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict),SubmissionStatus.COMPLETE,600.0,
+57075298,phase1_tuned_v14_top30_v11f.tar.gz,2026-10-11 13:25:13.063000,v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro,SubmissionStatus.COMPLETE,338.5,
+57075294,phase1_tuned_v14_top30_v11f.tar.gz,2026-10-11 13:25:08.083000,v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro,SubmissionStatus.COMPLETE,326.2,
 57058104,phase1_tuned_v12_30_boss4.tar.gz,2026-10-11 01:18:52.883000,v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro,SubmissionStatus.COMPLETE,327.2,
 57056900,phase1_tuned_v10_34_sig4.tar.gz,2026-10-11 00:35:33.680000,v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw,SubmissionStatus.COMPLETE,372.1,
 57056872,phase1_tuned_v9_final.tar.gz,2026-10-11 00:34:53.167000,v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw,SubmissionStatus.COMPLETE,314.6,

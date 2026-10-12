@@ -1,28 +1,73 @@
 {
-  "fetched_utc": "2026-10-11T21:55:01+00:00",
+  "fetched_utc": "2026-10-12T07:05:29+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 321,
-  "submission_rows": 10,
+  "leaderboard_rows": 324,
+  "submission_rows": 15,
   "our_leaderboard": [
     {
-      "Rank": "266",
+      "Rank": "254",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-11 13:25:13",
-      "Score": "335.6",
+      "LastSubmissionDate": "2026-10-12 00:19:26",
+      "Score": "407.1",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57089489",
+      "fileName": "phase1_tuned_v22b_stall_planner.tar.gz",
+      "date": "2026-10-12 00:19:26.437000",
+      "description": "phase1_tuned_v22b_stall_planner.tar.gz - 2026-10-12T00:19:25Z - v22b BEST stall +7.2pp 0.863->0.935 draws 11%->2.7% safe bit-identical outside stall - 2/2 ACTIVE",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "407.1",
+      "privateScore": ""
+    },
+    {
+      "ref": "57089461",
+      "fileName": "phase1_tuned_v21_hybrid.tar.gz",
+      "date": "2026-10-12 00:18:24.233000",
+      "description": "phase1_tuned_v21_hybrid.tar.gz - 2026-10-12T00:18:22Z - v21 BEST overall +1.21pp weighted 0.6650->0.6771 top30 +1.6pp broad +1.1pp mirror +2.2pp - 1/2 ACTIVE",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "385.1",
+      "privateScore": ""
+    },
+    {
+      "ref": "57088401",
+      "fileName": "phase1_tuned_v15_30_boss4_v11.tar.gz",
+      "date": "2026-10-12 00:01:40.280000",
+      "description": "v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict)",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "407.0",
+      "privateScore": ""
+    },
+    {
+      "ref": "57088394",
+      "fileName": "phase1_tuned_v21_hybrid.tar.gz",
+      "date": "2026-10-12 00:01:37.633000",
+      "description": "v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict)",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "449.9",
+      "privateScore": ""
+    },
+    {
+      "ref": "57088390",
+      "fileName": "phase1_tuned_v21_hybrid.tar.gz",
+      "date": "2026-10-12 00:01:34.877000",
+      "description": "v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict)",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "600.0",
+      "privateScore": ""
+    },
+    {
       "ref": "57075298",
       "fileName": "phase1_tuned_v14_top30_v11f.tar.gz",
       "date": "2026-10-11 13:25:13.063000",
       "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "335.6",
+      "publicScore": "338.5",
       "privateScore": ""
     },
     {
@@ -31,7 +76,7 @@
       "date": "2026-10-11 13:25:08.083000",
       "description": "v12 30W Signal4 Lillie4 Boss4 Waitress3 Belt1 Pad2 Night1 Cyrano1 - 1.000 vs top7 g1 (22-0) 0.841 g2 - fixes low-energy aggro",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "310.2",
+      "publicScore": "326.2",
       "privateScore": ""
     },
     {
@@ -59,51 +104,6 @@
       "description": "v10 34W Signal4 Boss4 0.932 vs top7 (41-3) 0.777 weighted BEST - 02:33 Warsaw",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "314.6",
-      "privateScore": ""
-    },
-    {
-      "ref": "57045512",
-      "fileName": "phase1_tuned_gen8_h1.tar.gz",
-      "date": "2026-10-10 15:03:51.657000",
-      "description": "Gen8 H1 Powerglass+NightStretcher recycle + lethal rem1 - 0.818 vs top7_live - should improve beyond 600",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "426.7",
-      "privateScore": ""
-    },
-    {
-      "ref": "57045458",
-      "fileName": "phase1_tuned_gen8_powerglass.tar.gz",
-      "date": "2026-10-10 15:01:25.883000",
-      "description": "Gen8 powerglass 29W Powerglass x2 - 0.650 vs mirror_losses The Prad K 1.000 vs 0.500 - fixes Powerglass mirrors",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "341.1",
-      "privateScore": ""
-    },
-    {
-      "ref": "57045377",
-      "fileName": "phase1_tuned_gen8_v2.tar.gz",
-      "date": "2026-10-10 14:57:35.047000",
-      "description": "Gen8 v2_boss 30E Boss x2 diverse - best overall 0.823 vs live 0.864 top10 0.820 - fixes weak mirrors cotton 0.000->? The Prad K",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "426.4",
-      "privateScore": ""
-    },
-    {
-      "ref": "57041729",
-      "fileName": "phase1_tuned_80.tar.gz",
-      "date": "2026-10-10 12:08:47.510000",
-      "description": "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "420.2",
-      "privateScore": ""
-    },
-    {
-      "ref": "57041724",
-      "fileName": "phase1_tuned_80.tar.gz",
-      "date": "2026-10-10 12:08:41.173000",
-      "description": "Gen5 80.0%->74.9% stable wall -650 evolve 292 progress 32 - BEST - petersharps new account",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "367.5",
       "privateScore": ""
     }
   ],
