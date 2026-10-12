@@ -1,0 +1,63 @@
+name: Check Competition Submissions
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.check-subs.trigger"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Check submissions
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          COMP="arc-prize-2026-arc-agi-3"
+          
+          echo "=== All submissions ==="
+          kaggle competitions submissions -c "$COMP" --csv 2>&1 | tee all-subs.txt
+          
+          echo -e "\n=== Submission limits ==="
+          kaggle competitions submission-limits -c "$COMP" 2>&1 | tee limits.txt
+          
+          echo -e "\n=== Leaderboard (top 10) ==="
+          kaggle competitions leaderboard -c "$COMP" --csv 2>&1 | head -15 | tee leaderboard.txt
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "=== Submissions ==="
+            cat all-subs.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== Limits ==="
+            cat limits.txt 2>/dev/null || echo "(no data)"
+            echo -e "\n=== Leaderboard ==="
+            cat leaderboard.txt 2>/dev/null || echo "(no data)"
+          } > /tmp/subs-report.txt
+          
+          python3 - <<'PY'
+          body = open('/tmp/subs-report.txt').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Competition Status::{body[:4500]}")
+          PY
