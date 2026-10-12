@@ -1,12 +1,9 @@
 {
-  "id": "r005",
+  "id": "r006",
   "op": "output",
   "args": {
-    "kernels": [
-      "petersharps/arc3-duck",
-      "dfranzen/arc-agi-3-milestone-2-solution",
-      "skarin/arc-agi-3-27-80-lb-100-trajectory-audit",
-      "shiiin9/affectify-arc-31-54-in-a-single-sub"
-    ]
+    "kernels": ["dfranzen/arc-agi-3-milestone-2-solution"],
+    "pattern": "(bp35|lf52|sk48|wa30|g50t|sp80|ka59|sc25)[^/]*_p0\\.txt$",
+    "keep": "_p0\\.txt$"
   }
 }

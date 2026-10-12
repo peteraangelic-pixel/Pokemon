@@ -188,7 +188,8 @@ def op_output(ctx: Ctx, args: dict) -> None:
     pattern = args.get("pattern", r"(benchmark\.json|summary\.txt)$")
     for ref in args.get("kernels", []):
         sub = "out_" + ref.replace("/", "__")
-        text = download_output(ctx, ref, sub=sub, pattern=pattern)
+        kw = {"keep": args["keep"]} if args.get("keep") else {}
+        text = download_output(ctx, ref, sub=sub, pattern=pattern, **kw)
         ctx.say(f"## {ref}")
         summ = ctx.out / sub / "summary.txt"
         if summ.exists():
