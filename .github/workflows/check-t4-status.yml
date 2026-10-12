@@ -39,7 +39,7 @@ jobs:
           
           echo -e "\n=== T4 kernel status ==="
           # Find the T4 kernel
-          KERNEL_ID="petersharps/arc-agi-3-llm-agent-t4"
+          KERNEL_ID="petersharps/arc-agi-3-llm-agent-qwen2-5-7b-nf4-for-t4"
           $KG kernels status "$KERNEL_ID" 2>&1 | tee -a t4-status.log || echo "Kernel not found with this ID"
           
           echo -e "\n=== Try to get output ==="
