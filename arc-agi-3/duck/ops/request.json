@@ -1,15 +1,5 @@
 {
-  "id": "r002",
-  "op": "recon",
-  "args": {
-    "page_size": 20,
-    "pull": [
-      "dfranzen/arc-agi-3-milestone-2-solution",
-      "heliosli/try-merging-it-you-might-get-lucky-and-win-gold",
-      "leoprovorov/fable-astra-play-arc-3-handbook-harness",
-      "bang1850/arc-prize-2026-sovereign-agent",
-      "skarin/arc-agi-3-27-80-lb-100-trajectory-audit"
-    ],
-    "topics": []
-  }
+  "id": "r003",
+  "op": "topics",
+  "args": {"sort": "top", "show": [744792, 739938, 732854, 742148, 742801, 697944, 705405]}
 }
