@@ -1,1 +1,1 @@
-factorial v22b/v24 x 30W/35W-noBoss 2026-10-12T08:15:35Z
+v22c (alive LOW_E_AGGRO) factorial 2026-10-12T08:34:25Z
