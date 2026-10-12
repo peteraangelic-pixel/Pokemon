@@ -1,0 +1,63 @@
+name: Get Test Output 2
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "test-notebook/.get-output2.trigger"
+
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Get and display output
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID="petersharps/test-model-mount"
+          mkdir -p /tmp/output
+          
+          echo "=== Downloading output ==="
+          $KG kernels output "$KERNEL_ID" -p /tmp/output/ 2>&1
+          
+          echo -e "\n=== All files ==="
+          find /tmp/output -type f -exec ls -la {} \;
+          
+          echo -e "\n=== File contents ==="
+          for f in $(find /tmp/output -type f); do
+            echo "--- $f ($(wc -c < "$f") bytes) ---"
+            head -200 "$f"
+            echo ""
+          done
+          
+          # Save to annotation
+          find /tmp/output -type f -exec echo "=== {} ===" \; -exec cat {} \; > /tmp/full-output.txt
+      
+      - name: Announce
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os
+          body = open('/tmp/full-output.txt').read() if os.path.exists('/tmp/full-output.txt') else '(no output)'
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Test Output::{body[:4500]}")
+          PY
