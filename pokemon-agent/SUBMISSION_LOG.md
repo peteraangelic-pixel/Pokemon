@@ -1037,3 +1037,25 @@ Werdykt: wszystkie trzy = ten sam poziom lokalnie; **twierdzenie c87f7a48 "+3.57
 Read-out: WR z our_replays (±5pp @90+ gier), NIE μ (szum ±110).
 
 Nota: nowa gałąź origin/arena/7911f950-pokemon = **inna konkurencja (arc-agi-3, kernel T4 LLM-agent, submission.parquet)** — nie koliduje z PTCG, bez akcji.
+
+### 2026-10-12 14:50 UTC — 4-WAY 35W SHOWDOWN (54 800 gier): v25knobs punktowym liderem (0.6291), zero regresji w każdej puli; FINALNA rekomendacja slotów
+
+Wszystkie 4 kandydaty na TEJ SAMEJ talii (35W-noBoss), 13 700 g/ramię, 5 pul:
+| ramię | WR | vs B |
+|---|---|---|
+| B v22b+35W (kontrola) | 0.6211 | — |
+| D v24d+35W | 0.6230 | +0.19pp (z=0.32) |
+| V25 genius+35W (c87f) | 0.6202 | −0.09pp (z=−0.15) |
+| **E v25knobs+35W (8560a)** | **0.6291** | **+0.80pp (z=1.37)** |
+
+Per-pula E vs B: broad +0.22, meta +0.60, top30 +0.29, water +0.83, **thick_mirrors +1.81** — nieujemne wszędzie, największe dokładnie w puli skonstruowanej pod live-death-mode (developing opponent), zgodnie z ich K1 (+2.25pp thickbot 35W mirror). Knoby = 5 linii (RETREAT_WALL 360→350, GUST_BONUS 80→70, WALL_ESCAPE 260→230, ATTACH_WALL_BONUS 45→30, ATTACH_WALL_PENALTY −20→−35; preset v11f-484).
+
+**Lokalny instrument osiągnął granicę rozdzielczości** (różnice ≤0.9pp, żaden z≠1.4): wybór między kandydatami = zakład o żywy mechanizm, nie lokal.
+
+**FINALNA rekomendacja na 00:00 UTC 13.10 (2 sloty, DECYZJA UŻYTKOWNIKA):**
+- **Slot 1: phase1_tuned_v25_35w.tar.gz (8560a56a = v22b+knoby+35W)** — najbardziej chirurgiczny (5 linii), celuje w zdiagnozowany death-mode #2 (walls nie uciekają), punktowy lider showdown, baza o najlepszym live WR
+- **Slot 2: ptcg_v22b_35w.tar.gz (a450b00f = v22b+35W)** — para E-vs-B izoluje efekt knobów na żywym polu (czysty eksperyment: ta sama baza, ta sama talia, różnica = tylko knoby); oba sloty niosą 4× potwierdzony deck-lever
+- Alternatywa slotu 2: phase1_tuned_v25_genius_35w_noBoss (c87f, szerszy zakład: v24+LOW_E). Odrzucone: v11f-rollback (live WR przeciw), v24d-solo (wchłonięty)
+- Odczyt po 24-48h: **WR z our_replays (±5pp @90+ gier), NIE μ (szum ±110)** — zgodnie z ustaleniem wszystkich 3 gałęzi
+
+Nota techniczna: piąta gałąź origin/arena/7911f950 = arc-agi-3 (T4 LLM-agent kernel) — inna konkurencja, bez kolizji z PTCG.
