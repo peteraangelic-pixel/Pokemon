@@ -1,1 +1,1 @@
-phase1_tuned_v15_30_boss4_v11.tar.gz
+DISARMED - bare filename required to arm; roles fixed by user: c87f7a48 submits E+B at ~02:00 UTC Oct 13; this branch NEVER submits (was: phase1_tuned_v15_30_boss4_v11.tar.gz - neutralized 19:35 UTC, see SUBMISSION_LOG)

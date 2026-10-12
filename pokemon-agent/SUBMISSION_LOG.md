@@ -1072,3 +1072,11 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Pre-rejestrowany odczyt (24-48h, our_replays WR, nie μ):** WR slot1 ≥~50% → knoby zostają; slot1 ≥5pp poniżej slot2 → knoby wycofane, wracamy na v22b35; remis → decyduje % zgonów z pustą ławką (death-mode #2).
 
 **Logistyka:** submisje TYLKO po resecie 00:00 UTC 13.10 (okno 400 zamyka się ~1.5-2h przed końcem dnia; obserwacja 21:50-22:00 z 11.10); każda submisja dokładnie raz; kto wysyła — decyduje użytkownik (gałęzie DISARMED; moja ma oba bundlę gotowe i wykona na komendę).
+
+### 2026-10-12 19:35 UTC — DECYZJA UŻYTKOWNIKA: c87f7a48 wrzuca ~02:00 UTC 13.10 (para E+B); ta gałąź NIE WYSYŁA NIC; neutralizacja triggera + autopsja bliskiego-taranu
+
+**Autopsja (głośno):** commit d674427 (07:05, dryf sandboksa) przypadkowo zmienił at_reset.trigger na "phase1_tuned_v15_30_boss4_v11.tar.gz" → odpalił workflow at-reset, który **spał 4h27m w stronę submisji v15 ~00:15 w nocy 12/13**. Run sam wyalał (failure ~11:32); potwierdzone `gh run list`: zero żywych/uzbrojonych jobów at-reset. Lekcje: (1) nigdy `git add -A` przy ryzyku dryfu — tylko jawne ścieżki; (2) trigger-file z treścią-submisję w tracked stanie to mina — od teraz treść = tekst DISARMED (przypadkowy push umiera szybko na Resolve, udowodnione 11.10).
+
+**Role na 13.10 (user):** c87f7a48 = jedyny wykonawca ~02:00 UTC: slot1 phase1_tuned_v25_35w + slot2 ptcg_v22b_35w (md5 v25 055992fd x3 ✓). Ta gałąź i 8560a56a = nie submitują; bundlę u mnie = kopie zapasowe. Koordynacja zamknięta commitami 8ef6941 (DISARM marker) i niniejszym.
+
+**Pre-rejestrowany odczyt (z 19:05, bez zmian):** po 24-48h our_replays WR: slot1 ≥~50% → knoby zostają; slot1 ≥5pp niżej od slot2 → knoby wycofane; remis → decyduje % zgonów z pustą ławką. Odczyt WR, nie μ.
