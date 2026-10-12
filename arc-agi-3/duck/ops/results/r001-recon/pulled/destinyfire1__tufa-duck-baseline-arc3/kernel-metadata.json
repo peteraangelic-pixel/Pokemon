@@ -1,0 +1,28 @@
+{
+  "id": "destinyfire1/tufa-duck-baseline-arc3",
+  "id_no": 138190137,
+  "title": "Tufa Duck Baseline ARC3",
+  "code_file": "tufa-duck-baseline-arc3.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": false,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [
+    "gpu"
+  ],
+  "dataset_sources": [
+    "driessmit1/arc3-vllm-h100-wheelhouse-v3",
+    "jeroencottaar/taaf-kaggle-source-share",
+    "destinyfire1/arc3-cpython312-runtime",
+    "driessmit1/vrfai-qwen3-6-27b-fp8-hf-snapshot"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "arc-prize-2026-arc-agi-3"
+  ],
+  "model_sources": [],
+  "docker_image": "gcr.io/kaggle-private-byod/python@sha256:2757e0c7d1e0a9cb43da657b97e223c321a98f5014bdf64f44f2f6b083ad2b2f",
+  "machine_shape": "NvidiaRtxPro6000"
+}
