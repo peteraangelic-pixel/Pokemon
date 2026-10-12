@@ -10,3 +10,8 @@ venv/
 
 # NOTE: pokemon-agent/bundles/*.tar.gz is intentionally committed -- the .tar.gz is
 # the deliverable that gets uploaded to Kaggle, and it is small (~85 KiB).
+
+# Raw episode replay JSONs — large; the committed digest is
+# kaggle_results/our_replays/{episodes_table.csv,loss_snapshots.jsonl,summary.md}
+pokemon-agent/kaggle_results/our_replays/episode-*-replay.json
+pokemon-agent/kaggle_results/our_replays/loss_replays/

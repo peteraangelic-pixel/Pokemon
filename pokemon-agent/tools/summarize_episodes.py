@@ -161,15 +161,25 @@ def main():
             sub_of[row["id"]] = sub
 
     rows = []
+    skipped = []
     for f in sorted(glob.glob(os.path.join(outdir, "episode-*-replay.json"))):
-        d0 = json.load(open(f))
-        teams = (d0.get("info") or {}).get("TeamNames") or []
-        if "PeterSharps" not in teams:
-            continue
-        r = walk(f, teams.index("PeterSharps"))
-        r["opp"] = r["teams"][1 - teams.index("PeterSharps")]
-        r["sub"] = sub_of.get(r["episode_id"], "?")
-        rows.append(r)
+        try:
+            d0 = json.load(open(f))
+            teams = (d0.get("info") or {}).get("TeamNames") or []
+            if "PeterSharps" not in teams or len(teams) < 2:
+                continue
+            r = walk(f, teams.index("PeterSharps"))
+            r["opp"] = r["teams"][1 - teams.index("PeterSharps")]
+            r["sub"] = sub_of.get(r["episode_id"], "?")
+            rows.append(r)
+        except Exception as exc:  # noqa: BLE001 - one bad file must not kill the run
+            skipped.append((os.path.basename(f), repr(exc)))
+            try:
+                os.remove(f)  # drop the poison file so it stops breaking re-runs
+            except OSError:
+                pass
+    if skipped:
+        print(f"SKIPPED {len(skipped)} episode file(s): {skipped[:5]}")
 
     # table
     tpath = os.path.join(outdir, "episodes_table.csv")

@@ -46,17 +46,24 @@ jobs:
           fi
 
       - name: Fetch our latest-submission replays
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: 1
         run: |
+          set -euo pipefail
           mkdir -p pokemon-agent/kaggle_results/our_replays
           rm -rf pokemon-agent/kaggle_results/our_replays/loss_replays
           python pokemon-agent/tools/fetch_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --outdir pokemon-agent/kaggle_results/our_replays \
-            --top-k 80 --no-official 2>&1 | tee /tmp/fetch.log
+            --top-k 80 --no-official > /tmp/fetch.log 2>&1 \
+            || { echo "FETCH FAILED"; tail -60 /tmp/fetch.log; exit 1; }
+          echo "---- fetch.log tail ----"; tail -20 /tmp/fetch.log
           python pokemon-agent/tools/summarize_episodes.py \
-            --outdir pokemon-agent/kaggle_results/our_replays 2>&1 | tee /tmp/summarize.log
-          cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch.log || true
-          cp /tmp/summarize.log pokemon-agent/kaggle_results/our_replays/summarize.log || true
+            --outdir pokemon-agent/kaggle_results/our_replays > /tmp/summarize.log 2>&1 \
+            || { echo "SUMMARIZE FAILED"; tail -60 /tmp/summarize.log; exit 1; }
+          echo "---- summarize.log ----"; cat /tmp/summarize.log
+          cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch.log
+          cp /tmp/summarize.log pokemon-agent/kaggle_results/our_replays/summarize.log
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -73,7 +80,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
           find pokemon-agent/kaggle_results/our_replays -type f -size +5M -delete || true
-          git add pokemon-agent/kaggle_results/our_replays/ || true
+          git add -A pokemon-agent/kaggle_results/our_replays/ || true
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/our_replays)" ]; then
             git commit -m "chore(kaggle): our replays (v21+v22b episodes) [skip ci]"
             git push origin "HEAD:${GITHUB_REF_NAME}"
