@@ -1,0 +1,79 @@
+name: deck-verify
+
+# Deep paired DECK comparison: 30W (control) vs 35W-noBoss (candidate) with the
+# v22b agent, via tools/ab_decks.py (interleaved in-process blocks, one
+# process per job — libcg.so is fast: ~8ms/game).
+#
+# Trigger: push pokemon-agent/kaggle_results/deck_verify.trigger
+
+on:
+  push:
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/deck_verify.trigger"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: meta1012_deep,  pools: "decks/meta1012",      blocks: 2, games: 50 }
+          - { name: water_deep,     pools: "decks/meta1012_water", blocks: 2, games: 100 }
+          - { name: top30_deep,     pools: "decks/top30_live",     blocks: 2, games: 100 }
+          - { name: broad_deep,     pools: "decks/broad_field",    blocks: 1, games: 60 }
+          - { name: gen8_mirrors,   pools: "decks/gen8_meta/Mirror_30W.csv,decks/gen8_meta/Mirror_35W.csv", blocks: 2, games: 300 }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet kaggle-environments
+
+      - name: Paired deck A/B (30W vs 35W-noBoss, agent v22b)
+        env:
+          POOLS: ${{ matrix.pools }}
+          BLOCKS: ${{ matrix.blocks }}
+          GAMES: ${{ matrix.games }}
+        run: |
+          set -e
+          cd pokemon-agent
+          mkdir -p kaggle_results/deck_verify
+          .venv/bin/python tools/ab_decks.py \
+            --agent agents/main_heuristic_v22b.py \
+            --deck-a decks/v12_30_boss4.csv \
+            --deck-b decks/v22_35w_noBoss.csv \
+            --pools "$POOLS" --blocks "$BLOCKS" --block-games "$GAMES" \
+            | tee "kaggle_results/deck_verify/${{ matrix.name }}.txt"
+
+      - name: Commit results (rebase-retry)
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && break || sleep $((i*10))
+          done
+          git add -f pokemon-agent/kaggle_results/deck_verify/ || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "deck-verify: ${{ matrix.name }} [skip ci]"
+            for i in 1 2 3; do
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break || { sleep $((i*5)); git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true; }
+            done
+          fi
