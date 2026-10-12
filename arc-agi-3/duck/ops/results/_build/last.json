@@ -1,0 +1,14 @@
+{
+  "env": {},
+  "git": "3926c08cc2c7",
+  "name": "v1-franzen-repro",
+  "patch_files": [],
+  "patches": [],
+  "smoke": {
+    "games": [
+      "ft09",
+      "ls20"
+    ],
+    "minutes": 8
+  }
+}
