@@ -1,0 +1,3 @@
+pool decks/broad_field (56 decks)
+  A 2138W-1222L-0D (0.636) | B 2166W-1193L-1D (0.645) | B-A +0.83pp (z=+0.71)
+TOTAL A 2138W-1222L-0D (0.6363) | B 2166W-1193L-1D (0.6446) | B-A +0.83pp (z=+0.71)
