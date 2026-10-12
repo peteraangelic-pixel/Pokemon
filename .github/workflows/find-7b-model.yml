@@ -1,0 +1,67 @@
+name: Find 7B Model Dataset
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.find-7b.trigger"
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Search for 7B-14B models
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          
+          echo "=== Search qwen 7b dataset ==="
+          $KG datasets list --search "qwen 7b" 2>&1 | tee models7b.log
+          
+          echo -e "\n=== Search qwen 14b ==="
+          $KG datasets list --search "qwen 14b" 2>&1 | tee -a models7b.log
+          
+          echo -e "\n=== Search llm quantized ==="
+          $KG datasets list --search "llm quantized" 2>&1 | tee -a models7b.log
+          
+          echo -e "\n=== Search gptq model ==="
+          $KG datasets list --search "gptq" 2>&1 | tee -a models7b.log
+          
+          echo -e "\n=== Search awq model ==="
+          $KG datasets list --search "awq" 2>&1 | tee -a models7b.log
+          
+          echo -e "\n=== Check specific datasets ==="
+          for ds in "rishitjakharia/qwen2-it" "serhiikharchuk/qwen2-math-72b-base"; do
+            echo "--- $ds ---"
+            $KG datasets metadata "$ds" 2>&1 | head -20
+            echo ""
+          done | tee -a models7b.log
+      
+      - name: Announce
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os
+          body = open('models7b.log').read() if os.path.exists('models7b.log') else '(no log)'
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=7B Models::{body[:4500]}")
+          PY
