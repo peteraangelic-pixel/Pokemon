@@ -48,11 +48,15 @@ jobs:
       - name: Fetch our latest-submission replays
         run: |
           mkdir -p pokemon-agent/kaggle_results/our_replays
+          rm -rf pokemon-agent/kaggle_results/our_replays/loss_replays
           python pokemon-agent/tools/fetch_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --outdir pokemon-agent/kaggle_results/our_replays \
-            --top-k 30 --no-official 2>&1 | tee /tmp/fetch.log
+            --top-k 80 --no-official 2>&1 | tee /tmp/fetch.log
+          python pokemon-agent/tools/summarize_episodes.py \
+            --outdir pokemon-agent/kaggle_results/our_replays 2>&1 | tee /tmp/summarize.log
           cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch.log || true
+          cp /tmp/summarize.log pokemon-agent/kaggle_results/our_replays/summarize.log || true
 
       - uses: actions/upload-artifact@v4
         if: always()
