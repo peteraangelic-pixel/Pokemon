@@ -69,21 +69,21 @@ Instrumented local games (`/tmp/main_selects2.py` pattern) on v22b:
   and our tempo engine wins it: 0.66-0.85 vs curated pools.
 - vs a *developing* opponent (thickbot surrogate, 7k mirror games): v22b still
   wins 0.579 — thickbot one-shots poorly, so the thin board is not punished.
-- vs a developing **and competent** reference opponent (v24, 7k mirror + 17.5k
-  field games): thin v22b and thick v24 both win ~0.58 / ~0.81.
+- vs a developing **and competent** reference opponent (v24d, 7k mirror + 17.5k
+  field games): thin v22b and thick v24d both win ~0.58 / ~0.81.
   **The local engine's tempo meta rewards the one-shot, not the bench.**
 - Conclusion: local A/B on self-play pools **cannot predict live mirror/field
   strength**. It measures tempo execution only. (It remains valid for
   deck-vs-deck and same-defect deltas.)
 
-## 6. Fix shipped: v24 (`agents/main_heuristic_v24.py`)
+## 6. Fix shipped: v24d (`agents/main_heuristic_v24d.py`)
 
 v22b + development fix:
 
 - `_score_wanted_card`: evolution targets with **no pre-evo on the board** are
   penalized (−90, −40 extra if already in hand); basics are bonus-scored while
   the board is thin (80/45/20 for board ≤1/2/3).
-- `_v24_search_gate`: Mega Signal (1145) and Night Stretcher (1097) are not
+- `_v24d_search_gate`: Mega Signal (1145) and Night Stretcher (1097) are not
   played when no ex has a pre-evo on the board (−150); Cyrano (1205) gated when
   the discard holds nothing usable (−80).
 
@@ -118,7 +118,7 @@ needs a safe-retreat model (backup survives next turn / ≤1 energy sacrificed).
 1. v21/v22b are **not** the breakthrough the local numbers promised. They are
    ~44-49% agents — below the field median. The local 0.80+ numbers were a
    self-play tempo artifact.
-2. The single biggest lever found is **board development** (v24), with the
+2. The single biggest lever found is **board development** (v24d), with the
    second biggest being **threat-aware retreat** (not yet built). Both target
    the one death mode we actually die by (98% of losses).
 3. Live scoring noise (±110 μ per submission) means **one live submission per
@@ -126,4 +126,4 @@ needs a safe-retreat model (backup survives next turn / ≤1 energy sacrificed).
    `our_replays` (90+ games ≈ ±5% win-rate resolution).
 4. The Kyogre mirror is actually winnable (v21 18-9) — the developing fix
    should protect the mirror further; the Lucario (40/29%) and new-meta
-   (25-44%) holes need archetype-specific attention (out of scope for v24).
+   (25-44%) holes need archetype-specific attention (out of scope for v24d).
