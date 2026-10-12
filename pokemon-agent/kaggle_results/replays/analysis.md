@@ -1,37 +1,39 @@
-# Replay Analysis — 107 replays
+# Replay Analysis — 125 replays
 
 Our team (inferred): **PeterSharps**
 
-Total replays: 107
+Total replays: 125
 
 ## Win/Loss vs opponents
 
 | Opponent | Games | Wins | Losses | Win rate |
 |---|---|---|---|---|
-| Kazama_Hareka | 5 | 2 | 3 | 0.40 |
 | [Deleted] bc3788a4-9814-4a00-b747-879c74bdf086 | 3 | 1 | 2 | 0.33 |
 | cottonandcolor | 3 | 1 | 2 | 0.33 |
+| Hitisha Goyal | 3 | 1 | 2 | 0.33 |
+| char0n1 | 3 | 1 | 2 | 0.33 |
+| Mitsuaki Inoue | 3 | 1 | 2 | 0.33 |
 | Aayush Jansari | 3 | 2 | 1 | 0.67 |
 | Atharva Naik | 2 | 1 | 1 | 0.50 |
 | Guenoir | 2 | 2 | 0 | 1.00 |
+| SC | 2 | 0 | 2 | 0.00 |
 | Rodrigo S Faria | 2 | 1 | 1 | 0.50 |
+| Pawit Sahare | 2 | 0 | 2 | 0.00 |
 | AByT3s | 2 | 2 | 0 | 1.00 |
+| eastnix | 2 | 1 | 1 | 0.50 |
+| Kazama_Hareka | 2 | 0 | 2 | 0.00 |
 | Jonathan Axl | 2 | 0 | 2 | 0.00 |
 | nguyenbaotri-VIETNAM | 2 | 0 | 2 | 0.00 |
+| Kevin Rio Harristyando | 2 | 0 | 2 | 0.00 |
 | Ryan Fernandes | 2 | 0 | 2 | 0.00 |
-| char0n1 | 2 | 1 | 1 | 0.50 |
 | praveen_02706 | 2 | 2 | 0 | 1.00 |
 | PeterSharps | 2 | 2 | 0 | 1.00 |
 | vrmichalski | 2 | 1 | 1 | 0.50 |
-| Mitsuaki Inoue | 2 | 1 | 1 | 0.50 |
+| tanzaku | 2 | 0 | 2 | 0.00 |
 | The Prad K | 2 | 2 | 0 | 1.00 |
 | YOUKE144 | 1 | 1 | 0 | 1.00 |
 | BSCode | 1 | 1 | 0 | 1.00 |
-| SC | 1 | 0 | 1 | 0.00 |
-| Pawit Sahare | 1 | 0 | 1 | 0.00 |
 | Kydyrbek Kozykorpesh | 1 | 0 | 1 | 0.00 |
-| Hitisha Goyal | 1 | 0 | 1 | 0.00 |
-| eastnix | 1 | 0 | 1 | 0.00 |
 | mo | 1 | 0 | 1 | 0.00 |
 | 鲁尚武 LuShangWu | 1 | 1 | 0 | 1.00 |
 | kloaken | 1 | 0 | 1 | 0.00 |
@@ -41,7 +43,6 @@ Total replays: 107
 | sergeicu | 1 | 1 | 0 | 1.00 |
 | awewrasdffetfe | 1 | 0 | 1 | 0.00 |
 | pika28samson | 1 | 0 | 1 | 0.00 |
-| Kevin Rio Harristyando | 1 | 0 | 1 | 0.00 |
 | Stephen Schott | 1 | 0 | 1 | 0.00 |
 | DavideSanta | 1 | 0 | 1 | 0.00 |
 | Nozprod | 1 | 1 | 0 | 1.00 |
@@ -57,26 +58,37 @@ Total replays: 107
 | Tom Curry11 | 1 | 0 | 1 | 0.00 |
 | F.A.Nina | 1 | 0 | 1 | 0.00 |
 | Kevin Hulin | 1 | 1 | 0 | 1.00 |
-| tanzaku | 1 | 0 | 1 | 0.00 |
 | ant | 1 | 1 | 0 | 1.00 |
 | Shixiang Yan | 1 | 1 | 0 | 1.00 |
 | Aditya ingale | 1 | 1 | 0 | 1.00 |
-| EVIG EMIT ตัวปลอม | 1 | 1 | 0 | 1.00 |
-| Zapaxe | 1 | 1 | 0 | 1.00 |
 | Pranshul Maithani | 1 | 0 | 1 | 0.00 |
 | thebrownkid | 1 | 0 | 1 | 0.00 |
-| Taras Harbar | 1 | 0 | 1 | 0.00 |
-| Thiago Silva | 1 | 1 | 0 | 1.00 |
-| lswuwu | 1 | 1 | 0 | 1.00 |
 | RAHUL REDDY PULICHARLA | 1 | 0 | 1 | 0.00 |
 | Richard Guo | 1 | 0 | 1 | 0.00 |
 | Elbachir Salik | 1 | 1 | 0 | 1.00 |
 | Yash Dalal | 1 | 0 | 1 | 0.00 |
+| Prashant Rawat | 1 | 0 | 1 | 0.00 |
+| Eugen LNCanti | 1 | 1 | 0 | 1.00 |
+| S.M. Yousuf Iqbal Tomal | 1 | 1 | 0 | 1.00 |
+| Kitaev | 1 | 0 | 0 | 0.00 |
+| Taras Harbar | 1 | 1 | 0 | 1.00 |
+| Chonghao Peng | 1 | 0 | 1 | 0.00 |
+| seven | 1 | 0 | 1 | 0.00 |
+| yihui ding123 | 1 | 1 | 0 | 1.00 |
+| karinkaito | 1 | 0 | 1 | 0.00 |
+| Julian M | 1 | 0 | 1 | 0.00 |
+| Sai Parthasarathy | 1 | 1 | 0 | 1.00 |
+| sayidmra | 1 | 1 | 0 | 1.00 |
+| Raiuga | 1 | 0 | 1 | 0.00 |
+| 加油华为 | 1 | 1 | 0 | 1.00 |
+| lswuwu | 1 | 0 | 1 | 0.00 |
+| Santiago Maniches | 1 | 0 | 1 | 0.00 |
+| EVIG EMIT ตัวปลอม | 1 | 1 | 0 | 1.00 |
 
 ## Deck meta (all decks seen)
 
-- Energy distribution: {33: 51, 36: 1, 26: 5, 35: 27, 15: 6, 12: 9, 10: 9, 14: 8, 0: 2, 20: 4, 28: 5, 30: 9, 29: 48, 11: 1, 18: 1, 34: 13, 17: 1, 2: 2, 31: 1, 22: 1, 9: 1, 23: 1, 13: 3, 16: 1, 1: 1, 8: 1}
-- Gust (Boss/Catcher) distribution: {0: 58, 2: 61, 3: 61, 4: 29, 1: 3}
+- Energy distribution: {33: 52, 36: 1, 26: 5, 35: 30, 15: 8, 12: 5, 10: 10, 14: 11, 0: 2, 20: 4, 28: 6, 30: 40, 29: 37, 11: 2, 18: 1, 34: 13, 17: 1, 2: 2, 31: 1, 22: 1, 9: 3, 23: 1, 13: 7, 8: 2, 1: 2, 5: 1}
+- Gust (Boss/Catcher) distribution: {0: 63, 2: 70, 3: 51, 4: 61, 1: 3}
 
 ### Example decks that beat us
 
@@ -295,25 +307,10 @@ Total replays: 107
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
   - Trainers: Basic {W} Energy x35, Mega Signal x4, Lillie's Determination x4, Waitress x4, Cyrano x2, Maximum Belt x1
 
-- **episode-122057632-replay.json** vs Taras Harbar (winner Taras Harbar, 303 steps)
-  - Energy: 13, Gust: 2
-  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
-  - Trainers: Basic {F} Energy x13, Ultra Ball x4, Premium Power Pro x4, Fighting Gong x4, Poké Pad x4, Judge x4
-
-- **episode-122059597-replay.json** vs Aayush Jansari (winner Aayush Jansari, 221 steps)
-  - Energy: 10, Gust: 3
-  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
-  - Trainers: Basic {R} Energy x4, Basic {P} Energy x4, Buddy-Buddy Poffin x4, Crushing Hammer x4, Ultra Ball x4, Poké Pad x4
-
 - **episode-122061568-replay.json** vs cottonandcolor (winner cottonandcolor, 74 steps)
   - Energy: 28, Gust: 2
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
   - Trainers: Basic {W} Energy x28, Mega Signal x4, Lillie's Determination x4, Waitress x4, Cyrano x2, Ultra Ball x2
-
-- **episode-122063528-replay.json** vs Kazama_Hareka (winner Kazama_Hareka, 220 steps)
-  - Energy: 12, Gust: 2
-  - Pokemon: Dreepy x4, Dragapult ex x4, Drakloak x3, Duskull x2
-  - Trainers: Basic {R} Energy x5, Basic {P} Energy x5, Buddy-Buddy Poffin x4, Ultra Ball x4, Lillie's Determination x4, Poké Pad x3
 
 - **episode-122065512-replay.json** vs RAHUL REDDY PULICHARLA (winner RAHUL REDDY PULICHARLA, 144 steps)
   - Energy: 33, Gust: 0
@@ -329,6 +326,91 @@ Total replays: 107
   - Energy: 33, Gust: 0
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
   - Trainers: Basic {W} Energy x33, Team Rocket's Petrel x4, Lillie's Determination x4, Ultra Ball x2, Mega Signal x2, Powerglass x2
+
+- **episode-122396064-replay.json** vs Prashant Rawat (winner Prashant Rawat, 92 steps)
+  - Energy: 11, Gust: 3
+  - Pokemon: Duraludon x4, Archaludon ex x4, Cinderace x4, Relicanth x1
+  - Trainers: Basic {M} Energy x11, Ultra Ball x4, Pokégear 3.0 x4, Jumbo Ice Cream x4, Poké Pad x4, Explorer’s Guidance x4
+
+- **episode-122398004-replay.json** vs Mitsuaki Inoue (winner Mitsuaki Inoue, 114 steps)
+  - Energy: 15, Gust: 0
+  - Pokemon: Mega Lucario ex x4, Riolu x4
+  - Trainers: Basic {F} Energy x15, Buddy-Buddy Poffin x4, Fighting Gong x4, Mega Signal x4, Cyrano x4, Cheren x4
+
+- **episode-122399987-replay.json** vs Kitaev (winner draw, 429 steps)
+  - Energy: 8, Gust: 2
+  - Pokemon: Drakloak x4, Dreepy x4, Dragapult ex x3, Duskull x2
+  - Trainers: Basic {P} Energy x4, Poké Pad x4, Lillie's Determination x4, Buddy-Buddy Poffin x4, Ultra Ball x4, Basic {R} Energy x4
+
+- **episode-122403829-replay.json** vs Chonghao Peng (winner Chonghao Peng, 335 steps)
+  - Energy: 14, Gust: 2
+  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
+  - Trainers: Basic {G} Energy x14, Bug Catching Set x4, Ultra Ball x4, Lillie's Determination x4, Forest of Vitality x4, Poké Pad x2
+
+- **episode-122405774-replay.json** vs Aayush Jansari (winner Aayush Jansari, 351 steps)
+  - Energy: 10, Gust: 3
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
+  - Trainers: Basic {R} Energy x4, Basic {P} Energy x4, Buddy-Buddy Poffin x4, Crushing Hammer x4, Ultra Ball x4, Poké Pad x4
+
+- **episode-122405812-replay.json** vs Pawit Sahare (winner Pawit Sahare, 93 steps)
+  - Energy: 35, Gust: 0
+  - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
+  - Trainers: Basic {W} Energy x35, Mega Signal x4, Lillie's Determination x4, Waitress x4, Cyrano x2, Maximum Belt x1
+
+- **episode-122407719-replay.json** vs seven (winner seven, 117 steps)
+  - Energy: 13, Gust: 2
+  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
+  - Trainers: Basic {F} Energy x13, Ultra Ball x4, Premium Power Pro x4, Fighting Gong x4, Poké Pad x4, Judge x4
+
+- **episode-122415530-replay.json** vs karinkaito (winner karinkaito, 160 steps)
+  - Energy: 13, Gust: 2
+  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
+  - Trainers: Basic {F} Energy x13, Dusk Ball x4, Premium Power Pro x4, Fighting Gong x4, Poké Pad x4, Carmine x4
+
+- **episode-122417441-replay.json** vs Julian M (winner Julian M, 326 steps)
+  - Energy: 1, Gust: 4
+  - Pokemon: Mega Kangaskhan ex x4, Dwebble x3, Crustle x3
+  - Trainers: Lillie's Determination x4, Team Rocket's Petrel x4, Boss’s Orders x4, Hilda x4, Jumbo Ice Cream x4, Grow Grass Energy x4
+
+- **episode-122431032-replay.json** vs tanzaku (winner tanzaku, 186 steps)
+  - Energy: 14, Gust: 2
+  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
+  - Trainers: Basic {G} Energy x14, Bug Catching Set x4, Ultra Ball x4, Lillie's Determination x4, Forest of Vitality x4, Poké Pad x2
+
+- **episode-122434902-replay.json** vs Raiuga (winner Raiuga, 145 steps)
+  - Energy: 14, Gust: 2
+  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
+  - Trainers: Basic {G} Energy x14, Bug Catching Set x4, Ultra Ball x4, Lillie's Determination x4, Forest of Vitality x4, Poké Pad x2
+
+- **episode-122444655-replay.json** vs lswuwu (winner lswuwu, 124 steps)
+  - Energy: 13, Gust: 2
+  - Pokemon: Riolu x4, Mega Lucario ex x4, Solrock x3, Makuhita x2
+  - Trainers: Basic {F} Energy x13, Ultra Ball x4, Premium Power Pro x4, Fighting Gong x4, Poké Pad x4, Lillie's Determination x4
+
+- **episode-122456283-replay.json** vs Santiago Maniches (winner Santiago Maniches, 127 steps)
+  - Energy: 13, Gust: 3
+  - Pokemon: Teal Mask Ogerpon ex x4, Applin x2, Dipplin x2, Hydrapple ex x2
+  - Trainers: Basic {G} Energy x13, Bug Catching Set x4, Ultra Ball x4, Lillie's Determination x4, Forest of Vitality x4, Boss’s Orders x3
+
+- **episode-122464102-replay.json** vs Hitisha Goyal (winner Hitisha Goyal, 144 steps)
+  - Energy: 29, Gust: 2
+  - Pokemon: Snover x4, Mega Abomasnow ex x4
+  - Trainers: Basic {W} Energy x29, Poké Pad x4, Mega Signal x4, Lillie's Determination x4, Ultra Ball x2, Switch x2
+
+- **episode-122469913-replay.json** vs Kevin Rio Harristyando (winner Kevin Rio Harristyando, 229 steps)
+  - Energy: 15, Gust: 2
+  - Pokemon: Riolu x4, Koraidon x4, Throh x4, Mega Lucario ex x3
+  - Trainers: Basic {F} Energy x15, Ultra Ball x4, Lillie's Determination x4, Cheren x3, Urbain x3, Boss’s Orders x2
+
+- **episode-122477686-replay.json** vs char0n1 (winner char0n1, 107 steps)
+  - Energy: 35, Gust: 0
+  - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
+  - Trainers: Basic {W} Energy x35, Mega Signal x4, Lillie's Determination x4, Waitress x4, Cyrano x2, Maximum Belt x1
+
+- **episode-122481557-replay.json** vs SC (winner SC, 222 steps)
+  - Energy: 10, Gust: 3
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
+  - Trainers: Basic {R} Energy x4, Basic {P} Energy x4, Buddy-Buddy Poffin x4, Crushing Hammer x4, Ultra Ball x4, Poké Pad x4
 
 ### Example decks we beat
 
@@ -416,37 +498,13 @@ Total replays: 107
   - Energy: 35, Gust: 0
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
 
-- **episode-122049779-replay.json** vs EVIG EMIT ตัวปลอม (304 steps)
-  - Energy: 12, Gust: 2
-  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Budew x1
-
 - **episode-122051737-replay.json** vs Mitsuaki Inoue (87 steps)
   - Energy: 35, Gust: 0
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
 
-- **episode-122051738-replay.json** vs Aayush Jansari (260 steps)
-  - Energy: 10, Gust: 3
-  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
-
-- **episode-122051784-replay.json** vs Kazama_Hareka (273 steps)
-  - Energy: 12, Gust: 2
-  - Pokemon: Dreepy x4, Dragapult ex x4, Drakloak x3, Duskull x2
-
-- **episode-122053697-replay.json** vs Aayush Jansari (250 steps)
-  - Energy: 10, Gust: 3
-  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
-
-- **episode-122053699-replay.json** vs Zapaxe (237 steps)
-  - Energy: 16, Gust: 3
-  - Pokemon: Raging Bolt ex x4, Teal Mask Ogerpon ex x4, Bloodmoon Ursaluna ex x1
-
 - **episode-122055665-replay.json** vs The Prad K (90 steps)
   - Energy: 33, Gust: 0
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
-
-- **episode-122059600-replay.json** vs Kazama_Hareka (264 steps)
-  - Energy: 12, Gust: 2
-  - Pokemon: Dreepy x4, Dragapult ex x4, Drakloak x3, Duskull x2
 
 - **episode-122061566-replay.json** vs Atharva Naik (65 steps)
   - Energy: 35, Gust: 0
@@ -456,24 +514,64 @@ Total replays: 107
   - Energy: 33, Gust: 0
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
 
-- **episode-122065489-replay.json** vs Thiago Silva (221 steps)
-  - Energy: 1, Gust: 2
-  - Pokemon: Duskull x4, Kadabra x4, Abra x3, Alakazam x3
-
-- **episode-122065491-replay.json** vs lswuwu (232 steps)
-  - Energy: 13, Gust: 2
-  - Pokemon: Riolu x4, Mega Lucario ex x4, Solrock x3, Makuhita x2
-
 - **episode-122067456-replay.json** vs Elbachir Salik (141 steps)
   - Energy: 35, Gust: 0
   - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
 
-- **episode-122069419-replay.json** vs Guenoir (201 steps)
+- **episode-122392229-replay.json** vs Guenoir (214 steps)
   - Energy: 14, Gust: 2
   - Pokemon: Mega Lucario ex x4, Riolu x2, Riolu x2, Mega Kangaskhan ex x2
 
+- **episode-122399944-replay.json** vs Eugen LNCanti (89 steps)
+  - Energy: 28, Gust: 0
+  - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
+
+- **episode-122399947-replay.json** vs S.M. Yousuf Iqbal Tomal (52 steps)
+  - Energy: 13, Gust: 2
+  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
+
+- **episode-122401889-replay.json** vs Taras Harbar (267 steps)
+  - Energy: 13, Gust: 2
+  - Pokemon: Mega Lucario ex x4, Solrock x3, Riolu x3, Makuhita x2
+
+- **episode-122401931-replay.json** vs Aayush Jansari (93 steps)
+  - Energy: 10, Gust: 3
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
+
+- **episode-122409662-replay.json** vs yihui ding123 (408 steps)
+  - Energy: 1, Gust: 4
+  - Pokemon: Dwebble x4, Crustle x4, Mega Kangaskhan ex x2, Cornerstone Mask Ogerpon ex x1
+
+- **episode-122429062-replay.json** vs Sai Parthasarathy (72 steps)
+  - Energy: 33, Gust: 2
+  - Pokemon: Terrakion x4, Great Tusk x3, Okidogi x2
+
+- **episode-122429108-replay.json** vs sayidmra (111 steps)
+  - Energy: 9, Gust: 2
+  - Pokemon: Froslass x3, Marnie's Grimmsnarl ex x3, Marnie's Impidimp x3, Munkidori x3
+
+- **episode-122442661-replay.json** vs 加油华为 (301 steps)
+  - Energy: 5, Gust: 2
+  - Pokemon: Applin x4, Dipplin x4, Grookey x4, Thwackey x4
+
+- **episode-122452402-replay.json** vs eastnix (84 steps)
+  - Energy: 35, Gust: 0
+  - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
+
+- **episode-122456323-replay.json** vs Aayush Jansari (314 steps)
+  - Energy: 10, Gust: 3
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Munkidori x2
+
+- **episode-122477669-replay.json** vs EVIG EMIT ตัวปลอม (219 steps)
+  - Energy: 9, Gust: 2
+  - Pokemon: Dreepy x4, Drakloak x4, Dragapult ex x3, Budew x1
+
+- **episode-122489371-replay.json** vs Hitisha Goyal (78 steps)
+  - Energy: 30, Gust: 2
+  - Pokemon: Snover x4, Mega Abomasnow ex x4, Kyogre x2
+
 ## Recommendations
 
-- Average energy in meta: 27.0. Our current 33 is high; top players use 26-30. Cutting 3-7 energy for trainers (Boss, Cyrano, Night Stretcher) trades ~20-40 damage per Hammer-lanche for consistency.
+- Average energy in meta: 26.6. Our current 33 is high; top players use 26-30. Cutting 3-7 energy for trainers (Boss, Cyrano, Night Stretcher) trades ~20-40 damage per Hammer-lanche for consistency.
 
 - Mirror losses (identical deck) suggest play, not deck, is the bottleneck. Lethal DFS and better energy attachment prioritization are next.
