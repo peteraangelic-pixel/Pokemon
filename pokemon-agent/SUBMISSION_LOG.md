@@ -1059,3 +1059,16 @@ Per-pula E vs B: broad +0.22, meta +0.60, top30 +0.29, water +0.83, **thick_mirr
 - Odczyt po 24-48h: **WR z our_replays (±5pp @90+ gier), NIE μ (szum ±110)** — zgodnie z ustaleniem wszystkich 3 gałęzi
 
 Nota techniczna: piąta gałąź origin/arena/7911f950 = arc-agi-3 (T4 LLM-agent kernel) — inna konkurencja, bez kolizji z PTCG.
+
+### 2026-10-12 19:05 UTC — KOORDYNACJA ZAMKNIĘTA: para E+B uzgodniona między gałęziami; moja gałąź GOTOWA do egzekucji (nic nie uzbrojone)
+
+Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 gałęziach** ✓; bundl phase1_tuned_v25_35w.tar.gz zaimportowany od 8560a56a (agent żywy, 35W ✓); ptcg_v22b_35w na miejscu.
+
+**Uzgodniona para (zgodna z rekomendacją 8560a56a; rezygnuję z genius-na-slocie-2 — ich argument o czystym odczycie knobów jest lepszy: genius 4. w obu niezależnych rekonstrukcjach 4-way, a mechanizmy v24/LOW_E można wystawić w kolejnym resecie po odczycie knobów):**
+- Slot 1: **phase1_tuned_v25_35w.tar.gz** (v22b + 5 knobów + 35W-noBoss)
+- Slot 2: **ptcg_v22b_35w.tar.gz** (v22b + 35W-noBoss, czysta baza)
+- Para = pre-rejestrowany eksperyment: różnica slotów = wyłącznie 5 linii knobów.
+
+**Pre-rejestrowany odczyt (24-48h, our_replays WR, nie μ):** WR slot1 ≥~50% → knoby zostają; slot1 ≥5pp poniżej slot2 → knoby wycofane, wracamy na v22b35; remis → decyduje % zgonów z pustą ławką (death-mode #2).
+
+**Logistyka:** submisje TYLKO po resecie 00:00 UTC 13.10 (okno 400 zamyka się ~1.5-2h przed końcem dnia; obserwacja 21:50-22:00 z 11.10); każda submisja dokładnie raz; kto wysyła — decyduje użytkownik (gałęzie DISARMED; moja ma oba bundlę gotowe i wykona na komendę).
