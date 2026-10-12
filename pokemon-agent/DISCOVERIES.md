@@ -254,3 +254,26 @@ mirror 35W +3.5pp, Bill Vlasak (#1) +2.5pp, top30 +2.3pp. Kluczowe lekcje:
 nie wypalaj swojego decku, ich deck wypala się sam ~T35–51; (4) testuj
 sparowane A/B w jednym runie, ≥600g/meczup × powtórki albo matrix na Actions
 (wzorzec w repo); (5) sufit szumu ±3pp @600g — 5–20g to szum zawsze.
+
+## 13. The DECK lever (2026-10-12): 35W-noBoss — first config change with significant live-meta evidence
+
+Night losses (2026-10-12) were all deck-level: water mirrors at 29-35W (we ran
+30W), Lucario prize race, Ogerpon coinflip. Hammer-lanche math: mills 6 cards,
+100 dmg per Water among them → 30W averages ~300 (fails vs Mega Lucario 340),
+35W averages ~350 (kills). Riptide scales with discard Water the same way.
+
+Variant sweep (tools/ab_decks.py — same agent, two OUR decks, interleaved
+blocks, one process): 33W −2.0pp, 35W-with-support-cuts −3.8pp (tempo loss),
+**35W-noBoss** (keep Lillie4/Waitress3/Cyrano2, drop all 4 Boss's + 1 Pad —
+the saravana-Kishore 35W style that had beaten us live) — positive everywhere.
+
+Actions matrix (deck-verify, 21.5k games/arm): aggregate +1.89pp (≈4.4σ);
+significant on the 69-deck fresh meta (+2.14pp, z=2.64) and water subset
+(+2.89pp, z=3.01); nowhere negative. Winner bundle:
+`bundles/ptcg_v22b_35w.tar.gz` (v22b + 35W-noBoss). deck.csv on this branch =
+35W-noBoss now.
+
+Lesson: 31-34W variants tested EARLIER ("noise") were judged against the OLD
+opponent pools, cut draw supporters too aggressively, and predated the v22b
+agent. Deck evaluation must use the CURRENT meta snapshot (re-extract decks
+from fresh replays regularly — decks/meta1012/ pattern) and interleaved A/B.

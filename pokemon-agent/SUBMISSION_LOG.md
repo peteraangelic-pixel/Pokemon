@@ -954,3 +954,21 @@ Team μ 407.1, rank 254 (wczoraj wieczorem 335.6/269 → +71.5 μ, +15 miejsc). 
 1. **Kalibracyjne μ jest bardzo szumne**: identyczny v21 = 600.0 / 449.9 / 385.1 (spread 215pp na tym samym agencie!). Żadnych wniosków "kto lepszy" z tych liczb; prawdę pokaże dopiero setki gier live lub nasze FFI-matrixy.
 2. **3 sesje zgodziły się co do tego co reguły mogą** (stall +5pp, mirror-guard, planner) — i to weszło. Ale **twarde luki są na poziomie TALII**: mirror 30W vs meta 33-35W (meta-energy: 29W×37, 30W×29, 33W×52, 35W×30 — przeciwnicy grają więcej wody niż my), Lucario prize-race (2×4-prize Mega), Ogerpon coinflip. Agent v22b tego nie naprawi, bo to nie są problemy decyzyjne.
 3. **Wniosek operacyjny:** przy max-2-ACTIVE nie strzelać seriami — jedna submisja, 24h pomiaru, dopiero wtedy decyzja. Kolejny krok kandydat: talia 32-33W przetestowana na świeżym top30_live (105 replayów → decki przeciwników już w repo) + gust-conditional + ewentualnie karta na Lucario.
+
+### 2026-10-12 08:40 UTC — DECK LEVER potwierdzony: 35W-noBoss bije 30W w każdej puli (+1.89pp, ~4.4σ, 42.9k gier); bundle ptcg_v22b_35w GOTOWY (bez submitu — decyzja użytkownika)
+
+**Hipoteza z nocnych przegranych:** meta gra 29-35W (33W×52 w nocnym próbce), my 30W. Matematyka mirrora: Hammer-lanche mili 6 kart, 100 dmg/W → 30W ~300 dmg (nie zabija Mega Lucario 340), 35W ~350 (zabija). Riptide skaluje z W w discardzie.
+
+**Warianty przetestowane (ab_decks.py — nowy tool: ten sam agent, dwa decki, bloki na przemian, jeden proces):** 33W −2.0pp, 35W(z cięciem supportów) −3.8pp, **35W-noBoss** (styl saravana Kishore, który nas bił: bez Boss's ×4, z Lillie4/Waitress3/Cyrano2) — jedyny na plusie.
+
+**deck-verify matrix (Actions, 5 jobów, 21.5k gier/ramię):**
+| pula | 30W | 35W-noBoss | Δ | z |
+|---|---|---|---|---|
+| meta1012 (69 świeżych decków) | 0.637 | 0.659 | +2.14pp | 2.64 |
+| water meta (27) | 0.507 | 0.536 | +2.89pp | 3.01 |
+| top30_live | 0.824 | 0.834 | +1.07pp | 1.36 |
+| broad_field | 0.636 | 0.645 | +0.83pp | 0.71 |
+| gen8 mirrory | 0.506 | 0.527 | +2.08pp | 1.02 |
+| **AGREGAT** | **0.637** | **0.656** | **+1.89pp** | **~4.4σ** |
+
+deck.csv (kanoniczny) → v22_35w_noBoss. **Bundle: bundles/ptcg_v22b_35w.tar.gz** (v22b agent + 35W-noBoss; smoke+loader ✓; unpacked plays 0.659 meta ✓). NIE SUBMITOWANY — max-2-ACTIVE: obecnie aktywne v21+v22b(30W); po submitcie nowego system wyłączy jedną ze starych (kolejność wg nas nieznana) — decyzja po stronie użytkownika.
