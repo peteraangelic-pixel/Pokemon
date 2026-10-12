@@ -1016,3 +1016,24 @@ Pule: meta1012(69), water(27), top30(72), broad(56) z naszą polityką + **thick
 **Rozliczenie pozornej sprzeczności:** ich "v24+35W BEST +3.39" vs nasze "v24 neutralny" — to NIE konflikt: oni mierzą vs v11f (baseline), my vs v22b. v24-vs-v22b na ich danych: 0.6957 vs 0.6907 = **+0.5pp n.s.** (SE≈0.6pp @13.5k) = remis, jak u nas. Wszystkie trzy pomiary (nasz 54.8k faktoryzowany, ich 13.6k hard tests, thickbot-runs) zgodne: **deck-lever duży i stabilny, polityka v22b≈v24d**. Jedyny realny plus polityczny v24d: stall z≈5; jedyny realny koszt: thickbot −1.0 z−2.6.
 
 **UWAGA KOORDYNACYJNA (quota = zespół, nie gałąź!):** 3 gałęzie = 3 różne plany na sloty 13.10 (my: v22b_35w | c87f7a48: v11f+v24_35w | 8560a56a: v21+v24d). Wczoraj najlepszy egzemplarz (600) padł przez własne suby. Propozycja: **slot1 = v22b_35w (najczystsze lokalne dane, all-pools-plus u obu gałęzi), slot2 = v24d (eksperyment mechanizmu)** — spełnia rekomendację 8560a56a (zamienia tylko v21→v22b_35w, co każdy lokalny pomiar preferuje +2.4-2.9pp) i pomija v11f-rollback (live WR: era v11 0.36 vs v21/v22b 0.45-0.47; 484-vs-407 = szum ±110). Nic nie uzbrojone po naszej stronie; decyzja użytkownika.
+
+### 2026-10-12 12:15 UTC — FINAL RANKING kandydatów na reset 13.10 (13 700 g/ramię, 5 pul, interleaved): trójka remisowa, punktowo v25_genius
+
+| ramię | WR agregat | vs kontrola | z |
+|---|---|---|---|
+| A v22b+30W (kontrola) | 0.5953 | — | — |
+| B v22b+35W | 0.6228 | +2.75pp | +4.67 |
+| D v24d+35W (8560a56a) | 0.6239 | +2.86pp | +4.86 |
+| **V25 genius+35W (c87f7a48)** | **0.6251** | **+2.98pp** | **+5.06** |
+
+Per-pula: V25 wygrywa broad_field **+5.18pp (z=3.61 — jedyna indywidualnie istotna wygrana puli; broad = najbardziej polopodobna)**, thick_mirrors praktycznie remisuje z D (5.11 vs 4.96); B najlepszy na water (+4.57 z=3.68); D najrówniejszy wszędzie. **Różnice między kandydatami: ≤0.23pp = remis statystyczny (z<0.5)** — lokal nie rozstrzyga.
+
+Werdykt: wszystkie trzy = ten sam poziom lokalnie; **twierdzenie c87f7a48 "+3.57pp" dla v25 potwierdzone kierunkowo czystym pomiarem (+2.98 z=5.06)**. v25 = nadzbiór (v21+v22b+v24+fixed LOW_E_AGGRO+35W), zawiera więc też fix v24 (board-dev na 98% zgonów live).
+
+**Rekomendacja na 00:00 UTC 13.10 (2 sloty, quota wspólna; DECYZJA UŻYTKOWNIKA — nic nie wysyłamy sami):**
+- Slot 1: **phase1_tuned_v25_genius_35w_noBoss.tar.gz** (punktowo #1, broad z=3.61, nadzbiór wszystkich fixów)
+- Slot 2: **phase1_tuned_v22b_35w (nasz B)** — najbardziej niezależnie zweryfikowany (3 gałęzie); para V25-vs-B daje czysty odczyt live "czy warstwy v24/LOW_E dodają na prawdziwym polu" przez our_replays WR po 24h.
+- Odrzucone do slotów: v11f-rollback (live WR mówi przeciw), v24d sam (wchłonięty przez v25).
+Read-out: WR z our_replays (±5pp @90+ gier), NIE μ (szum ±110).
+
+Nota: nowa gałąź origin/arena/7911f950-pokemon = **inna konkurencja (arc-agi-3, kernel T4 LLM-agent, submission.parquet)** — nie koliduje z PTCG, bez akcji.
