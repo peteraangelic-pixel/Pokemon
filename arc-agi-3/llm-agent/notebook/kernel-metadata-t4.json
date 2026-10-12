@@ -1,0 +1,20 @@
+{
+  "id": "petersharps/arc-agi-3-llm-agent-t4",
+  "title": "ARC-AGI-3 LLM Agent (Qwen2.5-7B NF4 for T4)",
+  "code_file": "submission-t4.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_tpu": false,
+  "enable_internet": false,
+  "keywords": [],
+  "dataset_sources": [
+    "ragnar123/qwen2-5-7b-instruct"
+  ],
+  "kernel_sources": [],
+  "competition_sources": [
+    "arc-prize-2026-arc-agi-3"
+  ],
+  "model_sources": []
+}
