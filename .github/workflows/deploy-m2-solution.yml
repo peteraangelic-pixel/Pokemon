@@ -1,0 +1,86 @@
+name: Deploy M2 Solution
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.deploy-m2.trigger"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Pull and modify M2 Solution
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          # Pull original notebook
+          mkdir -p /tmp/m2-deploy
+          cd /tmp/m2-deploy
+          echo "=== Pulling jingshuifu/arc3-m2-solution ==="
+          kaggle kernels pull jingshuifu/arc3-m2-solution 2>&1
+          
+          # Check what we got
+          echo -e "\n=== Files pulled ==="
+          ls -lah
+          
+          # Create new kernel-metadata.json
+          if [ -f arc3-m2-solution.ipynb ]; then
+            echo -e "\n=== Creating new kernel-metadata.json ==="
+            cat > kernel-metadata.json << 'META'
+          {
+            "id": "petersharps/arc-agi-3-m2-solution-copy",
+            "title": "ARC-AGI-3 M2 Solution Copy (RTX Pro 6000)",
+            "code_file": "arc3-m2-solution.ipynb",
+            "language": "python",
+            "kernel_type": "notebook",
+            "is_private": true,
+            "enable_gpu": true,
+            "enable_tpu": false,
+            "enable_internet": false,
+            "machine_shape": "NvidiaRtxPro6000",
+            "keywords": ["arc-agi-3", "m2", "qwen3.8"],
+            "dataset_sources": [],
+            "kernel_sources": ["jingshuifu/arc3-m2-solution"],
+            "competition_sources": ["arc-prize-2026-arc-agi-3"],
+            "model_sources": [
+              "intel/qwen3-8-flash-next-w4a16-autoround",
+              "albucino/qwen3-8-flash-next-drafter"
+            ]
+          }
+          META
+            cat kernel-metadata.json
+            
+            echo -e "\n=== Pushing to Kaggle ==="
+            kaggle kernels push 2>&1 | tee push-log.txt
+          else
+            echo "ERROR: arc3-m2-solution.ipynb not found!"
+            ls -lah
+          fi
+      
+      - name: Announce
+        if: always()
+        run: |
+          body=$(cat /tmp/m2-deploy/push-log.txt 2>/dev/null || echo "(no data)")
+          body=$(echo "$body" | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
+          echo "::notice title=M2 Deploy Result::$body"
