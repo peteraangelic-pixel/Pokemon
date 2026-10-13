@@ -182,3 +182,33 @@ Riptide 1042 + Hammer-lanche 1046 mają **d=0 w card db** (dmg w tekście efektu
 
 ### v32 (mój, w teście) = v30 + guard mill-race w mirror
 W mirror (seen ∩ {721,722,723}) i deck≤15 → powrót do raw-d (coin toss) w SelectType.ATTACK; wszędzie indziej S3 zostaje. Cel: moc v30 na exotic/kyogre + przeżywalność mirror. Wynik poniżej.
+
+### v32 — wynik (w teście wyżej)
+- vs v30 3-pool: **0.647 vs 0.673 → −2.51pp (z=2.34)** — kyogre −2.81 z2.03 (guard odpala na puli kyogre = nasze id, tam Hammer-press WYGRYWA wyścig — coin toss tam przegrywa), exotic/weak = szum (kod identyczny, nasze-id=0 w deckach exotic)
+- vs v30 mirror: **0.595 vs 0.535 → +6.00pp (z=−1.21, n.s.)** — guard działa na czystym mirror
+- vs mój v25 mirror: 0.555 vs 0.510 → +4.50pp n.s.
+- **Werdykt: ODPRAWIONY** — guard za gruby (różnica między "kyogre-pool" a "czysty mirror" wymaga dokładniejszego detektora składu decka). Niespójne kierunki: w kyogre-poolu S3 wygrywa, w czystym mirroru coin-toss wygrywa (oba n.s./brzegowe).
+
+## OSTATECZNA SYNTYEZA 3 GAŁĘZI (10-13 ~12:00 UTC)
+
+| Agent (D0, opp=v25, moje pule) | 3-pool | newarch | mirror |
+|---|---|---|---|
+| v25 (base; LIVE 387.5) | 0.652 | 0.847 | 0.530 |
+| weakfix (LIVE 410.9) | **0.676 (+2.77, z2.59)** | — | — |
+| a450 FLOOD | 0.661 (+1.44, z1.33) | 0.868 | 0.555 (+7pp) |
+| c87 v28b | 0.649 (n.s.) | 0.876 | 0.485 |
+| **c87 v30** | 0.668 (+3.21, z2.97) | 0.867 | **0.425 (−9pp, z1.81)** |
+| **a450 v29 swarm** | 0.664 (+1.64, z1.53) | 0.879 (+2.2, z1.45) | 0.540 (+7.0, z1.40) |
+| mój v31 (v25+S3) | 0.627 (−2.49, z2.29) | 0.860 | 0.500 |
+| mój v32 (v30+guard) | 0.647 (−2.51 vs v30) | ≈ | 0.555 (+6pp vs v30) |
+
+**Konwergencja 3 gałęzi (wszystkie dane zgodne):**
+1. Optimum agenta: weakfix ≈ v29 ≈ v30 (±1pp, dead heat; nisze: v30=exotic/? +6.2 z2.92, v29=bench-survival/mirror, v28b=Ogerpon +5.3pp wg a450).
+2. Optimum decka: 35W-noBoss zamknięte (deck search 0/10, ±3 karty; UB2 −0.20/−0.58; Boss −0.44/−0.66).
+3. S3 attack-est fix = pomoc w niszy fast-ex, uszczerbek w mill-race (moje nowość: w izolacji −2.49 z2.29).
+4. Jedyny dalszy dźwign = nowy agent pod swarm (Phase-2/RL) lub akceptacja podłogi 12-15% + meta-gra o sloty.
+
+**Rekomendacja ostatniego slotu (doradztwo — nic nie wysyłam; decyzja user/c87 do resetu 00:00 UTC 14.10):**
+- **Pierwszeństwo: a450 v29 swarm** — jedyny agent z ZERO istotnych regresji na żadnej puli; S1 (bench-as-resource) atakuje zweryfikowany root cause #1 (61% pustych boardów); top30_live +1.2/+2.0 (a450).
+- Alternatywa: **c87 v30** — największy pojedynczy zysk (exotic +6.2 z2.92) ALE mirror −9pp z1.81; koszt realny DOPÓKI live field to coin-toss agenci (weakfix/v25knobs — oba bez S3).
+- v28b = bezpieczny minimum; nic = zachowanie status quo.
