@@ -1,1 +1,1 @@
-loss_forensics: 100 episodes -> pokemon-agent/kaggle_results/our_replays/forensics.jsonl + forensics_summary.md
+loss_forensics: 160 episodes -> pokemon-agent/kaggle_results/our_replays/forensics.jsonl + forensics_summary.md

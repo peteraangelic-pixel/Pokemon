@@ -22,16 +22,22 @@ _fetched by kaggle-our-replays_57125516_
 - vs CLEFAIRY: 1W-0L (1.00) n=1
 - recurring opponents (n>=2): AByT3s 2-1; lswuwu 1-1; Arka Latua 0-2; Riccardo Lo Bianco 0-2; Sanchay Singh 1-1; Taras Harbar 0-2; Aayush Jansari 0-2; cottonandcolor 1-1; F.A.Nina 0-2
 
-## submission 57130754: 10 episodes, 2W-8L = 0.200
-- vs KYOGRE: 0W-4L (0.00) n=4
-- vs ?: 1W-2L (0.33) n=3
-- vs MEOWTH+FEZANDIP: 1W-1L (0.50) n=2
-- vs LATIAS+MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
+## submission 57130754: 40 episodes, 21W-19L = 0.525
+- vs KYOGRE: 13W-11L (0.54) n=24
+- vs ?: 2W-5L (0.29) n=7
+- vs MEOWTH+FEZANDIP: 4W-2L (0.67) n=6
+- vs FEZANDIP: 1W-1L (0.50) n=2
+- vs LUCARIO: 1W-0L (1.00) n=1
+- recurring opponents (n>=2): char0n1 2-1; Taro_pan 2-0; EVIG EMIT ตัวปลอม 1-1; Elbachir Salik 1-1; Jonathan Axl 1-1; yihui ding123 1-1; Pawit Sahare 1-1; Eugen LNCanti 0-2
 
-## submission 57130779: 10 episodes, 5W-5L = 0.500
-- vs KYOGRE: 3W-0L (1.00) n=3
-- vs LUCARIO: 1W-2L (0.33) n=3
-- vs LATIAS+MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
-- vs ?: 0W-1L (0.00) n=1
-- vs MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
-- vs CLEFAIRY: 1W-0L (1.00) n=1
+## submission 57130779: 40 episodes, 18W-22L = 0.450
+- vs KYOGRE: 8W-8L (0.50) n=16
+- vs MEOWTH+FEZANDIP: 4W-5L (0.44) n=9
+- vs ?: 2W-5L (0.29) n=7
+- vs LATIAS+MEOWTH+FEZANDIP: 1W-1L (0.50) n=2
+- vs LUCARIO: 1W-1L (0.50) n=2
+- vs LUCARIO+FEZANDIP: 1W-0L (1.00) n=1
+- vs FEZANDIP: 0W-1L (0.00) n=1
+- vs CLEFAIRY+MEOWTH+FEZANDIP: 1W-0L (1.00) n=1
+- vs LATIAS+CLEFAIRY: 0W-1L (0.00) n=1
+- recurring opponents (n>=2): tategami 0-3; Tom Curry11 2-0; Nozprod 2-0; Abu Ruhan Mahamud 1-1
