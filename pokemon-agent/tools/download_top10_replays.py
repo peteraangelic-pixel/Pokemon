@@ -121,6 +121,7 @@ def main() -> int:
     ap.add_argument("--download-offset", type=int, default=0, help="skip first N unique selected episodes in phase 2 (batching)")
     ap.add_argument("--rank-start", type=int, default=0, help="only process ranks >= this (0=all)")
     ap.add_argument("--rank-end", type=int, default=0, help="only process ranks <= this (0=all)")
+    ap.add_argument("--team-ids", default="", help="comma-separated TeamId filter (overrides rank range selection within top_n)")
     ap.add_argument("--zip", default=None, help="output zip path (default outdir/TOP10.zip)")
     args = ap.parse_args()
 
@@ -188,6 +189,9 @@ def main() -> int:
         lo = args.rank_start or 1
         hi = args.rank_end or args.top_n
         ranked_teams = [(r, t) for r, t in ranked_teams if lo <= r <= hi]
+    if getattr(args, "team_ids", ""):
+        wanted = {x.strip() for x in str(args.team_ids).split(",") if x.strip()}
+        ranked_teams = [(r, t) for r, t in ranked_teams if str(t.get("TeamId") or t.get("teamId") or "") in wanted]
     top_teams = [t for _r, t in ranked_teams]
 
     print(f"\nTop {args.top_n} teams (processing {len(ranked_teams)}):")

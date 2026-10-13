@@ -66,6 +66,10 @@ on:
         description: "Only process ranks <= this (0=all)"
         required: false
         default: "0"
+      team_ids:
+        description: "Comma-separated TeamId filter (empty=all)"
+        required: false
+        default: ""
   push:
     branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
     paths:
@@ -117,6 +121,7 @@ jobs:
           DOWNLOAD_OFFSET="${{ inputs.download_offset || '' }}"
           RANK_START="${{ inputs.rank_start || '' }}"
           RANK_END="${{ inputs.rank_end || '' }}"
+          TEAM_IDS="${{ inputs.team_ids || '' }}"
           for f in pokemon-agent/kaggle_results/top50_live.trigger pokemon-agent/kaggle_results/top30_live.trigger pokemon-agent/kaggle_results/top30.trigger pokemon-agent/kaggle_results/top10_live.trigger pokemon-agent/kaggle_results/top10.trigger; do
             [ -f "$f" ] || continue
             [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
@@ -131,6 +136,7 @@ jobs:
             [ -n "$DOWNLOAD_OFFSET" ] || DOWNLOAD_OFFSET=$(sed -n 's/.*download_offset=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -n "$RANK_START" ] || RANK_START=$(sed -n 's/.*rank_start=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -n "$RANK_END" ] || RANK_END=$(sed -n 's/.*rank_end=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$TEAM_IDS" ] || TEAM_IDS=$(sed -n 's/.*team_ids=\([0-9,][0-9,]*\).*/\1/p' "$f" | head -1)
             [ -z "$MAXF" ] && MAXF=$(sed -n 's/.*max_files=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
           done
           echo "top_n=${TOP_N:-30}" >> "$GITHUB_ENV"
@@ -146,7 +152,8 @@ jobs:
           echo "download_offset=${DOWNLOAD_OFFSET:-0}" >> "$GITHUB_ENV"
           echo "rank_start=${RANK_START:-0}" >> "$GITHUB_ENV"
           echo "rank_end=${RANK_END:-0}" >> "$GITHUB_ENV"
-          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} subs_per_team=${SUBS:-8} max_files=${MAXF:-210} outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live} extract_out=${EXTRACT_OUT} clean=${CLEAN:-0} delay=${DELAY:-0.2} skip_download=${SKIP_DOWNLOAD:-0} max_downloads=${MAX_DOWNLOADS:-0} download_offset=${DOWNLOAD_OFFSET:-0} rank=${RANK_START:-0}-${RANK_END:-0}"
+          echo "team_ids=${TEAM_IDS:-}" >> "$GITHUB_ENV"
+          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} subs_per_team=${SUBS:-8} max_files=${MAXF:-210} outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live} extract_out=${EXTRACT_OUT} clean=${CLEAN:-0} delay=${DELAY:-0.2} skip_download=${SKIP_DOWNLOAD:-0} max_downloads=${MAX_DOWNLOADS:-0} download_offset=${DOWNLOAD_OFFSET:-0} rank=${RANK_START:-0}-${RANK_END:-0} team_ids=${TEAM_IDS:-}"
 
       - name: Download live replays (quota is PER TEAM)
         run: |
@@ -164,6 +171,7 @@ jobs:
           if [ -n "$download_offset" ] && [ "$download_offset" != "0" ]; then EXTRA_ARGS="$EXTRA_ARGS --download-offset $download_offset"; fi
           if [ -n "$rank_start" ] && [ "$rank_start" != "0" ]; then EXTRA_ARGS="$EXTRA_ARGS --rank-start $rank_start"; fi
           if [ -n "$rank_end" ] && [ "$rank_end" != "0" ]; then EXTRA_ARGS="$EXTRA_ARGS --rank-end $rank_end"; fi
+          if [ -n "$team_ids" ]; then EXTRA_ARGS="$EXTRA_ARGS --team-ids $team_ids"; fi
           echo "Extra args:$EXTRA_ARGS"
           python pokemon-agent/tools/download_top10_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
