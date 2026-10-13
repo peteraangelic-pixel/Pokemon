@@ -1,0 +1,414 @@
+[     4.7s]E 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+[     4.7s]E 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+[     4.7s]E 0.00s - to python to disable frozen modules.
+[     4.7s]E 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[     5.1s]E 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+[     5.1s]E 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+[     5.1s]E 0.00s - to python to disable frozen modules.
+[     5.1s]E 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[     5.8s]  ARC3_VARIANT {"env": {"ARC3_EXPERIMENT_HINT": "1", "ARC3_LEVEL_NOTES": "1", "ARC3_STUCK_AUDIT_TOKENS": "60000"}, "git": "0f1f21227fa0", "name": "v2-think-less", "patch_files": ["/kaggle/duck-extra-00.patch"], "patches": ["0001-level-notes-audit-experiment-hint.patch"], "smoke": {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 48}}
+[     5.8s]  ARC3_PREFLIGHT gpu: NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB
+[     5.8s]  ARC3_PREFLIGHT rerun: False
+[     5.8s]  ARC3_PREFLIGHT_OK
+[     5.9s]  Writing /kaggle/harness-changes.patch
+[     5.9s]  wrote /kaggle/duck-extra-00.patch 11350 chars
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[     6.6s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[     6.6s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]  harness patch applied successfully
+[     6.6s]  ARC3 extra patch applied: /kaggle/duck-extra-00.patch
+[     6.6s]  taaf.kaggle: TRUE_SUBMISSION=False
+[     6.6s]  ARC3 variant env: {'ARC3_EXPERIMENT_HINT': '1', 'ARC3_LEVEL_NOTES': '1', 'ARC3_STUCK_AUDIT_TOKENS': '60000'}
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[     6.6s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[     6.6s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]E 
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[     6.6s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[     6.6s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[     6.6s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[     6.6s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[     6.6s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[     6.6s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[     6.6s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[     6.7s]  Precaching: Started...
+[    13.9s]  Precaching: loaded 211 files (6.70 GB) in 7.20 seconds.
+[    13.9s]  
+[    15.8s]  taaf.kaggle: wrote /usr/local/lib/python3.12/dist-packages/taaf_kaggle_sources.pth (3 source roots)
+[    16.0s]  === installing Pennyroyal (offline) ===
+[    16.1s]  $ /tmp/sgl-intel/bin/uv venv --python /usr/bin/python3 /tmp/sgl-intel/venv
+[    16.3s]  $ /tmp/sgl-intel/bin/uv pip install --python /tmp/sgl-intel/venv/bin/python --no-index --find-links /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels -r /kaggle/input/datasets/dfranzen/pennyroyal-v253/requirements.lock
+[    19.6s]  $ /tmp/sgl-intel/bin/uv pip install --python /tmp/sgl-intel/venv/bin/python --no-index --find-links /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels --reinstall --no-deps /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels/sglang-0.5.19+gd00d88efc8d6-cp312-cp312-linux_x86_64.whl
+[    19.6s]  $ /tmp/sgl-intel/venv/lib/python3.12/site-packages/nvidia/cu13/bin/nvcc --version
+[    19.9s]  nvcc: NVIDIA (R) Cuda compiler driver
+[    19.9s]  Copyright (c) 2005-2025 NVIDIA Corporation
+[    19.9s]  Built on Wed_Aug_20_01:58:59_PM_PDT_2025
+[    19.9s]  Cuda compilation tools, release 13.0, V13.0.88
+[    19.9s]  Build cuda_13.0.r13.0/compiler.36424714_0
+[    19.9s]  Host compiler: g++-11
+[    19.9s]  $ /tmp/sgl-intel/venv/bin/python -c 'import pathlib, sglang, torch
+[    19.9s]  print("sglang", sglang.__version__, "| torch", torch.__version__)
+[    19.9s]  assert torch.cuda.is_available(), "CUDA unavailable"
+[    19.9s]  print("GPU:", torch.cuda.get_device_name(0), "capability:", torch.cuda.get_device_capability(0))
+[    19.9s]  '
+[    51.8s]  sglang 0.5.19+gd00d88efc8d6 | torch 2.13.0+cu130
+[    51.8s]  GPU: NVIDIA RTX PRO 6000 Blackwell Server Edition capability: (12, 0)
+[    52.0s]  Target: /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1 | shards: 38 | PLE dtype: checkpoint default (typically BF16)
+[    52.0s]  Draft source: /kaggle/input/models/dfranzen/albucino-qwen3-8-flash-next-drafter/transformers/default/1
+[    52.0s]  SGLang draft view: /tmp/sgl-intel/draft-view-746747f37bf36968 (2 linked weight shards)
+[    52.0s]  
+[    52.0s]  /tmp/sgl-intel/venv/bin/sglang serve --model-path /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1 --load-format safetensors --model-loader-extra-config '{"enable_multithread_load":false}' --served-model-name flashnext --host 127.0.0.1 --port 8001 --tensor-parallel-size 1 --dtype bfloat16 --quantization auto-round --kv-cache-dtype fp8_e4m3 --mem-fraction-static 0.96 --context-length 139264 --page-size 64 --max-running-requests 10 --chunked-prefill-size 8192 --max-prefill-tokens 16384 --cuda-graph-max-bs-decode 10 --cuda-graph-bs-decode 1 2 4 7 8 9 10 --mamba-ssm-dtype bfloat16 --max-mamba-cache-size 60 --mamba-radix-cache-strategy extra_buffer --mamba-track-interval 64 --mamba-backend flashinfer --linear-attn-decode-backend flashinfer --linear-attn-prefill-backend flashinfer --moe-runner-backend auto --ple-offload-embedding --trust-remote-code --mm-feature-transport cpu --image-processor-backend pil --reasoning-parser qwen3 --tool-call-parser qwen3_coder --default-chat-template-kwargs '{"preserve_thinking":true}' --watchdog-timeout 1800 --schedule-policy lpm --warmups structured_output --enable-cache-report --enable-metrics --enable-request-time-stats-logging --weight-loader-prefetch-checkpoints --weight-loader-drop-cache-after-load --chat-template /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1/chat_template.jinja --gdn-mtp-cache-mode none --speculative-algorithm NEXTN --speculative-num-steps 3 --speculative-eagle-topk 1 --speculative-num-draft-tokens 4 --speculative-draft-model-path /tmp/sgl-intel/draft-view-746747f37bf36968 --speculative-draft-model-quantization compressed-tensors --speculative-moe-runner-backend auto --speculative-draft-kv-cache-dtype fp8_e4m3 --speculative-accept-threshold-single 1.0 --speculative-accept-threshold-acc 1.0 --speculative-token-map /kaggle/input/datasets/dfranzen/pennyroyal-v253/hot_tokens_64k.pt
+[    52.0s]  
+[    52.0s]  pid 505 -> /kaggle/working/serve.log
+[    52.0s]    0s ...
+[    82.0s]    30s ...
+[   112.0s]  Precaching: Started...
+[   112.0s]    60s ...
+[   142.0s]    90s ...
+[   172.0s]    120s ...
+[   202.0s]    150s ...
+[   232.0s]    180s ...
+[   262.0s]    210s ...
+[   292.1s]    240s ...
+[   322.0s]    270s ...
+[   352.1s]    300s ...
+[   368.2s]  Precaching: loaded 62 files (185.40 GB) in 256.00 seconds.
+[   368.2s]  
+[   382.1s]    330s ...
+[   412.1s]    360s ...
+[   442.1s]    390s ...
+[   472.1s]    420s ...
+[   502.1s]    450s ...
+[   532.1s]    480s ...
+[   554.1s]  
+[   554.1s]  READY after 502s -> http://127.0.0.1:8001/v1
+[   556.1s]  ARC3 smoke: games=['cn04', 'dc22', 'g50t', 'ka59', 'ls20', 'm0r0', 's5i5', 'sc25', 'su15', 'tn36'] minutes=48
+[   556.1s]  benchmark.solver: HarnessSolver(label='duck-harness', runtime_environment=None, job_dir=None, soft_end_time=None, minimal_diagnostics=False, model='local', analyzer_timeout=900.0, max_actions_per_game=None, max_runtime_s_per_game=2880, max_generated_tokens_per_game=None, concurrency=10, save_request_logs=True, start_local_server=False, local_server_config='', local_server_api_key_file='', local_server_repo_dir='/Users/jeroencottaar/code/ARC3-Inference', local_server_port=None, local_server_tensor_parallel_size=None, local_server_count=1, cancel_drain_timeout_s=120.0)
+[   556.1s]  [sys] RAM 106.7/176.9 | swap none | proc 0.3 GB, 60 threads, 64 fds | GPU0 91.1/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   556.1s]  [sys] RAM 106.7/176.9 | swap none | proc 0.3 GB, 60 threads, 64 fds | GPU0 91.1/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   556.3s]  Starting benchmark...
+[   556.5s]  ARC3 offline games: ['tn36-ef4dde99', 'm0r0-492f87ba', 'cn04-2fe56bfb', 'dc22-fdcac232', 'ka59-38d34dbb', 'sc25-635fd71a', 's5i5-18d95033', 'ls20-9607627b', 'su15-1944f8ab', 'g50t-5849a774']
+[   557.0s]E priority gate active: 10 concurrent streams
+[   557.0s]E 
+[   557.0s]E priority gate active: 10 concurrent streams
+[   557.0s]E dc22-fdcac232: warmup RESET issued before the analyzer is reachable
+[   557.0s]E 
+[   557.0s]E dc22-fdcac232: warmup RESET issued before the analyzer is reachable
+[   676.1s]  [sys] RAM 106.9/176.9 | swap none | proc 0.4 GB, 70 threads, 76 fds | GPU0 93.4/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   796.2s]  [sys] RAM 107.7/176.9 | swap none | proc 0.4 GB, 70 threads, 76 fds | GPU0 93.4/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.1/19.5
+[   916.2s]  [sys] RAM 108.9/176.9 | swap none | proc 0.4 GB, 70 threads, 76 fds | GPU0 93.4/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.1/19.5
+[  1036.2s]  [sys] RAM 109.5/176.9 | swap none | proc 0.5 GB, 70 threads, 76 fds | GPU0 93.4/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.1/19.5
+[  1156.2s]  [sys] RAM 110.8/176.9 | swap none | proc 0.5 GB, 70 threads, 76 fds | GPU0 93.4/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.1/19.5
+[  1158.8s]  benchmark: regenerated diagnostics in /kaggle/working in 1.60s
+[  1158.8s]  benchmark: duck-harness-kaggle
+[  1158.8s]  solver:    duck-harness
+[  1158.8s]  games:     10
+[  1158.8s]  passes:    1
+[  1158.8s]  runs:      10 (won: 0)
+[  1158.8s]  started:   2026-10-12 19:38:15
+[  1158.8s]  ended:     in progress
+[  1158.8s]  mean score:    4.62
+[  1158.8s]  median score:  3.57
+[  1158.8s]  total actions: 427
+[  1158.8s]  total tokens:  370139
+[  1158.8s]  generated tokens/sec: 614.76 (job wallclock)
+[  1158.8s]  total wallclock: 5621.5s
+[  1158.8s]  
+[  1158.8s]  per-game (mean across passes):
+[  1158.8s]    cn04-2fe56bfb: score=4.76, levels=1.0/6, actions=24, tokens=37527
+[  1158.8s]    dc22-fdcac232: score=4.76, levels=1.0/6, actions=45, tokens=38763
+[  1158.8s]    g50t-5849a774: score=3.57, levels=1.0/7, actions=43, tokens=32959
+[  1158.8s]    ka59-38d34dbb: score=3.57, levels=1.0/7, actions=43, tokens=40674
+[  1158.8s]    ls20-9607627b: score=2.37, levels=1.0/7, actions=62, tokens=38431
+[  1158.8s]    m0r0-492f87ba: score=4.76, levels=1.0/6, actions=29, tokens=38308
+[  1158.8s]    s5i5-18d95033: score=2.30, levels=1.0/8, actions=38, tokens=36502
+[  1158.8s]    sc25-635fd71a: score=14.29, levels=2.0/6, actions=68, tokens=36604
+[  1158.8s]    su15-1944f8ab: score=2.22, levels=1.0/9, actions=34, tokens=33413
+[  1158.8s]    tn36-ef4dde99: score=3.57, levels=1.0/7, actions=41, tokens=36958
+[  1158.8s]  
+[  1276.2s]  [sys] RAM 110.9/176.9 | swap none | proc 0.6 GB, 70 threads, 77 fds | GPU0 93.4/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.2/19.5
+[  1396.3s]  [sys] RAM 111.9/176.9 | swap none | proc 0.6 GB, 71 threads, 79 fds | GPU0 93.4/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.2/19.5
+[  1516.3s]  [sys] RAM 112.7/176.9 | swap none | proc 0.7 GB, 70 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.3/19.5
+[  1636.3s]  [sys] RAM 112.8/176.9 | swap none | proc 0.7 GB, 70 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.3/19.5
+[  1756.3s]  [sys] RAM 112.9/176.9 | swap none | proc 0.8 GB, 70 threads, 76 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.3/19.5
+[  1760.0s]  benchmark: regenerated diagnostics in /kaggle/working in 1.14s
+[  1760.0s]  benchmark: duck-harness-kaggle
+[  1760.0s]  solver:    duck-harness
+[  1760.0s]  games:     10
+[  1760.0s]  passes:    1
+[  1760.0s]  runs:      10 (won: 0)
+[  1760.0s]  started:   2026-10-12 19:38:15
+[  1760.0s]  ended:     in progress
+[  1760.0s]  mean score:    8.08
+[  1760.0s]  median score:  6.50
+[  1760.0s]  total actions: 938
+[  1760.0s]  total tokens:  720444
+[  1760.0s]  generated tokens/sec: 598.72 (job wallclock)
+[  1760.0s]  total wallclock: 11368.3s
+[  1760.0s]  
+[  1760.0s]  per-game (mean across passes):
+[  1760.0s]    cn04-2fe56bfb: score=4.76, levels=1.0/6, actions=61, tokens=65510
+[  1760.0s]    dc22-fdcac232: score=14.29, levels=2.0/6, actions=117, tokens=76078
+[  1760.0s]    g50t-5849a774: score=10.71, levels=2.0/7, actions=88, tokens=76438
+[  1760.0s]    ka59-38d34dbb: score=3.57, levels=1.0/7, actions=66, tokens=70274
+[  1760.0s]    ls20-9607627b: score=6.34, levels=2.0/7, actions=202, tokens=74254
+[  1760.0s]    m0r0-492f87ba: score=14.29, levels=2.0/6, actions=98, tokens=71874
+[  1760.0s]    s5i5-18d95033: score=2.30, levels=1.0/8, actions=71, tokens=71680
+[  1760.0s]    sc25-635fd71a: score=14.29, levels=2.0/6, actions=115, tokens=69839
+[  1760.0s]    su15-1944f8ab: score=6.67, levels=2.0/9, actions=55, tokens=74971
+[  1760.0s]    tn36-ef4dde99: score=3.57, levels=1.0/7, actions=65, tokens=69526
+[  1760.0s]  
+[  1876.4s]  [sys] RAM 112.9/176.9 | swap none | proc 0.8 GB, 70 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.3/19.5
+[  1996.4s]  [sys] RAM 113.4/176.9 | swap none | proc 0.8 GB, 70 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.4/19.5
+[  2116.9s]  [sys] RAM 113.7/176.9 | swap none | proc 0.9 GB, 74 threads, 86 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.4/19.5
+[  2237.1s]  [sys] RAM 113.9/176.9 | swap none | proc 1.0 GB, 71 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.5/19.5
+[  2357.1s]  [sys] RAM 114.1/176.9 | swap none | proc 1.0 GB, 70 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.5/19.5
+[  2361.2s]  benchmark: regenerated diagnostics in /kaggle/working in 1.12s
+[  2361.2s]  benchmark: duck-harness-kaggle
+[  2361.2s]  solver:    duck-harness
+[  2361.2s]  games:     10
+[  2361.2s]  passes:    1
+[  2361.2s]  runs:      10 (won: 0)
+[  2361.2s]  started:   2026-10-12 19:38:15
+[  2361.2s]  ended:     in progress
+[  2361.2s]  mean score:    17.42
+[  2361.2s]  median score:  14.88
+[  2361.2s]  total actions: 1508
+[  2361.2s]  total tokens:  1092947
+[  2361.2s]  generated tokens/sec: 605.67 (job wallclock)
+[  2361.2s]  total wallclock: 17308.2s
+[  2361.2s]  
+[  2361.2s]  per-game (mean across passes):
+[  2361.2s]    cn04-2fe56bfb: score=4.76, levels=1.0/6, actions=73, tokens=99827
+[  2361.2s]    dc22-fdcac232: score=28.57, levels=3.0/6, actions=186, tokens=112181
+[  2361.2s]    g50t-5849a774: score=21.43, levels=3.0/7, actions=167, tokens=100193
+[  2361.2s]    ka59-38d34dbb: score=10.71, levels=2.0/7, actions=120, tokens=114776
+[  2361.2s]    ls20-9607627b: score=6.34, levels=2.0/7, actions=305, tokens=105090
+[  2361.2s]    m0r0-492f87ba: score=28.57, levels=3.0/6, actions=173, tokens=107481
+[  2361.2s]    s5i5-18d95033: score=8.33, levels=2.0/8, actions=105, tokens=114550
+[  2361.2s]    sc25-635fd71a: score=17.41, levels=3.0/6, actions=156, tokens=109347
+[  2361.2s]    su15-1944f8ab: score=12.36, levels=3.0/9, actions=97, tokens=118065
+[  2361.2s]    tn36-ef4dde99: score=35.71, levels=4.0/7, actions=126, tokens=111437
+[  2361.2s]  
+[  2477.6s]  [sys] RAM 114.1/176.9 | swap none | proc 1.1 GB, 72 threads, 82 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.5/19.5
+[  2597.6s]  [sys] RAM 113.9/176.9 | swap none | proc 1.2 GB, 70 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.6/19.5
+[  2717.8s]  [sys] RAM 113.6/176.9 | swap none | proc 1.2 GB, 72 threads, 81 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.6/19.5
+[  2838.2s]  [sys] RAM 113.9/176.9 | swap none | proc 1.2 GB, 72 threads, 82 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.6/19.5
+[  2912.1s]E tail fade phase after 39.3 minutes: 8.7 minutes remaining; fading tail B to zero over the final 9.6 minutes, retaining hazard C
+[  2912.1s]E 
+[  2912.1s]E tail fade phase after 39.3 minutes: 8.7 minutes remaining; fading tail B to zero over the final 9.6 minutes, retaining hazard C
+[  2958.4s]  [sys] RAM 114.7/176.9 | swap none | proc 1.2 GB, 70 threads, 78 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.7/19.5
+[  2962.9s]  benchmark: regenerated diagnostics in /kaggle/working in 1.55s
+[  2962.9s]  benchmark: duck-harness-kaggle
+[  2962.9s]  solver:    duck-harness
+[  2962.9s]  games:     10
+[  2962.9s]  passes:    1
+[  2962.9s]  runs:      10 (won: 0)
+[  2962.9s]  started:   2026-10-12 19:38:15
+[  2962.9s]  ended:     in progress
+[  2962.9s]  mean score:    25.42
+[  2962.9s]  median score:  16.89
+[  2962.9s]  total actions: 2024
+[  2962.9s]  total tokens:  1454327
+[  2962.9s]  generated tokens/sec: 604.41 (job wallclock)
+[  2962.9s]  total wallclock: 23306.8s
+[  2962.9s]  
+[  2962.9s]  per-game (mean across passes):
+[  2962.9s]    cn04-2fe56bfb: score=4.76, levels=1.0/6, actions=99, tokens=139364
+[  2962.9s]    dc22-fdcac232: score=47.62, levels=4.0/6, actions=272, tokens=144966
+[  2962.9s]    g50t-5849a774: score=21.43, levels=3.0/7, actions=267, tokens=140933
+[  2962.9s]    ka59-38d34dbb: score=10.71, levels=2.0/7, actions=162, tokens=154630
+[  2962.9s]    ls20-9607627b: score=8.52, levels=3.0/7, actions=366, tokens=136843
+[  2962.9s]    m0r0-492f87ba: score=47.62, levels=4.0/6, actions=210, tokens=136282
+[  2962.9s]    s5i5-18d95033: score=8.33, levels=2.0/8, actions=114, tokens=157836
+[  2962.9s]    sc25-635fd71a: score=39.32, levels=4.0/6, actions=230, tokens=143864
+[  2962.9s]    su15-1944f8ab: score=12.36, levels=3.0/9, actions=128, tokens=154718
+[  2962.9s]    tn36-ef4dde99: score=53.57, levels=5.0/7, actions=176, tokens=144891
+[  2962.9s]  
+[  3078.4s]  [sys] RAM 113.7/176.9 | swap none | proc 1.2 GB, 70 threads, 78 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.7/19.5
+[  3198.5s]  [sys] RAM 114.1/176.9 | swap none | proc 1.2 GB, 70 threads, 78 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.7/19.5
+[  3318.7s]  [sys] RAM 114.6/176.9 | swap none | proc 1.3 GB, 71 threads, 80 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.7/19.5
+[  3437.1s]E analyzer request timed out at action 122; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=0.9242628239999249)
+[  3437.1s]E 
+[  3437.1s]E analyzer request timed out at action 122; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=0.9242628239999249)
+[  3437.1s]E analyzer request timed out at action 259; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=11.818624000000455)
+[  3437.1s]E 
+[  3437.1s]E analyzer request timed out at action 259; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=11.818624000000455)
+[  3437.1s]E analyzer request timed out at action 274; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=7.067510880000555)
+[  3437.1s]E 
+[  3437.1s]E analyzer request timed out at action 274; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=7.067510880000555)
+[  3437.3s]  [finished] cn04-2fe56bfb state=gave_up level=1/6 score=4.76 actions=121 tokens=178300 per-level=14/29,107/54,0/85,0/300,0/208,0/113 note="tokens=178300"
+[  3437.3s]  [finished] m0r0-492f87ba state=gave_up level=5/6 score=71.43 actions=258 tokens=170549 per-level=29/30,51/111,78/203,28/26,55/500,17/237 note="tokens=170549"
+[  3437.3s]  [finished] sc25-635fd71a state=gave_up level=5/6 score=66.70 actions=273 tokens=170911 per-level=29/36,5/6,122/32,71/83,46/143,0/50 note="tokens=170911"
+[  3437.4s]E analyzer request timed out at action 275; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=36.04018865099988)
+[  3437.4s]E 
+[  3437.4s]E analyzer request timed out at action 275; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=36.04018865099988)
+[  3437.6s]  [finished] g50t-5849a774 state=gave_up level=3/7 score=21.43 actions=274 tokens=163884 per-level=43/78,32/175,74/179,125/230,0/96,0/54,0/67 note="tokens=173470"
+[  3437.8s]E analyzer request timed out at action 268; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=41.65754668799946)
+[  3437.8s]E 
+[  3437.8s]E analyzer request timed out at action 268; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=41.65754668799946)
+[  3437.9s]E analyzer request timed out at action 431; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=19.286426151999876)
+[  3437.9s]E 
+[  3437.9s]E analyzer request timed out at action 431; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=19.286426151999876)
+[  3438.0s]E analyzer request timed out at action 122; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=56.98209901300015)
+[  3438.0s]E 
+[  3438.0s]E analyzer request timed out at action 122; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=56.98209901300015)
+[  3438.0s]  [finished] ka59-38d34dbb state=gave_up level=2/7 score=10.71 actions=267 tokens=180501 per-level=20/28,66/109,181/51,0/51,0/33,0/132,0/326 note="tokens=180501"
+[  3438.0s]  [finished] ls20-9607627b state=gave_up level=3/7 score=8.52 actions=430 tokens=167183 per-level=27/22,165/123,162/73,76/84,0/96,0/192,0/186 note="tokens=167183"
+[  3438.2s]  [finished] s5i5-18d95033 state=gave_up level=2/8 score=8.33 actions=121 tokens=179038 per-level=22/20,82/89,17/106,0/54,0/162,0/38,0/86,0/83 note="tokens=191326"
+[  3438.2s]E analyzer request timed out at action 169; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=26.168718190999243)
+[  3438.2s]E 
+[  3438.2s]E analyzer request timed out at action 169; yielding with 0 tool call(s) preserved: HTTPConnectionPool(host='127.0.0.1', port=8001): Read timed out. (read timeout=26.168718190999243)
+[  3438.5s]  [finished] su15-1944f8ab state=gave_up level=3/9 score=12.36 actions=168 tokens=186549 per-level=19/22,29/42,31/26,89/115,0/36,0/31,0/8,0/40,0/41 note="tokens=186549"
+[  3438.7s]  [sys] RAM 113.8/176.9 | swap none | proc 1.3 GB, 70 threads, 77 fds | GPU0 93.8/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.7/19.5
+[  3444.5s]  [finished] tn36-ef4dde99 state=gave_up level=5/7 score=53.57 actions=200 tokens=170771 per-level=30/32,57/72,14/26,25/40,27/30,47/55,0/62 note="tokens=176029"
+[  3444.5s]  [finished] dc22-fdcac232 state=gave_up level=4/6 score=47.62 actions=294 tokens=170147 per-level=44/59,55/102,68/67,87/98,40/324,0/578 note="tokens=174808"
+[  3447.5s]  benchmark: regenerated diagnostics in /kaggle/working in 2.64s
+[  3447.5s]  benchmark: duck-harness-kaggle
+[  3447.5s]  solver:    duck-harness
+[  3447.5s]  games:     10
+[  3447.5s]  passes:    1
+[  3447.5s]  runs:      10 (won: 0)
+[  3447.5s]  started:   2026-10-12 19:38:15
+[  3447.5s]  ended:     2026-10-12 20:26:22
+[  3447.5s]  duration:  48m 7s
+[  3447.5s]  mean score:    30.54
+[  3447.5s]  median score:  16.89
+[  3447.5s]  total actions: 2406
+[  3447.5s]  total tokens:  1737833
+[  3447.5s]  generated tokens/sec: 601.76 (job wallclock)
+[  3447.5s]  total wallclock: 28820.9s
+[  3447.5s]  
+[  3447.5s]  per-game (mean across passes):
+[  3447.5s]    cn04-2fe56bfb: score=4.76, levels=1.0/6, actions=121, tokens=178300
+[  3447.5s]    dc22-fdcac232: score=47.62, levels=4.0/6, actions=294, tokens=170147
+[  3447.5s]    g50t-5849a774: score=21.43, levels=3.0/7, actions=274, tokens=163884
+[  3447.5s]    ka59-38d34dbb: score=10.71, levels=2.0/7, actions=267, tokens=180501
+[  3447.5s]    ls20-9607627b: score=8.52, levels=3.0/7, actions=430, tokens=167183
+[  3447.5s]    m0r0-492f87ba: score=71.43, levels=5.0/6, actions=258, tokens=170549
+[  3447.5s]    s5i5-18d95033: score=8.33, levels=2.0/8, actions=121, tokens=179038
+[  3447.5s]    sc25-635fd71a: score=66.70, levels=5.0/6, actions=273, tokens=170911
+[  3447.5s]    su15-1944f8ab: score=12.36, levels=3.0/9, actions=168, tokens=186549
+[  3447.5s]    tn36-ef4dde99: score=53.57, levels=5.0/7, actions=200, tokens=170771
+[  3447.5s]  
+[  3447.5s]  diagnostics: /kaggle/working/diagnostics.html
+[  3448.2s]E /usr/local/lib/python3.12/dist-packages/IPython/core/display.py:724: UserWarning: Consider using IPython.display.IFrame instead
+[  3448.2s]E   warnings.warn("Consider using IPython.display.IFrame instead")
+[  3448.2s]E 
+[  3448.2s]E /usr/local/lib/python3.12/dist-packages/IPython/core/display.py:724: UserWarning: Consider using IPython.display.IFrame instead
+[  3448.2s]E   warnings.warn("Consider using IPython.display.IFrame instead")
+[  3448.3s]  ARC3 smoke results:
+[  3448.3s]    tn36-ef4dde99            state=gave_up    levels=5/7 actions=200 non_reset=200 gen_tokens=170771 score=53.57
+[  3448.3s]    m0r0-492f87ba            state=gave_up    levels=5/6 actions=258 non_reset=258 gen_tokens=170549 score=71.43
+[  3448.3s]    cn04-2fe56bfb            state=gave_up    levels=1/6 actions=121 non_reset=120 gen_tokens=178300 score=4.76
+[  3448.3s]    dc22-fdcac232            state=gave_up    levels=4/6 actions=294 non_reset=293 gen_tokens=170147 score=47.62
+[  3448.3s]    ka59-38d34dbb            state=gave_up    levels=2/7 actions=267 non_reset=266 gen_tokens=180501 score=10.71
+[  3448.3s]    sc25-635fd71a            state=gave_up    levels=5/6 actions=273 non_reset=270 gen_tokens=170911 score=66.70
+[  3448.3s]    s5i5-18d95033            state=gave_up    levels=2/8 actions=121 non_reset=121 gen_tokens=179038 score=8.33
+[  3448.3s]    ls20-9607627b            state=gave_up    levels=3/7 actions=430 non_reset=428 gen_tokens=167183 score=8.52
+[  3448.3s]    su15-1944f8ab            state=gave_up    levels=3/9 actions=168 non_reset=166 gen_tokens=186549 score=12.36
+[  3448.3s]    g50t-5849a774            state=gave_up    levels=3/7 actions=274 non_reset=274 gen_tokens=163884 score=21.43
+[  3448.3s]  ARC3 smoke: games=10 gen_tokens=1737833 non_reset_actions=2396 crashed=[]
+[  3448.3s]  ARC3_SMOKE_OK
+[  3450.5s]E /usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+[  3450.5s]E   cells[i][c] = re.sub('\\\\\|', '|', cell)
+[  3450.7s]E /usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+[  3450.7s]E   text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[  3451.2s]E [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[  3451.4s]E [NbConvertApp] Writing 1859208 bytes to __notebook__.ipynb
+[  3452.6s]E [NbConvertApp] Converting notebook __notebook__.ipynb to html
+[  3453.7s]E [NbConvertApp] Writing 3483269 bytes to __results__.html
