@@ -46,11 +46,17 @@ arc-agi-3/llm-agent/
 ### Jak uruchomić
 
 ```bash
-# Trigger w GitHub Actions:
-touch arc-agi-3/llm-agent/notebook/.submit.trigger
-git add arc-agi-3/llm-agent/notebook/.submit.trigger
-git commit -m "trigger: LLM agent submission"
-git push origin arena/7911f950-pokemon
+# Generuj notebook:
+cd arc-agi-3/llm-agent
+python build_notebook.py arc-agi-3-llm-agent.ipynb
+
+# Push do Kaggle (tworzy run, ale NIE zgłasza do konkursu):
+kaggle kernels push -p .
+
+# WAŻNE: API push nie uruchamia gry.
+# Po zakończeniu runu kliknij "Submit to Competition" w UI Kaggle.
+# Run wykona grę i wygeneruje submission.parquet.
+# Przed zgłoszeniem: make check-output (waliduje submission.parquet)
 ```
 
 ### Ryzyka

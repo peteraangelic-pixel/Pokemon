@@ -26,7 +26,6 @@ Patrz `arc-agi-3/FINDINGS-2026-10-13.md`. Architektura:
 | `llm_policy.py` | LLM client, prompt, anti-loop, action parsing |
 | `llm_agent.py` | ARC-AGI-3-Agents framework adapter |
 | `build_notebook.py` | Generates the Kaggle notebook |
-| `notebook/` | Kaggle push directory |
 
 ## Budget
 
@@ -44,8 +43,15 @@ Required Kaggle datasets (attached to notebook):
 ## Submission
 
 ```bash
-# Trigger: commit to arc-agi-3/llm-agent/notebook/.submit.trigger
-# Or: Run workflow "ARC-AGI-3 LLM agent submit" in GitHub Actions
+# Generate notebook:
+python build_notebook.py arc-agi-3-llm-agent.ipynb
+
+# Push to Kaggle (creates a run, but does NOT submit to competition):
+kaggle kernels push -p <notebook-dir>
+
+# IMPORTANT: API push does not start game execution.
+# After the run completes, click "Submit to Competition" in Kaggle UI.
+# The run will execute the game and generate submission.parquet.
 ```
 
 ## Fallback
