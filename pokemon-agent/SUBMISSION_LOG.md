@@ -1337,3 +1337,14 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - **Wspólny bieg (opp=weakfix; 4 ramiona):** meta1012: V34_35W **0.674** (kontrola) | ich pakiet 0.646 (−2.78 z−2.44!) | moje B2 0.663 (−1.07 n.s.) | moje B2K3 0.636 (−3.83 z−3.35!); 3-pool: V34 0.714 | ich 0.699 (−1.52 n.s.) | B2 0.681 (−3.30 z−2.64) | B2K3 0.679 (−3.52 z−2.81). **Pooled 6150g: wszystkie pakiety ujemne; kontrola V34 wygrywa wszystko.**
 - **Wnioski:** (1) oś deckowa zamknięta definitywnie — każdy dziś przetestowany wariant talii (UB2, BENG v1, 34W3K, beng2, beng2_k3) ≤ 0, w większości istotnie; 58%-owy famine jest NIEREDUKOWALNY przy tym szkielecie (6-7 basiców bez prawdziwego engine'u); (2) moja agresywna timing-tier (Poffin > supporter) szkodzi bardziej niż ich łagodny (+50/+30) — ale obie ujemne; (3) **V34 (c87f 530fa4e) = ostateczny pick na slot** (reset 00:00 UTC); (4) dalsze % są poza dzisiejszym paradygmatem — konieczny prawdziwy redesign (nowy win-con / RL), decyzja na przyszłe okno.
 - Z a450b00f nic nie wysłano; artefakty (agent v35, decki, builder) zostają w repo z flagą REJECTED dla historii.
+
+---
+
+## 2026-10-13 ~16:10 UTC — **V34 WYSŁANE NA KAGGLE** (przez c87f7a48, 5/5 slotów, start μ=600.0)
+
+- Dowód na ich gałęzi: `84f0d6e` "submit: v34 thickWalls KO80 fastNonEx autoFastEx136 benchResource LIVE on last free slot 5/5 per user request" (12:26 UTC) → poll `201e035`/`93f26dd` → `42de257` "DISARM after v34 submit - **5/5 used Oct13, 600.0 start**"; wszystkie submit-workflow DISARM.
+- Wysłany agent = dokładnie ten, którego zweryfikowałem jako najlepszy (`c87_v34.py` md5 14388e9d = c87_v35 baza; v33 + thick-walls; paired 3/3 dodatnie nad V33, pooled ≈+0.85pp z1.4; vs weakfix pooled ≈+1.2-1.6 z~1.9).
+- **Oczekiwania live:** start 600.0 → pierwsze sensowne μ po ~50-100 ep (~24h); tarcza porównawcza: weakfix zaczynał od 600 → 410.9 (23W-26L); v34 teoretycznie +1.3-1.6pp WR nad weakfix => oczekiwany μ docelowo lekko powyżej 410.9 przy tej samej populacji; szum ±110pkt.
+- **Stan kwoty: 5/5 zużyte (v25old, v25knobs#1, v25knobs#2, v26weakfix, v34). Reset 00:00 UTC 14.10 (=02:00 czasu PL).**
+- **Program na 14.10:** (a) poll live μ + replays (wróci jako bot-commit); (b) decyzja Phase-4: prawdziwy redesign (nowy win-con / RL) — oś deckowa i behawioralna wyczerpane (dziś: 5 wariantów decku ≤0, v34-M@453441/5000≈0, sufity ~+1pp pooled); (c) ewentualny 6. slot po resecie TYLKO na twarde dane (≥3 paired biegi, z≥1.5).
+- Z a450b00f nic nie wysłano (rozkazy i submit = c87f7a48; podział ról utrzymany).
