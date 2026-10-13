@@ -1146,3 +1146,18 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **KONWERGENCJA 3 GAŁĘZI (moje: głód-basic 16/46, pojedynki, 3 odrzucone lewary; ich: 7 wariantów; c87: post-mortem):** w obrębie decka 35W-mill nie ma taniego skoku; podłoga vs słabych ~12-15% strat (gra stochastyczna, ręka 7 kart — gwarancja "0 przegranych ze słabymi" NIEMOŻLIWA). Realna dźwignia = **NOWY KONCEPT DECKA (12-14 pokemonów + szybsza win-condition niż mill) = pełny deck search (dziesiątki A/B, Rust+Rayon na Actions)**.
 
 **Importowane:** decks/exotic_gate (5 decków egzotycznych = live '?'), weryfikacja w tym logu. Ich v27/v28/v29 (odrzucone) NIE importowane (kolizja nazw z moimi v27/v28 — od teraz trzymam ich pliki z prefiksem c87_/8560_).
+
+### 2026-10-13 09:00 UTC — DECK SEARCH nowego konceptu START (rozwiązanie zlecone przez użytkownika, równolegle 2. gałąź): FAZA 0 = 3 odkrycia + gotowy plan faz 1-4
+
+**Odkrycie A (mapa live):** 92/93 decków live jest legalnych W RĘKACH naszego agenta (card_index wspólny; engine nie odsiewa). Rozkład pokemonów w 60-kartowych live-deckach: 10W×32 (my i mirrory), ale **65 decków poza water-mill gra 15-26 pokemonów** (Ogerpon-Grass 20, Lucario 12-17, Dragapult 16-20). Meta = dwie doktryny: nasza „thin-mill 10 poke + 35W" vs „swarm 16-20 poke".
+
+**Odkrycie B (weryfikacja self-play):** nasz agent grający SKOMPILOWANYM deckiem Lucario live: **0.420 na 69 deckach meta (z=−7.9!)** — mecz kończy się legalnie w ~24-130 krokach, brak SelectFail. Win-condition Lucario (Mega Fighting) jest poza modelem naszego agenta → surowa kopia ≠ droga. **Deck search musi mutować DECK, nie kopiować** — scoring naszego agenta wygrywa tylko rodziną water.
+  - poprawka procesowa: /tmp jest nietrwały — pool kopiowany do decks/newconcept_pool/
+
+**Odkrycie C (energie):** nie-water żyją na {G}24 {P}16 {F}14 {R}10 {D}10 — potencjał w Dual/multi-energy techach.
+
+**PLAN (fazy 1-4, Rust+Rayon na Actions):**
+- F1 (liczby, dziś): verify z 253 decków + meta1012 → populacja mutacji wokół zwycięskich konceptów (poke 12-16, W 26-30, energia-mix), scoring = WR vs meta1012+exotic (interleaved, in-process).
+- F2 (następna sesja): top-8 konceptów × duże N + h2h między nimi.
+- F3: zwycięzca × nasze 3 agenty (knobs/weakfix/flood) — interakcja deck×agent.
+- F4: bundl + smoke + decyzja użytkownika o submisji (nic sam).
