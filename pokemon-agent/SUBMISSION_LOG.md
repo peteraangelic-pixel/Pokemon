@@ -1371,3 +1371,11 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - Zabrali moje v37, **usunęli gate i wstawili mild-response WALL** (liczby v34 zamiast agresywnych v36). Ich 20g: weighted 0.692 BEST.
 - **Moje paired rozstrzygnięcie (opp=weakfix):** battery1 (n=300): V37_THEIRS −5.33pp (z−1.85); battery2 (n=550): **+0.36 (paritet)** → ich edit ≈ V34. **V37A_GATE: battery exotic +4.8, live-toolbox +2.7, bateria2 +2.36 (0.904 exotic / 0.840 live / 0.833 newconcept — BEST w każdej puli); pooled ≈ +2.4pp nad V34, zero ujemnych komponentów.**
 - **REKOMENDACJA slot #1 po resecie: `agents/main_heuristic_v37_gate.py` → bundle `bundles/ptcg_v37_gate_adaptive.tar.gz` (smoke OK).** Ich final-v37 = bezpieczny paritet (opcja rezerwowa). Rozkaz przez c87f; a450 nie wysyła.
+
+---
+
+## 2026-10-13 ~18:30 UTC — RANKING: 272/334 (μ~380-410 era v34; top100=815, top250=445); Phase-5A (+2 Kyogre czyste) ODRZUCONE — oś deckowa zamknięta 7. razem
+
+- Leaderboard snapshot (leaderboard.csv): **334 zespołów**, my rank **272**; cutoffy: top10≈1117, top50≈959, **top100≈815**, top250≈445. Nasz WR live 0.455 = mediana pola. Massa ratingowa = słaby ogon; nasze krwotoki = famine (6/6 strat empty-board) + Ogerpon 0.14-0.29 +toolboxy.
+- **Phase-5A** (pierwszy czysty test "+Kyogre bez Poffin/cięć drawu"): deck-only pod V34, meta+kyogre+live, 4900g/arm: K3(7 bas) **−2.51pp z−2.59**, K4(8 bas) −1.69 z−1.75; kyogre_pool: K3 −5.2 (Pad/Cyrano krytyczne w mirrorze). **7. porażka osi deckowej → szkielet zamknięty definitywnie.** Decki v38_k3/k4 zostają jako evidence.
+- **Strategia: przyrosty ±2pp nie domkną top100 (potrzeba 2× μ).** Realne ścieżki: (A) **archetype-specialist** — dedykowany agent pod silny meta-deck (np. Ogerpon-Hydrapple: nas zmiótł 2/2 live) zamiast pilnowania obcego win-conu — duży build (2-3 dni), jedyna droga do WR 0.7+ vs pole; (B) **Rust+Rayon 100×** (zaległy §16) → szybka iteracja/RL; (C) dzienny cykl: slot#1 po resecie = **v37_gate** (paired +2.4pp dziś), poll, refresh pul z replayów.
