@@ -1,0 +1,179 @@
+name: Submit T4 v2 (with bitsandbytes)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.submit-t4-v2.trigger"
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      COMP: arc-prize-2026-arc-agi-3
+
+    defaults:
+      run:
+        working-directory: arc-agi-3/llm-agent
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "::error title=Kaggle::brak KAGGLE_API_TOKEN"
+            exit 1
+          fi
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+
+      - name: Rebuild notebook
+        run: |
+          python3 build_notebook_t4.py notebook/submission.ipynb
+          cp notebook/kernel-metadata-t4.json notebook/kernel-metadata.json
+          echo "Notebook rebuilt"
+          ls -la notebook/
+
+      - name: Push notebook
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          cd notebook
+          set +e
+          $KG kernels push -p . 2>&1 | tee ../push-t4-v2.log
+          set -e
+          cat ../push-t4-v2.log
+          
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")
+          echo "KERNEL_ID=$KERNEL_ID"
+          cd ..
+          
+          # Wait for notebook to complete (up to 2 hours)
+          echo "Waiting for notebook completion..."
+          for i in $(seq 1 240); do
+            S=$($KG kernels status "$KERNEL_ID" 2>&1) || true
+            echo "[$i] $S"
+            if echo "$S" | grep -qiE 'complete'; then
+              echo "notebook completed!"
+              break
+            fi
+            sleep 30
+          done
+
+      - name: Get notebook output
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('notebook/kernel-metadata-t4.json'))['id'])")
+          
+          mkdir -p /tmp/nb-output
+          $KG kernels output "$KERNEL_ID" -p /tmp/nb-output/ 2>&1 || true
+          
+          echo "=== Output files ==="
+          find /tmp/nb-output -type f -exec ls -la {} \;
+          
+          echo "=== Log contents ==="
+          for f in /tmp/nb-output/*.log; do
+            if [ -f "$f" ]; then
+              echo "--- $f ($(wc -c < "$f") bytes) ---"
+              cat "$f" | head -500
+            fi
+          done
+
+      - name: Get version and submit
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('notebook/kernel-metadata-t4.json'))['id'])")
+          
+          $KG kernels status "$KERNEL_ID" 2>&1 | tee kstatus-t4-v2.txt || true
+          
+          python3 - <<'PY' > version-t4-v2.txt
+          import re, pathlib
+          found = ''
+          for name in ('push-t4-v2.log', 'kstatus-t4-v2.txt'):
+            pth = pathlib.Path(name)
+            if not pth.exists(): continue
+            txt = pth.read_text(errors='replace')
+            for pat in [r'version\s+(\d+)\s+successfully', r'version\D{0,20}?(\d+)']:
+              m = re.search(pat, txt, re.I)
+              if m: found = m.group(1); break
+            if found: break
+          print(found)
+          PY
+          
+          VER=$(tr -d '[:space:]' < version-t4-v2.txt)
+          echo "Version: $VER"
+          
+          n=${VER:-0}
+          CANDS=""
+          if [ "$n" -ge 1 ]; then
+            CANDS="$n"
+            for i in $(seq 1 8); do
+              p=$((n-i))
+              [ "$p" -ge 1 ] && CANDS="$CANDS $p"
+            done
+          fi
+          
+          for v in $CANDS; do
+            echo "--- trying version $v ---"
+            set +e
+            $KG competitions submit -c "$COMP" -k "$KERNEL_ID" \
+              -f submission.parquet -v "$v" \
+              -m "t4-v2 qwen2.5-7b-nf4-bnb $GITHUB_SHA" 2>&1 | tee -a submit-t4-v2.log
+            CODE=${PIPESTATUS[0]}
+            set -e
+            if [ "$CODE" -eq 0 ]; then
+              echo "SUCCESS with version $v"
+              break
+            fi
+          done
+
+      - name: Record results
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          $KG competitions submissions -c "$COMP" --csv 2>&1 | tee submissions-t4-v2.csv || true
+
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "### T4 v2 Submit Result"; echo '```'
+            tail -12 submit-t4-v2.log 2>/dev/null || echo "(brak)"
+            echo '```'
+          } > /tmp/ann.md
+          python3 - <<'PY'
+          body = open('/tmp/ann.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=T4 v2 Submit::{body[:3000]}")
+          PY
+
+      - name: Commit results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          mkdir -p runs
+          TS=$(date -u +%Y%m%dT%H%M%SZ)
+          cp push-t4-v2.log "runs/t4v2-push-$TS.log" 2>/dev/null || true
+          cp submit-t4-v2.log "runs/t4v2-submit-$TS.log" 2>/dev/null || true
+          cp submissions-t4-v2.csv "runs/t4v2-submissions-$TS.csv" 2>/dev/null || true
+          git add runs || true
+          if [ -n "$(git status --porcelain runs)" ]; then
+            git commit -m "chore: T4 v2 submission $TS [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

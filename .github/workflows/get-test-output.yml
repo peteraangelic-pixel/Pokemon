@@ -1,0 +1,80 @@
+name: Get Test Notebook Output
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "test-notebook/.get-output.trigger"
+
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Get output
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID="petersharps/test-model-mount"
+          mkdir -p test-notebook/output
+          $KG kernels output "$KERNEL_ID" -p test-notebook/output/ 2>&1 | tee test-notebook/get-output.log
+          
+          echo "=== Files in output ==="
+          ls -lah test-notebook/output/
+          
+          echo -e "\n=== Log contents ==="
+          for f in test-notebook/output/*.log; do
+            if [ -f "$f" ]; then
+              echo "--- $f ---"
+              cat "$f"
+            fi
+          done
+      
+      - name: Commit output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add test-notebook/output/ test-notebook/get-output.log 2>/dev/null || true
+          
+          if [ -n "$(git status --porcelain test-notebook/)" ]; then
+            git commit -m "test: notebook output [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "### Test Notebook Output"
+            echo '```'
+            for f in test-notebook/output/*.log; do
+              if [ -f "$f" ]; then
+                cat "$f"
+              fi
+            done
+            echo '```'
+          } > /tmp/test-output.md
+          
+          python3 - <<'PY'
+          body = open('/tmp/test-output.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Test Output::{body[:4000]}")
+          PY

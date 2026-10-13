@@ -1,0 +1,60 @@
+name: Find threerabbits Notebooks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.find-threerabbits.trigger"
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Search threerabbits notebooks
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          echo "=== threerabbits notebooks ==="
+          kaggle kernels list -u threerabbits --csv 2>&1 | tee threerabbits-notebooks.txt
+          
+          echo -e "\n=== threerabbits models ==="
+          kaggle models list -u threerabbits --csv 2>&1 | tee threerabbits-models.txt || echo "models list not supported"
+          
+          echo -e "\n=== threerabbits datasets ==="
+          kaggle datasets list -u threerabbits --csv 2>&1 | tee threerabbits-datasets.txt
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "=== Notebooks ==="
+            cat threerabbits-notebooks.txt 2>/dev/null
+            echo -e "\n=== Datasets ==="
+            cat threerabbits-datasets.txt 2>/dev/null
+          } > /tmp/threerabbits-report.txt
+          
+          python3 - <<'PY'
+          body = open('/tmp/threerabbits-report.txt').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=threerabbits::{body[:4500]}")
+          PY

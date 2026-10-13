@@ -1,0 +1,76 @@
+name: Get Full T4 Log
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.get-full-log.trigger"
+
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Get full log
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID="petersharps/arc-agi-3-llm-agent-qwen2-5-7b-nf4-for-t4"
+          
+          mkdir -p /tmp/full-log
+          $KG kernels output "$KERNEL_ID" -p /tmp/full-log/ 2>&1
+          
+          echo "=== Files ==="
+          ls -la /tmp/full-log/
+          
+          echo "=== Full log (parsed) ==="
+          python3 << 'PY'
+          import json
+          with open("/tmp/full-log/arc-agi-3-llm-agent-qwen2-5-7b-nf4-for-t4.log") as f:
+              entries = json.load(f)
+          for e in entries:
+              stream = e.get("stream_name", "?")
+              data = e.get("data", "")
+              t = e.get("time", 0)
+              print(f"[{t:7.1f}s] [{stream}] {data}", end="")
+          PY
+      
+      - name: Announce
+        if: always()
+        run: |
+          python3 << 'PY'
+          import json
+          with open("/tmp/full-log/arc-agi-3-llm-agent-qwen2-5-7b-nf4-for-t4.log") as f:
+              entries = json.load(f)
+          body = ""
+          for e in entries:
+              stream = e.get("stream_name", "?")
+              data = e.get("data", "")
+              t = e.get("time", 0)
+              body += f"[{t:7.1f}s] [{stream}] {data}"
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          # Split into chunks if too long
+          chunk_size = 4000
+          for i in range(0, len(body), chunk_size):
+              chunk = body[i:i+chunk_size]
+              part = i // chunk_size + 1
+              print(f"::notice title=T4 Log Part {part}::{chunk}")
+          PY

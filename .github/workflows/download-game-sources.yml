@@ -1,0 +1,70 @@
+name: Download Game Sources to Repo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/.download-sources.trigger"
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Download and extract game sources
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          # Download competition data
+          mkdir -p /tmp/arc-dl
+          cd /tmp/arc-dl
+          kaggle competitions download -c arc-prize-2026-arc-agi-3 -p . 2>&1
+          
+          # Unzip
+          for f in *.zip; do
+            if [ -f "$f" ]; then
+              unzip -q "$f" -d "${f%.zip}" 2>&1
+            fi
+          done
+          
+          # List environment files
+          echo "=== Environment files ==="
+          find arc-prize-2026-arc-agi-3/environment_files -name "*.py" 2>/dev/null | sort | tee games.txt
+          
+          echo -e "\n=== Total games ==="
+          find arc-prize-2026-arc-agi-3/environment_files -name "*.py" 2>/dev/null | wc -l
+          
+          # Copy game sources to repo
+          mkdir -p $GITHUB_WORKSPACE/arc-agi-3/games/environment_files
+          cp -r arc-prize-2026-arc-agi-3/environment_files/* $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/ 2>/dev/null || true
+          
+          # Copy metadata
+          ls -la $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/ | head -30
+      
+      - name: Commit game sources
+        run: |
+          cd $GITHUB_WORKSPACE
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add arc-agi-3/games/
+          git diff --staged --quiet || git commit -m "add: 25 demo game source files from Kaggle competition data"
+          git push origin arena/7911f950-pokemon

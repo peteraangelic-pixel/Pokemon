@@ -1,0 +1,49 @@
+name: Check Submission Limits
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.check-limits.trigger"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Check limits
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          COMP="arc-prize-2026-arc-agi-3"
+          
+          echo "=== Submission limits ==="
+          kaggle competitions submission-limits -c "$COMP" 2>&1 | tee limits.txt
+          
+          echo -e "\n=== Current submissions ==="
+          kaggle competitions submissions -c "$COMP" --csv 2>&1 | head -20 | tee submissions.txt
+      
+      - name: Announce
+        if: always()
+        run: |
+          body=$(cat limits.txt submissions.txt 2>/dev/null || echo "no data")
+          body=$(echo "$body" | sed 's/%/%25/g; s/\r/%0D/g; s/\n/%0A/g')
+          echo "::notice title=Submission Limits::$body"

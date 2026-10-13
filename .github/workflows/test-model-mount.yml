@@ -1,0 +1,62 @@
+name: Test Model Mount
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "test-notebook/.trigger"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Push notebook
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          cd test-notebook
+          $KG kernels push -p . 2>&1 | tee ../push.log
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")
+          echo "KERNEL_ID=$KERNEL_ID"
+          cd ..
+          
+          # Wait for completion
+          for i in $(seq 1 60); do
+            S=$($KG kernels status "$KERNEL_ID" 2>&1) || true
+            echo "[$i] $S"
+            if echo "$S" | grep -qiE 'complete|error'; then break; fi
+            sleep 15
+          done
+      
+      - name: Get output
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID="petersharps/test-model-mount"
+          mkdir -p output
+          $KG kernels output "$KERNEL_ID" -p output/ 2>&1 || true
+          ls -la output/
+          for f in output/*.log; do
+            if [ -f "$f" ]; then
+              echo "=== $f ==="
+              cat "$f"
+            fi
+          done

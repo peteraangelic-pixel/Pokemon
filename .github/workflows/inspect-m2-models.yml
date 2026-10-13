@@ -1,0 +1,67 @@
+name: Inspect M2 Models
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.inspect-m2.trigger"
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Pull and inspect
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          mkdir -p /tmp/m2-inspect
+          cd /tmp/m2-inspect
+          
+          echo "=== Pulling jingshuifu/arc3-m2-solution ==="
+          kaggle kernels pull jingshuifu/arc3-m2-solution 2>&1
+          
+          if [ -f kernel-metadata.json ]; then
+            echo -e "\n=== Original kernel-metadata.json ==="
+            cat kernel-metadata.json
+          fi
+          
+          echo -e "\n=== Notebook first 100 lines ==="
+          if [ -f arc3-m2-solution.ipynb ]; then
+            head -100 arc3-m2-solution.ipynb
+          fi
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "=== Kernel Metadata ==="
+            cat /tmp/m2-inspect/kernel-metadata.json 2>/dev/null || echo "(no kernel-metadata.json)"
+            echo -e "\n=== Notebook First 100 Lines ==="
+            head -100 /tmp/m2-inspect/arc3-m2-solution.ipynb 2>/dev/null || echo "(no notebook)"
+          } > /tmp/inspect-report.txt
+          
+          python3 - <<'PY'
+          body = open('/tmp/inspect-report.txt').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=M2 Inspect::{body[:4500]}")
+          PY

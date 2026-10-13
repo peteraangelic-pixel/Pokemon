@@ -1,0 +1,90 @@
+name: Debug Kaggle Environment
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.env-debug.trigger"
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: List Available Models
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          
+          echo "=== Available Qwen Models ===" | tee models.log
+          $KG models list --search qwen --sort-by downloadCount -v 2>&1 | head -50 | tee -a models.log
+          
+          echo -e "\n=== Search for 7B models ===" | tee -a models.log
+          $KG models list --search "qwen 7b" --sort-by downloadCount -v 2>&1 | head -30 | tee -a models.log
+          
+          echo -e "\n=== Search for 14B models ===" | tee -a models.log
+          $KG models list --search "qwen 14b" --sort-by downloadCount -v 2>&1 | head -30 | tee -a models.log
+      
+      - name: Check Dataset Contents
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          
+          echo "=== arc3-vllm-h100-wheelhouse-v3 ===" | tee datasets.log
+          $KG datasets metadata driessmit1/arc3-vllm-h100-wheelhouse-v3 2>&1 | tee -a datasets.log
+          
+          echo -e "\n=== vrfai-qwen3-6-27b-fp8-hf-snapshot ===" | tee -a datasets.log
+          $KG datasets metadata driessmit1/vrfai-qwen3-6-27b-fp8-hf-snapshot 2>&1 | tee -a datasets.log
+          
+          echo -e "\n=== Search for smaller Qwen models ===" | tee -a datasets.log
+          $KG datasets list --search "qwen" 2>&1 | head -30 | tee -a datasets.log
+          
+          echo -e "\n=== Search for vllm wheelhouse ===" | tee -a datasets.log
+          $KG datasets list --search "vllm wheelhouse" 2>&1 | head -20 | tee -a datasets.log
+      
+      - name: Announce Results
+        if: always()
+        run: |
+          {
+            echo "### Kaggle Environment Debug"
+            echo '<details>'
+            echo '<summary>Available Models</summary>'
+            echo
+            echo '```'
+            cat models.log 2>/dev/null || echo "(no models log)"
+            echo '```'
+            echo '</details>'
+            echo
+            echo '<details>'
+            echo '<summary>Datasets Info</summary>'
+            echo
+            echo '```'
+            cat datasets.log 2>/dev/null || echo "(no datasets log)"
+            echo '```'
+            echo '</details>'
+          } > /tmp/env-debug.md
+          
+          python3 - <<'PY'
+          body = open('/tmp/env-debug.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Kaggle Environment::{body[:4000]}")
+          PY

@@ -1,0 +1,128 @@
+name: Debug Kaggle Notebook Logs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.debug.trigger"
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Get Kernel Status
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID="petersharps/arc-agi-3-llm-agent-qwen3-6-27b"
+          
+          echo "=== Kernel Status ===" | tee kernel-status.log
+          $KG kernels status "$KERNEL_ID" 2>&1 | tee -a kernel-status.log
+          
+          echo -e "\n=== Kernel List ===" | tee -a kernel-status.log
+          $KG kernels list --mine --csv 2>&1 | grep arc-agi-3-llm | tee -a kernel-status.log
+      
+      - name: Get Kernel Output
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID="petersharps/arc-agi-3-llm-agent-qwen3-6-27b"
+          
+          echo "=== Kernel Output ===" | tee kernel-output.log
+          $KG kernels output "$KERNEL_ID" -p ./kernel-output 2>&1 | tee -a kernel-output.log || true
+          
+          echo -e "\n=== Output Files ===" | tee -a kernel-output.log
+          ls -lah ./kernel-output/ 2>&1 | tee -a kernel-output.log || echo "No output directory" | tee -a kernel-output.log
+          
+          # Try to read any log files
+          echo -e "\n=== Log Contents ===" | tee -a kernel-output.log
+          for file in ./kernel-output/*.log ./kernel-output/*.txt ./kernel-output/*.json; do
+            if [ -f "$file" ]; then
+              echo "--- $file ---" | tee -a kernel-output.log
+              head -100 "$file" | tee -a kernel-output.log
+              echo "" | tee -a kernel-output.log
+            fi
+          done
+      
+      - name: Check Notebook Session
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID="petersharps/arc-agi-3-llm-agent-qwen3-6-27b"
+          
+          echo "=== Notebook Session Info ===" | tee notebook-session.log
+          # Get session info via API
+          curl -s -H "Authorization: Bearer $(cat .kaggle/access_token)" \
+            "https://www.kaggle.com/api/v1/kernel/status?kernelId=$KERNEL_ID" 2>&1 | \
+            python3 -m json.tool 2>&1 | tee -a notebook-session.log || \
+            echo "Failed to get session info" | tee -a notebook-session.log
+      
+      - name: Commit Debug Info
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          TS=$(date -u +%Y%m%dT%H%M%SZ)
+          mkdir -p arc-agi-3/llm-agent/runs/debug
+          
+          cp kernel-status.log "arc-agi-3/llm-agent/runs/debug/kernel-status-$TS.log" 2>/dev/null || true
+          cp kernel-output.log "arc-agi-3/llm-agent/runs/debug/kernel-output-$TS.log" 2>/dev/null || true
+          cp notebook-session.log "arc-agi-3/llm-agent/runs/debug/notebook-session-$TS.log" 2>/dev/null || true
+          
+          # Copy any output files
+          if [ -d ./kernel-output ]; then
+            cp -r ./kernel-output/* "arc-agi-3/llm-agent/runs/debug/" 2>/dev/null || true
+          fi
+          
+          git add arc-agi-3/llm-agent/runs/debug/ || true
+          
+          if [ -n "$(git status --porcelain arc-agi-3/llm-agent/runs/debug/)" ]; then
+            git commit -m "debug: Kaggle notebook logs $TS [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "No debug files to commit"
+          fi
+      
+      - name: Announce Results
+        if: always()
+        run: |
+          {
+            echo "### Kaggle Notebook Debug Info"
+            echo '```'
+            cat kernel-status.log 2>/dev/null || echo "(no status log)"
+            echo '```'
+            echo
+            echo '<details>'
+            echo '<summary>Full Output Log</summary>'
+            echo
+            echo '```'
+            cat kernel-output.log 2>/dev/null || echo "(no output log)"
+            echo '```'
+            echo
+            echo '</details>'
+          } > /tmp/debug-ann.md
+          
+          python3 - <<'PY'
+          body = open('/tmp/debug-ann.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Kaggle Debug::{body[:4000]}")
+          PY

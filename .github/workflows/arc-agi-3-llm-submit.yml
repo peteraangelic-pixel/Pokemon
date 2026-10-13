@@ -1,0 +1,199 @@
+name: ARC-AGI-3 LLM agent submit
+
+# Submit the LLM-based agent to the ARC-AGI-3 competition.
+# This notebook uses vLLM + Qwen3.6-27B-FP8 for tool-calling game solving.
+#
+# FIRE IT: commit a change to arc-agi-3/llm-agent/notebook/.submit.trigger
+#          or Run workflow in the GitHub UI
+#
+# REQUIRES: GPU notebook (RTX Pro 6000 or better)
+# DATASETS: driessmit1/arc3-vllm-h100-wheelhouse-v3, driessmit1/vrfai-qwen3-6-27b-fp8-hf-snapshot
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.submit.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      COMP: arc-prize-2026-arc-agi-3
+
+    defaults:
+      run:
+        working-directory: arc-agi-3/llm-agent
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "::error title=Kaggle::brak KAGGLE_API_TOKEN w secrets"
+            exit 1
+          fi
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+          echo "credential: KAGGLE_API_TOKEN (present, not printed)"
+
+      - name: Check remaining daily submissions
+        continue-on-error: true
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          $KG competitions submission-limits -c "$COMP" 2>&1 | tee submission-limits.txt || true
+          REM=$(grep -oiE 'Remaining today: *[0-9]+' submission-limits.txt | grep -oE '[0-9]+' | head -1)
+          echo "remaining_today=${REM:-unknown}"
+
+      - name: Rebuild notebook from source
+        run: |
+          python3 build_notebook.py notebook/submission.ipynb
+          echo "Notebook rebuilt from source"
+          ls -la notebook/
+
+      - name: Push notebook and wait for completion
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          cd notebook
+          set +e
+          $KG kernels push -p . 2>&1 | tee ../push.log
+          PUSH_EXIT=${PIPESTATUS[0]}
+          set -e
+          echo "kaggle push exit code: $PUSH_EXIT"
+          if [ "$PUSH_EXIT" -ne 0 ]; then
+            echo "::error title=Kaggle::kernels push failed (exit $PUSH_EXIT)"
+            # Even if push reports error, check if version was created
+            if grep -q "successfully pushed" ../push.log; then
+              echo "But version was created — continuing"
+            else
+              exit 1
+            fi
+          fi
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")
+          echo "KERNEL_ID=$KERNEL_ID"
+          cd ..
+          # Wait for the notebook to finish running on Kaggle GPU
+          for i in $(seq 1 120); do
+            S=$($KG kernels status "$KERNEL_ID" 2>&1) || true
+            echo "[$i] $S"
+            if echo "$S" | grep -qiE 'complete'; then echo "notebook OK"; break; fi
+            if echo "$S" | grep -qiE '^error' || echo "$S" | grep -qiE 'no kernel'; then
+              echo "::warning title=Kaggle::status check issue: $S"
+            fi
+            sleep 30
+          done
+
+      - name: Determine kernel version
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('notebook/kernel-metadata.json'))['id'])")
+          $KG kernels status "$KERNEL_ID" 2>&1 | tee kstatus.txt || true
+          $KG kernels list --mine --csv 2>&1 | head -8 | tee klist.csv || true
+          python3 - <<'PY' > version.txt
+          import re, pathlib
+          pats = [r'version\s+(\d+)\s+successfully', r'version\D{0,20}?(\d+)']
+          found = ''
+          for name in ('push.log', 'kstatus.txt', 'klist.csv'):
+            pth = pathlib.Path(name)
+            if not pth.exists(): continue
+            txt = pth.read_text(errors='replace')
+            for pat in pats:
+              m = re.search(pat, txt, re.I)
+              if m: found = m.group(1); break
+            if found: break
+          print(found)
+          PY
+          echo "parsed_version=$(tr -d '[:space:]' < version.txt)"
+
+      - name: Submit to competition
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('notebook/kernel-metadata.json'))['id'])")
+          VER=$(tr -d '[:space:]' < version.txt)
+          n=${VER:-0}
+          CANDS=""
+          if [ "$n" -ge 1 ]; then
+            CANDS="$n"
+            i=1
+            while [ "$i" -le 8 ]; do
+              p=$((n-i))
+              if [ "$p" -ge 1 ]; then CANDS="$CANDS $p"; fi
+              i=$((i+1))
+            done
+          fi
+          echo "candidate versions: $CANDS"
+          for v in $CANDS; do
+            echo "--- trying -v $v ---"
+            set +e
+            $KG competitions submit -c "$COMP" -k "$KERNEL_ID" \
+              -f submission.parquet -v "$v" \
+              -m "llm-agent qwen3.6-27b $GITHUB_SHA" 2>&1 | tee -a competition-submit.log
+            CODE=${PIPESTATUS[0]}
+            set -e
+            echo "exit_code(v=$v)=$CODE" | tee -a competition-submit.log
+            if [ "$CODE" -eq 0 ]; then
+              echo "ACCEPTED_VERSION=$v" | tee -a competition-submit.log
+              break
+            fi
+          done
+
+      - name: Record results
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          $KG competitions submissions -c "$COMP" --csv 2>&1 | tee submissions.csv || true
+
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "### LLM agent submit result"; echo '```'
+            tail -12 competition-submit.log 2>/dev/null || echo "(brak)"
+            echo '```'
+            echo; echo "### submissions"; echo '```'
+            head -10 submissions.csv 2>/dev/null || echo "(brak)"
+            echo '```'
+          } > /tmp/ann.md
+          python3 - <<'PY'
+          body = open('/tmp/ann.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Kaggle LLM submit::{body[:3000]}")
+          PY
+
+      - name: Commit results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          mkdir -p runs
+          TS=$(date -u +%Y%m%dT%H%M%SZ)
+          cp push.log "runs/llm-push-$TS.log" 2>/dev/null || true
+          cp competition-submit.log "runs/llm-submit-$TS.log" 2>/dev/null || true
+          cp submissions.csv "runs/llm-submissions-$TS.csv" 2>/dev/null || true
+          cp submission-limits.txt "runs/llm-limits-$TS.txt" 2>/dev/null || true
+          git add runs || true
+          if [ -n "$(git status --porcelain runs)" ]; then
+            git commit -m "chore(arc): LLM agent submission $TS [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "nothing to commit"
+          fi

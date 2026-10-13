@@ -1,0 +1,57 @@
+name: Find Bitsandbytes
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/notebook/.find-bnb.trigger"
+
+jobs:
+  find:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Search for bitsandbytes
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          
+          echo "=== Search bitsandbytes datasets ==="
+          $KG datasets list --search "bitsandbytes" 2>&1 | tee bnb.log
+          
+          echo -e "\n=== Search quantization datasets ==="
+          $KG datasets list --search "quantization" 2>&1 | tee -a bnb.log
+          
+          echo -e "\n=== Search gptq datasets ==="
+          $KG datasets list --search "gptq" 2>&1 | tee -a bnb.log
+          
+          echo -e "\n=== Check if bitsandbytes preinstalled ==="
+          echo "Notebook needs to check: python -c 'import bitsandbytes; print(bitsandbytes.__version__)'"
+      
+      - name: Announce
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import os
+          body = open('bnb.log').read() if os.path.exists('bnb.log') else '(no log)'
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Bitsandbytes::{body[:4500]}")
+          PY

@@ -1,0 +1,96 @@
+name: Extract Game Catalog
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/.extract-catalog.trigger"
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Download and extract catalog
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          # Download competition data
+          mkdir -p /tmp/arc-dl
+          cd /tmp/arc-dl
+          kaggle competitions download -c arc-prize-2026-arc-agi-3 -p . 2>&1
+          
+          # Unzip
+          for f in *.zip; do
+            if [ -f "$f" ]; then
+              unzip -q "$f" -d "${f%.zip}" 2>&1
+            fi
+          done
+          
+          # Build catalog
+          CATALOG=$GITHUB_WORKSPACE/arc-agi-3/games/GAME-CATALOG.md
+          mkdir -p $(dirname $CATALOG)
+          
+          echo "# ARC-AGI-3 Demo Games Catalog" > $CATALOG
+          echo "" >> $CATALOG
+          echo "Total: $(find arc-prize-2026-arc-agi-3/environment_files -name '*.py' | wc -l) games" >> $CATALOG
+          echo "" >> $CATALOG
+          
+          for game_py in $(find arc-prize-2026-arc-agi-3/environment_files -name "*.py" | sort); do
+            game_dir=$(dirname "$game_py")
+            game_id=$(basename "$game_py" .py)
+            parent_dir=$(basename $(dirname "$game_dir"))
+            
+            echo "## Game: ${parent_dir}/${game_id}" >> $CATALOG
+            echo "" >> $CATALOG
+            
+            # Metadata
+            metadata_json="${game_dir}/metadata.json"
+            if [ -f "$metadata_json" ]; then
+              echo "### Metadata" >> $CATALOG
+              echo '```json' >> $CATALOG
+              cat "$metadata_json" >> $CATALOG
+              echo '```' >> $CATALOG
+              echo "" >> $CATALOG
+            fi
+            
+            # Copy game source to repo
+            mkdir -p $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/${parent_dir}/${game_id}
+            cp "$game_py" $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/${parent_dir}/${game_id}/
+            cp "$metadata_json" $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/${parent_dir}/${game_id}/ 2>/dev/null || true
+          done
+          
+          echo "=== Catalog created ==="
+          wc -l $CATALOG
+      
+      - name: Commit catalog to repo
+        run: |
+          cd $GITHUB_WORKSPACE
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add arc-agi-3/games/
+          git diff --staged --quiet || git commit -m "add: 25 demo games catalog and source files"
+          git push
