@@ -23,9 +23,6 @@ path = "src/bin/search_deck_rust.rs"
 name = "analyze_playstyle_rust"
 path = "src/bin/analyze_playstyle_rust.rs"
 
-[[bin]]
-name = "evolve_tempo"
-path = "src/bin/evolve_tempo.rs"
 
 [[bin]]
 name = "loss_forensics"
