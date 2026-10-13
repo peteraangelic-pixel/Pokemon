@@ -1307,3 +1307,13 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - **4-arm A/B (opp=weakfix, 35W):** meta1012 2×3450: **V33 +1.33/+1.57 (pooled z≈1.8)** | V31 +0.99/+0.87 | V32 +1.01/+0.58; 3-pool 2700: **V33 +0.67** | V32 +0.56 | V31 +0.48. Duel V33–V31 mirror 2×150: 0.500 remis.
 - **Pooled ranking (wszystkie dzisiejsze biegi): V33 ≈ V31 (+1.2 oba; V33 na krótszej próbie 9.6k, V31 na 19k, 6/6 biegów dodatnich) > V32 (+0.7) > V30b (+0.5) > v28b.** Przewaga V33 nad V31 ~+0.3pp — w szumie pojedynczego biegu, ale spójna 2/2 + mechanicznie sensowna (KO na słabych = ich przyczyna #5).
 - **Rekomendacja slotu AKTUALIZACJA: V33 > V31 > V32 > V30b > v28b.** Ich bundle `phase1_tuned_v33_...autoFastEx136_nonExFast_KO80_benchResource.tar.gz` (95,542 B) jest gotowy u nich; my z a450b00f NIC nie wysyłamy — decyzja/rozkaz usera.
+
+---
+
+## 2026-10-13 ~12:55 UTC — v34 (a450: prize-deficit + WARM30) PRZETESTOWANY → **NIE PRZYJĘTY**; V33 pozostaje kandydatem; autopsja wyznacza sufit doktryny
+
+- **Autopsja 114 strat v33** (240g mirror vs weakfix): FAMINE 58% (0 basiców w ręce — struktura talii, behawioralnie nie do ruszenia), PRIZE-RACE 26% (za nisko prize'ami, śr. T15), BENCH-ROT 12% (basicy w ręce, śr. T8), DECKOUT 4%.
+- **v34** (`tools/build_v34.py`, subn 2/2): SWARM_BENCH_WARM 15→30 (planting > supporter do targetu 3) + moduł deficytu prize'ów (KO +30×def, nie-karmienie +20×def, PLAY +10×def przy stracie ≥2).
+- **Test (paired vs weakfix):** V34 vs V33 w-tej samej sesji: 3-pool +0.11 vs +0.67 (−0.56pp n.s.), meta1012 −0.81 vs −1.04 (+0.23pp n.s.; kontrola sama płyneła 0.669→0.681 = szum międzybiegowy ±1.2pp @3450). **Brak zysku → NIE przyjęte** (standard: przyjmujemy tylko zmierzone zyski). Proby sugerowały możliwy lekki koszt na exotic (0.872 vs 0.904 @250g, n.s.).
+- **Wniosek strategiczny:** iteracja czysto behawioralna osiągnęła sufit ~±0.3pp (szum) — 58% strat to głód basiców, a ten leczy tylko **współprojekt deck+agent** (basic-engine np. Poffin/搜-search + wiring w S1/S3) = **Phase-3 na kolejne okno resetu** (deck jedzie w bundlu, więc możliwe od jutra; wymaga ~2-4h: lookup kart, legality, wiring "search deck → basic", duże A/B).
+- **Rekomendacja slotu (reset 00:00 UTC): BEZ ZMIAN — wysyłać V33 (bundle c87f).** Nic nie wysłano; v34 zostaje w repo jako artifacts (agent+builder) z flagą REJECTED.
