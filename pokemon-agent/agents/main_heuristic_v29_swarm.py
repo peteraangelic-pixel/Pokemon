@@ -1098,11 +1098,11 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         score += min(est, 240) // 4
         if ko:
             score += 25 * prize_value(opp_active.get("id"))
-            # v28: extra boost vs low HP weak field
+            # v26: extra boost vs low HP weak field - ensure we take KO vs 100 HP or less
             if opp_hp <= 100:
-                score += 60
+                score += 50
             elif opp_hp <= 150:
-                score += 30
+                score += 20
             # v11 endgame (Kaggriculture: stop planting near end): when prize race tight, boost KO
             try:
                 opp_prize = obs["current"]["players"][opp_idx].get("prize") or []
@@ -1243,11 +1243,11 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         score += min(est, 240) // 4
         if ko:
             score += 25 * prize_value(opp_active.get("id"))
-            # v28: extra boost vs low HP weak field
+            # v26: extra boost vs low HP weak field - ensure we take KO vs 100 HP or less
             if opp_hp <= 100:
-                score += 60
+                score += 50
             elif opp_hp <= 150:
-                score += 30
+                score += 20
             # v11 endgame (Kaggriculture: stop planting near end): when prize race tight, boost KO
             try:
                 opp_prize = obs["current"]["players"][opp_idx].get("prize") or []
@@ -1378,15 +1378,15 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
             if len(my_bench) >= 5:
                 return 30
             if not my_bench and (my_active is None or int(my_active.get("hp") or 0) <= 80):
-                return 400  # v28: stronger bench vs fast KO with empty bench
+                return 360  # v26: stronger bench urgency vs fast KO with empty bench
             score = 320
             if is_primary_line(cid):
                 score += 10
             # v26: generic board development boost vs fast decks - bench when thin
             if len(my_bench) < 2:
-                score += 60  # v28 bench <2 => 380-400
+                score += 30  # bench <2 => 350-360
             elif len(my_bench) < 3:
-                score += 40  # v28 bench <3 => 360-380
+                score += 15  # bench <3 => 335-345
             # v11 tape opening (Kaggriculture B21 inspiration): T1 Snover boost when early and have Water
             # If deckCount >50 (early), bench empty, and Snover (722) in hand with Water in hand -> +40
             try:
@@ -1615,9 +1615,36 @@ def _decide(obs: dict) -> list[int]:
             scores.append((_score_generic_context(o, obs, me_idx, opp_idx, ctx), i))
 
     elif stype == SelectType.ATTACK:
+        # v29 SWARM (root cause #3b): Riptide AND Hammer carry d=0 in the db
+        # (damage lives in the effect text) - raw-d scoring made this select a
+        # 0-tie decided by engine order. Score by real estimate + KO bonus,
+        # and never self-mill into a deckout.
+        _my_act = _active(obs, me_idx)
+        _opp_act = _active(obs, opp_idx)
+        _opp_hp = int((_opp_act or {}).get("hp") or 0) if _opp_act else 0
+        _at_t = card((_my_act or {}).get("id")).get("pt") if _my_act else None
+        _dfn_c = card((_opp_act or {}).get("id")) if _opp_act else {}
         for i, o in enumerate(opts):
-            ad = attack_data(o.get("attackId"))
-            scores.append((int(ad.get("d") or 0), i))
+            _aid = o.get("attackId")
+            _ad = attack_data(_aid)
+            if not SWARM_ATK_EST:
+                scores.append((int(_ad.get("d") or 0), i))
+                continue
+            _est = estimate_attack_damage(_aid, obs, me_idx, opp_idx)
+            if _est > 0:
+                try:
+                    if _at_t is not None and _dfn_c.get("w") is not None and _at_t == _dfn_c.get("w"):
+                        _est += 30
+                    if _at_t is not None and _dfn_c.get("res") is not None and _at_t == _dfn_c.get("res"):
+                        _est = max(0, _est - 30)
+                except Exception:
+                    pass
+            _sc = max(_est, int(_ad.get("d") or 0)) * 4
+            if _est > 0 and _opp_hp and _est >= _opp_hp:
+                _sc += 300  # this line wins the duel now
+            if _mill_would_deck_us_out(_aid, obs, me_idx):
+                _sc = -500  # never deck ourselves
+            scores.append((_sc, i))
 
     elif stype == SelectType.COUNT:
         ctx = select.get("context", Ctx.MAIN)
@@ -1836,6 +1863,70 @@ def _v24_search_gate(cid, obs: dict, me_idx: int) -> int:
 
 
 
+
+# --- v29 SWARM doctrine (branch a450b00f, Phase-2) ------------------------
+# Root causes (c87f7a48 forensics 249 episodes + our FFI verification):
+#  #1 50% of losses = our board empty T3-11 -> the bench is a RESOURCE,
+#     plant it before the first KO, in every matchup.
+#  #2 Snover 90HP leads (forced when it is the only basic in hand - the
+#     lead formula already prefers Kyogre 212>167 when both are available,
+#     and the opponent's lead is NOT visible at choice time) die vs fast ex
+#     -> retreat urgency gated on a seen-based, auto-detected threat set.
+#  #3 new exotic ex (Zacian 336/299, Duraludon 169/839/992, Hydrapple 150,
+#     Genesect 547, Zangoose 1002, Mega Starmie 1031) missing from a
+#     hardcoded set -> auto-detect from the card db instead.
+#  #3b Riptide 1042 AND Hammer-lanche 1046 both carry d=0 in the db (their
+#     damage lives in the effect text) -> SelectType.ATTACK scored both 0,
+#     a 0-tie kept ENGINE ORDER, so Riptide-vs-Hammer was a coin toss.
+SWARM_AUTO_FAST_EX = os.environ.get("PTCG_SWARM_AUTO_FAST_EX", "1") != "0"
+SWARM_ATK_EST = os.environ.get("PTCG_SWARM_ATK_EST", "1") != "0"
+SWARM_BENCH = os.environ.get("PTCG_SWARM_BENCH", "1") != "0"
+SWARM_BENCH_TARGET = int(os.environ.get("PTCG_SWARM_BENCH_TARGET", "3"))
+SWARM_BENCH_HOT = 35    # bench <= 1: hot urgency
+SWARM_BENCH_WARM = 15   # bench == 2: warm
+SWARM_BENCH_THREAT = 35 # fast-ex seen anywhere: keep the bench coming
+
+_FAST_EX_AUTO_CACHE = None
+
+def _swarm_fast_ex() -> frozenset:
+    """Explicit seed ids UNION auto-detected ex/mex fast threats.
+
+    Auto rule: a pokemon flagged ex (or mega-ex - but NOT our own mirror
+    Mega Abomasnow ex, which would only add mirror noise; Mega Starmie 1031
+    stays in via the seed set) with hp >= 200, or hp >= 150 with retreat
+    cost <= 2 (hit-and-run profile). Covers every exotic the forensics
+    listed without hardcoding per-card ids.
+    """
+    global _FAST_EX_AUTO_CACHE
+    if _FAST_EX_AUTO_CACHE is not None:
+        return _FAST_EX_AUTO_CACHE
+    ids = {63, 547, 1031, 861, 24, 171, 361, 336, 299, 169, 839, 992, 1002}
+    if SWARM_AUTO_FAST_EX:
+        try:
+            for _cid_s, _c in CARDS.items():
+                try:
+                    if _c.get("ct") != CardType.POKEMON:
+                        continue
+                    is_ex = _c.get("ex") == 1
+                    is_mex = _c.get("mex") == 1
+                    if not is_ex and not is_mex:
+                        continue
+                    if is_mex and not is_ex:
+                        continue  # mirror safety: our own Mega Abomasnow stays out
+                    hp = int(_c.get("hp") or 0)
+                    rc = int(_c.get("rc") or 9)
+                    if hp >= 200 or (hp >= 150 and rc <= 2):
+                        try:
+                            ids.add(int(_cid_s))
+                        except Exception:
+                            pass
+                except Exception:
+                    continue
+        except Exception:
+            pass
+    _FAST_EX_AUTO_CACHE = frozenset(ids)
+    return _FAST_EX_AUTO_CACHE
+
 _V21_SEEN = set()
 
 
@@ -1911,11 +2002,11 @@ def _score_main_option_v21(opt, obs, me_idx, opp_idx):
                 deck_n = int(obs["current"]["players"][me_idx].get("deckCount") or 20)
             except Exception:
                 deck_n = 20
-            if deck_n <= 15:
-                score -= 200  # v28 earlier guard
-            elif deck_n <= 20:
+            if deck_n <= 10:
+                score -= 200  # v26 stronger
+            elif deck_n <= 15:
                 score -= 150
-            elif deck_n <= 25:
+            elif deck_n <= 20:
                 score -= 80
 
         # --- LUCARIO mode: 4-prize Mega Abomasnow protection (v26 improved).
@@ -1934,20 +2025,32 @@ def _score_main_option_v21(opt, obs, me_idx, opp_idx):
                     # boost benching basics vs Lucario
                     score += 20
 
-        # --- FAST_EX mode (v26): Genesect ex, Raging Bolt ex, Mega Starmie ex etc.
-        FAST_EX_IDS_V28 = {63, 547, 1031, 861, 24, 171, 361, 336, 299, 169, 839, 992, 1002}
+        # --- FAST_EX mode (v29 swarm): auto-detected + seed ids, seen-based.
         try:
+            _fast = _swarm_fast_ex()
             opp_id = opp_active.get("id") if opp_active else None
-            if opp_id in FAST_EX_IDS_V28:
-                # vs fast ex, bench aggressively and protect Snover
-                if len(my_bench) < 3 and otype == OptionType.PLAY:
-                    score += 25
-                # if our active is Snover (90 HP) vs fast ex, retreat urgently
-                if my_active and my_active.get("id") == 722 and my_active.get("hp", 0) <= 90:
+            threat_seen = bool(seen & _fast)
+            if opp_id in _fast or threat_seen:
+                # SWARM bench-as-resource: warm the bench BEFORE the first KO
+                if otype == OptionType.PLAY and len(my_bench) < SWARM_BENCH_TARGET:
+                    score += SWARM_BENCH_THREAT
+                # our active is Snover (90 HP) vs a KNOWN fast ex: retreat urgently
+                if opp_id in _fast and my_active and my_active.get("id") == 722 \
+                        and my_active.get("hp", 0) <= 90:
                     if otype in (OptionType.RETREAT, OptionType.SWITCH):
                         score += 100
         except Exception:
             pass
+
+        # --- SWARM bench-as-resource (root cause #1: 50% of losses = empty
+        # board). Plant basics T1-4 in EVERY matchup, hottest when empty.
+        if SWARM_BENCH and otype == OptionType.PLAY:
+            try:
+                _bid = _hand_id(obs, me_idx, opt.get("index"))
+                if _bid and is_basic_pokemon(_bid) and len(my_bench) < SWARM_BENCH_TARGET:
+                    score += SWARM_BENCH_HOT if len(my_bench) <= 1 else SWARM_BENCH_WARM
+            except Exception:
+                pass
 
     except Exception:
         pass

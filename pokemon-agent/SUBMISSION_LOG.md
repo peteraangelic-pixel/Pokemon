@@ -1197,3 +1197,39 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - quick meta 690g: v25knobs 0.664 | v26weakfix **0.700** | v28b 0.662 — **v28b nie bije weakfixa na pełnej mecie** (jego zysk jest skoncentrowany w egzotykach/Ogerponie, koszt w mirrorze).
 
 **Werdykt:** v28b = kandydat LIVE na wolny slot (ich lokalne top30 +2.4pp; u mnie Ogerpon +5.3pp!) ale z kosztem mirrorowym — **decyzja 50/50, moja rekomendacja: poświęcić ostatni slot 13.10 na v28b** (jego +5pp na 20-30% populacji '?'-decków jest warty więcej niż −2pp na mirrorze ~25-40% populacji; do sprawdzania WR live po 24h).
+
+---
+
+## 2026-10-13 ~10:45 UTC — v29 SWARM agent (Phase-2) zbudowany i zweryfikowany (branch a450b00f)
+
+**Kontekst:** deck-only search zamknięty (F1+F2 0/10); odpowiadając na pytanie usera o forensics c87f (5 przyczyn przegranych) zbudowałem agenta `agents/main_heuristic_v29_swarm.py` = weakfix + 3 zmiany doktrynalne (regex-subn 3/3 assert, builder `tools/build_v29_swarm.py`).
+
+### Nowe fakty mechanistyczne (moja diagnostyka, fakt-not-guess):
+1. **Lead jest ślepy**: w momencie `Ctx.SETUP_ACTIVE_POKEMON` opp_active=null (silnik nie pokazuje leadu przeciwnika). Formuła weakfix JUŻ preferuje Kyogre 150HP (212 vs 167 dla Snover 90HP) — **Snover leaduje TYLKO gdy jest jedynym basicem w ręce** (klęska basiców jest strukturalna: talia ma 10 basiców 4Sn+2Ky, zero basic-search w F1 TR_POOL). Diagnoza c87f "powinniśmy leadować Kyogre" jest poprawna tylko w tym wąskim sensie — scoring nie był winny.
+2. **BUG monetą: Riptide 1042 i Hammer 1046 mają w bazie d=0** (dmg w tekście efektu) → gałąź SelectType.ATTACK oceniała oba na 0, remis rozstrzygała KOLEJNOŚĆ SILNIKA. To jest mechaniczne wyjaśnienie przyczyny #3 c87f ("Riptide 0 dmg zamiast Hammer" vs nowych egzotyków). `estimate_attack_damage` umie to liczyć — tylko nie było podpięte.
+3. **T1-3 z bench=0 nie ma w ręce ŻADNEGO basicu** (instrumentacja MAIN: tylko item/supporter/attach) → bonus ławkowy nie ma czego stawiać; głód basiców = struktura talii.
+4. Card db ma flagi `ex`/`mex`/`hp`/`rc` → fast-ex da się wykrywać automatycznie (136 id) zamiast hardcode'u.
+
+### Zmiany v29 (konfigurowalne env: PTCG_SWARM_AUTO_FAST_EX / _ATK_EST / _BENCH / _BENCH_TARGET):
+- **S1 SWARM_BENCH**: proaktywne stawianie basiców T1+ (hot 35 przy bench≤1, warm 15 przy 2, cel 3) — każdy matchup; vs widziany fast-ex: seen-based (także z ławki, nie tylko active) +35, retreat Snover +100 gdy fast-ex w ACTIVE.
+- **S2 _swarm_fast_ex()**: seed {13 id z v28} ∪ auto: (ex∨mex)∧(hp≥200 ∨ (hp≥150∧rc≤2)); nasz Mega Abomasnow (mex) wykluczony (mirror safety). Pokrywa Zacian 336/299, Duraludon 169/839/992 (seed), Hydrapple 150, Genesect 547, Zangoose 1002 bez per-card hardcode'u.
+- **S3 SWARM_ATK_EST**: SelectType.ATTACK = estimate_attack_damage (+weakness/res ±30) ×4 + KO +300 − self-mill guard −500. Koniec remisu d=0.
+
+### Wyniki (FFI paired, opp=weakfix, talia 35W-noBoss):
+| test | n/arm | delta vs weakfix | z |
+|---|---|---|---|
+| exotic_gate (5) | 400 | +0.00pp | 0.0 |
+| newconcept_pool (3) | 400 | +0.50pp | 0.20 |
+| meta1012 (69) run#1 | 3450 | +0.84pp | 0.75 |
+| meta1012 (69) run#2 (confirm) | 10350 | +0.39pp | 0.59 |
+| top30_live (23) | 1150 | +1.39pp | 0.93 |
+| mirror death-probe (swarm vs weakfix) | 300 | −1pp n.s. (0.490) | — |
+| swarm self-mirror | 200 | 0.580 OK | — |
+| death-probe 60g lucario/ogerpon/mirror | 60 | +3.3/+1.7/−1.7pp | n.s. |
+
+**Wzorzec: 4/4-5/5 pul >= 0, pule live-reprezentatywne najwyższe (+1.39 top30), zero istotnych regresji; pooled ~+0.5pp z≈1.2 — poniżej progu 2σ lokalnie.** Empty-bench zgony: ogerpon 100%→71% strat (mechanizm działa tam, gdzie basicy są w zasięgu).
+
+### Test wymiaru basic-engine (poza F1 TR_POOL — celowana hipoteza, nie re-opening):
+- `decks/v22_35w_ub2.csv` (35W zachowane, −1 Signal −1 Pad +2 Ultra Ball): weakfix **−0.20pp**, swarm **−0.58pp** na meta1012 3450g/arm → **ODRZUCONE**; talia zostaje 35W-noBoss.
+
+### Bundle: `bundles/ptcg_v29_swarm_35w.tar.gz` (95,795 B, smoke OK, deck.csv=35W md5 4c33456d) — **GOTOWY, NIE WYSŁANY**. Czeka na decyzję usera o ostatnim slocie (reset 00:00 UTC 14.10): v28b (c87f) vs v29swarm vs powstrzymanie slotu.
