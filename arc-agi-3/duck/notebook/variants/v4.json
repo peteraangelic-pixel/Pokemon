@@ -1,0 +1,7 @@
+{
+  "name": "v4-world-model-nudge",
+  "description": "v3 + ARC3_WORLD_MODEL_NUDGE=1. v3 showed the model ignores optional tools: only 1 of 10 games (s5i5) defined model_state/model_step, and there it predicted 32/32 transitions and the level-3 win, then broke on level 4 (KeyError) and was never fixed. v4 appends a world-model status line to every turn: missing model -> write it now; model unchanged since the previous level -> check and extend it; per-level automatic-check totals and model errors -> fix before relying on plan(). Same 10 demo games x 48 min.",
+  "env": {"ARC3_WORLD_MODEL": "1", "ARC3_WORLD_MODEL_NUDGE": "1"},
+  "patches": ["0001-level-notes-audit-experiment-hint.patch", "0002-executable-world-model.patch"],
+  "smoke": {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 48}
+}

@@ -193,7 +193,7 @@ index 58a94b3..fd5913c 100644
                  "sandbox_cwd": sandbox_dir,
                  "state": initial_state,
 diff --git a/ARC3-Inference/inference/agent/tool_agent.py b/ARC3-Inference/inference/agent/tool_agent.py
-index 84de5fc..51d2c79 100644
+index 84de5fc..50eaa63 100644
 --- a/ARC3-Inference/inference/agent/tool_agent.py
 +++ b/ARC3-Inference/inference/agent/tool_agent.py
 @@ -42,6 +42,7 @@ from inference.agent.prompts import (
@@ -204,7 +204,22 @@ index 84de5fc..51d2c79 100644
      STEP_VERIFICATION_ADDENDUM,
      PYTHON_ADDENDUM_HEAD,
      PYTHON_ADDENDUM_TAIL,
-@@ -2815,6 +2816,10 @@ def _build_system_prompt(*, tool_output_tokens: int) -> str:
+@@ -114,6 +115,14 @@ def _get_env_bool(name: str, default: bool) -> bool:
+     return default
+ 
+ 
++def _world_model_nudge() -> bool:
++    """ARC3_WORLD_MODEL_NUDGE (needs ARC3_WORLD_MODEL): a world-model status line in every turn."""
++    return _get_env_bool("ARC3_WORLD_MODEL", False) and _get_env_bool("ARC3_WORLD_MODEL_NUDGE", False)
++
++
++_WM_CHECK_RE = re.compile(r"\[world model check\] (\d+)/(\d+)(?:[^\n]*?; (\d+) model errors)?")
++
++
+ def _level_transfer_guidance_enabled() -> bool:
+     """Opt-in level-transfer prompts; set before constructing the agent.
+ 
+@@ -2815,6 +2824,10 @@ def _build_system_prompt(*, tool_output_tokens: int) -> str:
          # either way - this only controls whether the model is told about it,
          # so the arm measures whether knowing costs more than it returns.
          prompt += FRAME_DIFF_HINT_ADDENDUM
@@ -215,6 +230,87 @@ index 84de5fc..51d2c79 100644
      if _get_env_bool("ARC3_STEP_VERIFICATION_HINT", False):
          # General checks during action sequences and targeted probes when search fails.
          prompt += STEP_VERIFICATION_ADDENDUM
+@@ -3969,6 +3982,12 @@ class ToolAgent:
+             except (TypeError, ValueError, AttributeError):
+                 pass
+             self._arc3_audits_on_level = 0
++        if summary.get("level_transition"):
++            # world-model nudge: per-level check totals restart; remember which
++            # model the level started with so "not updated yet" can be detected
++            kept_now = getattr(self, "_kept_functions", None) or {}
++            self._arc3_wm_carried = (kept_now.get("model_state"), kept_now.get("model_step"))
++            self._arc3_wm_level_totals = [0, 0, 0]
+         if summary.get("level_transition"):
+             # the priority estimate is per level, so both counts restart here
+             if _get_env_bool("ARC3_PRIORITY_PACE", False):
+@@ -4776,8 +4795,59 @@ class ToolAgent:
+             self._kept_functions = {}
+             payload["function_retention"] = "Your retained functions were cleared after a retention error; redefine any you need."
+ 
++    def _arc3_wm_record(self, sandbox_result) -> None:
++        if not _world_model_nudge():
++            return
++        try:
++            matches = _WM_CHECK_RE.findall(str(sandbox_result.get("stdout", "") or ""))
++            totals = list(getattr(self, "_arc3_wm_level_totals", None) or [0, 0]) + [0]
++            totals = totals[:3]
++            for correct, checked, errors in matches:
++                totals[0] += int(correct)
++                totals[1] += int(checked)
++                totals[2] += int(errors or 0)
++            self._arc3_wm_level_totals = totals
++        except Exception:
++            pass
++
++    def _arc3_world_model_status(self) -> str:
++        """One line per turn about the executable world model (ARC3_WORLD_MODEL_NUDGE)."""
++        if not _world_model_nudge():
++            return ""
++        try:
++            kept = getattr(self, "_kept_functions", None) or {}
++            if "model_state" not in kept or "model_step" not in kept:
++                return (
++                    "\n\nWorld model status: no `model_state`/`model_step` retained yet. Write them "
++                    "(and `model_goal`) now, run `check_model()` on the transitions you already have, "
++                    "and let `plan()` produce your next action batch. One-off searches are never "
++                    "checked against the game; this model is checked after every action."
++                )
++            carried = getattr(self, "_arc3_wm_carried", None)
++            if carried and carried == (kept.get("model_state"), kept.get("model_step")):
++                msg = ("World model status: `model_state`/`model_step` are unchanged since the previous "
++                       "level. Check them with `check_model()` after your first actions here and extend "
++                       "them for anything new on this board.")
++            else:
++                msg = "World model status: `model_state`/`model_step` retained."
++            totals = (list(getattr(self, "_arc3_wm_level_totals", None) or []) + [0, 0, 0])[:3]
++            if totals[2]:
++                msg += (f" Your model raised {totals[2]} errors in automatic checks on this level; "
++                        "make `model_state`/`model_step` handle this board.")
++            if totals[1]:
++                msg += (f" Automatic checks on this level so far: {totals[0]}/{totals[1]} "
++                        "transitions predicted.")
++                if totals[0] < totals[1]:
++                    msg += " Fix the mispredicted mechanics before relying on `plan()`."
++            if "model_goal" not in kept:
++                msg += " `model_goal` is missing, so `plan()` cannot run."
++            return "\n\n" + msg
++        except Exception:
++            return ""
++
+     def _build_user_message(self, user_prompt: str, current_frame: Frame | None) -> dict[str, Any]:
+         user_prompt += self._retained_function_context()
++        user_prompt += self._arc3_world_model_status()
+         image_part = current_grid_image_part(current_frame)
+         diff_part = self._pending_diff_image
+         diff_label = self._pending_diff_image_label
+@@ -6038,6 +6108,7 @@ class ToolAgent:
+         ]
+         payload: dict[str, Any] = {"tool": "python"}
+         self._record_retained_functions(sandbox_result, payload)
++        self._arc3_wm_record(sandbox_result)
+         rendered_stdout = str(sandbox_result.get("stdout", "") or "")
+         rendered_error = str(sandbox_result.get("error", "") or "")
+         if rendered_error:
 diff --git a/ARC3-Inference/inference/utils/world_model.py b/ARC3-Inference/inference/utils/world_model.py
 new file mode 100644
 index 0000000..91b7fd9

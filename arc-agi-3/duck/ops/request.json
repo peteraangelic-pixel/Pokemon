@@ -1,9 +1,5 @@
 {
-  "id": "r014",
-  "op": "output",
-  "args": {
-    "kernels": ["petersharps/arc3-duck"],
-    "pattern": "(_p0\\.txt|log\\.txt|serve\\.log)$",
-    "keep": "(_p0\\.txt|log\\.txt)$"
-  }
+  "id": "r015",
+  "op": "push",
+  "args": {"dir": "arc-agi-3/duck/notebook/out", "variant": "v4", "wait_min": 200}
 }

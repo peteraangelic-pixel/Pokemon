@@ -189,4 +189,29 @@ os.environ["ARC3_WORLD_MODEL"] = "1"
 p1 = t._build_system_prompt(tool_output_tokens=3072)
 assert "check_model" not in p0 and "check_model(scope='level'" in p1
 print("prompt ok, delta chars:", len(p1) - len(p0))
+
+# 9. per-turn world-model status (ARC3_WORLD_MODEL_NUDGE)
+class A: pass
+a = A()
+a._kept_functions = {}
+status = t.ToolAgent._arc3_world_model_status.__get__(a)
+record = t.ToolAgent._arc3_wm_record.__get__(a)
+os.environ.pop("ARC3_WORLD_MODEL_NUDGE", None)
+assert status() == ""
+os.environ["ARC3_WORLD_MODEL_NUDGE"] = "1"
+assert "no `model_state`/`model_step` retained yet" in status(), status()
+a._kept_functions = {"model_state": "def model_state(f):\n    return 1", "model_step": "def model_step(s, a):\n    return s"}
+a._arc3_wm_carried = (a._kept_functions["model_state"], a._kept_functions["model_step"])
+a._arc3_wm_level_totals = [0, 0, 0]
+record({"stdout": "x\n[world model check] 3/4 of this snippet's ...; first miss t=2\n"})
+record({"stdout": "[world model check] 0/0 of this snippet's transitions matched ...; 2 model errors, first: {}"})
+st = status()
+print(st)
+assert "unchanged since the previous level" in st and "3/4 transitions predicted" in st
+assert "raised 2 errors" in st and "`model_goal` is missing" in st
+a._kept_functions["model_step"] = "def model_step(s, a):\n    return None"
+assert "unchanged" not in status()
+os.environ["ARC3_WORLD_MODEL"] = "0"
+assert status() == ""
+print("nudge ok")
 print("ALL 0002 TESTS PASSED")
