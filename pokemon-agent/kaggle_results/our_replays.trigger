@@ -1,1 +1,1 @@
-re-arm 2026-10-13T05:17:36Z - full forensics with Rust binary (92+ eps, 4 subs)
+re-arm 2026-10-13T05:22:37Z - forensics-before-summarize order fix
