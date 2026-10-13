@@ -1,0 +1,7 @@
+{
+  "name": "v3-world-model",
+  "description": "Patch 0002 (ARC3_WORLD_MODEL=1): executable world model. The agent writes model_state(frame) / model_step(state, action) / model_goal(state) as retained functions; check_model() replays them on every recorded transition of the level and reports accuracy, per-action accuracy and the differing fields; plan() searches the model (BFS / best-first); after every acting snippet a one-line [world model check] flags transitions the model mispredicted. Patch 0001 is included but inert (its toggles are off), so this is a clean A/B against Franzen's baseline on the same 10 demo games for 48 min each (Franzen 29.48, v2 30.54).",
+  "env": {"ARC3_WORLD_MODEL": "1"},
+  "patches": ["0001-level-notes-audit-experiment-hint.patch", "0002-executable-world-model.patch"],
+  "smoke": {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 48}
+}

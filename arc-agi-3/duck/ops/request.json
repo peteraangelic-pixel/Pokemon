@@ -1,5 +1,5 @@
 {
-  "id": "r012",
-  "op": "search",
-  "args": {"queries": ["qwen3.8", "flash-next", "gpt-oss-120b", "gemma-4", "kolibri", "qwen3.6-35b", "nemotron", "glm-5", "deepseek"]}
+  "id": "r013",
+  "op": "push",
+  "args": {"dir": "arc-agi-3/duck/notebook/out", "variant": "v3", "wait_min": 200}
 }
