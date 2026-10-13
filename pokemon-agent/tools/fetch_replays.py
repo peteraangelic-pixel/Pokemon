@@ -140,11 +140,16 @@ def list_episodes(submission_id: str, out_path: Path) -> list[dict]:
     return [{"id": eid, "EpisodeId": eid} for eid in ids]
 
 
+_REPLAY_ERRS: list[str] = []
+
 def download_replay(episode_id: str, dest_dir: Path) -> bool:
     dest_dir.mkdir(parents=True, exist_ok=True)
     rc, out, err = kaggle(["competitions", "replay", str(episode_id), "-p", str(dest_dir)])
     if rc != 0:
-        print(f"replay {episode_id} failed: {(err or out)[:500]}", file=sys.stderr)
+        msg = f"replay {episode_id} rc={rc}: {(err or out)[:1500]}"
+        _REPLAY_ERRS.append(msg)
+        if len(_REPLAY_ERRS) <= 3:
+            print(msg, file=sys.stderr)
         return False
     # kaggle CLI writes episode-<id>-replay.json
     expected = dest_dir / f"episode-{episode_id}-replay.json"
@@ -288,6 +293,11 @@ def main() -> int:
             if ok:
                 downloaded += 1
                 print(f"  downloaded replay {eid}")
+
+    if args.top_k > 0 and all_episodes and downloaded == 0:
+        print(f"\n!!! DIAG: replay download failed for ALL {len(all_episodes)} episodes. First errors:")
+        for e in _REPLAY_ERRS[:3]:
+            print("   " + e, file=sys.stderr)
 
     # 2. Official dataset
     official_slug = None

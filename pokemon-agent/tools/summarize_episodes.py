@@ -157,8 +157,14 @@ def main():
     sub_of = {}
     for cf in sorted(glob.glob(os.path.join(outdir, "episodes_*.csv"))):
         sub = os.path.basename(cf).split("_")[1].split(".")[0]
-        for row in csv.DictReader(open(cf)):
-            sub_of[row["id"]] = sub
+        try:
+            with open(cf, encoding="utf-8-sig") as fh:
+                for row in csv.DictReader(fh):
+                    key = (row.get("id") or row.get("Id") or "").strip()
+                    if key:
+                        sub_of[key] = sub
+        except Exception as exc:
+            print(f"WARN: could not parse {cf}: {exc!r}")
 
     rows = []
     skipped = []

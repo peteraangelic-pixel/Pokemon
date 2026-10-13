@@ -1,1 +1,1 @@
-poll: recovery check after session freeze 2026-10-11T16:55:06Z
+poll 2026-10-13T04:41:35Z - fresh mu after ~4h of 10-13 02:00 submissions
