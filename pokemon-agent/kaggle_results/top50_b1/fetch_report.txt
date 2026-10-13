@@ -1,0 +1,71 @@
+=== Downloading top 50 teams, 7 replays each, subs-per-team=2 ===
+Competition: the-pokemon-company-ptcg-ai-battle-challenge-playground
+Outdir: pokemon-agent/kaggle_results/top50_b1
+
+1. Downloading leaderboard...
+  Leaderboard: 349 teams
+
+Top 50 teams (processing 7):
+  1. やる気元気ミワハルキ 2nd ver. (id=17014244) score=1357.4
+  2. YumeNeko (id=17012386) score=1197.5
+  3. ANMOL GARG (id=17029228) score=1193.4
+  4. バーベナヘレナでコンボ決めたい連合 (id=16994149) score=1172.4
+  5. Darren Sheehan (id=17003892) score=1168.7
+  6. Majiro_ns (id=17055992) score=1147.3
+  7. agent_pokemon (id=17080215) score=1145.7
+
+1. やる気元気ミワハルキ 2nd ver. (team_id=17014244) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57069405 — listing episodes...
+      Found 215 episodes; team selected so far 0/7
+
+2. YumeNeko (team_id=17012386) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56916041 — listing episodes...
+      Found 573 episodes; team selected so far 0/7
+
+3. ANMOL GARG (team_id=17029228) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57054219 — listing episodes...
+      Found 289 episodes; team selected so far 0/7
+
+4. バーベナヘレナでコンボ決めたい連合 (team_id=16994149) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57139776 — listing episodes...
+      Found 89 episodes; team selected so far 0/7
+
+5. Darren Sheehan (team_id=17003892) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57145542 — listing episodes...
+      Found 72 episodes; team selected so far 0/7
+
+6. Majiro_ns (team_id=17055992) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57120297 — listing episodes...
+      Found 128 episodes; team selected so far 0/7
+
+7. agent_pokemon (team_id=17080215) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57062974 — listing episodes...
+      Found 284 episodes; team selected so far 0/7
+
+Phase 2: downloading unique episodes 0:49 of 49
+  Replay 123585503 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123585503 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123585503: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+  Replay 123572536 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123572536 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123572536: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+  Replay 123557002 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123557002 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123557002: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+  Replay 123542864 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123542864 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123542864: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+Stopping phase 2 after 12 consecutive Kaggle 429 replay failures
+
+Done. Selected 49 rows (49 unique episodes) for top 50; teams_with_quota=7, new=0, reused=0, failed=4.
