@@ -125,6 +125,7 @@ impl Simulator {
     }
 
     /// Mock win condition check (in production, parse from Python source)
+    #[allow(unused_variables)]
     fn check_win_condition(level: &LevelDefinition, agent_actions: u32, seed: u64, level_idx: usize) -> bool {
         // Deterministic based on seed and level
         let threshold = level.baseline_actions * 2;
