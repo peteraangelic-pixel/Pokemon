@@ -38,7 +38,7 @@ jobs:
           cd /tmp/arc-data
           
           echo "=== Downloading arc-prize-2026-arc-agi-3 ==="
-          kaggle competitions data -c arc-prize-2026-arc-agi-3 -p . 2>&1 | tee download-log.txt
+          kaggle competitions download -c arc-prize-2026-arc-agi-3 -p . 2>&1 | tee download-log.txt
           
           echo -e "\n=== Files downloaded ==="
           ls -lah
@@ -53,13 +53,10 @@ jobs:
           
           # Find game files
           echo -e "\n=== Looking for game/demo files ==="
-          find . -type f -name "*.py" -o -name "*.json" | grep -iE "(game|demo|environment)" | head -30 | tee games-list.txt
+          find . -type f \( -name "*.py" -o -name "*.json" \) | head -50 | tee all-files.txt
           
-          echo -e "\n=== All Python files ==="
-          find . -type f -name "*.py" | head -50 | tee python-files.txt
-          
-          echo -e "\n=== All JSON files ==="
-          find . -type f -name "*.json" | head -50 | tee json-files.txt
+          echo -e "\n=== Directory structure ==="
+          find . -type d | head -30 | tee dirs.txt
       
       - name: Announce
         if: always()
@@ -69,8 +66,8 @@ jobs:
             cat /tmp/arc-data/download-log.txt 2>/dev/null
             echo -e "\n=== Files ==="
             ls -lah /tmp/arc-data/ 2>/dev/null
-            echo -e "\n=== Games List ==="
-            cat /tmp/arc-data/games-list.txt 2>/dev/null
+            echo -e "\n=== All Files ==="
+            cat /tmp/arc-data/all-files.txt 2>/dev/null
           } > /tmp/download-report.txt
           
           python3 - <<'PY'
