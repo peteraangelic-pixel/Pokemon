@@ -76,6 +76,15 @@ jobs:
           echo "---- fetch tail ----"; tail -30 "$OUT/fetch.txt" 2>/dev/null
           echo "---- summarize ----"; cat "$OUT/summarize.txt" 2>/dev/null
           [ $rc1 -ne 0 ] && { echo "FETCH FAILED rc=$rc1"; exit 1; }
+
+          # deep per-turn forensics (Rust+Rayon) — BEFORE summarize (which deletes win replays)
+          if [ -x "$GITHUB_WORKSPACE/pokemon-agent/rust/bin/loss_forensics" ]; then
+            "$GITHUB_WORKSPACE/pokemon-agent/rust/bin/loss_forensics" \
+              --replays "$OUT" --outdir "$OUT" --table "$OUT/episodes_table.csv" > "$OUT/forensics.txt" 2>&1 \
+              || echo "forensics failed (non-fatal)"
+          else
+            echo "loss_forensics binary not present — skipping" > "$OUT/forensics.txt"
+          fi
           [ $rc2 -ne 0 ] && { echo "SUMMARIZE FAILED rc=$rc2"; exit 1; }
 
       - name: Commit back (small files only)
