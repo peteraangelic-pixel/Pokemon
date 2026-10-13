@@ -26,6 +26,14 @@ on:
         description: "Keep newest K episode files (0 = keep all)"
         required: false
         default: "210"
+      subs_per_team:
+        description: "Latest K submissions per team to mine"
+        required: false
+        default: "8"
+      outdir:
+        description: "Replay output dir (repo-relative)"
+        required: false
+        default: "pokemon-agent/kaggle_results/top30_live"
   push:
     branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
     paths:
@@ -67,39 +75,69 @@ jobs:
           TOP_N="${{ inputs.top_n || '' }}"
           RPT="${{ inputs.replays_per_team || '' }}"
           MAXF="${{ inputs.max_files || '' }}"
+          SUBS="${{ inputs.subs_per_team || '' }}"
+          OUTDIR="${{ inputs.outdir || '' }}"
+          EXTRACT_OUT=""
+          CLEAN=""
           for f in pokemon-agent/kaggle_results/top50_live.trigger pokemon-agent/kaggle_results/top30_live.trigger pokemon-agent/kaggle_results/top30.trigger pokemon-agent/kaggle_results/top10_live.trigger pokemon-agent/kaggle_results/top10.trigger; do
             [ -f "$f" ] || continue
             [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -n "$RPT" ] || RPT=$(sed -n 's/.*replays_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
-            SUBS=$(sed -n 's/.*subs_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
-            [ -z "$SUBS" ] && SUBS="8"
+            [ -n "$SUBS" ] || SUBS=$(sed -n 's/.*subs_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$OUTDIR" ] || OUTDIR=$(sed -n 's/.*outdir=\([^[:space:]]*\).*/\1/p' "$f" | head -1)
+            [ -n "$EXTRACT_OUT" ] || EXTRACT_OUT=$(sed -n 's/.*extract_out=\([^[:space:]]*\).*/\1/p' "$f" | head -1)
+            [ -n "$CLEAN" ] || CLEAN=$(sed -n 's/.*clean=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -z "$MAXF" ] && MAXF=$(sed -n 's/.*max_files=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
           done
           echo "top_n=${TOP_N:-30}" >> "$GITHUB_ENV"
           echo "rpt=${RPT:-7}" >> "$GITHUB_ENV"
-          echo "subs=${SUBS:-6}" >> "$GITHUB_ENV"
+          echo "subs=${SUBS:-8}" >> "$GITHUB_ENV"
           echo "maxf=${MAXF:-210}" >> "$GITHUB_ENV"
-          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} max_files=${MAXF:-210}"
+          echo "outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live}" >> "$GITHUB_ENV"
+          echo "extract_out=${EXTRACT_OUT}" >> "$GITHUB_ENV"
+          echo "clean=${CLEAN:-0}" >> "$GITHUB_ENV"
+          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} subs_per_team=${SUBS:-8} max_files=${MAXF:-210} outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live} extract_out=${EXTRACT_OUT} clean=${CLEAN:-0}"
 
-      - name: Download TOP30 live replays (fresh, 7 per team = 210)
+      - name: Download live replays (quota is PER TEAM)
         run: |
           set -e
-          mkdir -p pokemon-agent/kaggle_results/top30_live
+          mkdir -p "$outdir"
+          if [ "$clean" = "1" ]; then
+            case "$outdir" in
+              pokemon-agent/kaggle_results/*) find "$outdir" -maxdepth 1 -name 'episode-*.json' -delete || true ;;
+              *) echo "Refusing to clean unexpected outdir: $outdir" >&2; exit 1 ;;
+            esac
+          fi
           python pokemon-agent/tools/download_top10_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --top-n "$top_n" \
             --replays-per-team "$rpt" \
             --subs-per-team "$subs" \
-            --outdir pokemon-agent/kaggle_results/top30_live \
-            --delay 0.2 2>&1 | tee pokemon-agent/kaggle_results/top30_live/fetch.log
+            --outdir "$outdir" \
+            --delay 0.2 2>&1 | tee "$outdir/fetch.log"
+          cp "$outdir/fetch.log" "$outdir/fetch_report.txt" || true
           echo "=== summary ==="
-          cat pokemon-agent/kaggle_results/top30_live/summary.json || true
-          ls -lh pokemon-agent/kaggle_results/top30_live/ | head -30
-          echo "count JSONs: $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)"
+          cat "$outdir/summary.json" || true
+          echo "=== fetch status (head) ==="
+          head -80 "$outdir/fetch_status.csv" || true
+          ls -lh "$outdir/" | head -30
+          echo "count JSONs: $(ls "$outdir"/episode-*.json 2>/dev/null | wc -l)"
 
-      - name: Build top30_live + broad_field deck sets + playstyle analysis (Rust+Rayon)
+      - name: Build deck sets + playstyle analysis
         run: |
           set -eo pipefail
+          if [ -n "$extract_out" ]; then
+            src_rel="${outdir#pokemon-agent/}"
+            out_rel="${extract_out#pokemon-agent/}"
+            case "$extract_out" in
+              pokemon-agent/decks/*) find "$extract_out" -maxdepth 1 -name '*.csv' -delete || true ;;
+              *) echo "Refusing to clean unexpected extract_out: $extract_out" >&2; exit 1 ;;
+            esac
+            python pokemon-agent/tools/extract_top50.py --src "$src_rel" --out "$out_rel"
+            cat "$outdir/top50_extract.csv" | head -80 || true
+            echo "extracted decks: $(ls "$extract_out"/*.csv 2>/dev/null | wc -l)"
+            exit 0
+          fi
           python pokemon-agent/tools/build_top30.py || true
           python pokemon-agent/tools/build_broad_field.py || true
           python pokemon-agent/tools/analyze_replays.py --replays-dir pokemon-agent/kaggle_results/top30_live --out pokemon-agent/kaggle_results/top30_live/analysis.md || true
@@ -121,7 +159,10 @@ jobs:
           name: kaggle-top30-live-210
           path: |
             pokemon-agent/kaggle_results/top30_live/
+            pokemon-agent/kaggle_results/top50_live/
             pokemon-agent/decks/top30_live/
+            pokemon-agent/decks/top50/
+            pokemon-agent/decks/broad_field/
           if-no-files-found: warn
 
       - name: Commit back deck sets + analysis (prune raw episodes to max_files)
@@ -131,19 +172,29 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
-          # Delete oversized files >5M (some replays can be >5M)
-          find pokemon-agent/kaggle_results/top30_live -type f -size +6M -delete || true
-          # Keep newest $maxf episode files (210 = 30*7). 0 means keep all.
-          if [ "$maxf" != "0" ] && [ -n "$maxf" ]; then
-            echo "Pruning to newest $maxf episodes..."
-            ls -1t pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | tail -n +$((maxf+1)) | xargs rm -f || true
-          fi
-          echo "Remaining JSONs: $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)"
-          git add pokemon-agent/kaggle_results/top30_live/ pokemon-agent/decks/top30_live/ pokemon-agent/decks/broad_field/ || true
-          git status --short | head -30
-          if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/top30_live/ pokemon-agent/decks/top30_live/ pokemon-agent/decks/broad_field/)" ]; then
-            git commit -m "decks: top30_live refreshed to $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)/210 from fresh fetch 7 per top30 [skip ci]"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+          if [ -n "$extract_out" ]; then
+            # Large raw replay JSONs stay in the Actions artifact; committing
+            # ~350 x multi-MB JSONs would bloat the repo. Commit the small,
+            # sufficient outputs: manifest/status/summary/extract + decks.
+            echo "Top50 mode: committing metadata + extracted decks from $outdir -> $extract_out"
+            git add "$outdir/summary.json" "$outdir/top10_manifest.csv" "$outdir/fetch_status.csv" \
+                    "$outdir/fetch_report.txt" "$outdir/leaderboard.csv" "$outdir/top50_extract.csv" \
+                    "$extract_out" || true
           else
+            # Delete oversized files >5M (some replays can be >5M)
+            find pokemon-agent/kaggle_results/top30_live -type f -size +6M -delete || true
+            # Keep newest $maxf episode files (210 = 30*7). 0 means keep all.
+            if [ "$maxf" != "0" ] && [ -n "$maxf" ]; then
+              echo "Pruning to newest $maxf episodes..."
+              ls -1t pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | tail -n +$((maxf+1)) | xargs rm -f || true
+            fi
+            echo "Remaining JSONs: $(ls pokemon-agent/kaggle_results/top30_live/episode-*.json 2>/dev/null | wc -l)"
+            git add pokemon-agent/kaggle_results/top30_live/ pokemon-agent/decks/top30_live/ pokemon-agent/decks/broad_field/ || true
+          fi
+          git status --short | head -40
+          if git diff --cached --quiet; then
             echo "No changes to commit"
+          else
+            git commit -m "fetch: $(basename "$outdir") refreshed (quota per team) [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi

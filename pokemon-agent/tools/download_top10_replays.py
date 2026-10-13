@@ -87,6 +87,24 @@ def rows_from_csv(text: str) -> list[dict]:
     return list(csv.DictReader(io.StringIO(text)))
 
 
+def existing_replay(outdir: Path, ep_id: str) -> Path | None:
+    """Kaggle CLI writes episode-<id>-replay.json; older notes used episode-<id>.json."""
+    for name in (f"episode-{ep_id}-replay.json", f"episode-{ep_id}.json"):
+        p = outdir / name
+        if p.exists() and p.stat().st_size > 0:
+            return p
+    return None
+
+
+def write_csv(path: Path, rows: list[dict], fieldnames: list[str]) -> None:
+    if not rows:
+        return
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        w.writerows(rows)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--competition", default=DEFAULT_SLUG)
@@ -163,127 +181,185 @@ def main() -> int:
     for i, t in enumerate(top_teams, 1):
         print(f"  {i}. {t.get('TeamName')} (id={t.get('TeamId')}) score={t.get('Score')}")
 
-    # 2. For each team, get their public submissions via team_id
-    manifest = []
-    downloaded = 0
+    # 2. For each team, get their public submissions via team_id.
+    # IMPORTANT: --replays-per-team is a quota PER TEAM across all mined
+    # submissions (not per submission). The previous version took 7 from each
+    # of the latest 2 submissions (= up to 14/team) and, worse, only wrote
+    # newly-downloaded files to the manifest, so resumable runs lost coverage.
+    manifest: list[dict] = []
+    status_rows: list[dict] = []
+    downloaded_new = 0
+    reused_existing = 0
+    failed_downloads = 0
 
     for rank, team in enumerate(top_teams, 1):
         team_id = team.get("TeamId") or team.get("teamId")
         team_name = team.get("TeamName") or team.get("teamName") or f"team_{team_id}"
         if not team_id:
-            print(f"  No team_id for {team_name}, skipping")
+            status_rows.append({"rank": rank, "team_id": "", "team_name": team_name,
+                                "submission_id": "", "submissions_found": 0,
+                                "episodes_found": 0, "selected_total_for_team": 0,
+                                "note": "missing team_id"})
             continue
 
         print(f"\n{rank}. {team_name} (team_id={team_id}) — fetching submissions...")
 
-        # Use kaggle competitions team-submissions <team_id>
         rc, out, err = kaggle(["competitions", "team-submissions", str(team_id), "--format", "csv", "-q"])
         if rc != 0:
+            status_rows.append({"rank": rank, "team_id": team_id, "team_name": team_name,
+                                "submission_id": "", "submissions_found": 0,
+                                "episodes_found": 0, "selected_total_for_team": 0,
+                                "note": f"team-submissions rc={rc}: {(err or out)[:240]!r}"})
             print(f"  team-submissions failed for {team_id}: {err[:300]}")
-            # Try without csv
-            rc, out, err = kaggle(["competitions", "team-submissions", str(team_id)])
-            print(f"  verbose output: {out[:500]}")
             continue
 
         sub_rows = rows_from_csv(out)
         if not sub_rows:
+            status_rows.append({"rank": rank, "team_id": team_id, "team_name": team_name,
+                                "submission_id": "", "submissions_found": 0,
+                                "episodes_found": 0, "selected_total_for_team": 0,
+                                "note": f"no submissions parsed; raw={(out or err)[:240]!r}"})
             print(f"  No submissions for team {team_id}")
             continue
 
-        # Sort by date newest first, take latest K (competition counts 2 as ACTIVE;
-# older ones are disabled but their public episodes still reveal deck archetypes)
         def sub_date(r):
             return r.get("date") or r.get("Date") or r.get("submitted") or r.get("SubmissionDate") or ""
 
         sub_sorted = sorted(sub_rows, key=sub_date, reverse=True)
-        print(f"  Found {len(sub_rows)} submissions, taking latest {min(2, len(sub_sorted))}")
+        subs_to_mine = sub_sorted[: max(1, getattr(args, "subs_per_team", 2))]
+        print(f"  Found {len(sub_rows)} submissions, mining latest {len(subs_to_mine)}; quota={args.replays_per_team}/team")
 
-        for sub in sub_sorted[: getattr(args, "subs_per_team", 2)]:
+        seen_episode_ids: set[str] = set()
+        selected_for_team = 0
+
+        for sub in subs_to_mine:
+            if selected_for_team >= args.replays_per_team:
+                break
             sub_id = sub.get("ref") or sub.get("id") or sub.get("submissionId") or sub.get("SubmissionId")
             if not sub_id:
+                status_rows.append({"rank": rank, "team_id": team_id, "team_name": team_name,
+                                    "submission_id": "", "submissions_found": len(sub_rows),
+                                    "episodes_found": 0, "selected_total_for_team": selected_for_team,
+                                    "note": f"submission row missing id: {str(sub)[:240]!r}"})
                 continue
-
+            sub_id = str(sub_id).strip()
             print(f"    Submission {sub_id} — listing episodes...")
 
-            # List episodes for this submission
             rc, out, err = kaggle(["competitions", "episodes", str(sub_id), "--format", "csv", "-q"])
             ep_rows: list[dict] = []
-            if rc == 0 and out.strip():
+            ep_note = ""
+            if rc == 0 and out.strip() and "no episodes found" not in out.lower():
                 ep_rows = rows_from_csv(out)
+                if not ep_rows:
+                    ep_note = f"episodes csv parsed 0 rows; raw={out[:240]!r}"
             else:
-                # Fallback to verbose and parse ids
-                rc, out, err = kaggle(["competitions", "episodes", str(sub_id), "-v"])
-                if rc == 0:
+                if rc != 0:
+                    ep_note = f"episodes csv rc={rc}: {(err or out)[:240]!r}"
+                rc2, out2, err2 = kaggle(["competitions", "episodes", str(sub_id), "-v"])
+                if rc2 == 0 and out2.strip() and "no episodes found" not in out2.lower():
                     import re
 
-                    ids = re.findall(r"^\s*(\d{6,})", out, flags=re.MULTILINE)
+                    ids = re.findall(r"^\s*(\d{6,})", out2, flags=re.MULTILINE)
                     ep_rows = [{"id": eid} for eid in ids]
+                    if ep_rows:
+                        ep_note = (ep_note + " " if ep_note else "") + "fallback verbose parse used"
+                elif not ep_note:
+                    ep_note = f"no episodes; verbose rc={rc2}: {(err2 or out2)[:240]!r}"
 
             if not ep_rows:
+                status_rows.append({"rank": rank, "team_id": team_id, "team_name": team_name,
+                                    "submission_id": sub_id, "submissions_found": len(sub_rows),
+                                    "episodes_found": 0, "selected_total_for_team": selected_for_team,
+                                    "note": ep_note or "no episodes returned"})
                 print(f"      No episodes for submission {sub_id}")
                 continue
 
-            print(f"      Found {len(ep_rows)} episodes, downloading last {args.replays_per_team}")
-
-            # Take last N (newest first is typical)
-            for ep in ep_rows[: args.replays_per_team]:
+            print(f"      Found {len(ep_rows)} episodes; team selected so far {selected_for_team}/{args.replays_per_team}")
+            for ep in ep_rows:
+                if selected_for_team >= args.replays_per_team:
+                    break
                 ep_id = ep.get("id") or ep.get("Id") or ep.get("EpisodeId") or ep.get("episodeId")
                 if not ep_id:
                     continue
                 ep_id = str(ep_id).strip()
-                if not ep_id.isdigit():
+                if not ep_id.isdigit() or ep_id in seen_episode_ids:
                     continue
+                seen_episode_ids.add(ep_id)
 
-                dest = outdir / f"episode-{ep_id}.json"
-                if dest.exists():
-                    print(f"        {ep_id} already exists, skip")
-                    continue
-
-                rc, out, err = kaggle(["competitions", "replay", str(ep_id), "-p", str(outdir)])
-                if rc == 0:
-                    downloaded += 1
-                    print(f"        Downloaded {ep_id}")
-                    manifest.append(
-                        {
-                            "rank": rank,
-                            "team_id": team_id,
-                            "team_name": team_name,
-                            "team_score": team.get("Score"),
-                            "submission_id": sub_id,
-                            "episode_id": ep_id,
-                            "file": f"episode-{ep_id}.json",
-                        }
-                    )
+                before = existing_replay(outdir, ep_id)
+                status = "downloaded"
+                actual = before
+                if before is not None:
+                    status = "existing"
+                    reused_existing += 1
+                    print(f"        {ep_id} already exists ({before.name}), reuse")
                 else:
-                    print(f"        Failed {ep_id}: {err[:200]}")
+                    rc, out, err = kaggle(["competitions", "replay", str(ep_id), "-p", str(outdir)])
+                    actual = existing_replay(outdir, ep_id)
+                    if rc == 0 and actual is not None:
+                        downloaded_new += 1
+                        print(f"        Downloaded {ep_id} -> {actual.name}")
+                    else:
+                        status = "failed"
+                        failed_downloads += 1
+                        print(f"        Failed {ep_id}: rc={rc} file={actual} err={err[:200]}")
 
+                selected_for_team += 1
+                manifest.append(
+                    {
+                        "rank": rank,
+                        "team_id": team_id,
+                        "team_name": team_name,
+                        "team_score": team.get("Score"),
+                        "submission_id": sub_id,
+                        "episode_id": ep_id,
+                        "file": actual.name if actual is not None else "",
+                        "status": status,
+                    }
+                )
                 time.sleep(args.delay)
 
-    # Write manifest
-    manifest_path = outdir / "top10_manifest.csv"
-    if manifest:
-        with open(manifest_path, "w", newline="", encoding="utf-8") as f:
-            w = csv.DictWriter(f, fieldnames=list(manifest[0].keys()))
-            w.writeheader()
-            w.writerows(manifest)
-        print(f"\nWrote manifest {manifest_path} with {len(manifest)} entries")
+            status_rows.append({"rank": rank, "team_id": team_id, "team_name": team_name,
+                                "submission_id": sub_id, "submissions_found": len(sub_rows),
+                                "episodes_found": len(ep_rows), "selected_total_for_team": selected_for_team,
+                                "note": ep_note})
 
-    # Write summary
+    # Write manifest + per-team/per-submission diagnostics. The manifest now
+    # contains every selected episode (downloaded, reused, or failed), so a
+    # resumable run cannot silently shrink coverage to only new downloads.
+    manifest_path = outdir / "top10_manifest.csv"
+    manifest_fields = ["rank", "team_id", "team_name", "team_score", "submission_id", "episode_id", "file", "status"]
+    write_csv(manifest_path, manifest, manifest_fields)
+    status_path = outdir / "fetch_status.csv"
+    status_fields = ["rank", "team_id", "team_name", "submission_id", "submissions_found", "episodes_found", "selected_total_for_team", "note"]
+    write_csv(status_path, status_rows, status_fields)
+
+    teams_with_any = len({r["team_name"] for r in manifest})
+    teams_with_quota = len({r["team_name"] for r in manifest
+                            if sum(1 for x in manifest if x["team_name"] == r["team_name"]) >= args.replays_per_team})
     summary = {
         "fetched_utc": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
         "competition": args.competition,
         "top_n": args.top_n,
         "replays_per_team": args.replays_per_team,
+        "subs_per_team": getattr(args, "subs_per_team", 2),
         "teams": len(top_teams),
-        "replays_downloaded": downloaded,
+        "teams_with_any_episode": teams_with_any,
+        "teams_with_full_quota": teams_with_quota,
+        "selected_rows": len(manifest),
+        "unique_episodes": len({r["episode_id"] for r in manifest}),
+        "replays_downloaded": downloaded_new,
+        "replays_reused_existing": reused_existing,
+        "replays_failed": failed_downloads,
         "manifest": str(manifest_path),
+        "status": str(status_path),
     }
     (outdir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    # Zip if requested
+    # Zip if requested (only when this run actually fetched/reused files).
     zip_path = Path(args.zip) if args.zip else outdir / "TOP10.zip"
-    if downloaded > 0:
-        print(f"\nZipping {downloaded} replays into {zip_path}...")
+    if downloaded_new > 0:
+        print(f"\nZipping replay files into {zip_path}...")
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
             for f in outdir.glob("episode-*.json"):
                 z.write(f, f.name)
@@ -291,7 +367,8 @@ def main() -> int:
                 z.write(manifest_path, manifest_path.name)
         print(f"  Zip size: {zip_path.stat().st_size / 1e6:.1f} MB")
 
-    print(f"\nDone. Downloaded {downloaded} replays for top {args.top_n} teams.")
+    print(f"\nDone. Selected {len(manifest)} rows ({summary['unique_episodes']} unique episodes) "
+          f"for top {args.top_n}; teams_with_quota={teams_with_quota}, new={downloaded_new}, reused={reused_existing}, failed={failed_downloads}.")
     return 0
 
 
