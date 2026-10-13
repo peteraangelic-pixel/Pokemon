@@ -1080,3 +1080,26 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Role na 13.10 (user):** c87f7a48 = jedyny wykonawca ~02:00 UTC: slot1 phase1_tuned_v25_35w + slot2 ptcg_v22b_35w (md5 v25 055992fd x3 ✓). Ta gałąź i 8560a56a = nie submitują; bundlę u mnie = kopie zapasowe. Koordynacja zamknięta commitami 8ef6941 (DISARM marker) i niniejszym.
 
 **Pre-rejestrowany odczyt (z 19:05, bez zmian):** po 24-48h our_replays WR: slot1 ≥~50% → knoby zostają; slot1 ≥5pp niżej od slot2 → knoby wycofane; remis → decyduje % zgonów z pustą ławką. Odczyt WR, nie μ.
+
+### 2026-10-13 05:05 UTC — DIAGNOZA nocnych submisji (380/324, WR live 0.346) + V26: pierwszy agent z ISTOTNĄ wygraną lokalną (+1.41pp z=2.42, wszystkie 5 pul +)
+
+**Wyniki submisji c87f7a48 (~01:07-01:08):** v25knobs_35w 380.0 (kalibracja pokazała 600.0!), v22b_35w 324.0; team rank 272 (spadek z 254 mimo nowych submisji — pole urosło nocą). **Live WR z 65 replayów: v25knobs 3W-5L (0.375), v22b35 15W-29L (0.341) — RAZEM 0.346, gorzej niż wczoraj.**
+
+**DLACZEGO przegrywały (twarde liczby z replayów):** 30/34 przegranych = BOARD-COLLAPSE: kończymy z **1 pokemonem** (aktywny, ławka pusta) vs przeciwnik 2-5 żywych (średnio ~3); nasz deck wciąż ~40 kart (nawet nie zużywamy zasobów). Archetypy: MIRROR 9-14, OGERPON 0-5 (!), LUCARIO 2-5. **Żadna z wczorajszych submisji nie zawierała fixa v24 board-development** — knoby (E) i czysta baza (B) tego nie leczą.
+
+**Mechanizm w kodzie (znaleziony):** atak-KO = 260 + min(est,240)//4 (+30 type) ≈ do ~350 > 320 za basic-na-ławkę → agent kończy turę atakiem zamiast wystawić ławkę → następna tura: przeciwnik zabija samotnego. (Basics w ręce SĄ — wynik probe: flood wyzwala się natychmiast po włączeniu.)
+
+**V26 = v24 (board-dev) + knoby v25 + FLOOD (nowa warstwa, stałe zdefiniowane):**
+- `_V26_FLOOD_MIN_BOARD=3`, `_V26_FLOOD_BENCH_BONUS=60/slot` (basic na ławkę: 320+120=440 przy pustej ławce > jakikolwiek atak)
+- `_V26_FLOOD_ATTACK_PENALTY=390` (atak nie może zakończyć tury zanim wystawimy ławkę — tylko gdy opp_alive≥2, czyli nie w endgame)
+- fix techniczny: `active` w obserwacji to LISTA (poprzednia wersja helpera padała na .get → flood martwy; wykryty w probe, naprawiony przed walidacją)
+
+**DOWODY:**
+1. **death_mode_probe (nowy tool) vs thickbot mirror35**: v25knobs 0.492 → **v26 0.600** (+10.8pp); straty 61→48; Ogerpon: 0.808→**0.867** (+6pp)
+2. **3-way matrix (54.8k... 13.7k/ramię, 5 pul)**: kontrola v22b35 0.6247 | v25knobs 0.6279 (+0.31 n.s.) | **v26 0.6388 (+1.41pp z=2.42 — pierwszy ISTOTNY zysk w historii; wszystkie pule plus: meta +2.22 z=2.15, top30 +2.32 z=1.66, broad +1.03, thick +1.07, water +0.52)**
+3. meta1012 unpacked: **0.680** (rekord zespołu; wcześniej ~0.66-0.67)
+4. Bundle: **bundles/ptcg_v26_flood_35w.tar.gz** (smoke ✓, 35W ✓, live-loader ✓)
+
+**Otwarty problem (do dalszej pracy):** pusty-bench nadal ~90% PRZEGRANYCH v26 (choć samych przegranych mniej) — flood działa gdy basic jest w ręce; brak w decku basic-search, a Lillie może wyrzucać basics (do sprawdzenia). Oraz: kalibracyjne μ 600.0→380.0 potwierdza szum ±110; rank 272 wynika częściowo z wzrostu pola.
+
+**NIE SUBMITOWANE** — decyzja użytkownika (c87f7a48 ma pipeline; bundlę są identyczne md5 na gałęziach).
