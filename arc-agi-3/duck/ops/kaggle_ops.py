@@ -375,7 +375,26 @@ def op_topics(ctx: Ctx, args: dict) -> None:
         ctx.save(f"topic_{tid}.md", body)
 
 
+def op_user(ctx: Ctx, args: dict) -> None:
+    """Public footprint of Kaggle users: kernels, datasets, models (+ optional pull)."""
+    code, lb = kg("competitions", "leaderboard", COMP, "--show", "--csv")
+    ctx.save("leaderboard.csv", lb)
+    ctx.block("Leaderboard (top 30)", "\n".join(lb.splitlines()[:31]), 32)
+    for user in args.get("users", []):
+        ctx.say(f"## {user}")
+        for what, cmd in (("kernels", ["kernels", "list", "--user", user, "--page-size", "100", "--csv"]),
+                          ("kernels_search", ["kernels", "list", "-s", user, "--page-size", "50", "--csv"]),
+                          ("datasets", ["datasets", "list", "--user", user, "--csv"]),
+                          ("models", ["models", "list", "--owner", user, "--csv"])):
+            code, out = kg(*cmd)
+            ctx.save(f"{user}_{what}.csv", out)
+            ctx.block(f"{what} (code={code})", "\n".join(out.splitlines()[:40]), 42)
+    if args.get("pull"):
+        op_pull(ctx, {"refs": args["pull"]})
+
+
 OPS = {
+    "user": op_user,
     "recon": op_recon, "pull": op_pull, "push": op_push, "status": op_status,
     "submit": op_submit, "submissions": op_submissions, "topics": op_topics,
     "output": op_output,

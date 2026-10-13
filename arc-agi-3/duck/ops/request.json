@@ -1,5 +1,5 @@
 {
-  "id": "r010",
-  "op": "submissions",
-  "args": {}
+  "id": "r011",
+  "op": "user",
+  "args": {"users": ["majkel1337", "Majkel1337"]}
 }
