@@ -1,16 +1,16 @@
 {
   "env": {
-    "ARC3_EXPERIMENT_HINT": "1",
-    "ARC3_LEVEL_NOTES": "1",
-    "ARC3_STUCK_AUDIT_TOKENS": "60000"
+    "ARC3_WORLD_MODEL": "1"
   },
-  "git": "0f1f21227fa0",
-  "name": "v2-think-less",
+  "git": "d0d9717428bf",
+  "name": "v3-world-model",
   "patch_files": [
-    "/kaggle/duck-extra-00.patch"
+    "/kaggle/duck-extra-00.patch",
+    "/kaggle/duck-extra-01.patch"
   ],
   "patches": [
-    "0001-level-notes-audit-experiment-hint.patch"
+    "0001-level-notes-audit-experiment-hint.patch",
+    "0002-executable-world-model.patch"
   ],
   "smoke": {
     "games": [
