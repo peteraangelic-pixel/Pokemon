@@ -23,11 +23,13 @@
 - **Nieustalone:** dlaczego ocena poszła z atrapy
 - Do wyjaśnienia przed kolejnym zgłoszeniem
 
-### 4. Sprzęt lokalny
-- Użytkownik: GPU z 8 GB VRAM
-- Qwen3.6-27B lokalnie nie wchodzi
-- Lokalnie realnie: model 7-8B w Q4 do testów pętli agenta
-- Pełne przebiegi tylko na Kaggle
+### 4. Sprzęt lokalny (poprawione)
+- Użytkownik: GPU 8 GB VRAM + RAM 64 GB
+- W LM Studio działają modele ok. 17 GB (część warstw w VRAM, reszta w RAM)
+- Poprzednie założenie "tylko 7-8B" było błędne - poprawione
+- Agent llm-agent łączy się z LM Studio (http://127.0.0.1:1234/v1)
+- Wyniki lokalne: tylko do testów pętli i parsowania, nie do oceny jakości
+- Pełne przebiegi (110 gier × 4 min) tylko na Kaggle
 
 ## Co jest błędne (usunięte)
 
