@@ -1,12 +1,12 @@
 {
-  "fetched_utc": "2026-10-13T05:19:43.701470+00:00",
+  "fetched_utc": "2026-10-13T05:24:30.528286+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 19,
-  "episodes_listed": 137,
-  "replays_downloaded": 98,
+  "episodes_listed": 139,
+  "replays_downloaded": 100,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 98,
+  "total_json_on_disk": 100,
   "sample_analysis": [
     {
       "file": "episode-123120164-replay.json",

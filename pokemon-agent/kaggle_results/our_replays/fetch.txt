@@ -2,7 +2,8 @@ Fetching replays into pokemon-agent/kaggle_results/our_replays
 Found 19 own submissions
 
 === Submission 57130779 (phase1_tuned_v25_knobs_35w.tar.gz) ===
-  episodes listed: 9
+  episodes listed: 10
+  downloaded replay 123178330
   downloaded replay 123176119
   downloaded replay 123173913
   downloaded replay 123171705
@@ -14,7 +15,8 @@ Found 19 own submissions
   downloaded replay 123158104
 
 === Submission 57130754 (phase1_tuned_v26_strong_weakfix.tar.gz) ===
-  episodes listed: 9
+  episodes listed: 10
+  downloaded replay 123178333
   downloaded replay 123176121
   downloaded replay 123173914
   downloaded replay 123171709
@@ -111,6 +113,6 @@ Found 19 own submissions
   downloaded replay 123079302
   downloaded replay 123077075
 
-Total replay JSONs on disk: 98
+Total replay JSONs on disk: 100
 
 Wrote pokemon-agent/kaggle_results/our_replays/summary.json + summary.md

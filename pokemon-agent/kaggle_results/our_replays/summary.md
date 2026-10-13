@@ -22,15 +22,16 @@ _fetched by kaggle-our-replays_57125516_
 - vs CLEFAIRY: 1W-0L (1.00) n=1
 - recurring opponents (n>=2): AByT3s 2-1; lswuwu 1-1; Arka Latua 0-2; Riccardo Lo Bianco 0-2; Sanchay Singh 1-1; Taras Harbar 0-2; Aayush Jansari 0-2; cottonandcolor 1-1; F.A.Nina 0-2
 
-## submission 57130754: 9 episodes, 1W-8L = 0.111
+## submission 57130754: 10 episodes, 2W-8L = 0.200
 - vs KYOGRE: 0W-4L (0.00) n=4
-- vs ?: 0W-2L (0.00) n=2
+- vs ?: 1W-2L (0.33) n=3
 - vs MEOWTH+FEZANDIP: 1W-1L (0.50) n=2
 - vs LATIAS+MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
 
-## submission 57130779: 9 episodes, 4W-5L = 0.444
+## submission 57130779: 10 episodes, 5W-5L = 0.500
 - vs KYOGRE: 3W-0L (1.00) n=3
 - vs LUCARIO: 1W-2L (0.33) n=3
 - vs LATIAS+MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
 - vs ?: 0W-1L (0.00) n=1
 - vs MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
+- vs CLEFAIRY: 1W-0L (1.00) n=1
