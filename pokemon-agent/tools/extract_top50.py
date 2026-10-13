@@ -12,7 +12,7 @@ import csv, json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "kaggle_results" / "top50_live"
+SRC = ROOT / "kaggle_results" / "top30_live"
 OUT = ROOT / "decks" / "top50"
 OUT.mkdir(parents=True, exist_ok=True)
 
