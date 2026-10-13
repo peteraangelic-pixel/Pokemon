@@ -68,3 +68,22 @@ Wnioski:
 - Tylko 10 transkryptów: Franzen publikuje 8, a nasze v2 miało 2 pliki poniżej 2 MB.
   Pozostałe 8 transkryptów v2 jest w wyjściu kernela i da się je pobrać jako skróty (digest) przez CI, bez wrzucania 25 MB do gita.
 - Klasyfikacja ręczna, jedna osoba. Granica a/b bywa rozmyta (sp80, ka59).
+
+## Phase 3 feasibility check (2026-10-13)
+
+`probe_sim.py` → `probe_franzen.csv`: offline replay of 60 stuck levels (those with a previous level),
+probing at level start.
+
+- "New object" detection (by segment hash) is noisy: median 10 "new types" per level; a brand-new colour appears in only 41/60.
+- Clicks on centres of new elements: visible non-HUD effect in 44/285 (15%).
+- Simple actions: effect in 147/202, mostly movement the model already understands.
+- UNDO (ACTION7) restores the board in 103/108, but exists in only 6/25 games.
+- 0 deaths / 0 wins caused by probes.
+
+Conclusion: a generic auto-probe at level entry is low-yield; the informative experiments are contextual
+(e.g. push box into token). The level-entry report already exists in Franzen (`ARC3_LEVEL_INVENTORY`, default off;
+level-transfer guidance on). Patch 0002 was therefore NOT built.
+
+Token "saturation" above ~300k tokens/game is a censoring artefact (only ~10% of runs reach that budget).
+Both M2 writeups (Franzen, lordhansolo) report score ~ turns/tokens per game and model quality.
+Kaggle model search (ops r012): every top open solution uses Qwen3.8-Flash-Next; no stronger model that fits is mirrored on Kaggle.
