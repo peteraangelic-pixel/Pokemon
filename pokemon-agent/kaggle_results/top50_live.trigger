@@ -1,1 +1,1 @@
-top50_live 2026-10-13T19:00Z - fetch 7 replays x top50 teams (2 submissions each) for mega-test vs v37
+top50 mega-test fetch: top_n=50 replays_per_team=7 max_files=350 (2 suby/team, newest first)
