@@ -46,6 +46,26 @@ on:
         description: "Clean episode JSONs in outdir before fetch (1=yes)"
         required: false
         default: "0"
+      skip_download:
+        description: "Only build manifest selection, do not download replays (1=yes)"
+        required: false
+        default: "0"
+      max_downloads:
+        description: "Max unique replay downloads in phase 2 (0=all)"
+        required: false
+        default: "0"
+      download_offset:
+        description: "Skip first N unique episodes in download phase"
+        required: false
+        default: "0"
+      rank_start:
+        description: "Only process ranks >= this (0=all)"
+        required: false
+        default: "0"
+      rank_end:
+        description: "Only process ranks <= this (0=all)"
+        required: false
+        default: "0"
   push:
     branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
     paths:
@@ -92,6 +112,11 @@ jobs:
           DELAY="${{ inputs.delay || '' }}"
           EXTRACT_OUT="${{ inputs.extract_out || '' }}"
           CLEAN="${{ inputs.clean || '' }}"
+          SKIP_DOWNLOAD="${{ inputs.skip_download || '' }}"
+          MAX_DOWNLOADS="${{ inputs.max_downloads || '' }}"
+          DOWNLOAD_OFFSET="${{ inputs.download_offset || '' }}"
+          RANK_START="${{ inputs.rank_start || '' }}"
+          RANK_END="${{ inputs.rank_end || '' }}"
           for f in pokemon-agent/kaggle_results/top50_live.trigger pokemon-agent/kaggle_results/top30_live.trigger pokemon-agent/kaggle_results/top30.trigger pokemon-agent/kaggle_results/top10_live.trigger pokemon-agent/kaggle_results/top10.trigger; do
             [ -f "$f" ] || continue
             [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
@@ -101,6 +126,11 @@ jobs:
             [ -n "$EXTRACT_OUT" ] || EXTRACT_OUT=$(sed -n 's/.*extract_out=\([^[:space:]]*\).*/\1/p' "$f" | head -1)
             [ -n "$CLEAN" ] || CLEAN=$(sed -n 's/.*clean=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -n "$DELAY" ] || DELAY=$(sed -n 's/.*delay=\([0-9.][0-9.]*\).*/\1/p' "$f" | head -1)
+            [ -n "$SKIP_DOWNLOAD" ] || SKIP_DOWNLOAD=$(sed -n 's/.*skip_download=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$MAX_DOWNLOADS" ] || MAX_DOWNLOADS=$(sed -n 's/.*max_downloads=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$DOWNLOAD_OFFSET" ] || DOWNLOAD_OFFSET=$(sed -n 's/.*download_offset=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$RANK_START" ] || RANK_START=$(sed -n 's/.*rank_start=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$RANK_END" ] || RANK_END=$(sed -n 's/.*rank_end=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -z "$MAXF" ] && MAXF=$(sed -n 's/.*max_files=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
           done
           echo "top_n=${TOP_N:-30}" >> "$GITHUB_ENV"
@@ -111,7 +141,12 @@ jobs:
           echo "extract_out=${EXTRACT_OUT}" >> "$GITHUB_ENV"
           echo "clean=${CLEAN:-0}" >> "$GITHUB_ENV"
           echo "delay=${DELAY:-0.2}" >> "$GITHUB_ENV"
-          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} subs_per_team=${SUBS:-8} max_files=${MAXF:-210} outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live} extract_out=${EXTRACT_OUT} clean=${CLEAN:-0} delay=${DELAY:-0.2}"
+          echo "skip_download=${SKIP_DOWNLOAD:-0}" >> "$GITHUB_ENV"
+          echo "max_downloads=${MAX_DOWNLOADS:-0}" >> "$GITHUB_ENV"
+          echo "download_offset=${DOWNLOAD_OFFSET:-0}" >> "$GITHUB_ENV"
+          echo "rank_start=${RANK_START:-0}" >> "$GITHUB_ENV"
+          echo "rank_end=${RANK_END:-0}" >> "$GITHUB_ENV"
+          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} subs_per_team=${SUBS:-8} max_files=${MAXF:-210} outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live} extract_out=${EXTRACT_OUT} clean=${CLEAN:-0} delay=${DELAY:-0.2} skip_download=${SKIP_DOWNLOAD:-0} max_downloads=${MAX_DOWNLOADS:-0} download_offset=${DOWNLOAD_OFFSET:-0} rank=${RANK_START:-0}-${RANK_END:-0}"
 
       - name: Download live replays (quota is PER TEAM)
         run: |
@@ -123,13 +158,20 @@ jobs:
               *) echo "Refusing to clean unexpected outdir: $outdir" >&2; exit 1 ;;
             esac
           fi
+          EXTRA_ARGS=""
+          if [ "$skip_download" = "1" ]; then EXTRA_ARGS="$EXTRA_ARGS --skip-download"; fi
+          if [ -n "$max_downloads" ] && [ "$max_downloads" != "0" ]; then EXTRA_ARGS="$EXTRA_ARGS --max-downloads $max_downloads"; fi
+          if [ -n "$download_offset" ] && [ "$download_offset" != "0" ]; then EXTRA_ARGS="$EXTRA_ARGS --download-offset $download_offset"; fi
+          if [ -n "$rank_start" ] && [ "$rank_start" != "0" ]; then EXTRA_ARGS="$EXTRA_ARGS --rank-start $rank_start"; fi
+          if [ -n "$rank_end" ] && [ "$rank_end" != "0" ]; then EXTRA_ARGS="$EXTRA_ARGS --rank-end $rank_end"; fi
+          echo "Extra args:$EXTRA_ARGS"
           python pokemon-agent/tools/download_top10_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --top-n "$top_n" \
             --replays-per-team "$rpt" \
             --subs-per-team "$subs" \
             --outdir "$outdir" \
-            --delay "$delay" 2>&1 | tee "$outdir/fetch.log"
+            --delay "$delay" $EXTRA_ARGS 2>&1 | tee "$outdir/fetch.log"
           cp "$outdir/fetch.log" "$outdir/fetch_report.txt" || true
           echo "=== summary ==="
           cat "$outdir/summary.json" || true
