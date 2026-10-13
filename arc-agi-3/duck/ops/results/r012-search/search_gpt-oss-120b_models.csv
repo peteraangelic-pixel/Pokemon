@@ -1,0 +1,32 @@
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOHIu85TTeDcywKQSk_N21uyRukR3N9fHavyNgXOWmfx6dtQ5GLAacQPk_TFVIM9VBo
+id,ref,title,subtitle,author
+422384,danielhanchen/gpt-oss-120b,gpt-oss-120b,,Unsloth AI
+574178,huikang/gpt-oss-120b-aimo3,gpt-oss-120b-aimo3,,Tong Hui Kang
+581363,ashok205/gpt-oss-120b-uncensored,gpt-oss-120b-uncensored,Uncensored model from huggingface,NNMax
+517648,yeoyunsianggeremie/nvidia-gpt-oss-120b-eagle3,nvidia-gpt-oss-120b-Eagle3,,Geremie Yeo
+607197,nguyennguyen599/gpt-oss-120b-ft,gpt-oss-120b-ft,,Nguyen
+521710,shelterw/gpt,GPT,,ShelterW
+540434,andreasbis/nvidia-gpt-oss-120b-eagle3-throughput,nvidia/gpt-oss-120b-Eagle3-throughput,,Andreas Bisiadis
+568675,nurikw3/gptoss,GPT OSS 120B MATH,fine-tuned with grpo (gmsk dataset),Beisenbek Nurassyl [dsmlkz]
+604770,mirzamilanfarabi/gpt-oss-120b-unsloth-bnb-4bit,gpt-oss-120b-unsloth-bnb-4bit,,Mirza Milan Farabi
+603978,mirzamilanfarabi/gpt-oss-120b,gpt-oss-120b,,Mirza Milan Farabi
+567649,zaynyu/gpt-oss-120b-mxfp4-lora-sft,gpt-oss-120b-mxfp4-lora-sft,,ZaynYu
+627179,icebeam777/gpt-oss-120b-merged-lora,gpt-oss-120b-merged-lora,,IceBeam777
+737278,asadullahdogar/adaption_agri-feea7ccb-065d-47b8-a2bc-6d5d53825266,AgriIntel-Contextual-Yield-Reasoning-v1,LoRA adapter fine-tuned from openai/gpt-oss-120b,Asad Ullah Dogar
+562514,ashok205/gpt-oss-120b-merged-4bit,GPT-OSS 120B Merged 4bit,,NNMax
+639315,mirzamilanfarabi/gpt-oss-120b-eagle3,gpt-oss-120b-Eagle3,,Mirza Milan Farabi
+641375,sivavoleti/gpt-oss-120b-ft,gpt-oss-120B-FT,,Siva Voleti
+604878,mirzamilanfarabi/gpt-oss-120b-openai,gpt-oss-120b-openai,,Mirza Milan Farabi
+604633,mirzamilanfarabi/gpt-oss-120b-unsloth,gpt-oss-120b-unsloth,,Mirza Milan Farabi
+601653,damndeepesh/nvidiagpt-oss-120b-eagle3-long-context,nvidia/gpt-oss-120b-Eagle3-long-context,gpt-oss-120b-Eagle3-long-context,Deepesh Gupta
+555013,barnobarno/gpt-oss-120b-unsloth,GPT OSS  120B,,Barno Barno
+533013,konstantinboyko/gpt-oss-120b,gpt-oss-120b,,AI-Cat
+429314,thomasyiu2/gpt-oss-20b-unsloth-finetune-puzzle-lora-v2,gpt-oss-20b-unsloth-finetune-puzzle-lora-V2,OpenAI's OSS 20B Fine tuned version for Puzzle,Thomas Yiu
+639129,mirzamilanfarabi/unsloth-gpt-oss-120b-gguf,unsloth-gpt-oss-120b-GGUF,,Mirza Milan Farabi
+632790,icebeam777/gpt-oss-120b-llm-compressor,GPT-OSS-120B LLM Compressor,"GPT-OSS-120B checkpoint exported after llm-compressor FP8 KV-cache calibration on an AIMO3-style math reasoning dataset, with 1024 samples and 4096 tokens each.",IceBeam777
+642407,perseus7/nvidiagpt-oss-120b-eagle3-long-context,nvidia/gpt-oss-120b-Eagle3-long-context,,Aryan
+481556,shengkaisu/gpt-oss-120b,gpt-oss-120b,,Shengkai Su
+624337,jeannkouagou/gpt-oss-120b,gpt-oss-120b,,JK-Piece
+611581,aminhaidar/gpt-oss-120b,gpt-oss-120b,,Amin Haidar
+721726,chpvchp/gpt-oss-120b,GPT-OSS-120B,,CHPvCHP
+715127,gollanarendar/adaption-gpt-oss-120b-telugu-instruct,adaption-gpt-oss-120b-telugu-instruct,Telugu general NLP capabilities model adapted via AutoScientist.,Golla Narendar

@@ -1,0 +1,21 @@
+ref,title,size,lastUpdated,downloadCount,voteCount,usabilityRating
+jeannkouagou/aimo3-tool-integrated-reasoning,AIMO3 Tool-Integrated Reasoning Dataset,902922600,2026-02-06 15:58:32.950000,713,26,1
+kadouciabdelhak/algeria-laptop-price-prediction-dataset-cleaned,Algerian Laptop Market Dataset,6130806,2026-02-13 17:13:55.660000,126,27,1
+linogova/epstein-ranker-dataset-u-s-house-oversight,Epstein Ranked Dataset (U.S. House Oversight),41830158,2025-11-26 01:00:34.143000,497,30,1
+wenliangtlh/aimo3-high-difficulty-tool-calling-dataset,AIMO3-High-Difficulty-Tool-Calling-Dataset,136568617,2026-02-07 08:32:43.880000,522,11,0.47058824
+sorokin/nvarc-artifacts-puzzles,NVARC Artifacts Puzzles,42008423274,2025-11-20 20:52:37.793000,5339,6,0.3529412
+zfturbo/hard-math-problems-for-aimo-3,Hard Math Problems for AIMO 3,8104,2026-05-08 19:33:48.480000,529,25,0.64705884
+luciankucera/bitunit-test-depth-1,bit:unit-test-depth-1,24989256,2026-04-05 12:58:38.553000,78,5,0.4117647
+hemantpgaikwad/aimo3-gpt-oss-120b-merged-v63,AIMO3 GPT-OSS-120B Merged V63,57275888221,2026-04-14 19:59:44.543000,7,1,0.25
+hweowe/loraaaaaa1,loraaaaaa1,49227738,2026-01-17 09:14:06.963000,49,3,0.25
+ritwikakancharla/nemotron-math-v2-filtered-high,nemotron-math-v2-filtered-high,3696689617,2026-03-22 02:27:15.197000,34,4,0.88235295
+souravrajakxcd/adaption-no-robots-instructions-weights,Adaption No Robots Instructions SFT 120B Weights,10048373,2026-07-07 16:14:43.650000,6,1,0.5
+zhengliwen/gpt-oss-120b,gpt-oss-120b,59855398844,2025-12-11 14:32:24.063000,75,0,0.125
+hrithik22122/akkadian-to-english-nmt-high-qaulity-dataset,Akkadian-To-English-NMT-High-Qaulity-Dataset,18652279,2026-03-24 12:48:00.040000,23,3,0.7647059
+sebastiangil00/aimo3-writeup-artifacts,AIMO3 Writeup Artifacts,543349,2026-04-21 16:30:37.870000,117,3,0.4117647
+zaynyu/8687-is-all-you-need,8687 is all you need,626,2026-01-30 06:35:35.460000,24,0,0.5882353
+amichae2/gpt-oss-120b-aimo-4bit-part1,my-gpt-oss-120b-1,54141979574,2026-02-14 19:11:25.617000,1,0,0.25
+amichae2/gpt-oss-120b-aimo-4bit-part2,my-gpt-oss-120b-2,31803993006,2026-02-14 19:52:19.720000,1,0,0.25
+eliork/gpt-oss-120b-awq-w4a16,gpt-oss-120b-awq-w4a16,12502384371,2026-03-30 19:46:37.450000,9,0,0.25
+xrouge/vietnam-history,Vietnam History,1003156,2025-08-25 05:02:39.450000,68,3,0.625
+toshimitsukimura/gpt-oss-120b-gguf,ggml-org/gpt-oss-120b-GGUF,60760200997,2025-12-09 04:44:27.687000,1,0,0.3125

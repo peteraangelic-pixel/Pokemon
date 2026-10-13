@@ -1,0 +1,21 @@
+ref,title,size,lastUpdated,downloadCount,voteCount,usabilityRating
+rahim3/qwen38-tpu-env-v5e8,qwen38-tpu-env-v5e8,806005009,2026-09-02 18:14:45.840000,204,11,0.5625
+rahim3/qwen3-8-27b-bf16,Qwen3.8-27B bf16,43994512709,2026-08-18 12:23:44.933000,331,1,0.3125
+keithtyser/duck-qwen38-nvfp4-mtp-vllm-smoke-v1,Duck Qwen3.8 NVFP4 MTP vLLM smoke v1,15495426,2026-08-31 23:47:17.740000,12466,4,0.1875
+seenmttai/qwen38-flash-next-mmproj-q8-0,Qwen3.8 Flash Next mmproj Q8_0,530973557,2026-09-24 13:09:53.447000,0,4,0.4375
+keithtyser/qwen38-flash-next-vllm-nvfp4-runtime-v1,Qwen3.8 Flash Next vLLM NVFP4 runtime v1,7873230742,2026-08-30 20:20:06.003000,1846,2,0.1875
+mrhussein6/qwen-uncensored-model,Qwen3.8-27B-Uncensored-Q5_K_M,19516453524,2026-08-20 02:55:07.097000,9,3,0.25
+seenmttai/qwen38-flash-next-mmproj-f16,Qwen3.8 Flash Next mmproj F16,694753489,2026-09-24 12:58:03.113000,0,4,0.25
+sergiodefreitas/qwen3-8-27b,Qwen3.8 27B,17276869794,2026-08-16 14:34:59.263000,1,1,0.25
+alykassem202/qwen38-flash-next-vllm-nvfp4-runtime-v1,Qwen3.8 Flash Next vLLM NVFP4 runtime v1,7873230742,2026-09-04 17:07:10.137000,105,1,0.5625
+saltb0x/qwen3-8-27b-fp8,Qwen3.8-27B FP8 (official),25346275232,2026-08-14 22:55:20.140000,439,1,0.3125
+jakobbrggen/qwen3-8-27b-fp8-hf-snapshot,Qwen3.8-27B-FP8 HF snapshot,25346274879,2026-08-15 14:20:05.007000,521,0,0.3125
+sayandeepbhowmick/qwen38-27b-nvfp4,Qwen3.8-27B-NVFP4,20077103274,2026-09-04 23:13:16.780000,32,1,0.25
+happytimez/qwen3-8-27b-gguf,Qwen3.8-27B-GGUF,16293654773,2026-09-18 22:27:06.500000,6,0,0.6875
+mirzamilanfarabi/albucino-qwen3-8-flash-next-drafter,albucino-Qwen3.8-Flash-Next-drafter,0,2026-10-09 12:49:18.187000,7,1,0.4375
+an0sss/qwen3-8-27b-abliberated,Qwen3-8-27B-Abliberated,43993068766,2026-08-15 21:33:26.700000,37,4,0.4375
+moeshawky/qwen38-flash-expert-banks,Qwen3.8-Flash Expert Banks,99851600304,2026-08-29 15:14:05.797000,1,1,0.3125
+dfranzen/pennyroyal-v253,pennyroyal-v253,6640272567,2026-09-29 14:28:58.637000,18018,2,0.5
+keithtyser/taaf-duck-qwen38-serving-v1,TAAF Duck Qwen3.8 serving v1,11387188,2026-08-17 03:33:37.913000,1494,0,0.1875
+raist321/duck-qwen38-nvfp4-bundle-v1,Duck Qwen3.8 NVFP4 bundle v1 (re-host),15495426,2026-09-02 13:25:19.927000,279,1,0.4375
+rohithmanepalli/qwen3-8-27b-orcarouter-gguf,Qwen3.8 27B OrcaRouter GGUF,22363316159,2026-08-17 15:58:46.580000,2,1,0.25

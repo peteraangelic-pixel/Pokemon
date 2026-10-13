@@ -1,0 +1,32 @@
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOGiHWFJf1XyxCkQ0dZFafCIW0CBC9cDkrkP7cTgJ_QOF3YHU8CxLZBhK0uXsFb92uI
+id,ref,title,subtitle,author
+748517,keithtyser/qwen3-8-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4,Pinned RadixArk ModelOpt NVFP4 checkpoint for private offline evaluation,chiefkeith
+741765,foysalemonshanto/qwen3-8-27b-fp8-repacked-v1,Qwen3.8 27B FP8 Repacked,Qwen3.8 27B FP8 repacked for Kaggle,FOYSAL
+741631,noillum123/qwen3-8-27b-uncensored-fp8,Qwen3.8-27B-Uncensored-FP8,"Abliterated (refusal-removed) block-FP8 build of Qwen/Qwen3.8-27B, served via vLLM with the identical kernel path to the official FP8",Noillum123
+765336,dfranzen/intel-qwen3.8-flash-next-w4a16-autoround,Intel-Qwen3.8-Flash-Next-W4A16-AutoRound,,Daniel Franzen
+765062,dfranzen/albucino-qwen3-8-flash-next-drafter,albucino-Qwen3.8-Flash-Next-drafter,,Daniel Franzen
+745013,mikedan7/qwen3-8-27b-fp8-official,Qwen3.8-27B-FP8 (official mirror),Unmodified mirror of Qwen/Qwen3.8-27B-FP8 at revision 017b9c7af6b5,MIKE DAN7
+764889,ugvfpdcuwfnh/qwen3-8-27b,Qwen3.8-27B,Qwen3.8-27B 原始 BF16 Safetensors 权重；遵循上游 Apache 2.0 许可。 | Original BF16 Safetensors weights; upstream Apache 2.0 license.,ugvfpdcuwfnh
+770021,ugvfpdcuwfnh/qwen3-8-27b-uncensored,Qwen3.8-27B-Uncensored,"Uncensored Qwen3.8-27B weights (BF16, 18 shards, ~55.56 GB) directly mirrored from Hugging Face.",ugvfpdcuwfnh
+765662,cputer/qwen3-8-27b-base,Qwen3.8-27B base,Unmodified Qwen3.8-27B (bf16 safetensors) for offline use in Kaggle notebooks,Nikolai Nedovodin
+761259,nvidia/qwen3-8-flash-next-nvfp4,Qwen3.8-Flash-Next-NVFP4,NVIDIA NVFP4-quantized Qwen3.8-Flash-Next checkpoint,NVIDIA
+769975,dineshkumar0705/qwen3-8-27b-fp8,qwen3.8-27b-fp8,FP8 Qwen3.8-27B for efficient multimodal inference,Dinesh kumar Thiyagarajan
+742805,keras/qwen3-8,Qwen3.8,"A compact, deployment-friendly, native vision-language model built on Qwen3.5, featuring flexible thinking control for complex coding, multimodal understanding, and long-horizon agentic tasks.",Keras
+745078,dangkhoa2016/qwen-qwen3-8-27b,Qwen/Qwen3.8-27B,Unofficial Kaggle mirror of Qwen/Qwen3.8-27B from Hugging Face,Dang Khoa
+752080,woochangsim/qwen38-flash-next-w4a16-autoround-4c67bf6,Qwen3.8 Flash Next W4A16 AutoRound 4c67bf6,Pinned Intel AutoRound W4A16 checkpoint for offline inference,Woochang Sim
+745538,dangkhoa2016/z-lab-qwen3-8-27b-dflash2,Z-Lab/Qwen3.8-27B-DFlash2,Unofficial Kaggle mirror of z-lab/Qwen3.8-27B-DFlash2 from Hugging Face,Dang Khoa
+745063,dangkhoa2016/qwen-qwen3-8-27b-fp8,Qwen/Qwen3.8-27B-FP8,Unofficial Kaggle mirror of Qwen/Qwen3.8-27B-FP8 from Hugging Face,Dang Khoa
+762732,ugvfpdcuwfnh/qwen3-8-27b-ud-q4-k-xl,Qwen3.8-27B-UD-Q4_K_XL,直接下载自 Hugging Face unsloth/Qwen3.8-27B-GGUF，未作任何删改。 | Downloaded directly from Hugging Face unsloth/Qwen3.8-27B-GGUF with no modifications.,ugvfpdcuwfnh
+771026,nischaydnk/qwen38-27b-dflash2-fp8,Qwen3.8 27B DFlash2 FP8,FP8 DFlash2 draft for official Qwen3.8-27B-FP8,Nischay Dhankhar
+763100,ugvfpdcuwfnh/qwen3-8-27b-ud-q5-k-m,Qwen3.8-27B-UD-Q5_K_M,"Unsloth Dynamic 3.0 UD-Q5_K_M GGUF 量化版，基于 Qwen3.8-27B；支持文本、图像与视频理解。| Unsloth Dynamic 3.0 UD-Q5_K_M GGUF quantization of Qwen3.8-27B; supports text, image, and video understanding.",ugvfpdcuwfnh
+757329,aaronflouro/qwen38-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4,nvidia/Qwen3.8-Flash-Next-NVFP4 snapshot fc694b54 for offline vLLM on RTX PRO 6000,Aaron Flouro
+763416,boristown/qwen3-8-flash-next-nvfp4-reap-448e,Qwen3.8 Flash Next NVFP4 REAP 448E,REAP-pruned Qwen3.8 Flash Next NVFP4 (512->448 routed experts). For pushing Kaggle serving context to 128K by freeing weight VRAM.,暗黑AGI
+765119,josephayanda/qwen3-8-27b-gptq-w4a16,Qwen3.8-27B GPTQ W4A16 (pearsonkyle mirror),pearsonkyle/Qwen3.8-27B-GPTQ-W4A16 @ 4e2c2d8f pinned mirror for ARC3 offline inference,Joseph Ayanda
+765004,michaelpoluektov/qwen3-8-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4 (NVIDIA),Hugging Face nvidia/Qwen3.8-Flash-Next-NVFP4 mirrored for Kaggle offline use.,Michael Poluektov
+752471,aaronflouro/qwen38-27b-fp8,Qwen3.8 27B FP8,Official Qwen/Qwen3.8-27B-FP8 HF snapshot (rev 017b9c7a) mirrored for offline vLLM serving on Kaggle,Aaron Flouro
+770300,nischaydnk/thinkingcap-qwen38-27b-fp8,ThinkingCap Qwen3.8 27B FP8,BottleCap AI efficient-reasoning Qwen3.8-27B FP8,Nischay Dhankhar
+596858,shelterw/qwen3.5,Qwen3.5,,ShelterW
+755486,mirzamilanfarabi/qwen3.8,Qwen3.8,,Mirza Milan Farabi
+741328,overseer66/qwen3-8-27b-nvfp4,qwen3.8-27b-nvfp4,,"Seung Jin, Hong"
+763550,justnoone2026/qwen3-8-27b-fp8,"Qwen3.8-27B-FP8 (official weights, repacked)","Official Apache-2.0 weights, revision 017b9c7af6b5689d5dd426a76e0bc077eb5ca20a, shards merged",Vitalii Berezniak
+741554,abusafwanmdfarhan/qwen3-8-27b,Qwen3.8-27B (Q5_K_S),,Abu Safwan Md Farhan

@@ -1,0 +1,21 @@
+id,ref,title,subtitle,author
+651336,guohaoli4/qwen3-6-35b-a3b,Unsloth-Qwen3.6-35B-A3B,Public mirror of unsloth/Qwen3.6-35B-A3B for offline Kaggle notebook use.,Guohao Li
+751531,ronyclarton/ravenx-cyber-qwen3-6-35b-a3b-opus-mythos-pentester-bughunter-rath-gguf,RavenX CyberAgent Qwen3.6-35B-A3B Opus RATH GGUF,Qwen3.6 35B A3B + Opus 4.7 + OpenMythos Pentester-BugHunter RATH Q4_K_M,Madcon Nadirov
+650436,giovannimuniz/qwen3-6-35b-a3b,Qwen3.6-35B-A3B,Model Qwen3.6-35B-A3B from HuggingFace (Qwen),Giovanni Muniz
+720617,asif09ansari/qwen3-6-35b-a3b-q8-0,Qwen3.6-35B-A3B-Q8_0,,asif09ansari
+706595,athiramar/huihui-qwen3-6-35b-abliterated,Huihui-Qwen3.6-35B-Abliterated,,Athi ramar
+717282,mgagvani/qwen3-6-35b-a3b-mtp,Qwen3.6 35B A3B MTP GGUF,Unsloth dynamic Q4_K_XL GGUF for llama.cpp,Manav Gagvani
+650444,giovannimuniz/qwen3-6-35b-a3b-4bit,Qwen3.6-35B-A3B-4bit,Model Qwen3.6-35B-A3B-4bit from HuggingFace (mlx-community),Giovanni Muniz
+715947,keras/qwen3-6-moe,Qwen3.6 MoE,Next-generation Mixture-of-Experts (MoE) model optimized for advanced agentic coding and complex reasoning.,Keras
+675916,dertex/lordx64qwen3-6-35b-a3b-claude-4-7-opus-reasoning,lordx64/Qwen3.6-35B-A3B-Claude-4.7-Opus-Reasoning,,DerTex
+647663,aniketdas188/qwen3-6-35b-a3b-ud-q4-k-xl,Qwen3.6-35B-A3B-UD-Q4_K_XL,,Aniket Das
+660998,wangfeiwest2025/qwen3-6-35b-a3b-ud-q3-k-xl-gguf,Qwen3.6-35B-A3B-UD-Q3_K_XL.gguf,,fei wang
+718853,chpvchp/qwen3-6-35b-a3b-ud-iq4-nl-xl,Qwen3.6-35B-A3B-UD-IQ4_NL_XL,,CHPvCHP
+710984,anuragsati6476/qwen3-6-35b-a3b-fp8-20260627,Qwen3.6-35B-A3B-FP8 2026-06-27 Mirror,Public Kaggle mirror created from the 2026-06-27 Azure VM download,Anurag Sati6476
+673496,raist321/qwen3-6-27b,Qwen3.6-27B BF16,"Dense 27B BF16, mirrored from Qwen/Qwen3.6-27B on HuggingFace",Peter Findley
+711658,yuvvraaj7/qwen3-6-35b-a3b-hauhaucs-aggressive-q4kp,Qwen3.6-35B-A3B-HauhauCS-Aggressive-Q4KP,,Yuvvraaj
+713495,tecepeipe/qwen3-6-35b-a3b-claude-4-7-opus-distilled-q5-k-m,Qwen3.6-35B-A3B-Claude-4.7-Opus-Distilled-Q5_K_M,,tecepeipe
+743943,michaelcampbellsd/qwen3-6-27b-fable-fusion-711-unheretic,Qwen3.6 27B Fable Fusion 711 UnHeretic,,Michael Mac PC Zone
+728212,michaelcampbellsd/qwopus-27b-v2,Qwopus 27B V2,Try out the OpenGL master programming model that helped me to fix my GL calculator.,Michael Mac PC Zone
+734400,bachhg/qwen3-6-27b-awq,Qwen3.6 27B AWQ,4-bit AWQ Transformers checkpoint mirrored from SenkuLabs ModelScope.,Bachhg
+734412,bachhg/qwen3-6-27b-heretic-v2-gptq,Qwen3.6 27B Heretic V2 GPTQ,4-bit GPTQ Transformers checkpoint mirrored from SenkuLabs ModelScope.,Bachhg

@@ -1,0 +1,21 @@
+ref,title,size,lastUpdated,downloadCount,voteCount,usabilityRating
+seenmttai/qwen38-flash-next-mmproj-q8-0,Qwen3.8 Flash Next mmproj Q8_0,530973557,2026-09-24 13:09:53.447000,0,4,0.4375
+keithtyser/qwen38-flash-next-vllm-nvfp4-runtime-v1,Qwen3.8 Flash Next vLLM NVFP4 runtime v1,7873230742,2026-08-30 20:20:06.003000,1846,2,0.1875
+seenmttai/qwen38-flash-next-mmproj-f16,Qwen3.8 Flash Next mmproj F16,694753489,2026-09-24 12:58:03.113000,0,4,0.25
+alykassem202/qwen38-flash-next-vllm-nvfp4-runtime-v1,Qwen3.8 Flash Next vLLM NVFP4 runtime v1,7873230742,2026-09-04 17:07:10.137000,105,1,0.5625
+mirzamilanfarabi/albucino-qwen3-8-flash-next-drafter,albucino-Qwen3.8-Flash-Next-drafter,0,2026-10-09 12:49:18.187000,7,1,0.4375
+mirzamilanfarabi/intel-qwen3-8-flash-next-w4a16-autoround,Intel-Qwen3.8-Flash-Next-W4A16-AutoRound,0,2026-10-09 12:50:23.303000,10,1,0.4375
+mirzamilanfarabi/qwen3-8-flash-next-w4a16-fp8ple-mtp-albucino,Qwen3.8-Flash-Next-W4A16-FP8PLE-MTP-Albucino,0,2026-10-09 12:37:20.130000,18,1,0.5
+dfranzen/pennyroyal-v253,pennyroyal-v253,6640272567,2026-09-29 14:28:58.637000,18018,2,0.5
+rakimhashim/qwen3-8-flash-next,qwen3.8-flash-next,0,2026-10-10 19:26:22.517000,0,0,0.3125
+phuongncn/arc3-v218-int4model-weights,ARC3 v218 int4 Qwen3.8-Flash-Next INT4-AR wts,62355998532,2026-10-11 09:30:58.707000,25,1,0.5
+aigood/qwen38-flash-next-nvfp4,qwen38-flash-next-nvfp4,119124748327,2026-09-03 04:57:07.923000,93,0,0.3125
+jakubluwierski/qwen38-flash-next-fp8,Qwen3.8-Flash-Next-FP8,152810746208,2026-09-06 05:12:03.500000,2,0,0.25
+sonphamorg/arc3-flashnext-serving-part-a-v1,ARC3 Flash-Next Serving Part A,53316050501,2026-08-29 18:41:20.530000,1823,0,0.4375
+sonphamorg/arc3-flashnext-serving-part-b-v1,ARC3 Flash-Next Serving Part B,40837492509,2026-08-29 19:49:56.450000,34,0,0.4375
+sonphamorg/arc3-flashnext-serving-part-c-v1,ARC3 Flash-Next Serving Part C,41604473725,2026-08-29 19:50:48.447000,33,0,0.4375
+sonphamorg/arc3-flashnext-ple-fp8-v1,ARC3 Flash-Next PLE FP8 v1,42131847796,2026-09-27 17:12:09.973000,38,0,0.4375
+mirzamilanfarabi/qwen3-8-flash-next-w4a16-fp8ple-albucino,Qwen3.8-Flash-Next-W4A16-FP8PLE-Albucino,0,2026-10-08 20:54:46.673000,43,0,0.4375
+raist321/qwen38-flashnext-runtime-v1,Qwen3.8 FlashNext vLLM NVFP4 runtime (re-host),7873230742,2026-09-02 13:44:43.527000,14,1,0.375
+sonphamorg/arc3-flashnext-gcp-runtime-exact-v1,ARC3 Flash-Next GCP Runtime Exact v1,6018574277,2026-08-28 05:48:59.783000,68,0,0.4375
+xugeger/llama-cpp-qwen38-flash-next-source-r1,llama.cpp Qwen3.8 Flash Next Source r1,39894265,2026-08-27 06:33:27.650000,26,0,0.1875

@@ -1,0 +1,21 @@
+ref,title,size,lastUpdated,downloadCount,voteCount,usabilityRating
+rajrajak99/gemma-4-tfd-agentic-trajectories,Gemma 4 TFD Agentic Trajectories & Benchmark,20884,2026-10-01 13:50:35.840000,181,6,1
+metric/gemma-4-developer-agent-wheelhouse,Gemma 4 Developer Agent Wheelhouse,867233269,2026-10-12 19:51:31.090000,47518,11,0.1875
+dmitriigluzdov/gemma-4-task-soundness-and-local-results,Gemma 4 Task Soundness and Local Results,30852,2026-10-13 04:57:06.877000,588,5,1
+dmitriigluzdov/gemma-4-serving-and-lora-verification-kit,Gemma 4 Serving and LoRA Verification Kit,20606,2026-10-13 04:56:30.100000,393,4,1
+sidhaarthshree/gemma-4-finetuning-dataset,Gemma 4 Finetuning Dataset,180053784,2026-04-27 08:07:26.013000,6,3,0.875
+dipamc77/3000-rewritten-texts-prompt-recovery-challenge,3000 Rewritten texts - Prompt recovery Challenge,965300,2024-03-01 04:14:22.887000,925,45,0.47058824
+nbroad/wsdm-open-models-nbroad,wsdm - open models - nbroad,46797023,2025-01-21 05:24:40.557000,542,31,1
+taylorsamarel/duecare-gemma4-adapter-learning-study,DueCare Gemma 4 Adapter Learning Study,22199,2026-08-05 01:55:03.317000,65,1,0.5294118
+stpeteishii/ollama-gemma4-26b,ollama_gemma4_26b,17272801220,2026-07-20 10:52:44.347000,12,4,0.5
+ankitd7752/training-data-for-multiability-chabot,Training Data for Multiability Chabot,357654,2025-03-02 13:22:49.960000,98,10,1
+ziadkhazzaka/medseye-drug-safety-app-gemma-4-good-hackathon,MedsEye — Drug Safety App | Gemma 4 Good Hackathon,2223531291,2026-05-14 14:02:05.537000,2,3,0.6875
+hussnainmamoon1/llm-hallucination-benchmark-v2-25k-rows-6-models,"LLM Hallucination Benchmark v2: 25K rows, 6 Models",2534805,2026-05-01 04:06:53.360000,117,16,1
+andrewlee23023/gemma-4-data,Gemma 4 Data,3176956730,2026-04-20 14:45:34.260000,4,0,0.4375
+ravaghi/wsdm-cup-gemma-2-9b-4-bit-qlora,WSDM Cup | Gemma-2 9b 4-bit QLoRA,3650791499,2025-01-28 12:18:42.903000,27,1,0.3125
+sergiodefreitas/gemma4-biomedical,Gemma 4 Biomedical,12345197775,2026-07-25 18:08:39.950000,1,1,0.25
+sergiodefreitas/gemma-4-48b,Gemma 4 48B,32154245966,2026-08-17 16:34:52.053000,2,1,0.25
+tiyabk/sustainable-fashion,sustainable-fashion,8202302,2025-01-08 20:25:58.183000,1387,30,1
+dongwei666/linguaforge-gemma4-204lang-lora-public,LinguaForge Gemma 4 LoRA 204 langs,147725652,2026-05-13 17:35:07.777000,2,1,0.625
+trinhduc041/nckh-processed-data,Math-CoT: 4-Step Reasoning Dataset ,12050271,2026-02-26 07:31:07.493000,59,6,0.75
+shubhamtomar/pehra-gemma-4-ppe,Pehra Gemma 4 PPE evaluation data,12432458,2026-05-18 16:22:15.877000,18,1,0.5882353

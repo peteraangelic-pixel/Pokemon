@@ -1,0 +1,21 @@
+ref,title,size,lastUpdated,downloadCount,voteCount,usabilityRating
+kienngx/nemotron-30b-competition-trainingdata-cot-labels,Nemotron-30B competition trainingdata (CoT+labels),3903114,2026-03-24 01:42:23.850000,1554,54,1
+mayukh18/nemotron-packages,nemotron packages,5915176898,2026-03-29 20:46:39.573000,1463,18,0.375
+kishanvavdara/nemotron-reasoning-traj,Nemotron 30B Reasoning Trajectories ,40764029,2026-03-26 06:48:15.617000,589,26,0.7058824
+dennisfong/nvidia-nemotron-offline-packages,NVIDIA Nemotron - Offline Packages,9290000121,2026-03-29 14:42:56.567000,746,35,0.375
+alexandrepedrosai/nvidia-nemotron-model-reasoning-challenge,XBOX Metaverse Games NEMOTRON ,3831402969,2026-09-03 11:08:18.713000,785,23,0.9375
+serhiikharchuk/nemotron-3-8b-base-4k,nemotron-3-8b-base-4k,13688476176,2024-08-31 16:49:22.660000,49,23,1
+dgxchen/nemotron-cot-tong,Nemotron-cot-Tong,19297882,2026-04-19 05:25:21.843000,1578,7,0.29411766
+huikang/huikang-nemotron-repository-snapshot,huikang-nemotron-repository-snapshot,671688579,2026-04-18 18:01:36.433000,4882,10,0.3125
+huikang/nemotron-base-model-generation,nemotron-base-model-generation,416934193,2026-04-14 17:07:09.123000,759,10,0.47058824
+konbu17/nemotron-sft-lora-cot-selection,nemotron-sft-lora-cot-selection,3231393015,2026-04-01 14:30:53.420000,1194,12,0.29411766
+tahaalam2009/nemotron-0-90,Nemotron-0.90,11022449,2026-04-25 05:57:44.993000,189,3,0.1764706
+ravi20076/nemotron2026tracecollationv1,Nemotron2026|TraceCollation|V1,270323847,2026-06-14 05:41:10.993000,8,2,0.9411765
+amit393/nemotron-cotscv,Nemotron-cotscv,461712,2026-06-14 05:35:38.910000,24,3,0.29411766
+uditjain13/nemotron-30b-science-expert-peft,Nemotron-30B Science Expert PEFT,22000223,2026-04-22 16:25:05.113000,45,4,0.9375
+ritwikakancharla/nemotron-math-v2-filtered-high,nemotron-math-v2-filtered-high,3696689617,2026-03-22 02:27:15.197000,34,4,0.88235295
+uditjain13/nemotron-30b-math-reasoner-peft,Nemotron-30B Math Reasoner PEFT,22010886,2026-04-22 16:23:03.147000,66,3,0.9375
+uditjain13/nemotron-30b-multi-domain-merged-peft,Nemotron-30B Multi-Domain Merged PEFT,30569278,2026-04-22 16:15:05.080000,109,4,0.9375
+ravi20076/nemotron2026adaptersv1,Nemotron2026|Adapters|V1,2752644191,2026-06-14 04:35:45.720000,5,2,0.47058824
+amith1707/ssr-reasoning-dataset-nemotron-reasoning-challenge,SSR Reasoning Dataset-Nemotron Reasoning Challenge,1061290,2026-06-16 08:39:34.113000,15,3,0.9411765
+uditjain13/nemotron-30b-code-hyper-reasoner-peft,Nemotron-30B Code Hyper-Reasoner PEFT,22011029,2026-04-22 16:23:44.847000,46,3,0.9375

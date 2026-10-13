@@ -1,0 +1,32 @@
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOH1P58twrS5I0NtMw4p8TWDu7wJKiCShCGJd7mggnuPcfsdKyK3j7908WNtt15fTQg
+id,ref,title,subtitle,author
+619281,kienngx/nemotron-nano-30b-trained,Nemotron-Nano-30B variances,"These models were trained using the Nemotron-Nano-30B training dataset. All versions follow the same training pipeline as the notebook below, with only parameter adjustments: https://www.kaggle.com/code/kienngx/nvidia-nemotron-training-copy-run-instantly",Ngô Xuân Kiên
+619204,huikang/nemotron-adapter,nemotron-adapter,,Tong Hui Kang
+611168,metric/nemotron-3-nano-30b-a3b-bf16,Nemotron-3-Nano-30B-A3B-BF16,,Kaggle Competition Metrics
+112269,serhiikharchuk/nemotron-3-8b-qa-4k,nemotron-3-8b-qa-4k,nemotron  3 8b qa 4k,Serhii Kharchuk
+112079,serhiikharchuk/nemotron-3-8b-chat-4k-rlhf,nemotron-3-8b-chat-4k-rlhf,nemotron 3 8b chat 4k rlhf,Serhii Kharchuk
+609900,shelterw/nemotron,Nemotron,,ShelterW
+700120,rohitraje0493/nemotron-3-nano,nemotron-3-nano,LoRA adapters for Nemotron 3 nano 30b a3b bf16.,The Submitter
+536556,ashok205/nvidia-nemotron-3-nano-30b,NVIDIA-Nemotron-3-Nano-30B-A3B-BF16,Nvidia's nemotron 3 nano uploaded as it is without any modifications,NNMax
+705481,refv00/nullsira-nemotron-lora-adapters,NullSira Nemotron LoRA Adapters,LoRA adapters for the NVIDIA Nemotron Model Reasoning Challenge.,re
+396500,darraghdog/openmath-nemotron-trtllm,OpenMath Nemotron tensorrt_llm,,Darragh
+721691,manojkumarcs28/nvidia-nemotron-v2-series,NVIDIA Nemotron V2 Series,"A collection of hybrid Mamba-Transformer language models optimized for reasoning, coding, AI agents, and long-context applications.",MANOJ KUMAR C S
+637322,nathangaskell/llama-3-1-nemotron-nano-8b,Llama-3.1-Nemotron-Nano-8B,A math-focused 8B assistant trained on 10k samples to provide step-by-step logical solutions.,Nathan Gaskell
+706690,liauys/nemotron-reasoning-3rd-place-lora,Nemotron Reasoning 3rd Place LoRA,Nemotron LoRA adapter for the 3rd place solution,YS-L
+536205,konstantinboyko/nvidia-nemotron-3-nano-30b-a3b,NVIDIA-Nemotron-3-Nano-30B-A3B,,AI-Cat
+714624,manojkumarcs28/nvidiallama-nemotron-nano-4b,NVIDIA Llama 3.1 Nemotron Nano 4B,"A compact 4B parameter reasoning language model optimized by NVIDIA for conversational AI, coding, RAG, and long-context text generation.",MANOJ KUMAR C S
+707620,tdnguyen29/nemotron-prefix-surgery,Nemotron Prefix Surgery,Arm A and Arm B LoRA adapters from the original prefix-surgery experiment,Trung Nguyen
+688412,lopure/nemotron-adapter-0-89-synth-eqrust-oracle-solver,nemotron-adapter_0.90_cryptarithm_public,,Who am I?
+519458,jimmyisme1/openmath-nemotron-14b-kaggle,OpenMath-Nemotron-14B-Kaggle,,JavaZero
+616385,charancherrychowdary/nemotron-lora-adapter-v1,Nemotron LoRA Adapter v1,,charan cherry chowdary
+703291,victorlifire/nvidia-nemotron-model-reasoning-challenge-lora,NVIDIA Nemotron Model Reasoning Challenge LoRA,2nd Place LoRA for the 2026 NVIDIA Nemotron Model Reasoning Challenge,vli
+609922,zaynyu/nvidia-nemotron-3-super-120b-a12b-nvfp4,NVIDIA-Nemotron-3-Super-120B-A12B-NVFP4,,ZaynYu
+769798,romanromenskyi/nemotron-3-nano-4b-ipsupport,Nemotron 3 Nano 4B — IPSupport,"MLX build with our coding-agent LoRA, 4 GB",Roman Romenskyi
+108019,serhiikharchuk/llama-3.1-minitron-4b-width-base,Llama-3.1-Minitron-4B-Width-Base,Llama 3.1 Minitron 4B Width Base,Serhii Kharchuk
+769800,romanromenskyi/nemotronlabs-voicechat-11b-ipsupport,NemotronLabs VoiceChat 11B — IPSupport,"Full-duplex voice on a base M5: GPTQ-3 LLM, MLX",Roman Romenskyi
+201418,jesusmcarrasco/nemotron,NeMoTron,,JesusC
+629779,ariadneannetsambali/nemotron,Nemotron,,Ariadne-Anne Tsambali
+460112,williamalabi/openmath-nemotron-1.5b,OpenMath-Nemotron-1.5B,,William Alabi
+686994,daroai/nvidia-nemotron-3-nano-30b-a3b-bf16,NVIDIA Nemotron 3 Nano 30B A3B BF16,Competition base model mirrored from Hugging Face (nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16),Daro Ai
+704897,bbobwayne/nemotron-loadability-method-adapter,Nemotron Loadability-Method Adapter (own-data),"Rank-32 loadable LoRA (lm_head as target, no modules_to_save) for Nemotron-3-Nano-30B - own-data 0.812 public / 0.828 private",bbobWayne
+769790,romanromenskyi/nemotron-3-5-lightning-30b-a3b-ipsupport,Nemotron 3.5 Lightning 30B-A3B — IPSupport,"MLX quants of NVIDIA's hybrid MoE, incl. our coding-agent LoRA",Roman Romenskyi

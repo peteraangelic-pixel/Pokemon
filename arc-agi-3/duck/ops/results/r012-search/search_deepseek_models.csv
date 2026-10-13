@@ -1,0 +1,32 @@
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOHcIGw2_77PxlBTlcl9JgRDWLEWMntrUuV0hyhZ6phZa9fYQdFHhDSjHdTIyLiB9x8
+id,ref,title,subtitle,author
+225262,deepseek-ai/deepseek-r1,DeepSeek R1,"We introduce our first-generation reasoning models, DeepSeek-R1-Zero and DeepSeek-R1. DeepSeek-R1-Zero, a model trained via large-scale reinforcement learning (RL) without SFT as a preliminary step, demonstrated remarkable performance on reasoning.",DeepSeek
+362024,deepseek-ai/deepseek-r1-0528,DeepSeek R1 0528,"DeepSeek-R1-0523 model is unique for its ""reasoning-first"" approach, achieved through extensive reinforcement learning which allows it to naturally explore complex problem-solving chains of thought.",DeepSeek
+122034,deepseek-ai/deepseek-math,DeepSeek Math,Pushing the Limits of Mathematical Reasoning in Open Language Models,DeepSeek
+230315,deepseek-ai/janus-pro,Janus Pro,"Janus-Pro is a unified understanding and generation MLLM, which decouples visual encoding for multimodal understanding and generation.",DeepSeek
+224053,huikang/deepseek-r1,deepseek-r1,,Tong Hui Kang
+101594,deepseek-ai/deepseek-v2,DeepSeek V2,"DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model",DeepSeek
+216774,deepseek-ai/deepseek-v3,DeepSeek V3,"DeepSeek-V3 is a powerful open-source language model designed for advanced tasks like coding, mathematical reasoning, and complex language understanding.",DeepSeek
+224071,shelterw/deepseek-r1,DeepSeek-R1,,ShelterW
+122454,deepseek-ai/deepseek-coder-v2,DeepSeek Coder V2,DeepSeek-Coder-V2 is an open-source Mixture-of-Experts (MoE) code language model that achieves performance comparable to GPT4-Turbo in code-specific tasks.,DeepSeek
+49476,lewtun/deepseek-math-7b-instruct,deepseek-math-7b-instruct,,Lewis Tunstall
+122031,deepseek-ai/deepseek-prover,DeepSeek Prover,"DeepSeek-Prover is an open-source language model designed for theorem proving in Lean 4, which enhances DeepSeek-Prover-V1 by optimizing both training and inference processes.",DeepSeek
+351315,mistral-ai/devstral-small-2505,Devstral-Small-2505,Devstral: introducing the best open-source model for coding agents,Mistral AI
+208532,justineleonuro/deepseek-math,deepseek-math-7b-instruct,deepseek-ai/deepseek-math-7b-instruct,Justine Leon Uro
+36016,yashbhalgat/deepseek-math-7b-rl,deepseek-math-7b-rl,From HuggingFace: https://huggingface.co/deepseek-ai/deepseek-math-7b-rl,Yash Bhalgat
+199189,deepseek-ai/janus-flow,Janus Flow,JanusFlow: Unifies image and text understanding and generation in a single model.,DeepSeek
+258636,andrometocs/deepseekkagglecompetitionanalyst,deepseekkagglecompetitionanalyst,"any kaggle competition deep seek model provide like an analyst insight, technical details learning references",Andrometocs
+745350,dangkhoa2016/deepseek-ai-deepseek-v4-flash-0731,DeepSeek-AI/DeepSeek-V4-Flash-0731,Unofficial Kaggle mirror of deepseek-ai/DeepSeek-V4-Flash-0731 from Hugging Face,Dang Khoa
+258700,qwen-lm/qwq-32b,QwQ-32B,"QwQ is the reasoning model of the Qwen series which is capable of thinking and reasoning, can achieve significantly enhanced performance in downstream tasks, especially hard problems.",QwenLM
+258626,andrometocs/deepseektext2sqlpipeline,deepseektext2sqlpipeline,Deepseek text to sql,Andrometocs
+684793,alpie/alpie-core,Alpie-Core,Long Context 32B Reasoning Model with 4-bit Quantization,169Pi
+720999,manojkumarcs28/deepseek-ocr-series,DeepSeek-OCR Series,"An end-to-end OCR model for document understanding, text recognition, and layout analysis.",MANOJ KUMAR C S
+82137,mirzamilanfarabi/deepseek-llm,DeepSeek-LLM,,Mirza Milan Farabi
+281094,menlo/alphaspace,AlphaSpace,"AlphaSpace enables language models to interact with 3D space using structured tokens, allowing them to reason about spatial relationships without computer vision.",Menlo Research
+228317,harshitakumari256/deepseek-github-agent,deepseek-github-agent,,Harshita Kumari
+397392,mistral-ai/devstral-small-2507,Devstral Small 2507,Devstral: introducing the best open-source model for coding agents,Mistral AI
+77788,edwardsun0909/deepseek-finetune,DEEPSEEK-FINETUNE,,Zhiqing SUN
+78085,mirzamilanfarabi/deepseek-math,DeepSeek-Math,,Mirza Milan Farabi
+409833,mengaidev/deepseek-prover-v2-7b,DeepSeek-Prover-V2-7B,"DeepSeek-Prover-V2, an open-source large language model designed for formal theorem proving in Lean 4, with initialization data collected through a recursive theorem proving pipeline powered by DeepSeek-V3",MengAiDev
+298961,shineit/deepseekv3,DeepseekV3,A surrealist engine for fashion storytelling and digital intuition.,ShineIT
+39314,jatinsinghsagoi/deepseek-math-qlora,deepseek-math qlora,,Jatin Singh Sagoi

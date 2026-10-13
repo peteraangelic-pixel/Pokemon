@@ -1,0 +1,30 @@
+id,ref,title,subtitle,author
+748517,keithtyser/qwen3-8-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4,Pinned RadixArk ModelOpt NVFP4 checkpoint for private offline evaluation,chiefkeith
+184945,google/gemini-2.0-flash-api,Gemini 2.0 Flash API,A new family of multimodal models from Google DeepMind,Google
+765336,dfranzen/intel-qwen3.8-flash-next-w4a16-autoround,Intel-Qwen3.8-Flash-Next-W4A16-AutoRound,,Daniel Franzen
+539310,google/gemini-3-flash-api,Gemini 3 Flash API,A new family of multimodal models from Google DeepMind,Google
+765062,dfranzen/albucino-qwen3-8-flash-next-drafter,albucino-Qwen3.8-Flash-Next-drafter,,Daniel Franzen
+446705,qwen-lm/qwen3-next-80b,Qwen3 Next 80B,"Qwen3-Next-80B-A3B is the first installment in the Qwen3-Next series and features the following key enchancements like Hybrid Attention, High-Sparsity Mixture-of-Experts (MoE), Stability Optimizations and Multi-Token Prediction (MTP)",QwenLM
+761259,nvidia/qwen3-8-flash-next-nvfp4,Qwen3.8-Flash-Next-NVFP4,NVIDIA NVFP4-quantized Qwen3.8-Flash-Next checkpoint,NVIDIA
+754316,lordhansolo/qwen3-8-flash-next-mixed-nvfp4-fp8,qwen3-8-flash-next-mixed-nvfp4-fp8,,Lord Han Solo
+752080,woochangsim/qwen38-flash-next-w4a16-autoround-4c67bf6,Qwen3.8 Flash Next W4A16 AutoRound 4c67bf6,Pinned Intel AutoRound W4A16 checkpoint for offline inference,Woochang Sim
+757329,aaronflouro/qwen38-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4,nvidia/Qwen3.8-Flash-Next-NVFP4 snapshot fc694b54 for offline vLLM on RTX PRO 6000,Aaron Flouro
+763416,boristown/qwen3-8-flash-next-nvfp4-reap-448e,Qwen3.8 Flash Next NVFP4 REAP 448E,REAP-pruned Qwen3.8 Flash Next NVFP4 (512->448 routed experts). For pushing Kaggle serving context to 128K by freeing weight VRAM.,暗黑AGI
+765004,michaelpoluektov/qwen3-8-flash-next-nvfp4,Qwen3.8 Flash Next NVFP4 (NVIDIA),Hugging Face nvidia/Qwen3.8-Flash-Next-NVFP4 mirrored for Kaggle offline use.,Michael Poluektov
+753820,xiaoz259/qwen3-8-flash-next-nvfp4,qwen3-8-flash-next-nvfp4,,xz
+760973,huikang/qwen-38-flash-next-finetune,qwen-38-flash-next-finetune,,Tong Hui Kang
+757862,dineshkumar0705/qwen3-8-flash-next-fp8,Qwen3.8-Flash-Next-FP8,Efficient 125B MoE multimodal model with FP8 inference,Dinesh kumar Thiyagarajan
+765013,lordhansolo/swift-1-5-qwen3-8-flash-next-nvfp4,Swift 1.5 Qwen3.8 Flash Next NVFP4,Public Hugging Face mirror with original weights and full license notices,Lord Han Solo
+766884,jamalsaeedi/intel-qwen3-8-flash-next-w4a16-autoround,Qwen3.8-Flash-Next W4A16 AutoRound (arc26 copy),Re-host for ARC Prize 2026 notebooks,Cyrus
+769446,superstringdev/qwen3-8-flash-next-nvfp4-main,Qwen3.8-Flash-Next-NVFP4-main,,kishizaki-sci
+767994,superstringdev/qwen3-8-flash-next-nvfp4-ple,Qwen3.8-Flash-Next-NVFP4-ple,,kishizaki-sci
+747896,alisalmanrana/qwen3-8-flash-next-gguf,Qwen3.8-Flash-Next-GGUF,,OverfitOracle
+748015,manarmilad/qwen3.8-flash-next-uncensored,Qwen3.8-Flash-Next-Uncensored,,Manar Milad
+770737,buianhtruc/strata-qwen3-8-flash-next-gsq-rco-iq3-s,Strata Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S,,Bùi Anh Trúc 
+756627,davidaylward/whittle-next-27b-a3b,Whittle-Next-27B-A3B,"27B-total / 3B-active qwen4_exp MoE with hyper-connections and a 2B-row n-gram memory, distilled from Qwen3.8-27B",David Aylward
+772345,xiaoz259/qwen3.8-flash-next-w4a16-autoround,qwen3.8-flash-next-w4a16-autoround,,xz
+749103,joesammy/orcarouter-qwen3.8-flash-next-uncensored-gguf,Orcarouter-Qwen3.8-Flash-Next-Uncensored-GGUF,,Joe Sammy
+763369,phuongncn/arc3-qwen38-swift-w4a16-autoround,ARC3 Qwen38 Swift W4A16 AutoRound,Swift-1.5 Qwen3.8-Flash-Next W4A16 AutoRound (v188m-swift source),Fususu
+754444,ram2121/qwen3-8-flash-next-gptq-4bit,qwen3-8-flash-next-gptq-4bit,,ram2121
+763165,natnitarach/tinfield-1-nvfp4-probe,Tinfield-1 NVFP4 Probe,Public Tinfield-1 NVFP4 core with separate INT8 PLE weights,Natapong Nitarach (Schwyter)
+755486,mirzamilanfarabi/qwen3.8,Qwen3.8,,Mirza Milan Farabi

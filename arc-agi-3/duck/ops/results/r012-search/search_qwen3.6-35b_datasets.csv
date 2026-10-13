@@ -1,0 +1,21 @@
+ref,title,size,lastUpdated,downloadCount,voteCount,usabilityRating
+himanshunakrani/adaption-frontier-synthetic-reasoning,frontier_synthetic_reasoning_Qwen3.6-35B,3133410,2026-05-20 16:08:43.800000,12,3,0.9375
+sergiodefreitas/qwen36-35b-1m,Qwen3.6 35B 1M,21886746490,2026-07-24 16:02:10.210000,1,1,0.25
+sergiodefreitas/qwen3-6-35b-latest,Qwen3.6 35B Latest,23271714789,2026-07-29 16:05:35.297000,2,1,0.25
+sjejje/qwempus,qwempus,56538834166,2026-07-08 05:06:49.237000,9,2,0.6875
+sergiodefreitas/qwen3-6-35b-a3b-claude-4-7-opus,Qwen3.6 35B A3B Claude 4.7 Opus,28160414382,2026-07-25 17:20:32.867000,1,2,0.25
+tahsinekajolasalami/qwen36-35b-a3b-gguf,Qwen3.6-35B-A3B GGUF,23056375236,2026-06-18 09:02:15.697000,7,0,0.5625
+nareshmeena07/qwen36-35b-a3b-fp8,Qwen3.6-35B-A3B-FP8,30681037204,2026-04-20 19:57:01.277000,172,0,0.3125
+cmechevalier/face-of-agi-qwen36-35b-fp8-weights,FACE-OF-AGI Qwen3.6 35B FP8 Weights,30681035578,2026-06-02 23:26:27.503000,175,0,0.5
+micronic/qwen3-6-35b-a3b-gguf,Qwen3.6-35B-A3B-GGUF,20665996014,2026-06-29 13:02:27.990000,7,0,0.25
+iyppmx/qwen3-6-35b-a3b-gguf,Qwen3.6 35B A3B Uncensored GGUF,23701880025,2026-07-31 17:48:29.933000,10,0,0.25
+smartmichaelma/qwen3-6-35b-a3b-gguf-q5km,Qwen3.6-35B-A3B GGUF Q5_K_M,26129142402,2026-07-16 00:24:26.627000,2,0,0.25
+bardbardd/qwen36-35b-a3b-gguf-models,Qwen3.6-35B-A3B GGUF Models,22173086931,2026-08-18 07:23:21.823000,0,0,0.25
+farid404/qwen36-35b-uncensored-gguf,Qwen3.6 35B A3B Uncensored GGUF,20674012316,2026-10-09 15:53:31.753000,0,0,0.25
+jackxuanxuan/qwen-30b-gguf-model,Qwen3.6-35B-A3B-Uncensored-Q6_K_P,29981000309,2026-06-07 05:42:31.280000,2,0,0.1875
+kakaroto0101/qwen3-6-35b-a3b-fp8-202609301814,Qwen3.6 35B A3B FP8 202609301814,30681035578,2026-09-30 18:27:16.697000,0,0,0.1875
+mahgolnaeh/omnilex-sira-frozen-val-config-v07,omnilex-sira-frozen-val-config-v07,2155,2026-07-19 17:51:35.397000,85,0,0.4375
+tasmeemreza/rsna-knee-refined-llm-labels,RSNA Knee Refined LLM Labels,129392,2026-08-30 00:56:30.087000,567,0,0.47058824
+juandavid1995/models7,models7,20665996014,2026-04-20 21:49:40.150000,1,0,0.25
+mmoammoa/qwen36-35b-a3b-mtp-cache,qwen36-35b-a3b-mtp-cache,16910247571,2026-09-23 01:02:56.303000,0,0,0.125
+vladimiryakunin/arc-lcld-qwen35-runtime,arc-lcld-qwen35-runtime,28046372653,2026-07-01 16:26:52.850000,44,0,0.25

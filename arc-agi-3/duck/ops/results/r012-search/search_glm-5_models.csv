@@ -1,0 +1,7 @@
+id,ref,title,subtitle,author
+69825,marquis03/chatglm3,ChatGLM3,ChatGLM is an open bilingual language model based on General Language Model (GLM) framework.,Marquis03
+610322,nellimatteo/glm-5,GLM 5,,nellimatteo
+288629,stepfun/step-audio,Step Audio,"Step-Audio is the first open-source framework for intelligent speech interaction that supports Multilingual conversations, Emotional tones, Regional dialects, Adjustable speech rates and Prosodic styles.",StepFun
+545562,thomasgamet/glm47-utq1-unsloth,GLM47-UTQ1-unsloth,The GLM 4.7 smallest 1-bit quantized version,ThomasG
+572929,qwen-lm/qwen3-asr,Qwen3-ASR,"Qwen3-ASR family supporting 52 languages and dialects via the Qwen3-Omni foundation. Along with powerful language ID and speech recognition, the release includes a novel non-autoregressive model for precise text-speech alignment across 11 languages.",QwenLM
+727671,thesupremewarrior/vigor-glm-2-6-5-0,vigor-glm-2-6.5.0,,sujeet tiwari
