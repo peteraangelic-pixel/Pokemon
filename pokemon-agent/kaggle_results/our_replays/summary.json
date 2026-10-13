@@ -1,14 +1,4 @@
 {
-<<<<<<< Updated upstream
-  "fetched_utc": "2026-10-13T05:05:32.781821+00:00",
-  "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
-  "own_submissions": 19,
-  "episodes_listed": 12,
-  "replays_downloaded": 12,
-  "official_dataset": null,
-  "official_files": 0,
-  "total_json_on_disk": 12,
-=======
   "fetched_utc": "2026-10-13T05:06:43.845949+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 19,
@@ -17,7 +7,6 @@
   "official_dataset": null,
   "official_files": 0,
   "total_json_on_disk": 92,
->>>>>>> Stashed changes
   "sample_analysis": [
     {
       "file": "episode-123120164-replay.json",
@@ -230,27 +219,8 @@
       "steps": 205
     },
     {
-<<<<<<< Updated upstream
-      "file": "episode-123169508-replay.json",
-      "episodeId": 123169508,
-      "teamNames": [
-        "MarPez",
-        "PeterSharps"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 200
-    },
-    {
-      "file": "episode-123167323-replay.json",
-      "episodeId": 123167323,
-=======
       "file": "episode-123133635-replay.json",
       "episodeId": 123133635,
->>>>>>> Stashed changes
       "teamNames": [
         "PeterSharps",
         "Richard Guo"
@@ -277,27 +247,8 @@
       "steps": 178
     },
     {
-<<<<<<< Updated upstream
-      "file": "episode-123169510-replay.json",
-      "episodeId": 123169510,
-      "teamNames": [
-        "PeterSharps",
-        "Mitsuaki Inoue"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        1,
-        -1
-      ],
-      "steps": 157
-    },
-    {
-      "file": "episode-123162652-replay.json",
-      "episodeId": 123162652,
-=======
       "file": "episode-123151347-replay.json",
       "episodeId": 123151347,
->>>>>>> Stashed changes
       "teamNames": [
         "Atharva Naik",
         "PeterSharps"
