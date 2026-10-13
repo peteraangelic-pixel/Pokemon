@@ -1161,3 +1161,16 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - F2 (następna sesja): top-8 konceptów × duże N + h2h między nimi.
 - F3: zwycięzca × nasze 3 agenty (knobs/weakfix/flood) — interakcja deck×agent.
 - F4: bundl + smoke + decyzja użytkownika o submisji (nic sam).
+
+### 2026-10-13 09:35 UTC — DECK SEARCH FAZA 1 WYKONANA (270 kandydatów, 5 seedów Actions): Lucario-koncept martwy (0.364), kontrola-mutacje dominują; TOP-5 = mikro-mutacje (±1-3 karty)
+
+**Wyniki F1 (deck_concept_search.py — hybrid mutate, 60 prób/seed × 5 seedów, legalność wymuszona):**
+- baseline (control 35W): mean **0.699** (0.644-0.782 między seedami — uwaga: losowe 24/69 decki meta per seed = zmienna próba)
+- ctrl_mut: n=170, mean 0.720, max 0.839
+- luc_mut (mój koncept-swarm przez mutacje anchora live): n=100, mean **0.364**, max 0.528 → **KONCEPT ODRZUCONY przez liczby** — nasz agent bez water-mill nie umie wygrywać (spójne z surową kopią 0.42)
+
+**TOP-5 do F2:** 0.839/0.828/0.816/0.816/0.805 — delta vs kontrola: **±1-3 karty** (−1W+Stretcher −Waitress +Cyrano; −1W+BugSet; −Cyrano+Judge; −3W+2Switch+Judge; jeden delta={} = czysty szum próby). **Wniosek: optimum lokalne decka jest płytkie** — mutacje +-1-2 kart mieszczą się w szumie próby (zmienna 24-deckowa); wymaga F2 na PEŁNYCH pulach z dużo większym N.
+
+**Realizm:** prawdziwy kandydat musi dać ≥+2pp na pełnym meta1012 (n≈2k/ramię) żeby przejść próg istotności. Mikro-mutacje tego nie zrobią (max obserwowany +14pp to artefakt łatwej próby seed51). **Nowa doktryna (swarm) wymagałaby agenta nauczonego grać swarm — to już Phase-2/RL, nie rule-tweak.**
+
+**F2 plan ( Armed next):** top-10 decków z f1_top10.json × pełne meta1012+exotic × 30g = ~15k gier/kandydat na Actions; test iterowany 2x (independent seeds); tylko kandydaci ≥ control+2pp na OBU przebiegach idą do F3 (agent-interakcja) i ew. bundle.
