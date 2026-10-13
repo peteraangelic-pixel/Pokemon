@@ -1,12 +1,12 @@
 {
-  "fetched_utc": "2026-10-13T05:06:43.845949+00:00",
+  "fetched_utc": "2026-10-13T05:19:43.701470+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 19,
-  "episodes_listed": 131,
-  "replays_downloaded": 92,
+  "episodes_listed": 137,
+  "replays_downloaded": 98,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 92,
+  "total_json_on_disk": 98,
   "sample_analysis": [
     {
       "file": "episode-123120164-replay.json",
@@ -49,6 +49,20 @@
         -1
       ],
       "steps": 279
+    },
+    {
+      "file": "episode-123173914-replay.json",
+      "episodeId": 123173914,
+      "teamNames": [
+        "SC",
+        "PeterSharps"
+      ],
+      "winner": "SC",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 386
     },
     {
       "file": "episode-123106698-replay.json",
@@ -177,6 +191,20 @@
       "steps": 136
     },
     {
+      "file": "episode-123176119-replay.json",
+      "episodeId": 123176119,
+      "teamNames": [
+        "PeterSharps",
+        "LivMaAn"
+      ],
+      "winner": "LivMaAn",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 111
+    },
+    {
       "file": "episode-123151304-replay.json",
       "episodeId": 123151304,
       "teamNames": [
@@ -259,34 +287,6 @@
         1
       ],
       "steps": 102
-    },
-    {
-      "file": "episode-123153532-replay.json",
-      "episodeId": 123153532,
-      "teamNames": [
-        "F.A.Nina",
-        "PeterSharps"
-      ],
-      "winner": "F.A.Nina",
-      "rewards": [
-        1,
-        -1
-      ],
-      "steps": 88
-    },
-    {
-      "file": "episode-123093022-replay.json",
-      "episodeId": 123093022,
-      "teamNames": [
-        "PeterSharps",
-        "Taras Harbar"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        1,
-        -1
-      ],
-      "steps": 154
     }
   ]
 }

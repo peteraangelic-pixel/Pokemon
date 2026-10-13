@@ -1,8 +1,6 @@
 # Our episodes summary
 _fetched by kaggle-our-replays_57125516_
 
-<<<<<<< Updated upstream
-=======
 ## submission 57125516: 40 episodes, 18W-22L = 0.450
 - vs KYOGRE: 8W-5L (0.62) n=13
 - vs ?: 3W-10L (0.23) n=13
@@ -24,14 +22,15 @@ _fetched by kaggle-our-replays_57125516_
 - vs CLEFAIRY: 1W-0L (1.00) n=1
 - recurring opponents (n>=2): AByT3s 2-1; lswuwu 1-1; Arka Latua 0-2; Riccardo Lo Bianco 0-2; Sanchay Singh 1-1; Taras Harbar 0-2; Aayush Jansari 0-2; cottonandcolor 1-1; F.A.Nina 0-2
 
->>>>>>> Stashed changes
-## submission 57130754: 6 episodes, 1W-5L = 0.167
-- vs KYOGRE: 0W-3L (0.00) n=3
-- vs ?: 0W-1L (0.00) n=1
+## submission 57130754: 9 episodes, 1W-8L = 0.111
+- vs KYOGRE: 0W-4L (0.00) n=4
+- vs ?: 0W-2L (0.00) n=2
+- vs MEOWTH+FEZANDIP: 1W-1L (0.50) n=2
 - vs LATIAS+MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
-- vs MEOWTH+FEZANDIP: 1W-0L (1.00) n=1
 
-## submission 57130779: 6 episodes, 3W-3L = 0.500
+## submission 57130779: 9 episodes, 4W-5L = 0.444
+- vs KYOGRE: 3W-0L (1.00) n=3
 - vs LUCARIO: 1W-2L (0.33) n=3
-- vs KYOGRE: 2W-0L (1.00) n=2
 - vs LATIAS+MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
+- vs ?: 0W-1L (0.00) n=1
+- vs MEOWTH+FEZANDIP: 0W-1L (0.00) n=1
