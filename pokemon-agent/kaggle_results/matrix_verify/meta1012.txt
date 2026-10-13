@@ -1,7 +1,8 @@
-arms: ['B_v22b_35', 'E_v25k_35', 'F_v26_35'] | opp policy: agents/main_heuristic_v22b.py
+arms: ['B_v22b_35', 'E_v25k_35', 'F_v26flood_35', 'G_v26weak_35'] | opp policy: agents/main_heuristic_v22b.py
 pool decks/meta1012 (69 decks)
-  B_v22b_35 2714-1426-0 (0.656) | E_v25k_35 2719-1418-3 (0.657) | F_v26_35 2806-1333-1 (0.678)
+  B_v22b_35 2698-1442-0 (0.652) | E_v25k_35 2733-1407-0 (0.660) | F_v26flood_35 2840-1299-1 (0.686) | G_v26weak_35 2831-1308-1 (0.684)
 TOTAL:
-  B_v22b_35: 2714W-1426L-0D (0.6556, n=4140)  <- control
-  E_v25k_35: 2719W-1418L-3D (0.6568, n=4140)  vs ctrl +0.12pp (z=+0.12)
-  F_v26_35: 2806W-1333L-1D (0.6778, n=4140)  vs ctrl +2.22pp (z=+2.15)
+  B_v22b_35: 2698W-1442L-0D (0.6517, n=4140)  <- control
+  E_v25k_35: 2733W-1407L-0D (0.6601, n=4140)  vs ctrl +0.85pp (z=+0.81)
+  F_v26flood_35: 2840W-1299L-1D (0.6860, n=4140)  vs ctrl +3.43pp (z=+3.32)
+  G_v26weak_35: 2831W-1308L-1D (0.6838, n=4140)  vs ctrl +3.21pp (z=+3.10)
