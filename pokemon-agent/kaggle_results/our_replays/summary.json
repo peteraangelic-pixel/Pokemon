@@ -1,13 +1,27 @@
 {
-  "fetched_utc": "2026-10-13T04:33:19.635412+00:00",
+  "fetched_utc": "2026-10-13T08:12:59.569335+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
-  "own_submissions": 17,
-  "episodes_listed": 109,
-  "replays_downloaded": 65,
+  "own_submissions": 19,
+  "episodes_listed": 116,
+  "replays_downloaded": 116,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 65,
+  "total_json_on_disk": 168,
   "sample_analysis": [
+    {
+      "file": "episode-123239806-replay.json",
+      "episodeId": 123239806,
+      "teamNames": [
+        "PeterSharps",
+        "Abu Ruhan Mahamud"
+      ],
+      "winner": "Abu Ruhan Mahamud",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 221
+    },
     {
       "file": "episode-123120164-replay.json",
       "episodeId": 123120164,
@@ -23,32 +37,74 @@
       "steps": 86
     },
     {
-      "file": "episode-123129153-replay.json",
-      "episodeId": 123129153,
+      "file": "episode-123173914-replay.json",
+      "episodeId": 123173914,
       "teamNames": [
-        "PeterSharps",
-        "EVIG EMIT ตัวปลอม"
+        "SC",
+        "PeterSharps"
       ],
-      "winner": "PeterSharps",
+      "winner": "SC",
       "rewards": [
         1,
         -1
       ],
-      "steps": 279
+      "steps": 386
     },
     {
-      "file": "episode-123115659-replay.json",
-      "episodeId": 123115659,
+      "file": "episode-123190778-replay.json",
+      "episodeId": 123190778,
       "teamNames": [
         "PeterSharps",
-        "Wei Hsiang Lin111"
+        "Jarno Rantala"
+      ],
+      "winner": "Jarno Rantala",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 148
+    },
+    {
+      "file": "episode-123243718-replay.json",
+      "episodeId": 123243718,
+      "teamNames": [
+        "PeterSharps",
+        "Chukka Venugopalam"
       ],
       "winner": "PeterSharps",
       "rewards": [
         1,
         -1
       ],
-      "steps": 318
+      "steps": 304
+    },
+    {
+      "file": "episode-123234027-replay.json",
+      "episodeId": 123234027,
+      "teamNames": [
+        "Pawit Sahare",
+        "PeterSharps"
+      ],
+      "winner": "Pawit Sahare",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 141
+    },
+    {
+      "file": "episode-123255310-replay.json",
+      "episodeId": 123255310,
+      "teamNames": [
+        "PeterSharps",
+        "Arka Latua"
+      ],
+      "winner": "Arka Latua",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 174
     },
     {
       "file": "episode-123126922-replay.json",
@@ -77,6 +133,20 @@
         -1
       ],
       "steps": 114
+    },
+    {
+      "file": "episode-123259160-replay.json",
+      "episodeId": 123259160,
+      "teamNames": [
+        "PeterSharps",
+        "Riccardo Lo Bianco"
+      ],
+      "winner": "Riccardo Lo Bianco",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 147
     },
     {
       "file": "episode-123131397-replay.json",
@@ -121,18 +191,18 @@
       "steps": 142
     },
     {
-      "file": "episode-123142483-replay.json",
-      "episodeId": 123142483,
+      "file": "episode-123235903-replay.json",
+      "episodeId": 123235903,
       "teamNames": [
-        "Julian M",
+        "Eugen LNCanti",
         "PeterSharps"
       ],
-      "winner": "Julian M",
+      "winner": "Eugen LNCanti",
       "rewards": [
         1,
         -1
       ],
-      "steps": 271
+      "steps": 56
     },
     {
       "file": "episode-123067808-replay.json",
@@ -149,144 +219,74 @@
       "steps": 171
     },
     {
-      "file": "episode-123133635-replay.json",
-      "episodeId": 123133635,
+      "file": "episode-123261064-replay.json",
+      "episodeId": 123261064,
       "teamNames": [
-        "PeterSharps",
-        "Richard Guo"
-      ],
-      "winner": "Richard Guo",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 260
-    },
-    {
-      "file": "episode-123034471-replay.json",
-      "episodeId": 123034471,
-      "teamNames": [
-        "PeterSharps",
+        "BSCode",
         "PeterSharps"
       ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 222
-    },
-    {
-      "file": "episode-123149025-replay.json",
-      "episodeId": 123149025,
-      "teamNames": [
-        "PeterSharps",
-        "cottonandcolor"
-      ],
-      "winner": "cottonandcolor",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 80
-    },
-    {
-      "file": "episode-123053333-replay.json",
-      "episodeId": 123053333,
-      "teamNames": [
-        "bai fang",
-        "PeterSharps"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 147
-    },
-    {
-      "file": "episode-123099866-replay.json",
-      "episodeId": 123099866,
-      "teamNames": [
-        "AByT3s",
-        "PeterSharps"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 65
-    },
-    {
-      "file": "episode-123086058-replay.json",
-      "episodeId": 123086058,
-      "teamNames": [
-        "PeterSharps",
-        "Aditya ingale"
-      ],
-      "winner": "PeterSharps",
+      "winner": "BSCode",
       "rewards": [
         1,
         -1
       ],
-      "steps": 69
+      "steps": 132
     },
     {
-      "file": "episode-123097609-replay.json",
-      "episodeId": 123097609,
+      "file": "episode-123160320-replay.json",
+      "episodeId": 123160320,
       "teamNames": [
-        "bai fang",
+        "Raosaheb",
         "PeterSharps"
       ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 169
-    },
-    {
-      "file": "episode-123129152-replay.json",
-      "episodeId": 123129152,
-      "teamNames": [
-        "Sayuru Rehan Bopitiya",
-        "PeterSharps"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 98
-    },
-    {
-      "file": "episode-123043559-replay.json",
-      "episodeId": 123043559,
-      "teamNames": [
-        "PeterSharps",
-        "Cristobal Tudela"
-      ],
-      "winner": "Cristobal Tudela",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 156
-    },
-    {
-      "file": "episode-123135877-replay.json",
-      "episodeId": 123135877,
-      "teamNames": [
-        "cottonandcolor",
-        "PeterSharps"
-      ],
-      "winner": "cottonandcolor",
+      "winner": "Raosaheb",
       "rewards": [
         1,
         -1
       ],
-      "steps": 83
+      "steps": 136
+    },
+    {
+      "file": "episode-123176119-replay.json",
+      "episodeId": 123176119,
+      "teamNames": [
+        "PeterSharps",
+        "LivMaAn"
+      ],
+      "winner": "LivMaAn",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 111
+    },
+    {
+      "file": "episode-123182474-replay.json",
+      "episodeId": 123182474,
+      "teamNames": [
+        "PeterSharps",
+        "match051"
+      ],
+      "winner": "match051",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 41
+    },
+    {
+      "file": "episode-123249543-replay.json",
+      "episodeId": 123249543,
+      "teamNames": [
+        "PeterSharps",
+        "yihui ding123"
+      ],
+      "winner": "yihui ding123",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 442
     }
   ]
 }
