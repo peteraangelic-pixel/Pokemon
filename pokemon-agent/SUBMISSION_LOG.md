@@ -1185,3 +1185,15 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Zbiorczy bilans dnia badawczego (3 gałęzie + moje F1/F2):** ~20 wariantów agentowych + 8 deckowych + knob sweep + 270 kandydatów mutacyjnych — **wszystko potwierdza: v25knobs/v26weakfix + 35W-noBoss to obecne optimum; fast-swarm (Lucario/Ogerpon) nie da się grać naszym scoringiem (0.36-0.42)**. Realne drogi: (a) NOWY AGENT pod swarm (Phase-2/RL, duży projekt), (b) akceptacja podłogi ~12-15% strat vs słabych i optymalizacja meta-gry (submisje w dobrym oknie, odczyty WR).
 
 **Pliki:** search_results/f1_seed{11,23,37,51,67}.json, f1_top10.json, f2_seed{101,202}.json; tools/deck_concept_search.py, tools/f2_retest.py; workflow deck_search.yml (jobs: search×5 seedów + f2×2).
+
+### 2026-10-13 09:45 UTC — Przegląd c87f7a48 (8 commitów): ich v28_bench400 (live kandydat na wolny slot) + forensics 249 epizodów; moja weryfikacja: mirror-osłabiony, Ogerpon mocno lepszy (0.920!), meta-równy weakfixowi
+
+**Ich live μ (poll 08:46):** v26weakfix **410.9** (23W-26L live), v25knobs#2 408.1, v25#1 387.5, v22b35 328.1. ich forensics (249 epizodów, 142 straty) = 5 przyczyn: (1) pusty board T3-11 w 50% strat (bench bonusy < supporter-banda!), (2) Snover 90HP lead ginie 1 hit, (3) nowe egzotyki (Zacian/Hydrapple/Duraludon/Starmie) nie w FAST_EX → generic logic gra Riptide 0-dmg, (4) mirror deckout guard za późno (≤10 zamiast ≤15-20), (5) niskie-HP KO niepriorytetyzowane.
+
+**Ich v28_bench400** = weakfix + bench 400/60/40 + KO 60/30 + mirror guard ≤15/20/25 + FAST_EX +6 id (Zacian/Duraludon/Zangoose). Ich testy: broad +0.7, top30 +2.4 (20g), newarch +0.6; bundle gotowy na wolny slot.
+
+**Moja niezależna weryfikacja (uwaga na md5: importowałem najpierw STARY plik z mojego repo-po-recyklingu; prawdziwy ich v28 = md5 69454b4f, u mnie agents/c87_v28b.py):**
+- probe vs thickbot: mirror35 **0.520** (weakfix 0.540, v28b słabszy na mirrorze — ich nowy mirror-guard ≤15/20/25 osłabia Hammer-press!), Ogerpon **0.920** (weakfix 0.867! ich bench 400/60/40 realnie ratuje swarm matchup — 12 strat zamiast 29)
+- quick meta 690g: v25knobs 0.664 | v26weakfix **0.700** | v28b 0.662 — **v28b nie bije weakfixa na pełnej mecie** (jego zysk jest skoncentrowany w egzotykach/Ogerponie, koszt w mirrorze).
+
+**Werdykt:** v28b = kandydat LIVE na wolny slot (ich lokalne top30 +2.4pp; u mnie Ogerpon +5.3pp!) ale z kosztem mirrorowym — **decyzja 50/50, moja rekomendacja: poświęcić ostatni slot 13.10 na v28b** (jego +5pp na 20-30% populacji '?'-decków jest warty więcej niż −2pp na mirrorze ~25-40% populacji; do sprawdzania WR live po 24h).

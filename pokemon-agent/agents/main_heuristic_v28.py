@@ -1063,70 +1063,6 @@ def _discard_rank(cid, obs: dict, me_idx: int) -> int:
 # --------------------------------------------------------------------------
 
 
-_V28_FLOOD_MIN_BOARD = 3
-_V28_FLOOD_BENCH_BONUS = 60
-_V28_FLOOD_ATTACK_PENALTY = 390
-_V28_FLOOD_MIN_OPP_ALIVE = 2
-
-
-def _v26_alive_board(obs, me_idx):
-    """Number of OUR pokemon alive (active hp>0 + bench hp>0)."""
-    try:
-        p = obs["current"]["players"][me_idx]
-        n = 0
-        act = p.get("active")
-        if isinstance(act, list):
-            n += sum(1 for q in act if isinstance(q, dict) and int(q.get("hp") or 0) > 0)
-        elif isinstance(act, dict) and int(act.get("hp") or 0) > 0:
-            n += 1
-        for b in p.get("bench") or []:
-            if isinstance(b, dict) and int(b.get("hp") or 0) > 0:
-                n += 1
-        return n
-    except Exception:
-        return 99
-
-
-def _v26_opp_alive(obs, me_idx):
-    try:
-        p = obs["current"]["players"][1 - me_idx]
-        n = 0
-        act = p.get("active")
-        if isinstance(act, list):
-            n += sum(1 for q in act if isinstance(q, dict) and int(q.get("hp") or 0) > 0)
-        elif isinstance(act, dict) and int(act.get("hp") or 0) > 0:
-            n += 1
-        for b in p.get("bench") or []:
-            if isinstance(b, dict) and int(b.get("hp") or 0) > 0:
-                n += 1
-        return n
-    except Exception:
-        return 0
-
-
-def _v26_flood_pending(obs, me_idx):
-    """True when board is thin, opponent still developed, and a Basic waits in hand.
-
-    This is the live death mode (2026-10-13 forensics: 30/34 losses ended with
-    our board at 1 pokemon vs opponent 2-5): a KO attack (band 260+~90) used to
-    end the turn BEFORE bench plays (band 320), leaving us one KO from defeat.
-    """
-    if _v26_alive_board(obs, me_idx) >= _V28_FLOOD_MIN_BOARD:
-        return False
-    if _v26_opp_alive(obs, me_idx) < _V28_FLOOD_MIN_OPP_ALIVE:
-        return False
-    sel = obs.get("select") or {}
-    for o in sel.get("option") or []:
-        try:
-            if o.get("type") == OptionType.PLAY:
-                cid = _hand_id(obs, me_idx, o.get("index"))
-                if cid is not None and card(cid).get("ct") == CardType.POKEMON:
-                    return True
-        except Exception:
-            continue
-    return False
-
-
 def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
     otype = opt.get("type")
     cur = obs["current"]
@@ -1160,28 +1096,13 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         ko = est > 0 and est >= opp_hp
         score = ATTACK_KO_SCORE if ko else ATTACK_SCORE
         score += min(est, 240) // 4
-        try:
-            # v28 DUEL MODE: in the final exchange (both boards <=2) a random
-            # Hammer miss is fatal - the opponent retaliates into our empty
-            # board. Prefer deterministic kills (Riptide scales with discard),
-            # punish non-kill Hammers, and pay extra for the game-ending KO.
-            _duel = (_v28_alive_board(obs, me_idx) <= 2
-                     and _v28_opp_alive(obs, me_idx) <= 2)
-            if _duel:
-                aid_v28 = opt.get("attackId")
-                if ko:
-                    score += 90
-                elif aid_v28 == 1046:  # Hammer-lanche: random mill damage
-                    score -= 120
-        except Exception:
-            pass
         if ko:
             score += 25 * prize_value(opp_active.get("id"))
-            # v26: extra boost vs low HP weak field - ensure we take KO vs 100 HP or less
+            # v28: extra boost vs low HP weak field
             if opp_hp <= 100:
-                score += 50
+                score += 60
             elif opp_hp <= 150:
-                score += 20
+                score += 30
             # v11 endgame (Kaggriculture: stop planting near end): when prize race tight, boost KO
             try:
                 opp_prize = obs["current"]["players"][opp_idx].get("prize") or []
@@ -1320,28 +1241,13 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
         ko = est > 0 and est >= opp_hp
         score = ATTACK_KO_SCORE if ko else ATTACK_SCORE
         score += min(est, 240) // 4
-        try:
-            # v28 DUEL MODE: in the final exchange (both boards <=2) a random
-            # Hammer miss is fatal - the opponent retaliates into our empty
-            # board. Prefer deterministic kills (Riptide scales with discard),
-            # punish non-kill Hammers, and pay extra for the game-ending KO.
-            _duel = (_v28_alive_board(obs, me_idx) <= 2
-                     and _v28_opp_alive(obs, me_idx) <= 2)
-            if _duel:
-                aid_v28 = opt.get("attackId")
-                if ko:
-                    score += 90
-                elif aid_v28 == 1046:  # Hammer-lanche: random mill damage
-                    score -= 120
-        except Exception:
-            pass
         if ko:
             score += 25 * prize_value(opp_active.get("id"))
-            # v26: extra boost vs low HP weak field - ensure we take KO vs 100 HP or less
+            # v28: extra boost vs low HP weak field
             if opp_hp <= 100:
-                score += 50
+                score += 60
             elif opp_hp <= 150:
-                score += 20
+                score += 30
             # v11 endgame (Kaggriculture: stop planting near end): when prize race tight, boost KO
             try:
                 opp_prize = obs["current"]["players"][opp_idx].get("prize") or []
@@ -1472,15 +1378,15 @@ def _score_main_option(opt: dict, obs: dict, me_idx: int, opp_idx: int) -> int:
             if len(my_bench) >= 5:
                 return 30
             if not my_bench and (my_active is None or int(my_active.get("hp") or 0) <= 80):
-                return 360  # v26: stronger bench urgency vs fast KO with empty bench
+                return 400  # v28: stronger bench vs fast KO with empty bench
             score = 320
             if is_primary_line(cid):
                 score += 10
             # v26: generic board development boost vs fast decks - bench when thin
             if len(my_bench) < 2:
-                score += 30  # bench <2 => 350-360
+                score += 60  # v28 bench <2 => 380-400
             elif len(my_bench) < 3:
-                score += 15  # bench <3 => 335-345
+                score += 40  # v28 bench <3 => 360-380
             # v11 tape opening (Kaggriculture B21 inspiration): T1 Snover boost when early and have Water
             # If deckCount >50 (early), bench empty, and Snover (722) in hand with Water in hand -> +40
             try:
@@ -2005,11 +1911,11 @@ def _score_main_option_v21(opt, obs, me_idx, opp_idx):
                 deck_n = int(obs["current"]["players"][me_idx].get("deckCount") or 20)
             except Exception:
                 deck_n = 20
-            if deck_n <= 10:
-                score -= 200  # v26 stronger
-            elif deck_n <= 15:
-                score -= 150
+            if deck_n <= 15:
+                score -= 200  # v28 earlier guard
             elif deck_n <= 20:
+                score -= 150
+            elif deck_n <= 25:
                 score -= 80
 
         # --- LUCARIO mode: 4-prize Mega Abomasnow protection (v26 improved).
@@ -2029,10 +1935,10 @@ def _score_main_option_v21(opt, obs, me_idx, opp_idx):
                     score += 20
 
         # --- FAST_EX mode (v26): Genesect ex, Raging Bolt ex, Mega Starmie ex etc.
-        FAST_EX_IDS_V26 = {63, 547, 1031, 861, 24, 171, 361}
+        FAST_EX_IDS_V28 = {63, 547, 1031, 861, 24, 171, 361, 336, 299, 169, 839, 992, 1002}
         try:
             opp_id = opp_active.get("id") if opp_active else None
-            if opp_id in FAST_EX_IDS_V26:
+            if opp_id in FAST_EX_IDS_V28:
                 # vs fast ex, bench aggressively and protect Snover
                 if len(my_bench) < 3 and otype == OptionType.PLAY:
                     score += 25
