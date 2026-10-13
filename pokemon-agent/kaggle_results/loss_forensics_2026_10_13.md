@@ -146,3 +146,12 @@ c87 (tip 457b0fa) przeanalizowała 249 epizodów / 142 strat live (loss_snapshot
 - kandydat A = c87 v28: lokalnie neutralny, naprawia dziurę live, mały risk (górna granica ≈ weakfix już live).
 - kandydat B = a450 FLOOD: +1.44pp (z=1.33) moje pule / +1.41pp (z=2.42) ich matryca; +7pp mirror.
 - head-to-head v28 vs FLOOD: w toku.
+
+### Head-to-head v28 vs FLOOD (ostani slot, opp=weakfix, ~10k/pule)
+| pula | c87_v28 | a450_FLOOD | Δ |
+|---|---|---|---|
+| newarch10 | **0.887** | 0.867 | v28 +2.00pp (z=1.36) |
+| kyogre+exotic+weak | 0.635 | 0.635 | remis (z=0.05) |
+| mirror 200 | 0.475 | **0.535** | FLOOD +6.00pp (z=1.20) |
+
+**Ostateczna rekomendacja slotu (doradztwo, bez submitu):** oba n.s. względem siebie. Live pole karze głównie ?-archetypy (WR 0.22-0.29) + kyogre (55% meczów) → **c87 v28** atakuje dokładnie tę dziurę (FAST_EX + bench400) i ma +2pp na newarch; risk ≈ 0 (górna granica = weakfix już live). FLOOD = równie dobry alternatywny kandydat (silniejszy mirror). Merge koda v28+FLOOD możliwy ale nietestowany (stacki traciły tempo u a450).
