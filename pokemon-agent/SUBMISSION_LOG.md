@@ -1348,3 +1348,12 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - **Stan kwoty: 5/5 zużyte (v25old, v25knobs#1, v25knobs#2, v26weakfix, v34). Reset 00:00 UTC 14.10 (=02:00 czasu PL).**
 - **Program na 14.10:** (a) poll live μ + replays (wróci jako bot-commit); (b) decyzja Phase-4: prawdziwy redesign (nowy win-con / RL) — oś deckowa i behawioralna wyczerpane (dziś: 5 wariantów decku ≤0, v34-M@453441/5000≈0, sufity ~+1pp pooled); (c) ewentualny 6. slot po resecie TYLKO na twarde dane (≥3 paired biegi, z≥1.5).
 - Z a450b00f nic nie wysłano (rozkazy i submit = c87f7a48; podział ról utrzymany).
+
+---
+
+## 2026-10-13 ~16:50 UTC — PIERWSZE EPIZODY V34 (57143509): 2W-2L-1validation-W przy n=4 — ZA WCZEŚNIE NA WERDYKT; pole = ręczne toolboxy spoza naszych pul
+
+- **Matchmaking wolny dla v34**: 5 epizodów w ~4h (3 nasze aktywne agenta pochłaniają meczowane gry; wcześniej każdy sub miał 40-70 ep w cyklu życia).
+- **Rozstrzygnięte (z replayów):** W vs własny mirror (validation), **L vs Alakazam toolbox** (Kadabra4/Hilda4/Dawn4/Pad4/Psychic — ABRA-rodzina nigdzie w naszych pulach testowych!), **L vs Ogerpon-Hydrapple Grass** (14G, Ogerpon ex4, Forest of Vitality, Applin/Dipplin — rodziina z forensics c87f, w pulach tylko 1 statyczna wersja), **W vs Fighting box** (24F, Great Tusk4/Koraidon4/Stonjourner4/Ting-Lu). μ=600→dół przy 2W-2L = czysty szum+niski n.
+- **Wniosek dla hipotezy "konkurencja adaptuje się":** API nie daje name/deck (opp.deck=None, probe udokumentowany) — per-przeciwnik niemożliwe; poleto jest natomiast **różnorodne i dryfujące**: 2 z 3 przegranych vs rodziny ABSENT w meta1012/top30/kyogre/exotic. To nie "uczący się wróg", to **ręcznie budowane toolboxy + codzienny dryf meta**. Na to działa tylko early-fingerprint (Phase-4) i codzienny refresh pul z replayów.
+- **Akcje:** re-arm our_replays na wieczorną porcję (~20:00-22:00 UTC; cel: 15-25 epizodów v34 = pierwszy sensowny WR); Phase-4 czeka na tę próbkę.

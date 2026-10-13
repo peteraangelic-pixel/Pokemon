@@ -1,1 +1,1 @@
-our_replays 2026-10-13T16:30Z - fetch v34 episodes (post-submit 12:26, analysis for adaptive-opponent hypothesis)
+our_replays 2026-10-13T20:00Z - evening batch: more v34 episodes (n>=15 target) for calibrated WR and toolbox-family census
