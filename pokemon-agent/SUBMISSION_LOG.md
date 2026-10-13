@@ -1357,3 +1357,17 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - **Rozstrzygnięte (z replayów):** W vs własny mirror (validation), **L vs Alakazam toolbox** (Kadabra4/Hilda4/Dawn4/Pad4/Psychic — ABRA-rodzina nigdzie w naszych pulach testowych!), **L vs Ogerpon-Hydrapple Grass** (14G, Ogerpon ex4, Forest of Vitality, Applin/Dipplin — rodziina z forensics c87f, w pulach tylko 1 statyczna wersja), **W vs Fighting box** (24F, Great Tusk4/Koraidon4/Stonjourner4/Ting-Lu). μ=600→dół przy 2W-2L = czysty szum+niski n.
 - **Wniosek dla hipotezy "konkurencja adaptuje się":** API nie daje name/deck (opp.deck=None, probe udokumentowany) — per-przeciwnik niemożliwe; poleto jest natomiast **różnorodne i dryfujące**: 2 z 3 przegranych vs rodziny ABSENT w meta1012/top30/kyogre/exotic. To nie "uczący się wróg", to **ręcznie budowane toolboxy + codzienny dryf meta**. Na to działa tylko early-fingerprint (Phase-4) i codzienny refresh pul z replayów.
 - **Akcje:** re-arm our_replays na wieczorną porcję (~20:00-22:00 UTC; cel: 15-25 epizodów v34 = pierwszy sensowny WR); Phase-4 czeka na tę próbkę.
+
+---
+
+## 2026-10-13 ~16:40 UTC — ANALIZA 12 EPIZODÓW V34 + DECYZJA V37 (gate vs their-mild); KONWERGencja gałęzi na moim commicie
+
+### V34 live (57143509, n=11 rozstrzygniętych + 1 brak replaya):
+- **5W-6L = 0.455** ≈ weakfix-era (0.469) → "v34 znów przegrywa" = **kalibracja, nie regresja** (matchmaking wolny 5/12 gier = mirror własnej talii).
+- **6/6 strat: bench=0** (pusta ławka 100% — patologia strukturalna FAMINE trwa); Ogerpon **0/2** live (bilans serii 1-7); straty: OGERPON×2, MIRROR×2 (w tym maraton 188 kroków, 6-1 prizes), DRAGAPULT, ALAKAZAM-toolbox.
+- Wnioski jak w forensics c87f + moje autopsje — żywe pole potwierdza FFI: to nie "uczący się wróg", to różnorodność+głód basiców.
+
+### KONWERGencja v37 (0e590e7 od c87f NA mojej gałęzi):
+- Zabrali moje v37, **usunęli gate i wstawili mild-response WALL** (liczby v34 zamiast agresywnych v36). Ich 20g: weighted 0.692 BEST.
+- **Moje paired rozstrzygnięcie (opp=weakfix):** battery1 (n=300): V37_THEIRS −5.33pp (z−1.85); battery2 (n=550): **+0.36 (paritet)** → ich edit ≈ V34. **V37A_GATE: battery exotic +4.8, live-toolbox +2.7, bateria2 +2.36 (0.904 exotic / 0.840 live / 0.833 newconcept — BEST w każdej puli); pooled ≈ +2.4pp nad V34, zero ujemnych komponentów.**
+- **REKOMENDACJA slot #1 po resecie: `agents/main_heuristic_v37_gate.py` → bundle `bundles/ptcg_v37_gate_adaptive.tar.gz` (smoke OK).** Ich final-v37 = bezpieczny paritet (opcja rezerwowa). Rozkaz przez c87f; a450 nie wysyła.
