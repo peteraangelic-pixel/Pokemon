@@ -4,92 +4,92 @@
 [1m[92m      Adding[0m libloading v0.8.9 [1m[33m(available: v0.9.0)[0m
 [1m[92m      Adding[0m rand v0.8.8 [1m[33m(available: v0.10.3)[0m
 [1m[92m Downloading[0m crates ...
-[1m[92m  Downloaded[0m anstyle-parse v1.0.0
+[1m[92m  Downloaded[0m anyhow v1.0.104
+[1m[92m  Downloaded[0m clap_lex v1.1.1
+[1m[92m  Downloaded[0m anstyle v1.0.14
 [1m[92m  Downloaded[0m colorchoice v1.0.5
+[1m[92m  Downloaded[0m anstyle-query v1.1.5
 [1m[92m  Downloaded[0m cfg-if v1.0.5
-[1m[92m  Downloaded[0m utf8parse v0.2.2
+[1m[92m  Downloaded[0m anstream v1.0.0
+[1m[92m  Downloaded[0m heck v0.5.0
+[1m[92m  Downloaded[0m rand_chacha v0.3.1
 [1m[92m  Downloaded[0m strsim v0.11.1
+[1m[92m  Downloaded[0m utf8parse v0.2.2
 [1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
 [1m[92m  Downloaded[0m itoa v1.0.18
-[1m[92m  Downloaded[0m rand_chacha v0.3.1
-[1m[92m  Downloaded[0m anstyle-query v1.1.5
-[1m[92m  Downloaded[0m clap_lex v1.1.1
-[1m[92m  Downloaded[0m heck v0.5.0
-[1m[92m  Downloaded[0m anstyle v1.0.14
-[1m[92m  Downloaded[0m anstream v1.0.0
-[1m[92m  Downloaded[0m quote v1.0.47
-[1m[92m  Downloaded[0m ppv-lite86 v0.2.21
+[1m[92m  Downloaded[0m anstyle-parse v1.0.0
 [1m[92m  Downloaded[0m either v1.19.0
-[1m[92m  Downloaded[0m libloading v0.8.9
-[1m[92m  Downloaded[0m rand_core v0.6.4
-[1m[92m  Downloaded[0m clap_derive v4.6.7
-[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
-[1m[92m  Downloaded[0m getrandom v0.2.17
+[1m[92m  Downloaded[0m quote v1.0.47
 [1m[92m  Downloaded[0m crossbeam-deque v0.8.8
+[1m[92m  Downloaded[0m ppv-lite86 v0.2.21
+[1m[92m  Downloaded[0m clap_derive v4.6.7
+[1m[92m  Downloaded[0m zmij v1.0.23
 [1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
 [1m[92m  Downloaded[0m unicode-ident v1.0.27
-[1m[92m  Downloaded[0m anyhow v1.0.104
-[1m[92m  Downloaded[0m serde_core v1.0.229
+[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m rand_core v0.6.4
+[1m[92m  Downloaded[0m libloading v0.8.9
+[1m[92m  Downloaded[0m getrandom v0.2.17
 [1m[92m  Downloaded[0m proc-macro2 v1.0.107
-[1m[92m  Downloaded[0m serde_derive v1.0.229
-[1m[92m  Downloaded[0m zmij v1.0.23
-[1m[92m  Downloaded[0m rayon-core v1.13.0
-[1m[92m  Downloaded[0m rand v0.8.8
+[1m[92m  Downloaded[0m serde_core v1.0.229
 [1m[92m  Downloaded[0m clap v4.6.7
-[1m[92m  Downloaded[0m serde v1.0.229
-[1m[92m  Downloaded[0m aho-corasick v1.1.5
+[1m[92m  Downloaded[0m rayon-core v1.13.0
+[1m[92m  Downloaded[0m serde_derive v1.0.229
 [1m[92m  Downloaded[0m memchr v2.8.3
-[1m[92m  Downloaded[0m clap_builder v4.6.7
-[1m[92m  Downloaded[0m regex v1.13.1
+[1m[92m  Downloaded[0m rand v0.8.8
+[1m[92m  Downloaded[0m serde v1.0.229
 [1m[92m  Downloaded[0m serde_json v1.0.154
+[1m[92m  Downloaded[0m regex v1.13.1
+[1m[92m  Downloaded[0m clap_builder v4.6.7
 [1m[92m  Downloaded[0m rayon v1.12.0
+[1m[92m  Downloaded[0m aho-corasick v1.1.5
 [1m[92m  Downloaded[0m syn v3.0.9
 [1m[92m  Downloaded[0m zerocopy v0.8.62
 [1m[92m  Downloaded[0m regex-syntax v0.8.11
 [1m[92m  Downloaded[0m regex-automata v0.4.18
 [1m[92m  Downloaded[0m libc v0.2.190
 [1m[92m   Compiling[0m proc-macro2 v1.0.107
-[1m[92m   Compiling[0m unicode-ident v1.0.27
 [1m[92m   Compiling[0m quote v1.0.47
-[1m[92m   Compiling[0m crossbeam-utils v0.8.23
+[1m[92m   Compiling[0m unicode-ident v1.0.27
 [1m[92m   Compiling[0m libc v0.2.190
-[1m[92m   Compiling[0m crossbeam-epoch v0.9.21
+[1m[92m   Compiling[0m crossbeam-utils v0.8.23
 [1m[92m   Compiling[0m zerocopy v0.8.62
 [1m[92m   Compiling[0m cfg-if v1.0.5
+[1m[92m   Compiling[0m crossbeam-epoch v0.9.21
 [1m[92m   Compiling[0m utf8parse v0.2.2
-[1m[92m   Compiling[0m memchr v2.8.3
-[1m[92m   Compiling[0m syn v3.0.9
-[1m[92m   Compiling[0m crossbeam-deque v0.8.8
 [1m[92m   Compiling[0m serde_core v1.0.229
+[1m[92m   Compiling[0m memchr v2.8.3
+[1m[92m   Compiling[0m crossbeam-deque v0.8.8
+[1m[92m   Compiling[0m syn v3.0.9
 [1m[92m   Compiling[0m getrandom v0.2.17
 [1m[92m   Compiling[0m anstyle-parse v1.0.0
+[1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
 [1m[92m   Compiling[0m colorchoice v1.0.5
 [1m[92m   Compiling[0m anstyle-query v1.1.5
-[1m[92m   Compiling[0m anstyle v1.0.14
 [1m[92m   Compiling[0m rayon-core v1.13.0
-[1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
 [1m[92m   Compiling[0m zmij v1.0.23
+[1m[92m   Compiling[0m anstyle v1.0.14
 [1m[92m   Compiling[0m anstream v1.0.0
 [1m[92m   Compiling[0m rand_core v0.6.4
 [1m[92m   Compiling[0m aho-corasick v1.1.5
-[1m[92m   Compiling[0m serde v1.0.229
-[1m[92m   Compiling[0m regex-syntax v0.8.11
-[1m[92m   Compiling[0m serde_json v1.0.154
 [1m[92m   Compiling[0m heck v0.5.0
+[1m[92m   Compiling[0m serde v1.0.229
 [1m[92m   Compiling[0m strsim v0.11.1
-[1m[92m   Compiling[0m ppv-lite86 v0.2.21
+[1m[92m   Compiling[0m serde_json v1.0.154
 [1m[92m   Compiling[0m clap_lex v1.1.1
 [1m[92m   Compiling[0m anyhow v1.0.104
-[1m[92m   Compiling[0m rand_chacha v0.3.1
+[1m[92m   Compiling[0m regex-syntax v0.8.11
 [1m[92m   Compiling[0m clap_builder v4.6.7
-[1m[92m   Compiling[0m regex-automata v0.4.18
+[1m[92m   Compiling[0m ppv-lite86 v0.2.21
+[1m[92m   Compiling[0m rand_chacha v0.3.1
 [1m[92m   Compiling[0m clap_derive v4.6.7
+[1m[92m   Compiling[0m regex-automata v0.4.18
 [1m[92m   Compiling[0m serde_derive v1.0.229
-[1m[92m   Compiling[0m either v1.19.0
 [1m[92m   Compiling[0m itoa v1.0.18
+[1m[92m   Compiling[0m either v1.19.0
 [1m[92m   Compiling[0m rayon v1.12.0
-[1m[92m   Compiling[0m clap v4.6.7
 [1m[92m   Compiling[0m regex v1.13.1
+[1m[92m   Compiling[0m clap v4.6.7
 [1m[92m   Compiling[0m rand v0.8.8
 [1m[92m   Compiling[0m libloading v0.8.9
 [1m[92m   Compiling[0m rust_gauntlet v0.1.0 (/home/runner/work/Pokemon/Pokemon/pokemon-agent/rust)
@@ -266,6 +266,8 @@
 [1m[94m102[0m [1m[94m|[0m [1m[94m...[0mobs, games: usize, our_seat_base: usize) -> (usize, usize, usize) {
     [1m[94m|[0m                       [1m[33m^^^^^^^^^^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_our_seat_base`[0m
 
+[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 17 warnings (1 duplicate) (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 5 suggestions)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 16 warnings (15 duplicates) (run `cargo fix --bin "search_deck_rust" -p rust_gauntlet` to apply 1 suggestion)
 [1m[33mwarning[0m[1m: unused import: `HashSet`[0m
   [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:15:33
    [1m[94m|[0m
@@ -296,98 +298,47 @@
    [1m[94m|[0m
    [1m[94m= [0m[1mnote[0m: `ReplayInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
 
-[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 17 warnings (4 duplicates) (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 2 suggestions)
 [1m[33mwarning[0m: `rust_gauntlet` (bin "evolve_tempo") generated 1 warning (run `cargo fix --bin "evolve_tempo" -p rust_gauntlet` to apply 1 suggestion)
-[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 17 warnings (11 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 6 suggestions)
-[1m[91merror[E0308][0m[1m: mismatched types[0m
-   [1m[94m--> [0msrc/bin/loss_forensics.rs:165:24
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 17 warnings (15 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 2 suggestions)
+[1m[91merror[E0282][0m[1m: type annotations needed for `std::option::Option<_>`[0m
+   [1m[94m--> [0msrc/bin/loss_forensics.rs:149:9
     [1m[94m|[0m
-[1m[94m165[0m [1m[94m|[0m             if turn == 0 {
-    [1m[94m|[0m                [1m[94m----[0m    [1m[91m^[0m [1m[91mexpected `Option<u32>`, found integer[0m
-    [1m[94m|[0m                [1m[94m|[0m
-    [1m[94m|[0m                [1m[94mexpected because this is `std::option::Option<u32>`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: expected enum `[1m[35mstd::option::Option<u32>[0m`
-               found type `[1m[35m{integer}[0m`
-[1m[96mhelp[0m: try wrapping the expression in `Some`
-    [1m[94m|[0m
-[1m[94m165[0m [1m[94m| [0m            if turn == [92mSome([0m0[92m)[0m {
-    [1m[94m|[0m                        [92m+++++[0m [92m+[0m
-
-[1m[91merror[E0308][0m[1m: mismatched types[0m
-   [1m[94m--> [0msrc/bin/loss_forensics.rs:204:24
-    [1m[94m|[0m
-[1m[94m204[0m [1m[94m|[0m             if turn != cur_turn {
-    [1m[94m|[0m                [1m[94m----[0m    [1m[91m^^^^^^^^[0m [1m[91mexpected `Option<u32>`, found `u32`[0m
-    [1m[94m|[0m                [1m[94m|[0m
-    [1m[94m|[0m                [1m[94mexpected because this is `std::option::Option<u32>`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: expected enum `[1m[35mstd::option::Option<u32>[0m`
-               found type `[1m[35mu32[0m`
-[1m[96mhelp[0m: try wrapping the expression in `Some`
-    [1m[94m|[0m
-[1m[94m204[0m [1m[94m| [0m            if turn != [92mSome([0mcur_turn[92m)[0m {
-    [1m[94m|[0m                        [92m+++++[0m        [92m+[0m
-
-[1m[91merror[E0308][0m[1m: mismatched types[0m
-   [1m[94m--> [0msrc/bin/loss_forensics.rs:214:28
-    [1m[94m|[0m
-[1m[94m141[0m [1m[94m|[0m     let mut cur_turn: u32 = 0;
-    [1m[94m|[0m                       [1m[94m---[0m [1m[94mexpected due to this type[0m
+[1m[94m149[0m [1m[94m|[0m     let mut pending = None; // Option<TurnRow> for the turn in progress
+    [1m[94m|[0m         [1m[91m^^^^^^^^^^^[0m
 [1m[94m...[0m
-[1m[94m214[0m [1m[94m|[0m                 cur_turn = turn;
-    [1m[94m|[0m                            [1m[91m^^^^[0m [1m[91mexpected `u32`, found `Option<u32>`[0m
+[1m[94m207[0m [1m[94m|[0m                     row.dmg_dealt = turn_dmg_dealt;
+    [1m[94m|[0m                     [1m[94m---[0m [1m[94mtype must be known at this point[0m
     [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: expected type `[1m[35mu32[0m`
-               found enum `[1m[35mstd::option::Option<u32>[0m`
-[1m[96mhelp[0m: use the `?` operator to extract the `std::option::Option<u32>` value, propagating an `Option::None` value to the caller
+[1m[96mhelp[0m: consider giving `pending` an explicit type, where the placeholder `_` is specified
     [1m[94m|[0m
-[1m[94m214[0m [1m[94m| [0m                cur_turn = turn[92m?[0m;
-    [1m[94m|[0m                                [92m+[0m
+[1m[94m149[0m [1m[94m| [0m    let mut pending[92m: std::option::Option<T>[0m = None; // Option<TurnRow> for the turn in progress
+    [1m[94m|[0m                    [92m++++++++++++++++++++++++[0m
 
-[1m[91merror[E0308][0m[1m: mismatched types[0m
-   [1m[94m--> [0msrc/bin/loss_forensics.rs:221:21
-    [1m[94m|[0m
-[1m[94m221[0m [1m[94m|[0m                     turn,
-    [1m[94m|[0m                     [1m[91m^^^^[0m [1m[91mexpected `u32`, found `Option<u32>`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: expected type `[1m[35mu32[0m`
-               found enum `[1m[35mstd::option::Option<u32>[0m`
-[1m[96mhelp[0m: use the `?` operator to extract the `std::option::Option<u32>` value, propagating an `Option::None` value to the caller
-    [1m[94m|[0m
-[1m[94m221[0m [1m[94m| [0m                    turn[92m: turn?[0m,
-    [1m[94m|[0m                         [92m+++++++[0m
-
-[1m[91merror[E0308][0m[1m: mismatched types[0m
-   [1m[94m--> [0msrc/bin/loss_forensics.rs:234:34
-    [1m[94m|[0m
-[1m[94m140[0m [1m[94m|[0m     let mut last_seen_turn: u32 = 0;
-    [1m[94m|[0m                             [1m[94m---[0m [1m[94mexpected due to this type[0m
-[1m[94m...[0m
-[1m[94m234[0m [1m[94m|[0m                 last_seen_turn = turn;
-    [1m[94m|[0m                                  [1m[91m^^^^[0m [1m[91mexpected `u32`, found `Option<u32>`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: expected type `[1m[35mu32[0m`
-               found enum `[1m[35mstd::option::Option<u32>[0m`
-[1m[96mhelp[0m: use the `?` operator to extract the `std::option::Option<u32>` value, propagating an `Option::None` value to the caller
-    [1m[94m|[0m
-[1m[94m234[0m [1m[94m| [0m                last_seen_turn = turn[92m?[0m;
-    [1m[94m|[0m                                      [92m+[0m
-
-[1m[91merror[E0606][0m[1m: casting `&usize` as `f64` is invalid[0m
+[1m[91merror[E0277][0m[1m: the trait bound `f64: From<usize>` is not satisfied[0m
    [1m[94m--> [0msrc/bin/loss_forensics.rs:434:21
     [1m[94m|[0m
-[1m[94m434[0m [1m[94m|[0m             100.0 * w as f64 / n as f64,
-    [1m[94m|[0m                     [1m[91m^^^^^^^^[0m
+[1m[94m434[0m [1m[94m|[0m             100.0 * f64::from(*w) / f64::from(*n),
+    [1m[94m|[0m                     [1m[91m^^^[0m [1m[91mthe trait `From<usize>` is not implemented for `f64`[0m
     [1m[94m|[0m
-[1m[96mhelp[0m: dereference the expression
-    [1m[94m|[0m
-[1m[94m434[0m [1m[94m| [0m            100.0 * [92m*[0mw as f64 / n as f64,
-    [1m[94m|[0m                     [92m+[0m
+    [1m[94m= [0m[1mhelp[0m: `f64` implements trait `From<T>`:
+              From<bool>
+              From<f16>
+              From<f32>
+              From<i16>
+              From<i32>
+              From<i8>
+              From<u16>
+              From<u32>
+              From<u8>
 
-[1m[33mwarning[0m: `rust_gauntlet` (bin "analyze_playstyle_rust") generated 3 warnings (run `cargo fix --bin "analyze_playstyle_rust" -p rust_gauntlet` to apply 1 suggestion)
-[1mSome errors have detailed explanations: E0308, E0606.[0m
-[1mFor more information about an error, try `rustc --explain E0308`.[0m
-[1m[91merror[0m: could not compile `rust_gauntlet` (bin "loss_forensics") due to 6 previous errors
+[1m[91merror[E0614][0m[1m: type `usize` cannot be dereferenced[0m
+   [1m[94m--> [0msrc/bin/loss_forensics.rs:434:47
+    [1m[94m|[0m
+[1m[94m434[0m [1m[94m|[0m             100.0 * f64::from(*w) / f64::from(*n),
+    [1m[94m|[0m                                               [1m[91m^^[0m [1m[91mcan't be dereferenced[0m
+
+[1mSome errors have detailed explanations: E0277, E0282, E0614.[0m
+[1mFor more information about an error, try `rustc --explain E0277`.[0m
+[1m[91merror[0m: could not compile `rust_gauntlet` (bin "loss_forensics") due to 3 previous errors
 [1m[33mwarning[0m: build failed, waiting for other jobs to finish...
-[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 16 warnings (16 duplicates)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "analyze_playstyle_rust") generated 3 warnings (run `cargo fix --bin "analyze_playstyle_rust" -p rust_gauntlet` to apply 1 suggestion)
