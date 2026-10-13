@@ -1,6 +1,5 @@
 Fetching replays into pokemon-agent/kaggle_results/our_replays
 Found 19 own submissions
-WARNING: none of --sub-ids ['57130779571307545712551657125561'] matched; falling back to latest 2
 
 === Submission 57130779 (phase1_tuned_v25_knobs_35w.tar.gz) ===
   episodes listed: 6
@@ -20,6 +19,96 @@ WARNING: none of --sub-ids ['57130779571307545712551657125561'] matched; falling
   downloaded replay 123162652
   downloaded replay 123158103
 
+<<<<<<< Updated upstream
 Total replay JSONs on disk: 12
+=======
+=== Submission 57125561 (ptcg_v22b_35w.tar.gz) ===
+  episodes listed: 59
+  downloaded replay 123160333
+  downloaded replay 123158024
+  downloaded replay 123155794
+  downloaded replay 123153532
+  downloaded replay 123151304
+  downloaded replay 123149025
+  downloaded replay 123146847
+  downloaded replay 123144678
+  downloaded replay 123142484
+  downloaded replay 123140284
+  downloaded replay 123138086
+  downloaded replay 123135882
+  downloaded replay 123133639
+  downloaded replay 123131397
+  downloaded replay 123129153
+  downloaded replay 123126920
+  downloaded replay 123124667
+  downloaded replay 123122410
+  downloaded replay 123122419
+  downloaded replay 123120164
+  downloaded replay 123117927
+  downloaded replay 123115659
+  downloaded replay 123113385
+  downloaded replay 123111145
+  downloaded replay 123108899
+  downloaded replay 123106700
+  downloaded replay 123104383
+  downloaded replay 123102129
+  downloaded replay 123099866
+  downloaded replay 123097609
+  downloaded replay 123095335
+  downloaded replay 123095378
+  downloaded replay 123093011
+  downloaded replay 123090705
+  downloaded replay 123090742
+  downloaded replay 123088409
+  downloaded replay 123086058
+  downloaded replay 123083849
+  downloaded replay 123081584
+  downloaded replay 123079301
+
+=== Submission 57125516 (phase1_tuned_v25_knobs_35w.tar.gz) ===
+  episodes listed: 60
+  downloaded replay 123158022
+  downloaded replay 123155796
+  downloaded replay 123153530
+  downloaded replay 123151303
+  downloaded replay 123151347
+  downloaded replay 123149023
+  downloaded replay 123146843
+  downloaded replay 123144679
+  downloaded replay 123142483
+  downloaded replay 123140282
+  downloaded replay 123138082
+  downloaded replay 123135877
+  downloaded replay 123133635
+  downloaded replay 123131394
+  downloaded replay 123129152
+  downloaded replay 123126922
+  downloaded replay 123124665
+  downloaded replay 123122417
+  downloaded replay 123120154
+  downloaded replay 123120202
+  downloaded replay 123117928
+  downloaded replay 123115658
+  downloaded replay 123113384
+  downloaded replay 123111144
+  downloaded replay 123108898
+  downloaded replay 123106724
+  downloaded replay 123106698
+  downloaded replay 123104382
+  downloaded replay 123102131
+  downloaded replay 123099861
+  downloaded replay 123097602
+  downloaded replay 123095334
+  downloaded replay 123093022
+  downloaded replay 123090697
+  downloaded replay 123088412
+  downloaded replay 123086060
+  downloaded replay 123083853
+  downloaded replay 123081585
+  downloaded replay 123079302
+  downloaded replay 123077075
+
+Total replay JSONs on disk: 92
+>>>>>>> Stashed changes
 
 Wrote pokemon-agent/kaggle_results/our_replays/summary.json + summary.md

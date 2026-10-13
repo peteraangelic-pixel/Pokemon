@@ -1,7 +1,87 @@
 episode_id,sub,opp,win,turn,our_arch,opp_arch,opp_ko_our,we_ko,opp_board,our_board,file
+123077075,57125516,Atharva Naik,1,8,KYOGRE,KYOGRE,,,,A:Kyogre(150/150),episode-123077075-replay.json
+123079301,57125561,lswuwu,0,11,KYOGRE,LUCARIO,,,A:Mega Lucario ex(140/340),,episode-123079301-replay.json
+123079302,57125516,Riccardo Lo Bianco,0,11,KYOGRE,?,,,A:Snorunt(60/60),A:Snover(90/90),episode-123079302-replay.json
+123081584,57125561,Zapaxe,0,9,KYOGRE,?,,,A:Raging Bolt ex(210/240) B:Teal Mask Ogerpon ex(210) B:Teal Mask Ogerpon ex(210) B:Raging Bolt ex(240),A:Snover(90/90),episode-123081584-replay.json
+123081585,57125516,Brejesh Balakrishnan,0,14,KYOGRE,?,,,A:Marnie's Grimmsnarl ex(320/320) B:Munkidori(110) B:Marnie's Morgrem(100) B:Marnie's Morgrem(100) B:Munkidori(110),,episode-123081585-replay.json
+123083849,57125561,Tanishq das,1,23,KYOGRE,MEOWTH+FEZANDIP,,,A:Hydrapple ex(330/330) B:Meowth ex(170) B:Teal Mask Ogerpon ex(210) B:Teal Mask Ogerpon ex(210) B:Teal Mask Ogerpon ex(210) B:Hydrapple ex(330),A:Mega Abomasnow ex(350/350) B:Kyogre(150),episode-123083849-replay.json
+123083853,57125516,Zapaxe,0,8,KYOGRE,?,,,A:Raging Bolt ex(230/240) B:Teal Mask Ogerpon ex(210) B:Teal Mask Ogerpon ex(210) B:Teal Mask Ogerpon ex(210),,episode-123083853-replay.json
+123086058,57125561,Aditya ingale,1,5,KYOGRE,KYOGRE,,,A:Kyogre(150/150),A:Mega Abomasnow ex(350/350),episode-123086058-replay.json
+123086060,57125516,ant,0,12,KYOGRE,?,,,A:Dipplin(80/80) B:Goldeen(50) B:Thwackey(100) B:Grookey(70) B:Grookey(70) B:Grookey(70),,episode-123086060-replay.json
+123088409,57125561,Eugen LNCanti,0,8,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(340/350),,episode-123088409-replay.json
+123088412,57125516,eastnix,1,12,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350) B:Snover(90),A:Mega Abomasnow ex(150/350) B:Mega Abomasnow ex(350),episode-123088412-replay.json
+123090697,57125516,RoboPlayz,0,29,KYOGRE,?,,,A:Dipplin(40/80) B:Thwackey(100) B:Thwackey(100) B:Thwackey(100) B:Dipplin(80) B:Grookey(70),,episode-123090697-replay.json
+123090705,57125561,Luiz Seabra De Marco,0,8,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(290/350) B:Mega Abomasnow ex(350) B:Mega Abomasnow ex(350),,episode-123090705-replay.json
+123090742,57125561,Pawit Sahare,0,11,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350),A:Mega Abomasnow ex(350/350) B:Kyogre(150),episode-123090742-replay.json
+123093011,57125561,Arka Latua,0,19,KYOGRE,LUCARIO,,,A:Mega Lucario ex(340/340),A:Mega Abomasnow ex(220/350),episode-123093011-replay.json
+123093022,57125516,Taras Harbar,1,13,KYOGRE,LUCARIO,,,A:Mega Lucario ex(340/340) B:Lunatone(110) B:Hariyama(150) B:Makuhita(80) B:Solrock(110) B:Riolu(80),B:Mega Abomasnow ex(150),episode-123093022-replay.json
+123095334,57125516,Aayush Jansari,1,14,KYOGRE,MEOWTH+FEZANDIP,,,B:Meowth ex(170) B:Munkidori(110) B:Fezandipiti ex(210) B:Drakloak(90),A:Mega Abomasnow ex(270/350),episode-123095334-replay.json
+123095335,57125561,Arka Latua,0,11,KYOGRE,LUCARIO,,,A:Riolu(80/80) B:Riolu(80),A:Snover(90/90),episode-123095335-replay.json
+123095378,57125561,Riccardo Lo Bianco,0,6,KYOGRE,?,,,B:Mega Froslass ex(310) B:Snorunt(60) B:Snorunt(60),A:Mega Abomasnow ex(150/350),episode-123095378-replay.json
+123097602,57125516,Yugi64,0,36,KYOGRE,?,Crustle|Crustle,,A:Crustle(170/170) B:Shaymin(80) B:Mega Kangaskhan ex(300) B:Crustle(150),B:Kyogre(10) B:Mega Abomasnow ex(350),episode-123097602-replay.json
+123097609,57125561,bai fang,1,15,KYOGRE,FEZANDIP,Alakazam,,B:Pikipek(70) B:Dunsparce(70) B:Abra(50) B:Abra(50),A:Mega Abomasnow ex(320/350) B:Kyogre(150) B:Mega Abomasnow ex(350) B:Snover(90),episode-123097609-replay.json
+123099861,57125516,jjdddd,0,8,KYOGRE,KYOGRE,,,B:Snover(90) B:Mega Abomasnow ex(330) B:Snover(90),A:Mega Abomasnow ex(350/350),episode-123099861-replay.json
+123099866,57125561,AByT3s,1,10,KYOGRE,KYOGRE,,,,A:Mega Abomasnow ex(340/350) B:Kyogre(150) B:Kyogre(150),episode-123099866-replay.json
+123102129,57125561,BSCode,0,11,KYOGRE,?,,,B:Mega Starmie ex(330) B:Staryu(70),A:Mega Abomasnow ex(90/350),episode-123102129-replay.json
+123102131,57125516,Guenoir,1,17,KYOGRE,LUCARIO+FEZANDIP,,Snover|Snover|Snover,B:Mega Lucario ex(340) B:Koraidon(130) B:Koraidon(130) B:Mega Lucario ex(340),A:Mega Abomasnow ex(350/350),episode-123102131-replay.json
+123104382,57125516,LivMaAn,0,4,KYOGRE,MEOWTH+FEZANDIP,,,A:Teal Mask Ogerpon ex(210/210) B:Hydrapple ex(330) B:Fezandipiti ex(210),,episode-123104382-replay.json
+123104383,57125561,Sanchay Singh,1,14,KYOGRE,KYOGRE,,,A:Kyogre(150/150),A:Snover(90/90) B:Kyogre(150),episode-123104383-replay.json
+123106698,57125516,Jonathan Axl,1,23,KYOGRE,KYOGRE,,,B:Kyogre(150),A:Mega Abomasnow ex(70/350) B:Snover(90),episode-123106698-replay.json
+123106700,57125561,Taras Harbar,0,15,KYOGRE,LUCARIO,,,A:Solrock(110/110) B:Lunatone(110) B:Riolu(80) B:Makuhita(80) B:Riolu(80),,episode-123106700-replay.json
+123106724,57125516,eastnix,0,14,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(150/350) B:Kyogre(150) B:Mega Abomasnow ex(350),,episode-123106724-replay.json
+123108898,57125516,Angel Francisco Aguayo Salazar,1,9,KYOGRE,?,,,A:LugiaEX(40/220),A:Kyogre(150/150),episode-123108898-replay.json
+123108899,57125561,Aayush Jansari,0,12,KYOGRE,MEOWTH+FEZANDIP,,Snover|Snover|Snover|Snover|Snover|Snover,A:Dragapult ex(120/320) B:Drakloak(90),,episode-123108899-replay.json
+123111144,57125516,Pawit Sahare,0,47,KYOGRE,KYOGRE,,,A:Kyogre(150/150) B:Mega Abomasnow ex(350) B:Kyogre(150) B:Mega Abomasnow ex(350) B:Mega Abomasnow ex(350),A:Kyogre(150/150) B:Mega Abomasnow ex(350) B:Mega Abomasnow ex(350) B:Mega Abomasnow ex(350) B:Kyogre(150) B:Snover(90),episode-123111144-replay.json
+123111145,57125561,Taras Harbar,0,8,KYOGRE,LUCARIO,,,B:Lunatone(110) B:Riolu(80),A:Mega Abomasnow ex(120/350),episode-123111145-replay.json
+123113384,57125516,Guenoir,1,12,KYOGRE,LUCARIO+FEZANDIP,,,A:Mega Lucario ex(340/340) B:Mega Lucario ex(340) B:Koraidon(130) B:Koraidon(130) B:Riolu(70) B:Mega Kangaskhan ex(300),A:Mega Abomasnow ex(220/350) B:Kyogre(150) B:Snover(90),episode-123113384-replay.json
+123113385,57125561,RoboPlayz,1,20,KYOGRE,?,,,B:Grookey(70) B:Goldeen(50) B:Applin(40),A:Mega Abomasnow ex(280/350) B:Snover(90) B:Kyogre(150),episode-123113385-replay.json
+123115658,57125516,加油华为,1,19,KYOGRE,LATIAS+MEOWTH+FEZANDIP,,,A:Dragapult ex(120/320) B:Latias ex(210) B:Meowth ex(170) B:Drakloak(90),A:Mega Abomasnow ex(350/350),episode-123115658-replay.json
+123115659,57125561,Wei Hsiang Lin111,1,19,KYOGRE,CLEFAIRY,,,A:Dudunsparce(140/140) B:Flutter Mane(90) B:Dudunsparce(140) B:Dunsparce(70) B:Poltchageist(30),A:Mega Abomasnow ex(350/350) B:Mega Abomasnow ex(350) B:Snover(90) B:Kyogre(150),episode-123115659-replay.json
+123117927,57125561,cottonandcolor,1,11,KYOGRE,KYOGRE,,,A:Snover(90/90),A:Mega Abomasnow ex(320/350) B:Snover(90),episode-123117927-replay.json
+123117928,57125516,Chriszcodes,0,13,KYOGRE,MEOWTH+FEZANDIP,,,B:Drakloak(90) B:Munkidori(110) B:Dreepy(70),A:Mega Abomasnow ex(20/350),episode-123117928-replay.json
+123120154,57125516,yihui ding123,1,13,KYOGRE,?,,,A:Mega Kangaskhan ex(100/400) B:Crustle(150) B:Crustle(150) B:Cornerstone Mask Ogerpon ex(210),A:Mega Abomasnow ex(350/350),episode-123120154-replay.json
+123120164,57125561,Sanchay Singh,0,9,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(320/350),,episode-123120164-replay.json
+123120202,57125516,Dark_trio,1,22,KYOGRE,KYOGRE,,,A:Snover(90/90),A:Mega Abomasnow ex(350/350) B:Mega Abomasnow ex(350) B:Kyogre(150),episode-123120202-replay.json
+123122410,57125561,dajiaohuang,0,12,KYOGRE,?,,,A:Alakazam(140/140) B:Abra(50) B:Abra(50),,episode-123122410-replay.json
+123122417,57125516,Jonathan Axl,1,12,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350) B:Kyogre(150) B:Mega Abomasnow ex(350) B:Kyogre(150),A:Mega Abomasnow ex(350/350) B:Kyogre(150) B:Mega Abomasnow ex(350),episode-123122417-replay.json
+123122419,57125561,RAHUL REDDY PULICHARLA,0,14,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350) B:Mega Abomasnow ex(340),,episode-123122419-replay.json
+123124665,57125516,Chriszcodes,0,12,KYOGRE,MEOWTH+FEZANDIP,,,A:Dragapult ex(280/320) B:Drakloak(90) B:Dreepy(70) B:Budew(30),,episode-123124665-replay.json
+123124667,57125561,AByT3s,1,8,KYOGRE,KYOGRE,,,A:Snover(90/90),A:Snover(90/90),episode-123124667-replay.json
+123126920,57125561,Aayush Jansari,0,19,KYOGRE,MEOWTH+FEZANDIP,,Kyogre|Kyogre|Kyogre|Kyogre|Kyogre|Kyogre,A:Dragapult ex(190/320) B:Dreepy(70) B:Dreepy(70) B:Dreepy(70) B:Fezandipiti ex(210) B:Budew(30),,episode-123126920-replay.json
+123126922,57125516,jdx,0,8,KYOGRE,MEOWTH+FEZANDIP,,,A:Teal Mask Ogerpon ex(200/210) B:Teal Mask Ogerpon ex(210) B:Fezandipiti ex(210) B:Dipplin(80) B:Chikorita(70) B:Meowth ex(170),,episode-123126922-replay.json
+123129152,57125516,Sayuru Rehan Bopitiya,1,14,KYOGRE,?,,,,A:Mega Abomasnow ex(350/350),episode-123129152-replay.json
+123129153,57125561,EVIG EMIT ตัวปลอม,1,13,KYOGRE,MEOWTH+FEZANDIP,,,A:Munkidori(110/110) B:Dreepy(70) B:Dreepy(70),A:Mega Abomasnow ex(140/350) B:Kyogre(90),episode-123129153-replay.json
+123131394,57125516,Avik Das,0,11,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(150/350),B:Kyogre(150) B:Snover(90),episode-123131394-replay.json
+123131397,57125561,lswuwu,1,18,KYOGRE,LUCARIO,,,B:Solrock(110) B:Lunatone(110) B:Hariyama(150) B:Mega Lucario ex(340),A:Mega Abomasnow ex(10/350),episode-123131397-replay.json
+123133635,57125516,Richard Guo,0,14,KYOGRE,MEOWTH+FEZANDIP,,,A:Dragapult ex(250/320) B:Munkidori(50) B:Fezandipiti ex(210) B:Dragapult ex(300) B:Drakloak(70) B:Drakloak(70),,episode-123133635-replay.json
+123133639,57125561,AByT3s,0,7,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350),A:Snover(90/90),episode-123133639-replay.json
+123135877,57125516,cottonandcolor,0,7,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(340/350) B:Kyogre(150),A:Kyogre(150/150),episode-123135877-replay.json
+123135882,57125561,Riccardo Lo Bianco,0,18,KYOGRE,?,,,B:Snorunt(30) B:Zangoose ex(200),A:Mega Abomasnow ex(350/350),episode-123135882-replay.json
+123138082,57125516,char0n1,1,10,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350),A:Mega Abomasnow ex(350/350),episode-123138082-replay.json
+123138086,57125561,vrmichalski,0,21,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(340/350) B:Mega Abomasnow ex(350),A:Kyogre(150/150),episode-123138086-replay.json
+123140282,57125516,Mitsuaki Inoue,0,13,KYOGRE,FEZANDIP,Abra|Abra,,A:Alakazam(140/140) B:Fezandipiti ex(210) B:Pikipek(70) B:Togepi(50),B:Kyogre(150) B:Kyogre(150),episode-123140282-replay.json
+123140284,57125561,F.A.Nina,0,6,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350),A:Snover(90/90),episode-123140284-replay.json
+123142483,57125516,Julian M,0,35,KYOGRE,?,Crustle,,A:Mega Kangaskhan ex(320/400) B:Mega Kangaskhan ex(300) B:Crustle(150) B:Mega Kangaskhan ex(300) B:Crustle(150) B:Dwebble(70),A:Snover(90/90),episode-123142483-replay.json
+123142484,57125561,thebrownkid,0,39,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350) B:Snover(90),A:Mega Abomasnow ex(350/350) B:Kyogre(150),episode-123142484-replay.json
+123144678,57125561,Ryan Fernandes,0,11,KYOGRE,MEOWTH+FEZANDIP,,,A:Drakloak(90/90) B:Drakloak(90) B:Munkidori(110),A:Kyogre(80/150),episode-123144678-replay.json
+123144679,57125516,boonies,1,12,KYOGRE,MEOWTH+FEZANDIP,,,B:Drakloak(90) B:Dreepy(70) B:Munkidori(110),A:Mega Abomasnow ex(120/350) B:Kyogre(150) B:Snover(30),episode-123144679-replay.json
+123146843,57125516,Wei Hsiang Lin111,0,9,KYOGRE,?,,,A:Banette(80/80) B:Dunsparce(70),,episode-123146843-replay.json
+123146847,57125561,jiazhenchong,1,14,KYOGRE,?,,,,A:Mega Abomasnow ex(280/350) B:Kyogre(150),episode-123146847-replay.json
+123149023,57125516,sha1ng,0,14,KYOGRE,?,,,A:Cinderace(160/160) B:Duraludon(130) B:Cornerstone Mask Ogerpon ex(210),A:Snover(40/90),episode-123149023-replay.json
+123149025,57125561,cottonandcolor,0,7,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(350/350),,episode-123149025-replay.json
+123151303,57125516,Aditya ingale,1,3,KYOGRE,KYOGRE,,,A:Snover(90/90),A:Snover(90/90) B:Snover(90),episode-123151303-replay.json
+123151304,57125561,Pranshul Maithani,1,39,KYOGRE,LUCARIO,,,A:Riolu(80/80),A:Mega Abomasnow ex(350/350) B:Snover(90) B:Kyogre(150),episode-123151304-replay.json
+123151347,57125516,Atharva Naik,1,12,KYOGRE,KYOGRE,,,,A:Mega Abomasnow ex(80/350),episode-123151347-replay.json
+123153530,57125516,MarPez,0,5,KYOGRE,MEOWTH,,,A:Dragapult ex(320/320) B:Meowth ex(170) B:Munkidori(90) B:Drakloak(90) B:Dreepy(70) B:Budew(30),,episode-123153530-replay.json
+123153532,57125561,F.A.Nina,0,10,KYOGRE,KYOGRE,,,A:Kyogre(120/150) B:Mega Abomasnow ex(350) B:Mega Abomasnow ex(350) B:Kyogre(150),A:Snover(10/90),episode-123153532-replay.json
+123155794,57125561,The Prad K,0,9,KYOGRE,KYOGRE,,,A:Kyogre(150/150) B:Mega Abomasnow ex(340) B:Snover(90) B:Kyogre(150) B:Snover(90),A:Snover(90/90),episode-123155794-replay.json
+123155796,57125516,Wei Hsiang Lin111,1,36,KYOGRE,CLEFAIRY,,,A:Dunsparce(70/70) B:Shuppet(50) B:Dunsparce(70),A:Mega Abomasnow ex(290/350),episode-123155796-replay.json
+123158022,57125516,Kim Tae Heon,0,54,KYOGRE,?,,,A:Dipplin(40/80) B:Thwackey(100) B:Thwackey(100) B:Dipplin(80) B:Thwackey(100) B:Seaking(110),,episode-123158022-replay.json
+123158024,57125561,yihui ding123,1,28,KYOGRE,?,,,A:Cornerstone Mask Ogerpon ex(210/210),A:Snover(90/90) B:Snover(90),episode-123158024-replay.json
 123158103,57130754,PeterSharps,0,14,KYOGRE,KYOGRE,,,A:Mega Abomasnow ex(250/350) B:Kyogre(150),,episode-123158103-replay.json
 123158104,57130779,PeterSharps,1,8,KYOGRE,KYOGRE,,,A:Snover(60/90),A:Snover(80/90) B:Snover(90),episode-123158104-replay.json
 123160320,57130779,Raosaheb,0,13,KYOGRE,LUCARIO,,Snover|Snover|Snover,A:Mega Lucario ex(210/340) B:Lunatone(210) B:Lunatone(110) B:Mega Lucario ex(340) B:Hariyama(150) B:Solrock(110),A:Kyogre(150/150),episode-123160320-replay.json
+123160333,57125561,sayidmra,1,22,KYOGRE,?,,,A:Froslass(90/90),A:Mega Abomasnow ex(350/350) B:Kyogre(150) B:Snover(90),episode-123160333-replay.json
 123162652,57130754,Mandavi Singh,0,9,KYOGRE,?,,,A:Staryu(70/70) B:Mega Starmie ex(420),A:Kyogre(100/150),episode-123162652-replay.json
 123162657,57130779,mm bbAlez,1,13,KYOGRE,KYOGRE,,,A:Kyogre(20/150),A:Kyogre(150/150),episode-123162657-replay.json
 123164980,57130754,Somesh Biswas,0,14,KYOGRE,LATIAS+MEOWTH+FEZANDIP,,,A:Dragapult ex(220/320) B:Budew(10) B:Latias ex(210) B:Drakloak(90) B:Drakloak(90) B:Meowth ex(170),,episode-123164980-replay.json
