@@ -431,7 +431,7 @@ fn main() -> Result<()> {
             arch,
             w,
             l,
-            100.0 * f64::from(*w) / f64::from(*n),
+            100.0 * *w as f64 / n as f64,
             if *l > 0 { tsum / *l as f64 } else { 0.0 },
             if *l > 0 { dsum / *l as f64 } else { 0.0 },
             el
