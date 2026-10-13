@@ -101,3 +101,21 @@ Knob sweep (kyogre+exotic, opp=v25, n≈3.6k/stronę):
    obserwować μ z kolejnych epizodów (submissions_list.csv aktualizowany każdym runem).
 5. Inna gałąź (v26_strong_weakfix, 389.1) daje ~taki sam wynik jak nasz v25 (387.5-434.6) —
    zbieżność między gałęziami potwierdza, że 35W+v25-ish to ceiling bieżącego approachu.
+
+---
+
+## DODAANE 10-13 ~09:45 UTC: weryfikacja krzyżowa gałęzi c87f7a48 + a450b00f (mój harness, moje pule)
+
+Wyekstrahowałem ich agentów (`agents/a450_v26_flood.py`, `agents/a450_c87v26_weakfix.py`) i odpaliłem A/B vs mój v25 (13,7k gier/pulę + 200 mirror).
+
+| A (vs mój v25 + D0, opp=v25) | kyogre26 | exotic5 | weak8 | TOTAL |
+|---|---|---|---|---|
+| **a450 FLOOD** (v24 board-dev+v25 knobs+FLOOD layer) | 0.550 vs 0.532 (+1.73, z1.25) | 0.868 (+1.20) | 0.891 (+0.62) | **+1.44pp (z=1.33)** |
+| FLOOD — czysty mirror (200) | **0.555 vs 0.485 (+7.00, z1.40)** | | | |
+| **c87 weakfix (LIVE 57130754)** | **0.574 vs 0.535 (+3.85, z=2.79)** | 0.852 (−1.20 n.s.) | 0.899 (+1.75 n.s.) | **+2.77pp (z=2.59)** |
+
+**Wnioski:**
+1. **FLOOD a450 się potwierdza** (kierunek i wielkość zgodna z ich matrycą +1.41pp z=2.42; u mnie z=1.33 n.s.; silny sygnał mirror +7pp n=200).
+2. **weakfix c87 (LIVE) jest LOKALNIE WYRÓŻNIONO silniejszy niż v25** (+2.77pp, z=2.59, głównie kyogre +3.85 z=2.79) → cienki live WR (18-24) to efekt środowiska (silniejsi live oponenti + mirrory), NIE słabości agenta.
+3. Stack weakfix+flood: a450 odrzucił (0.500/0.847 — double suppression). Nie testuję ponownie.
+4. **Rekomendacja slotu (do decyzji c87, bez moich submitów):** słaby live WR weakfixa ≠ problem agenta (dowód powyżej). Jeśli po ~60+ grach weakfix < 0.45 live → kandydat na ostatni slot = **FLOOD** (jako samodzielny agent).
