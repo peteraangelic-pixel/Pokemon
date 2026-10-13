@@ -3,20 +3,21 @@
     "1",
     "2",
     "3",
-    "4"
+    "4",
+    "5"
   ],
-  "teams": 47,
-  "teams_with_full_quota_selected": 47,
+  "teams": 51,
+  "teams_with_full_quota_selected": 51,
   "teams_with_full_quota_obtained": 0,
-  "selected_rows": 333,
-  "unique_episodes": 292,
+  "selected_rows": 361,
+  "unique_episodes": 316,
   "obtained_rows": 0,
   "status_counts": {
-    "pending_429": 39,
-    "failed_429": 4,
+    "pending_429": 63,
+    "failed_429": 8,
     "selected": 290
   },
-  "extract_rows": 333,
+  "extract_rows": 361,
   "deck_files": 0,
   "decks_copied": 0,
   "deck_conflicts": 0
