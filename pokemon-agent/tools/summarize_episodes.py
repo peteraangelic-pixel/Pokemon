@@ -25,7 +25,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 try:
     from gauntlet_ffi import CARD_NAMES  # local names if available
-except Exception:  # noqa: BLE001
+except BaseException:  # noqa: BLE001  (gauntlet_ffi may SystemExit when libcg.so is absent)
     CARD_NAMES = {}
 
 C = None

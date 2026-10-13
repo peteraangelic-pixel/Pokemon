@@ -53,7 +53,17 @@ def _find_lib() -> Path:
             return c
     raise SystemExit("libcg.so not found — `bash setup.sh` or `pip install kaggle-environments`")
 
-LIB = _find_lib()
+_LIB_CACHE = None
+
+def __getattr__(name):
+    # lazy: importing this module must NOT require libcg.so (tools like
+    # summarize_episodes.py only use CARD_NAMES and die on a SystemExit here)
+    if name == "LIB":
+        global _LIB_CACHE
+        if _LIB_CACHE is None:
+            _LIB_CACHE = _find_lib()
+        return _LIB_CACHE
+    raise AttributeError(name)
 
 class StartData(ctypes.Structure):
     _fields_ = [("battlePtr", ctypes.c_void_p), ("errorPlayer", ctypes.c_int), ("errorType", ctypes.c_int)]
