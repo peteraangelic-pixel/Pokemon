@@ -1,0 +1,1010 @@
+=== Downloading top 50 teams, 7 replays each, subs-per-team=8 ===
+Competition: the-pokemon-company-ptcg-ai-battle-challenge-playground
+Outdir: pokemon-agent/kaggle_results/top50_live
+
+1. Downloading leaderboard...
+  Leaderboard: 348 teams
+
+Top 50 teams:
+  1. やる気元気ミワハルキ 2nd ver. (id=17014244) score=1353.2
+  2. ANMOL GARG (id=17029228) score=1197.4
+  3. YumeNeko (id=17012386) score=1182.9
+  4. バーベナヘレナでコンボ決めたい連合 (id=16994149) score=1180.1
+  5. Darren Sheehan (id=17003892) score=1166.6
+  6. agent_pokemon (id=17080215) score=1155.8
+  7. Majiro_ns (id=17055992) score=1149.8
+  8. Kentaro Totsuka (id=16991525) score=1142.1
+  9. sue124 (id=16982182) score=1137.0
+  10. choqui62 (id=17024180) score=1114.1
+  11. Charles Backman On LinkedIn (id=16993626) score=1106.7
+  12. Akmal Xodarev (Busya PRIME) (id=17043084) score=1103.7
+  13. Zedan Soorya (id=17058599) score=1102.3
+  14. Bill Vlasak (id=17071115) score=1085.7
+  15. Leon Liu (id=16986055) score=1081.2
+  16. kleber@1703 (id=17090711) score=1070.0
+  17. Raja Biswas (id=16986029) score=1063.5
+  18. Cristobal Tudela (id=17062195) score=1055.2
+  19. No Free MIST Energy (id=16981808) score=1053.7
+  20. pao (id=16981607) score=1053.2
+  21. Xinyu Li (id=17032277) score=1053.1
+  22. Prime Directive (id=17032923) score=1050.9
+  23. Mathurin Ache (id=16983339) score=1041.9
+  24. OceanMix (id=17022603) score=1040.7
+  25. Tys TANA (id=17013846) score=1040.3
+  26. yu_kuo14 (id=17035823) score=1040.2
+  27. Stephen Schott (id=16981890) score=1040.0
+  28. zicong Cao (id=17060722) score=1035.1
+  29. Dariush Afshar (id=17074836) score=1027.7
+  30. dajun666 (id=17029072) score=1026.5
+  31. Chonghao Peng (id=16994022) score=1026.2
+  32. Mengfei Li (id=17032131) score=1023.1
+  33. EkremKutukculer (id=17077105) score=1019.9
+  34. JerryChen (id=16994281) score=1019.0
+  35. Colton Martin (id=17044570) score=1015.2
+  36. Briano (id=17010375) score=1014.0
+  37. hotaq (id=17054080) score=1012.6
+  38. Aditya Goyal (id=16993925) score=1002.6
+  39. Mathieu W (id=17055574) score=1002.6
+  40. Abhinav Sai Podugu (id=17013311) score=1000.5
+  41. Belati Jagad Bintang Syuhada (id=16981780) score=993.2
+  42. Revue (id=16992901) score=989.1
+  43. kimchikingdom (id=17027458) score=980.5
+  44. YOUKE144 (id=17073677) score=973.0
+  45. match051 (id=16988136) score=968.6
+  46. Ricardo Paizinho (id=17010382) score=968.2
+  47. Raihan Ramadistra (id=16981951) score=965.8
+  48. Phoenix (id=17020744) score=962.7
+  49. Adisak Sukul (id=17015576) score=962.6
+  50. Addison Howard (id=16954827) score=958.9
+
+1. やる気元気ミワハルキ 2nd ver. (team_id=17014244) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57069405 — listing episodes...
+      Found 213 episodes; team selected so far 0/7
+        Failed 123557002: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542864: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526762: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511502: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123509563: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507684: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123496164: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+2. ANMOL GARG (team_id=17029228) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57054219 — listing episodes...
+      Found 284 episodes; team selected so far 0/7
+        Failed 123554730: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538234: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538233: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524450: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522170: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511480: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123498092: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+3. YumeNeko (team_id=17012386) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56916041 — listing episodes...
+      Found 571 episodes; team selected so far 0/7
+        Failed 123559200: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545239: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535849: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533605: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531332: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515329: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123505694: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+4. バーベナヘレナでコンボ決めたい連合 (team_id=16994149) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57139776 — listing episodes...
+      Found 85 episodes; team selected so far 0/7
+        Failed 123556991: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542847: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540531: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538184: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535886: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535858: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533594: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+5. Darren Sheehan (team_id=17003892) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57145542 — listing episodes...
+      Found 68 episodes; team selected so far 0/7
+        Failed 123550133: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547654: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545251: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542858: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540474: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538190: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538187: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+6. agent_pokemon (team_id=17080215) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57062974 — listing episodes...
+      Found 282 episodes; team selected so far 0/7
+        Failed 123561444: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554744: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538248: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524481: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513449: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123501922: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123488408: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+7. Majiro_ns (team_id=17055992) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57120297 — listing episodes...
+      Found 125 episodes; team selected so far 0/7
+        Failed 123561433: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561445: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545290: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538228: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522190: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123509549: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123496175: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+8. Kentaro Totsuka (team_id=16991525) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57138158 — listing episodes...
+      Found 83 episodes; team selected so far 0/7
+        Failed 123552424: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542864: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540482: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524487: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522170: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507685: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507661: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+9. sue124 (team_id=16982182) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57121964 — listing episodes...
+      Found 122 episodes; team selected so far 0/7
+        Failed 123559222: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547623: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538199: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522153: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517434: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123505730: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123498044: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+10. choqui62 (team_id=17024180) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57108004 — listing episodes...
+      Found 162 episodes; team selected so far 0/7
+        Failed 123556997: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542859: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533607: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517456: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123503851: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123496175: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123494263: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+11. Charles Backman On LinkedIn (team_id=16993626) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57116497 — listing episodes...
+      Found 133 episodes; team selected so far 0/7
+        Failed 123561453: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545311: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542866: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526762: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519863: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507638: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123494233: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+12. Akmal Xodarev (Busya PRIME) (team_id=17043084) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57073692 — listing episodes...
+      Found 243 episodes; team selected so far 0/7
+        Failed 123559172: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547665: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542866: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533632: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517482: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511481: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123498091: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+13. Zedan Soorya (team_id=17058599) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57071580 — listing episodes...
+      Found 272 episodes; team selected so far 0/7
+        Failed 123561445: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545302: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531320: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515319: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123501955: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123501914: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123490313: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+14. Bill Vlasak (team_id=17071115) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57113103 — listing episodes...
+      Found 138 episodes; team selected so far 0/7
+        Failed 123563663: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123563664: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552478: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550149: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540531: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526747: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517456: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+15. Leon Liu (team_id=16986055) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56719905 — listing episodes...
+      Found 1000 episodes; team selected so far 0/7
+        Failed 123554727: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554744: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538234: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526792: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526747: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511485: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507641: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+16. kleber@1703 (team_id=17090711) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57125577 — listing episodes...
+      Found 115 episodes; team selected so far 0/7
+        Failed 123561426: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556955: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547629: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529033: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531340: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529038: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526723: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+17. Raja Biswas (team_id=16986029) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57011757 — listing episodes...
+      Found 404 episodes; team selected so far 0/7
+        Failed 123563679: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547668: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538197: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522152: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522115: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507669: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123494205: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+18. Cristobal Tudela (team_id=17062195) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57148106 — listing episodes...
+      Found 45 episodes; team selected so far 0/7
+        Failed 123563664: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561426: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559163: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556955: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554717: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552431: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550126: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+19. No Free MIST Energy (team_id=16981808) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57127108 — listing episodes...
+      Found 105 episodes; team selected so far 0/7
+        Failed 123563708: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550165: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535869: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533581: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526792: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513373: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513392: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+20. pao (team_id=16981607) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57100599 — listing episodes...
+      Found 180 episodes; team selected so far 0/7
+        Failed 123557026: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545279: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531288: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519816: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515343: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511443: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123509552: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+21. Xinyu Li (team_id=17032277) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57063732 — listing episodes...
+      Found 256 episodes; team selected so far 0/7
+        Failed 123554732: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538237: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531333: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519812: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519862: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517446: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507686: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+22. Prime Directive (team_id=17032923) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57138752 — listing episodes...
+      Found 80 episodes; team selected so far 0/7
+        Failed 123561478: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547639: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545303: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533597: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524493: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522177: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123509528: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+23. Mathurin Ache (team_id=16983339) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57097764 — listing episodes...
+      Found 183 episodes; team selected so far 0/7
+        Failed 123561453: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550156: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550167: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550118: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533655: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519817: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123505731: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+24. OceanMix (team_id=17022603) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56841327 — listing episodes...
+      Found 781 episodes; team selected so far 0/7
+        Failed 123561490: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547654: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535856: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529041: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515325: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123505760: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123494201: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+25. Tys TANA (team_id=17013846) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57091788 — listing episodes...
+      Found 187 episodes; team selected so far 0/7
+        Failed 123554720: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547628: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531340: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515335: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123503799: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123501893: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123496163: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+26. yu_kuo14 (team_id=17035823) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57070757 — listing episodes...
+      Found 256 episodes; team selected so far 0/7
+        Failed 123565888: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123563703: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552418: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545253: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533630: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529068: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529048: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+27. Stephen Schott (team_id=16981890) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57151776 — listing episodes...
+      Found 7 episodes; team selected so far 0/7
+        Failed 123565870: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123563648: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561425: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561406: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561448: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559148: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554784: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+28. zicong Cao (team_id=17060722) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57014318 — listing episodes...
+      Found 395 episodes; team selected so far 0/7
+        Failed 123559173: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559212: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545261: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529040: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513434: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511456: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507605: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+29. Dariush Afshar (team_id=17074836) — fetching submissions...
+  Found 1 submissions, mining latest 1; quota=7/team
+    Submission 57035621 — listing episodes...
+      Found 337 episodes; team selected so far 0/7
+        Failed 123563705: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561478: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554733: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538237: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524466: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517441: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511522: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+30. dajun666 (team_id=17029072) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56941572 — listing episodes...
+      Found 488 episodes; team selected so far 0/7
+        Failed 123561451: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545311: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531328: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515325: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123501965: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123498110: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123486454: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+31. Chonghao Peng (team_id=16994022) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57147399 — listing episodes...
+      Found 55 episodes; team selected so far 0/7
+        Failed 123563665: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123565888: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561427: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559198: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559167: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556958: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554712: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+32. Mengfei Li (team_id=17032131) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57087514 — listing episodes...
+      Found 221 episodes; team selected so far 0/7
+        Failed 123563705: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123563700: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550138: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538203: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522154: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507670: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123501928: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+33. EkremKutukculer (team_id=17077105) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57045700 — listing episodes...
+      Found 323 episodes; team selected so far 0/7
+        Failed 123554717: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552485: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542894: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529002: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524495: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522116: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522125: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+34. JerryChen (team_id=16994281) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57094923 — listing episodes...
+      Found 195 episodes; team selected so far 0/7
+        Failed 123559173: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559157: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542898: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538201: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531347: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519824: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515334: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+35. Colton Martin (team_id=17044570) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56969818 — listing episodes...
+      Found 451 episodes; team selected so far 0/7
+        Failed 123554733: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547601: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542858: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540473: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531328: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519819: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513449: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+36. Briano (team_id=17010375) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56994799 — listing episodes...
+      Found 432 episodes; team selected so far 0/7
+        Failed 123554749: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540521: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526736: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519809: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515349: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513385: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123505703: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+37. hotaq (team_id=17054080) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57069341 — listing episodes...
+      Found 274 episodes; team selected so far 0/7
+        Failed 123561442: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545299: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531345: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517478: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517455: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515273: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515352: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+38. Aditya Goyal (team_id=16993925) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57052894 — listing episodes...
+      Found 303 episodes; team selected so far 0/7
+        Failed 123561451: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556983: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540530: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535903: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519867: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507639: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123494236: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+39. Mathieu W (team_id=17055574) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57118410 — listing episodes...
+      Found 128 episodes; team selected so far 0/7
+        Failed 123559154: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123557000: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542861: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535862: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531351: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123517411: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123507627: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+40. Abhinav Sai Podugu (team_id=17013311) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57144419 — listing episodes...
+      Found 73 episodes; team selected so far 0/7
+        Failed 123563683: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547628: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547668: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533597: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531314: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531365: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123526738: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+41. Belati Jagad Bintang Syuhada (team_id=16981780) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56847110 — listing episodes...
+      Found 719 episodes; team selected so far 0/7
+        Failed 123556988: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542843: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540471: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540497: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524508: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511441: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123500019: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+42. Revue (team_id=16992901) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56715642 — listing episodes...
+      Found 1000 episodes; team selected so far 0/7
+        Failed 123556950: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554750: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554764: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540487: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540474: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524493: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123509580: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+43. kimchikingdom (team_id=17027458) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57148180 — listing episodes...
+      Found 44 episodes; team selected so far 0/7
+        Failed 123565881: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123563657: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561417: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559157: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556950: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554708: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552422: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+44. YOUKE144 (team_id=17073677) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57124631 — listing episodes...
+      Found 116 episodes; team selected so far 0/7
+        Failed 123559195: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545229: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542898: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529009: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123519815: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123509533: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123501946: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+45. match051 (team_id=16988136) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56862612 — listing episodes...
+      Found 684 episodes; team selected so far 0/7
+        Failed 123565870: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554696: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552412: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552490: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538210: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123531316: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123515312: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+46. Ricardo Paizinho (team_id=17010382) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57114757 — listing episodes...
+      Found 137 episodes; team selected so far 0/7
+        Failed 123554740: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538243: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535922: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522131: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513372: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123511479: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123505771: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+47. Raihan Ramadistra (team_id=16981951) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57045509 — listing episodes...
+      Found 303 episodes; team selected so far 0/7
+        Failed 123561463: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556991: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556988: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123545234: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123540460: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123538217: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123522173: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+48. Phoenix (team_id=17020744) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57075464 — listing episodes...
+      Found 236 episodes; team selected so far 0/7
+        Failed 123559176: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123542902: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123529013: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123513409: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123500021: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123488445: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123474881: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+49. Adisak Sukul (team_id=17015576) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57149709 — listing episodes...
+      Found 23 episodes; team selected so far 0/7
+        Failed 123563650: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123561409: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559149: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123556940: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123554696: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123552412: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123550109: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+50. Addison Howard (team_id=16954827) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56920693 — listing episodes...
+      Found 583 episodes; team selected so far 0/7
+        Failed 123565890: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123559195: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123547608: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123535922: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533600: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123533616: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+        Failed 123524467: rc=1 file=None err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+
+Done. Selected 350 rows (304 unique episodes) for top 50; teams_with_quota=50, new=0, reused=0, failed=350.
