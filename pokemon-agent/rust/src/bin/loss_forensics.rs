@@ -146,7 +146,7 @@ fn analyze(path: &Path) -> Option<Ep> {
     let mut turn_ko_taken = 0usize;
     let mut we_retreated = false;
 
-    let mut pending = None; // Option<TurnRow> for the turn in progress
+    let mut pending: Option<TurnRow> = None; // for the turn in progress
     for step in steps {
         let step_arr = match step.as_array() {
             Some(a) => a,
