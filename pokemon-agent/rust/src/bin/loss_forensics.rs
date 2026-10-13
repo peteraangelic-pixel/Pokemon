@@ -161,10 +161,10 @@ fn analyze(path: &Path) -> Option<Ep> {
                 Some(x) if x.is_object() => x,
                 _ => continue,
             };
-            let turn = get_u32(cur, "turn");
-            if turn == 0 {
-                continue;
-            }
+            let turn = match get_u32(cur, "turn") {
+                Some(t) if t > 0 => t,
+                _ => continue,
+            };
             let players = match cur.get("players").and_then(|x| x.as_array()) {
                 Some(p) if p.len() == 2 => p,
                 _ => continue,
@@ -431,7 +431,7 @@ fn main() -> Result<()> {
             arch,
             w,
             l,
-            100.0 * w as f64 / n as f64,
+            100.0 * f64::from(*w) / f64::from(*n),
             if *l > 0 { tsum / *l as f64 } else { 0.0 },
             if *l > 0 { dsum / *l as f64 } else { 0.0 },
             el
