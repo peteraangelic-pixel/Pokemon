@@ -1233,3 +1233,32 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - `decks/v22_35w_ub2.csv` (35W zachowane, −1 Signal −1 Pad +2 Ultra Ball): weakfix **−0.20pp**, swarm **−0.58pp** na meta1012 3450g/arm → **ODRZUCONE**; talia zostaje 35W-noBoss.
 
 ### Bundle: `bundles/ptcg_v29_swarm_35w.tar.gz` (95,795 B, smoke OK, deck.csv=35W md5 4c33456d) — **GOTOWY, NIE WYSŁANY**. Czeka na decyzję usera o ostatnim slocie (reset 00:00 UTC 14.10): v28b (c87f) vs v29swarm vs powstrzymanie slotu.
+
+---
+
+## 2026-10-13 ~11:45 UTC — c87f v30 (e2443df) zweryfikowany: mirror-specialist i swarm-bench to MARTWY KOD; duel vs mój v29 = dead heat niszowy
+
+**Pochodzenie:** c87f7a48 wypchnął `e2443df` "v30 SWARM = v29 + a450 ATTACK-est fix + bench-as-resource" (09:42 UTC; linia 457b0fa → 2f293ba v29 mirrorSpecialist → e2443df). Uwaga: commit NIE był widoczny pod refem gałęzi przez ~1h (obiekty na serwerze, ref stał na 457b0fa; ls-remote pokazał e2443df dopiero potem). Import: `agents/c87_v30.py` md5 e78e6951 = obiekt na origin.
+
+**Co jest ŻYWE w v30 (diff vs c87_v28b):**
+1. Mój S3 attack-est (skopiowany 1:1: est×4 + wr ±30, KO+300, mill −500) — DZIAŁA.
+2. FAST_EX_V30 = te same 13 hardcode'ów co v28 (auto-detekcji NIE zaadoptowali).
+3. Band v28 (bench 400/60/40, KO 60/30, mirror guard ≤15/20/25) — zostaje.
+
+**Co jest MARTWE (konstanty z 1 wystąpieniem = sama definicja, zero wywołań):** SWARM_BENCH_TARGET/HOT/WARM/THREAT (mój S1), MILL_HAMMER_MIN_V29/MILL_RIPTIDE_MIN_V29/MIRROR_NO_TRADE_TURNS_V29 (specialista 8560). **Commit message v30 opisuje zachowania, których kod nie wykonuje.** Ich testy 20g (+1.7pp) mierzyły efektywnie "v28 + mój S3".
+
+**Wyniki (FFI paired, talia 35W-noBoss):**
+| test | n/arm | S29_A450 vs weakfix | C87_V30 vs weakfix |
+|---|---|---|---|
+| 3-pool run1 (kyogre26+exotic5+top30) | 2700 | −0.22pp z−0.18 | +0.63pp z+0.50 |
+| 3-pool run2 (to samo, świeży) | 2700 | +0.07pp z+0.06 | +1.11pp z+0.89 |
+| meta1012 run1 | 3450 | **+1.04pp** z+0.92 | **−0.61pp** z−0.54 |
+| meta1012 run2 | 3450 | 0.6748 (kontrola) | **−0.70pp** z−0.62 |
+| top30_live (2 biegi) | 1150 | +0.5 / −0.4 | +1.2 / +2.0 |
+| kyogre_pool (vs weakfix) | 1300 | ≈0 | ≈0 |
+
+**Direct duel mirror (300g, symetria miejsc, 35W vs 35W):** V30 **0.567** vs S29 0.433 (z≈2.3) — v30 realnie lepszy NA MIRRORZE (z bandów v28, nie z martwego specialistu). v30 self-mirror 0.475 OK (empty-bench deaths 90% — bez zmiany, ich bench-as-resource martwy).
+
+**Synteza obrazu:** V30 = nisza mirror+top30exotics (plus, ale kosztem meta broad −0.6/−0.7); S29 = meta broad +1.0/0.8/0.4 (3/3 dodatnie) + top30 ≈0; pooled oba ≈+0.4-0.6pp z<1 — **dead heat ogółem,互补 nisze**. Naturalny kandydat na kolejny krok: **v31 = V30 + S1/S2 właściwie podpięte** (naprawa ich martwego kodu) — łączyłby mirror-v30 z bench-swarmem; do zbudowania i testu na żądanie.
+
+**Decyzja o slocie (reset 00:00 UTC) bez zmian — opcje: v28b / v29swarm / v30 / nic; NIC nie wysłano.**
