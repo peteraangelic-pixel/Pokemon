@@ -1,0 +1,41 @@
+{
+  "game_id": "sc25-635fd71a",
+  "agent_name": "duck-harness",
+  "status": "gave_up",
+  "pass_index": 0,
+  "pass_label": "0",
+  "eventCount": 371,
+  "lastEvent": {
+    "score": 4,
+    "state": "NOT_FINISHED",
+    "level": 5,
+    "run_status": "playing",
+    "type": "action",
+    "title": "Action 285",
+    "action_num": 285,
+    "analysis_step": 74,
+    "action_name": "ACTION1",
+    "action_display": "UP",
+    "reward": 0.0,
+    "board_changed": false,
+    "done": false,
+    "level_completed": false,
+    "game_over": false,
+    "run_complete": false,
+    "batch_index": 1,
+    "batch_size": 1
+  },
+  "viewer_steps": [],
+  "replay_url": "solver_analysis/sc25-635fd71a_p0.html",
+  "levels_completed": 4,
+  "total_levels": 6,
+  "actions_per_level": [
+    85,
+    10,
+    29,
+    69,
+    92,
+    0
+  ],
+  "final_score": 42.61608172680837
+}

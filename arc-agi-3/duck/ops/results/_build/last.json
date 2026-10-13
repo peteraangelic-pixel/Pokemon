@@ -1,12 +1,19 @@
 {
-  "env": {},
-  "git": "08e33ace7a32",
-  "name": "t1-spec4",
-  "patch_files": [],
-  "patches": [],
-  "server_cfg": {
-    "SPEC_STEPS": 4
+  "env": {
+    "ARC3_WORLD_MODEL": "1",
+    "ARC3_WORLD_MODEL_NUDGE": "1",
+    "ARC3_WORLD_MODEL_NUDGE_TOKENS": "60000"
   },
+  "git": "82f20336a396",
+  "name": "v5-world-model-stuck",
+  "patch_files": [
+    "/kaggle/duck-extra-00.patch",
+    "/kaggle/duck-extra-01.patch"
+  ],
+  "patches": [
+    "0001-level-notes-audit-experiment-hint.patch",
+    "0002-executable-world-model.patch"
+  ],
   "smoke": {
     "games": [
       "cn04",
@@ -20,6 +27,6 @@
       "su15",
       "tn36"
     ],
-    "minutes": 20
+    "minutes": 48
   }
 }

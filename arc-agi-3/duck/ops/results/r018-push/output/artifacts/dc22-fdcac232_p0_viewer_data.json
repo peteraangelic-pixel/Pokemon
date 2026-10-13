@@ -1,0 +1,41 @@
+{
+  "game_id": "dc22-fdcac232",
+  "agent_name": "duck-harness",
+  "status": "gave_up",
+  "pass_index": 0,
+  "pass_label": "0",
+  "eventCount": 384,
+  "lastEvent": {
+    "score": 4,
+    "state": "NOT_FINISHED",
+    "level": 5,
+    "run_status": "playing",
+    "type": "action",
+    "title": "Action 304",
+    "action_num": 304,
+    "analysis_step": 65,
+    "action_name": "ACTION6",
+    "action_display": "MOUSE(row=41, col=52)",
+    "reward": 0.0,
+    "board_changed": true,
+    "done": false,
+    "level_completed": false,
+    "game_over": false,
+    "run_complete": false,
+    "batch_index": 1,
+    "batch_size": 1
+  },
+  "viewer_steps": [],
+  "replay_url": "solver_analysis/dc22-fdcac232_p0.html",
+  "levels_completed": 4,
+  "total_levels": 6,
+  "actions_per_level": [
+    58,
+    61,
+    91,
+    93,
+    1,
+    0
+  ],
+  "final_score": 44.774773566507434
+}
