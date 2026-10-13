@@ -1,0 +1,64 @@
+name: deck-search
+
+# FAZA 1 deck-CONCEPT search: population-genetics mutations around the two
+# doctrines (control 35W-noBoss mutations + Lucario-family mutations),
+# scored with our agent in-process vs meta1012-subsample + exotic_gate.
+# 5 independent seeds per run for honest top-K aggregation.
+
+on:
+  push:
+    branches: ["arena/a450b00f-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/deck_search.trigger"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [11, 23, 37, 51, 67]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet kaggle-environments
+
+      - name: Concept search (seed ${{ matrix.seed }})
+        run: |
+          set -e
+          cd pokemon-agent
+          mkdir -p search_results
+          .venv/bin/python tools/deck_concept_search.py             --agent agents/c87_v26_weakfix.py             --trials 60 --games 3 --seed-seed ${{ matrix.seed }}             --meta-sub 24             --out search_results/f1_seed${{ matrix.seed }}.json
+
+      - name: Commit results (rebase-retry)
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && break || sleep $((i*10))
+          done
+          git add -f pokemon-agent/search_results/ || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "deck-search: seed ${{ matrix.seed }} [skip ci]"
+            for i in 1 2 3; do
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break || { sleep $((i*5)); git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true; }
+            done
+          fi
