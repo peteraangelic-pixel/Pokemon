@@ -1,8 +1,16 @@
 [package]
-name = "arc3-simulator"
+name = "arc3_simulator"
 version = "0.1.0"
 edition = "2021"
 authors = ["Arena Agent"]
+
+[lib]
+name = "arc3_simulator"
+path = "src/lib.rs"
+
+[[bin]]
+name = "arc3_simulator"
+path = "src/main.rs"
 
 [dependencies]
 rayon = "1.10"
