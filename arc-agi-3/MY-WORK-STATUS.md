@@ -20,8 +20,11 @@
 ### 3. Zgłoszenie z atrapą (postmortem 11 X) ⚠️
 - Zgłoszenie 57075036 oceniono na `placeholder` (score 0.0)
 - Notebook zapisał atrapę w fazie "save", a prawdziwa gra wymaga `KAGGLE_IS_COMPETITION_RERUN`
-- **Nieustalone:** dlaczego ocena poszła z atrapy
-- Do wyjaśnienia przed kolejnym zgłoszeniem
+- **Przyczyna:** API `kaggle competitions submit` bierze istniejące wyjście notebooka, nie uruchamia gry
+- Prawdziwe zgłoszenie wymaga kliknięcia "Submit to Competition" w UI
+- **Zabezpieczenie (13 X):** `baseline/scripts/check_submission.py` + testy odrzuca atrapę
+- `make check-output` pobiera wyjście i waliduje je przed zgłoszeniem
+- **Nieustalone:** czy tryb rerun w ogóle działa end-to-end (brak dostępu do Kaggle z sandboxa)
 
 ### 4. Sprzęt lokalny (poprawione)
 - Użytkownik: GPU 8 GB VRAM + RAM 64 GB
@@ -121,9 +124,10 @@ Dwie zmiany które mogą pomóc z problemem (a):
 - Rust pomoże tylko jeśli (c) okaże się częstsze niż myślimy
 
 ### Następne kroki (z FINDINGS-2026-10-13.md):
-1. Wyjaśnić, dlaczego rerun nie zagrał (postmortem), i uszczelnić notebook tak, żeby atrapa nie mogła wyglądać jak wynik
-2. ✅ Poprawić README `llm-agent` (usunięte błędne "MIT")
-3. Lokalny smoke test agenta z modelem 7-8B (po stronie użytkownika z GPU)
+1. ✅ Poprawić README `llm-agent` (usunięte błędne "MIT")
+2. ✅ check_submission.py + testy + make check-output (z commitu cbce83d)
+3. Zweryfikować end-to-end tryb rerun na Kaggle (nie mamy dostępu z sandboxa)
+4. Lokalny smoke test agenta z modelem ~17GB (po stronie użytkownika z GPU + LM Studio)
 
 ---
 
