@@ -35,6 +35,7 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import re
 import copy
 import hashlib
 import json
@@ -317,6 +318,21 @@ def build(variant_name: str) -> Path:
     t = src(cells[i_run])
     t = replace_once(t, SMOKE_FILTER_OLD, SMOKE_FILTER_NEW)
     set_src(cells[i_run], t)
+
+    # -- server launcher CFG overrides (both modes): {"SPEC_STEPS": 4, ...}
+    server_cfg = variant.get("server_cfg") or {}
+    if server_cfg:
+        i_srv = find_cell(cells, "CFG = dict(")
+        t = src(cells[i_srv])
+        head, rest = t.split("CFG = dict(", 1)
+        body, tail = rest.split("\n)\n", 1)
+        for key, value in server_cfg.items():
+            pat = re.compile(r"^(    " + re.escape(key) + r"=)(.*?),\s*(#.*)?$", re.M)
+            if len(pat.findall(body)) != 1:
+                raise SystemExit(f"build: server_cfg key {key} not found exactly once in CFG")
+            body = pat.sub(lambda m: m.group(1) + repr(value) + ",", body)
+        set_src(cells[i_srv], head + "CFG = dict(" + body + "\n)\n" + tail)
+        banner["server_cfg"] = server_cfg
 
     # -- assemble
     i_patch = find_cell(cells, "%%writefile /kaggle/harness-changes.patch")

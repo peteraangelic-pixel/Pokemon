@@ -1,0 +1,8 @@
+{
+  "name": "t1-spec4",
+  "description": "Throughput probe: SPEC_STEPS 3 -> 4 (MTP draft tokens 4 -> 5). Franzen agent unchanged. 20-minute save run; readout = SGLang decode throughput per 10-min window vs r007/r014 baselines (757-772 tok/s in 0-20 min, noise ~2%).",
+  "env": {},
+  "patches": [],
+  "server_cfg": {"SPEC_STEPS": 4},
+  "smoke": {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 20}
+}
