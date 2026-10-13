@@ -119,3 +119,30 @@ Wyekstrahowałem ich agentów (`agents/a450_v26_flood.py`, `agents/a450_c87v26_w
 2. **weakfix c87 (LIVE) jest LOKALNIE WYRÓŻNIONO silniejszy niż v25** (+2.77pp, z=2.59, głównie kyogre +3.85 z=2.79) → cienki live WR (18-24) to efekt środowiska (silniejsi live oponenti + mirrory), NIE słabości agenta.
 3. Stack weakfix+flood: a450 odrzucił (0.500/0.847 — double suppression). Nie testuję ponownie.
 4. **Rekomendacja slotu (do decyzji c87, bez moich submitów):** słaby live WR weakfixa ≠ problem agenta (dowód powyżej). Jeśli po ~60+ grach weakfix < 0.45 live → kandydat na ostatni slot = **FLOOD** (jako samodzielny agent).
+
+## DODAANE 10-13 ~10:15 UTC: weryfikacja c87f7a48 v27/v28 (bench400 fastZacian)
+
+c87 (tip 457b0fa) przeanalizowała 249 epizodów / 142 strat live (loss_snapshots.jsonl) i zbudowała v27/v28.
+
+**Nowe live (COMPLETE n~50/submisja):** v26weakfix **410.9** (49ep 0.469; vs KYOGRE 0.48, vs ? 0.29, vs LUCARIO 0.50) > v25knobs **408.1** (48ep 0.417; vs KYOGRE 0.54, vs ? 0.22, vs LUCARIO 0.14) > v25old 387.5 > v22b 328.1.
+
+**Ich root cause #1 (zawsze weryfikowany przeze mnie niezależnie):** puste board przy stracie:
+- v26weakfix: **61%** strat z pustym board, **42%** przy T≤12 (vs 39-41% / 28-33% w starszych wersjach)
+- przyczyna: bonus bench 360/350/335 < alternatyw supporter+gust → agent nie zapełnia benchu, dostaje KO, nie ma rezerwy.
+- inne przyczyny: Snover 90HP lead vs fast-ex (jednostrzał), nowe ?-archetypy NIE w FAST_EX (Zacian ex 220/230, Duraludon 130 x3, Hydrapple 330, Mega Starmie 330→420, Genesect 220, Zangoose 200), mirror deckout guard za późno, low-HP KO niedopriorytetyzowane.
+
+**Ich v28 (mój diff):** KO 50/20→60/30; bench 360/350/335→400/380-400/360-380; mirror guard ≤10/15/20→≤15/20/25; FAST_EX +6 id (336,299,169,839,992,1002).
+
+**Moja weryfikacja (A/B vs ich weakfix, 10k+ gier/pulę):**
+| pulę | v28 | weakfix | Δ |
+|---|---|---|---|
+| newarch_pool (10) | 0.876 | 0.879 | −0.30pp n.s. |
+| kyogre26+exotic5+weak8 | 0.649 | 0.645 | −0.41pp n.s. |
+| mirror vs mój v25 (200) | 0.485 | 0.470 | +1.50pp n.s. |
+
+→ **v28 lokalnie neutralny** (zgodne z ich własnym "weighted 0.711 vs 0.715 close"), ALE修的ka naprawia **zweryfikowany dziura live** (61% pustych boardów + ?-archetypy 0.22-0.29 WR) której moja pula nie karze tak mocno (brak Zacian/Duraludon/Hydrapple w testach).
+
+**Status ostatniego slotu (4/5 spalone, ja tylko doradzam):**
+- kandydat A = c87 v28: lokalnie neutralny, naprawia dziurę live, mały risk (górna granica ≈ weakfix już live).
+- kandydat B = a450 FLOOD: +1.44pp (z=1.33) moje pule / +1.41pp (z=2.42) ich matryca; +7pp mirror.
+- head-to-head v28 vs FLOOD: w toku.
