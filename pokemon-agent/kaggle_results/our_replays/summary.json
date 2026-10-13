@@ -1,12 +1,12 @@
 {
-  "fetched_utc": "2026-10-13T04:57:18.086652+00:00",
+  "fetched_utc": "2026-10-13T05:03:00.505825+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 19,
-  "episodes_listed": 6,
-  "replays_downloaded": 6,
+  "episodes_listed": 10,
+  "replays_downloaded": 10,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 6,
+  "total_json_on_disk": 10,
   "sample_analysis": [
     {
       "file": "episode-123160320-replay.json",
@@ -65,6 +65,20 @@
       "steps": 139
     },
     {
+      "file": "episode-123167323-replay.json",
+      "episodeId": 123167323,
+      "teamNames": [
+        "PeterSharps",
+        "Pham Quang Nghia"
+      ],
+      "winner": "Pham Quang Nghia",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 58
+    },
+    {
       "file": "episode-123158104-replay.json",
       "episodeId": 123158104,
       "teamNames": [
@@ -91,6 +105,48 @@
         -1
       ],
       "steps": 100
+    },
+    {
+      "file": "episode-123167241-replay.json",
+      "episodeId": 123167241,
+      "teamNames": [
+        "PeterSharps",
+        "Sayuru Rehan Bopitiya"
+      ],
+      "winner": "Sayuru Rehan Bopitiya",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 75
+    },
+    {
+      "file": "episode-123167244-replay.json",
+      "episodeId": 123167244,
+      "teamNames": [
+        "Chen Kuan-Chin",
+        "PeterSharps"
+      ],
+      "winner": "Chen Kuan-Chin",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 258
+    },
+    {
+      "file": "episode-123164986-replay.json",
+      "episodeId": 123164986,
+      "teamNames": [
+        "PeterSharps",
+        "(ノ◡ <)"
+      ],
+      "winner": "(ノ◡ <)",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 57
     }
   ]
 }

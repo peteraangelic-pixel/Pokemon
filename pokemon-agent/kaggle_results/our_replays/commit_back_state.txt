@@ -1,33 +1,32 @@
-== commit-back state Tue Oct 13 04:57:20 UTC 2026
-total 13368
-drwxr-xr-x  2 runner runner    4096 Oct 13 04:57 .
-drwxr-xr-x 12 runner runner    4096 Oct 13 04:56 ..
--rw-r--r--  1 runner runner      50 Oct 13 04:57 commit_back_state.txt
--rw-r--r--  1 runner runner    1303 Oct 13 04:57 diag.txt
--rw-r--r--  1 runner runner 3420385 Oct 13 04:57 episode-123158103-replay.json
--rw-r--r--  1 runner runner 1792017 Oct 13 04:57 episode-123158104-replay.json
--rw-r--r--  1 runner runner 3222233 Oct 13 04:57 episode-123160320-replay.json
--rw-r--r--  1 runner runner 2056044 Oct 13 04:57 episode-123162652-replay.json
--rw-r--r--  1 runner runner 3001759 Oct 13 04:57 episode-123162657-replay.json
--rw-r--r--  1 runner runner    9319 Oct 13 04:56 episodes_57089461.csv
--rw-r--r--  1 runner runner    8962 Oct 13 04:56 episodes_57089489.csv
--rw-r--r--  1 runner runner    6939 Oct 13 04:56 episodes_57125516.csv
--rw-r--r--  1 runner runner    6820 Oct 13 04:56 episodes_57125561.csv
--rw-r--r--  1 runner runner     394 Oct 13 04:57 episodes_57130754.csv
--rw-r--r--  1 runner runner     394 Oct 13 04:57 episodes_57130779.csv
--rw-r--r--  1 runner runner   17742 Oct 13 04:56 episodes_table.csv
--rw-r--r--  1 runner runner     550 Oct 13 04:57 fetch.txt
--rw-r--r--  1 runner runner   83741 Oct 13 04:56 loss_snapshots.jsonl
--rw-r--r--  1 runner runner      76 Oct 13 04:57 summarize.txt
--rw-r--r--  1 runner runner    1902 Oct 13 04:57 summary.json
--rw-r--r--  1 runner runner    2058 Oct 13 04:57 summary.md
+== commit-back state Tue Oct 13 05:03:01 UTC 2026
+total 100
+drwxr-xr-x  3 runner runner  4096 Oct 13 05:03 .
+drwxr-xr-x 12 runner runner  4096 Oct 13 05:02 ..
+-rw-r--r--  1 runner runner    50 Oct 13 05:03 commit_back_state.txt
+-rw-r--r--  1 runner runner  1303 Oct 13 05:02 diag.txt
+-rw-r--r--  1 runner runner  9319 Oct 13 05:02 episodes_57089461.csv
+-rw-r--r--  1 runner runner  8962 Oct 13 05:02 episodes_57089489.csv
+-rw-r--r--  1 runner runner  6939 Oct 13 05:02 episodes_57125516.csv
+-rw-r--r--  1 runner runner  6820 Oct 13 05:02 episodes_57125561.csv
+-rw-r--r--  1 runner runner   632 Oct 13 05:02 episodes_57130754.csv
+-rw-r--r--  1 runner runner   632 Oct 13 05:02 episodes_57130779.csv
+-rw-r--r--  1 runner runner  1601 Oct 13 05:03 episodes_table.csv
+-rw-r--r--  1 runner runner   671 Oct 13 05:03 fetch.txt
+drwxr-xr-x  2 runner runner  4096 Oct 13 05:03 loss_replays
+-rw-r--r--  1 runner runner 10513 Oct 13 05:03 loss_snapshots.jsonl
+-rw-r--r--  1 runner runner   162 Oct 13 05:03 summarize.txt
+-rw-r--r--  1 runner runner  2996 Oct 13 05:03 summary.json
+-rw-r--r--  1 runner runner   374 Oct 13 05:03 summary.md
 == git status:
-A  pokemon-agent/kaggle_results/our_replays/diag.txt
+ M pokemon-agent/kaggle_results/our_replays/commit_back_state.txt
+M  pokemon-agent/kaggle_results/our_replays/diag.txt
 M  pokemon-agent/kaggle_results/our_replays/episodes_57130754.csv
-A  pokemon-agent/kaggle_results/our_replays/fetch.txt
-A  pokemon-agent/kaggle_results/our_replays/summarize.txt
+M  pokemon-agent/kaggle_results/our_replays/episodes_57130779.csv
+M  pokemon-agent/kaggle_results/our_replays/episodes_table.csv
+M  pokemon-agent/kaggle_results/our_replays/fetch.txt
+M  pokemon-agent/kaggle_results/our_replays/loss_snapshots.jsonl
+M  pokemon-agent/kaggle_results/our_replays/summarize.txt
 M  pokemon-agent/kaggle_results/our_replays/summary.json
 M  pokemon-agent/kaggle_results/our_replays/summary.md
-?? pokemon-agent/kaggle_results/our_replays/commit_back_state.txt
 == ignore check:
 not ignored
