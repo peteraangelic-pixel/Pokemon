@@ -1,0 +1,80 @@
+name: Rust Simulator Benchmark
+
+on:
+  push:
+    paths:
+      - 'arc-agi-3/rust-simulator/**'
+      - '.github/workflows/rust-simulator.yml'
+  pull_request:
+    paths:
+      - 'arc-agi-3/rust-simulator/**'
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    name: Benchmark Rust Simulator
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust 1.85+
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.85.0
+          components: rustfmt, clippy
+
+      - name: Cache cargo dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            arc-agi-3/rust-simulator/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('arc-agi-3/rust-simulator/Cargo.lock') }}
+
+      - name: Build release
+        working-directory: ./arc-agi-3/rust-simulator
+        run: cargo build --release
+
+      - name: Run benchmark
+        working-directory: ./arc-agi-3/rust-simulator
+        run: cargo run --release | tee benchmark_output.txt
+
+      - name: Run tests
+        working-directory: ./arc-agi-3/rust-simulator
+        run: cargo test --release
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-benchmark-results
+          path: arc-agi-3/rust-simulator/benchmark_output.txt
+          retention-days: 30
+
+      - name: Analyze performance
+        working-directory: ./arc-agi-3/rust-simulator
+        run: |
+          echo "## Benchmark Summary" > performance.md
+          echo "" >> performance.md
+          echo "Simulating 25 games × 6 levels = 150 level simulations" >> performance.md
+          echo "" >> performance.md
+          
+          # Extract times for different thread counts
+          grep -E "Threads:" benchmark_output.txt >> performance.md
+          
+          echo "" >> performance.md
+          echo "### Key Metrics" >> performance.md
+          echo "- 1 thread: baseline sequential performance" >> performance.md
+          echo "- 4/8/16 threads: Rayon parallelism" >> performance.md
+          echo "- Expected: 4-8x speedup with more threads" >> performance.md
+          
+          cat performance.md
+
+      - name: Upload analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-analysis
+          path: arc-agi-3/rust-simulator/performance.md
+          retention-days: 30
