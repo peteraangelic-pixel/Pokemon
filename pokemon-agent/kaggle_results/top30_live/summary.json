@@ -1,9 +1,9 @@
 {
-  "fetched_utc": "2026-10-11T17:33:09.853291+00:00",
+  "fetched_utc": "2026-10-13T14:47:10.380634+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
-  "top_n": 30,
+  "top_n": 50,
   "replays_per_team": 7,
-  "teams": 30,
-  "replays_downloaded": 420,
+  "teams": 50,
+  "replays_downloaded": 92,
   "manifest": "pokemon-agent/kaggle_results/top30_live/top10_manifest.csv"
 }
