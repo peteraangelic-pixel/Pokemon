@@ -1,5 +1,1 @@
-{
-  "id": "r018",
-  "op": "push",
-  "args": {"dir": "arc-agi-3/duck/notebook/out", "variant": "v5", "wait_min": 200}
-}
+{"id": "r019", "op": "submissions", "args": {}}
