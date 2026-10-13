@@ -1317,3 +1317,13 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - **Test (paired vs weakfix):** V34 vs V33 w-tej samej sesji: 3-pool +0.11 vs +0.67 (−0.56pp n.s.), meta1012 −0.81 vs −1.04 (+0.23pp n.s.; kontrola sama płyneła 0.669→0.681 = szum międzybiegowy ±1.2pp @3450). **Brak zysku → NIE przyjęte** (standard: przyjmujemy tylko zmierzone zyski). Proby sugerowały możliwy lekki koszt na exotic (0.872 vs 0.904 @250g, n.s.).
 - **Wniosek strategiczny:** iteracja czysto behawioralna osiągnęła sufit ~±0.3pp (szum) — 58% strat to głód basiców, a ten leczy tylko **współprojekt deck+agent** (basic-engine np. Poffin/搜-search + wiring w S1/S3) = **Phase-3 na kolejne okno resetu** (deck jedzie w bundlu, więc możliwe od jutra; wymaga ~2-4h: lookup kart, legality, wiring "search deck → basic", duże A/B).
 - **Rekomendacja slotu (reset 00:00 UTC): BEZ ZMIAN — wysyłać V33 (bundle c87f).** Nic nie wysłano; v34 zostaje w repo jako artifacts (agent+builder) z flagą REJECTED.
+
+---
+
+## 2026-10-13 ~13:20 UTC — c87f v34 (530fa4e) + basic-engine deck przetestowane paired: **V34 = nowy #1 do slotu; basic-engine v1 ODRZUCONY (istotnie −3pp)**
+
+- Import `agents/c87_v34.py` (md5 14388e9d = origin) + `decks/v34_basicEngine_35w_Poffin2_Ultra1.csv` (legalna, 35W ✓, Poffin2+Ultra1 zamiast 2 Signal + 1 Waitress).
+- **C87_V34 (= v33 + thick-walls: active≥300HP → Riptide-ramp +60 / Frost +40 / Swirling −30):** vs V33 w-tej-samej-sesji: 3-pool +0.97, meta1012 +1.13, potwierdzenie meta+top30 (4600g) +0.57 — **3/3 dodatnie, pooled ≈+0.85pp z≈1.4**; ich obawa "top30 −1.8pp" NIE potwierdzona (paired top30 +0.9/+1.4 dla V34). Nowy ranking: **C87_V34 > V33 > V31 > V32 > V30b**.
+- **V33_BENG (basic-engine deck pod V33):** 3-pool **−3.26pp z−2.61**, meta1012 **−3.07pp z−2.70** — ODRZUCONY ISTOTNIE. Lekcja: wycięcie 3 drawów (Signal4→2, Waitress3→2) boli bardziej niż pomaga Poffin, gdy agent nie ma wiringu; ich 20g "exotic +4pp" = szum (paired exotic: paritet 0.892=0.892).
+- **Wniosek dla v35/Phase-3:** nie "deck pod obecne knoby", tylko (a) wiring agenta pod search→basic (S1×TO_HAND, supporter-slot plan), (b) zachować liczbę drawów (zamienniki: Pad/Cyrano, nie Signal/Waitress), (c) warianty: Poffin1 vs Poffin2, Kyogre3 vs 2; każda kombinacja 3× paired ≥3450g.
+- **REKOMENDACJA SLOTU (reset 00:00 UTC): wysłać C87_V34** (ich bundle phase1_tuned_v34_thickWalls_KO80_fastNonEx, commit 530fa4e na c87f7a48). Nic nie wysłano z a450b00f.
