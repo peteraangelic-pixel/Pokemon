@@ -34,6 +34,18 @@ on:
         description: "Replay output dir (repo-relative)"
         required: false
         default: "pokemon-agent/kaggle_results/top30_live"
+      delay:
+        description: "Delay seconds between Kaggle API calls"
+        required: false
+        default: "0.2"
+      extract_out:
+        description: "Optional deck extraction output dir (empty = no extract)"
+        required: false
+        default: ""
+      clean:
+        description: "Clean episode JSONs in outdir before fetch (1=yes)"
+        required: false
+        default: "0"
   push:
     branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
     paths:
@@ -77,8 +89,9 @@ jobs:
           MAXF="${{ inputs.max_files || '' }}"
           SUBS="${{ inputs.subs_per_team || '' }}"
           OUTDIR="${{ inputs.outdir || '' }}"
-          EXTRACT_OUT=""
-          CLEAN=""
+          DELAY="${{ inputs.delay || '' }}"
+          EXTRACT_OUT="${{ inputs.extract_out || '' }}"
+          CLEAN="${{ inputs.clean || '' }}"
           for f in pokemon-agent/kaggle_results/top50_live.trigger pokemon-agent/kaggle_results/top30_live.trigger pokemon-agent/kaggle_results/top30.trigger pokemon-agent/kaggle_results/top10_live.trigger pokemon-agent/kaggle_results/top10.trigger; do
             [ -f "$f" ] || continue
             [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
@@ -87,6 +100,7 @@ jobs:
             [ -n "$OUTDIR" ] || OUTDIR=$(sed -n 's/.*outdir=\([^[:space:]]*\).*/\1/p' "$f" | head -1)
             [ -n "$EXTRACT_OUT" ] || EXTRACT_OUT=$(sed -n 's/.*extract_out=\([^[:space:]]*\).*/\1/p' "$f" | head -1)
             [ -n "$CLEAN" ] || CLEAN=$(sed -n 's/.*clean=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -n "$DELAY" ] || DELAY=$(sed -n 's/.*delay=\([0-9.][0-9.]*\).*/\1/p' "$f" | head -1)
             [ -z "$MAXF" ] && MAXF=$(sed -n 's/.*max_files=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
           done
           echo "top_n=${TOP_N:-30}" >> "$GITHUB_ENV"
@@ -96,7 +110,8 @@ jobs:
           echo "outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live}" >> "$GITHUB_ENV"
           echo "extract_out=${EXTRACT_OUT}" >> "$GITHUB_ENV"
           echo "clean=${CLEAN:-0}" >> "$GITHUB_ENV"
-          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} subs_per_team=${SUBS:-8} max_files=${MAXF:-210} outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live} extract_out=${EXTRACT_OUT} clean=${CLEAN:-0}"
+          echo "delay=${DELAY:-0.2}" >> "$GITHUB_ENV"
+          echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} subs_per_team=${SUBS:-8} max_files=${MAXF:-210} outdir=${OUTDIR:-pokemon-agent/kaggle_results/top30_live} extract_out=${EXTRACT_OUT} clean=${CLEAN:-0} delay=${DELAY:-0.2}"
 
       - name: Download live replays (quota is PER TEAM)
         run: |
@@ -114,7 +129,7 @@ jobs:
             --replays-per-team "$rpt" \
             --subs-per-team "$subs" \
             --outdir "$outdir" \
-            --delay 0.2 2>&1 | tee "$outdir/fetch.log"
+            --delay "$delay" 2>&1 | tee "$outdir/fetch.log"
           cp "$outdir/fetch.log" "$outdir/fetch_report.txt" || true
           echo "=== summary ==="
           cat "$outdir/summary.json" || true
@@ -136,6 +151,10 @@ jobs:
             python pokemon-agent/tools/extract_top50.py --src "$src_rel" --out "$out_rel"
             cat "$outdir/top50_extract.csv" | head -80 || true
             echo "extracted decks: $(ls "$extract_out"/*.csv 2>/dev/null | wc -l)"
+            exit 0
+          fi
+          if [ "$outdir" != "pokemon-agent/kaggle_results/top30_live" ]; then
+            echo "Custom/probe outdir ($outdir): skipping top30 deck build"
             exit 0
           fi
           python pokemon-agent/tools/build_top30.py || true
@@ -180,6 +199,10 @@ jobs:
             git add "$outdir/summary.json" "$outdir/top10_manifest.csv" "$outdir/fetch_status.csv" \
                     "$outdir/fetch_report.txt" "$outdir/leaderboard.csv" "$outdir/top50_extract.csv" \
                     "$extract_out" || true
+          elif [ "$outdir" != "pokemon-agent/kaggle_results/top30_live" ]; then
+            echo "Custom/probe outdir: committing metadata only from $outdir"
+            git add "$outdir/summary.json" "$outdir/top10_manifest.csv" "$outdir/fetch_status.csv" \
+                    "$outdir/fetch_report.txt" "$outdir/leaderboard.csv" || true
           else
             # Delete oversized files >5M (some replays can be >5M)
             find pokemon-agent/kaggle_results/top30_live -type f -size +6M -delete || true

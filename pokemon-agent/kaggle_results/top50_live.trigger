@@ -1,1 +1,1 @@
-top50 mega-test fetch v3 CLEAN: top_n=50 replays_per_team=7 subs_per_team=8 max_files=0 outdir=pokemon-agent/kaggle_results/top50_live extract_out=pokemon-agent/decks/top50 clean=1 (quota PER TEAM; manifest+fetch_status diagnostics; raw JSON only in artifact)
+top50 mega-test fetch v3 CLEAN: top_n=50 replays_per_team=7 subs_per_team=8 max_files=0 delay=1.0 outdir=pokemon-agent/kaggle_results/top50_live extract_out=pokemon-agent/decks/top50 clean=1 (quota PER TEAM; manifest+fetch_status diagnostics; raw JSON only in artifact)

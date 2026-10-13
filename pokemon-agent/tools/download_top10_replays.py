@@ -113,6 +113,9 @@ def main() -> int:
     ap.add_argument("--subs-per-team", type=int, default=2, help="latest K submissions per team to mine")
     ap.add_argument("--outdir", default=str(DEFAULT_OUT))
     ap.add_argument("--delay", type=float, default=0.2, help="delay between API calls")
+    ap.add_argument("--retry-429-attempts", type=int, default=2, help="extra retries per replay on HTTP 429")
+    ap.add_argument("--retry-429-base", type=float, default=20.0, help="base seconds for 429 exponential backoff")
+    ap.add_argument("--abort-after-consecutive-429", type=int, default=12, help="stop selecting more episodes after this many consecutive 429 replay failures (0=never)")
     ap.add_argument("--zip", default=None, help="output zip path (default outdir/TOP10.zip)")
     args = ap.parse_args()
 
@@ -191,6 +194,8 @@ def main() -> int:
     downloaded_new = 0
     reused_existing = 0
     failed_downloads = 0
+    consecutive_429 = 0
+    abort_429 = False
 
     for rank, team in enumerate(top_teams, 1):
         team_id = team.get("TeamId") or team.get("teamId")
@@ -294,15 +299,31 @@ def main() -> int:
                     reused_existing += 1
                     print(f"        {ep_id} already exists ({before.name}), reuse")
                 else:
-                    rc, out, err = kaggle(["competitions", "replay", str(ep_id), "-p", str(outdir)])
-                    actual = existing_replay(outdir, ep_id)
-                    if rc == 0 and actual is not None:
-                        downloaded_new += 1
-                        print(f"        Downloaded {ep_id} -> {actual.name}")
-                    else:
-                        status = "failed"
+                    attempt = 0
+                    while True:
+                        rc, out, err = kaggle(["competitions", "replay", str(ep_id), "-p", str(outdir)])
+                        actual = existing_replay(outdir, ep_id)
+                        if rc == 0 and actual is not None:
+                            downloaded_new += 1
+                            consecutive_429 = 0
+                            print(f"        Downloaded {ep_id} -> {actual.name}")
+                            break
+                        combined = f"{err}\n{out}"
+                        is_429 = "429" in combined or "Too Many Requests" in combined
+                        if is_429:
+                            consecutive_429 += 1
+                        else:
+                            consecutive_429 = 0
+                        if is_429 and attempt < max(0, args.retry_429_attempts):
+                            wait_s = min(240.0, args.retry_429_base * (2 ** attempt))
+                            print(f"        Replay {ep_id} hit Kaggle 429; retry {attempt + 1}/{args.retry_429_attempts} in {wait_s:.0f}s")
+                            time.sleep(wait_s)
+                            attempt += 1
+                            continue
+                        status = "failed_429" if is_429 else "failed"
                         failed_downloads += 1
-                        print(f"        Failed {ep_id}: rc={rc} file={actual} err={err[:200]}")
+                        print(f"        Failed {ep_id}: rc={rc} file={actual} err={err[:240]}")
+                        break
 
                 selected_for_team += 1
                 manifest.append(
@@ -318,11 +339,21 @@ def main() -> int:
                     }
                 )
                 time.sleep(args.delay)
+                if (args.abort_after_consecutive_429 > 0 and status == "failed_429"
+                        and consecutive_429 >= args.abort_after_consecutive_429):
+                    abort_429 = True
+                    print(f"        Aborting after {consecutive_429} consecutive Kaggle 429 replay failures")
+                    break
 
             status_rows.append({"rank": rank, "team_id": team_id, "team_name": team_name,
                                 "submission_id": sub_id, "submissions_found": len(sub_rows),
                                 "episodes_found": len(ep_rows), "selected_total_for_team": selected_for_team,
-                                "note": ep_note})
+                                "note": (ep_note + " " if ep_note else "") + ("ABORTED_429" if abort_429 else "")})
+            if abort_429:
+                break
+        if abort_429:
+            print("Stopping fetch early due to Kaggle 429 rate limit on replay downloads")
+            break
 
     # Write manifest + per-team/per-submission diagnostics. The manifest now
     # contains every selected episode (downloaded, reused, or failed), so a
@@ -351,6 +382,7 @@ def main() -> int:
         "replays_downloaded": downloaded_new,
         "replays_reused_existing": reused_existing,
         "replays_failed": failed_downloads,
+        "aborted_429": abort_429,
         "manifest": str(manifest_path),
         "status": str(status_path),
     }
