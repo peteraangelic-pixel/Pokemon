@@ -82,7 +82,11 @@ przecina nasz jedyny aktywny szybciej, niż ręka daje backupa.
 | D6b 12 Pokémon (33W) | −3.00 z−1.75 | +1.31 n.s. | −0.16 | −1.20 n.s. | **REJECTED** (zabija mill) |
 | **v25 + D0 (35W)** | **87.9%** | **53.5% vs v25-pilot** | **82.7%** | **85.6%** | **BASELINE / OPTIMUM** |
 
-Knob sweep (RETREAT_WALL 300/400, GUST_BONUS 100) — w trakcie.
+Knob sweep (kyogre+exotic, opp=v25, n≈3.6k/stronę):
+- RETREAT_WALL=300: total −0.42pp n.s. (kyogre +1.12, exotic −3.20 z1.44 — split)
+- RETREAT_WALL=400: total −1.65pp z−1.31 (v25 lepsze)
+- GUST_BONUS=100: total −1.68pp z−1.34 (v25 lepsze)
+→ obecne knoby v25 (350/70) są dotuned; żadna kombinacja nie wygrywa obu pooli.
 
 ## 5. Wnioski i rekomendacje
 
