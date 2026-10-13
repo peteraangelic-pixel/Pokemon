@@ -55,15 +55,15 @@ def _find_lib() -> Path:
 
 _LIB_CACHE = None
 
-def __getattr__(name):
+def _lib_path():
     # lazy: importing this module must NOT require libcg.so (tools like
-    # summarize_episodes.py only use CARD_NAMES and die on a SystemExit here)
-    if name == "LIB":
-        global _LIB_CACHE
-        if _LIB_CACHE is None:
-            _LIB_CACHE = _find_lib()
-        return _LIB_CACHE
-    raise AttributeError(name)
+    # summarize_episodes.py must not die on a SystemExit at import time).
+    # NOTE: module __getattr__ (PEP 562) does NOT work for in-module
+    # LOAD_GLOBAL, so this is an explicit getter.
+    global _LIB_CACHE
+    if _LIB_CACHE is None:
+        _LIB_CACHE = _find_lib()
+    return _LIB_CACHE
 
 class StartData(ctypes.Structure):
     _fields_ = [("battlePtr", ctypes.c_void_p), ("errorPlayer", ctypes.c_int), ("errorType", ctypes.c_int)]
@@ -75,7 +75,7 @@ _NO_INIT = False
 def get_lib():
     global _lib
     if _lib is None:
-        lib = ctypes.cdll.LoadLibrary(str(LIB))
+        lib = ctypes.cdll.LoadLibrary(str(_lib_path()))
         if not _NO_INIT:
             lib.GameInitialize()
         lib.BattleStart.restype = StartData
@@ -187,8 +187,8 @@ def main():
                     help="skip GameInitialize (only if something else in this process already initialized the engine)")
     args = ap.parse_args()
     if args.lib:
-        global LIB
-        LIB = Path(args.lib)
+        global _LIB_CACHE
+        _LIB_CACHE = Path(args.lib)
     global _NO_INIT
     _NO_INIT = args.no_init
 
