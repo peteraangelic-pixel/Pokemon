@@ -1891,43 +1891,6 @@ FAST_IDS_V36 = {336, 299, 816, 169, 839, 992, 90, 93, 347, 921, 240, 1356, 100, 
 
 ADAPT_WALL_THRESHOLD = 2
 ADAPT_FAST_THRESHOLD = 3
-# --- v37 (a450): slow-evidence WALL gate + deckCount mirror radar -----------
-_V37 = {"dc": [], "obench": -1, "turn": -1}
-
-def _v37_observe(obs, me_idx, opp_idx):
-    try:
-        cur = obs.get("current") or {}
-        turn = int(cur.get("turn") or 0)
-        if turn <= 1 and _V37["turn"] > 1:
-            _V37["dc"] = []
-        _V37["turn"] = turn
-        p = (cur.get("players") or [])[opp_idx]
-        _V37["obench"] = len(p.get("bench") or [])
-        dc = int(p.get("deckCount") or 60)
-        if not _V37["dc"] or dc < _V37["dc"][-1]:
-            _V37["dc"].append(dc)
-    except Exception:
-        pass
-
-def _v37_dc_drop() -> int:
-    dc = _V37.get("dc") or []
-    return (60 - min(dc)) if dc else 0
-
-def _v37_wall_live(wall_cnt, opp_ahp) -> bool:
-    """P2: heavy WALL scoring only with slow evidence (2 of 3)."""
-    ev = 0
-    if wall_cnt >= 2:
-        ev += 1
-    if _V37.get("turn", 0) >= 6:
-        ev += 1
-    if _V37.get("obench", 9) <= 1:
-        ev += 1
-    return ev >= 2
-
-def _v37_mirror_radar(mirror_cnt) -> bool:
-    """P3: MIRROR confirmed by self-mill signature even with 0 Kyogre seen."""
-    return mirror_cnt >= ADAPT_MIRROR_THRESHOLD or _v37_dc_drop() >= 8
-
 ADAPT_MIRROR_THRESHOLD = 2
 
 def _v36_detect_mode(seen, opp_active_id, opp_active_hp):
@@ -2205,43 +2168,38 @@ def _score_main_option_v22b(opt, obs, me_idx, opp_idx):
 
         # --- v36 adaptive modes ---
         otype = opt.get("type")
-        if mode == "WALL" and _v37_wall_live(wall_cnt, opp_ahp):
-            # Thick walls protocol extended: Riptide ramp + Frost cycle, avoid chip 130
+        if mode == "WALL":
+            # v37 wallgate: keep v34 thick walls (proven 0.900 exotic) not aggressive v36
+            # v34 logic: Riptide ramp +60 if water>=3, Frost +40, Swirling -30 if hp>=300
             if otype == OptionType.ATTACK:
                 aid = opt.get("attackId")
                 atxt = (attack_data(aid).get("t") or "").lower() if aid else ""
                 est = estimate_attack_damage(aid, obs, me_idx, opp_idx) if aid else 0
-                # Riptide ramp
                 if "riptide" in atxt or "discard" in atxt:
                     try:
                         disc = obs["current"]["players"][me_idx].get("discard") or []
                         water_in_disc = sum(1 for d in disc if isinstance(d, dict) and card(d.get("id")).get("en") == 8)
-                        if water_in_disc >= 2:
-                            score += 80
-                        if water_in_disc >= 4:
-                            score += 40
+                        if water_in_disc >= 3:
+                            score += 60
                     except Exception:
                         pass
                 if "frost" in atxt or "barrier" in atxt:
-                    score += 60
+                    score += 40
                 if "swirling" in atxt or est == 130:
-                    # vs 300+ HP wall, 130 chip needs 3 hits -> too slow, penalize unless KO
                     try:
                         opp_hp = int(opp_active.get("hp") or 0)
-                        if opp_hp >= 250 and est < opp_hp:
-                            score -= 40
+                        if opp_hp >= 300 and est < opp_hp:
+                            score -= 30
                     except Exception:
                         pass
-            # Bench more vs wall to have backup attackers
             if otype == OptionType.PLAY and is_basic_pokemon(_hand_id(obs, me_idx, opt.get("index"))):
                 if len(_bench(obs, me_idx)) < 3:
-                    score += 20
-            # Don't waste Hammer early vs wall
+                    score += 15
             if otype == OptionType.ATTACK and opt.get("attackId") == HAMMER_ID_V21:
                 try:
                     deck_n = int(obs["current"]["players"][me_idx].get("deckCount") or 20)
                     if deck_n > 20:
-                        score -= 30
+                        score -= 20
                 except Exception:
                     pass
 
