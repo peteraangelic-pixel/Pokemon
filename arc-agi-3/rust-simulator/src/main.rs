@@ -18,7 +18,7 @@ fn main() {
     println!("╚════════════════════════════════════════════════════════════╝\n");
 
     // Create 25 games with 6 levels each (like real ARC-AGI-3 demo games)
-    let mut games = Vec::new();
+    let games = Vec::new();
     
     let win_conditions = [
         WinConditionType::TimerBased,
