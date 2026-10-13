@@ -1,0 +1,96 @@
+=== Downloading top 50 teams, 7 replays each, subs-per-team=2 ===
+Competition: the-pokemon-company-ptcg-ai-battle-challenge-playground
+Outdir: pokemon-agent/kaggle_results/top50_b3
+
+1. Downloading leaderboard...
+  Leaderboard: 350 teams
+
+Top 50 teams (processing 14):
+  22. Prime Directive (id=17032923) score=1048.0
+  23. Adisak Sukul (id=17015576) score=1047.2
+  24. yu_kuo14 (id=17035823) score=1045.9
+  25. pao (id=16981607) score=1041.8
+  26. Tys TANA (id=17013846) score=1040.9
+  27. Mathurin Ache (id=16983339) score=1034.0
+  28. Mengfei Li (id=17032131) score=1031.4
+  29. OceanMix (id=17022603) score=1029.4
+  30. Chonghao Peng (id=16994022) score=1024.6
+  31. Dariush Afshar (id=17074836) score=1023.7
+  32. JerryChen (id=16994281) score=1022.4
+  33. zicong Cao (id=17060722) score=1021.5
+  34. dajun666 (id=17029072) score=1021.0
+  35. Briano (id=17010375) score=1019.5
+
+22. Prime Directive (team_id=17032923) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57138752 — listing episodes...
+      Found 83 episodes; team selected so far 0/7
+
+23. Adisak Sukul (team_id=17015576) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57153360 — listing episodes...
+      Found 8 episodes; team selected so far 0/7
+
+24. yu_kuo14 (team_id=17035823) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57070757 — listing episodes...
+      Found 261 episodes; team selected so far 0/7
+
+25. pao (team_id=16981607) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57100599 — listing episodes...
+      Found 186 episodes; team selected so far 0/7
+
+26. Tys TANA (team_id=17013846) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57091788 — listing episodes...
+      Found 194 episodes; team selected so far 0/7
+
+27. Mathurin Ache (team_id=16983339) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57097764 — listing episodes...
+      Found 188 episodes; team selected so far 0/7
+
+28. Mengfei Li (team_id=17032131) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57087514 — listing episodes...
+      Found 227 episodes; team selected so far 0/7
+
+29. OceanMix (team_id=17022603) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56841327 — listing episodes...
+      Found 786 episodes; team selected so far 0/7
+
+30. Chonghao Peng (team_id=16994022) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57147399 — listing episodes...
+      Found 73 episodes; team selected so far 0/7
+
+31. Dariush Afshar (team_id=17074836) — fetching submissions...
+  Found 1 submissions, mining latest 1; quota=7/team
+    Submission 57035621 — listing episodes...
+      Found 341 episodes; team selected so far 0/7
+
+32. JerryChen (team_id=16994281) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57094923 — listing episodes...
+      Found 199 episodes; team selected so far 0/7
+
+33. zicong Cao (team_id=17060722) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57014318 — listing episodes...
+      Found 401 episodes; team selected so far 0/7
+
+34. dajun666 (team_id=17029072) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56941572 — listing episodes...
+      Found 493 episodes; team selected so far 0/7
+
+35. Briano (team_id=17010375) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56994799 — listing episodes...
+      Found 435 episodes; team selected so far 0/7
+
+Phase 2 skipped (--skip-download): manifest selection only
+
+Done. Selected 98 rows (94 unique episodes) for top 50; teams_with_quota=14, new=0, reused=0, failed=0.
