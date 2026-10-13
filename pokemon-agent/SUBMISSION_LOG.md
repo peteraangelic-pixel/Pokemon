@@ -1103,3 +1103,15 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Otwarty problem (do dalszej pracy):** pusty-bench nadal ~90% PRZEGRANYCH v26 (choć samych przegranych mniej) — flood działa gdy basic jest w ręce; brak w decku basic-search, a Lillie może wyrzucać basics (do sprawdzenia). Oraz: kalibracyjne μ 600.0→380.0 potwierdza szum ±110; rank 272 wynika częściowo z wzrostu pola.
 
 **NIE SUBMITOWANE** — decyzja użytkownika (c87f7a48 ma pipeline; bundlę są identyczne md5 na gałęziach).
+
+### 2026-10-13 05:20 UTC — Nowości c87f7a48: ich v26 "strong weakfix" JUŻ NA KAGGLE (04:42) + duplikat v25knobs (slot spalony!); DISARM 04:45; moja weryfikacja: weakfix BEST lokalnie
+
+**Fakty:** cc4b255 04:42 submisja phase1_tuned_v26_strong_weakfix + phase1_tuned_v25_knobs_35w (DUPLIKAT — v25knobs już aktywny od 01:07; jeden slot zmarnowany) → **quota 13.10: 4/5 spalone, 1 wolny**; afd0a27 04:45 DISARM. Uwaga na kolizję nazw: ich v26 (genius+knoby+weakfix) vs nasz v26 (flood) — importowałem ich jako agents/c87_v26_weakfix.py.
+
+**Ich v26 weakfix = v25genius + te same 5 knobów + KO-boost vs niskie HP (+50 @≤100, +20 @≤150) + bench<2 +30 / bench<3 +15 + mirror-guard tweak.** Edycje trafiły w żywe definicje (dwie kopie plain def; chain: v22b→v21→plain — zweryfikowane).
+
+**Moja walidacja (13.7k gier/ramię, 5 pul):** kontrola v22b35 0.6227 | v25knobs 0.6184 (−0.43 n.s.) | **v26weakfix 0.6447 (+2.20 z=3.78) BEST** | v26flood 0.6392 (+1.65 z=2.83). Probe vs thickbot: weakfix 0.540 ≈ flood 0.533 >> knobs 0.492; Ogerpon 0.867 ≈ 0.867. **Stack v27 (weakfix+flood-guard) ODRZUCONY**: 0.500/0.847 — brak zysku, gubi tempo (podwójna supresja).
+
+**Znaczenie:** weakfix (G) = obecnie najlepszy agent zespołu i jest LIVE — jego our_replays WR za kilka godzin = PIERWSZY żywy test rodziny board-collapse-fix. Wynik h2h F-vs-G lokalnie: +0.55pp n.s. (remis w szumie).
+
+**Rekomendacja na ostatni slot 13.10:** NIE spalać od razu. Poczekać na live WR weakfixa (kilka godzin): (a) jeśli board-collapse zniknął a WR nadal <50% → eskalacja = mój v26_flood (bundle gotowy ptcg_v26_flood_35w, 0.680 meta); (b) jeśli weakfix ≥50% → trzymać slot na jutro z lepszym odczytem; (c) jeśli weakfix leży → diagnostyka per-mecz przed jakąkolwiek kolejną submisją. Odczyt zawsze WR z our_replays, nie μ.
