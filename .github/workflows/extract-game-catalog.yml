@@ -11,9 +11,13 @@ jobs:
   extract:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - uses: actions/setup-python@v5
         with:
@@ -30,7 +34,7 @@ jobs:
           printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
           chmod 600 .kaggle/access_token
       
-      - name: Download and analyze games
+      - name: Download and extract catalog
         run: |
           export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
           
@@ -46,25 +50,47 @@ jobs:
             fi
           done
           
-          # Extract metadata for all games
-          echo "=== Game Metadata ==="
+          # Build catalog
+          CATALOG=$GITHUB_WORKSPACE/arc-agi-3/games/GAME-CATALOG.md
+          mkdir -p $(dirname $CATALOG)
+          
+          echo "# ARC-AGI-3 Demo Games Catalog" > $CATALOG
+          echo "" >> $CATALOG
+          echo "Total: $(find arc-prize-2026-arc-agi-3/environment_files -name '*.py' | wc -l) games" >> $CATALOG
+          echo "" >> $CATALOG
+          
           for game_py in $(find arc-prize-2026-arc-agi-3/environment_files -name "*.py" | sort); do
             game_dir=$(dirname "$game_py")
             game_id=$(basename "$game_py" .py)
             parent_dir=$(basename $(dirname "$game_dir"))
             
+            echo "## Game: ${parent_dir}/${game_id}" >> $CATALOG
+            echo "" >> $CATALOG
+            
+            # Metadata
             metadata_json="${game_dir}/metadata.json"
-            
-            echo -e "\n### Game: ${parent_dir}/${game_id} ###"
-            
             if [ -f "$metadata_json" ]; then
-              echo "Metadata:"
-              cat "$metadata_json"
+              echo "### Metadata" >> $CATALOG
+              echo '```json' >> $CATALOG
+              cat "$metadata_json" >> $CATALOG
+              echo '```' >> $CATALOG
+              echo "" >> $CATALOG
             fi
+            
+            # Copy game source to repo
+            mkdir -p $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/${parent_dir}/${game_id}
+            cp "$game_py" $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/${parent_dir}/${game_id}/
+            cp "$metadata_json" $GITHUB_WORKSPACE/arc-agi-3/games/environment_files/${parent_dir}/${game_id}/ 2>/dev/null || true
           done
           
-          echo -e "\n\n=== Total games: $(find arc-prize-2026-arc-agi-3/environment_files -name '*.py' | wc -l) ==="
+          echo "=== Catalog created ==="
+          wc -l $CATALOG
       
-      - name: Announce part 1
+      - name: Commit catalog to repo
         run: |
-          echo "::notice title=Game Metadata::See workflow logs for full catalog"
+          cd $GITHUB_WORKSPACE
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add arc-agi-3/games/
+          git diff --staged --quiet || git commit -m "add: 25 demo games catalog and source files"
+          git push
