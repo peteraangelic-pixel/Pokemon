@@ -1,7 +1,8 @@
-arms: ['B_v22b_35', 'E_v25k_35', 'F_v26_35'] | opp policy: agents/opp_thickbot.py
+arms: ['B_v22b_35', 'E_v25k_35', 'F_v26flood_35', 'G_v26weak_35'] | opp policy: agents/opp_thickbot.py
 pool decks/meta1012_water (27 decks)
-  B_v22b_35 1539-1161-0 (0.570) | E_v25k_35 1550-1150-0 (0.574) | F_v26_35 1568-1132-0 (0.581)
+  B_v22b_35 1530-1170-0 (0.567) | E_v25k_35 1487-1213-0 (0.551) | F_v26flood_35 1525-1175-0 (0.565) | G_v26weak_35 1552-1148-0 (0.575)
 TOTAL:
-  B_v22b_35: 1539W-1161L-0D (0.5700, n=2700)  <- control
-  E_v25k_35: 1550W-1150L-0D (0.5741, n=2700)  vs ctrl +0.41pp (z=+0.30)
-  F_v26_35: 1568W-1132L-0D (0.5807, n=2700)  vs ctrl +1.07pp (z=+0.80)
+  B_v22b_35: 1530W-1170L-0D (0.5667, n=2700)  <- control
+  E_v25k_35: 1487W-1213L-0D (0.5507, n=2700)  vs ctrl -1.59pp (z=-1.18)
+  F_v26flood_35: 1525W-1175L-0D (0.5648, n=2700)  vs ctrl -0.19pp (z=-0.14)
+  G_v26weak_35: 1552W-1148L-0D (0.5748, n=2700)  vs ctrl +0.81pp (z=+0.60)
