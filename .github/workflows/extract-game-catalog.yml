@@ -46,54 +46,25 @@ jobs:
             fi
           done
           
-          # Build catalog
-          CATALOG=/tmp/arc-dl/game-catalog.md
-          echo "# ARC-AGI-3 Demo Games Catalog" > $CATALOG
-          echo "" >> $CATALOG
-          echo "Total: $(find arc-prize-2026-arc-agi-3/environment_files -name '*.py' | wc -l) games" >> $CATALOG
-          echo "" >> $CATALOG
-          
+          # Extract metadata for all games
+          echo "=== Game Metadata ==="
           for game_py in $(find arc-prize-2026-arc-agi-3/environment_files -name "*.py" | sort); do
             game_dir=$(dirname "$game_py")
             game_id=$(basename "$game_py" .py)
             parent_dir=$(basename $(dirname "$game_dir"))
             
-            echo "## Game: ${parent_id}/${game_id}" >> $CATALOG
-            echo "" >> $CATALOG
-            
-            # Metadata
             metadata_json="${game_dir}/metadata.json"
-            if [ -f "$metadata_json" ]; then
-              echo "### Metadata" >> $CATALOG
-              echo '```json' >> $CATALOG
-              cat "$metadata_json" >> $CATALOG
-              echo '```' >> $CATALOG
-              echo "" >> $CATALOG
-            fi
             
-            # Key functions
-            echo "### Key functions (win/score/goal/level)" >> $CATALOG
-            echo '```python' >> $CATALOG
-            grep -n "def \|class \|win\|score\|goal\|complete\|finish\|level\|reset\|condition" "$game_py" | head -40 >> $CATALOG
-            echo '```' >> $CATALOG
-            echo "" >> $CATALOG
+            echo -e "\n### Game: ${parent_dir}/${game_id} ###"
+            
+            if [ -f "$metadata_json" ]; then
+              echo "Metadata:"
+              cat "$metadata_json"
+            fi
           done
           
-          echo "=== Catalog size ==="
-          wc -l $CATALOG
-          
-          # Upload catalog as artifact
-          mkdir -p /tmp/artifacts
-          cp $CATALOG /tmp/artifacts/game-catalog.md
+          echo -e "\n\n=== Total games: $(find arc-prize-2026-arc-agi-3/environment_files -name '*.py' | wc -l) ==="
       
-      - name: Upload catalog artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: game-catalog
-          path: /tmp/artifacts/game-catalog.md
-          retention-days: 30
-      
-      - name: Announce
-        if: always()
+      - name: Announce part 1
         run: |
-          echo "::notice title=Game Catalog::Catalog uploaded as artifact 'game-catalog' (game-catalog.md)"
+          echo "::notice title=Game Metadata::See workflow logs for full catalog"
