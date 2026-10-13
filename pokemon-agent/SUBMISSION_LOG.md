@@ -1262,3 +1262,28 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Synteza obrazu:** V30 = nisza mirror+top30exotics (plus, ale kosztem meta broad −0.6/−0.7); S29 = meta broad +1.0/0.8/0.4 (3/3 dodatnie) + top30 ≈0; pooled oba ≈+0.4-0.6pp z<1 — **dead heat ogółem,互补 nisze**. Naturalny kandydat na kolejny krok: **v31 = V30 + S1/S2 właściwie podpięte** (naprawa ich martwego kodu) — łączyłby mirror-v30 z bench-swarmem; do zbudowania i testu na żądanie.
 
 **Decyzja o slocie (reset 00:00 UTC) bez zmian — opcje: v28b / v29swarm / v30 / nic; NIC nie wysłano.**
+
+---
+
+## 2026-10-13 ~11:10 UTC — **v31** zbudowany i zweryfikowany: v30 + S1/S2 PODPIĘTE (naprawa ich martwego kodu) — NAJLEPSZY AGENT ZESPOŁU
+
+**Uwaga operacyjna:** między turami piaskownica zrecyklingowała repo do bazy sesji (31e7007) — recovery: fetch + `git reset --hard origin/arena/a450b00f-pokemon` (0ce6616), wszystko wróciło (md5 c87_v30 = e78e6951 OK); `.venv` odbudowany setup.sh.
+
+**Build:** `tools/build_v31.py` (regex-subn 2/2 assert) → `agents/main_heuristic_v31.py` = c87_v30 + (a) S2 `_swarm_fast_ex()`: seed13 ∪ auto (ex/mex ∧ hp≥200 ∨ hp≥150∧rc≤2; własny Mega Aboma wykluczony) = **136 id, seen-based**; (b) S1 bench-as-resource LIVE (konstanty SWARM_* v30 były martwe — teraz faktycznie używane); (c) ich S3/mirror-guard/bandy nietknięte. 8560-specialista dalej poza grą (martwy w v30, celowo nie odtwarzany).
+
+**Wyniki (FFI paired, opp=weakfix, talia 35W-noBoss):**
+
+| test | n/arm | S29 | V30 | **V31** |
+|---|---|---|---|---|
+| 3-pool (kyogre26+exotic5+top30) | 2700 | +0.44 | +1.04 | **+1.96 (z1.58) BEST** |
+| — kyogre_pool pod-rząd | 1300 | 0.524 | 0.525 | **0.558 BEST** |
+| — exotic_gate | 250 | 0.880 | 0.876 | 0.860 (n.s. −) |
+| — top30_live | 1150 | 0.851 | 0.864 | 0.853 |
+| meta1012 broad | 3450 | +1.30 | +1.65 (3. bieg; suma 3 biegów ≈ +0.1) | **+1.28 (z1.13)** |
+| **POOLED vs weakfix** | **6150** | +0.8 | ~+0.5 | **≈+1.60 (z≈1.9)** |
+| duel mirror v31-vs-v30 (2×150) | 300 | — | 0.527 | 0.473 (n.s. z0.94) |
+| probe mirror/ogerpon 60g | 60 | — | — | 0.600 / 0.833 |
+
+**Wniosek:** V31 łączy oba worldy — broad jak S29 (+1.3), mirror-kyogre BEST (+3.4 nad S29), pooled najwyższy w historii zespołu (z≈1.9, poniżej 2σ lokalnie ale 5/5 komponentów ≥ paritet). Bundle **`bundles/ptcg_v31_swarm31_bench400.tar.gz`** (95,492 B, smoke OK, deck.csv=35W md5 4c33456d) — **GOTOWY, NIE WYSŁANY**.
+
+**Rekomendacja na ostatni slot (reset 00:00 UTC 14.10):** V31 > V30 > S29 > v28b. Decyzja użytkownika; my z a450b00f nie wysyłamy (rozkaz przechodzi przez c87f7a48).
