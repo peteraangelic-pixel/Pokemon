@@ -24,6 +24,25 @@ d = wm.wm_state_diff({"p": (1, 2), "coins": {(0, 0), (1, 1)}}, {"p": (1, 3), "co
 assert set(d) == {"p", "coins"} and "only_predicted" in d["coins"], d
 print("helpers ok", d)
 
+
+class _F:
+    def __init__(self, level, s):
+        self.level, self.s = level, s
+
+
+class _T:
+    def __init__(self, a, b, act, res=None):
+        self.before_frame, self.after_frame, self.action, self.result = a, b, act, res or {}
+
+
+fr = [_F(1, {"p": i, "_step": i * 7, "bar": 9 - i}) for i in range(4)]
+trs = [_T(fr[i], fr[i + 1], "RIGHT") for i in range(3)]
+rep = wm.wm_check(trs, lambda f: dict(f.s), lambda st, a: dict(st, p=st["p"] + 1, _step=-1))
+assert rep["correct"] == 0 and rep["by_field"] == {"bar": "0/3", "p": "3/3"}, rep
+rep = wm.wm_check(trs, lambda f: dict(f.s), lambda st, a: dict(st, p=st["p"] + 1, bar=st["bar"] - 1))
+assert rep["correct"] == 3, rep  # '_step' differs every time but is never compared
+print("volatile/field ok")
+
 # ---------------------------------------------------------------- toy game
 LEVELS = [
     {"walls": {(2, 2), (2, 3), (2, 4)}, "coins": {(0, 5), (4, 1)}, "player": (4, 4)},
@@ -211,6 +230,12 @@ assert "unchanged since the previous level" in st and "3/4 transitions predicted
 assert "raised 2 errors" in st and "`model_goal` is missing" in st
 a._kept_functions["model_step"] = "def model_step(s, a):\n    return None"
 assert "unchanged" not in status()
+os.environ["ARC3_WORLD_MODEL_NUDGE_TOKENS"] = "60000"
+a._session_generated_tokens, a._tokens_at_level_start = 100000, 50000
+assert status() == ""
+a._session_generated_tokens = 120000
+assert "World model status" in status()
+os.environ.pop("ARC3_WORLD_MODEL_NUDGE_TOKENS")
 os.environ["ARC3_WORLD_MODEL"] = "0"
 assert status() == ""
 print("nudge ok")

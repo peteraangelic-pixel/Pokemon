@@ -1,0 +1,7 @@
+{
+  "name": "v5-world-model-stuck",
+  "description": "v4 revised from its transcripts: (1) the per-turn world-model status only appears after 60k tokens on the current level (ARC3_WORLD_MODEL_NUDGE_TOKENS=60000), so easy levels are played as in the baseline; (2) per-field accuracy in check_model() and in the automatic check line; (3) dict keys starting with '_' (step counters, budget bars) are never compared - v4's models mismatched every transition on such fields (ls20 0/213, tn36 0/199). Same 10 demo games x 48 min.",
+  "env": {"ARC3_WORLD_MODEL": "1", "ARC3_WORLD_MODEL_NUDGE": "1", "ARC3_WORLD_MODEL_NUDGE_TOKENS": "60000"},
+  "patches": ["0001-level-notes-audit-experiment-hint.patch", "0002-executable-world-model.patch"],
+  "smoke": {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 48}
+}

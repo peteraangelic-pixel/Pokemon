@@ -1,8 +1,8 @@
 diff --git a/ARC3-Inference/inference/agent/prompts.py b/ARC3-Inference/inference/agent/prompts.py
-index 52351db..bb980ae 100644
+index 52351db..40bd8ba 100644
 --- a/ARC3-Inference/inference/agent/prompts.py
 +++ b/ARC3-Inference/inference/agent/prompts.py
-@@ -237,6 +237,30 @@ FRAME_DIFF_HINT_ADDENDUM = (
+@@ -237,6 +237,32 @@ FRAME_DIFF_HINT_ADDENDUM = (
      "- Examples: `frame_diff()` compares the latest action’s before/after frames; `frame_diff(history[-3].frame, history[-2].frame)` compares two explicitly selected historical frames, when available.\n"
  )
  
@@ -13,7 +13,9 @@ index 52351db..bb980ae 100644
 +    "of positions, colors, counters - never the raw grid; `model_step(state, action)` returns "
 +    "the state you predict after `action` (a string such as 'UP', or "
 +    "{'action': 'MOUSE', 'row': r, 'col': c}), or None if the action changes nothing; "
-+    "`model_goal(state)` returns True when you believe the level is won.\n"
++    "`model_goal(state)` returns True when you believe the level is won. If `model_state` "
++    "returns a dict, keys starting with '_' (step counters, budget bars, other HUD) are kept "
++    "for your own use but never compared, so the check measures game mechanics only.\n"
 +    "- `check_model(scope='level', limit=3)` replays `model_step(model_state(before), action)` "
 +    "on every recorded transition of the current level (`scope='all'` for all levels) and "
 +    "returns the accuracy, per-action accuracy, the first mismatches with only the differing "
@@ -34,7 +36,7 @@ index 52351db..bb980ae 100644
      "- During a multi-action plan, verify important effects by comparing the actual game "
      "state with your predictions—for example, changed cells, object properties, positions, "
 diff --git a/ARC3-Inference/inference/agent/python_tool_sandbox.py b/ARC3-Inference/inference/agent/python_tool_sandbox.py
-index 58a94b3..fd5913c 100644
+index 58a94b3..7227b08 100644
 --- a/ARC3-Inference/inference/agent/python_tool_sandbox.py
 +++ b/ARC3-Inference/inference/agent/python_tool_sandbox.py
 @@ -16,6 +16,7 @@ import time
@@ -54,7 +56,7 @@ index 58a94b3..fd5913c 100644
      __RETAINED_FUNCTIONS_SOURCE__
  
      HOST_STDOUT = sys.stdout
-@@ -639,7 +642,92 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+@@ -639,7 +642,99 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
              _animation_views.extend((runtime_globals["last_animation_frames"],
                                       runtime_globals["last_animation_timeline"]))
  
@@ -126,6 +128,13 @@ index 58a94b3..fd5913c 100644
 +                                  limit=1, budget_s=min(3.0, _wm_budget(0.1)))
 +                parts = [f"[world model check] {report['correct']}/{report['checked']} of this "
 +                         "snippet's transitions matched model_step(model_state(before), action)"]
++                wrong_fields = []
++                for field, frac in (report.get("by_field") or {}).items():
++                    ok, total = (int(x) for x in frac.split("/"))
++                    if ok < total:
++                        wrong_fields.append(f"{field} {total - ok}/{total}")
++                if wrong_fields:
++                    parts.append("fields mispredicted: " + ", ".join(wrong_fields[:6]))
 +                if report["mismatches"]:
 +                    miss = report["mismatches"][0]
 +                    parts.append(f"first miss t={miss['t']} {wm_short(miss['action'], 50)}: "
@@ -147,7 +156,7 @@ index 58a94b3..fd5913c 100644
  
          _persistence_enabled = bool(initial.get("persistence_enabled"))
          _retention_options = {
-@@ -696,6 +784,7 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+@@ -696,6 +791,7 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
                          print(repr(_value))
                          if runtime_globals.get("result") is None:
                              runtime_globals["result"] = _value
@@ -155,7 +164,7 @@ index 58a94b3..fd5913c 100644
              _send(
                  {
                      "type": "final",
-@@ -720,6 +809,7 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+@@ -720,6 +816,7 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
              # action name, that nothing was spent, how to override - were built
              # and then never delivered. They stop the snippet either way; the
              # point is that the model is told why.
@@ -163,7 +172,7 @@ index 58a94b3..fd5913c 100644
              _send(
                  {
                      "type": "error",
-@@ -738,6 +828,8 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+@@ -738,6 +835,8 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
      "__SEGMENTATION_SOURCE__\n", inspect.getsource(_segmentation)
  ).replace(
      "__FRAME_DIFF_SOURCE__\n", inspect.getsource(_frame_diff_module)
@@ -172,7 +181,7 @@ index 58a94b3..fd5913c 100644
  )
  
  
-@@ -762,6 +854,11 @@ def _sanitize_host_error_text(text: str) -> str:
+@@ -762,6 +861,11 @@ def _sanitize_host_error_text(text: str) -> str:
      return "Sandbox process exited unexpectedly."
  
  
@@ -184,7 +193,7 @@ index 58a94b3..fd5913c 100644
  def _sandbox_env() -> dict[str, str]:
      return {
          "PYTHONUNBUFFERED": "1",
-@@ -856,6 +953,7 @@ def run_sandboxed_python(
+@@ -856,6 +960,7 @@ def run_sandboxed_python(
                  "retain_imports": retain_imports,
                  "repair_hints": repair_hints,
                  "animation_enabled": animation_handler is not None,
@@ -193,7 +202,7 @@ index 58a94b3..fd5913c 100644
                  "sandbox_cwd": sandbox_dir,
                  "state": initial_state,
 diff --git a/ARC3-Inference/inference/agent/tool_agent.py b/ARC3-Inference/inference/agent/tool_agent.py
-index 84de5fc..50eaa63 100644
+index 84de5fc..88b9fcf 100644
 --- a/ARC3-Inference/inference/agent/tool_agent.py
 +++ b/ARC3-Inference/inference/agent/tool_agent.py
 @@ -42,6 +42,7 @@ from inference.agent.prompts import (
@@ -243,7 +252,7 @@ index 84de5fc..50eaa63 100644
          if summary.get("level_transition"):
              # the priority estimate is per level, so both counts restart here
              if _get_env_bool("ARC3_PRIORITY_PACE", False):
-@@ -4776,8 +4795,59 @@ class ToolAgent:
+@@ -4776,8 +4795,67 @@ class ToolAgent:
              self._kept_functions = {}
              payload["function_retention"] = "Your retained functions were cleared after a retention error; redefine any you need."
  
@@ -267,6 +276,14 @@ index 84de5fc..50eaa63 100644
 +        if not _world_model_nudge():
 +            return ""
 +        try:
++            # ARC3_WORLD_MODEL_NUDGE_TOKENS: stay silent until this many tokens were
++            # generated on the current level (easy levels are solved without it)
++            gate = _get_env_int("ARC3_WORLD_MODEL_NUDGE_TOKENS", 0)
++            if gate > 0:
++                spent = int(getattr(self, "_session_generated_tokens", 0) or 0) - int(
++                    getattr(self, "_tokens_at_level_start", 0) or 0)
++                if spent < gate:
++                    return ""
 +            kept = getattr(self, "_kept_functions", None) or {}
 +            if "model_state" not in kept or "model_step" not in kept:
 +                return (
@@ -303,7 +320,7 @@ index 84de5fc..50eaa63 100644
          image_part = current_grid_image_part(current_frame)
          diff_part = self._pending_diff_image
          diff_label = self._pending_diff_image_label
-@@ -6038,6 +6108,7 @@ class ToolAgent:
+@@ -6038,6 +6116,7 @@ class ToolAgent:
          ]
          payload: dict[str, Any] = {"tool": "python"}
          self._record_retained_functions(sandbox_result, payload)
@@ -313,10 +330,10 @@ index 84de5fc..50eaa63 100644
          if rendered_error:
 diff --git a/ARC3-Inference/inference/utils/world_model.py b/ARC3-Inference/inference/utils/world_model.py
 new file mode 100644
-index 0000000..91b7fd9
+index 0000000..8c4e710
 --- /dev/null
 +++ b/ARC3-Inference/inference/utils/world_model.py
-@@ -0,0 +1,359 @@
+@@ -0,0 +1,377 @@
 +"""Executable world-model helpers for the analyzer Python tool.
 +
 +The model writes three ordinary (retained) functions:
@@ -380,6 +397,13 @@ index 0000000..91b7fd9
 +        return value
 +    except TypeError:
 +        return repr(value)
++
++
++def wm_strip(value):
++    """Dict keys starting with '_' are volatile (HUD, counters): never compared."""
++    if isinstance(value, dict):
++        return {k: v for k, v in value.items() if not (isinstance(k, str) and k.startswith("_"))}
++    return value
 +
 +
 +def wm_short(value, limit=120):
@@ -452,6 +476,7 @@ index 0000000..91b7fd9
 +    first_error = None
 +    mismatches = []
 +    by_action = {}
++    by_field = {}
 +    partial = False
 +    order = range(max(0, int(start)), len(transitions))
 +    if newest_first:
@@ -502,12 +527,21 @@ index 0000000..91b7fd9
 +            errors += 1
 +            first_error = first_error or {"t": index, "action": wm_short(action, 60), "error": _wm_exc(exc)}
 +            continue
++        actual = wm_strip(actual)
++        if predicted is not None:
++            predicted = wm_strip(predicted)
 +        checked += 1
++        if isinstance(predicted, dict) and isinstance(actual, dict):
++            for key in set(predicted) | set(actual):
++                fs = by_field.setdefault(str(key), [0, 0])
++                fs[1] += 1
++                if key in predicted and key in actual and wm_freeze(predicted[key]) == wm_freeze(actual[key]):
++                    fs[0] += 1
 +        stats = by_action.setdefault(name, [0, 0])
 +        stats[1] += 1
 +        if predicted is None:
 +            # None = "impossible / no effect": counts as correct when nothing changed
-+            ok = wm_freeze(actual) == wm_freeze(state_of(before))
++            ok = wm_freeze(actual) == wm_freeze(wm_strip(state_of(before)))
 +            shown_pred = "<None: no change>"
 +        else:
 +            ok = wm_freeze(predicted) == wm_freeze(actual)
@@ -520,7 +554,7 @@ index 0000000..91b7fd9
 +                "t": index,
 +                "action": action,
 +                "diff": (wm_state_diff(shown_pred, actual) if predicted is not None
-+                         else {"predicted": shown_pred, "changed": wm_state_diff(state_of(before), actual)}),
++                         else {"predicted": shown_pred, "changed": wm_state_diff(wm_strip(state_of(before)), actual)}),
 +            })
 +        if goal_fn is not None:
 +            try:
@@ -534,6 +568,7 @@ index 0000000..91b7fd9
 +        "correct": correct,
 +        "accuracy": round(correct / checked, 3) if checked else None,
 +        "by_action": {k: "%d/%d" % (v[0], v[1]) for k, v in sorted(by_action.items())},
++        "by_field": {k: "%d/%d" % (v[0], v[1]) for k, v in sorted(by_field.items())},
 +        "mismatches": mismatches,
 +    }
 +    if errors:
@@ -572,7 +607,7 @@ index 0000000..91b7fd9
 +        return {"found": False, "reason": "no actions to search (pass actions=[...])"}
 +    errors = 0
 +    first_error = None
-+    start_key = wm_freeze(start)
++    start_key = wm_freeze(wm_strip(start))
 +    try:
 +        if goal_fn(start):
 +            return {"found": True, "actions": [], "length": 0, "expanded": 0,
@@ -628,7 +663,7 @@ index 0000000..91b7fd9
 +                continue
 +            if nxt is None:
 +                continue
-+            nkey = wm_freeze(nxt)
++            nkey = wm_freeze(wm_strip(nxt))
 +            if nkey in parents:
 +                continue
 +            parents[nkey] = (key, action)
