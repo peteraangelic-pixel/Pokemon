@@ -92,6 +92,7 @@ def main() -> int:
     ap.add_argument("--competition", default=DEFAULT_SLUG)
     ap.add_argument("--top-n", type=int, default=10, help="top N teams from leaderboard")
     ap.add_argument("--replays-per-team", type=int, default=7, help="last M replays per team")
+    ap.add_argument("--subs-per-team", type=int, default=2, help="latest K submissions per team to mine")
     ap.add_argument("--outdir", default=str(DEFAULT_OUT))
     ap.add_argument("--delay", type=float, default=0.2, help="delay between API calls")
     ap.add_argument("--zip", default=None, help="output zip path (default outdir/TOP10.zip)")
@@ -108,7 +109,7 @@ def main() -> int:
         print(f"ERROR: {err}", file=sys.stderr)
         return 2
 
-    print(f"=== Downloading top {args.top_n} teams, {args.replays_per_team} replays each ===")
+    print(f"=== Downloading top {args.top_n} teams, {args.replays_per_team} replays each, subs-per-team={getattr(args,'subs_per_team',2)} ===")
     print(f"Competition: {args.competition}")
     print(f"Outdir: {outdir}")
 
@@ -189,14 +190,15 @@ def main() -> int:
             print(f"  No submissions for team {team_id}")
             continue
 
-        # Sort by date newest first, take latest 2 (like competition does)
+        # Sort by date newest first, take latest K (competition counts 2 as ACTIVE;
+# older ones are disabled but their public episodes still reveal deck archetypes)
         def sub_date(r):
             return r.get("date") or r.get("Date") or r.get("submitted") or r.get("SubmissionDate") or ""
 
         sub_sorted = sorted(sub_rows, key=sub_date, reverse=True)
         print(f"  Found {len(sub_rows)} submissions, taking latest {min(2, len(sub_sorted))}")
 
-        for sub in sub_sorted[:2]:
+        for sub in sub_sorted[: getattr(args, "subs_per_team", 2)]:
             sub_id = sub.get("ref") or sub.get("id") or sub.get("submissionId") or sub.get("SubmissionId")
             if not sub_id:
                 continue

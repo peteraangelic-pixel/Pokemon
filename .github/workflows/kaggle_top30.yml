@@ -71,10 +71,13 @@ jobs:
             [ -f "$f" ] || continue
             [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -n "$RPT" ] || RPT=$(sed -n 's/.*replays_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            SUBS=$(sed -n 's/.*subs_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
+            [ -z "$SUBS" ] && SUBS="8"
             [ -z "$MAXF" ] && MAXF=$(sed -n 's/.*max_files=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
           done
           echo "top_n=${TOP_N:-30}" >> "$GITHUB_ENV"
           echo "rpt=${RPT:-7}" >> "$GITHUB_ENV"
+          echo "subs=${SUBS:-6}" >> "$GITHUB_ENV"
           echo "maxf=${MAXF:-210}" >> "$GITHUB_ENV"
           echo "Using top_n=${TOP_N:-30} replays_per_team=${RPT:-7} max_files=${MAXF:-210}"
 
@@ -86,6 +89,7 @@ jobs:
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --top-n "$top_n" \
             --replays-per-team "$rpt" \
+            --subs-per-team "$subs" \
             --outdir pokemon-agent/kaggle_results/top30_live \
             --delay 0.2 2>&1 | tee pokemon-agent/kaggle_results/top30_live/fetch.log
           echo "=== summary ==="
