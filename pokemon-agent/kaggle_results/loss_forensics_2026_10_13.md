@@ -212,3 +212,32 @@ W mirror (seen ∩ {721,722,723}) i deck≤15 → powrót do raw-d (coin toss) w
 - **Pierwszeństwo: a450 v29 swarm** — jedyny agent z ZERO istotnych regresji na żadnej puli; S1 (bench-as-resource) atakuje zweryfikowany root cause #1 (61% pustych boardów); top30_live +1.2/+2.0 (a450).
 - Alternatywa: **c87 v30** — największy pojedynczy zysk (exotic +6.2 z2.92) ALE mirror −9pp z1.81; koszt realny DOPÓKI live field to coin-toss agenci (weakfix/v25knobs — oba bez S3).
 - v28b = bezpieczny minimum; nic = zachowanie status quo.
+
+## DODAANE 10-13 ~12:15 UTC: świeży live μ + weryfikacja c87 V33 (kandydat konsensusowy)
+
+### Świeży live (fetch 11:45-11:48 UTC, ostatnie 40 epizodów/submisja)
+| Submisja | μ (publicScore) | WR okno 40ep | vs KYOGRE | vs ? |
+|---|---|---|---|---|
+| 57130779 v25knobs | **412.0** | 0.350 (14-26) | 0.40 | 0.18 |
+| 57130754 v26weakfix | 398.1 | **0.450** (18-22) | 0.42 | **0.50** |
+| 57125516 v25old | 387.5 | 0.450 | 0.62 | 0.23 |
+| 57125561 v22b | 328.1 | 0.375 | 0.29 | 0.44 |
+
+μ kumulacyjne odwróciły kolejność (knobs 412.0 > weakfix 398.1), ale świeże okno 40ep: weakfix 0.450 > knobs 0.350 (szczególnie "?": 0.50 vs 0.18). Oba ~400 — spójne z podłogą 12-15% strat. **Uwaga workflow:** kaggle-our-replays 3x status "failure" ALE dane fetch+commit w 3/3 (kosmetyczny błąd na końcu commit-back; logi niedostępne z sandboxu).
+
+### Gałęzie zbiegły na V33 (c87 1bc665f, 11:24Z)
+c87: v31 = a450 v30 + S1/S2 WIRED (auto-fast-ex 136 id + bench-as-resource ŻYWE) → **v33 = v31 + KO 80/40 + 8 non-ex fast id (136→144)**. a450 (001c16a, 11:34Z): 4-arm A/B V33 prowadzi 2/2 (meta +1.33/+1.57 z1.39), **NOWY RANKING: V33 > V31 > V32 > V30b > v28b; "ship V33"**. a450 v34 (prize-deficit) odrzucony (n.s.); "iteracja behawioralna wyczerpana (±0.3pp noise ceiling); realny dźwign = Phase-3 deck+agent co-design (basic-engine)".
+
+### Moja weryfikacja c87 V33 (D0, opp=v25)
+| test | V33 | B | Δ |
+|---|---|---|---|
+| 3-pool (13.7k) | 0.660 | 0.632 (v25) | **+2.74pp (z=2.53)**; kyogre +3.58 z2.59, exotic +1.0, weak +1.12 |
+| newarch10 | 0.855 | 0.861 (v25) | −0.60pp n.s. |
+| mirror 200 | 0.560 | 0.510 (v25) | +5.00pp (z=1.00) n.s. |
+| duel vs a450 v29: 3-pool | 0.654 | 0.655 | remis (z=0.10) |
+| duel vs a450 v29: mirror 100 | 0.480 | 0.550 | −7.00pp n.s. |
+
+**→ V33 ≥ v29/v30 w moim harnessie: zero istotnych regresji + istotny zysk kyogre (55% live field).** Trzydrożny remis v29/v30/v33 w granicach szumu (zgodne z a450 "±0.3pp noise ceiling").
+
+### OSTATECZNA REKOMENDACJA SLOTU (14.10 00:00 UTC; nic nie wysyłam)
+**V33 (c87, bundle c87)** — zbieżność 3 gałęzi (c87 "BEST vs weak and mirror", a450 "ship V33", mój harness: +2.74pp z2.53 3-pool, zero istotnych minusów). Alternatywy (v29/v30/v28b) = w granicy szumu. Po wrzuceniu: odczyt WR live po ~40-50 epizodach (mój trigger our-replays działa mimo "failure").
