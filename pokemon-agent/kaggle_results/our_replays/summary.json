@@ -1,13 +1,27 @@
 {
-  "fetched_utc": "2026-10-13T12:42:04.460406+00:00",
+  "fetched_utc": "2026-10-13T13:03:23.515741+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 20,
-  "episodes_listed": 87,
-  "replays_downloaded": 34,
+  "episodes_listed": 95,
+  "replays_downloaded": 92,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 163,
+  "total_json_on_disk": 189,
   "sample_analysis": [
+    {
+      "file": "episode-123239806-replay.json",
+      "episodeId": 123239806,
+      "teamNames": [
+        "PeterSharps",
+        "Abu Ruhan Mahamud"
+      ],
+      "winner": "Abu Ruhan Mahamud",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 221
+    },
     {
       "file": "episode-123120164-replay.json",
       "episodeId": 123120164,
@@ -273,20 +287,6 @@
         1
       ],
       "steps": 150
-    },
-    {
-      "file": "episode-123402291-replay.json",
-      "episodeId": 123402291,
-      "teamNames": [
-        "PeterSharps",
-        "Red"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        1,
-        -1
-      ],
-      "steps": 174
     }
   ]
 }
