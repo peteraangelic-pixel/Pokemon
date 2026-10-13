@@ -3,50 +3,50 @@ Competition: the-pokemon-company-ptcg-ai-battle-challenge-playground
 Outdir: pokemon-agent/kaggle_results/top50_b5
 
 1. Downloading leaderboard...
-  Leaderboard: 350 teams
+  Leaderboard: 351 teams
 
 Top 50 teams (processing 4):
-  5. Kentaro Totsuka (id=16991525) score=1159.0
-  13. a/u (id=17098934) score=1096.2
-  20. Xinyu Li (id=17032277) score=1050.0
-  35. KyryloBakumenko (id=17028555) score=1018.7
+  3. a/u (id=17098934) score=1188.3
+  7. Kentaro Totsuka (id=16991525) score=1146.4
+  18. Xinyu Li (id=17032277) score=1059.2
+  32. KyryloBakumenko (id=17028555) score=1024.5
 
-5. Kentaro Totsuka (team_id=16991525) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57138158 — listing episodes...
-      Found 92 episodes; team selected so far 0/7
-
-13. a/u (team_id=17098934) — fetching submissions...
+3. a/u (team_id=17098934) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57154167 — listing episodes...
-      Found 10 episodes; team selected so far 0/7
+      Found 28 episodes; team selected so far 0/7
 
-20. Xinyu Li (team_id=17032277) — fetching submissions...
+7. Kentaro Totsuka (team_id=16991525) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57138158 — listing episodes...
+      Found 97 episodes; team selected so far 0/7
+
+18. Xinyu Li (team_id=17032277) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57063732 — listing episodes...
-      Found 264 episodes; team selected so far 0/7
+      Found 268 episodes; team selected so far 0/7
 
-35. KyryloBakumenko (team_id=17028555) — fetching submissions...
+32. KyryloBakumenko (team_id=17028555) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57151952 — listing episodes...
-      Found 35 episodes; team selected so far 0/7
+      Found 54 episodes; team selected so far 0/7
 
 Phase 2: downloading unique episodes 0:28 of 28
-  Replay 123619957 hit Kaggle 429; retry 1/2 in 20s
-  Replay 123619957 hit Kaggle 429; retry 2/2 in 40s
-  Failed 123619957: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+  Replay 123653836 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123653836 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123653836: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-  Replay 123619965 hit Kaggle 429; retry 1/2 in 20s
-  Replay 123619965 hit Kaggle 429; retry 2/2 in 40s
-  Failed 123619965: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+  Replay 123651992 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123651992 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123651992: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-  Replay 123608272 hit Kaggle 429; retry 1/2 in 20s
-  Replay 123608272 hit Kaggle 429; retry 2/2 in 40s
-  Failed 123608272: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+  Replay 123650150 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123650150 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123650150: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-  Replay 123606250 hit Kaggle 429; retry 1/2 in 20s
-  Replay 123606250 hit Kaggle 429; retry 2/2 in 40s
-  Failed 123606250: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+  Replay 123648313 hit Kaggle 429; retry 1/2 in 20s
+  Replay 123648313 hit Kaggle 429; retry 2/2 in 40s
+  Failed 123648313: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
 Stopping phase 2 after 12 consecutive Kaggle 429 replay failures
 
