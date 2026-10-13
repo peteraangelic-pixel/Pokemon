@@ -63,7 +63,7 @@ jobs:
             echo "== episodes --help:"; python -m kaggle competitions episodes --help 2>&1 | head -15
           } > "$OUT/diag.txt" 2>&1
 
-          SUBIDS=$(tr -d '\n' < "$OUT/sub_ids.txt" 2>/dev/null || true)
+          SUBIDS=$(paste -sd, "$OUT/sub_ids.txt" 2>/dev/null | tr -d "[:space:]" || true)
           python pokemon-agent/tools/fetch_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --outdir "$OUT" --top-k 40 --no-official \
