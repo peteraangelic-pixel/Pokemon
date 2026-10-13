@@ -1132,3 +1132,17 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - deck 3-Kyogre (+1 Kyogre −1 Waitress): 0.658 vs 0.690 (−3.26pp) — tempo z ubytku search boli bardziej niż ubezpieczenie (plik: decks/v28_3kyogre_35w.csv)
 
 **WNIOSEK na dziś:** weakfix pozostaje najlepszym agentem (lokal 0.6447 z=3.78; live 0.43 na wczesnej próbce). Kolejne realne lewary (nie na dziś): (1) draw/pool pod basics (search który łapie podstawki — sprawdzić karty typu Pokégear/Poffin w meta deckach), (2) anty-Lucario/anty-Ogerpon linie (opening + retreat vs Solrock), (3) większe N na weakfixie zanim cokolwiek zastąpi.
+
+### 2026-10-13 08:45 UTC — Przegląd pracy 8560a56a (6 commitów, ~2.5h): Rust forensics + 7 wariantów REJECTED + knob sweep; moja weryfikacja ich obliczeń = ZGODNE; wnioski skonwergowane 3 gałęzie
+
+**Ich świeże μ (10-13 ~09:00):** v25knobs#2 **434.6** (TOP live zespołu), v26weakfix 389.1, v25knobs#1 387.5, v22b35 328.1 — rodzina knobów na szczycie; szum ±110 potwierdzony (ten sam agent 434.6 vs 387.5).
+
+**Ich forensics (Rust+Rayon loss_forensics — zgodnie z rozkazem narzędzia-w-Rust, 100 epizodów live, 40W-60L):** **EARLY_COLLAPSE (T≤10) = 49/60 = 82% strat**. Dowód krok-po-kroku z replayu: ręka otwierająca 6-7×Energy, bench=0 CAŁĄ grę, jedyny wall pada → przegrana. **Matematyka strukturalna (ZWERYFIKOWANA PRZEZ MNIE — hipergeometryka dokładna):** 10 pokemonów/60 kart → E[pokemon w ręce 7]=1.17, P(1 backup)=41.1%, P(≤1 backup)=67%. To TOŻSAMOŚĆ decka 35W-mill: więcej pokemonów = wolniejszy mill.
+
+**Ich testy (wszystkie REJECTED):** v26 board-dev (−5.25pp exotic vs thickbot), v27 aggro (n.s.), v28 mirror-specialist (n.s. — z kyogre_pool 26 decków), D1 36W / D2 Waitress4 / D4 34W+Boss / D5 Ultra / D6b 12-pokemonów (−3.0 z−1.75 — zabija mill). Knob sweep: t300/t400/g100 — wszystko n.s.-gorsze; knoby 350/70 dotuned. **Werdykt: v25+35W = lokalne optimum; taniego "mocnego" upgrade'u NIE MA.**
+
+**Moja niezależna weryfikacja:** (1) ich hipergeometryka = dokładna (liczby wyżej); (2) ich exotic_gate pool na moich 3 TOP agentach (300g/ramię): B 0.847 / G 0.837 / E 0.827 — równi w szumie (egzotyka nie różnicuje w self-play; ich −5.25pp dla board-dev był z thickbotem = szybki rozwijający pilot, spójne: egzotyka karze wolny rozwój).
+
+**KONWERGENCJA 3 GAŁĘZI (moje: głód-basic 16/46, pojedynki, 3 odrzucone lewary; ich: 7 wariantów; c87: post-mortem):** w obrębie decka 35W-mill nie ma taniego skoku; podłoga vs słabych ~12-15% strat (gra stochastyczna, ręka 7 kart — gwarancja "0 przegranych ze słabymi" NIEMOŻLIWA). Realna dźwignia = **NOWY KONCEPT DECKA (12-14 pokemonów + szybsza win-condition niż mill) = pełny deck search (dziesiątki A/B, Rust+Rayon na Actions)**.
+
+**Importowane:** decks/exotic_gate (5 decków egzotycznych = live '?'), weryfikacja w tym logu. Ich v27/v28/v29 (odrzucone) NIE importowane (kolizja nazw z moimi v27/v28 — od teraz trzymam ich pliki z prefiksem c87_/8560_).
