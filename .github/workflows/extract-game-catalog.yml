@@ -1,0 +1,90 @@
+name: Extract Game Catalog
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/.extract-catalog.trigger"
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+      
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+      
+      - name: Download and analyze games
+        run: |
+          export KAGGLE_API_TOKEN=$(cat .kaggle/access_token)
+          
+          # Download competition data
+          mkdir -p /tmp/arc-dl
+          cd /tmp/arc-dl
+          kaggle competitions download -c arc-prize-2026-arc-agi-3 -p . 2>&1
+          
+          # Unzip
+          for f in *.zip; do
+            if [ -f "$f" ]; then
+              unzip -q "$f" -d "${f%.zip}" 2>&1
+            fi
+          done
+          
+          # List all games
+          echo "=== All demo games ==="
+          find arc-prize-2026-arc-agi-3/environment_files -name "*.py" 2>/dev/null | sort | tee all-games.txt
+          
+          # For each game, extract metadata and win condition
+          echo -e "\n=== Game catalog ==="
+          for game_py in $(find arc-prize-2026-arc-agi-3/environment_files -name "*.py" 2>/dev/null | sort); do
+            game_dir=$(dirname "$game_py")
+            game_id=$(basename "$game_dir")
+            parent_dir=$(basename $(dirname "$game_dir"))
+            full_id="${parent_dir}/${game_id}"
+            
+            metadata_json="${game_dir}/metadata.json"
+            
+            echo -e "\n--- Game: ${full_id} ---"
+            
+            # Show metadata
+            if [ -f "$metadata_json" ]; then
+              echo "Metadata:"
+              cat "$metadata_json" | python3 -m json.tool 2>/dev/null || cat "$metadata_json"
+            fi
+            
+            # Extract key functions from game source
+            echo -e "\nGame source (key functions):"
+            grep -n "def \|class \|win\|score\|goal\|complete\|finish\|level\|reset" "$game_py" | head -30
+          done
+          
+          echo -e "\n\nTotal games: $(wc -l < all-games.txt)"
+      
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "=== All Games ==="
+            cat /tmp/arc-dl/all-games.txt 2>/dev/null
+          } > /tmp/catalog-report.txt
+          
+          python3 - <<'PY'
+          body = open('/tmp/catalog-report.txt').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Game Catalog::{body[:4500]}")
+          PY
