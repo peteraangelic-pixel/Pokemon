@@ -156,7 +156,11 @@ def main():
 
     sub_of = {}
     for cf in sorted(glob.glob(os.path.join(outdir, "episodes_*.csv"))):
-        sub = os.path.basename(cf).split("_")[1].split(".")[0]
+        base = os.path.basename(cf)
+        # episodes_table.csv is our OWN output (matches episodes_*.csv!) — skip it
+        if not re.match(r"^episodes_\d+\.csv$", base):
+            continue
+        sub = base.split("_")[1].split(".")[0]
         try:
             with open(cf, encoding="utf-8-sig") as fh:
                 for row in csv.DictReader(fh):

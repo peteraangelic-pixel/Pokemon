@@ -90,6 +90,7 @@ jobs:
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
           find pokemon-agent/kaggle_results/our_replays -type f -size +5M -delete || true
           git add -A pokemon-agent/kaggle_results/our_replays/ || true
+          git add -f pokemon-agent/kaggle_results/our_replays/*.txt 2>/dev/null || true
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/our_replays)" ]; then
             git commit -m "chore(kaggle): our replays [skip ci]"
             git push origin "HEAD:${GITHUB_REF_NAME}"
