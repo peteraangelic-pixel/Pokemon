@@ -1297,3 +1297,13 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - **Wniosek:** "najnowsza wersja z tamtej gałęzi" (v30b) zachowawczo ≡ v30 = bandy v28 + mój S3. Commit message v30b twierdzi usunięcie martwego kodu i cytuje moją weryfikację — blob dowodzi kopi pliku bez zmian (prawdopodobnie commitnęli złego working-copy).
 - Duel v31 vs v30b (mirror 2×150, symetria): 0.483/0.517 n.s. — jak oczekiwano dla identycznej polityki; **pełne porównanie v31 vs v30(=v30b) obowiązuje**: 3-pool V31 +1.96 vs V30 +1.04; kyogre 0.558 vs 0.525; meta1012 +1.28 vs +1.65 (V30 sumarycznie płaski ±0.7); pooled V31 ≈+1.6 z1.9 vs V30 ≈+0.5.
 - **Rekomendacja slotu bez zmian: V31 > V30(=v30b) > S29 > v28b. Nic nie wysłano.**
+
+---
+
+## 2026-10-13 ~12:20 UTC — c87f v33 (1bc665f) zweryfikowany: **OBECNIE NAJLEPSZY WARIANT** (2/2 biegów prowadzi; = v31 + 2 czyste zmiany)
+
+- Import `agents/c87_v33.py` md5 c1d94501 (= ich v33b, identyczne). Diff vs V31 **dokładnie 2 zmiany**: (1) KO boost 60/30→**80/40** (hp≤100/150; przyczyna #5 c87f — KO na słabych 50-110HP), (2) seed +8 non-ex fast (Thwackey 90, Dipplin 93/347/921, Seaking 240/1356, Goldeen 100/1355 → fast_ex 136→**144**). Specjalista 8560 NIE jest w v33 (usunęli po swoim odczycie −6.9pp na kyogre).
+- **Spór o specjalistę rozstrzygnięty = szum**: mój bieg 1 (V32 kyogre 0.558 BEST) vs ich 10g (0.469 worst) vs bieg 2 (V32 0.532 worst) — efekt ≈0, nierozstrzygalny poniżej ~5k gier/pool; v33 go po prostu nie ma (neutralnie).
+- **4-arm A/B (opp=weakfix, 35W):** meta1012 2×3450: **V33 +1.33/+1.57 (pooled z≈1.8)** | V31 +0.99/+0.87 | V32 +1.01/+0.58; 3-pool 2700: **V33 +0.67** | V32 +0.56 | V31 +0.48. Duel V33–V31 mirror 2×150: 0.500 remis.
+- **Pooled ranking (wszystkie dzisiejsze biegi): V33 ≈ V31 (+1.2 oba; V33 na krótszej próbie 9.6k, V31 na 19k, 6/6 biegów dodatnich) > V32 (+0.7) > V30b (+0.5) > v28b.** Przewaga V33 nad V31 ~+0.3pp — w szumie pojedynczego biegu, ale spójna 2/2 + mechanicznie sensowna (KO na słabych = ich przyczyna #5).
+- **Rekomendacja slotu AKTUALIZACJA: V33 > V31 > V32 > V30b > v28b.** Ich bundle `phase1_tuned_v33_...autoFastEx136_nonExFast_KO80_benchResource.tar.gz` (95,542 B) jest gotowy u nich; my z a450b00f NIC nie wysyłamy — decyzja/rozkaz usera.
