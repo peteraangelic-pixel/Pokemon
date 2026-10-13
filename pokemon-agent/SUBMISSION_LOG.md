@@ -1115,3 +1115,20 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Znaczenie:** weakfix (G) = obecnie najlepszy agent zespołu i jest LIVE — jego our_replays WR za kilka godzin = PIERWSZY żywy test rodziny board-collapse-fix. Wynik h2h F-vs-G lokalnie: +0.55pp n.s. (remis w szumie).
 
 **Rekomendacja na ostatni slot 13.10:** NIE spalać od razu. Poczekać na live WR weakfixa (kilka godzin): (a) jeśli board-collapse zniknął a WR nadal <50% → eskalacja = mój v26_flood (bundle gotowy ptcg_v26_flood_35w, 0.680 meta); (b) jeśli weakfix ≥50% → trzymać slot na jutro z lepszym odczytem; (c) jeśli weakfix leży → diagnostyka per-mecz przed jakąkolwiek kolejną submisją. Odczyt zawsze WR z our_replays, nie μ.
+
+### 2026-10-13 06:05 UTC — Loss analysis #2 (46 przegranych, v26weakfix 0.429 / v25knobs 0.436 live): DWA NOWE mechanizmy; duel-mode i 3-Kyogre przetestowane i ODRZUCONE
+
+**Świeży live WR:** v26weakfix 18W-24L (0.429), v25knobs 17W-22L (0.436) — oba wciąż <50% (uwaga: próbka zawiera team-internal mirrory = gwarantowane 50/50 dla pary; realny sygnał dla obu podobny). Board-collapse nadal 41/46 przegranych.
+
+**NOWE ODKRYCIE 1 — „ostatni pojedynek" (większość strat):** w ~2/3 przegranych przeciwnik był też zredukowany do 1-2 żywych (oa=1 aż 9×); stan nagród bliski (6-6/6-5/5-6). To NIE brak rozwoju — to przegrywana wymiana końcowa 1v1: kto pierwszy skuje, wygrywa; z pustą ławką nie ma odwrotu. Implikacja: pojedynki wygrywa DETERMINISTYCZNY kill (Riptide 20×discard), a Hammer-lanche jest LOSOWY (100×mille) — EV-marginalny Hammer = śmierć w kontrze.
+
+**NOWE ODKRYCIE 2 — głód podstawek:** 16/46 przegranych z ZERO basics w ręce przy śmierci (29/46 z ≤1). Deck ma 10 pokemonów; jak znikną (prize/discard), żadne reguły nie wystawią ławki. Odpowiedź deckowa/pool-draw, nie agentowa.
+
+**Żywe dziury archetypowe:** LUCARIO 3-7, OGERPON 1-5, METAL 0-2 (Archaludon — nowy koszmar); MIRROR 25-25 (≈50%, częściowo internal).
+
+**Przetestowane i ODRZUCONE (brak sygnału / regresja):**
+- v28 = weakfix + DUEL MODE (karany nie-marginalny Hammer −120 w pojedynku, pewny kill +90): probe mirror 0.520 vs 0.540, Ogerpon 0.820 vs 0.867 — neutralne w szumie @150g; NIE SHIP bez sygnału (plik zostaje: agents/main_heuristic_v28.py)
+- v27 = weakfix + flood-guard: 0.500/0.847 — podwójna supresja gubi tempo (wcześniej)
+- deck 3-Kyogre (+1 Kyogre −1 Waitress): 0.658 vs 0.690 (−3.26pp) — tempo z ubytku search boli bardziej niż ubezpieczenie (plik: decks/v28_3kyogre_35w.csv)
+
+**WNIOSEK na dziś:** weakfix pozostaje najlepszym agentem (lokal 0.6447 z=3.78; live 0.43 na wczesnej próbce). Kolejne realne lewary (nie na dziś): (1) draw/pool pod basics (search który łapie podstawki — sprawdzić karty typu Pokégear/Poffin w meta deckach), (2) anty-Lucario/anty-Ogerpon linie (opening + retreat vs Solrock), (3) większe N na weakfixie zanim cokolwiek zastąpi.
