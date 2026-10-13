@@ -12,11 +12,7 @@ on:
         required: false
         default: "false"
   push:
-<<<<<<< HEAD
     branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
-=======
-    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon", "arena/8560a56a-pokemon"]
->>>>>>> origin/arena/a450b00f-pokemon
     paths:
       - "pokemon-agent/kaggle_results/replays.trigger"
   schedule:

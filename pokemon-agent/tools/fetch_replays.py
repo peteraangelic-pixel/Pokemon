@@ -244,6 +244,7 @@ def main() -> int:
     ap.add_argument("--top-k", type=int, default=7, help="last N episodes per submission to download")
     ap.add_argument("--include-official", action="store_true", default=True, help="also try official top-episodes dataset")
     ap.add_argument("--no-official", dest="include_official", action="store_false")
+    ap.add_argument("--sub-ids", default="", help="explicit submission ids (comma-sep) to fetch; default = latest 2")
     args = ap.parse_args()
 
     outdir = Path(args.outdir)
@@ -270,7 +271,15 @@ def main() -> int:
     all_episodes: list[dict] = []
     downloaded = 0
 
-    for sub in subs_sorted[:2]:  # latest 2 live submissions
+    if args.sub_ids.strip():
+        wanted = {x.strip() for x in args.sub_ids.split(",") if x.strip()}
+        sel = [s for s in subs_sorted if str(s.get("ref") or s.get("id") or s.get("submissionId")) in wanted]
+        if not sel:
+            print(f"WARNING: none of --sub-ids {sorted(wanted)} matched; falling back to latest 2")
+            sel = subs_sorted[:2]
+    else:
+        sel = subs_sorted[:2]  # latest 2 live submissions
+    for sub in sel:
         ref = sub.get("ref") or sub.get("id") or sub.get("submissionId")
         if not ref:
             continue
