@@ -1174,3 +1174,14 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Realizm:** prawdziwy kandydat musi dać ≥+2pp na pełnym meta1012 (n≈2k/ramię) żeby przejść próg istotności. Mikro-mutacje tego nie zrobią (max obserwowany +14pp to artefakt łatwej próby seed51). **Nowa doktryna (swarm) wymagałaby agenta nauczonego grać swarm — to już Phase-2/RL, nie rule-tweak.**
 
 **F2 plan ( Armed next):** top-10 decków z f1_top10.json × pełne meta1012+exotic × 30g = ~15k gier/kandydat na Actions; test iterowany 2x (independent seeds); tylko kandydaci ≥ control+2pp na OBU przebiegach idą do F3 (agent-interakcja) i ew. bundle.
+
+### 2026-10-13 10:10 UTC — DECK SEARCH F1+F2 KOMPLETNE (uchciwy retest na pełnych pulach): żadna mutacja nie przechodzi bramki; potwierdzone płytkie optimum; koncept-swarm dla naszego agenta = martwy
+
+**F2 (f2_retest.py, pre-rejestrowana bramka: ≥+2.00pp ORAZ z≥2.00 na OBU niezależnych seedach, pełne pule 74 decków × 30g, 2220 g/ramię/run):**
+- CTRL 0.686 (s101) / 0.684 (s202)
+- 10 kandydatów z F1: **0 PASS**. Najbliższy cand5 (−1W −1Signal +1Pad +1Cyrano): **+2.88 z=2.10 → +1.13 z=0.81** (pooled +2.00pp) — zawsze ten sam kierunek, ale niekonsekwentnie pod bramką. Pozostali ±2pp wokół zera.
+- Wniosek twardy: **35W-noBoss jest optymalny w promieniu ±3 kart**; F1-top-value był szumem próby (jak przewidziano).
+
+**Zbiorczy bilans dnia badawczego (3 gałęzie + moje F1/F2):** ~20 wariantów agentowych + 8 deckowych + knob sweep + 270 kandydatów mutacyjnych — **wszystko potwierdza: v25knobs/v26weakfix + 35W-noBoss to obecne optimum; fast-swarm (Lucario/Ogerpon) nie da się grać naszym scoringiem (0.36-0.42)**. Realne drogi: (a) NOWY AGENT pod swarm (Phase-2/RL, duży projekt), (b) akceptacja podłogi ~12-15% strat vs słabych i optymalizacja meta-gry (submisje w dobrym oknie, odczyty WR).
+
+**Pliki:** search_results/f1_seed{11,23,37,51,67}.json, f1_top10.json, f2_seed{101,202}.json; tools/deck_concept_search.py, tools/f2_retest.py; workflow deck_search.yml (jobs: search×5 seedów + f2×2).
