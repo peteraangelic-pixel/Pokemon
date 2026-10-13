@@ -3,7 +3,35 @@ wrote pokemon-agent/kaggle_results/our_replays/submissions_list.csv
 Found 19 own submissions
 
 === Submission 57130779 (phase1_tuned_v25_knobs_35w.tar.gz) ===
-  episodes listed: 52
+  episodes listed: 80
+  downloaded replay 123374996
+  downloaded replay 123362923
+  downloaded replay 123358874
+  downloaded replay 123352670
+  downloaded replay 123348406
+  downloaded replay 123342102
+  downloaded replay 123325023
+  downloaded replay 123325032
+  downloaded replay 123309636
+  downloaded replay 123300833
+  downloaded replay 123292176
+  downloaded replay 123283209
+  downloaded replay 123283228
+  downloaded replay 123281033
+  downloaded replay 123278776
+  downloaded replay 123276603
+  downloaded replay 123272421
+  downloaded replay 123274272
+  downloaded replay 123268678
+  downloaded replay 123270542
+  downloaded replay 123266790
+  downloaded replay 123264864
+  downloaded replay 123262963
+  downloaded replay 123261064
+  downloaded replay 123259160
+  downloaded replay 123257222
+  downloaded replay 123255310
+  downloaded replay 123253396
   downloaded replay 123249541
   downloaded replay 123251452
   downloaded replay 123247571
@@ -16,37 +44,35 @@ Found 19 own submissions
   downloaded replay 123235900
   downloaded replay 123237856
   downloaded replay 123234025
-  downloaded replay 123232066
-  downloaded replay 123230120
-  downloaded replay 123228162
-  downloaded replay 123226220
-  downloaded replay 123224242
-  downloaded replay 123222345
-  downloaded replay 123220344
-  downloaded replay 123218441
-  downloaded replay 123216499
-  downloaded replay 123214566
-  downloaded replay 123212585
-  downloaded replay 123210634
-  downloaded replay 123208689
-  downloaded replay 123206707
-  downloaded replay 123204776
-  downloaded replay 123202726
-  downloaded replay 123200778
-  downloaded replay 123198748
-  downloaded replay 123192781
-  downloaded replay 123196728
-  downloaded replay 123194780
-  downloaded replay 123192734
-  downloaded replay 123190778
-  downloaded replay 123188712
-  downloaded replay 123188696
-  downloaded replay 123186632
-  downloaded replay 123184537
-  downloaded replay 123184536
 
 === Submission 57130754 (phase1_tuned_v26_strong_weakfix.tar.gz) ===
-  episodes listed: 55
+  episodes listed: 81
+  downloaded replay 123371017
+  downloaded replay 123362970
+  downloaded replay 123348444
+  downloaded replay 123344250
+  downloaded replay 123342097
+  downloaded replay 123333680
+  downloaded replay 123318530
+  downloaded replay 123316314
+  downloaded replay 123305356
+  downloaded replay 123303073
+  downloaded replay 123287700
+  downloaded replay 123283238
+  downloaded replay 123276608
+  downloaded replay 123276649
+  downloaded replay 123270540
+  downloaded replay 123274291
+  downloaded replay 123274274
+  downloaded replay 123272422
+  downloaded replay 123266791
+  downloaded replay 123268676
+  downloaded replay 123264865
+  downloaded replay 123262965
+  downloaded replay 123261067
+  downloaded replay 123259162
+  downloaded replay 123257224
+  downloaded replay 123255311
   downloaded replay 123253398
   downloaded replay 123251454
   downloaded replay 123249543
@@ -61,32 +87,6 @@ Found 19 own submissions
   downloaded replay 123235903
   downloaded replay 123234027
   downloaded replay 123232067
-  downloaded replay 123230177
-  downloaded replay 123230121
-  downloaded replay 123228163
-  downloaded replay 123226219
-  downloaded replay 123224241
-  downloaded replay 123224298
-  downloaded replay 123222344
-  downloaded replay 123220410
-  downloaded replay 123220345
-  downloaded replay 123218440
-  downloaded replay 123216495
-  downloaded replay 123214564
-  downloaded replay 123212586
-  downloaded replay 123210658
-  downloaded replay 123210633
-  downloaded replay 123208685
-  downloaded replay 123206705
-  downloaded replay 123204775
-  downloaded replay 123202725
-  downloaded replay 123200777
-  downloaded replay 123198747
-  downloaded replay 123196727
-  downloaded replay 123194781
-  downloaded replay 123192733
-  downloaded replay 123190777
-  downloaded replay 123188697
 
 === Submission 57125561 (ptcg_v22b_35w.tar.gz) ===
   episodes listed: 59

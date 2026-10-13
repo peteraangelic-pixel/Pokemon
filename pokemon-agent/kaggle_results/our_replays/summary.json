@@ -1,8 +1,8 @@
 {
-  "fetched_utc": "2026-10-13T07:53:06.573942+00:00",
+  "fetched_utc": "2026-10-13T11:47:53.009350+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 19,
-  "episodes_listed": 226,
+  "episodes_listed": 280,
   "replays_downloaded": 160,
   "official_dataset": null,
   "official_files": 0,
@@ -65,20 +65,6 @@
       "steps": 279
     },
     {
-      "file": "episode-123190778-replay.json",
-      "episodeId": 123190778,
-      "teamNames": [
-        "PeterSharps",
-        "Jarno Rantala"
-      ],
-      "winner": "Jarno Rantala",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 148
-    },
-    {
       "file": "episode-123243718-replay.json",
       "episodeId": 123243718,
       "teamNames": [
@@ -135,6 +121,20 @@
       "steps": 318
     },
     {
+      "file": "episode-123255310-replay.json",
+      "episodeId": 123255310,
+      "teamNames": [
+        "PeterSharps",
+        "Arka Latua"
+      ],
+      "winner": "Arka Latua",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 174
+    },
+    {
       "file": "episode-123126922-replay.json",
       "episodeId": 123126922,
       "teamNames": [
@@ -177,6 +177,20 @@
       "steps": 117
     },
     {
+      "file": "episode-123259160-replay.json",
+      "episodeId": 123259160,
+      "teamNames": [
+        "PeterSharps",
+        "Riccardo Lo Bianco"
+      ],
+      "winner": "Riccardo Lo Bianco",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 147
+    },
+    {
       "file": "episode-123131397-replay.json",
       "episodeId": 123131397,
       "teamNames": [
@@ -189,6 +203,20 @@
         1
       ],
       "steps": 177
+    },
+    {
+      "file": "episode-123303073-replay.json",
+      "episodeId": 123303073,
+      "teamNames": [
+        "JIVRAJ SINGH",
+        "PeterSharps"
+      ],
+      "winner": "JIVRAJ SINGH",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 127
     },
     {
       "file": "episode-123138086-replay.json",
@@ -233,60 +261,32 @@
       "steps": 56
     },
     {
-      "file": "episode-123151304-replay.json",
-      "episodeId": 123151304,
+      "file": "episode-123261064-replay.json",
+      "episodeId": 123261064,
+      "teamNames": [
+        "BSCode",
+        "PeterSharps"
+      ],
+      "winner": "BSCode",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 132
+    },
+    {
+      "file": "episode-123352670-replay.json",
+      "episodeId": 123352670,
       "teamNames": [
         "PeterSharps",
-        "Pranshul Maithani"
+        "F.A.Nina"
       ],
       "winner": "PeterSharps",
       "rewards": [
         1,
         -1
       ],
-      "steps": 153
-    },
-    {
-      "file": "episode-123249543-replay.json",
-      "episodeId": 123249543,
-      "teamNames": [
-        "PeterSharps",
-        "yihui ding123"
-      ],
-      "winner": "yihui ding123",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 442
-    },
-    {
-      "file": "episode-123237855-replay.json",
-      "episodeId": 123237855,
-      "teamNames": [
-        "PeterSharps",
-        "kutty1119"
-      ],
-      "winner": "kutty1119",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 231
-    },
-    {
-      "file": "episode-123160333-replay.json",
-      "episodeId": 123160333,
-      "teamNames": [
-        "PeterSharps",
-        "sayidmra"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        1,
-        -1
-      ],
-      "steps": 205
+      "steps": 79
     }
   ]
 }
