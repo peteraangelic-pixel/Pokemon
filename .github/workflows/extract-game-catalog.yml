@@ -46,45 +46,54 @@ jobs:
             fi
           done
           
-          # List all games
-          echo "=== All demo games ==="
-          find arc-prize-2026-arc-agi-3/environment_files -name "*.py" 2>/dev/null | sort | tee all-games.txt
+          # Build catalog
+          CATALOG=/tmp/arc-dl/game-catalog.md
+          echo "# ARC-AGI-3 Demo Games Catalog" > $CATALOG
+          echo "" >> $CATALOG
+          echo "Total: $(find arc-prize-2026-arc-agi-3/environment_files -name '*.py' | wc -l) games" >> $CATALOG
+          echo "" >> $CATALOG
           
-          # For each game, extract metadata and win condition
-          echo -e "\n=== Game catalog ==="
-          for game_py in $(find arc-prize-2026-arc-agi-3/environment_files -name "*.py" 2>/dev/null | sort); do
+          for game_py in $(find arc-prize-2026-arc-agi-3/environment_files -name "*.py" | sort); do
             game_dir=$(dirname "$game_py")
-            game_id=$(basename "$game_dir")
+            game_id=$(basename "$game_py" .py)
             parent_dir=$(basename $(dirname "$game_dir"))
-            full_id="${parent_dir}/${game_id}"
             
+            echo "## Game: ${parent_id}/${game_id}" >> $CATALOG
+            echo "" >> $CATALOG
+            
+            # Metadata
             metadata_json="${game_dir}/metadata.json"
-            
-            echo -e "\n--- Game: ${full_id} ---"
-            
-            # Show metadata
             if [ -f "$metadata_json" ]; then
-              echo "Metadata:"
-              cat "$metadata_json" | python3 -m json.tool 2>/dev/null || cat "$metadata_json"
+              echo "### Metadata" >> $CATALOG
+              echo '```json' >> $CATALOG
+              cat "$metadata_json" >> $CATALOG
+              echo '```' >> $CATALOG
+              echo "" >> $CATALOG
             fi
             
-            # Extract key functions from game source
-            echo -e "\nGame source (key functions):"
-            grep -n "def \|class \|win\|score\|goal\|complete\|finish\|level\|reset" "$game_py" | head -30
+            # Key functions
+            echo "### Key functions (win/score/goal/level)" >> $CATALOG
+            echo '```python' >> $CATALOG
+            grep -n "def \|class \|win\|score\|goal\|complete\|finish\|level\|reset\|condition" "$game_py" | head -40 >> $CATALOG
+            echo '```' >> $CATALOG
+            echo "" >> $CATALOG
           done
           
-          echo -e "\n\nTotal games: $(wc -l < all-games.txt)"
+          echo "=== Catalog size ==="
+          wc -l $CATALOG
+          
+          # Upload catalog as artifact
+          mkdir -p /tmp/artifacts
+          cp $CATALOG /tmp/artifacts/game-catalog.md
+      
+      - name: Upload catalog artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-catalog
+          path: /tmp/artifacts/game-catalog.md
+          retention-days: 30
       
       - name: Announce
         if: always()
         run: |
-          {
-            echo "=== All Games ==="
-            cat /tmp/arc-dl/all-games.txt 2>/dev/null
-          } > /tmp/catalog-report.txt
-          
-          python3 - <<'PY'
-          body = open('/tmp/catalog-report.txt').read()
-          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
-          print(f"::notice title=Game Catalog::{body[:4500]}")
-          PY
+          echo "::notice title=Game Catalog::Catalog uploaded as artifact 'game-catalog' (game-catalog.md)"
