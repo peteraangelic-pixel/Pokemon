@@ -1,6 +1,5 @@
 {
-  "id": "r008",
-  "op": "submit",
-  "args": {"kernel": "petersharps/arc3-duck", "version": "2",
-           "message": "v2-think-less (Franzen M2 + experiment hint + level notes + stuck audit) git 0f1f212"}
+  "id": "r009",
+  "op": "submissions",
+  "args": {}
 }
