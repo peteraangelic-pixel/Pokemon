@@ -1,0 +1,1596 @@
+[    10.0s]E 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+[    10.0s]E 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+[    10.0s]E 0.00s - to python to disable frozen modules.
+[    10.0s]E 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[    10.6s]E 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+[    10.6s]E 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+[    10.6s]E 0.00s - to python to disable frozen modules.
+[    10.6s]E 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+[    11.7s]  ARC3_VARIANT {"env": {}, "git": "08e33ace7a32", "name": "t1-spec4", "patch_files": [], "patches": [], "server_cfg": {"SPEC_STEPS": 4}, "smoke": {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 20}}
+[    11.7s]  ARC3_PREFLIGHT gpu: NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB
+[    11.7s]  ARC3_PREFLIGHT rerun: False
+[    11.7s]  ARC3_PREFLIGHT_OK
+[    11.8s]  Writing /kaggle/harness-changes.patch
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[    13.7s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[    13.7s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[    13.7s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[    13.7s]  harness patch applied successfully
+[    13.7s]  taaf.kaggle: TRUE_SUBMISSION=False
+[    13.7s]  ARC3 variant env: {}
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[    13.7s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[    13.7s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[    13.7s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[    13.7s]E 
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/action_names.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/noop_repeat_guard.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/priority_pace_reference.json...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/priority_scheduler.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/prompts.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/python_tool_sandbox.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/runtime_state.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/tool_agent.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/agent/vision_context.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/framework/run.py...
+[    13.7s]E Hunk #1 succeeded at 467 (offset 48 lines).
+[    13.7s]E Hunk #2 succeeded at 1271 (offset 48 lines).
+[    13.7s]E Checking patch ARC3-Inference/inference/framework/solver.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/animation.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/frame_diff.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/openai_compat.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/retained_functions.py...
+[    13.7s]E Checking patch ARC3-Inference/inference/utils/segmentation.py...
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/action_names.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/noop_repeat_guard.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/priority_pace_reference.json cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/priority_scheduler.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/prompts.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/python_tool_sandbox.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/runtime_state.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/tool_agent.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/agent/vision_context.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/framework/run.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/framework/solver.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/animation.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/frame_diff.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/openai_compat.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/retained_functions.py cleanly.
+[    13.7s]E Applied patch ARC3-Inference/inference/utils/segmentation.py cleanly.
+[    13.7s]  Precaching: Started...
+[    28.8s]  Precaching: loaded 211 files (6.70 GB) in 15.10 seconds.
+[    28.8s]  
+[    32.9s]  taaf.kaggle: wrote /usr/local/lib/python3.12/dist-packages/taaf_kaggle_sources.pth (3 source roots)
+[    33.1s]  === installing Pennyroyal (offline) ===
+[    33.1s]  $ /tmp/sgl-intel/bin/uv venv --python /usr/bin/python3 /tmp/sgl-intel/venv
+[    33.3s]  $ /tmp/sgl-intel/bin/uv pip install --python /tmp/sgl-intel/venv/bin/python --no-index --find-links /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels -r /kaggle/input/datasets/dfranzen/pennyroyal-v253/requirements.lock
+[    36.5s]  $ /tmp/sgl-intel/bin/uv pip install --python /tmp/sgl-intel/venv/bin/python --no-index --find-links /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels --reinstall --no-deps /kaggle/input/datasets/dfranzen/pennyroyal-v253/wheels/sglang-0.5.19+gd00d88efc8d6-cp312-cp312-linux_x86_64.whl
+[    36.5s]  $ /tmp/sgl-intel/venv/lib/python3.12/site-packages/nvidia/cu13/bin/nvcc --version
+[    36.5s]  nvcc: NVIDIA (R) Cuda compiler driver
+[    36.5s]  Copyright (c) 2005-2025 NVIDIA Corporation
+[    36.5s]  Built on Wed_Aug_20_01:58:59_PM_PDT_2025
+[    36.5s]  Cuda compilation tools, release 13.0, V13.0.88
+[    36.5s]  Build cuda_13.0.r13.0/compiler.36424714_0
+[    36.5s]  Host compiler: g++-11
+[    36.5s]  $ /tmp/sgl-intel/venv/bin/python -c 'import pathlib, sglang, torch
+[    36.5s]  print("sglang", sglang.__version__, "| torch", torch.__version__)
+[    36.5s]  assert torch.cuda.is_available(), "CUDA unavailable"
+[    36.5s]  print("GPU:", torch.cuda.get_device_name(0), "capability:", torch.cuda.get_device_capability(0))
+[    36.5s]  '
+[    71.8s]  sglang 0.5.19+gd00d88efc8d6 | torch 2.13.0+cu130
+[    71.8s]  GPU: NVIDIA RTX PRO 6000 Blackwell Server Edition capability: (12, 0)
+[    72.5s]  Target: /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1 | shards: 38 | PLE dtype: checkpoint default (typically BF16)
+[    72.8s]  Draft source: /kaggle/input/models/dfranzen/albucino-qwen3-8-flash-next-drafter/transformers/default/1
+[    72.8s]  SGLang draft view: /tmp/sgl-intel/draft-view-746747f37bf36968 (2 linked weight shards)
+[    73.2s]  
+[    73.2s]  /tmp/sgl-intel/venv/bin/sglang serve --model-path /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1 --load-format safetensors --model-loader-extra-config '{"enable_multithread_load":false}' --served-model-name flashnext --host 127.0.0.1 --port 8001 --tensor-parallel-size 1 --dtype bfloat16 --quantization auto-round --kv-cache-dtype fp8_e4m3 --mem-fraction-static 0.96 --context-length 139264 --page-size 64 --max-running-requests 10 --chunked-prefill-size 8192 --max-prefill-tokens 16384 --cuda-graph-max-bs-decode 10 --cuda-graph-bs-decode 1 2 4 7 8 9 10 --mamba-ssm-dtype bfloat16 --max-mamba-cache-size 60 --mamba-radix-cache-strategy extra_buffer --mamba-track-interval 64 --mamba-backend flashinfer --linear-attn-decode-backend flashinfer --linear-attn-prefill-backend flashinfer --moe-runner-backend auto --ple-offload-embedding --trust-remote-code --mm-feature-transport cpu --image-processor-backend pil --reasoning-parser qwen3 --tool-call-parser qwen3_coder --default-chat-template-kwargs '{"preserve_thinking":true}' --watchdog-timeout 1800 --schedule-policy lpm --warmups structured_output --enable-cache-report --enable-metrics --enable-request-time-stats-logging --weight-loader-prefetch-checkpoints --weight-loader-drop-cache-after-load --chat-template /kaggle/input/models/dfranzen/intel-qwen3.8-flash-next-w4a16-autoround/transformers/default/1/chat_template.jinja --gdn-mtp-cache-mode none --speculative-algorithm NEXTN --speculative-num-steps 4 --speculative-eagle-topk 1 --speculative-num-draft-tokens 5 --speculative-draft-model-path /tmp/sgl-intel/draft-view-746747f37bf36968 --speculative-draft-model-quantization compressed-tensors --speculative-moe-runner-backend auto --speculative-draft-kv-cache-dtype fp8_e4m3 --speculative-accept-threshold-single 1.0 --speculative-accept-threshold-acc 1.0 --speculative-token-map /kaggle/input/datasets/dfranzen/pennyroyal-v253/hot_tokens_64k.pt
+[    73.2s]  
+[    73.2s]  pid 502 -> /kaggle/working/serve.log
+[    73.2s]    0s ...
+[   103.2s]    30s ...
+[   133.2s]  Precaching: Started...
+[   133.2s]    60s ...
+[   163.2s]    90s ...
+[   193.2s]    120s ...
+[   223.2s]    150s ...
+[   253.2s]    180s ...
+[   283.2s]    210s ...
+[   313.2s]    240s ...
+[   343.2s]    270s ...
+[   373.2s]    300s ...
+[   403.2s]    330s ...
+[   433.2s]    360s ...
+[   463.2s]    390s ...
+[   493.2s]    420s ...
+[   523.2s]    450s ...
+[   553.2s]    480s ...
+[   583.2s]    510s ...
+[   613.2s]    540s ...
+[   643.2s]    570s ...
+[   673.2s]    600s ...
+[   703.3s]    630s ...
+[   733.3s]  
+[   733.3s]  DEADLINE at 721s from notebook start; releasing the benchmark with the server still loading
+[   737.3s]  ARC3 smoke: games=['cn04', 'dc22', 'g50t', 'ka59', 'ls20', 'm0r0', 's5i5', 'sc25', 'su15', 'tn36'] minutes=20
+[   737.3s]  benchmark.solver: HarnessSolver(label='duck-harness', runtime_environment=None, job_dir=None, soft_end_time=None, minimal_diagnostics=False, model='local', analyzer_timeout=900.0, max_actions_per_game=None, max_runtime_s_per_game=1200, max_generated_tokens_per_game=None, concurrency=10, save_request_logs=True, start_local_server=False, local_server_config='', local_server_api_key_file='', local_server_repo_dir='/Users/jeroencottaar/code/ARC3-Inference', local_server_port=None, local_server_tensor_parallel_size=None, local_server_count=1, cancel_drain_timeout_s=120.0)
+[   737.4s]  [sys] RAM 103.3/176.9 | swap none | proc 0.4 GB, 64 threads, 68 fds | GPU0 69.9/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   737.4s]  [sys] RAM 103.3/176.9 | swap none | proc 0.4 GB, 64 threads, 68 fds | GPU0 69.9/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   737.5s]  Starting benchmark...
+[   738.6s]  ARC3 offline games: ['tn36-ef4dde99', 'm0r0-492f87ba', 'cn04-2fe56bfb', 'dc22-fdcac232', 'ka59-38d34dbb', 'sc25-635fd71a', 's5i5-18d95033', 'ls20-9607627b', 'su15-1944f8ab', 'g50t-5849a774']
+[   739.5s]E priority gate active: 10 concurrent streams
+[   739.5s]E 
+[   739.5s]E priority gate active: 10 concurrent streams
+[   739.5s]E tn36-ef4dde99: warmup RESET issued before the analyzer is reachable
+[   739.5s]E 
+[   739.5s]E tn36-ef4dde99: warmup RESET issued before the analyzer is reachable
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   739.6s]E 
+[   739.6s]E first analyzer request failed (ConnectionError); retrying for up to 900s while the endpoint comes up, then falling back to 3 retries per request
+[   857.5s]  [sys] RAM 103.3/176.9 | swap none | proc 0.4 GB, 74 threads, 78 fds | GPU0 69.9/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[   977.5s]  [sys] RAM 103.3/176.9 | swap none | proc 0.4 GB, 74 threads, 78 fds | GPU0 69.9/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1035.1s]  Precaching: loaded 62 files (185.40 GB) in 901.75 seconds.
+[  1035.1s]  
+[  1097.5s]  [sys] RAM 2.9/176.9 | swap none | proc 0.3 GB, 70 threads, 74 fds | GPU0 0.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1217.5s]  [sys] RAM 2.9/176.9 | swap none | proc 0.3 GB, 70 threads, 74 fds | GPU0 0.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1337.5s]  [sys] RAM 2.9/176.9 | swap none | proc 0.3 GB, 70 threads, 74 fds | GPU0 0.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1341.0s]  benchmark: regenerated diagnostics in /kaggle/working in 1.25s
+[  1341.0s]  benchmark: duck-harness-kaggle
+[  1341.0s]  solver:    duck-harness
+[  1341.0s]  games:     10
+[  1341.0s]  passes:    1
+[  1341.0s]  runs:      10 (won: 0)
+[  1341.0s]  started:   2026-10-13 10:42:29
+[  1341.0s]  ended:     in progress
+[  1341.0s]  mean score:    0.00
+[  1341.0s]  median score:  0.00
+[  1341.0s]  total actions: 1
+[  1341.0s]  total tokens:  0
+[  1341.0s]  generated tokens/sec: 0.00 (job wallclock)
+[  1341.0s]  total wallclock: 0.5s
+[  1341.0s]  
+[  1341.0s]  per-game (mean across passes):
+[  1341.0s]    cn04-2fe56bfb: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1341.0s]    dc22-fdcac232: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1341.0s]    g50t-5849a774: score=0.00, levels=0.0/7, actions=0, tokens=0
+[  1341.0s]    ka59-38d34dbb: score=0.00, levels=0.0/7, actions=0, tokens=0
+[  1341.0s]    ls20-9607627b: score=0.00, levels=0.0/7, actions=0, tokens=0
+[  1341.0s]    m0r0-492f87ba: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1341.0s]    s5i5-18d95033: score=0.00, levels=0.0/8, actions=0, tokens=0
+[  1341.0s]    sc25-635fd71a: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1341.0s]    su15-1944f8ab: score=0.00, levels=0.0/9, actions=0, tokens=0
+[  1341.0s]    tn36-ef4dde99: score=0.00, levels=0.0/7, actions=1, tokens=0
+[  1341.0s]  
+[  1457.5s]  [sys] RAM 2.9/176.9 | swap none | proc 0.3 GB, 70 threads, 75 fds | GPU0 0.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1577.6s]  [sys] RAM 2.9/176.9 | swap none | proc 0.3 GB, 70 threads, 75 fds | GPU0 0.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1640.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c723b60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.2s]E 
+[  1640.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c723b60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c720050>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.5s]E 
+[  1640.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c720050>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.5s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51251c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.5s]E 
+[  1640.5s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51251c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545a3170>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.7s]E 
+[  1640.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545a3170>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5125880>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1640.8s]E 
+[  1640.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5125880>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1641.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c721b80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1641.0s]E 
+[  1641.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c721b80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1641.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa5472c110>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1641.1s]E 
+[  1641.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa5472c110>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1642.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79ab05f050d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1642.0s]E 
+[  1642.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79ab05f050d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1642.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5125880>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1642.7s]E 
+[  1642.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5125880>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1643.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa5c19f500>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1643.5s]E 
+[  1643.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa5c19f500>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1650.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1650.2s]E 
+[  1650.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1650.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1650.5s]E 
+[  1650.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1650.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1650.5s]E 
+[  1650.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1650.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1650.7s]E 
+[  1650.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1650.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1650.8s]E 
+[  1650.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1651.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1651.0s]E 
+[  1651.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1651.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1651.1s]E 
+[  1651.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1652.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1652.0s]E 
+[  1652.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1652.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1652.8s]E 
+[  1652.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1653.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1653.5s]E 
+[  1653.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1655.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1655.9s]E 
+[  1655.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1655.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1655.9s]E 
+[  1655.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1656.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1656.0s]E 
+[  1656.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1656.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1656.1s]E 
+[  1656.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1656.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1656.4s]E 
+[  1656.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1656.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1656.7s]E 
+[  1656.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1657.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1657.0s]E 
+[  1657.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1657.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1657.9s]E 
+[  1657.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1658.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1658.5s]E 
+[  1658.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1658.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1658.6s]E 
+[  1658.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1661.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1661.0s]E 
+[  1661.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1661.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1661.0s]E 
+[  1661.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1661.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1661.6s]E 
+[  1661.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1661.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1661.8s]E 
+[  1661.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1661.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1661.8s]E 
+[  1661.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1662.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1662.0s]E 
+[  1662.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1662.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1662.7s]E 
+[  1662.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1663.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1663.3s]E 
+[  1663.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1663.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1663.5s]E 
+[  1663.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1664.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1664.0s]E 
+[  1664.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1666.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508c590>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1666.5s]E 
+[  1666.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508c590>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1666.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508dd90>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1666.8s]E 
+[  1666.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508dd90>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1666.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508eae0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1666.9s]E 
+[  1666.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508eae0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508e930>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.1s]E 
+[  1667.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508e930>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.5s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50c15b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.5s]E 
+[  1667.5s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50c15b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508fce0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.7s]E 
+[  1667.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508fce0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508fb00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1667.8s]E 
+[  1667.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508fb00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1668.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50c39b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1668.5s]E 
+[  1668.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50c39b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1669.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50c18b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1669.2s]E 
+[  1669.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50c18b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1669.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508f920>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1669.4s]E 
+[  1669.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa508f920>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1676.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1676.6s]E 
+[  1676.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1676.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1676.8s]E 
+[  1676.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1676.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1676.9s]E 
+[  1676.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1677.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1677.1s]E 
+[  1677.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1677.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1677.5s]E 
+[  1677.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1677.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1677.7s]E 
+[  1677.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1677.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1677.8s]E 
+[  1677.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1678.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1678.5s]E 
+[  1678.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1679.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1679.3s]E 
+[  1679.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1679.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1679.4s]E 
+[  1679.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1681.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1681.9s]E 
+[  1681.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1682.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1682.1s]E 
+[  1682.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1682.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1682.2s]E 
+[  1682.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1682.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1682.8s]E 
+[  1682.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1682.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 6.0s
+[  1682.8s]E 
+[  1682.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 6.0s
+[  1683.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1683.0s]E 
+[  1683.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1683.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1683.6s]E 
+[  1683.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1683.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1683.7s]E 
+[  1683.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1685.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1685.0s]E 
+[  1685.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1685.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1685.3s]E 
+[  1685.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1687.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1687.3s]E 
+[  1687.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1687.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1687.3s]E 
+[  1687.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1687.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1687.4s]E 
+[  1687.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1688.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1688.0s]E 
+[  1688.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1688.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1688.4s]E 
+[  1688.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1688.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1688.8s]E 
+[  1688.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1688.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1688.8s]E 
+[  1688.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1689.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1689.3s]E 
+[  1689.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1690.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1690.4s]E 
+[  1690.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1690.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1690.7s]E 
+[  1690.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1692.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a5d60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1692.3s]E 
+[  1692.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a5d60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1692.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5012fc0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1692.6s]E 
+[  1692.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5012fc0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1693.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a4e30>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1693.1s]E 
+[  1693.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a4e30>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1693.6s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5010bc0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1693.6s]E 
+[  1693.6s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5010bc0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1693.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5013d10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1693.9s]E 
+[  1693.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5013d10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1694.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5012360>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1694.3s]E 
+[  1694.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5012360>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1694.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a7a40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1694.7s]E 
+[  1694.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a7a40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1694.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50119d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1694.9s]E 
+[  1694.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50119d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1695.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5013f80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1695.9s]E 
+[  1695.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5013f80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1696.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a7ef0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1696.0s]E 
+[  1696.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a7ef0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1697.6s]  [sys] RAM 2.9/176.9 | swap none | proc 0.3 GB, 70 threads, 75 fds | GPU0 0.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1702.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1702.3s]E 
+[  1702.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1702.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1702.6s]E 
+[  1702.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1703.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1703.1s]E 
+[  1703.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1703.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1703.7s]E 
+[  1703.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1704.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1704.0s]E 
+[  1704.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1704.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1704.4s]E 
+[  1704.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1704.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1704.7s]E 
+[  1704.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1704.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1704.9s]E 
+[  1704.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1705.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1705.9s]E 
+[  1705.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1706.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1706.0s]E 
+[  1706.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1708.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1708.1s]E 
+[  1708.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1708.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1708.6s]E 
+[  1708.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1708.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1708.8s]E 
+[  1708.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1708.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1708.8s]E 
+[  1708.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1709.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1709.8s]E 
+[  1709.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1709.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1709.9s]E 
+[  1709.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1709.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1709.9s]E 
+[  1709.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1710.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1710.5s]E 
+[  1710.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1711.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1711.6s]E 
+[  1711.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1712.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1712.0s]E 
+[  1712.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1713.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1713.6s]E 
+[  1713.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1714.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1714.2s]E 
+[  1714.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1714.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1714.3s]E 
+[  1714.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1714.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1714.7s]E 
+[  1714.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1714.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1714.9s]E 
+[  1714.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1715.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1715.0s]E 
+[  1715.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1715.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1715.7s]E 
+[  1715.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1716.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1716.2s]E 
+[  1716.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1717.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1717.3s]E 
+[  1717.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1717.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1717.6s]E 
+[  1717.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1719.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527eff0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1719.3s]E 
+[  1719.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527eff0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1719.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa544db8f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1719.4s]E 
+[  1719.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa544db8f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1719.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545a9e80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1719.8s]E 
+[  1719.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545a9e80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1720.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa544db1a0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1720.1s]E 
+[  1720.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa544db1a0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1720.4s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c345700>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1720.4s]E 
+[  1720.4s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c345700>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1720.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545aa000>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1720.9s]E 
+[  1720.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545aa000>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1721.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527cc20>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1721.5s]E 
+[  1721.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527cc20>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1722.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa544db230>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1722.0s]E 
+[  1722.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa544db230>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1722.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545a9580>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1722.7s]E 
+[  1722.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545a9580>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1723.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa518fef0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1723.0s]E 
+[  1723.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa518fef0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1729.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1729.3s]E 
+[  1729.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1729.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1729.4s]E 
+[  1729.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1729.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1729.8s]E 
+[  1729.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1730.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1730.1s]E 
+[  1730.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1730.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1730.4s]E 
+[  1730.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1730.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1730.9s]E 
+[  1730.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1731.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1731.5s]E 
+[  1731.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1732.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1732.0s]E 
+[  1732.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1732.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1732.7s]E 
+[  1732.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1733.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1733.1s]E 
+[  1733.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1734.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1734.7s]E 
+[  1734.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1735.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1735.2s]E 
+[  1735.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1735.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1735.2s]E 
+[  1735.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1735.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1735.3s]E 
+[  1735.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1735.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1735.9s]E 
+[  1735.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1736.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1736.5s]E 
+[  1736.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1737.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1737.1s]E 
+[  1737.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1737.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1737.2s]E 
+[  1737.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1738.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1738.5s]E 
+[  1738.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1738.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1738.7s]E 
+[  1738.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1740.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1740.4s]E 
+[  1740.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1740.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1740.5s]E 
+[  1740.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1740.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1740.6s]E 
+[  1740.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1740.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1740.7s]E 
+[  1740.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1741.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1741.9s]E 
+[  1741.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1742.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1742.3s]E 
+[  1742.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1742.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1742.4s]E 
+[  1742.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1742.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1742.7s]E 
+[  1742.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1743.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1743.7s]E 
+[  1743.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1744.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1744.5s]E 
+[  1744.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1745.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e01a0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1745.8s]E 
+[  1745.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e01a0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1746.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e3050>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1746.0s]E 
+[  1746.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e3050>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1746.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e39b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1746.0s]E 
+[  1746.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e39b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1746.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e2c60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1746.2s]E 
+[  1746.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e2c60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1747.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e1f40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1747.5s]E 
+[  1747.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e1f40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1747.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e2660>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1747.6s]E 
+[  1747.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e2660>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1747.6s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e3d40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1747.6s]E 
+[  1747.6s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e3d40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1748.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e1250>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1748.0s]E 
+[  1748.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e1250>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1749.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e1970>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1749.4s]E 
+[  1749.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e1970>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1750.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5011610>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1750.3s]E 
+[  1750.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5011610>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1755.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1755.8s]E 
+[  1755.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1756.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1756.0s]E 
+[  1756.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1756.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1756.1s]E 
+[  1756.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1756.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1756.2s]E 
+[  1756.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1757.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1757.5s]E 
+[  1757.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1757.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1757.6s]E 
+[  1757.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1757.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1757.6s]E 
+[  1757.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1758.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1758.1s]E 
+[  1758.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1759.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1759.4s]E 
+[  1759.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1760.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1760.3s]E 
+[  1760.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1761.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1761.4s]E 
+[  1761.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1761.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1761.5s]E 
+[  1761.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1761.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 6.0s
+[  1761.6s]E 
+[  1761.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 6.0s
+[  1761.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1761.7s]E 
+[  1761.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1762.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1762.9s]E 
+[  1762.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1763.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1763.2s]E 
+[  1763.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1763.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 6.0s
+[  1763.3s]E 
+[  1763.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 6.0s
+[  1763.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1763.9s]E 
+[  1763.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1764.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1764.6s]E 
+[  1764.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.8s
+[  1765.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1765.4s]E 
+[  1765.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1766.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1766.4s]E 
+[  1766.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1766.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1766.5s]E 
+[  1766.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1767.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1767.4s]E 
+[  1767.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1767.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1767.6s]E 
+[  1767.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1768.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1768.0s]E 
+[  1768.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1768.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1768.8s]E 
+[  1768.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1769.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1769.3s]E 
+[  1769.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1769.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1769.6s]E 
+[  1769.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1770.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1770.4s]E 
+[  1770.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1771.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1771.3s]E 
+[  1771.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1771.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5179f70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1771.9s]E 
+[  1771.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5179f70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1772.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5179a60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1772.3s]E 
+[  1772.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5179a60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1773.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517a060>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1773.0s]E 
+[  1773.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517a060>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1773.3s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517b9e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1773.3s]E 
+[  1773.3s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517b9e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1773.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517b350>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1773.5s]E 
+[  1773.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517b350>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1774.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c782ae0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1774.4s]E 
+[  1774.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c782ae0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1774.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517ac60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1774.8s]E 
+[  1774.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517ac60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1775.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5179f70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1775.2s]E 
+[  1775.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5179f70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1775.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517a780>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1775.7s]E 
+[  1775.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa517a780>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1777.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54499700>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1777.2s]E 
+[  1777.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54499700>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1781.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1781.9s]E 
+[  1781.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1782.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1782.4s]E 
+[  1782.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1783.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1783.0s]E 
+[  1783.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1783.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1783.3s]E 
+[  1783.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1783.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1783.5s]E 
+[  1783.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1784.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1784.4s]E 
+[  1784.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1784.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1784.8s]E 
+[  1784.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1785.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1785.3s]E 
+[  1785.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1785.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1785.8s]E 
+[  1785.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1787.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1787.2s]E 
+[  1787.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1787.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1787.7s]E 
+[  1787.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1788.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1788.3s]E 
+[  1788.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1788.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1788.3s]E 
+[  1788.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1788.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1788.6s]E 
+[  1788.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1788.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1788.7s]E 
+[  1788.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1789.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1789.6s]E 
+[  1789.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1790.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1790.5s]E 
+[  1790.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1791.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1791.0s]E 
+[  1791.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1791.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1791.4s]E 
+[  1791.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1792.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1792.3s]E 
+[  1792.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1793.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1793.0s]E 
+[  1793.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1793.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1793.6s]E 
+[  1793.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1793.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1793.9s]E 
+[  1793.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1794.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.0s
+[  1794.2s]E 
+[  1794.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.0s
+[  1794.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 6.0s
+[  1794.3s]E 
+[  1794.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 6.0s
+[  1794.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.0s
+[  1794.8s]E 
+[  1794.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.0s
+[  1795.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1795.6s]E 
+[  1795.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1796.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1796.8s]E 
+[  1796.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1797.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1797.0s]E 
+[  1797.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1797.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1797.8s]E 
+[  1797.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1798.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c75ad80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1798.5s]E 
+[  1798.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c75ad80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1798.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54300da0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1798.7s]E 
+[  1798.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54300da0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1799.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f32c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1799.2s]E 
+[  1799.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f32c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1799.5s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e20f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1799.5s]E 
+[  1799.5s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e20f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1799.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5197140>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1799.9s]E 
+[  1799.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5197140>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1800.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f2150>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1800.3s]E 
+[  1800.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f2150>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1800.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e26c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1800.9s]E 
+[  1800.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e26c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1802.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa547f3da0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1802.1s]E 
+[  1802.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa547f3da0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1802.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51960c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1802.4s]E 
+[  1802.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51960c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1803.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e3f80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1803.4s]E 
+[  1803.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e3f80>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1808.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1808.5s]E 
+[  1808.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1808.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1808.7s]E 
+[  1808.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1809.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1809.2s]E 
+[  1809.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1809.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1809.6s]E 
+[  1809.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1809.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1809.9s]E 
+[  1809.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1810.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1810.3s]E 
+[  1810.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1810.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1810.9s]E 
+[  1810.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1812.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1812.1s]E 
+[  1812.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1812.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1812.4s]E 
+[  1812.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.5s
+[  1813.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1813.4s]E 
+[  1813.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1813.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1813.9s]E 
+[  1813.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1814.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1814.1s]E 
+[  1814.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1815.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1815.0s]E 
+[  1815.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1815.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1815.3s]E 
+[  1815.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1815.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1815.4s]E 
+[  1815.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1815.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1815.7s]E 
+[  1815.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1816.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1816.9s]E 
+[  1816.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1817.6s]  [sys] RAM 2.9/176.9 | swap none | proc 0.4 GB, 70 threads, 75 fds | GPU0 0.0/95.6 | disk / 7102.4/8156.9, /kaggle/working 0.0/19.5
+[  1817.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1817.7s]E 
+[  1817.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1817.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1817.9s]E 
+[  1817.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1819.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1819.0s]E 
+[  1819.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1819.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1819.4s]E 
+[  1819.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1819.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1819.9s]E 
+[  1819.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1820.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1820.6s]E 
+[  1820.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1820.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1820.7s]E 
+[  1820.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1821.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1821.0s]E 
+[  1821.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1821.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1821.3s]E 
+[  1821.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1822.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1822.8s]E 
+[  1822.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1822.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1822.9s]E 
+[  1822.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1823.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1823.4s]E 
+[  1823.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1824.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 6.0s
+[  1824.7s]E 
+[  1824.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 6.0s
+[  1824.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c780cb0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1824.9s]E 
+[  1824.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c780cb0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1825.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c4b7b60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1825.4s]E 
+[  1825.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c4b7b60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5178500>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.0s]E 
+[  1826.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5178500>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.1s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54580b00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.1s]E 
+[  1826.1s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54580b00>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54583a10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.7s]E 
+[  1826.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54583a10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e18e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1826.9s]E 
+[  1826.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c7e18e0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1828.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54580950>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1828.0s]E 
+[  1828.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54580950>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1828.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54583350>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1828.3s]E 
+[  1828.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa54583350>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1828.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f1fd0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1828.8s]E 
+[  1828.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f1fd0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1830.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa547f20f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1830.7s]E 
+[  1830.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa547f20f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1834.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1834.9s]E 
+[  1834.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1835.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1835.4s]E 
+[  1835.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1836.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1836.0s]E 
+[  1836.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1836.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1836.1s]E 
+[  1836.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.1s
+[  1836.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1836.7s]E 
+[  1836.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.8s
+[  1836.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1836.9s]E 
+[  1836.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1838.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1838.0s]E 
+[  1838.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1838.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1838.3s]E 
+[  1838.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1838.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1838.8s]E 
+[  1838.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1840.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.0s
+[  1840.7s]E 
+[  1840.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.0s
+[  1840.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1840.9s]E 
+[  1840.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1841.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1841.2s]E 
+[  1841.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1841.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1841.2s]E 
+[  1841.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1841.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1841.3s]E 
+[  1841.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1842.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1842.2s]E 
+[  1842.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1842.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1842.6s]E 
+[  1842.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1843.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1843.7s]E 
+[  1843.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1843.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1843.9s]E 
+[  1843.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.3s
+[  1844.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1844.1s]E 
+[  1844.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1845.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1845.7s]E 
+[  1845.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1846.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1846.4s]E 
+[  1846.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1846.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1846.5s]E 
+[  1846.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1846.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1846.6s]E 
+[  1846.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1846.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1846.8s]E 
+[  1846.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1847.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1847.7s]E 
+[  1847.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1847.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1847.9s]E 
+[  1847.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1849.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1849.3s]E 
+[  1849.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1849.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1849.6s]E 
+[  1849.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1849.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1849.7s]E 
+[  1849.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1850.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1850.9s]E 
+[  1850.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1851.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545aab40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1851.5s]E 
+[  1851.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545aab40>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1851.9s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f1fd0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1851.9s]E 
+[  1851.9s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f1fd0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1852.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5178050>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1852.1s]E 
+[  1852.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5178050>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1852.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa505cec0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1852.2s]E 
+[  1852.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa505cec0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1853.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa505c9b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1853.0s]E 
+[  1853.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa505c9b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1853.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545aaa20>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1853.3s]E 
+[  1853.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa545aaa20>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1854.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa52b3710>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1854.9s]E 
+[  1854.9s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa52b3710>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1855.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa505f380>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1855.2s]E 
+[  1855.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa505f380>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1855.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa547f2000>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1855.6s]E 
+[  1855.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa547f2000>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1856.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa52b11f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1856.0s]E 
+[  1856.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa52b11f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1861.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.0s
+[  1861.6s]E 
+[  1861.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.0s
+[  1861.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1861.9s]E 
+[  1861.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1862.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1862.1s]E 
+[  1862.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1862.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1862.2s]E 
+[  1862.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1863.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1863.0s]E 
+[  1863.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1863.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1863.4s]E 
+[  1863.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1865.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1865.0s]E 
+[  1865.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1865.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1865.2s]E 
+[  1865.2s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1865.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1865.6s]E 
+[  1865.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1866.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1866.0s]E 
+[  1866.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1866.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1866.6s]E 
+[  1866.6s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1867.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1867.2s]E 
+[  1867.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1867.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1867.5s]E 
+[  1867.5s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1868.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1868.1s]E 
+[  1868.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1868.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1868.8s]E 
+[  1868.8s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1869.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1869.0s]E 
+[  1869.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.6s
+[  1870.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1870.9s]E 
+[  1870.9s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1871.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1871.1s]E 
+[  1871.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1871.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1871.2s]E 
+[  1871.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.7s
+[  1871.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1871.3s]E 
+[  1871.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1872.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1872.0s]E 
+[  1872.0s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1873.1s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1873.1s]E 
+[  1873.1s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1873.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1873.4s]E 
+[  1873.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.2s
+[  1873.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1873.7s]E 
+[  1873.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1873.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1873.9s]E 
+[  1873.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1874.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.0s
+[  1874.7s]E 
+[  1874.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.0s
+[  1876.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1876.3s]E 
+[  1876.3s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1876.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1876.6s]E 
+[  1876.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.4s
+[  1876.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1876.7s]E 
+[  1876.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1876.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1876.9s]E 
+[  1876.9s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1877.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527c2f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1877.7s]E 
+[  1877.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527c2f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1878.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5149640>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1878.6s]E 
+[  1878.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5149640>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1878.8s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527e750>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1878.8s]E 
+[  1878.8s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527e750>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1879.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5149730>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1879.3s]E 
+[  1879.3s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5149730>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1879.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514bb60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1879.4s]E 
+[  1879.4s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514bb60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1879.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527d7f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1879.7s]E 
+[  1879.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa527d7f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1881.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514b8c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1881.8s]E 
+[  1881.8s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514b8c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1882.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514ae10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1882.0s]E 
+[  1882.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514ae10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1882.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c56a600>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1882.1s]E 
+[  1882.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c56a600>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1882.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51482f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1882.5s]E 
+[  1882.5s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51482f0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1887.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1887.7s]E 
+[  1887.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 6.0s
+[  1888.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1888.6s]E 
+[  1888.6s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.3s
+[  1888.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1888.8s]E 
+[  1888.8s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1889.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1889.3s]E 
+[  1889.3s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1889.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1889.4s]E 
+[  1889.4s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.6s
+[  1889.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1889.7s]E 
+[  1889.7s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.7s
+[  1891.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1891.9s]E 
+[  1891.9s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.4s
+[  1892.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.0s
+[  1892.0s]E 
+[  1892.0s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.0s
+[  1892.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1892.1s]E 
+[  1892.1s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.2s
+[  1892.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1892.5s]E 
+[  1892.5s]E analyzer endpoint unreachable (ConnectionError); retry 1/3 in 5.9s
+[  1893.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1893.7s]E 
+[  1893.7s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1894.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1894.0s]E 
+[  1894.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1894.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1894.3s]E 
+[  1894.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.4s
+[  1895.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1895.0s]E 
+[  1895.0s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.5s
+[  1895.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1895.2s]E 
+[  1895.2s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.9s
+[  1895.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1895.4s]E 
+[  1895.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1897.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1897.1s]E 
+[  1897.1s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1897.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1897.3s]E 
+[  1897.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.1s
+[  1897.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1897.3s]E 
+[  1897.3s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.2s
+[  1898.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1898.4s]E 
+[  1898.4s]E analyzer endpoint unreachable (ConnectionError); retry 2/3 in 5.0s
+[  1898.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 6.0s
+[  1898.8s]E 
+[  1898.8s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 6.0s
+[  1899.1s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1899.1s]E 
+[  1899.1s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1899.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1899.7s]E 
+[  1899.7s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.1s
+[  1900.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1900.6s]E 
+[  1900.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.6s
+[  1900.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1900.6s]E 
+[  1900.6s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.5s
+[  1901.1s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1901.1s]E 
+[  1901.1s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.9s
+[  1902.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1902.2s]E 
+[  1902.2s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.8s
+[  1902.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1902.4s]E 
+[  1902.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1902.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1902.5s]E 
+[  1902.5s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.7s
+[  1903.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1903.4s]E 
+[  1903.4s]E analyzer endpoint unreachable (ConnectionError); retry 3/3 in 5.3s
+[  1904.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5148d10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1904.7s]E 
+[  1904.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa5148d10>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1904.7s]E dc22-fdcac232: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1904.7s]E 
+[  1904.7s]E dc22-fdcac232: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1904.9s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a48c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1904.9s]E 
+[  1904.9s]E analyzer request failed at action 2: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa50a48c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1904.9s]E tn36-ef4dde99: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1904.9s]E 
+[  1904.9s]E tn36-ef4dde99: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1904.9s]  [finished] dc22-fdcac232 state=gave_up level=0/6 score=0.00 actions=0 tokens=0 per-level=0/59,0/102,0/67,0/98,0/324,0/578 note="analyzer failed 11 times consecutively"
+[  1904.9s]  [finished] tn36-ef4dde99 state=gave_up level=0/7 score=0.00 actions=1 tokens=0 per-level=1/32,0/72,0/26,0/40,0/30,0/55,0/62 note="analyzer failed 11 times consecutively"
+[  1905.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51496d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1905.0s]E 
+[  1905.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51496d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1905.0s]E g50t-5849a774: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1905.0s]E 
+[  1905.0s]E g50t-5849a774: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1905.2s]  [finished] g50t-5849a774 state=gave_up level=0/7 score=0.00 actions=0 tokens=0 per-level=0/78,0/175,0/179,0/230,0/96,0/54,0/67 note="analyzer failed 11 times consecutively"
+[  1906.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f1d30>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1906.1s]E 
+[  1906.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f1d30>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1906.1s]E ka59-38d34dbb: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1906.1s]E 
+[  1906.1s]E ka59-38d34dbb: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1906.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f1f70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1906.1s]E 
+[  1906.1s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f1f70>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1906.1s]E s5i5-18d95033: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1906.1s]E 
+[  1906.1s]E s5i5-18d95033: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1906.3s]  [finished] ka59-38d34dbb state=gave_up level=0/7 score=0.00 actions=0 tokens=0 per-level=0/28,0/109,0/51,0/51,0/33,0/132,0/326 note="analyzer failed 11 times consecutively"
+[  1906.3s]  [finished] s5i5-18d95033 state=gave_up level=0/8 score=0.00 actions=0 tokens=0 per-level=0/20,0/89,0/106,0/54,0/162,0/38,0/86,0/83 note="analyzer failed 11 times consecutively"
+[  1907.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514a7b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1907.0s]E 
+[  1907.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa514a7b0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1907.0s]E cn04-2fe56bfb: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1907.0s]E 
+[  1907.0s]E cn04-2fe56bfb: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1907.2s]  [finished] cn04-2fe56bfb state=gave_up level=0/6 score=0.00 actions=0 tokens=0 per-level=0/29,0/54,0/85,0/300,0/208,0/113 note="analyzer failed 11 times consecutively"
+[  1907.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f1a60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1907.6s]E 
+[  1907.6s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f1a60>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1907.6s]E su15-1944f8ab: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1907.6s]E 
+[  1907.6s]E su15-1944f8ab: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1907.8s]  [finished] su15-1944f8ab state=gave_up level=0/9 score=0.00 actions=0 tokens=0 per-level=0/22,0/42,0/26,0/115,0/36,0/31,0/8,0/40,0/41 note="analyzer failed 11 times consecutively"
+[  1908.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f2150>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1908.0s]E 
+[  1908.0s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa51f2150>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1908.0s]E m0r0-492f87ba: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1908.0s]E 
+[  1908.0s]E m0r0-492f87ba: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1908.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f1df0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1908.2s]E 
+[  1908.2s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aa4c3f1df0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1908.2s]E ls20-9607627b: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1908.2s]E 
+[  1908.2s]E ls20-9607627b: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1908.2s]  [finished] m0r0-492f87ba state=gave_up level=0/6 score=0.00 actions=0 tokens=0 per-level=0/30,0/111,0/203,0/26,0/500,0/237 note="analyzer failed 11 times consecutively"
+[  1908.2s]  [finished] ls20-9607627b state=gave_up level=0/7 score=0.00 actions=0 tokens=0 per-level=0/22,0/123,0/73,0/84,0/96,0/192,0/186 note="analyzer failed 11 times consecutively"
+[  1908.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa52b3200>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1908.7s]E 
+[  1908.7s]E analyzer request failed at action 1: HTTPConnectionPool(host='127.0.0.1', port=8001): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x79aaa52b3200>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[  1908.7s]E sc25-635fd71a: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1908.7s]E 
+[  1908.7s]E sc25-635fd71a: analyzer failed 11 times in a row; giving up on this game. The endpoint is probably down - nothing here can restart it.
+[  1908.9s]  [finished] sc25-635fd71a state=gave_up level=0/6 score=0.00 actions=0 tokens=0 per-level=0/36,0/6,0/32,0/83,0/143,0/50 note="analyzer failed 11 times consecutively"
+[  1911.1s]  benchmark: regenerated diagnostics in /kaggle/working in 1.84s
+[  1911.1s]  benchmark: duck-harness-kaggle
+[  1911.1s]  solver:    duck-harness
+[  1911.1s]  games:     10
+[  1911.1s]  passes:    1
+[  1911.1s]  runs:      10 (won: 0)
+[  1911.1s]  started:   2026-10-13 10:42:29
+[  1911.1s]  ended:     2026-10-13 11:01:59
+[  1911.1s]  duration:  19m 30s
+[  1911.1s]  mean score:    0.00
+[  1911.1s]  median score:  0.00
+[  1911.1s]  total actions: 1
+[  1911.1s]  total tokens:  0
+[  1911.1s]  generated tokens/sec: 0.00 (job wallclock)
+[  1911.1s]  total wallclock: 11674.4s
+[  1911.1s]  
+[  1911.1s]  per-game (mean across passes):
+[  1911.1s]    cn04-2fe56bfb: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1911.1s]    dc22-fdcac232: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1911.1s]    g50t-5849a774: score=0.00, levels=0.0/7, actions=0, tokens=0
+[  1911.1s]    ka59-38d34dbb: score=0.00, levels=0.0/7, actions=0, tokens=0
+[  1911.1s]    ls20-9607627b: score=0.00, levels=0.0/7, actions=0, tokens=0
+[  1911.1s]    m0r0-492f87ba: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1911.1s]    s5i5-18d95033: score=0.00, levels=0.0/8, actions=0, tokens=0
+[  1911.1s]    sc25-635fd71a: score=0.00, levels=0.0/6, actions=0, tokens=0
+[  1911.1s]    su15-1944f8ab: score=0.00, levels=0.0/9, actions=0, tokens=0
+[  1911.1s]    tn36-ef4dde99: score=0.00, levels=0.0/7, actions=1, tokens=0
+[  1911.1s]  
+[  1911.1s]  diagnostics: /kaggle/working/diagnostics.html
+[  1912.9s]E /usr/local/lib/python3.12/dist-packages/IPython/core/display.py:724: UserWarning: Consider using IPython.display.IFrame instead
+[  1912.9s]E   warnings.warn("Consider using IPython.display.IFrame instead")
+[  1912.9s]E 
+[  1912.9s]E /usr/local/lib/python3.12/dist-packages/IPython/core/display.py:724: UserWarning: Consider using IPython.display.IFrame instead
+[  1912.9s]E   warnings.warn("Consider using IPython.display.IFrame instead")
+[  1913.0s]  ARC3 smoke results:
+[  1913.0s]    tn36-ef4dde99            state=gave_up    levels=0/7 actions=1 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    m0r0-492f87ba            state=gave_up    levels=0/6 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    cn04-2fe56bfb            state=gave_up    levels=0/6 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    dc22-fdcac232            state=gave_up    levels=0/6 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    ka59-38d34dbb            state=gave_up    levels=0/7 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    sc25-635fd71a            state=gave_up    levels=0/6 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    s5i5-18d95033            state=gave_up    levels=0/8 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    ls20-9607627b            state=gave_up    levels=0/7 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    su15-1944f8ab            state=gave_up    levels=0/9 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]    g50t-5849a774            state=gave_up    levels=0/7 actions=0 non_reset=0 gen_tokens=0 score=0.00
+[  1913.0s]  ARC3 smoke: games=10 gen_tokens=0 non_reset_actions=0 crashed=[]
+[  1913.0s]  ARC3_SMOKE_FAILED
+[  1913.8s]E Traceback (most recent call last):
+[  1913.8s]E   File "<string>", line 1, in <module>
+[  1913.8s]E   File "/usr/local/lib/python3.12/dist-packages/papermill/execute.py", line 131, in execute_notebook
+[  1913.8s]E     raise_for_execution_errors(nb, output_path)
+[  1913.8s]E   File "/usr/local/lib/python3.12/dist-packages/papermill/execute.py", line 251, in raise_for_execution_errors
+[  1913.8s]E     raise error
+[  1913.8s]E papermill.exceptions.PapermillExecutionError: 
+[  1913.8s]E ---------------------------------------------------------------------------
+[  1913.8s]E Exception encountered at "In [13]":
+[  1913.8s]E ---------------------------------------------------------------------------
+[  1913.8s]E RuntimeError                              Traceback (most recent call last)
+[  1913.8s]E /tmp/ipykernel_65/1819092256.py in <cell line: 0>()
+[  1913.8s]E      20     print("ARC3_SMOKE_OK" if _ok else "ARC3_SMOKE_FAILED", flush=True)
+[  1913.8s]E      21     if not _ok:
+[  1913.8s]E ---> 22         raise RuntimeError("ARC3 smoke test failed - do not submit this version")
+[  1913.8s]E 
+[  1913.8s]E RuntimeError: ARC3 smoke test failed - do not submit this version
+[  1913.8s]E 
+[  1916.2s]E /usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+[  1916.2s]E   cells[i][c] = re.sub('\\\\\|', '|', cell)
+[  1916.6s]E /usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+[  1916.6s]E   text = re.sub(r'_', '\_', text) # Escape underscores in display text
+[  1917.6s]E [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+[  1917.7s]E [NbConvertApp] Writing 1819518 bytes to __notebook__.ipynb
+[  1919.0s]E [NbConvertApp] Converting notebook __notebook__.ipynb to html
+[  1920.5s]E [NbConvertApp] Writing 3423624 bytes to __results__.html

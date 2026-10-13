@@ -1,0 +1,359 @@
+{
+  "label": "duck-harness-kaggle",
+  "n_passes": 1,
+  "solver_label": "duck-harness",
+  "start_time": "2026-10-13T10:42:29.513775",
+  "end_time": "2026-10-13T11:01:59.652829",
+  "game_weights": null,
+  "periodic_save_interval_s": 600.0,
+  "game_runs": [
+    {
+      "game_id": "tn36-ef4dde99",
+      "number_of_levels": 7,
+      "base_actions_per_level": [
+        32,
+        72,
+        26,
+        40,
+        30,
+        55,
+        62
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [
+        {
+          "action": {
+            "id": "RESET",
+            "data": {}
+          },
+          "generated_tokens": 0,
+          "uncached_input_tokens": 0,
+          "wallclock_seconds": 0.5254868700000088
+        }
+      ],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/tn36-ef4dde99_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1165.9229958360002,
+      "started_at": "2026-10-13T10:42:29.867309"
+    },
+    {
+      "game_id": "m0r0-492f87ba",
+      "number_of_levels": 6,
+      "base_actions_per_level": [
+        30,
+        111,
+        203,
+        26,
+        500,
+        237
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/m0r0-492f87ba_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1169.026989903,
+      "started_at": "2026-10-13T10:42:29.902131"
+    },
+    {
+      "game_id": "cn04-2fe56bfb",
+      "number_of_levels": 6,
+      "base_actions_per_level": [
+        29,
+        54,
+        85,
+        300,
+        208,
+        113
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/cn04-2fe56bfb_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1167.967754556,
+      "started_at": "2026-10-13T10:42:29.939152"
+    },
+    {
+      "game_id": "dc22-fdcac232",
+      "number_of_levels": 6,
+      "base_actions_per_level": [
+        59,
+        102,
+        67,
+        98,
+        324,
+        578
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/dc22-fdcac232_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1165.6596284349998,
+      "started_at": "2026-10-13T10:42:29.982055"
+    },
+    {
+      "game_id": "ka59-38d34dbb",
+      "number_of_levels": 7,
+      "base_actions_per_level": [
+        28,
+        109,
+        51,
+        51,
+        33,
+        132,
+        326
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/ka59-38d34dbb_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1166.9146906459998,
+      "started_at": "2026-10-13T10:42:30.072479"
+    },
+    {
+      "game_id": "sc25-635fd71a",
+      "number_of_levels": 6,
+      "base_actions_per_level": [
+        36,
+        6,
+        32,
+        83,
+        143,
+        50
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/sc25-635fd71a_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1169.474980522,
+      "started_at": "2026-10-13T10:42:30.176804"
+    },
+    {
+      "game_id": "s5i5-18d95033",
+      "number_of_levels": 8,
+      "base_actions_per_level": [
+        20,
+        89,
+        106,
+        54,
+        162,
+        38,
+        86,
+        83
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/s5i5-18d95033_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1166.821467604,
+      "started_at": "2026-10-13T10:42:30.230136"
+    },
+    {
+      "game_id": "ls20-9607627b",
+      "number_of_levels": 7,
+      "base_actions_per_level": [
+        22,
+        123,
+        73,
+        84,
+        96,
+        192,
+        186
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/ls20-9607627b_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1168.8021811459998,
+      "started_at": "2026-10-13T10:42:30.282780"
+    },
+    {
+      "game_id": "su15-1944f8ab",
+      "number_of_levels": 9,
+      "base_actions_per_level": [
+        22,
+        42,
+        26,
+        115,
+        36,
+        31,
+        8,
+        40,
+        41
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/su15-1944f8ab_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1168.199964554,
+      "started_at": "2026-10-13T10:42:30.322542"
+    },
+    {
+      "game_id": "g50t-5849a774",
+      "number_of_levels": 7,
+      "base_actions_per_level": [
+        78,
+        175,
+        179,
+        230,
+        96,
+        54,
+        67
+      ],
+      "hint": null,
+      "state": "gave_up",
+      "history": [],
+      "record_intermediate_states": true,
+      "actions_per_level": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "levels_completed": 0,
+      "final_score": 0.0,
+      "solver_note": "analyzer failed 11 times consecutively",
+      "solver_analysis_html": "solver_analysis/g50t-5849a774_p0.html",
+      "final_generated_tokens": 0,
+      "final_uncached_input_tokens": 0,
+      "final_wallclock_seconds": 1165.5674885610001,
+      "started_at": "2026-10-13T10:42:30.376022"
+    }
+  ]
+}
