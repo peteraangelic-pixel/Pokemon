@@ -1,0 +1,12 @@
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/serve.log
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/cn04-2fe56bfb_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/dc22-fdcac232_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/g50t-5849a774_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/ka59-38d34dbb_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/ls20-9607627b_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/m0r0-492f87ba_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/s5i5-18d95033_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/sc25-635fd71a_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/su15-1944f8ab_p0.txt
+Output file downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/transcripts/tn36-ef4dde99_p0.txt
+Kernel log downloaded to /home/runner/work/Pokemon/Pokemon/arc-agi-3/duck/ops/results/r014-output/out_petersharps__arc3-duck/arc3-duck.log
