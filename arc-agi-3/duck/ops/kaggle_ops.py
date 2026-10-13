@@ -393,7 +393,21 @@ def op_user(ctx: Ctx, args: dict) -> None:
         op_pull(ctx, {"refs": args["pull"]})
 
 
+def op_search(ctx: Ctx, args: dict) -> None:
+    """Search Kaggle models / datasets / competition notebooks for each query."""
+    for q in args.get("queries", []):
+        ctx.say(f"## {q}")
+        for what, cmd in (("models", ["models", "list", "-s", q, "--page-size", "30", "--csv"]),
+                          ("datasets", ["datasets", "list", "-s", q, "--csv"]),
+                          ("kernels", ["kernels", "list", "--competition", COMP, "-s", q, "--page-size", "20", "--csv"])):
+            code, out = kg(*cmd)
+            safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", q)
+            ctx.save(f"search_{safe}_{what}.csv", out)
+            ctx.block(f"{what} (code={code})", "\n".join(out.splitlines()[:25]), 27)
+
+
 OPS = {
+    "search": op_search,
     "user": op_user,
     "recon": op_recon, "pull": op_pull, "push": op_push, "status": op_status,
     "submit": op_submit, "submissions": op_submissions, "topics": op_topics,

@@ -1,5 +1,5 @@
 {
-  "id": "r011",
-  "op": "user",
-  "args": {"users": ["majkel1337", "Majkel1337"]}
+  "id": "r012",
+  "op": "search",
+  "args": {"queries": ["qwen3.8", "flash-next", "gpt-oss-120b", "gemma-4", "kolibri", "qwen3.6-35b", "nemotron", "glm-5", "deepseek"]}
 }
