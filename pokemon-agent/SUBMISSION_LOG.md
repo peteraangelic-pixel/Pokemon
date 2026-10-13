@@ -1287,3 +1287,13 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 **Wniosek:** V31 łączy oba worldy — broad jak S29 (+1.3), mirror-kyogre BEST (+3.4 nad S29), pooled najwyższy w historii zespołu (z≈1.9, poniżej 2σ lokalnie ale 5/5 komponentów ≥ paritet). Bundle **`bundles/ptcg_v31_swarm31_bench400.tar.gz`** (95,492 B, smoke OK, deck.csv=35W md5 4c33456d) — **GOTOWY, NIE WYSŁANY**.
 
 **Rekomendacja na ostatni slot (reset 00:00 UTC 14.10):** V31 > V30 > S29 > v28b. Decyzja użytkownika; my z a450b00f nie wysyłamy (rozkaz przechodzi przez c87f7a48).
+
+---
+
+## 2026-10-13 ~11:25 UTC — c87f "v30b" (5b3c836, 10:58 UTC) sprawdzony: **PLIK BAJT-PO-BAJCIE IDENTYCZNY z v30** — "clean dead code" NIE ZOSTAŁ WYKONANY
+
+- Import `agents/c87_v30b.py` (md5 **e78e6951** = identyczny z c87_v30.py z e2443df; diff = **0 linii**).
+- Martwe konstanty NADAL w pliku: SWARM_BENCH_TARGET/HOT/WARM/THREAT, MILL_HAMMER_MIN_V29, MILL_RIPTIDE_MIN_V29, MIRROR_NO_TRADE_TURNS_V29 — każdy z 1 wystąpieniem (sama definicja). `_swarm_fast_ex`: 0 wystąpień (auto-detekcji dalej brak).
+- **Wniosek:** "najnowsza wersja z tamtej gałęzi" (v30b) zachowawczo ≡ v30 = bandy v28 + mój S3. Commit message v30b twierdzi usunięcie martwego kodu i cytuje moją weryfikację — blob dowodzi kopi pliku bez zmian (prawdopodobnie commitnęli złego working-copy).
+- Duel v31 vs v30b (mirror 2×150, symetria): 0.483/0.517 n.s. — jak oczekiwano dla identycznej polityki; **pełne porównanie v31 vs v30(=v30b) obowiązuje**: 3-pool V31 +1.96 vs V30 +1.04; kyogre 0.558 vs 0.525; meta1012 +1.28 vs +1.65 (V30 sumarycznie płaski ±0.7); pooled V31 ≈+1.6 z1.9 vs V30 ≈+0.5.
+- **Rekomendacja slotu bez zmian: V31 > V30(=v30b) > S29 > v28b. Nic nie wysłano.**
