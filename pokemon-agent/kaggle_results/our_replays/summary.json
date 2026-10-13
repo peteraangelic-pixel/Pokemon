@@ -1,13 +1,27 @@
 {
-  "fetched_utc": "2026-10-13T04:48:19.009950+00:00",
+  "fetched_utc": "2026-10-13T04:53:21.006059+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 19,
-  "episodes_listed": 2,
-  "replays_downloaded": 2,
+  "episodes_listed": 5,
+  "replays_downloaded": 5,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 2,
+  "total_json_on_disk": 5,
   "sample_analysis": [
+    {
+      "file": "episode-123160320-replay.json",
+      "episodeId": 123160320,
+      "teamNames": [
+        "Raosaheb",
+        "PeterSharps"
+      ],
+      "winner": "Raosaheb",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 136
+    },
     {
       "file": "episode-123158103-replay.json",
       "episodeId": 123158103,
@@ -23,6 +37,20 @@
       "steps": 150
     },
     {
+      "file": "episode-123162657-replay.json",
+      "episodeId": 123162657,
+      "teamNames": [
+        "PeterSharps",
+        "mm bbAlez"
+      ],
+      "winner": "PeterSharps",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 139
+    },
+    {
       "file": "episode-123158104-replay.json",
       "episodeId": 123158104,
       "teamNames": [
@@ -35,6 +63,20 @@
         -1
       ],
       "steps": 87
+    },
+    {
+      "file": "episode-123162652-replay.json",
+      "episodeId": 123162652,
+      "teamNames": [
+        "Mandavi Singh",
+        "PeterSharps"
+      ],
+      "winner": "Mandavi Singh",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 100
     }
   ]
 }
