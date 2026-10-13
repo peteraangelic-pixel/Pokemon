@@ -1,1 +1,1 @@
-top50 BATCH 2/4 selection-only (Kaggle replay 429): top_n=50 replays_per_team=7 subs_per_team=2 max_files=0 delay=0.2 skip_download=1 rank_start=8 rank_end=21 outdir=pokemon-agent/kaggle_results/top50_b2 extract_out=pokemon-agent/decks/top50_b2 clean=1
+top50 BATCH 3/4 selection-only (Kaggle replay 429): top_n=50 replays_per_team=7 subs_per_team=2 max_files=0 delay=0.2 skip_download=1 rank_start=22 rank_end=35 outdir=pokemon-agent/kaggle_results/top50_b3 extract_out=pokemon-agent/decks/top50_b3 clean=1
