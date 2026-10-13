@@ -1,0 +1,1 @@
+libcg.so not found — `bash setup.sh` or `pip install kaggle-environments`

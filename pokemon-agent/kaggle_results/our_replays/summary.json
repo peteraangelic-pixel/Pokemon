@@ -1,12 +1,12 @@
 {
-  "fetched_utc": "2026-10-13T04:53:21.006059+00:00",
+  "fetched_utc": "2026-10-13T04:57:18.086652+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 19,
-  "episodes_listed": 5,
-  "replays_downloaded": 5,
+  "episodes_listed": 6,
+  "replays_downloaded": 6,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 5,
+  "total_json_on_disk": 6,
   "sample_analysis": [
     {
       "file": "episode-123160320-replay.json",
@@ -35,6 +35,20 @@
         1
       ],
       "steps": 150
+    },
+    {
+      "file": "episode-123164980-replay.json",
+      "episodeId": 123164980,
+      "teamNames": [
+        "PeterSharps",
+        "Somesh Biswas"
+      ],
+      "winner": "Somesh Biswas",
+      "rewards": [
+        -1,
+        1
+      ],
+      "steps": 219
     },
     {
       "file": "episode-123162657-replay.json",

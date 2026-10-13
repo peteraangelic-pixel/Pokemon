@@ -1,0 +1,25 @@
+== diag Tue Oct 13 04:57:08 UTC 2026
+Name: kaggle
+Version: 2.2.4
+Kaggle CLI 2.2.4
+== replay --help:
+usage: __main__.py competitions replay [-h] [-p PATH] [-q] episode_id
+
+options:
+  -h, --help            show this help message and exit
+  episode_id            Episode ID (find these with "kaggle competitions episodes <submission_id>")
+  -p PATH, --path PATH  Folder where file(s) will be downloaded, defaults to current working directory
+  -q, --quiet           Suppress printing information about the upload/download progress
+== episodes --help:
+usage: __main__.py competitions episodes [-h] [-v | --format OUTPUT_FORMAT]
+                                         [-q]
+                                         submission_id
+
+options:
+  -h, --help            show this help message and exit
+  submission_id         Submission ID (find yours with "kaggle competitions submissions <competition>")
+  -v, --csv             Print results in CSV format (if not set print in table format)
+  --format OUTPUT_FORMAT
+                        Print results in selected format (csv, table, json). For details on advanced options, see
+                        https://github.com/Kaggle/kaggle-cli/blob/main/docs/output_format.md
+  -q, --quiet           Suppress printing information about the upload/download progress
