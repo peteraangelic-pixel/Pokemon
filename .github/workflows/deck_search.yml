@@ -12,6 +12,49 @@ on:
       - "pokemon-agent/kaggle_results/deck_search.trigger"
   workflow_dispatch: {}
 
+  f2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [101, 202]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet kaggle-environments
+      - name: F2 retest (seed ${{ matrix.seed }})
+        run: |
+          set -e
+          cd pokemon-agent
+          mkdir -p search_results
+          .venv/bin/python tools/f2_retest.py             --agent agents/c87_v26_weakfix.py             --candidates search_results/f1_top10.json --top 10             --games 30 --seed ${{ matrix.seed }}             --out search_results/f2_seed${{ matrix.seed }}.json
+      - name: Commit results (rebase-retry)
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && break || sleep $((i*10))
+          done
+          git add -f pokemon-agent/search_results/ || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "deck-search F2: seed ${{ matrix.seed }} [skip ci]"
+            for i in 1 2 3; do
+              git push origin "HEAD:${GITHUB_REF_NAME}" && break || { sleep $((i*5)); git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true; }
+            done
+          fi
+
 permissions:
   contents: write
 
