@@ -155,3 +155,30 @@ c87 (tip 457b0fa) przeanalizowała 249 epizodów / 142 strat live (loss_snapshot
 | mirror 200 | 0.475 | **0.535** | FLOOD +6.00pp (z=1.20) |
 
 **Ostateczna rekomendacja slotu (doradztwo, bez submitu):** oba n.s. względem siebie. Live pole karze głównie ?-archetypy (WR 0.22-0.29) + kyogre (55% meczów) → **c87 v28** atakuje dokładnie tę dziurę (FAST_EX + bench400) i ma +2pp na newarch; risk ≈ 0 (górna granica = weakfix już live). FLOOD = równie dobry alternatywny kandydat (silniejszy mirror). Merge koda v28+FLOOD możliwy ale nietestowany (stacki traciły tempo u a450).
+
+## DODAANE 10-13 ~11:15 UTC: porównanie 3 gałęzi + BUG attack-est potwierdzony też u mnie
+
+### Stan gałęzi (10-13)
+- **a450b00f** (tip 0ce6616): (1) **DECK SEARCH F1+F2 ZAMKNIĘTY**: 270 kandydatów, F2 pre-rejestrowana bramka (≥+2pp ORAZ z≥2 na 2 seedach, 74 decki×30g) → **0/10 PASS**; **35W-noBoss optymalny w promieniu ±3 kart**; koncept swarm (Lucario/Ogerpon) = 0.364/0.420 = martwy z naszym scoringiem; (2) **v29 SWARM** = weakfix + S1 bench-as-resource (hot 35/warm 15, cel 3) + S2 auto-fast-ex (136 id z db: ex∨mex ∧ (hp≥200 ∨ hp≥150∧rc≤2)) + **S3 attack-est fix**; ich wyniki vs weakfix: 5/5 pul ≥0, pooled +0.5pp z~1.2 (poniżej 2σ); bundle ready NIE WYSŁANY; (3) weryfikacja c87 v30 (patrz niżej).
+- **c87f7a48** (tip e2443df): v29 = v28 + port mojego mirror-specialista (**MARTWY KOD — zweryfikowane przeze mnie: MILL_HAMMER_MIN_V29/MILL_RIPTIDE_MIN_V29/MIRROR_NO_TRADE_TURNS_V29 = 1 wystąpienie = definicja**), v30 = v29 + a450 S3 (żywym 1:1) + swarm-bench (**też martwe: SWARM_BENCH_* bez wywołań**). Commit message opisuje zachowania, których kod nie wykonuje.
+
+### Odkrycie dnia: BUG monetowy Riptide/Hammer — jest też w MOIM v25
+Riptide 1042 + Hammer-lanche 1046 mają **d=0 w card db** (dmg w tekście efektu). Gałąź `SelectType.ATTACK` (dialog "wybierz atak") we WSZYSTKICH wersjach linii (w21-v30, 3 gałęzie) oceniała ataki surowym `d` → 0-0 → kolejność silnika = **coin toss**. Mój v25: linia 1441 — POTWIERDZONE. `estimate_attack_damage` umie liczyć obie (test: Riptide=40, Hammer=555 przy 3W) — tylko nie było podpięte w tej gałęzi.
+
+### Moja macierz A/B (D0, opp=v25, ~25k gier)
+| Agent | kyogre26+exotic5+weak8 | newarch10 | mirror 200 |
+|---|---|---|---|
+| mój v25 (base) | 0.652 | 0.847 | 0.530 |
+| **mój v31 = v25+S3** | **0.627 (−2.49pp, z=2.29)** | 0.860 | 0.500 |
+| c87 v30 | **0.668 (+3.21pp, z=2.97)**; kyogre +2.85 z2.06, exotic +6.20 z2.92, weak +2.50 z1.59 | 0.867 (remis) | **0.425 (−9.00pp, z=1.81)** |
+| a450 v29 swarm | 0.664 (+1.64pp, z=1.53) | 0.879 (+2.20, z=1.45) | 0.540 (+7.00, z=1.40) |
+| v30 vs v29 (duel) | 0.675 vs 0.663 (v30 +1.18 z1.11) | — | 0.540 vs 0.530 |
+
+**Wnioski:**
+1. **S3 attack-est fix sam na czystym v25 = istotna STRATA (−2.49pp z2.29)** — głównie kyogre −3.42 z2.47. Mechanizm: w mill-race (mirror/kyogre) wymuszony Hammer (KO+300) przyspiesza WŁASNE deckout; coin toss statystycznie wydłużał wyścig. **Nowe odkrycie — żadna gałąź nie testowała fixa w izolacji.**
+2. **c87 v30 = najsilniejszy vs non-mirror** (exotic +6.2 z2.92 — bench400 ratuje matchupy z fast-ex), ale **mirror −9pp** (guard ≤15/20/25 + over-mill z S3).
+3. **a450 v29 swarm = najrówniejszy** vs v25 (wszystko ≥0: 3-pool +1.64, newarch +2.2, mirror +7.0, zero istotnych regresji).
+4. weakfix (LIVE) nadal ≥ v30 na mojej 3-puli (0.676 vs 0.668) — zysk v30 vs weakfix jest w niszy exotic/?.
+
+### v32 (mój, w teście) = v30 + guard mill-race w mirror
+W mirror (seen ∩ {721,722,723}) i deck≤15 → powrót do raw-d (coin toss) w SelectType.ATTACK; wszędzie indziej S3 zostaje. Cel: moc v30 na exotic/kyogre + przeżywalność mirror. Wynik poniżej.
