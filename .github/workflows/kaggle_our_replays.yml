@@ -61,23 +61,23 @@ jobs:
             python -m kaggle --version 2>&1 | head -1
             echo "== replay --help:"; python -m kaggle competitions replay --help 2>&1 | head -25
             echo "== episodes --help:"; python -m kaggle competitions episodes --help 2>&1 | head -15
-          } > /tmp/diag.log 2>&1
+          } > /tmp/diag.txt 2>&1
 
           python pokemon-agent/tools/fetch_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
-            --outdir "$OUT" --top-k 80 --no-official > /tmp/fetch.log 2>&1
+            --outdir "$OUT" --top-k 80 --no-official > /tmp/fetch.txt 2>&1
           rc1=$?
           python pokemon-agent/tools/summarize_episodes.py \
-            --outdir "$OUT" > /tmp/summarize.log 2>&1
+            --outdir "$OUT" > /tmp/summarize.txt 2>&1
           rc2=$?
 
           # ALWAYS make the logs + diag committable (the agent cannot read Actions logs)
-          cp /tmp/diag.log "$OUT/diag.log" 2>/dev/null || true
-          cp /tmp/fetch.log "$OUT/fetch.log" 2>/dev/null || true
-          cp /tmp/summarize.log "$OUT/summarize.log" 2>/dev/null || true
+          cp /tmp/diag.txt "$OUT/diag.txt" 2>/dev/null || true
+          cp /tmp/fetch.txt "$OUT/fetch.txt" 2>/dev/null || true
+          cp /tmp/summarize.txt "$OUT/summarize.txt" 2>/dev/null || true
 
-          echo "---- fetch.log tail ----"; tail -30 /tmp/fetch.log
-          echo "---- summarize.log ----"; cat /tmp/summarize.log
+          echo "---- fetch.log tail ----"; tail -30 /tmp/fetch.txt
+          echo "---- summarize.log ----"; cat /tmp/summarize.txt
           [ $rc1 -ne 0 ] && { echo "FETCH FAILED rc=$rc1"; exit 1; }
           [ $rc2 -ne 0 ] && { echo "SUMMARIZE FAILED rc=$rc2"; exit 1; }
 

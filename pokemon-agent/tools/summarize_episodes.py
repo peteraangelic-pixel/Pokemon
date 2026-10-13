@@ -250,4 +250,17 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import traceback
+    try:
+        main()
+    except Exception:
+        tb = traceback.format_exc()
+        outdir = "kaggle_results/our_replays"
+        try:
+            with open(os.path.join(outdir, "summarize_crash.txt"), "w") as fh:
+                fh.write(tb)
+        except OSError:
+            pass
+        print("SUMMARIZE CRASH (traceback in summarize_crash.txt):")
+        print(tb)
+        raise
