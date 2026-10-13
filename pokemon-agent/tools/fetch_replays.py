@@ -111,11 +111,17 @@ def rows_from_csv(text: str) -> list[dict]:
     return list(csv.DictReader(io.StringIO(text)))
 
 
-def list_our_submissions(slug: str) -> list[dict]:
+def list_our_submissions(slug: str, out_path: Path | None = None) -> list[dict]:
     rc, out, err = kaggle(["competitions", "submissions", "-c", slug, "--format", "csv", "--page-size", "200", "-q"])
     if rc != 0:
         print(f"submissions failed: {(err or out)[:500]}", file=sys.stderr)
         return []
+    if out_path is not None and out.strip():
+        try:
+            out_path.write_text(out.strip() + "\n", encoding="utf-8")
+            print(f"wrote {out_path}")
+        except OSError as exc:
+            print(f"could not write submissions list: {exc!r}", file=sys.stderr)
     return rows_from_csv(out)
 
 
@@ -261,7 +267,7 @@ def main() -> int:
     print(f"Fetching replays into {outdir}")
 
     # 1. Our submissions
-    subs = list_our_submissions(args.competition)
+    subs = list_our_submissions(args.competition, outdir / "submissions_list.csv")
     print(f"Found {len(subs)} own submissions")
     # Sort by date newest first
     def sdate(r):
