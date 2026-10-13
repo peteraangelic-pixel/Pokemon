@@ -1,1 +1,1 @@
-re-arm 2026-10-13T04:52:36Z - run after episodes_table glob fix
+re-arm 2026-10-13T04:56:40Z - direct logs + state snapshot

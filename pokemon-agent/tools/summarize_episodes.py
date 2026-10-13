@@ -259,12 +259,22 @@ if __name__ == "__main__":
         main()
     except Exception:
         tb = traceback.format_exc()
-        outdir = "kaggle_results/our_replays"
         try:
-            with open(os.path.join(outdir, "summarize_crash.txt"), "w") as fh:
-                fh.write(tb)
-        except OSError:
-            pass
+            import argparse as _ap
+            _out = _ap.ArgumentParser().parse_known_args()[0].get("_outdir", None)
+        except Exception:
+            _out = None
+        _cands = []
+        if _out: _cands.append(_out)
+        _cands += ["pokemon-agent/kaggle_results/our_replays", "kaggle_results/our_replays"]
+        for _od in _cands:
+            try:
+                os.makedirs(_od, exist_ok=True)
+                with open(os.path.join(_od, "summarize_crash.txt"), "w") as fh:
+                    fh.write(tb)
+                break
+            except OSError:
+                continue
         print("SUMMARIZE CRASH (traceback in summarize_crash.txt):")
         print(tb)
         raise

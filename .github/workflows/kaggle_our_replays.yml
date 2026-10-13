@@ -61,23 +61,18 @@ jobs:
             python -m kaggle --version 2>&1 | head -1
             echo "== replay --help:"; python -m kaggle competitions replay --help 2>&1 | head -25
             echo "== episodes --help:"; python -m kaggle competitions episodes --help 2>&1 | head -15
-          } > /tmp/diag.txt 2>&1
+          } > "$OUT/diag.txt" 2>&1
 
           python pokemon-agent/tools/fetch_replays.py \
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
-            --outdir "$OUT" --top-k 80 --no-official > /tmp/fetch.txt 2>&1
+            --outdir "$OUT" --top-k 80 --no-official > "$OUT/fetch.txt" 2>&1
           rc1=$?
           python pokemon-agent/tools/summarize_episodes.py \
-            --outdir "$OUT" > /tmp/summarize.txt 2>&1
+            --outdir "$OUT" > "$OUT/summarize.txt" 2>&1
           rc2=$?
 
-          # ALWAYS make the logs + diag committable (the agent cannot read Actions logs)
-          cp /tmp/diag.txt "$OUT/diag.txt" 2>/dev/null || true
-          cp /tmp/fetch.txt "$OUT/fetch.txt" 2>/dev/null || true
-          cp /tmp/summarize.txt "$OUT/summarize.txt" 2>/dev/null || true
-
-          echo "---- fetch.log tail ----"; tail -30 /tmp/fetch.txt
-          echo "---- summarize.log ----"; cat /tmp/summarize.txt
+          echo "---- fetch tail ----"; tail -30 "$OUT/fetch.txt" 2>/dev/null
+          echo "---- summarize ----"; cat "$OUT/summarize.txt" 2>/dev/null
           [ $rc1 -ne 0 ] && { echo "FETCH FAILED rc=$rc1"; exit 1; }
           [ $rc2 -ne 0 ] && { echo "SUMMARIZE FAILED rc=$rc2"; exit 1; }
 
@@ -90,6 +85,10 @@ jobs:
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
           find pokemon-agent/kaggle_results/our_replays -type f -size +5M -delete || true
           git add -A pokemon-agent/kaggle_results/our_replays/ || true
+          { echo "== commit-back state $(date -u)"; ls -la pokemon-agent/kaggle_results/our_replays/ | head -40
+            echo "== git status:"; git status --porcelain | head -20
+            echo "== ignore check:"; git check-ignore -v pokemon-agent/kaggle_results/our_replays/fetch.txt 2>&1 || echo "not ignored"
+          } > pokemon-agent/kaggle_results/our_replays/commit_back_state.txt 2>&1
           git add -f pokemon-agent/kaggle_results/our_replays/*.txt 2>/dev/null || true
           if [ -n "$(git status --porcelain pokemon-agent/kaggle_results/our_replays)" ]; then
             git commit -m "chore(kaggle): our replays [skip ci]"
