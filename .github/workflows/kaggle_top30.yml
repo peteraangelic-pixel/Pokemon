@@ -31,6 +31,8 @@ on:
     paths:
       - "pokemon-agent/kaggle_results/top30_live.trigger"
       - "pokemon-agent/kaggle_results/top30.trigger"
+      - "pokemon-agent/kaggle_results/top50_live.trigger"
+      - "pokemon-agent/kaggle_results/top50.trigger"
 
 permissions:
   contents: write
@@ -65,7 +67,7 @@ jobs:
           TOP_N="${{ inputs.top_n || '' }}"
           RPT="${{ inputs.replays_per_team || '' }}"
           MAXF="${{ inputs.max_files || '' }}"
-          for f in pokemon-agent/kaggle_results/top30_live.trigger pokemon-agent/kaggle_results/top30.trigger pokemon-agent/kaggle_results/top10_live.trigger pokemon-agent/kaggle_results/top10.trigger; do
+          for f in pokemon-agent/kaggle_results/top50_live.trigger pokemon-agent/kaggle_results/top30_live.trigger pokemon-agent/kaggle_results/top30.trigger pokemon-agent/kaggle_results/top10_live.trigger pokemon-agent/kaggle_results/top10.trigger; do
             [ -f "$f" ] || continue
             [ -n "$TOP_N" ] || TOP_N=$(sed -n 's/.*top_n=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
             [ -n "$RPT" ] || RPT=$(sed -n 's/.*replays_per_team=\([0-9][0-9]*\).*/\1/p' "$f" | head -1)
