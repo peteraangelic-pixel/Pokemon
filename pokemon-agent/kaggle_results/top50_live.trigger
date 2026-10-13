@@ -1,1 +1,1 @@
-top50 BATCH 5 patch missing teams + replay probe: top_n=50 replays_per_team=7 subs_per_team=2 max_files=0 delay=1.0 skip_download=0 team_ids=16991525,17032277,17098934,17028555 outdir=pokemon-agent/kaggle_results/top50_b5 extract_out=pokemon-agent/decks/top50_b5 clean=1
+top50 BATCH 5 retry after 21:00 UTC: top_n=50 replays_per_team=7 subs_per_team=2 max_files=0 delay=1.0 skip_download=0 team_ids=16991525,17032277,17098934,17028555 outdir=pokemon-agent/kaggle_results/top50_b5 extract_out=pokemon-agent/decks/top50_b5 clean=1
