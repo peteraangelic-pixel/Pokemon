@@ -1,15 +1,17 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-13T04:35:24.809960+00:00_
+_fetched 2026-10-13T04:43:26.871273+00:00_
 
 - Own submissions: 17
-- Episodes listed: 112
-- Replays downloaded (our last 80 per live sub): 0
+- Episodes listed: 115
+- Replays downloaded (our last 80 per live sub): 115
 - Official dataset: none found (0 files)
-- Total JSON on disk: 0
+- Total JSON on disk: 115
 
 ## Recent episodes (our agents)
 
+- {'id': '123155794', 'createTime': '2026-10-13 04:37:29.238000', 'endTime': '2026-10-13 04:38:35.166000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '123153532', 'createTime': '2026-10-13 04:33:27.804000', 'endTime': '2026-10-13 04:37:26.429000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '123151304', 'createTime': '2026-10-13 04:29:32.644000', 'endTime': '2026-10-13 04:32:56.081000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '123149025', 'createTime': '2026-10-13 04:25:27.025000', 'endTime': '2026-10-13 04:27:40.707000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '123146847', 'createTime': '2026-10-13 04:21:26.590000', 'endTime': '2026-10-13 04:24:13.844000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
@@ -28,8 +30,26 @@ _fetched 2026-10-13T04:35:24.809960+00:00_
 - {'id': '123120164', 'createTime': '2026-10-13 03:33:31.254000', 'endTime': '2026-10-13 03:34:58.491000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '123117927', 'createTime': '2026-10-13 03:29:38.266000', 'endTime': '2026-10-13 03:33:25.138000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '123115659', 'createTime': '2026-10-13 03:25:29.367000', 'endTime': '2026-10-13 03:29:39.338000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123113385', 'createTime': '2026-10-13 03:21:30.926000', 'endTime': '2026-10-13 03:26:07.853000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123111145', 'createTime': '2026-10-13 03:17:32.357000', 'endTime': '2026-10-13 03:19:19.625000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 
 ## Sample replay analysis (first 20)
 
+- episode-123120164-replay.json: teams=['PeterSharps', 'Sanchay Singh'] winner=Sanchay Singh steps=86
+- episode-123090697-replay.json: teams=['PeterSharps', 'RoboPlayz'] winner=RoboPlayz steps=256
+- episode-123129153-replay.json: teams=['PeterSharps', 'EVIG EMIT ตัวปลอม'] winner=PeterSharps steps=279
+- episode-123106698-replay.json: teams=['Jonathan Axl', 'PeterSharps'] winner=PeterSharps steps=158
+- episode-123115659-replay.json: teams=['PeterSharps', 'Wei Hsiang Lin111'] winner=PeterSharps steps=318
+- episode-123126922-replay.json: teams=['PeterSharps', 'jdx'] winner=jdx steps=137
+- episode-123117927-replay.json: teams=['PeterSharps', 'cottonandcolor'] winner=PeterSharps steps=114
+- episode-123083853-replay.json: teams=['PeterSharps', 'Zapaxe'] winner=Zapaxe steps=117
+- episode-123131397-replay.json: teams=['lswuwu', 'PeterSharps'] winner=PeterSharps steps=177
+- episode-123138086-replay.json: teams=['vrmichalski', 'PeterSharps'] winner=vrmichalski steps=170
+- episode-123050897-replay.json: teams=['BSCode', 'PeterSharps'] winner=BSCode steps=142
+- episode-123142483-replay.json: teams=['Julian M', 'PeterSharps'] winner=Julian M steps=271
+- episode-123067808-replay.json: teams=['Taras Harbar', 'PeterSharps'] winner=PeterSharps steps=171
+- episode-123074829-replay.json: teams=['char0n1', 'PeterSharps'] winner=PeterSharps steps=115
+- episode-123151304-replay.json: teams=['PeterSharps', 'Pranshul Maithani'] winner=PeterSharps steps=153
+- episode-123058191-replay.json: teams=['Quinton McReynolds', 'PeterSharps'] winner=Quinton McReynolds steps=144
+- episode-123133635-replay.json: teams=['PeterSharps', 'Richard Guo'] winner=Richard Guo steps=260
+- episode-123113384-replay.json: teams=['PeterSharps', 'Guenoir'] winner=PeterSharps steps=178
+- episode-123151347-replay.json: teams=['Atharva Naik', 'PeterSharps'] winner=PeterSharps steps=102
+- episode-123034471-replay.json: teams=['PeterSharps', 'PeterSharps'] winner=PeterSharps steps=222
