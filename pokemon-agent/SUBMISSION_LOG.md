@@ -1327,3 +1327,13 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - **V33_BENG (basic-engine deck pod V33):** 3-pool **−3.26pp z−2.61**, meta1012 **−3.07pp z−2.70** — ODRZUCONY ISTOTNIE. Lekcja: wycięcie 3 drawów (Signal4→2, Waitress3→2) boli bardziej niż pomaga Poffin, gdy agent nie ma wiringu; ich 20g "exotic +4pp" = szum (paired exotic: paritet 0.892=0.892).
 - **Wniosek dla v35/Phase-3:** nie "deck pod obecne knoby", tylko (a) wiring agenta pod search→basic (S1×TO_HAND, supporter-slot plan), (b) zachować liczbę drawów (zamienniki: Pad/Cyrano, nie Signal/Waitress), (c) warianty: Poffin1 vs Poffin2, Kyogre3 vs 2; każda kombinacja 3× paired ≥3450g.
 - **REKOMENDACJA SLOTU (reset 00:00 UTC): wysłać C87_V34** (ich bundle phase1_tuned_v34_thickWalls_KO80_fastNonEx, commit 530fa4e na c87f7a48). Nic nie wysłano z a450b00f.
+
+---
+
+## 2026-10-13 ~14:00 UTC — Phase-3 basic-engine: **OBIE gałęzie przetestowane w tych samych biegach → OBA ODRZUCONE ISTOTNIE; V34 pozostaje #1**
+
+- **Moje v35** (`tools/build_v35.py`, 4/4 subn; baza c87_v34 + wiring: Poffin/Ultra-timing z anty-whiff 40/285/372/352, preferencje celów bench Kyogre/Snover, famine-gauge) + decki **zachowujące 35W i drawy**: v35_beng2 (Poffin2 za Pad+Cyrano), v35_beng2_k3 (+Kyogre za Belt), v35_beng1.
+- **Ich v35** (daa62f1; v34 + prosty wiring +50/+30) + deck 34W 3Kyogre Poffin2 Ultra2 (tnie 2 Signal, 1 Waitress, 1 Cyrano, 1 W).
+- **Wspólny bieg (opp=weakfix; 4 ramiona):** meta1012: V34_35W **0.674** (kontrola) | ich pakiet 0.646 (−2.78 z−2.44!) | moje B2 0.663 (−1.07 n.s.) | moje B2K3 0.636 (−3.83 z−3.35!); 3-pool: V34 0.714 | ich 0.699 (−1.52 n.s.) | B2 0.681 (−3.30 z−2.64) | B2K3 0.679 (−3.52 z−2.81). **Pooled 6150g: wszystkie pakiety ujemne; kontrola V34 wygrywa wszystko.**
+- **Wnioski:** (1) oś deckowa zamknięta definitywnie — każdy dziś przetestowany wariant talii (UB2, BENG v1, 34W3K, beng2, beng2_k3) ≤ 0, w większości istotnie; 58%-owy famine jest NIEREDUKOWALNY przy tym szkielecie (6-7 basiców bez prawdziwego engine'u); (2) moja agresywna timing-tier (Poffin > supporter) szkodzi bardziej niż ich łagodny (+50/+30) — ale obie ujemne; (3) **V34 (c87f 530fa4e) = ostateczny pick na slot** (reset 00:00 UTC); (4) dalsze % są poza dzisiejszym paradygmatem — konieczny prawdziwy redesign (nowy win-con / RL), decyzja na przyszłe okno.
+- Z a450b00f nic nie wysłano; artefakty (agent v35, decki, builder) zostają w repo z flagą REJECTED dla historii.
