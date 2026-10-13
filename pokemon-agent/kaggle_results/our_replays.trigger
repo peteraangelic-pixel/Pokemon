@@ -1,1 +1,1 @@
-re-arm 2026-10-13T05:05:06Z - sub-ids comma fix
+re-arm 2026-10-13T05:17:36Z - full forensics with Rust binary (92+ eps, 4 subs)
