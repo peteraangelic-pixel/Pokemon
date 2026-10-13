@@ -62,7 +62,7 @@ jobs:
           OPPARG=""
           if [ -n "$OPP" ]; then OPPARG="--opp-agent $OPP"; fi
           .venv/bin/python tools/ab_matrix.py \
-            --pairs "B_v22b_35=agents/main_heuristic_v22b.py:decks/v22_35w_noBoss.csv,E_v25k_35=agents/main_heuristic_v25.py:decks/v22_35w_noBoss.csv,F_v26_35=agents/main_heuristic_v26.py:decks/v22_35w_noBoss.csv" \
+            --pairs "B_v22b_35=agents/main_heuristic_v22b.py:decks/v22_35w_noBoss.csv,E_v25k_35=agents/main_heuristic_v25.py:decks/v22_35w_noBoss.csv,F_v26flood_35=agents/main_heuristic_v26.py:decks/v22_35w_noBoss.csv,G_v26weak_35=agents/c87_v26_weakfix.py:decks/v22_35w_noBoss.csv" \
             --pools "$POOLS" --blocks "$BLOCKS" --block-games "$GAMES" $OPPARG \
             | tee "kaggle_results/matrix_verify/${{ matrix.name }}.txt"
 
