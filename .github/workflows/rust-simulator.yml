@@ -19,10 +19,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Rust 1.85+
+      - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: 1.85.0
           components: rustfmt, clippy
 
       - name: Cache cargo dependencies
@@ -36,7 +35,7 @@ jobs:
 
       - name: Build release
         working-directory: ./arc-agi-3/rust-simulator
-        run: cargo build --release
+        run: cargo build --release --verbose
 
       - name: Run benchmark
         working-directory: ./arc-agi-3/rust-simulator
