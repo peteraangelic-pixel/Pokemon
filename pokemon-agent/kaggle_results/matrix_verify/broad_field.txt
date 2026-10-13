@@ -1,7 +1,8 @@
-arms: ['B_v22b_35', 'E_v25k_35', 'F_v26_35'] | opp policy: agents/main_heuristic_v22b.py
+arms: ['B_v22b_35', 'E_v25k_35', 'F_v26flood_35', 'G_v26weak_35'] | opp policy: agents/main_heuristic_v22b.py
 pool decks/broad_field (56 decks)
-  B_v22b_35 1453-785-2 (0.649) | E_v25k_35 1443-795-2 (0.644) | F_v26_35 1476-764-0 (0.659)
+  B_v22b_35 1431-808-1 (0.639) | E_v25k_35 1426-814-0 (0.637) | F_v26flood_35 1465-775-0 (0.654) | G_v26weak_35 1480-759-1 (0.661)
 TOTAL:
-  B_v22b_35: 1453W-785L-2D (0.6487, n=2240)  <- control
-  E_v25k_35: 1443W-795L-2D (0.6442, n=2240)  vs ctrl -0.45pp (z=-0.31)
-  F_v26_35: 1476W-764L-0D (0.6589, n=2240)  vs ctrl +1.03pp (z=+0.72)
+  B_v22b_35: 1431W-808L-1D (0.6388, n=2240)  <- control
+  E_v25k_35: 1426W-814L-0D (0.6366, n=2240)  vs ctrl -0.22pp (z=-0.16)
+  F_v26flood_35: 1465W-775L-0D (0.6540, n=2240)  vs ctrl +1.52pp (z=+1.06)
+  G_v26weak_35: 1480W-759L-1D (0.6607, n=2240)  vs ctrl +2.19pp (z=+1.54)
