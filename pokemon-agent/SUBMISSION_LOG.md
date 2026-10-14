@@ -1604,3 +1604,19 @@ hard6 0.772 (=42.4 0.777). Dwie linie zbiegly sie do statystycznie tego samego a
 Bundle: bundles/ptcg_v48_cem2best_imit.tar.gz (smoke OK). BEZ SUBMITU.
 Pliki: agents/c87_v42_4.py, agents/main_heuristic_v48.py,
 top50_provisional/{v47_vs_c87v424_duel16,v48_duel16}.csv
+
+## 2026-10-14 noc4 — po v48: merge v49 (odrz.), Q eps-greedy v50 (neutral), deck micro-search
+
+v49 = c87 42.4 + nasz prior imitation (oba ML naraz): pula -1.0pp, hard6 0.745 vs 0.772.
+Stacking warstw ML sie nie sumuje — odrzucony.
+v50 Q(stan,opcja): dane eps-greedy (tools/gen_q_data.py: 12k gier, 248k decyzji, 155 s),
+trening tools/train_q.py (test logloss 0.315 vs 0.43 baza), blend W=25/60: pula 16g +0.3-0.5pp,
+ale 32g -0.5pp, hard6 0.760. Neutralny — 4. podejscie ML na ±0. q_data.npz regenerowalny
+(155 s), nie commitowany ze wzgledu na rozmiar; model kaggle_results/q_model.json zostaje.
+Deck micro-search (pilot v48, przesiew 16g -> confirm 32g): Kyo4/33W, Wait4, Sig3/35W,
+Pad2/33W, Abom3, noBelt — wszystko paritet na 32g (base 0.8755; najlepszy przesiew d9
+Pad2+Sig3 0.8925@16g -> 0.8746@32g). Wniosek: v48 + 34W Kyo3 to silne optimum lokalne;
+dalsze lokalne mutacje = ±1pp szumu. Realne dzwignie dalej: walidacja skala Actions
+(10k+ gier/parowanie rozstrzyga ±0.5pp) i trening ligowy — projekty wielogodzinne.
+Pliki: tools/gen_q_data.py, train_q.py; agents/main_heuristic_v49.py, v50.py;
+decks/v48_d*.csv; kaggle_results/top50_provisional/{v49,v50,v50w60}_duel*.csv, deck_*.csv
