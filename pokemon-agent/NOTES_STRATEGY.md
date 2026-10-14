@@ -1043,3 +1043,40 @@ v13 bije v15_30_boss4_v11f na broad 30g 0.622 vs 0.615 (+0.7pp) i remis top30 0.
 
 **Data:** `kaggle_results/v17_cross_validation_other_branch.md` (copied from other branch 9ac8e19)
 
+
+## 19. Roadmap ML/AI po v43 (2026-10-14) — dlaczego ML ±0 i co dalej
+
+Diagnoza: wszystkie ML (nasze i c87; 3,7k–105k próbek) dają ±0pp, bo problemem nie jest
+rozmiar modelu ani liczba MB danych, tylko jakość sygnału treningowego: przeciwnik = jedno
+słabe proxy (c87_v34), a etykieta = wynik całej gry rozsmarowany na każdą decyzję. Model
+uczy się eksploatować proxy, nie grać lepiej. Porządek działań (od najpewniejszego zysku):
+
+1. **CEM/ES auto-tuning wag heurystyki v41** — kilkadziesiąt ręcznych stałych (bonus KO,
+   ławka, wall-mode...) przeszukać ewolucyjnie na puli z wieloma pilotami przeciwnika
+   (nie jednym proxy). Gotowe: rust/bin/evolve_tempo + worker_eval po stronie Rust;
+   po stronie Pythona: parametryzacja wag v41 przez env + szybki fitness na Pool.
+   Oczekiwane +1–3pp, zerowe ryzyko runtime (te same liczby, lepsze wartości).
+2. **Etykiety z rolloutów silnika (Q-learning na opcjach)** — dla wybranych stanów
+   odtworzyć grę do stanu, wykonać każdą legalną opcję MAIN i dograć heurystyką do końca
+   (kilka powtórek) → prawdziwa wartość opcji zamiast wyniku gry. Trening Q(stan, opcja)
+   na tysiącach takich stanów; integracja jak v42, ale sygnał ~10× czystszy.
+3. **Imitation learning z replayów top graczy** — replaye z oficjalnych datasetów Kaggle
+   zawierają pełne historie decyzji top drużyn (dotąd wyciągaliśmy tylko decki).
+   Behavior cloning: (obserwacja → wybrana opcja) graczy top30 jako prior polityki,
+   potem dostrojenie self-playem. Jedyne dane od pilotów silniejszych niż proxy.
+4. **Liga self-play (dopiero potem „duże MB danych")** — trening vs populacja pilotów
+   (v34/v36/v38b/v41/combined/reactive, każdy na „swoich" deckach), przeciwnik losowany
+   proporcjonalnie do tego, kto nas bije (PFSP). Większe wsady generować przez GH Actions
+   + commit-back. Bez ligi więcej danych = więcej tego samego szumu (31k→105k u c87 nic
+   metodologicznie nie zmieniło).
+5. **Mocniejszy model dopiero na dobrych danych** — embeddingi kart (1431×k) + enkoder
+   planszy jako zbioru encji (to jest „lookup table" zrobione porządnie); runtime Kaggle
+   premiuje czysty numpy MLP (pewny import, µs na decyzję, KB–MB przy limicie 197 MB).
+   Architektura to ostatnie ~10% — bez pkt 2–4 większy model tylko przeuczy proxy.
+6. **Warunek konieczny: walidacja odporna na szum** — przeciwnik = najlepszy znany pilot
+   PER DECK (nie jedno proxy), ≥32 gry/deck (bliskie decyzje n≳2500/ramię), decki holdout
+   nigdy nieużywane do strojenia, progi decyzyjne ustalone przed testem (±3pp szumu @600g).
+
+Oczekiwania: kroki 1+2+3 → przedział 550–750 μ. Poziom 1200+ to pełny RL (policy gradient
+na milionach gier ligowych) — projekt tygodniowy z generowaniem danych na Actions.
+Status: START 2026-10-14 (krok 1: parametryzacja wag v41 + fitness Pool).
