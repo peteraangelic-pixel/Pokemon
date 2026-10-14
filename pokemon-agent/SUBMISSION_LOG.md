@@ -1590,3 +1590,17 @@ matchupach przepasc dla nas. Smak-Domu: brak nowych commitow; jej uwagi (broad>t
 Alakazam, tape-opening, deckout-guard) juz czesciowo u nas (tape T1 Snover w linii v11+).
 Pliki: agents/c87_v42_3{,b,c}.py; kaggle_results/top50_provisional/{v47_vs_c87v423c_duel16,
 broad_v47_v423c}.csv
+
+## 2026-10-14 noc3 — c87 v42.4 (8b6f3d8): polaczenie obu sesji; nasza odpowiedz v48
+
+Ich v42.4 NAPRAWILA nasze uwagi: _CEM_HARD6 (nasze CEM2-best gen17) teraz naprawde aplikowane
+do os.environ przed defaultami; bundle zawiera bit-identycznie NASZA talie v39 Eugen.
+Efekt u nas (34W Kyo3): pula duel16 v42.4 0.8781 vs v47 0.8612 (+1.7pp ich); hard6 0.777 vs
+0.773 remis; Eugen: 0.755 vs 0.745 remis. Ich claim hard6 0.800/v47 0.783 ~replikuje sie
+relatywnie (absolutnie ich rig zawyzony, np. ich v42.1 0.792 vs nasze 0.647). Dowod wartosci
+naszego CEM: samo aplikowanie pokretel naprawilo im Ricardo (0.16 -> 0.65-0.67).
+v48 = nasza v47 z pokretlami CEM2-best zamienionymi za final-mu: pula 0.8781 (=42.4),
+hard6 0.772 (=42.4 0.777). Dwie linie zbiegly sie do statystycznie tego samego agenta.
+Bundle: bundles/ptcg_v48_cem2best_imit.tar.gz (smoke OK). BEZ SUBMITU.
+Pliki: agents/c87_v42_4.py, agents/main_heuristic_v48.py,
+top50_provisional/{v47_vs_c87v424_duel16,v48_duel16}.csv
