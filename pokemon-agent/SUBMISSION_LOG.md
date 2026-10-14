@@ -1678,3 +1678,10 @@ top50_provisional/v51_vs_c87v428_duel16.csv
   - UWAGA: ich wysylany bundle v42.7 ma deck BEZ Amarys -> kontra martwa w tym, co by wyslali (3. raz ten wzorzec).
 - Konwergencja deckow: ich best_combined_fast = 32W, Kyo4 (8 basicow), UB2, Pad2, Amarys1, Boss1 — niezaleznie doszli do tych samych dzwigni co nasz d10 (UB/Pad/wiecej spojnosci).
 - Plan v53 (merge, za zgoda usera): v52 (v48+d10) + graft bloku FROSLASS z c87_v42_6b.py + Amarys x1 w talii (wariant: +Kyo4). Bramki: pula >=0.885, Froslass probe >=0.60, brak regresji panelu. Artefakty: agents/c87_v42_6b.py, decks/c87_best_combined_fast.csv, decks/hard6_c87/.
+
+## 2026-10-14 wieczor5 — v53 MERGE (a450 v52 + kontra FROSLASS c87)
+- Pilot: agents/main_heuristic_v53.py = v52 + graft z c87 v42.6b: detekcja FROSLASS {861,103} (sticky w _v41_archetype, priorytet w _v36_detect_mode) + scoring Amarys (+400/200/80 vs FROSLASS wg hand; -600/-300/-100 poza). Bez 1002 (Zangoose = falszywe pozytywy FAST).
+- Odrzucone po testach: kara za Lillie vs FROSLASS (300g: 0.487 vs 0.547 bez), bezpiecznik Carmine (Froslass 0.599->0.502), talia Carmine3 (pula 0.844), Kyo4+Amarys (Froslass 0.400@60).
+- Talia v53_da_amarys = d10 -Cyrano +Amarys1207 (31W, UB2, Pad2).
+- Walidacja: pula duel16 0.876 (v52 0.896, -2pp); Froslass 600g 0.495 vs v52 0.463 (+3pp); panel FGT/WALL/MIR bez regresji (szum). Ich pelny pakiet 42.6b: Froslass 0.570@300 ale pula 0.836 — nie adoptujemy.
+- Bundle bundles/ptcg_v53_merge_a450.tar.gz, test_kaggle_import OK. NIE WYSLANO (brak rozkazu).
