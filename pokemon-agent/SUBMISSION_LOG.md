@@ -1512,3 +1512,15 @@ Pomiary: provisional duel vs v41: 0.819 vs 0.832 (-1.3pp); duel vs c87 v42.1: 0.
 hard6 600g: nasza v42.2 0.678 > c87 v42.1 0.650, v41 0.673.
 Werdykt: nasza 42.2 >= ich 42.1 (lepsza na hard6, remis na puli), ale ML nadal nie bije czystej
 heurystyki v41 na puli. Sufit: trening na proxy. Bundle ptcg_v42_2_perarch_ml.tar.gz (smoke OK).
+
+## 2026-10-14 — c87 nowosci (447a058 v42.2 lookup bundle, b4115fe fast tools) + nasza v43 merged
+
+Ich v42.2 lookup: v42.1 + tabela card->WR (z broad 10g) jako modulator agresji; bundle "eugen"
+ma w srodku talie 35W (mislabeled). Narzedzia fast = odpowiednik naszego multiprocessing.
+U nas: ich v42.2 = 0.8265 vs nasza v41 0.8321 (paritet).
+
+v43 merged = nasza v41 + ich modulator lookup (knob PTCG_V43_LOOKUP), talia 34W Kyo3:
+provisional 16g +1.3pp, ale 32g/deck: 0.8253 vs v41 0.8295 (paritet/-0.4pp); hard6 0.646 vs 0.673.
+Werdykt: polaczenie neutralne — lookup nie doklada punktow do v41. v43 zostaje jako eksperyment
+(agents/main_heuristic_v43.py), bez bundla-kandydata. Najlepszy kandydat nadal: v41 + 34W Kyo3.
+Pliki: agents/c87_v42_2_lookup.py, kaggle_results/top50_provisional/{c87v422,v43}_duel*.csv
