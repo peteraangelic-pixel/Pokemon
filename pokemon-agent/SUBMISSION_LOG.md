@@ -1435,3 +1435,17 @@ Testy u nas (provisional 78 decków, 16 gier/deck, proxy c87_v34, identyczne war
 Werdykt: ich v39 nie bije naszej v39/v38b w żadnej konfiguracji na naszej puli; ich główna talia = ta sama
 famine-35W (6 basiców), a backup Boss4 jest wyraźnie słaby. Ich liczby 0.812 pochodzą z ich puli (top50_live 48).
 Pliki: agents/c87_v39.py, decks/c87_v39_30_boss4.csv, decks/c87_v39_34_sig4.csv, kaggle_results/top50_provisional/c87v39_pilot_duel.csv
+
+## 2026-10-14 — Weryfikacja porównania z gałęzi c87f7a48 (2715368, v40)
+
+c87 wzięło naszą v39 do head-to-head: ich v40 RECOMMENDED #1 = **nasz pilot byte-identyczny**
+(md5 467c562... = agents/main_heuristic_v39.py) + **nasza talia D5** (33W Kyo4 Eugen, plik identyczny).
+5 bundli v40, wszystkie DISARMED — nic nie wysłali. Ich tabela: a450+35W broad 0.696 BEST,
+combined+35W top30 0.865 / exotic 0.880 BEST, a450+D5 hard6 0.842 (+12.5pp vs 35W) <- ich główny wniosek.
+
+Niezależna weryfikacja u nas (pilot v39, proxy c87_v34, 100 gier/deck = 600/ramię):
+- nasza hard6: 35W 0.680 | Kyo4 0.657 | D5 0.673 — paritet, przewaga D5 NIE powtarza się
+- ich hard6 (decks/hard6 z 2715368): 35W 0.800 | D5 0.798 — paritet
+Ich +12.5pp to najpewniej n=120/ramię + inny pilot przeciwnika. Ricardo (Alakazam) miażdży nas
+0.23-0.26 we wszystkich wariantach — największy wyciek, niezależny od talii.
+Ich proponowana para do uploadu: v40 Eugen 33W Kyo4 + 30W Boss4 (u nas Boss4 = najsłabsza konfiguracja, 0.731).
