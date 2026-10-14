@@ -1694,3 +1694,9 @@ top50_provisional/v51_vs_c87v428_duel16.csv
 - Gra vs Eugen (124343790): cala gre tylko Kyogre, zero Snover/Abomasnow (deck bez Mega Signal 1145 — ewolucja tylko z twardego drawu); Abomasnow opp z T5 przejechal nas.
 - Gra vs Kazdel (124297642, mirror 19 tur): obie strony 2x Abomasnow, my aktywny Kyogre 140HP siedzi z przodu T3-T17, Abomasnow na lawce; przegrywamy race 1-4. Brak rotacji atakujacego (wall Kyogre stalluje, nikt nie farmi nagrod; Boss tylko x1 w decku).
 - Wnioski dla rodziny (dotycza tez naszych v52-v54): (1) mirror to glowny front — rotacja atakujacego Kyogre->swiezy Abomasnow + priorytet ataku Abomasnow; (2) pipeline ewolucji kruchy bez Signal/searchu na Snover; (3) Carmine3/brak Waitress podejrzane o glodzenie energii w dlugich grach; (4) FROSLASS kontra to nie jest problem tego pasma mu.
+
+## 2026-10-14 wieczor8 — v55 po forensyce 42.9 (mirror fix)
+- Regula rotacji przez RETREAT (Kyogre->gotowy Abomasnow, score 335): ODRZUCONA — mirror 0.435 vs 0.500, vs Eugen 0.510 vs 0.595 (koszt retreatu 3E + strata Swirling Waves 130). Probe: lokalnie stall (Kyogre aktywny + Abomasnow>=2E na lawce) rzadki (3/60 gier).
+- Decklisty zwyciezcow mirrorow z live (Kazdel, Eugen, diujin217): Kyogre x2, Ultra Ball x4, Mega Signal x2-4, Petrel/Beach — zero Carmine. Ich wspolny mianownik wziety do v55_final: 31W Kyo2 Snover4 Aboma4 UB4 Signal4 Pad2 Lillie4 Amarys1 Waitress1 Beach1262x1 Stretcher1 Belt1.
+- v55 = pilot v54 (1:1 poza komentarzem) + deck v55_final. Walidacja: pula 0.890 (v54 0.895 — paritet), vs Eugen deck 0.600, Froslass 0.560@300.
+- Bundle bundles/ptcg_v55_mirror_a450.tar.gz OK. NIE WYSLANO.
