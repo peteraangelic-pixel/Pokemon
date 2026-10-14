@@ -1388,3 +1388,35 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - SUBMIT 1: `bundles/ptcg_v38b_wallgate_adaptive.tar.gz` (built from c87 `main_heuristic_v38b.py`, md5 bdcf2ba0, deck=35W, smoke OK) -> Kaggle ref **57159904**, COMPLETE, initial publicScore **600.0** (vs v34 401.4).
 - SUBMIT 2: `bundles/phase1_tuned_v36_adaptive_Kaggriculture.tar.gz` (c87 bundle; main.py md5 3621be65 = c87_v36, deck=35W) -> Kaggle ref **57160199**, PENDING at log time.
 - Active pair after these submits should become v38b+v36 (v34 thickWalls pushed out). Workflow run conclusions show "failure" only from the `submissions | head` pipefail artifact; Kaggle CLI confirmed "Successfully submitted" for both. Daily quota after: 3 remaining.
+
+---
+
+## 2026-10-14 — Analiza porażek v38b (57159904) i v36 (57160199) + budowa v39 (BEZ submitu)
+
+**Wyniki live (poll 02:37Z):** v38b 418.9 COMPLETE, v36 399.9 COMPLETE; team #276/356, μ=418.9 (mediana pola 658.4).
+
+**Metadane epizodów** (`kaggle_results/our_replays/episodes_full_*.json`, Kaggle API):
+v38b 18W-24L, v36 20W-24L (~44% WR). Porażki rozproszone po całym polu — brak nemesis
+(najczęściej Eugen LNCanti ×2, ninbyo02 ×2). **Mediana μ pogromców ≈ 474** (m.in. ninbyo02 309,
+Riccardo 419): przegrywamy też z dołem pola, nie tylko z elitą. Eugen LNCanti gra TYM SAMYM
+deckiem 35W Abomasnow (różnice: Waitress×4, Cyrano×2, bez Stretcher/Pad).
+
+**Forensyka w silniku (FFI, pula hard-6: Ricardo(?), Ogerpon, Alakazam, Eugen, GiovanniCR, YumeNeko):**
+83–89% porażek kończy się stanem NO_POKEMON (bench-out), śr. tura porażki 11.5.
+
+**Przyczyny (wady obu wersji):**
+1. Talia 35W ma 6 basiców (4 Snover + 2 Kyogre) → strukturalny famine, board-collapse = główny tryb porażek live (zgodne z autopsjami v34 i wcześniejszymi: EARLY_COLLAPSE, FAMINE 58%).
+2. Pilot greedy 1-ply: cała rodzina v34/v36/v37gate/v38b jest lokalnie nierozróżnialna (±1pp, testy sparowane) — sufit heurystyki vs prawdziwi piloci live.
+3. Proxy lokalny (c87_v34) nie karze pustej ławki jak ludzie: lokalne 0.82–0.84 WR nie przekłada się na live (0.44).
+
+**Testy odrzucone (lokalnie ≤ 0):** Boss×2/gust (−0.52pp), lista Eugena+combo (−1.40pp, z=−1.84),
+bench-target=1 (231-129 vs 252-108), BENCH0 boost 120/200 (mirror 902–898/1800; hard-suite gorzej),
+cudze archetypy naszym pilotem (Alakazam 0.205, Ogerpon 0.583 — pilot nie umie ich grać).
+
+**v39 (zbudowane, NIE wysłane):** `bundles/ptcg_v39_kyo4_benchfix.tar.gz` (smoke OK)
+- pilot: `agents/main_heuristic_v39.py` = v38b bez zmian behawioralnych (gałki po testach odrzucone, defaulty = v38b);
+- talia: `decks/v39_33w_kyo4.csv` = 33W + Kyogre×4 → **8 basiców**; sparowany A/B na 103 deckach: −0.33pp (z=−0.44, n.s.), ale bench-outy w hard-6: 104/125 → 94/130 i późniejsze porażki (T11.5→12.9).
+- walidacja: provisional 16 gier/deck = 0.824 (v38b kontrola 0.823) — paritet lokalny przy naprawionym trybie porażek live.
+
+**Werdykt:** v39 usuwa udokumentowaną wadę strukturalną obu wersji przy zerowym mierzalnym koszcie lokalnym.
+Sufit pilota (search/RL) pozostaje otwartym redesignem — lokalnie niewalidowalny na proxy.
