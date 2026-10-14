@@ -1484,3 +1484,17 @@ sie na wspolnym rigu (male proby 120g + ich pule). Pomysl integracji (modulacja 
 stanu) lepszy niz nasz blend opcji; dane treningowe u nas 18x wieksze i czystszy split.
 Kandydat v42.1: ich integracja + nasze dane (stan->win) na 65k+ decyzji.
 Plik: agents/c87_v42_ml.py, kaggle_results/top50_provisional/c87v42_duel.csv
+
+## 2026-10-14 — Weryfikacja c87 v42.1 per-arch ML (a097b04) — Rust+Rayon (BEZ submitu)
+
+Ich v42.1: v41 reactive + 6 modeli ML per archetyp (FAST/WALL/SPREAD/MIRROR/DEFAULT/STALL),
+31.5k probek z klasyfikacji by_arch, lookup_table.json, bundle 741KB. Claim: hard6 0.883, top30 0.819.
+Routing: SWARM/LOCK -> model FAST (brak wlasnych modeli).
+
+Porownanie rust_gauntlet (Rayon, ten sam pilot po obu stronach, provisional 78x16g):
+- nasza v41 + D5 Eugen: 0.807 (994-238) | nasza v41 + 35W: 0.815 (1003-228)
+- ich v42.1 + D5 Eugen: 0.780 (959-270) | ich v42.1 + 35W: 0.818 (1008-224)
+hard6 (rig mega50, proxy c87_v34, 600g): ich v42.1 + D5 = 0.650 (nasze v39/v41: 0.673-0.682).
+Werdykt: per-arch ML nie bije naszej v41 na zadnym wspolnym rigu; na D5 wyraznie gorsze.
+Ich acc 0.85-1.0 to znow holdout po wierszach (STALL: 508 probek z 2 gier/deck, acc 1.0).
+Plik: agents/c87_v42_1_perarch.py
