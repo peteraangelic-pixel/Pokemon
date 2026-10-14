@@ -1620,3 +1620,19 @@ dalsze lokalne mutacje = ±1pp szumu. Realne dzwignie dalej: walidacja skala Act
 (10k+ gier/parowanie rozstrzyga ±0.5pp) i trening ligowy — projekty wielogodzinne.
 Pliki: tools/gen_q_data.py, train_q.py; agents/main_heuristic_v49.py, v50.py;
 decks/v48_d*.csv; kaggle_results/top50_provisional/{v49,v50,v50w60}_duel*.csv, deck_*.csv
+
+## 2026-10-14 noc5 — LIGA (krok 4 roadmapy): v51 pierwszy ML z dodatnim wynikiem na puli
+
+User wybran "none" w ankiecie submitu -> robimy lokalnie (liga). Generator
+tools/gen_league_data.py: 24k gier, populacja pilotow (v48/c87 42.4/c87 v34/v41/
+c87 42.1) x talie (34W + pula), stany obu graczy co ture: 456k stanow (po 2
+straconych przebiegach przez bug zapisu arch — naprawione: ARCHES zawiera MIRROR).
+Modele (train_league.py, split po grach): GLOBAL acc 0.777 vs baza 0.513 (poprzednie
+proxy-modele: realnie ~0.52-0.55). v51 = modulator v42.2 + modele ligowe + pokretla
+CEM2-best (build: tools/build_v51.py).
+WYNIKI (talia 34W, pilot puli c87_v34): pula 2x32g lacznie n=4984: v51 0.8774 vs
+v48 0.8655 (+1.2pp, ~1.8 sigma); hard6: v51 0.758 vs v48 0.772 (-1.4pp, szum).
+Profil: v51 lepszy na szerokim polu, v48 na nemesis. Bundle bundles/ptcg_v51_league.tar.gz
+(smoke OK). Kandydaci: v48 (hard6) / v51 (pula). BEZ SUBMITU (decyzja usera: none).
+Pliki: tools/gen_league_data.py, train_league.py, build_v51.py; agents/main_heuristic_v51.py;
+kaggle_results/league_data.npz, league_models.json, top50_provisional/v51_duel*.csv
