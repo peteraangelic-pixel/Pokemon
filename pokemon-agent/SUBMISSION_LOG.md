@@ -1498,3 +1498,17 @@ hard6 (rig mega50, proxy c87_v34, 600g): ich v42.1 + D5 = 0.650 (nasze v39/v41: 
 Werdykt: per-arch ML nie bije naszej v41 na zadnym wspolnym rigu; na D5 wyraznie gorsze.
 Ich acc 0.85-1.0 to znow holdout po wierszach (STALL: 508 probek z 2 gier/deck, acc 1.0).
 Plik: agents/c87_v42_1_perarch.py
+
+## 2026-10-14 — nasza v42.2 (per-arch ML, lepsza metodologia niz c87 42.1) (BEZ submitu)
+
+Budowa: gen_ml_data2.py (multiprocessing Pool, 10k gier, 84k stanow, etykiety archetypu
+z sygnatury talii wroga, poprawione prizes_taken) -> train_ml2.py (MLP 20->96->64 global +
+SPREAD/GRASS/FIGHTING/WALL/DEFAULT; MIRROR odrzucony: acc 0.545 < baza 0.691; split po grach:
+test acc +1-3pp nad baze) -> agent v42.2 (357KiB, routing per archetyp, modulacja agresji
+win_prob<0.4 develop / >0.6 press, cache per stan).
+Bug znaleziony po drodze: float() na tablicy (1,) w numpy2 = cichy brak predykcji (naprawiony).
+
+Pomiary: provisional duel vs v41: 0.819 vs 0.832 (-1.3pp); duel vs c87 v42.1: 0.8186 vs 0.8191 (remis);
+hard6 600g: nasza v42.2 0.678 > c87 v42.1 0.650, v41 0.673.
+Werdykt: nasza 42.2 >= ich 42.1 (lepsza na hard6, remis na puli), ale ML nadal nie bije czystej
+heurystyki v41 na puli. Sufit: trening na proxy. Bundle ptcg_v42_2_perarch_ml.tar.gz (smoke OK).
