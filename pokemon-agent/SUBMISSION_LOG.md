@@ -1558,3 +1558,19 @@ wlasciciele na ladderze. v47 = rekomendowany eksperyment do wysylki; v41 = bezpi
 Pliki: agents/main_heuristic_v44{,h}.py, v45.py, v46.py, v47.py; tools/cem_tune.py,
 extract_imitation.py, train_imitation.py; kaggle_results/es_tune{,2}/, imitation_data.npz,
 top50_provisional/v4{4,4h,5,5w60,6,7}_duel*.csv. BEZ SUBMITU (decyzja usera).
+
+## 2026-10-14 noc — cross-check z galaz Smak-Domu (5ed750ef) + v47 vs 42.1/42.2 bezposrednio
+
+Tamta sesja zostawila uwagi w arc-agi-3/FINDINGS-2026-10-13.md i CHAT-LOG-2026-10-14.md
+(stan naszego repo e8dac66, sprzed v47): (1) niezaleznie potwierdzila nasze przyspieszenia
+(FFI 8ms vs 200ms wrapper ~20x/rdzen; Pool ~2x; macierz Actions); (2) uwagi: broad field to
+najwieksza dzwignia (u nich 0.679-0.687 vs nasze top50 0.83-0.90), Alakazam toolbox 0.143 ->
+wczesna detekcja + redundancja vs Xerosic, tape openings, mirror deckout-guard, never-Error.
+Broad field dzis u nas (69 deckow, 8g): v41 0.669 (potwierdza ich liczbe), v47 0.688.
+
+Bezposrednie porownanie (pilot c87_v34, talia 34W Kyo3):
+- pula duel16: nasza v47 0.8702 vs c87 v42.1 0.8622 (n=1248/armie)
+- hard6 n600: v47 0.773 vs c87 v42.1 0.647 vs c87 v42.2 lookup 0.665 (ich claim 0.883 nierealny;
+  Ricardo: my 0.54-0.67, oni 0.18-0.23)
+Werdykt: v47 >> 42.1/42.2 na twardych matchupach (+11-13pp), ~paritet/+1pp na puli top50.
+Pliki: kaggle_results/top50_provisional/{v47_vs_c87v421_duel16,broad_v41_v47}.csv
