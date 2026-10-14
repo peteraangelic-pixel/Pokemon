@@ -1,1 +1,1 @@
-morning-13 poll: scores of v25knobs + v22b35 after 3.5h 2026-10-13T04:31:09Z
+poll 2026-10-14 post-submit: scores of v38b 57159904 + v36 57160199
