@@ -119,6 +119,50 @@ def list_our_submissions(slug: str) -> list[dict]:
     return rows_from_csv(out)
 
 
+def dump_full_episodes(submission_id: str, out_path: Path, debug_path: Path) -> int:
+    """Dump full episode metadata (agents/rewards/team names) via Kaggle API.
+
+    The CLI only prints id/createTime/endTime/state/type, which cannot tell us
+    who beat us. The API objects carry agents[] with teamName + reward.
+    Defensive serialization: protobuf MessageToDict, __dict__ walk, or repr.
+    """
+    try:
+        from kaggle.api.kaggle_api_extended import KaggleApi
+
+        api = KaggleApi()
+        api.authenticate()
+        eps = api.competition_list_episodes(int(submission_id))
+
+        def ser(o, depth=0):
+            if depth > 6:
+                return str(o)
+            if hasattr(o, "DESCRIPTOR"):
+                try:
+                    from google.protobuf.json_format import MessageToDict
+
+                    return MessageToDict(o)
+                except Exception:
+                    pass
+            if isinstance(o, (str, int, float, bool)) or o is None:
+                return o
+            if isinstance(o, (list, tuple)):
+                return [ser(x, depth + 1) for x in o]
+            if isinstance(o, dict):
+                return {str(k): ser(v, depth + 1) for k, v in o.items()}
+            if hasattr(o, "__dict__"):
+                return {str(k): ser(v, depth + 1) for k, v in vars(o).items() if not k.startswith("_sa")}
+            return str(o)
+
+        data = [ser(e) for e in eps]
+        out_path.write_text(json.dumps(data, ensure_ascii=False, default=str) + "\n", encoding="utf-8")
+        if eps:
+            debug_path.write_text(repr(eps[0])[:4000] + "\n", encoding="utf-8")
+        return len(data)
+    except Exception as exc:  # never break the fetch on metadata dump
+        debug_path.write_text(f"dump failed: {type(exc).__name__}: {exc}\n", encoding="utf-8")
+        return 0
+
+
 def list_episodes(submission_id: str, out_path: Path) -> list[dict]:
     """List episodes for a submission, save raw output, return parsed rows if csv."""
     # Try csv first
@@ -273,6 +317,8 @@ def main() -> int:
         ep_path = outdir / f"episodes_{ref}.csv"
         eps = list_episodes(str(ref), ep_path)
         print(f"  episodes listed: {len(eps)}")
+        n_full = dump_full_episodes(str(ref), outdir / f"episodes_full_{ref}.json", outdir / f"episodes_full_{ref}.debug.txt")
+        print(f"  full episode metadata dumped: {n_full}")
         all_episodes.extend(eps)
 
         # Download last top-k
