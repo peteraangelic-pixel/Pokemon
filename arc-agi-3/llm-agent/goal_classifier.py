@@ -73,29 +73,40 @@ def extract_game_features(grid: list[list[int]]) -> GameFeatures:
     
     # Detekcja wzorca w rogu (COPY)
     # Sprawdzamy czy lewy górny róg (10×10) jest wzorcem
+    # BUGFIX #1: Sprawdź czy wzorzec NIE jest pusty (0 vs 0 = fałszywe dopasowanie)
+    # BUGFIX #2: Sprawdź czy wzorzec ma znaczące non-zero cells (>10%)
     pattern_in_corner = False
     pattern_similarity = 0.0
     if height >= 10 and width >= 10:
         pattern = [row[:10] for row in grid[:10]]
-        # Porównaj z resztą gridu
-        max_sim = 0.0
-        for r in range(0, height-9, 5):
-            for c in range(0, width-9, 5):
-                if r == 0 and c == 0:
-                    continue
-                matches = 0
-                total = 0
-                for pr in range(10):
-                    for pc in range(10):
-                        if r+pr < height and c+pc < width:
-                            if grid[r+pr][c+pc] == pattern[pr][pc]:
-                                matches += 1
-                            total += 1
-                if total > 0:
-                    sim = matches / total
-                    max_sim = max(max_sim, sim)
-        pattern_similarity = max_sim
-        pattern_in_corner = max_sim > 0.7  # 70% podobieństwa = wzorzec
+        pattern_flat = [cell for row in pattern for cell in row]
+        pattern_non_zero = sum(1 for cell in pattern_flat if cell != 0)
+        pattern_density = pattern_non_zero / 100.0
+        
+        # Tylko jeśli wzorzec jest znaczący (>10% non-zero)
+        if pattern_density > 0.1:
+            # Porównaj z resztą gridu
+            max_sim = 0.0
+            for r in range(0, height-9, 5):
+                for c in range(0, width-9, 5):
+                    if r == 0 and c == 0:
+                        continue
+                    matches = 0
+                    total = 0
+                    for pr in range(10):
+                        for pc in range(10):
+                            if r+pr < height and c+pc < width:
+                                # BUGFIX #1: Nie licz 0 vs 0 jako dopasowanie
+                                if grid[r+pr][c+pc] == pattern[pr][pc] and pattern[pr][pc] != 0:
+                                    matches += 1
+                                # Licz tylko non-zero cells we wzorcu
+                                if pattern[pr][pc] != 0:
+                                    total += 1
+                    if total > 0:
+                        sim = matches / total
+                        max_sim = max(max_sim, sim)
+            pattern_similarity = max_sim
+            pattern_in_corner = max_sim > 0.7  # 70% podobieństwa = wzorzec
     
     # Detekcja małych markerów (COVER)
     # Małe markery = izolowane komórki (sąsiedzi != kolor)
@@ -273,7 +284,7 @@ def detect_goal_class(grid: list[list[int]]) -> str:
     if features.boxes_count > 2 and features.target_zone_detected:
         return "PLACE"
     
-    if features.pieces_count > 10 and features.empty_cells_count > features.pieces_count:
+    if features.pieces_count > 20 and features.empty_cells_count > features.pieces_count:
         return "REDUCE"
     
     if features.colored_edge_markers_count > 5:
@@ -305,6 +316,20 @@ class StrategyParams:
     stuck_threshold: int = 40
     temp_base: float = 0.6
     batch_size: int = 4
+
+
+# Counter-picking na poziomie promptu (jak druga gałąź v6.9)
+STRATEGY_HINTS = {
+    "COVER": "Focus on finding and covering ALL small markers (dots, outlines). Click on each marker once.",
+    "COPY": "Find the pattern in the top-left corner. Replicate it exactly in the target area. Don't click the pattern itself.",
+    "REACH": "Navigate avatar(s) to all outlined goal positions. Watch for obstacles and traps.",
+    "REDUCE": "Jump pieces over each other (like checkers). Goal: leave exactly 1 piece remaining.",
+    "PLACE": "Push all boxes into the target zone. Boxes must be RELEASED in the zone (not held).",
+    "FLOW": "Set up the configuration FIRST, then CONFIRM (action 5). Limited attempts - don't waste them.",
+    "ALIGN": "Align colored markers to match target positions by color. Click markers to move them.",
+    "LOCAL_CONSTRAINTS": "Each 3×3 tile-key shows constraints for neighbors. Click to change colors cyclically.",
+    "UNKNOWN": "Explore systematically. Test different actions to understand the mechanics. Take notes.",
+}
 
 
 def get_strategy_for_goal_class(goal_class: str) -> StrategyParams:
@@ -370,6 +395,11 @@ def get_strategy_for_goal_class(goal_class: str) -> StrategyParams:
     }
     
     return strategies.get(goal_class, strategies["UNKNOWN"])
+
+
+def get_strategy_hint(goal_class: str) -> str:
+    """Zwróć hint taktyczny dla danej klasy gry (do wstrzyknięcia w prompt)."""
+    return STRATEGY_HINTS.get(goal_class, STRATEGY_HINTS["UNKNOWN"])
 
 
 # ---------------------------------------------------------------------------
