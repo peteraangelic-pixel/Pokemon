@@ -1685,3 +1685,12 @@ top50_provisional/v51_vs_c87v428_duel16.csv
 - Talia v53_da_amarys = d10 -Cyrano +Amarys1207 (31W, UB2, Pad2).
 - Walidacja: pula duel16 0.876 (v52 0.896, -2pp); Froslass 600g 0.495 vs v52 0.463 (+3pp); panel FGT/WALL/MIR bez regresji (szum). Ich pelny pakiet 42.6b: Froslass 0.570@300 ale pula 0.836 — nie adoptujemy.
 - Bundle bundles/ptcg_v53_merge_a450.tar.gz, test_kaggle_import OK. NIE WYSLANO (brak rozkazu).
+
+## 2026-10-14 wieczor7 — forensyka porazek v42.9 LIVE (sub 57193182, 35 gier)
+- Wynik: WR 15-20 (0.429); mu zespolu 433.0 (42.9 byla 548.9 w snapshocie c87 — duza wolnosc wczesnego mu). Pobrano epizody_57193182.csv (44 gry), analyzer: tools/analyze_live_losses.py 0 episodes_57193182.csv.
+- Struktura porazek: MIRROR 11/20 (55%!), GRASS 4, SPREAD 3, FIGHTING 2. Mirror overall 7-11 (0.389). Froslass tylko 2 gry — kontra nieistotna w tym pasmie.
+- Board collapse NADAL: famine 24/35, finalny board=1 w 16/20 porazek. 8 basicow + latki pilota NIE wyleczyly tego live.
+- Nagrody w porazkach: srednio 0.45 wzietej nagrody (wiekszosc 0-1) — pilot albo wygrywa czysto, albo nie zabija NIC.
+- Gra vs Eugen (124343790): cala gre tylko Kyogre, zero Snover/Abomasnow (deck bez Mega Signal 1145 — ewolucja tylko z twardego drawu); Abomasnow opp z T5 przejechal nas.
+- Gra vs Kazdel (124297642, mirror 19 tur): obie strony 2x Abomasnow, my aktywny Kyogre 140HP siedzi z przodu T3-T17, Abomasnow na lawce; przegrywamy race 1-4. Brak rotacji atakujacego (wall Kyogre stalluje, nikt nie farmi nagrod; Boss tylko x1 w decku).
+- Wnioski dla rodziny (dotycza tez naszych v52-v54): (1) mirror to glowny front — rotacja atakujacego Kyogre->swiezy Abomasnow + priorytet ataku Abomasnow; (2) pipeline ewolucji kruchy bez Signal/searchu na Snover; (3) Carmine3/brak Waitress podejrzane o glodzenie energii w dlugich grach; (4) FROSLASS kontra to nie jest problem tego pasma mu.

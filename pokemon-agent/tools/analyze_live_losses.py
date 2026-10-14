@@ -24,7 +24,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from state_feats import deck_archetype
 
 ROOT = Path(__file__).resolve().parents[1]
-CUTOFF = int(sys.argv[1]) if len(sys.argv) > 1 else 124200000
+CUTOFF = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 124200000
+EPISODE_IDS = None
+if len(sys.argv) > 2:
+    import csv as _csv
+    with open(sys.argv[2]) as fh:
+        EPISODE_IDS = {int(r["id"]) for r in _csv.DictReader(fh)}
 FROSLASS = 861
 ENERGY_IDS = set(range(1, 12))
 
@@ -48,7 +53,8 @@ def submitted_deck(step1_actions, seat) -> list[int]:
 
 def main() -> int:
     files = [f for f in sorted(glob.glob(str(ROOT / "kaggle_results/our_replays/episode-*-replay.json")))
-             if int(Path(f).stem.split("-")[1]) > CUTOFF]
+             if int(Path(f).stem.split("-")[1]) > CUTOFF
+             and (EPISODE_IDS is None or int(Path(f).stem.split("-")[1]) in EPISODE_IDS)]
     print(f"fresh replays: {len(files)}")
     W = L = 0
     loss_causes = Counter()
