@@ -1,28 +1,46 @@
 {
-  "fetched_utc": "2026-10-14T02:37:51+00:00",
+  "fetched_utc": "2026-10-14T19:14:32+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 356,
-  "submission_rows": 22,
+  "leaderboard_rows": 366,
+  "submission_rows": 24,
   "our_leaderboard": [
     {
-      "Rank": "276",
+      "Rank": "288",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-14 00:05:23",
-      "Score": "418.9",
+      "LastSubmissionDate": "2026-10-14 17:52:07",
+      "Score": "418.1",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57191144",
+      "fileName": "ptcg_v48_cem2best_imit_a450.tar.gz",
+      "date": "2026-10-14 17:52:07.950000",
+      "description": "v48 CEM2-best knobs fitness 0.927 + BC60 113 replays 7081 decisions pool 0.8655 hard6 0.772 local optimum convergence v42.4 - ptcg_v48_cem2best_imit_a450.tar.gz 2026-10-14T17:52:05Z",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "418.1",
+      "privateScore": ""
+    },
+    {
+      "ref": "57191098",
+      "fileName": "ptcg_v51_league_a450.tar.gz",
+      "date": "2026-10-14 17:50:34.420000",
+      "description": "v51 league 24k games 456k states acc 0.777 vs base 0.513 first ML +1.2pp pool over v48 (0.8774 vs 0.8655 n~5000) hard6 -1.4pp bundle smoke OK - ptcg_v51_league_a450.tar.gz 2026-10-14T17:50:32Z",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "329.5",
+      "privateScore": ""
+    },
+    {
       "ref": "57160199",
       "fileName": "phase1_tuned_v36_adaptive_Kaggriculture.tar.gz",
       "date": "2026-10-14 00:05:23.120000",
       "description": "submit phase1_tuned_v36_adaptive_Kaggriculture.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "399.9",
+      "publicScore": "407.9",
       "privateScore": ""
     },
     {
@@ -31,7 +49,7 @@
       "date": "2026-10-14 00:02:55.370000",
       "description": "submit ptcg_v38b_wallgate_adaptive.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "418.9",
+      "publicScore": "392.4",
       "privateScore": ""
     },
     {
@@ -86,24 +104,6 @@
       "description": "phase1_tuned_v22b_stall_planner.tar.gz - 2026-10-12T00:19:25Z - v22b BEST stall +7.2pp 0.863->0.935 draws 11%->2.7% safe bit-identical outside stall - 2/2 ACTIVE",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "349.6",
-      "privateScore": ""
-    },
-    {
-      "ref": "57089461",
-      "fileName": "phase1_tuned_v21_hybrid.tar.gz",
-      "date": "2026-10-12 00:18:24.233000",
-      "description": "phase1_tuned_v21_hybrid.tar.gz - 2026-10-12T00:18:22Z - v21 BEST overall +1.21pp weighted 0.6650->0.6771 top30 +1.6pp broad +1.1pp mirror +2.2pp - 1/2 ACTIVE",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "384.0",
-      "privateScore": ""
-    },
-    {
-      "ref": "57088401",
-      "fileName": "phase1_tuned_v15_30_boss4_v11.tar.gz",
-      "date": "2026-10-12 00:01:40.280000",
-      "description": "v11+30W post-reset #1 - plateau best @100g: 0.703 core / 0.647 new pool / 0.587 live (v17 cross-validation verdict)",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "407.0",
       "privateScore": ""
     }
   ],
