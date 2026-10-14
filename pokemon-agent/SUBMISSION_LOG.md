@@ -1700,3 +1700,8 @@ top50_provisional/v51_vs_c87v428_duel16.csv
 - Decklisty zwyciezcow mirrorow z live (Kazdel, Eugen, diujin217): Kyogre x2, Ultra Ball x4, Mega Signal x2-4, Petrel/Beach — zero Carmine. Ich wspolny mianownik wziety do v55_final: 31W Kyo2 Snover4 Aboma4 UB4 Signal4 Pad2 Lillie4 Amarys1 Waitress1 Beach1262x1 Stretcher1 Belt1.
 - v55 = pilot v54 (1:1 poza komentarzem) + deck v55_final. Walidacja: pula 0.890 (v54 0.895 — paritet), vs Eugen deck 0.600, Froslass 0.560@300.
 - Bundle bundles/ptcg_v55_mirror_a450.tar.gz OK. NIE WYSLANO.
+
+## 2026-10-14 wieczor9 — duel v55 vs c87 v42.10
+- Bezposredni duel (kazdy ze swoja talia, pilot v48 jako sedzia po drugiej stronie nie dotyczy — duel agent-vs-agent): v55 151-149 (0.503) @300g — remis.
+- Wspolny przeciwnik Eugen deck: v55 0.600, 42.10 0.600. Pula: v55 0.890 vs 42.10 0.873. Froslass: v55 0.560@300 vs 42.10 0.443 (u nich kontra martwa — d10 bez Amarys).
+- Pilot v55 to nadzbior 42.10 (te same 3 latki + graft FROSLASS {861,103} + Amarys w talii); roznica glownie w talii (Kyo2/UB4/Beach vs Kyo3/UB2/Waitress3).
