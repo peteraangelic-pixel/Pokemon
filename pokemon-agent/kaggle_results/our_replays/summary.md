@@ -1,55 +1,55 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-14T02:39:13.945244+00:00_
+_fetched 2026-10-14T22:12:25.057154+00:00_
 
-- Own submissions: 22
-- Episodes listed: 81
-- Replays downloaded (our last 80 per live sub): 0
+- Own submissions: 25
+- Episodes listed: 112
+- Replays downloaded (our last 80 per live sub): 112
 - Official dataset: none found (0 files)
-- Total JSON on disk: 164
+- Total JSON on disk: 299
 
 ## Recent episodes (our agents)
 
-- {'id': '123821420', 'createTime': '2026-10-14 02:32:43.220000', 'endTime': '2026-10-14 02:35:06.214000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123819400', 'createTime': '2026-10-14 02:28:45.363000', 'endTime': '2026-10-14 02:32:20.058000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123819410', 'createTime': '2026-10-14 02:28:45.378000', 'endTime': '2026-10-14 02:29:43.873000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123817506', 'createTime': '2026-10-14 02:24:44.786000', 'endTime': '2026-10-14 02:25:54.116000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123815598', 'createTime': '2026-10-14 02:20:45.220000', 'endTime': '2026-10-14 02:22:22.958000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123813699', 'createTime': '2026-10-14 02:16:43.050000', 'endTime': '2026-10-14 02:19:26.217000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123811790', 'createTime': '2026-10-14 02:12:51.807000', 'endTime': '2026-10-14 02:16:51.909000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123809893', 'createTime': '2026-10-14 02:08:55.908000', 'endTime': '2026-10-14 02:10:21.178000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123807989', 'createTime': '2026-10-14 02:04:47.825000', 'endTime': '2026-10-14 02:07:19.866000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123806084', 'createTime': '2026-10-14 02:00:48.999000', 'endTime': '2026-10-14 02:02:48.323000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123804173', 'createTime': '2026-10-14 01:56:48.249000', 'endTime': '2026-10-14 02:01:23.237000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123804199', 'createTime': '2026-10-14 01:56:48.282000', 'endTime': '2026-10-14 01:58:48.162000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123802270', 'createTime': '2026-10-14 01:52:45.261000', 'endTime': '2026-10-14 01:55:19.212000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123800370', 'createTime': '2026-10-14 01:48:50.265000', 'endTime': '2026-10-14 01:53:39.863000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123798458', 'createTime': '2026-10-14 01:44:59.559000', 'endTime': '2026-10-14 01:48:05.087000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123796526', 'createTime': '2026-10-14 01:40:45.526000', 'endTime': '2026-10-14 01:44:31.961000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123794634', 'createTime': '2026-10-14 01:36:44.836000', 'endTime': '2026-10-14 01:41:17.375000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123792713', 'createTime': '2026-10-14 01:32:46.902000', 'endTime': '2026-10-14 01:36:33.242000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123790700', 'createTime': '2026-10-14 01:28:47.939000', 'endTime': '2026-10-14 01:32:52.942000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '123788640', 'createTime': '2026-10-14 01:24:48.830000', 'endTime': '2026-10-14 01:26:46.290000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124364079', 'createTime': '2026-10-14 22:08:45.640000', 'endTime': '2026-10-14 22:10:10.409000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124362234', 'createTime': '2026-10-14 22:04:48.453000', 'endTime': '2026-10-14 22:06:22.960000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124360390', 'createTime': '2026-10-14 22:00:53.166000', 'endTime': '2026-10-14 22:03:05.563000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124358547', 'createTime': '2026-10-14 21:56:52.235000', 'endTime': '2026-10-14 22:01:05.097000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124356700', 'createTime': '2026-10-14 21:52:48.873000', 'endTime': '2026-10-14 21:55:30.992000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124354856', 'createTime': '2026-10-14 21:48:45.340000', 'endTime': '2026-10-14 21:54:30.465000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124353013', 'createTime': '2026-10-14 21:44:45.857000', 'endTime': '2026-10-14 21:47:57.623000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124351171', 'createTime': '2026-10-14 21:40:49.185000', 'endTime': '2026-10-14 21:42:44.078000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124349327', 'createTime': '2026-10-14 21:36:55.450000', 'endTime': '2026-10-14 21:38:42.595000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124347484', 'createTime': '2026-10-14 21:32:52.164000', 'endTime': '2026-10-14 21:36:18.203000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124345633', 'createTime': '2026-10-14 21:28:48.629000', 'endTime': '2026-10-14 21:32:06.826000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124343790', 'createTime': '2026-10-14 21:24:51.293000', 'endTime': '2026-10-14 21:27:28.208000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124341992', 'createTime': '2026-10-14 21:20:48.545000', 'endTime': '2026-10-14 21:24:38.858000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124341940', 'createTime': '2026-10-14 21:20:48.428000', 'endTime': '2026-10-14 21:24:26.845000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124340095', 'createTime': '2026-10-14 21:16:52.239000', 'endTime': '2026-10-14 21:20:54.045000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124338227', 'createTime': '2026-10-14 21:08:34.828000', 'endTime': '2026-10-14 21:10:03.748000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124336384', 'createTime': '2026-10-14 21:04:32.745000', 'endTime': '2026-10-14 21:08:32.656000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124332696', 'createTime': '2026-10-14 20:56:32.349000', 'endTime': '2026-10-14 21:04:24.331000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124334542', 'createTime': '2026-10-14 21:00:33.064000', 'endTime': '2026-10-14 21:01:52.458000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124330853', 'createTime': '2026-10-14 20:52:30.414000', 'endTime': '2026-10-14 20:57:09.405000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 
 ## Sample replay analysis (first 20)
 
 - episode-123120164-replay.json: teams=['PeterSharps', 'Sanchay Singh'] winner=Sanchay Singh steps=86
+- episode-124286585-replay.json: teams=['PeterSharps', "Don't foget me"] winner=Don't foget me steps=150
+- episode-124275517-replay.json: teams=['Praneeth Yeddu', 'PeterSharps'] winner=Praneeth Yeddu steps=53
+- episode-124299488-replay.json: teams=['PeterSharps', 'diujin217'] winner=PeterSharps steps=99
+- episode-124316117-replay.json: teams=['PeterSharps', 'Aayush Jansari'] winner=PeterSharps steps=189
+- episode-124323565-replay.json: teams=['Mitsuaki Inoue', 'PeterSharps'] winner=PeterSharps steps=213
 - episode-123190778-replay.json: teams=['PeterSharps', 'Jarno Rantala'] winner=Jarno Rantala steps=148
+- episode-124303172-replay.json: teams=['PeterSharps', 'DavideSanta'] winner=PeterSharps steps=149
+- episode-124323475-replay.json: teams=['Bros 360x', 'PeterSharps'] winner=Bros 360x steps=134
+- episode-124362234-replay.json: teams=['PeterSharps', 'Atharva Naik'] winner=Atharva Naik steps=75
+- episode-124354863-replay.json: teams=['PeterSharps', 'Riccardo Lo Bianco'] winner=PeterSharps steps=156
 - episode-123234027-replay.json: teams=['Pawit Sahare', 'PeterSharps'] winner=Pawit Sahare steps=141
 - episode-123255310-replay.json: teams=['PeterSharps', 'Arka Latua'] winner=Arka Latua steps=174
 - episode-123396488-replay.json: teams=['PeterSharps', 'PeterSharps'] winner=PeterSharps steps=120
 - episode-123126922-replay.json: teams=['PeterSharps', 'jdx'] winner=jdx steps=137
 - episode-123117927-replay.json: teams=['PeterSharps', 'cottonandcolor'] winner=PeterSharps steps=114
+- episode-124345633-replay.json: teams=['PeterSharps', 'boonies'] winner=PeterSharps steps=208
 - episode-123259160-replay.json: teams=['PeterSharps', 'Riccardo Lo Bianco'] winner=Riccardo Lo Bianco steps=147
+- episode-124314263-replay.json: teams=['PeterSharps', 'Pranshul Maithani'] winner=Pranshul Maithani steps=102
 - episode-123131397-replay.json: teams=['lswuwu', 'PeterSharps'] winner=PeterSharps steps=177
-- episode-123138086-replay.json: teams=['vrmichalski', 'PeterSharps'] winner=vrmichalski steps=170
-- episode-123050897-replay.json: teams=['BSCode', 'PeterSharps'] winner=BSCode steps=142
-- episode-123235903-replay.json: teams=['Eugen LNCanti', 'PeterSharps'] winner=Eugen LNCanti steps=56
-- episode-123067808-replay.json: teams=['Taras Harbar', 'PeterSharps'] winner=PeterSharps steps=171
-- episode-123261064-replay.json: teams=['BSCode', 'PeterSharps'] winner=BSCode steps=132
-- episode-123352670-replay.json: teams=['PeterSharps', 'F.A.Nina'] winner=PeterSharps steps=79
-- episode-123160320-replay.json: teams=['Raosaheb', 'PeterSharps'] winner=Raosaheb steps=136
-- episode-123176119-replay.json: teams=['PeterSharps', 'LivMaAn'] winner=LivMaAn steps=111
-- episode-123182474-replay.json: teams=['PeterSharps', 'match051'] winner=match051 steps=41
-- episode-123158103-replay.json: teams=['PeterSharps', 'PeterSharps'] winner=PeterSharps steps=150
-- episode-123402291-replay.json: teams=['PeterSharps', 'Red'] winner=PeterSharps steps=174
