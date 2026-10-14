@@ -1524,3 +1524,37 @@ provisional 16g +1.3pp, ale 32g/deck: 0.8253 vs v41 0.8295 (paritet/-0.4pp); har
 Werdykt: polaczenie neutralne — lookup nie doklada punktow do v41. v43 zostaje jako eksperyment
 (agents/main_heuristic_v43.py), bez bundla-kandydata. Najlepszy kandydat nadal: v41 + 34W Kyo3.
 Pliki: agents/c87_v42_2_lookup.py, kaggle_results/top50_provisional/{c87v422,v43}_duel*.csv
+
+## 2026-10-14 — realizacja roadmapy §19: CEM/ES (krok 1), imitation (krok 3), kandydat v47
+
+Odpowiedz na pytanie usera: pomysly z czatu zakomitowane jako NOTES_STRATEGY §19 (1d7ef2b),
+potem zrealizowane: krok 1 i 3 w pelni, krok 2 przeprojektowany (patrz nizej), krok 4-5 pending.
+
+KROK 1 — CEM/ES wag v41 (tools/cem_tune.py; 26 pokretel PTCG_* istnialo w kodzie):
+runda 1 (fitness: 3 pilotow, pula provisional): walidacje okresowe +6.0/-0.6/+2.8/+1.2/+0.5/+6.7pp
+(n=432), ALE testy potwierdzajace: pula 32g -0.7pp, hard6 +9.2pp (Eugen deck) / +4.5pp (34W Kyo3).
+Runda 2 (fitness z przewazonymi hard-deckami): walidacje -0.9/+1.0/-0.9/+3.2/-1.5pp = szum.
+Wniosek: ES na ewaluacjach 200-500 gier goni RNG silnika (kontrole dryfuja ±2.5pp na tym samym
+zadaniu); jedyny powtarzalny efekt = wagi CEM naprawiaja twarde matchupy kosztem ~-0.7pp puli.
+
+KROK 3 — imitation (tools/extract_imitation.py, train_imitation.py): 7081 decyzji MAIN z 113
+replayow live (39653 opcji, cechy ml_features z v42); BC MLP 30->128->64->1, split po epizodach:
+held-out top-1 = 0.46-0.49 (losowo 0.18). Model: kaggle_results/imitation_model.json.
+v45 = v41-core + prior BC: pula 16g paritet (W=25) / +0.9pp (W=60), hard6 neutralny.
+
+KROK 2 — KOREKTA projektu: rollout-branching ze stanu jest NIEWYKONALNY na libcg (brak API
+klonowania stanu; RNG silnika niedeterministyczny, wiec nie da sie odtworzyc stanu replayem).
+Zastepstwo: dane eksploracyjne epsilon-greedy + Q(stan,opcja) — do zrobienia (pending).
+
+WYNIKI KONCOWE (parowane, talia 34W Kyo3, pilot puli c87_v34):
+  kandydat        pula32g     hard6(n600)
+  v41 (baza)      0.825-0.830 0.693 (Ricardo 0.20!)
+  v44 (CEM1)      -0.7pp      0.738
+  v46 (CEM2)      -0.6pp      0.755
+  v47 (CEM2+BC60) -0.7pp      0.773  <- bundle bundles/ptcg_v47_cem2_imit.tar.gz (smoke OK)
+Interpretacja: wagi CEM zamieniaja katastrofalne matchupy (Ricardo 0.20 -> 0.54-0.67) na
+-0.7pp puli; pula niedoszacowuje wartosci, bo pilot-proxy gra nemesis-deckami slabiej niz ich
+wlasciciele na ladderze. v47 = rekomendowany eksperyment do wysylki; v41 = bezpieczna alternatywa.
+Pliki: agents/main_heuristic_v44{,h}.py, v45.py, v46.py, v47.py; tools/cem_tune.py,
+extract_imitation.py, train_imitation.py; kaggle_results/es_tune{,2}/, imitation_data.npz,
+top50_provisional/v4{4,4h,5,5w60,6,7}_duel*.csv. BEZ SUBMITU (decyzja usera).

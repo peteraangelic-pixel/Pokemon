@@ -1080,3 +1080,10 @@ uczy się eksploatować proxy, nie grać lepiej. Porządek działań (od najpewn
 Oczekiwania: kroki 1+2+3 → przedział 550–750 μ. Poziom 1200+ to pełny RL (policy gradient
 na milionach gier ligowych) — projekt tygodniowy z generowaniem danych na Actions.
 Status: START 2026-10-14 (krok 1: parametryzacja wag v41 + fitness Pool).
+
+### 19.1 Wynik realizacji (2026-10-14 wieczór)
+Krok 1 (CEM) i krok 3 (imitation) wykonane — patrz SUBMISSION_LOG 2026-10-14 (v47).
+Lekcja walidacyjna: ewaluacje <500 gier są bezużyteczne do strojenia (RNG silnika ±2.5pp);
+hard6 (600g) i pula 32g (~2500g) to minimum decyzyjne. Krok 2 przeprojektowany na
+epsilon-greedy Q (rollout-branching niemożliwy na libcg). Następne: epsilon-Q, liga (krok 4),
+wieksze dane imitation z datasetow top50 przez Actions.
