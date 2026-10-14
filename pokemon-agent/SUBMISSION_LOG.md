@@ -1467,3 +1467,20 @@ i zależą od ręki WROGA — nie naszej), ENDGAME deny (retreat Mega <=120HP pr
 Walidacja: provisional 32g duel vs v39 = 0.8251 vs 0.8246 (paritet); talia 34W Kyo3 (7 basiców)
 +1.15pp (z=1.48) nad D5 w ab_decks na 103 deckach -> bundle ptcg_v41_reactive_34w_kyo3.tar.gz (smoke OK).
 Pliki: agents/c87_v41_reactive.py, kaggle_results/top50_provisional/v41_duel*.csv
+
+## 2026-10-14 — Weryfikacja c87 v42 ML (a6d45bd) vs nasza v42
+
+Ich realizacja prawdziwa i kompletna: dane 3711 wierszy (hard6 2003 + top30 1708, pliki w repo),
+MLP 20->128->64->1, wagi JSON w main.py, numpy + pure-python fallback, cechy agent==trening.
+Integracja: wartosc stanu (win_prob) moduluje agresje: <0.4 buduj lawke/evolve/attach, >0.6 press KO.
+Bundle 208KB, smoke OK, NIE wyslane.
+Uwagi: 2 cechy prize sa martwe (prize_taken liczy None, a silnik usuwa wziete nagrody -> zawsze 0,
+widac po wagach ~1e-60); acc 0.913 to holdout po wierszach (przeciek tych samych gier) + latwiejsze
+zadanie (wartosc stanu) niz nasze opcje (nasze 0.821 przy splicie po grach, 65k probek).
+
+Pomiary u nas: provisional duel (D5): nasza v41 0.829 vs ich v42 ML 0.818; hard6 Eugen 600g:
+ich 0.682 vs nasze v41/v39 0.673. Czyli paritet; ich absolutne claimy (hard6 0.825) nie powtarzaja
+sie na wspolnym rigu (male proby 120g + ich pule). Pomysl integracji (modulacja agresji wartoscia
+stanu) lepszy niz nasz blend opcji; dane treningowe u nas 18x wieksze i czystszy split.
+Kandydat v42.1: ich integracja + nasze dane (stan->win) na 65k+ decyzji.
+Plik: agents/c87_v42_ml.py, kaggle_results/top50_provisional/c87v42_duel.csv
