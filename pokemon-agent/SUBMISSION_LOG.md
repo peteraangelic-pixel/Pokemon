@@ -1379,3 +1379,12 @@ Fakty zweryfikowane samodzielnie: **v25 md5 055992fd identyczny na wszystkich 3 
 - Leaderboard snapshot (leaderboard.csv): **334 zespołów**, my rank **272**; cutoffy: top10≈1117, top50≈959, **top100≈815**, top250≈445. Nasz WR live 0.455 = mediana pola. Massa ratingowa = słaby ogon; nasze krwotoki = famine (6/6 strat empty-board) + Ogerpon 0.14-0.29 +toolboxy.
 - **Phase-5A** (pierwszy czysty test "+Kyogre bez Poffin/cięć drawu"): deck-only pod V34, meta+kyogre+live, 4900g/arm: K3(7 bas) **−2.51pp z−2.59**, K4(8 bas) −1.69 z−1.75; kyogre_pool: K3 −5.2 (Pad/Cyrano krytyczne w mirrorze). **7. porażka osi deckowej → szkielet zamknięty definitywnie.** Decki v38_k3/k4 zostają jako evidence.
 - **Strategia: przyrosty ±2pp nie domkną top100 (potrzeba 2× μ).** Realne ścieżki: (A) **archetype-specialist** — dedykowany agent pod silny meta-deck (np. Ogerpon-Hydrapple: nas zmiótł 2/2 live) zamiast pilnowania obcego win-conu — duży build (2-3 dni), jedyna droga do WR 0.7+ vs pole; (B) **Rust+Rayon 100×** (zaległy §16) → szybka iteracja/RL; (C) dzienny cykl: slot#1 po resecie = **v37_gate** (paired +2.4pp dziś), poll, refresh pul z replayów.
+
+---
+
+## 2026-10-14 00:02-00:05 UTC (02:00 CEST) — USER-ORDERED SUBMITS FROM a450 (role override for this task): v38b + v36 adaptive
+
+- User explicitly changed the submitter rule for this task ("ty wybierz ... i wrzuc") after rejecting v34 thickWalls (already live, weak: 401.4). Chosen by local mega-test on top50-provisional pool (78 decks / 46 teams, opp proxy = v34): 8g/deck: v38b 0.856, v36 0.852, v37_gate 0.830, v38-combined 0.808; 16g/deck: v38b 0.839, v36 0.831, v34 0.820.
+- SUBMIT 1: `bundles/ptcg_v38b_wallgate_adaptive.tar.gz` (built from c87 `main_heuristic_v38b.py`, md5 bdcf2ba0, deck=35W, smoke OK) -> Kaggle ref **57159904**, COMPLETE, initial publicScore **600.0** (vs v34 401.4).
+- SUBMIT 2: `bundles/phase1_tuned_v36_adaptive_Kaggriculture.tar.gz` (c87 bundle; main.py md5 3621be65 = c87_v36, deck=35W) -> Kaggle ref **57160199**, PENDING at log time.
+- Active pair after these submits should become v38b+v36 (v34 thickWalls pushed out). Workflow run conclusions show "failure" only from the `submissions | head` pipefail artifact; Kaggle CLI confirmed "Successfully submitted" for both. Daily quota after: 3 remaining.
