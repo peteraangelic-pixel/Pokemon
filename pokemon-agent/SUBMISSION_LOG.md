@@ -1574,3 +1574,19 @@ Bezposrednie porownanie (pilot c87_v34, talia 34W Kyo3):
   Ricardo: my 0.54-0.67, oni 0.18-0.23)
 Werdykt: v47 >> 42.1/42.2 na twardych matchupach (+11-13pp), ~paritet/+1pp na puli top50.
 Pliki: kaggle_results/top50_provisional/{v47_vs_c87v421_duel16,broad_v41_v47}.csv
+
+## 2026-10-14 noc2 — weryfikacja c87 v42.3 (9ebd161) vs nasza v47; przeglad Smak-Domu
+
+Ich v42.3: deklarowane "CEM knobs from v47" to MARTWY KOD — _CEM_KNOBS (nasze best-runda1
+0.927 w 42_3, nasze best-runda2 w 42_3b) zdefiniowane i nigdy nieaplikowane; v42.3c (ich
+"najlepsza") nie ma ich wcale: = v42.1 + modele GRASS/FIGHTING z 96k probek. Bundle "eugen"
+znow zawiera talie 35W. Claim top30 0.861 to 62W-10L = 72 gry.
+U nas (talia 34W Kyo3, pilot puli c87_v34):
+- pula duel16: v47 0.8486 vs v42.3c 0.8571 (ich +0.9pp, szum)
+- broad 8g: v47 0.6739 vs v42.3c 0.6884 (ich +1.5pp, szum)
+- hard6 n600: v47 0.773 vs v42.3c 0.631 (NASZE +14.2pp; Ricardo 0.16 u nich)
+Werdykt: ich v42.3 NIE jest lepsza od v47 — na miekkich polach +/-szum, na twardych
+matchupach przepasc dla nas. Smak-Domu: brak nowych commitow; jej uwagi (broad>top50,
+Alakazam, tape-opening, deckout-guard) juz czesciowo u nas (tape T1 Snover w linii v11+).
+Pliki: agents/c87_v42_3{,b,c}.py; kaggle_results/top50_provisional/{v47_vs_c87v423c_duel16,
+broad_v47_v423c}.csv
