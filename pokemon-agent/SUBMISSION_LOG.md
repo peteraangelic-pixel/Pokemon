@@ -1636,3 +1636,18 @@ Profil: v51 lepszy na szerokim polu, v48 na nemesis. Bundle bundles/ptcg_v51_lea
 (smoke OK). Kandydaci: v48 (hard6) / v51 (pula). BEZ SUBMITU (decyzja usera: none).
 Pliki: tools/gen_league_data.py, train_league.py, build_v51.py; agents/main_heuristic_v51.py;
 kaggle_results/league_data.npz, league_models.json, top50_provisional/v51_duel*.csv
+
+## 2026-10-14 wieczor — postepy c87: v42.5/42.6/42.7 (11737ec/a0b8c1c/b701f6a)
+
+Ich linia stoi juz na NASZEJ v48: v42.5 = v48 + ich modele GRASS/FIGHTING (claimy z 20g/2g!);
+v42.6 dodaje counter FROSLASS (861: 50 dmg x karty w rece -> graj Amarys 1207 przy duzej rece)
++ deck search 200 talii; v42.7 = v48 + ewolucja 100 mutantow pokretel (14 zmian wzgledem
+naszego CEM2-best: EVOLVE 388, ATTACK 245, ATTACH_WALL_PENALTY -100...).
+PUŁAPKA: bundle v42.7 zawiera nasza talie v39 Eugen BEZ Amarys (1207) — regulka FROSLASS
+jest w wyslanej wersji martwa (karta spoza decku). Realny wklad v42.7 = tylko ewolucja pokretel.
+U nas (34W Kyo3): pula duel16 nasza v51 0.8798 vs 42.7 0.8646; hard6 42.7 0.710 (v48 0.772,
+v51 0.758). Ich claimy hard6 0.817/top50 0.891 z malenkich prob nie replikuja sie.
+Nasi kandydaci (v48/v51) nadal lepsi na wspolnych rigach. Ciekawostka do wziecia na warsztat:
+sam POMYSL Froslass-countera jest dobry — wymaga tylko Amarys w decku (u nas: test A/B z
+1207 w talii zamiast Cyrano x1?). Pliki: agents/c87_v42_7.py,
+top50_provisional/v51_vs_c87v427_duel16.csv
