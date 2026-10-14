@@ -1,1 +1,1 @@
-{"id": 123825374, "createTime": "2026-10-14T02:40:52.352Z", "endTime": "2026-10-14T02:44:55.167Z", "state": "COMPLETED", "type": "EPISODE_TYPE_PUBLIC", "agents": [{"submissionId": 57159904, "index": 0, "reward": -1, "state": "EPISODE_AGENT_STATE_UNSPECIFIED", "teamName": "PeterSharps", "teamId": 17077007}, {"submissionId": 57061324, "index": 1, "reward": 1, "state": "EPISODE_AGENT_STATE_UNSPECIFIED", "teamName": "Eugen LNCanti", "teamId": 17067740}]}
+ok episodes=43

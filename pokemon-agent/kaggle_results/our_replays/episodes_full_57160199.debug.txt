@@ -1,1 +1,1 @@
-{"id": 123825375, "createTime": "2026-10-14T02:40:52.351Z", "endTime": "2026-10-14T02:42:37.033Z", "state": "COMPLETED", "type": "EPISODE_TYPE_PUBLIC", "agents": [{"submissionId": 56722085, "index": 0, "reward": -1, "state": "EPISODE_AGENT_STATE_UNSPECIFIED", "teamName": "MarPez", "teamId": 16986401}, {"submissionId": 57160199, "index": 1, "reward": 1, "state": "EPISODE_AGENT_STATE_UNSPECIFIED", "teamName": "PeterSharps", "teamId": 17077007}]}
+ok episodes=45
