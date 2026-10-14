@@ -1420,3 +1420,18 @@ cudze archetypy naszym pilotem (Alakazam 0.205, Ogerpon 0.583 — pilot nie umie
 
 **Werdykt:** v39 usuwa udokumentowaną wadę strukturalną obu wersji przy zerowym mierzalnym koszcie lokalnym.
 Sufit pilota (search/RL) pozostaje otwartym redesignem — lokalnie niewalidowalny na proxy.
+
+## 2026-10-14 — Cross-check: v39 z gałęzi c87f7a48 (af012e7) vs nasza v39
+
+Ich v39: `agents/main_heuristic_v39.py` (md5 55672cd...) = v38-combined po fixie duplikatu
+`_score_main_option` + 3 bundle (35W RECOMMENDED, 30W Boss4, 34W sig4). **Nie wysłana** (manual upload w planach).
+Uwaga: duplikat istnieje też w naszym v38b, ale finalne dowiązanie wskazuje pełne `_v21` — wysłany v38b nie był dotknięty.
+
+Testy u nas (provisional 78 decków, 16 gier/deck, proxy c87_v34, identyczne warunki):
+- pilot duel (deck 35W): **nasz v38b 0.840** vs **ich v39 0.819**
+- ich v39 + 35W: 0.819 | ich v39 + nasz 33W Kyo4: 0.819 | ich v39 + 34_sig4: 0.828 | ich v39 + 30_boss4: **0.731**
+- nasza v39 (v38b + Kyo4): 0.824
+
+Werdykt: ich v39 nie bije naszej v39/v38b w żadnej konfiguracji na naszej puli; ich główna talia = ta sama
+famine-35W (6 basiców), a backup Boss4 jest wyraźnie słaby. Ich liczby 0.812 pochodzą z ich puli (top50_live 48).
+Pliki: agents/c87_v39.py, decks/c87_v39_30_boss4.csv, decks/c87_v39_34_sig4.csv, kaggle_results/top50_provisional/c87v39_pilot_duel.csv
