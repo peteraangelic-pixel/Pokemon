@@ -1669,3 +1669,12 @@ top50_provisional/v51_vs_c87v428_duel16.csv
   - pula duel16 (1248g, pilot c87_v34): d10 0.896 vs baza 0.874 (d7 W28: 0.861 — regres vs WALL, remisy).
   - panel agresywny 5 deckow x60g: d10 0.753, baza 0.737, d7 0.733 (roznice w szumie; d10 bez slabego matchupu).
 - v52 ZLOZONA: agents/main_heuristic_v52.py (=v48) + deck d10, bundle bundles/ptcg_v52_consistency_a450.tar.gz, test_kaggle_import OK. NIE WYSLANO (brak rozkazu).
+
+## 2026-10-14 wieczor4 — porownanie diagnozy c87 vs a450 + ich v42.6b na naszych rigach
+- Diagnoza c87 (ich SUBMISSION_LOG): ten sam rdzen — NO_POKEMON/pusta lawka >70% strat, "proxy nie karze pustej lawki jak realni gracze". Plus ich unikalne odkrycie: FROSLASS (Mega Froslass ex 861: 50 dmg x karty w naszej rece; Lillie dobierz-do-6 karmi go 300 dmg). Kontra: detekcja {861,103,1002} + Amarys 1207 (maly hand = male obrazenia) + scoring supportera.
+- Weryfikacja na NASZYCH rigach (ich liczby z hard6/top50 malych prob sie nie odtwarzaja):
+  - pula duel16: c87 v42.6b+best_combined_fast 0.836; v48+ich deck 0.853; nasze: baza 0.874, v52(d10) 0.896.
+  - vs Lapo Froslass (hard6_c87/Riccardo_Lo_Bianco.csv, opp pilot v48, 60g): baza/d10 0.433; v48+ich deck(Amarys) 0.492; 42.6b+baza(bez Amarys) 0.467; **42.6b+ich deck 0.683** — kontra dziala TYLKO jako synergia pilot+talia (+25pp).
+  - UWAGA: ich wysylany bundle v42.7 ma deck BEZ Amarys -> kontra martwa w tym, co by wyslali (3. raz ten wzorzec).
+- Konwergencja deckow: ich best_combined_fast = 32W, Kyo4 (8 basicow), UB2, Pad2, Amarys1, Boss1 — niezaleznie doszli do tych samych dzwigni co nasz d10 (UB/Pad/wiecej spojnosci).
+- Plan v53 (merge, za zgoda usera): v52 (v48+d10) + graft bloku FROSLASS z c87_v42_6b.py + Amarys x1 w talii (wariant: +Kyo4). Bramki: pula >=0.885, Froslass probe >=0.60, brak regresji panelu. Artefakty: agents/c87_v42_6b.py, decks/c87_best_combined_fast.csv, decks/hard6_c87/.
