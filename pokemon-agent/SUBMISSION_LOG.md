@@ -1651,3 +1651,11 @@ Nasi kandydaci (v48/v51) nadal lepsi na wspolnych rigach. Ciekawostka do wziecia
 sam POMYSL Froslass-countera jest dobry — wymaga tylko Amarys w decku (u nas: test A/B z
 1207 w talii zamiast Cyrano x1?). Pliki: agents/c87_v42_7.py,
 top50_provisional/v51_vs_c87v427_duel16.csv
+
+## 2026-10-14 wieczor2 — c87: v42.8 = nasza v51 + FROSLASS (4c7ae41)
+
+Ich nowosc: wzieli nasza v51 (liga) 1:1 i dolozyli blok FROSLASS-counter; bez bundla/decku
+w commicie, sami przyznaja "best remains v42.6b". U nas (34W Kyo3): pula duel16 nasza v51
+0.8686 vs 42.8 0.8602; hard6 0.758 vs 0.750. Blok FROSLASS bez Amarys w talii nadal bez
+efektu; na wspolnych rigach nasi kandydaci (v48/v51) wciaz lepsi. Pliki: agents/c87_v42_8.py,
+top50_provisional/v51_vs_c87v428_duel16.csv
