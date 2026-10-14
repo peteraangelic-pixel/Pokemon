@@ -1659,3 +1659,13 @@ w commicie, sami przyznaja "best remains v42.6b". U nas (34W Kyo3): pula duel16 
 0.8686 vs 42.8 0.8602; hard6 0.758 vs 0.750. Blok FROSLASS bez Amarys w talii nadal bez
 efektu; na wspolnych rigach nasi kandydaci (v48/v51) wciaz lepsi. Pliki: agents/c87_v42_8.py,
 top50_provisional/v51_vs_c87v428_duel16.csv
+
+## 2026-10-14 wieczor3 — forensyka live v51/v48 + v52 (a450)
+- Live (poll 19:14Z): v51 mu=329.5, v48 mu=418.1 (rekord wciaz v25 440.3; mediana pola 660.2, rank 288/366). Pobrano 37 swiezych replayow (ep 1242xxxxx), WR=8-27 (0.229).
+- Forensyka (tools/analyze_live_losses.py): porazki przeciwko wszystkim archetypom; dominuje board collapse — solo Pokemon, brak lawki, 0 wzietych prize. Gra 124275517: Kyogre solo cala gre, zero basicow na lawce -> donk.
+- Replay-vs-kod: ~60% zgodnosci dla WSZYSTKICH naszych agentow (artefakt formatu replaya); test w prawdziwym harnessie kaggle_environments: bundle v51/v48 graja normalnie (DONE) -> to NIE awaria runtime.
+- Lokalnie (death_mode_probe, pilot v48 jako agresywny opp): 87-100% porazek = finalny board <=1; basic_flow: w 17/18 porazek max board <=2. Przyczyna: 7 basicow + 34/60 energii = rece zalane energia, za malo Pokemonow wchodzi do gry, lancuch sie rwie.
+- Fix deck-only na pilocie v48 (v51/liga odrzucona — najgorsza live): d10 = 31W + Ultra Ball 1121 x2 + Poke Pad 1152 x2 (decks/v52_d10_w31ub2pad2.csv).
+  - pula duel16 (1248g, pilot c87_v34): d10 0.896 vs baza 0.874 (d7 W28: 0.861 — regres vs WALL, remisy).
+  - panel agresywny 5 deckow x60g: d10 0.753, baza 0.737, d7 0.733 (roznice w szumie; d10 bez slabego matchupu).
+- v52 ZLOZONA: agents/main_heuristic_v52.py (=v48) + deck d10, bundle bundles/ptcg_v52_consistency_a450.tar.gz, test_kaggle_import OK. NIE WYSLANO (brak rozkazu).
