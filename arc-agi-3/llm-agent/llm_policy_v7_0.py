@@ -17,7 +17,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from goal_classifier import detect_goal_class, get_strategy_for_goal_class
+from goal_classifier import detect_goal_class, get_strategy_for_goal_class, STRATEGY_HINTS
 
 
 # ---------------------------------------------------------------------------
@@ -195,7 +195,7 @@ def build_system_prompt(
     level_notes: Optional[dict[int, str]] = None,
     goal_class: Optional[str] = None,
 ) -> str:
-    """Zbuduj system prompt z FIELD_GUIDE + LEVEL_NOTES + goal class."""
+    """Zbuduj system prompt z FIELD_GUIDE + LEVEL_NOTES + goal class + strategy hint."""
     
     notes_injection = ""
     if level_notes:
@@ -206,7 +206,8 @@ def build_system_prompt(
     
     goal_injection = ""
     if goal_class:
-        goal_injection = f"\n\nDETECTED GOAL CLASS: {goal_class}\n(Strategy adjusted for this goal class)"
+        strategy_hint = STRATEGY_HINTS.get(goal_class, STRATEGY_HINTS.get("UNKNOWN", ""))
+        goal_injection = f"\n\nDETECTED GOAL CLASS: {goal_class}\nSTRATEGY HINT: {strategy_hint}"
     
     return f"""ARC-AGI-3 Puzzle Solver v7.0
 
@@ -396,6 +397,7 @@ The harness keeps these notes for the rest of the game.
         Case-insensitive (model pisze "Level" nie "LEVEL")
         Filtr długości (min 20 znaków)
         """
+        import re
         pattern = re.compile(
             r"LEVEL\s*(\d+)\s*NOTES?:\s*(.+?)(?=\n\s*\n|LEVEL\s*\d+\s*NOTES?:|\Z)",
             re.S | re.I,  # re.I = case-insensitive
@@ -403,11 +405,27 @@ The harness keeps these notes for the rest of the game.
         found = {}
         limit = 600
         for message in messages:
-            if str(message.get("role", "")).strip() != "assistant":
+            # Obsługa zarówno dict jak i obiektów Message
+            if isinstance(message, dict):
+                role = message.get('role', '')
+            elif hasattr(message, 'role'):
+                role = message.role
+            else:
                 continue
+            
+            if str(role).strip() != "assistant":
+                continue
+            
             # Skanuj reasoning, reasoning_content, content (odporna ekstrakcja z v6.7)
             for key in ("reasoning", "reasoning_content", "content"):
-                value = message.get(key)
+                # Obsługa zarówno dict jak i obiektów
+                if isinstance(message, dict):
+                    value = message.get(key, '')
+                elif hasattr(message, key):
+                    value = getattr(message, key, '')
+                else:
+                    value = ''
+                
                 if isinstance(value, str):
                     text = value
                 elif isinstance(value, list):
