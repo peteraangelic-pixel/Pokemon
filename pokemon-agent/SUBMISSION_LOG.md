@@ -1449,3 +1449,21 @@ Niezależna weryfikacja u nas (pilot v39, proxy c87_v34, 100 gier/deck = 600/ram
 Ich +12.5pp to najpewniej n=120/ramię + inny pilot przeciwnika. Ricardo (Alakazam) miażdży nas
 0.23-0.26 we wszystkich wariantach — największy wyciek, niezależny od talii.
 Ich proponowana para do uploadu: v40 Eugen 33W Kyo4 + 30W Boss4 (u nas Boss4 = najsłabsza konfiguracja, 0.731).
+
+## 2026-10-14 — v41 obie gałęzie: nasza vs c87 reactive (38bbd3d) — porównanie (BEZ submitu)
+
+c87 v41 reactive: nasz v39-benchfix + tryby SPREAD/SWARM/LOCK, BENCH0=200; bundle 35W + Eugen D5.
+Claimy tylko w tytule commita (brak CSV/logów): hard6 0.717->0.800 +8.3pp, top30 +1pp. Nie wysłana.
+
+Pomiary u nas (ten sam silnik/proxy):
+- duel pilotów (talia D5, provisional 16g/deck): nasza v41 0.832 | c87 reactive 0.827 — remis
+- hard6 35W (600g): c87 reactive 0.667 (nasza baza v39: 0.680) — ich +8.3pp NIE powtarza się
+- Ricardo sparowany (200/ramię): nasza v41 0.300 | c87 reactive 0.175 — ich wersja wyraźnie gorsza vs Alakazam
+- wallgate strict (ich propozycja): exotic 0.820 vs permisywny 0.864 — odrzucony
+
+Nasza v41 (gotowa): agents/main_heuristic_v41.py — detektor sticky (SPREAD/MIRROR),
+moduł SPREAD (lean-bench vs Dragapult/Dusknoir; presja KO vs Alakazam: countery ida w AKTYWNEGO
+i zależą od ręki WROGA — nie naszej), ENDGAME deny (retreat Mega <=120HP przy <=3 nagrodach wroga).
+Walidacja: provisional 32g duel vs v39 = 0.8251 vs 0.8246 (paritet); talia 34W Kyo3 (7 basiców)
++1.15pp (z=1.48) nad D5 w ab_decks na 103 deckach -> bundle ptcg_v41_reactive_34w_kyo3.tar.gz (smoke OK).
+Pliki: agents/c87_v41_reactive.py, kaggle_results/top50_provisional/v41_duel*.csv
