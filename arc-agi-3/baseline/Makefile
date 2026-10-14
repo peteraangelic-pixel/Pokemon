@@ -14,7 +14,7 @@ STEPS              ?= 120
 EVAL_STEPS         ?= 400
 KAGGLE             := KAGGLE_API_TOKEN=$$(cat .kaggle/access_token) $(VENV)/bin/kaggle
 
-.PHONY: help configure-kaggle setup test list-games play-local verify-local evaluate-public notebook submit status clean
+.PHONY: help configure-kaggle setup test list-games play-local verify-local evaluate-public notebook submit check-output status clean
 
 help: ## Show available commands
 	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  %-18s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -57,7 +57,13 @@ notebook: ## Generate ignored notebooks/submission.ipynb; ACCELERATOR=cpu|t4|p10
 submit: notebook ## Push notebook for Kaggle Save & Run All (not an official leaderboard entry)
 	@test -s .kaggle/access_token || { echo "Missing .kaggle/access_token; run make configure-kaggle"; exit 1; }
 	$(KAGGLE) kernels push -p notebooks
-	@echo "Notebook pushed. Inspect its Kaggle run before selecting an official competition submission."
+	@echo "Notebook pushed. Po zakończeniu runu uruchom make check-output; dopiero potem wybierz zgłoszenie w UI."
+
+check-output: ## Download latest kernel output and refuse placeholder submissions
+	@test -s .kaggle/access_token || { echo "Missing .kaggle/access_token; run make configure-kaggle"; exit 1; }
+	@KERNEL_ID=$$($(VENV_PY) -c "import json; print(json.load(open('notebooks/kernel-metadata.json'))['id'])"); \
+	rm -rf /tmp/arc_check && $(KAGGLE) kernels output $$KERNEL_ID -p /tmp/arc_check && \
+	$(VENV_PY) scripts/check_submission.py /tmp/arc_check/submission.parquet
 
 status: ## Show most recent Kaggle notebook execution state
 	@test -s .kaggle/access_token || { echo "Missing .kaggle/access_token; run make configure-kaggle"; exit 1; }

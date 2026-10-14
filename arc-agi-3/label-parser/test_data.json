@@ -1,0 +1,1102 @@
+[
+  {
+    "id": "response_0",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_1",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_2",
+    "response": "I'll move RIGHT then MOUSE(2,2) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_3",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_4",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_5",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_6",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_7",
+    "response": "I'll move RIGHT then MOUSE(7,7) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_8",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_9",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_10",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_11",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_12",
+    "response": "I'll move RIGHT then MOUSE(12,12) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_13",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_14",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_15",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_16",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_17",
+    "response": "I'll move RIGHT then MOUSE(17,17) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_18",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_19",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_20",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_21",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_22",
+    "response": "I'll move RIGHT then MOUSE(22,22) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_23",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_24",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_25",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_26",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_27",
+    "response": "I'll move RIGHT then MOUSE(27,27) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_28",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_29",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_30",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_31",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_32",
+    "response": "I'll move RIGHT then MOUSE(32,32) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_33",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_34",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_35",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_36",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_37",
+    "response": "I'll move RIGHT then MOUSE(37,37) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_38",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_39",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_40",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_41",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_42",
+    "response": "I'll move RIGHT then MOUSE(42,42) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_43",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_44",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_45",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_46",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_47",
+    "response": "I'll move RIGHT then MOUSE(47,47) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_48",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_49",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_50",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_51",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_52",
+    "response": "I'll move RIGHT then MOUSE(52,52) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_53",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_54",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_55",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_56",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_57",
+    "response": "I'll move RIGHT then MOUSE(57,57) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_58",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_59",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_60",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_61",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_62",
+    "response": "I'll move RIGHT then MOUSE(62,62) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_63",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_64",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_65",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_66",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_67",
+    "response": "I'll move RIGHT then MOUSE(67,67) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_68",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_69",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_70",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_71",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_72",
+    "response": "I'll move RIGHT then MOUSE(72,72) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_73",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_74",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_75",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_76",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_77",
+    "response": "I'll move RIGHT then MOUSE(77,77) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_78",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_79",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_80",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_81",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_82",
+    "response": "I'll move RIGHT then MOUSE(82,82) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_83",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_84",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_85",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_86",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_87",
+    "response": "I'll move RIGHT then MOUSE(87,87) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_88",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_89",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_90",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_91",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_92",
+    "response": "I'll move RIGHT then MOUSE(92,92) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_93",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_94",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_95",
+    "response": "Here are actions:\n```json\n[{\"action\": \"RIGHT\"}, {\"action\": \"DOWN\"}]\n```",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_96",
+    "response": "[{\"action\": \"LEFT\"}, {\"action\": \"UP\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_97",
+    "response": "I'll move RIGHT then MOUSE(97,97) then DOWN",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_98",
+    "response": "[{\"action\": \"JUMP\"}, {\"action\": \"RIGHT\"}]",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  },
+  {
+    "id": "response_99",
+    "response": "",
+    "valid_actions": [
+      "RIGHT",
+      "LEFT",
+      "UP",
+      "DOWN",
+      "MOUSE"
+    ]
+  }
+]

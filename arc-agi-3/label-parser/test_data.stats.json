@@ -1,0 +1,11 @@
+{
+  "total_responses": 100,
+  "successful_parses": 80,
+  "failed_parses": 20,
+  "total_actions": 180,
+  "valid_actions": 160,
+  "invalid_actions": 20,
+  "success_rate": 0.8,
+  "validity_rate": 0.8888888888888888,
+  "parsing_time_ms": 16
+}
