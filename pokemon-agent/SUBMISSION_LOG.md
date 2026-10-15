@@ -1770,3 +1770,12 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
 - UWAGA: "forensyka v56 TUNED" z galezi c87 (93 replaye) analizuje gry v55 (episode 12441x, sprzed wysylki 10:04Z) — bledna atrybucja.
 - Gleboka forensyka zablokowana: GetEpisodeReplay zwraca 429 dla naszego tokenu (60/60 prob).
   Dodany bezpiecznik w fetch_replays (stop po 5 porazkach). Ponowic pobieranie po resecie limitu.
+
+## Weryfikacja raportu c87 + PIERWSZA prawdziwa forensyka v56 TUNED (a450, 2026-10-15)
+- 605.1 @11:05Z prawdziwe, ale nieaktualne: nowsze polle a450: 569.8 (11:21) -> 507.8 (~12:15). Nadal osiada.
+- Forensyka c87 "93 replaye" = WYLACZNIE gry v55 (episode 12441x). Gry v56T to 12445x; na dysku 14 replayow (10/30 epizodow).
+- v56T forensyka (n=10): W6-L4. Pole: WALLx4 SPREADx2 DEFAULTx2 MIRRORx1 GRASSx1 — matchmaking wyzszej ligi, nie mirror-meta.
+- Killery v56T (300g/deck): SPREAD to szum (lokalnie 0.99 dla nas). PRAWDZIWY problem: Crustle-wall Shaun2024
+  (Mysterious Rock Inn = immunitet na ex; Kyogre 130dmg vs 150HP + discard energii): v56T 0.213, v60 0.130 (!), v61 0.213.
+  Czyli v60 (ich champion) POGARSZA glowny live-matchup. v61 = v56T na killerach (0.730 vs 0.719).
+- Probne odpowiedzi: Kyo4 (-2Petrel +2Kyogre) 0.277-0.317 vs Shaun; Boss 0.267; deck v55 (Baxcalibur) 0.227. Brak pelnej rewalidacji Kyo4.
