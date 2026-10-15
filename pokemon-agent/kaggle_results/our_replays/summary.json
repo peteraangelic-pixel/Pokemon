@@ -1,12 +1,12 @@
 {
-  "fetched_utc": "2026-10-14T22:12:25.057154+00:00",
+  "fetched_utc": "2026-10-15T00:59:31.671448+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
-  "own_submissions": 25,
-  "episodes_listed": 112,
-  "replays_downloaded": 112,
+  "own_submissions": 26,
+  "episodes_listed": 80,
+  "replays_downloaded": 80,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 299,
+  "total_json_on_disk": 325,
   "sample_analysis": [
     {
       "file": "episode-123120164-replay.json",
@@ -77,20 +77,6 @@
         -1
       ],
       "steps": 189
-    },
-    {
-      "file": "episode-124323565-replay.json",
-      "episodeId": 124323565,
-      "teamNames": [
-        "Mitsuaki Inoue",
-        "PeterSharps"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 213
     },
     {
       "file": "episode-123190778-replay.json",
@@ -247,6 +233,34 @@
       "steps": 208
     },
     {
+      "file": "episode-124414965-replay.json",
+      "episodeId": 124414965,
+      "teamNames": [
+        "PeterSharps",
+        "Navneet Prabhat"
+      ],
+      "winner": "PeterSharps",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 200
+    },
+    {
+      "file": "episode-124414846-replay.json",
+      "episodeId": 124414846,
+      "teamNames": [
+        "wadigongren",
+        "PeterSharps"
+      ],
+      "winner": "wadigongren",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 207
+    },
+    {
       "file": "episode-123259160-replay.json",
       "episodeId": 123259160,
       "teamNames": [
@@ -273,20 +287,6 @@
         1
       ],
       "steps": 102
-    },
-    {
-      "file": "episode-123131397-replay.json",
-      "episodeId": 123131397,
-      "teamNames": [
-        "lswuwu",
-        "PeterSharps"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        -1,
-        1
-      ],
-      "steps": 177
     }
   ]
 }
