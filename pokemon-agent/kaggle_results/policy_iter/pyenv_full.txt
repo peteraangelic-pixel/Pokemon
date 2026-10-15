@@ -258,6 +258,7 @@ engine lib: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/
 + echo CG_DIR=.venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg
 + ls -lh libs/
 total 1.4M
+<<<<<<< Updated upstream
 -rw-r--r-- 1 runner runner 1.4M Oct 15 20:19 libcg.so
 + cd pokemon-agent
 + python3 -m venv .venv
@@ -288,3 +289,6 @@ engine lib: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/
 + ls -lh libs/
 total 1.4M
 -rw-r--r-- 1 runner runner 1.4M Oct 15 20:26 libcg.so
+=======
+-rw-r--r-- 1 runner runner 1.4M Oct 15 20:21 libcg.so
+>>>>>>> Stashed changes

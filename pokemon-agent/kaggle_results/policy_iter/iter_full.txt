@@ -192,7 +192,11 @@ v57_trolley34w.csv
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter2.json --decks policy_pool --games 10000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
 + tee kaggle_results/policy_iter/rollout_log.txt
 Error: No such file or directory (os error 2)
+<<<<<<< Updated upstream
 ===== ITER RUN 38800716508 Thu Oct 15 20:20:20 UTC 2026 =====
+=======
+===== ITER RUN 38800979356 Thu Oct 15 20:22:22 UTC 2026 =====
+>>>>>>> Stashed changes
 + GAMES=
 + GAMES=10000
 + EPS_IN=
@@ -224,4 +228,60 @@ v57_trolley34w.csv
 === rollout 10000 games ===
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter2.json --decks policy_pool --games 10000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
 + tee kaggle_results/policy_iter/rollout_log.txt
+<<<<<<< Updated upstream
 Error: No such file or directory (os error 2)
+=======
+games=10000 valid=10000 main_wr=0.501 elapsed=668.5s games_per_sec=15.0 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ ls -lh kaggle_results/policy_iter/
+total 1.3G
+-rw-r--r-- 1 runner runner 8.0K Oct 15 20:20 build_policy.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38775704596.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38776207704.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38776900896.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38777590466.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38778303269.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38778964189.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38779626969.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38780284759.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38780923445.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38781637935.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38782391007.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38791205262.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38794874377.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38799827240.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 20:20 build_policy_38800979356.log.txt
+-rw-r--r-- 1 runner runner  127 Oct 15 20:20 gate_log.txt
+-rw-r--r-- 1 runner runner  15K Oct 15 20:33 iter_full.txt
+-rw-r--r-- 1 runner runner 680K Oct 15 20:20 policy_iter1.npz
+-rw-r--r-- 1 runner runner 680K Oct 15 20:20 policy_iter2.npz
+-rw-r--r-- 1 runner runner   82 Oct 15 20:20 policy_pycheck.txt
+-rw-r--r-- 1 runner runner  124 Oct 15 20:20 policy_smoke.txt
+-rw-r--r-- 1 runner runner  124 Oct 15 20:20 policy_smoke_pkg.txt
+-rw-r--r-- 1 runner runner  40K Oct 15 20:21 pyenv_full.txt
+-rw-r--r-- 1 runner runner 1.2G Oct 15 20:33 rollout.bin
+-rw-r--r-- 1 runner runner  62M Oct 15 20:20 rollout.npz
+-rw-r--r-- 1 runner runner  129 Oct 15 20:33 rollout_log.txt
+-rw-r--r-- 1 runner runner  15K Oct 15 20:22 smoke_full.txt
+-rw-r--r-- 1 runner runner  249 Oct 15 20:20 train_log.txt
++ echo '=== convert ==='
+=== convert ===
++ .venv/bin/python tools/convert_rollout.py kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
++ tee -a kaggle_results/policy_iter/rollout_log.txt
+1430880 decisions in log
+converted 1430880 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.473
++ echo '=== train (warm start) ==='
+=== train (warm start) ===
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_iter/policy_iter2.npz --out kaggle_results/policy_iter/policy_iter3.npz --epochs 1 --lr 1e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_iter/train_log.txt
+data: 1430880 decisions (train 1316409, val 114471)
+warm start from kaggle_results/policy_iter/policy_iter2.npz
+ep0: train_acc~1.300 val_acc=0.441 (316s)
+saved -> kaggle_results/policy_iter/policy_iter3.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter3.npz tools/policy_iter3.json
+wrote tools/policy_iter3.json
++ echo '=== gate: iter3 vs iter2 ==='
+=== gate: iter3 vs iter2 ===
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter3.json --opp-weights tools/policy_iter2.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_log.txt
+games=2000 valid=1999 main_wr=0.482 elapsed=127.1s games_per_sec=15.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+>>>>>>> Stashed changes

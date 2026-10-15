@@ -202,7 +202,11 @@ games=400 valid=400 main_wr=0.552 elapsed=17.0s games_per_sec=23.5 err[start=0 s
 + cd pokemon-agent
 + ls -l libs/
 total 1428
+<<<<<<< Updated upstream
 -rw-r--r-- 1 runner runner 1458504 Oct 15 20:19 libcg.so
+=======
+-rw-r--r-- 1 runner runner 1458504 Oct 15 20:21 libcg.so
+>>>>>>> Stashed changes
 + md5sum libs/libcg.so .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
 5ea6c0ae36535b73f615b89831b6b6a4  libs/libcg.so
 5ea6c0ae36535b73f615b89831b6b6a4  .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
@@ -211,17 +215,26 @@ total 1428
 + .venv/bin/python -
 + tee policy_pycheck.txt
 deck len 60
+<<<<<<< Updated upstream
 battlePtr 94026368659488 errP -1 errT 0
+=======
+battlePtr 94898943112144 errP -1 errT 0
+>>>>>>> Stashed changes
 first select type 9 options 2
 + echo '--- direct package dir ---'
 --- direct package dir ---
 + ./rust/target/release/policy_rollout --lib-dir .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 400 --jobs 4 --mode eval --league-frac 1.0
 + tee policy_smoke_pkg.txt
+<<<<<<< Updated upstream
 games=400 valid=400 main_wr=0.502 elapsed=15.4s games_per_sec=26.0 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+=======
+games=400 valid=400 main_wr=0.520 elapsed=15.7s games_per_sec=25.4 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+>>>>>>> Stashed changes
 + echo '--- copied lib dir ---'
 --- copied lib dir ---
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 400 --jobs 4 --mode eval --league-frac 1.0
 + tee policy_smoke.txt
+<<<<<<< Updated upstream
 games=400 valid=400 main_wr=0.472 elapsed=15.3s games_per_sec=26.1 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
 + cd pokemon-agent
 + ls -l libs/
@@ -247,3 +260,6 @@ games=400 valid=400 main_wr=0.472 elapsed=2.2s games_per_sec=182.7 err[start=0 s
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 400 --jobs 4 --mode eval --league-frac 1.0
 + tee policy_smoke.txt
 games=400 valid=400 main_wr=0.490 elapsed=2.3s games_per_sec=177.1 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+=======
+games=400 valid=400 main_wr=0.520 elapsed=15.2s games_per_sec=26.3 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+>>>>>>> Stashed changes
