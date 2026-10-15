@@ -34,6 +34,9 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Build policy_rollout
         run: |
           mkdir -p pokemon-agent/kaggle_results/policy_iter
@@ -50,7 +53,7 @@ jobs:
           cd pokemon-agent
           python3 -m venv .venv
           .venv/bin/pip install --quiet --upgrade pip
-          .venv/bin/pip install "kaggle-environments" "jax[cpu]" numpy 2>&1 | tail -5
+          .venv/bin/pip install "kaggle-environments==1.33.0" "jax[cpu]" numpy 2>&1 | tail -5
           .venv/bin/pip show kaggle-environments | head -2
           python3 --version
           LIB=$(find .venv -name libcg.so | head -1)
