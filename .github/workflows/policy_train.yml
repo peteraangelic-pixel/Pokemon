@@ -121,6 +121,7 @@ jobs:
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
           mkdir -p pokemon-agent/kaggle_results/policy_iter
           cp pokemon-agent/policy_smoke.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
+          cp pokemon-agent/policy_smoke_pkg.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
           cp pokemon-agent/rust/build_policy.log.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
           rm -f pokemon-agent/kaggle_results/policy_iter/rollout.bin
           git add -f pokemon-agent/kaggle_results/policy_iter/ || true
