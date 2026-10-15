@@ -793,6 +793,23 @@ fn main() -> Result<()> {
     anyhow::ensure!(!decks.is_empty(), "no decks");
     let train = args.mode == "train";
     rayon::ThreadPoolBuilder::new().num_threads(args.jobs).build_global()?;
+    // prepare per-engine libcg copies (engine is not thread-safe)
+    let copies = args.jobs + 2;
+    {
+        let base = format!("{}/libcg.so", args.lib_dir);
+        for i in 0..copies {
+            let dst = format!("{}/libcg_{}.so", args.lib_dir, i);
+            if !std::path::PathBuf::from(&dst).exists() {
+                std::fs::copy(&base, &dst)?;
+            }
+        }
+    }
+    let pool = EnginePool {
+        engines: Mutex::new(Vec::new()),
+        lib_dir: args.lib_dir.clone(),
+        counter: AtomicUsize::new(0),
+        copies,
+    };
 
     let mut cfgs = Vec::with_capacity(args.games);
     let mut rng = StdRng::seed_from_u64(args.seed);
