@@ -1,15 +1,16 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T09:22:41.301549+00:00_
+_fetched 2026-10-15T09:26:25.623908+00:00_
 
 - Own submissions: 26
-- Episodes listed: 186
-- Replays downloaded (our last 80 per live sub): 143
+- Episodes listed: 188
+- Replays downloaded (our last 80 per live sub): 0
 - Official dataset: none found (0 files)
-- Total JSON on disk: 422
+- Total JSON on disk: 391
 
 ## Recent episodes (our agents)
 
+- {'id': '124446192', 'createTime': '2026-10-15 09:18:33.839000', 'endTime': '2026-10-15 09:20:34.543000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124443218', 'createTime': '2026-10-15 08:54:35.087000', 'endTime': '2026-10-15 08:58:19.708000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124440842', 'createTime': '2026-10-15 08:30:31.402000', 'endTime': '2026-10-15 08:36:07.912000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124439263', 'createTime': '2026-10-15 08:02:37.906000', 'endTime': '2026-10-15 08:05:52.174000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
@@ -29,7 +30,6 @@ _fetched 2026-10-15T09:22:41.301549+00:00_
 - {'id': '124431399', 'createTime': '2026-10-15 04:02:23.246000', 'endTime': '2026-10-15 04:03:44.904000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124431265', 'createTime': '2026-10-15 03:58:21.551000', 'endTime': '2026-10-15 04:00:04.780000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124431288', 'createTime': '2026-10-15 03:58:21.579000', 'endTime': '2026-10-15 03:59:41.698000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431305', 'createTime': '2026-10-15 03:58:21.601000', 'endTime': '2026-10-15 03:59:33.763000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 
 ## Sample replay analysis (first 20)
 
