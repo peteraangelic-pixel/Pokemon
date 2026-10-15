@@ -1,77 +1,15 @@
-=== gen_bc_data_rust starting ===
-Args: Args { card_index: "assets/card_index.json", deck_pool_dir: "decks", out: "kaggle_results/bc_data_rust.npz", games: 5000, jobs: 1, lib_path: ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", seed: 7 }
-Loaded 1431 cards, 1755 attacks
+=== gen_bc_data_rust_mt starting (Rayon) ===
+Args: Args { card_index: "assets/card_index.json", deck_pool_dir: "decks", out: "kaggle_results/bc_data_rust.npz", games: 200, jobs: 4, lib_path: ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", seed: 7 }
+Loaded 1431 cards
 Deck pool: 340 files
-  pool: "decks/attacker.csv"
-  pool: "decks/broad_field/AByT3s.csv"
-  pool: "decks/broad_field/Aayush_Jansari.csv"
-  pool: "decks/broad_field/Aditya_ingale.csv"
-  pool: "decks/broad_field/Arka_Latua.csv"
-  pool: "decks/broad_field/Atharva_Naik.csv"
-  pool: "decks/broad_field/Avik_Das.csv"
-  pool: "decks/broad_field/BSCode.csv"
-  pool: "decks/broad_field/DavideSanta.csv"
-  pool: "decks/broad_field/Elbachir_Salik.csv"
-skip "decks/broad_field/_manifest.csv": deck "decks/broad_field/_manifest.csv" has 70 cards, expected 60
-skip "decks/top30_live/_manifest.csv": deck "decks/top30_live/_manifest.csv" has 24 cards, expected 60
 Loaded 338 valid decks
 Lib path: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
-Creating Engine once...
-Engine created OK
-Progress 100/5000 games, 10740 decisions, 1.3s (79.2 games/s, 8508 dec/s)
-Progress 200/5000 games, 21115 decisions, 2.4s (83.7 games/s, 8834 dec/s)
-Progress 300/5000 games, 31422 decisions, 3.3s (89.7 games/s, 9400 dec/s)
-Progress 400/5000 games, 41148 decisions, 4.3s (93.7 games/s, 9637 dec/s)
-Progress 500/5000 games, 50606 decisions, 5.1s (97.1 games/s, 9827 dec/s)
-Progress 600/5000 games, 60031 decisions, 6.0s (99.4 games/s, 9950 dec/s)
-Progress 700/5000 games, 71142 decisions, 7.1s (99.2 games/s, 10081 dec/s)
-Progress 800/5000 games, 81205 decisions, 8.2s (97.1 games/s, 9853 dec/s)
-Progress 900/5000 games, 91237 decisions, 9.2s (98.0 games/s, 9937 dec/s)
-Progress 1000/5000 games, 101567 decisions, 10.3s (97.1 games/s, 9867 dec/s)
-Progress 1100/5000 games, 111121 decisions, 11.2s (98.3 games/s, 9932 dec/s)
-Progress 1200/5000 games, 120163 decisions, 12.1s (99.5 games/s, 9964 dec/s)
-Progress 1300/5000 games, 130559 decisions, 13.2s (98.3 games/s, 9875 dec/s)
-Progress 1400/5000 games, 140606 decisions, 14.2s (98.8 games/s, 9925 dec/s)
-Progress 1500/5000 games, 150689 decisions, 15.1s (99.5 games/s, 9993 dec/s)
-Progress 1600/5000 games, 160168 decisions, 15.9s (100.4 games/s, 10048 dec/s)
-Progress 1700/5000 games, 169885 decisions, 16.8s (101.0 games/s, 10088 dec/s)
-Progress 1800/5000 games, 179604 decisions, 17.7s (101.4 games/s, 10121 dec/s)
-Progress 1900/5000 games, 189993 decisions, 18.7s (101.4 games/s, 10140 dec/s)
-Progress 2000/5000 games, 200768 decisions, 19.7s (101.5 games/s, 10193 dec/s)
-Progress 2100/5000 games, 210546 decisions, 20.6s (102.0 games/s, 10224 dec/s)
-Progress 2200/5000 games, 220155 decisions, 21.7s (101.6 games/s, 10163 dec/s)
-Progress 2300/5000 games, 230360 decisions, 22.6s (101.8 games/s, 10192 dec/s)
-Progress 2400/5000 games, 239666 decisions, 23.7s (101.1 games/s, 10093 dec/s)
-Progress 2500/5000 games, 250064 decisions, 24.7s (101.2 games/s, 10126 dec/s)
-Progress 2600/5000 games, 260428 decisions, 25.8s (100.7 games/s, 10085 dec/s)
-Progress 2700/5000 games, 270319 decisions, 26.7s (100.9 games/s, 10107 dec/s)
-Progress 2800/5000 games, 280132 decisions, 27.9s (100.3 games/s, 10039 dec/s)
-Progress 2900/5000 games, 290484 decisions, 28.9s (100.5 games/s, 10063 dec/s)
-Progress 3000/5000 games, 301071 decisions, 29.8s (100.5 games/s, 10087 dec/s)
-Progress 3100/5000 games, 310829 decisions, 30.9s (100.3 games/s, 10054 dec/s)
-Progress 3200/5000 games, 321509 decisions, 32.1s (99.8 games/s, 10025 dec/s)
-Progress 3300/5000 games, 330048 decisions, 33.1s (99.6 games/s, 9959 dec/s)
-Progress 3400/5000 games, 339759 decisions, 34.3s (99.2 games/s, 9909 dec/s)
-Progress 3500/5000 games, 349867 decisions, 35.2s (99.4 games/s, 9939 dec/s)
-Progress 3600/5000 games, 360039 decisions, 36.1s (99.6 games/s, 9962 dec/s)
-Progress 3700/5000 games, 370468 decisions, 37.1s (99.8 games/s, 9990 dec/s)
-Progress 3800/5000 games, 380888 decisions, 38.0s (99.9 games/s, 10014 dec/s)
-Progress 3900/5000 games, 390479 decisions, 39.0s (100.1 games/s, 10019 dec/s)
-Progress 4000/5000 games, 401357 decisions, 40.0s (100.1 games/s, 10045 dec/s)
-Progress 4100/5000 games, 411803 decisions, 40.9s (100.2 games/s, 10066 dec/s)
-Progress 4200/5000 games, 422272 decisions, 41.9s (100.3 games/s, 10084 dec/s)
-Progress 4300/5000 games, 431845 decisions, 42.9s (100.2 games/s, 10062 dec/s)
-Progress 4400/5000 games, 441763 decisions, 43.8s (100.5 games/s, 10090 dec/s)
-Progress 4500/5000 games, 451627 decisions, 44.9s (100.2 games/s, 10060 dec/s)
-Progress 4600/5000 games, 462420 decisions, 46.1s (99.8 games/s, 10035 dec/s)
-Progress 4700/5000 games, 473094 decisions, 47.3s (99.4 games/s, 10003 dec/s)
-Progress 4800/5000 games, 482946 decisions, 48.2s (99.5 games/s, 10016 dec/s)
-Progress 4900/5000 games, 492144 decisions, 49.3s (99.3 games/s, 9976 dec/s)
-Progress 5000/5000 games, 501559 decisions, 50.6s (98.8 games/s, 9909 dec/s)
-Total: 5000 games, 501559 decisions in 50.6s (98.8 games/s)
+Game 100 done
+Game 0 done
+Total: 200 games attempted, 0 failed, 20607 decisions in 1.4s (142.6 games/s)
 Trying python .venv/bin/python to save npz
 <string>:1: UserWarning: Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning.
 saved
 Saved via .venv/bin/python to kaggle_results/bc_data_rust.npz
-Done, saved 501559 decisions to kaggle_results/bc_data_rust.npz
+Done 20607 decisions
 Exit code: 0
