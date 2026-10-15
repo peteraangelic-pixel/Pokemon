@@ -85,7 +85,6 @@ fn main() -> Result<()> {
     let args = Args::parse();
     println!("=== gen_bc_data_rust starting ===");
     println!("Args: {:?}", args);
-    println!("Card index: {}", args.card_index);
     let heur_index = HeurCardIndex::load(&args.card_index)?;
     let feat = Featurizer::load(&args.card_index)?;
     println!("Loaded {} cards, {} attacks", heur_index.cards.len(), heur_index.attacks.len());
@@ -106,6 +105,9 @@ fn main() -> Result<()> {
         }
     }
     println!("Loaded {} valid decks", deck_cache.len());
+    if deck_cache.is_empty() {
+        anyhow::bail!("no valid decks");
+    }
     let lib_path = args.lib_path.clone();
     let lib_path = if Path::new(&lib_path).exists() { lib_path } else {
         let alts = [
@@ -147,20 +149,12 @@ fn main() -> Result<()> {
         let b = rng.gen_range(0..deck_cache.len());
         let deck_a = &deck_cache[a];
         let deck_b = &deck_cache[b];
-        println!("  decks: {} vs {}", a, b);
 
-        // Build plans
         let plan_a = Plan::build(deck_a, &heur_index);
         let plan_b = Plan::build(deck_b, &heur_index);
-        println!("  plans built");
 
-        // Battle start
-        println!("  battle_start...");
         let mut obs = match engine.battle_start(deck_a, deck_b) {
-            Ok(o) => {
-                println!("  battle_start OK");
-                o
-            },
+            Ok(o) => o,
             Err(e) => {
                 eprintln!("  battle_start failed: {}", e);
                 continue;
@@ -172,30 +166,17 @@ fn main() -> Result<()> {
         let mut step = 0;
         loop {
             step+=1;
-            if step > 2000 {
-                eprintln!("  step limit 2000 at game {}", game_idx);
-                break;
-            }
+            if step > 2000 { break; }
             let current = &obs["current"];
-            if current.is_null() { 
-                eprintln!("  current null at step {}", step);
-                break; 
-            }
+            if current.is_null() { break; }
             let res = current["result"].as_i64().unwrap_or(-1);
             if res >= 0 { result = res as i32; break; }
             let select = &obs["select"];
-            if select.is_null() { 
-                eprintln!("  select null at step {}", step);
-                break; 
-            }
+            if select.is_null() { break; }
             let me = obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize;
             let (plan, _deck) = if me==0 { (&plan_a, deck_a) } else { (&plan_b, deck_b) };
             let decision = heuristic::decide(&obs, &heur_index, plan, &knobs, if me==0 { deck_a } else { deck_b });
-            if decision.is_empty() {
-                eprintln!("  empty decision at step {}", step);
-                break;
-            }
-            // Featurize
+            if decision.is_empty() { break; }
             if let Some(opts_arr) = select["option"].as_array() {
                 let s = feat.state_feats(&obs, me);
                 let mut ofeats: Vec<[f64;64]> = Vec::new();
@@ -207,13 +188,9 @@ fn main() -> Result<()> {
             }
             match engine.select(&decision) {
                 Ok(next) => obs = next,
-                Err(e) => {
-                    eprintln!("  select failed at step {}: {}", step, e);
-                    break;
-                }
+                Err(_) => break,
             }
         }
-        println!("  game {} ended result={} steps={} recs0={} recs1={}", game_idx, result, step, recs[0].len(), recs[1].len());
         if result <0 || result>2 { continue; }
         for seat in 0..2 {
             let win_val = if result==seat as i32 { 1.0 } else if result==2 { 0.0 } else { -1.0 };
@@ -288,13 +265,42 @@ fn main() -> Result<()> {
     write_npy_i32(&tmp_dir.join("Y.npy"), &format!("({},)", n), &all_y)?;
     write_npy_f32(&tmp_dir.join("R.npy"), &format!("({},)", n), all_r.clone())?;
 
-    let status = std::process::Command::new("python3")
-        .arg("-c")
-        .arg(format!("import numpy as np, pathlib; d=pathlib.Path('/tmp/bc_rust_npy'); S=np.load(d/'S.npy'); O=np.load(d/'O.npy'); M=np.load(d/'M.npy'); Y=np.load(d/'Y.npy'); R=np.load(d/'R.npy'); np.savez_compressed('{}', S=S, O=O, M=M, Y=Y, R=R); print('saved')", args.out))
-        .status()?;
-    if !status.success() {
-        anyhow::bail!("python save failed");
+    // Try multiple python candidates that have numpy
+    let py_candidates = [
+        ".venv/bin/python",
+        "/home/runner/work/Pokemon/Pokemon/pokemon-agent/.venv/bin/python",
+        "python3",
+    ];
+    let mut saved = false;
+    for py in &py_candidates {
+        println!("Trying python {} to save npz", py);
+        let out = args.out.clone();
+        let cmd = format!("import numpy as np, pathlib, sys; d=pathlib.Path('/tmp/bc_rust_npy'); S=np.load(d/'S.npy'); O=np.load(d/'O.npy'); M=np.load(d/'M.npy'); Y=np.load(d/'Y.npy'); R=np.load(d/'R.npy'); np.savez_compressed('{}', S=S, O=O, M=M, Y=Y, R=R); print('saved')", out);
+        let status = std::process::Command::new(py).arg("-c").arg(&cmd).status();
+        match status {
+            Ok(s) if s.success() => {
+                println!("Saved via {} to {}", py, args.out);
+                saved = true;
+                break;
+            },
+            Ok(s) => {
+                eprintln!("python {} failed with {:?}", py, s);
+            },
+            Err(e) => {
+                eprintln!("python {} error: {}", py, e);
+            }
+        }
     }
-    println!("Saved {} decisions to {}", n, args.out);
+    if !saved {
+        println!("Falling back to zip");
+        let st = std::process::Command::new("bash")
+            .arg("-c")
+            .arg(format!("cd /tmp/bc_rust_npy && zip -j {} S.npy O.npy M.npy Y.npy R.npy && ls -lh {}", args.out, args.out))
+            .status()?;
+        if !st.success() {
+            anyhow::bail!("zip fallback failed");
+        }
+    }
+    println!("Done, saved {} decisions to {}", n, args.out);
     Ok(())
 }
