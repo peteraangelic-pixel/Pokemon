@@ -37,7 +37,7 @@ Engine created OK
 --- Game 8/20 starting ---
 --- Game 9/20 starting ---
 --- Game 10/20 starting ---
-Progress 10/20 games, 1623 decisions, 0.3s (39.4 games/s)
+Progress 10/20 games, 1773 decisions, 0.3s (32.6 games/s)
 --- Game 11/20 starting ---
 --- Game 12/20 starting ---
 --- Game 13/20 starting ---
@@ -48,11 +48,11 @@ Progress 10/20 games, 1623 decisions, 0.3s (39.4 games/s)
 --- Game 18/20 starting ---
 --- Game 19/20 starting ---
 --- Game 20/20 starting ---
-Progress 20/20 games, 2790 decisions, 0.4s (46.5 games/s)
-Total: 20 games, 2790 decisions in 0.4s
+Progress 20/20 games, 2931 decisions, 0.5s (39.9 games/s)
+Total: 20 games, 2931 decisions in 0.5s
 Trying python .venv/bin/python to save npz
 <string>:1: UserWarning: Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning.
 saved
 Saved via .venv/bin/python to kaggle_results/bc_data_rust.npz
-Done, saved 2790 decisions to kaggle_results/bc_data_rust.npz
+Done, saved 2931 decisions to kaggle_results/bc_data_rust.npz
 Exit code: 0
