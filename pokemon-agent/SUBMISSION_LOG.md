@@ -1736,3 +1736,11 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
 - Pilot delta (ta sama talia Kazdela) 600g: 0.498 — piloci równi.
 - Deck delta: Kazdel lepszy od decku v44 o +1.7pp (pilot v44) i +2.0pp (pilot v55), po 600g.
 - Werdykt: brak przewagi v44; v56 (Kazdel) zostaje kandydatem. Ich claimy (top30 0.908/broad 0.699) na ich rigu.
+
+## v56 HYBRID — werdykt po testach na swiezych danych (2026-10-15)
+- Pobrano swiezy top50 w 5 partiach (decks/top50_fresh_all, 22 unikalne talie; meta = GRASS 27/49)
+  + swieze replaye v55 (58/83; reszta blokowana przez limit Kaggle).
+- HYBRYDA = pilot c87_v44 (bench guard + flood v2) + czysty deck Kazdela. Wyniki (nasz rig FFI):
+  stara pula32: HYB 0.901 > v44 0.891 > v56(v55p) 0.879 | killers18: HYB 0.679 > v59 0.677 > v44 0.658 > v56 0.648
+  fresh22: HYB 0.920 > v59 0.916 > v44 0.915 > v56 0.914 | killers2 (swieze): HYB 0.754 > v44 0.743 > v56 0.725
+- Bundle bundles/ptcg_v56_hybrid_a450.tar.gz (main=c87_v44, deck=Kazdel), smoke OK. NIE WYSLANO.
