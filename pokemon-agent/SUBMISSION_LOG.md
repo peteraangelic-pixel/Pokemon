@@ -1744,3 +1744,11 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
   stara pula32: HYB 0.901 > v44 0.891 > v56(v55p) 0.879 | killers18: HYB 0.679 > v59 0.677 > v44 0.658 > v56 0.648
   fresh22: HYB 0.920 > v59 0.916 > v44 0.915 > v56 0.914 | killers2 (swieze): HYB 0.754 > v44 0.743 > v56 0.725
 - Bundle bundles/ptcg_v56_hybrid_a450.tar.gz (main=c87_v44, deck=Kazdel), smoke OK. NIE WYSLANO.
+
+## v56 TUNED — finalny kandydat (2026-10-15)
+- KOREKTA: karta 1182 = Boss's Orders (1235 = Waitress). Wczesniejsze testy "z Waitress" dotyczyly Bossa; liczby wazne.
+- Tuning slabych punktow hybrydy (pilot v44): WALL Mathieu 0.750, mirror LiYang 35W 0.458 (po 600g).
+- Driverem poprawy jest 34W -1 Surfing Beach (nie Belt): TROLLEY34W = Kazdel -Beach +W.
+  fresh22 0.932 | killers1 0.689 (rekord) | killers2 0.755 | LiYang 0.520 | Mathieu 0.790.
+  Belt34W: fresh22 0.935, reszta nizej; duel bezposredni 0.501. 35W(-Petrel) odrzucone (0.928).
+- Final: pilot c87_v44 + decks/v57_trolley34w.csv -> bundles/ptcg_v56_tuned_a450.tar.gz (smoke OK).
