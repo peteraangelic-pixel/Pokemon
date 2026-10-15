@@ -595,6 +595,7 @@ unsafe impl Send for Engine {}
 
 impl EnginePool {
     fn checkout(&self) -> Result<Engine> {
+        // (first-error diagnostics printed by caller)
         {
             let mut g = self.engines.lock().unwrap();
             if let Some(e) = g.pop() {
@@ -885,6 +886,10 @@ fn main() -> Result<()> {
         ERR_STEPS.load(Ordering::Relaxed),
         ERR_PANIC.load(Ordering::Relaxed),
         ERR_EMPTYOPT.load(Ordering::Relaxed),
+    );
+    Ok(())
+}
+),
     );
     Ok(())
 }
