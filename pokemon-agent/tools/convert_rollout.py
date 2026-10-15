@@ -19,7 +19,7 @@ def main():
     data = raw.tobytes()
     n = len(data)
     pos = 4
-    Ss, Os, Ys, Rs = [], [], [], []
+    Ss, Os, Ms, Ys, Rs = [], [], [], [], []
     import struct
     while pos < n:
         s_bytes = data[pos:pos + DS * 2]; pos += DS * 2
