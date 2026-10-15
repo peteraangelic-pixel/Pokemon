@@ -76,3 +76,86 @@ wrote tools/policy_iter1.json
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter1.json --opp-weights tools/policy_seed.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
 + tee kaggle_results/policy_iter/gate_log.txt
 games=2000 valid=1998 main_wr=0.478 elapsed=94.2s games_per_sec=21.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+===== ITER RUN 38794874377 Thu Oct 15 19:36:21 UTC 2026 =====
++ GAMES=
++ GAMES=10000
++ EPS_IN=
++ EPS_IN=0.08
++ EPOCHS_IN=
++ EPOCHS_IN=2
++ export GAMES EPS_IN EPOCHS_IN
++ set -eo pipefail
++ cd pokemon-agent
++ mkdir -p policy_pool kaggle_results/policy_iter
++ cp decks/v57_trolley34w.csv decks/shaun2024_wall.csv policy_pool/
++ cp decks/live_v56t/BEAT_DEFAULT_Clark_Kitchen_124451815.csv decks/live_v56t/BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv decks/live_v56t/BEAT_MIRROR_xiaogungfu_124451797.csv decks/live_v56t/BEAT_SPREAD_BOB_124451792.csv decks/live_v56t/BEAT_SPREAD_pika28samson_124454118.csv decks/live_v56t/BEAT_WALL_Shaun2024_124453874.csv decks/live_v56t/LOST_DEFAULT_Ramanath_Rakshit_124451521.csv decks/live_v56t/LOST_GRASS_kleber@1703_124452583.csv decks/live_v56t/LOST_MIRROR_Pham_Quang_Nghia_124450972.csv decks/live_v56t/LOST_WALL_Mathieu_W_124451250.csv decks/live_v56t/LOST_WALL_Shiv_sib_124453124.csv decks/live_v56t/LOST_WALL_鲁尚武_LuShangWu_124452051.csv policy_pool/
++ ls policy_pool/
+BEAT_DEFAULT_Clark_Kitchen_124451815.csv
+BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv
+BEAT_MIRROR_xiaogungfu_124451797.csv
+BEAT_SPREAD_BOB_124451792.csv
+BEAT_SPREAD_pika28samson_124454118.csv
+BEAT_WALL_Shaun2024_124453874.csv
+LOST_DEFAULT_Ramanath_Rakshit_124451521.csv
+LOST_GRASS_kleber@1703_124452583.csv
+LOST_MIRROR_Pham_Quang_Nghia_124450972.csv
+LOST_WALL_Mathieu_W_124451250.csv
+LOST_WALL_Shiv_sib_124453124.csv
+LOST_WALL_鲁尚武_LuShangWu_124452051.csv
+shaun2024_wall.csv
+v57_trolley34w.csv
++ echo '=== rollout 10000 games ==='
+=== rollout 10000 games ===
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter1.json --decks policy_pool --games 10000 --jobs 4 --eps 0.08 --mode train --out kaggle_results/policy_iter/rollout.bin
++ tee kaggle_results/policy_iter/rollout_log.txt
+games=10000 valid=10000 main_wr=0.507 elapsed=737.2s games_per_sec=13.6 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ ls -lh kaggle_results/policy_iter/
+total 1.3G
+-rw-r--r-- 1 runner runner 8.0K Oct 15 19:34 build_policy.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38775704596.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38776207704.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38776900896.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38777590466.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38778303269.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38778964189.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38779626969.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38780284759.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38780923445.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38781637935.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38782391007.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38791205262.log.txt
+-rw-r--r-- 1 runner runner 4.9K Oct 15 19:34 build_policy_38794874377.log.txt
+-rw-r--r-- 1 runner runner  126 Oct 15 19:34 gate_log.txt
+-rw-r--r-- 1 runner runner 6.9K Oct 15 19:48 iter_full.txt
+-rw-r--r-- 1 runner runner 680K Oct 15 19:34 policy_iter1.npz
+-rw-r--r-- 1 runner runner   82 Oct 15 19:34 policy_pycheck.txt
+-rw-r--r-- 1 runner runner  124 Oct 15 19:34 policy_smoke.txt
+-rw-r--r-- 1 runner runner  124 Oct 15 19:34 policy_smoke_pkg.txt
+-rw-r--r-- 1 runner runner  31K Oct 15 19:35 pyenv_full.txt
+-rw-r--r-- 1 runner runner 1.2G Oct 15 19:48 rollout.bin
+-rw-r--r-- 1 runner runner  62M Oct 15 19:34 rollout.npz
+-rw-r--r-- 1 runner runner  129 Oct 15 19:48 rollout_log.txt
+-rw-r--r-- 1 runner runner  12K Oct 15 19:36 smoke_full.txt
+-rw-r--r-- 1 runner runner  235 Oct 15 19:34 train_log.txt
++ echo '=== convert ==='
+=== convert ===
++ .venv/bin/python tools/convert_rollout.py kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
++ tee -a kaggle_results/policy_iter/rollout_log.txt
+1438662 decisions in log
+converted 1438662 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.474
++ echo '=== train (warm start) ==='
+=== train (warm start) ===
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_iter/policy_iter1.npz --out kaggle_results/policy_iter/policy_iter2.npz --epochs 2 --lr 5e-4 --win-weight 2.0
++ tee kaggle_results/policy_iter/train_log.txt
+data: 1438662 decisions (train 1323569, val 115093)
+warm start from kaggle_results/policy_iter/policy_iter1.npz
+ep0: train_acc~0.415 val_acc=0.415 (323s)
+ep1: train_acc~0.415 val_acc=0.415 (646s)
+saved -> kaggle_results/policy_iter/policy_iter2.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter2.npz tools/policy_iter2.json
+wrote tools/policy_iter2.json
++ echo '=== gate: iter2 vs iter1 ==='
+=== gate: iter2 vs iter1 ===
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter2.json --opp-weights tools/policy_iter1.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_log.txt
+games=2000 valid=2000 main_wr=0.489 elapsed=131.5s games_per_sec=15.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]

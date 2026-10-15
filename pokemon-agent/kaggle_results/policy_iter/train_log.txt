@@ -1,5 +1,5 @@
-data: 1437338 decisions (train 1322350, val 114988)
-warm start from kaggle_results/policy_v58.npz
-ep0: train_acc~0.417 val_acc=0.416 (358s)
-ep1: train_acc~0.417 val_acc=0.416 (714s)
-saved -> kaggle_results/policy_iter/policy_iter1.npz
+data: 1438662 decisions (train 1323569, val 115093)
+warm start from kaggle_results/policy_iter/policy_iter1.npz
+ep0: train_acc~0.415 val_acc=0.415 (323s)
+ep1: train_acc~0.415 val_acc=0.415 (646s)
+saved -> kaggle_results/policy_iter/policy_iter2.npz
