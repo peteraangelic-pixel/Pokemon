@@ -89,13 +89,13 @@ jobs:
           ./rust/target/release/policy_rollout \
             --lib-dir "$CG_DIR" --card-index tools/card_index.json \
             --weights tools/policy_seed.json --opp-weights tools/policy_seed.json \
-            --decks decks/v57_trolley34w.csv --games 20 --jobs 1 \
+            --decks decks/v57_trolley34w.csv --games 400 --jobs 4 \
             --mode eval --league-frac 1.0 2>&1 | tee policy_smoke_pkg.txt
           echo "--- copied lib dir ---"
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
             --weights tools/policy_seed.json --opp-weights tools/policy_seed.json \
-            --decks decks/v57_trolley34w.csv --games 20 --jobs 1 \
+            --decks decks/v57_trolley34w.csv --games 400 --jobs 4 \
             --mode eval --league-frac 1.0 2>&1 | tee policy_smoke.txt
       - name: Iteration (rollout -> convert -> train -> gate)
         if: github.event_name == 'workflow_dispatch'
