@@ -1,2 +1,1 @@
-BATTLESTART ERR: BattleStart null error_player=0 error_type=1
-games=20 valid=0 seat0_wr=0.000 elapsed=0.0s games_per_sec=0.0 err[start=20 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+games=20 valid=20 seat0_wr=0.400 elapsed=1.2s games_per_sec=16.1 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]

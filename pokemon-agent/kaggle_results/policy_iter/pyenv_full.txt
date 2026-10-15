@@ -27,3 +27,32 @@ engine lib: .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/
 + ls -lh libs/
 total 892K
 -rw-r--r-- 1 runner runner 891K Oct 15 17:46 libcg.so
++ cd pokemon-agent
++ python3 -m venv .venv
++ .venv/bin/pip install --quiet --upgrade pip
++ tail -5
++ .venv/bin/pip install kaggle-environments==1.33.0 'jax[cpu]' numpy
+  Stored in directory: /home/runner/.cache/pip/wheels/1c/77/9e/9af5470201a0b0543937933ee99ba884cd237d2faefe8f4d37
+Successfully built gym
+Installing collected packages: gym_notices, farama-notifications, zipp, uvloop, urllib3, typing-extensions, truststore, tqdm, toolz, termcolor, tenacity, sniffio, six, simplejson, shellingham, safetensors, rpds-py, regex, PyYAML, python-dotenv, pyparsing, pyjson5, pygments, pygame, pycparser, pyasn1, psutil, protobuf, propcache, prometheus-client, pokerkit, pillow, pathlib-abc, packaging, opt_einsum, numpy, multidict, msgpack, mdurl, MarkupSafe, kiwisolver, jiter, itsdangerous, idna, humanize, hf-xet, h11, fsspec, frozenlist, fonttools, filelock, fastuuid, etils, distro, cycler, cloudpickle, click, charset_normalizer, certifi, blinker, attrs, annotated-types, annotated-doc, aiohappyeyeballs, aiofiles, absl-py, yarl, werkzeug, universal-pathlib, typing-inspection, treescope, scipy, requests, referencing, python-dateutil, pydantic-core, pyasn1-modules, omegaconf, ml_dtypes, ml-collections, markdown-it-py, jinja2, importlib-metadata, httpcore2, httpcore, gymnasium, gym, contourpy, cffi, anyio, aiosignal, tiktoken, tensorstore, shimmy, rich, pydantic, pettingzoo, pandas, open_spiel, matplotlib, jsonschema-specifications, jaxlib, httpx2, httpx, Flask, cryptography, aiohttp, typer, seaborn, openai, jsonschema, jax, huggingface-hub, google-auth, tokenizers, orbax-checkpoint, optax, chex, transformers, litellm, flax, gymnax, kaggle-environments
+
+Successfully installed Flask-3.1.3 MarkupSafe-3.0.4 PyYAML-6.0.3 absl-py-2.5.1 aiofiles-25.1.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 blinker-1.9.0 certifi-2026.7.22 cffi-2.1.1 charset_normalizer-3.5.2 chex-0.1.92 click-8.5.0 cloudpickle-3.1.2 contourpy-1.3.3 cryptography-50.0.2 cycler-0.12.1 distro-1.9.0 etils-1.14.0 farama-notifications-0.0.6 fastuuid-0.14.0 filelock-4.2.0 flax-0.12.8 fonttools-4.67.0 frozenlist-1.8.0 fsspec-2026.9.0 google-auth-2.62.0 gym-0.26.2 gym_notices-0.1.0 gymnasium-1.2.0 gymnax-0.0.8 h11-0.16.0 hf-xet-1.7.0 httpcore-1.0.9 httpcore2-2.13.1 httpx-0.28.1 httpx2-2.13.1 huggingface-hub-2.2.0 humanize-4.16.0 idna-3.20 importlib-metadata-8.9.0 itsdangerous-2.2.0 jax-0.10.2 jaxlib-0.10.2 jinja2-3.1.6 jiter-0.17.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kaggle-environments-1.33.0 kiwisolver-1.5.1 litellm-1.93.2 markdown-it-py-4.2.0 matplotlib-3.11.2 mdurl-0.1.2 ml-collections-1.1.0 ml_dtypes-0.6.0 msgpack-1.2.3 multidict-7.1.0 numpy-2.4.6 omegaconf-2.4.0 open_spiel-2.0.1 openai-2.54.0 opt_einsum-3.4.0 optax-0.2.8 orbax-checkpoint-0.12.7 packaging-26.3 pandas-3.0.6 pathlib-abc-0.5.2 pettingzoo-1.27.0 pillow-12.3.0 pokerkit-0.6.3 prometheus-client-0.26.0 propcache-0.5.4 protobuf-7.36.2 psutil-7.2.2 pyasn1-0.6.4 pyasn1-modules-0.4.2 pycparser-3.11 pydantic-2.14.1 pydantic-core-2.50.1 pygame-2.6.1 pygments-2.21.0 pyjson5-2.0.1 pyparsing-3.3.3 python-dateutil-2.9.0.post0 python-dotenv-1.2.4 referencing-0.37.0 regex-2026.9.29 requests-2.34.2 rich-15.0.0 rpds-py-2026.9.1 safetensors-0.8.0 scipy-1.17.1 seaborn-0.13.2 shellingham-1.5.4 shimmy-2.0.1 simplejson-4.2.0 six-1.17.0 sniffio-1.3.1 tenacity-9.2.1 tensorstore-0.1.85 termcolor-3.3.0 tiktoken-0.14.0 tokenizers-0.23.3 toolz-1.2.0 tqdm-4.70.1 transformers-5.19.0 treescope-0.1.10 truststore-0.10.5 typer-0.27.3 typing-extensions-4.16.0 typing-inspection-0.4.4 universal-pathlib-0.3.10 urllib3-2.8.0 uvloop-0.23.0 werkzeug-3.1.9 yarl-1.25.1 zipp-4.1.1
++ .venv/bin/pip show kaggle-environments
++ head -2
+Name: kaggle-environments
+Version: 1.33.0
+ERROR: Pipe to stdout was broken
++ python3 --version
+Python 3.11.17
+++ find .venv -name libcg.so
+++ head -1
++ LIB=.venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ echo 'engine lib: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so'
+engine lib: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ mkdir -p libs
++ cp .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so libs/libcg.so
+++ dirname .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ echo CG_DIR=.venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg
++ ls -lh libs/
+total 1.4M
+-rw-r--r-- 1 runner runner 1.4M Oct 15 17:49 libcg.so
