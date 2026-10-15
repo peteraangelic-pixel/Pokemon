@@ -1,16 +1,16 @@
 {
-  "fetched_utc": "2026-10-15T11:21:10+00:00",
+  "fetched_utc": "2026-10-15T11:56:38+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 371,
+  "leaderboard_rows": 372,
   "submission_rows": 27,
   "our_leaderboard": [
     {
-      "Rank": "228",
+      "Rank": "258",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
       "LastSubmissionDate": "2026-10-15 10:04:36",
-      "Score": "569.8",
+      "Score": "507.8",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
@@ -22,7 +22,7 @@
       "date": "2026-10-15 10:04:36.897000",
       "description": "submit ptcg_v56_tuned_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "569.8",
+      "publicScore": "507.8",
       "privateScore": ""
     },
     {
@@ -31,7 +31,7 @@
       "date": "2026-10-15 00:15:31.267000",
       "description": "submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "375.6",
+      "publicScore": "369.7",
       "privateScore": ""
     },
     {
