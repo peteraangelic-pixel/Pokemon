@@ -1705,3 +1705,12 @@ top50_provisional/v51_vs_c87v428_duel16.csv
 - Bezposredni duel (kazdy ze swoja talia, pilot v48 jako sedzia po drugiej stronie nie dotyczy — duel agent-vs-agent): v55 151-149 (0.503) @300g — remis.
 - Wspolny przeciwnik Eugen deck: v55 0.600, 42.10 0.600. Pula: v55 0.890 vs 42.10 0.873. Froslass: v55 0.560@300 vs 42.10 0.443 (u nich kontra martwa — d10 bez Amarys).
 - Pilot v55 to nadzbior 42.10 (te same 3 latki + graft FROSLASS {861,103} + Amarys w talii); roznica glownie w talii (Kyo2/UB4/Beach vs Kyo3/UB2/Waitress3).
+
+## 2026-10-14 noc — szybki test hybryd v56 (zadanie: przebic v55, c87 utknela na deck-searchu v43)
+Wynik: ZADNA hybryda nie przebija v55. Przetestowane (pilot v55):
+- h1 Kyo3 UB4 Beach bez Belt: pula16 0.860, Eugen 0.560@150, Froslass 0.475@200
+- h3 Kyo3 UB3 Beach Belt: screen8 0.886 (zludne), pula16 0.876, duel vs v55 0.490@300
+- h4 W30 Kyo3 UB4: screen8 0.862
+- h5 Kazdel-style Petrel4 Signal2 Beach2: pula16 0.860 (pilot nie eksploatuje Petrela)
+- h6 v55+Boss za Waitress: duel vs v55 0.483@300
+v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/Petrel/Boss = slepy zaulek na naszych rigach; deck-search c87 (40 wariantow x 4 gauntlety) najpewniej znajdzie to samo.
