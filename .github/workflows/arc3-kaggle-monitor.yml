@@ -1,0 +1,96 @@
+name: ARC-AGI-3 Kaggle Monitor
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/.kaggle-monitor.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      COMP: arc-prize-2026-arc-agi-3
+      OUTDIR: arc-agi-3/kaggle-results
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install kaggle CLI
+        run: pip install --quiet --disable-pip-version-check kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "ERROR: KAGGLE_API_TOKEN not set"
+            exit 1
+          fi
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      - name: Our submissions
+        run: |
+          mkdir -p "$OUTDIR"
+          kaggle competitions submissions -c "$COMP" --csv > "$OUTDIR/submissions.csv" 2>"$OUTDIR/submissions.err" || true
+          echo "=== Our submissions ==="
+          head -20 "$OUTDIR/submissions.csv"
+
+      - name: Public leaderboard
+        run: |
+          kaggle competitions leaderboard -c "$COMP" --show --csv > "$OUTDIR/public_leaderboard.csv" 2>"$OUTDIR/public_leaderboard.err" || true
+          echo "=== Public leaderboard (top 20) ==="
+          head -20 "$OUTDIR/public_leaderboard.csv"
+
+      - name: Kernel status
+        run: |
+          echo "=== Kernel status ==="
+          kaggle kernels status petersharps/arc3-llm-agent-v69 > "$OUTDIR/kernel-status-v69.txt" 2>&1 || true
+          cat "$OUTDIR/kernel-status-v69.txt"
+
+      - name: Summary
+        run: |
+          {
+            echo "# Kaggle Snapshot $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo
+            echo "## Our submissions"
+            echo '```'
+            head -20 "$OUTDIR/submissions.csv" 2>/dev/null || echo "(unavailable)"
+            echo '```'
+            echo
+            echo "## Public leaderboard (top 20)"
+            echo '```'
+            head -20 "$OUTDIR/public_leaderboard.csv" 2>/dev/null || echo "(unavailable)"
+            echo '```'
+            echo
+            echo "## Kernel status (v6.9)"
+            echo '```'
+            cat "$OUTDIR/kernel-status-v69.txt" 2>/dev/null || echo "(unavailable)"
+            echo '```'
+          } > "$OUTDIR/SNAPSHOT.md"
+          cat "$OUTDIR/SNAPSHOT.md"
+
+      - name: Commit results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git add "$OUTDIR" || true
+          if [ -n "$(git status --porcelain "$OUTDIR")" ]; then
+            git commit -m "kaggle: snapshot $(date -u +%Y-%m-%dT%H:%M:%SZ) [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
