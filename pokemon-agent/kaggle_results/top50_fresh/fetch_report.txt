@@ -5,327 +5,135 @@ Outdir: pokemon-agent/kaggle_results/top50_fresh
 1. Downloading leaderboard...
   Leaderboard: 370 teams
 
-Top 50 teams (processing 50):
-  1. YumeNeko (id=17012386) score=1309.3
-  2. やる気元気ミワハルキ 2nd ver. (id=17014244) score=1298.0
-  3. Stephen Schott (id=16981890) score=1164.9
+Top 50 teams (processing 10):
+  1. YumeNeko (id=17012386) score=1301.6
+  2. やる気元気ミワハルキ 2nd ver. (id=17014244) score=1297.9
+  3. Charles Backman On LinkedIn (id=16993626) score=1215.5
   4. バーベナヘレナでコンボ決めたい連合 (id=16994149) score=1163.6
-  5. Charles Backman On LinkedIn (id=16993626) score=1149.3
-  6. RtoABC2 (id=16981607) score=1143.9
-  7. Akmal Xodarev (Busya PRIME) (id=17043084) score=1134.0
+  5. Stephen Schott (id=16981890) score=1158.8
+  6. Akmal Xodarev (Busya PRIME) (id=17043084) score=1138.6
+  7. RtoABC2 (id=16981607) score=1132.4
   8. ANMOL GARG (id=17029228) score=1127.2
-  9. choqui62 (id=17024180) score=1115.2
-  10. Darren Sheehan (id=17003892) score=1114.1
-  11. Yasuhiro Manai (id=17056358) score=1110.6
-  12. sue124 (id=16982182) score=1109.7
-  13. agent_pokemon (id=17080215) score=1109.2
-  14. Leon Liu (id=16986055) score=1105.6
-  15. Bill Vlasak (id=17071115) score=1093.3
-  16. Adisak Sukul (id=17015576) score=1087.5
-  17. Kentaro Totsuka (id=16991525) score=1085.6
-  18. Cristobal Tudela (id=17062195) score=1076.2
-  19. Mathieu W (id=17055574) score=1074.7
-  20. Majiro_ns (id=17055992) score=1067.8
-  21. YOUKE144 (id=17073677) score=1051.9
-  22. Xinyu Li (id=17032277) score=1047.8
-  23. Zedan Soorya (id=17058599) score=1046.8
-  24. Dariush Afshar (id=17074836) score=1041.1
-  25. Mengfei Li (id=17032131) score=1038.0
-  26. Tys TANA (id=17013846) score=1035.9
-  27. JerryChen (id=16994281) score=1034.0
-  28. Mathurin Ache (id=16983339) score=1032.8
-  29. Briano (id=17010375) score=1031.0
-  30. Prime Directive (id=17032923) score=1030.6
-  31. Hawksartelier (id=17034316) score=1025.8
-  32. Aditya Goyal (id=16993925) score=1024.2
-  33. yu_kuo14 (id=17035823) score=1023.6
-  34. Colton Martin (id=17044570) score=1022.5
-  35. EkremKutukculer (id=17077105) score=1019.3
-  36. Grreg (id=17079521) score=1018.4
-  37. Santiago Maniches (id=16982115) score=1015.3
-  38. dajun666 (id=17029072) score=1011.6
-  39. a/u (id=17098934) score=1011.3
-  40. No Free MIST Energy (id=16981808) score=1008.1
-  41. OceanMix (id=17022603) score=1005.8
-  42. Chonghao Peng (id=16994022) score=1005.5
-  43. KyryloBakumenko (id=17028555) score=1003.4
-  44. kimchikingdom (id=17027458) score=1000.3
-  45. YKuma (id=17029369) score=997.8
-  46. kleber@1703 (id=17090711) score=996.6
-  47. Raja Biswas (id=16986029) score=990.6
-  48. Raihan Ramadistra (id=16981951) score=985.6
-  49. hotaq (id=17054080) score=981.1
-  50. Belati Jagad Bintang Syuhada (id=16981780) score=980.5
+  9. choqui62 (id=17024180) score=1119.7
+  10. Yasuhiro Manai (id=17056358) score=1115.2
 
 1. YumeNeko (team_id=17012386) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57183602 — listing episodes...
-      Found 117 episodes; team selected so far 0/7
+      Found 119 episodes; team selected so far 0/7
 
 2. やる気元気ミワハルキ 2nd ver. (team_id=17014244) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57069405 — listing episodes...
-      Found 326 episodes; team selected so far 0/7
+      Found 328 episodes; team selected so far 0/7
 
-3. Stephen Schott (team_id=16981890) — fetching submissions...
+3. Charles Backman On LinkedIn (team_id=16993626) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57151776 — listing episodes...
-      Found 194 episodes; team selected so far 0/7
+    Submission 57222448 — listing episodes...
+      Found 9 episodes; team selected so far 0/7
 
 4. バーベナヘレナでコンボ決めたい連合 (team_id=16994149) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57215740 — listing episodes...
-      Found 64 episodes; team selected so far 0/7
+      Found 68 episodes; team selected so far 0/7
 
-5. Charles Backman On LinkedIn (team_id=16993626) — fetching submissions...
+5. Stephen Schott (team_id=16981890) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57222448 — listing episodes...
-      Found 5 episodes; team selected so far 0/7
-    Submission 57165873 — listing episodes...
-      Found 167 episodes; team selected so far 5/7
+    Submission 57151776 — listing episodes...
+      Found 195 episodes; team selected so far 0/7
 
-6. RtoABC2 (team_id=16981607) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57217041 — listing episodes...
-      Found 59 episodes; team selected so far 0/7
-
-7. Akmal Xodarev (Busya PRIME) (team_id=17043084) — fetching submissions...
+6. Akmal Xodarev (Busya PRIME) (team_id=17043084) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57073692 — listing episodes...
-      Found 377 episodes; team selected so far 0/7
+      Found 378 episodes; team selected so far 0/7
+
+7. RtoABC2 (team_id=16981607) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57217041 — listing episodes...
+      Found 63 episodes; team selected so far 0/7
 
 8. ANMOL GARG (team_id=17029228) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57054219 — listing episodes...
-      Found 433 episodes; team selected so far 0/7
+      Found 434 episodes; team selected so far 0/7
 
 9. choqui62 (team_id=17024180) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57194705 — listing episodes...
-      Found 97 episodes; team selected so far 0/7
+      Found 99 episodes; team selected so far 0/7
 
-10. Darren Sheehan (team_id=17003892) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57145542 — listing episodes...
-      Found 208 episodes; team selected so far 0/7
-
-11. Yasuhiro Manai (team_id=17056358) — fetching submissions...
+10. Yasuhiro Manai (team_id=17056358) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57221176 — listing episodes...
-      Found 17 episodes; team selected so far 0/7
+      Found 22 episodes; team selected so far 0/7
 
-12. sue124 (team_id=16982182) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57214686 — listing episodes...
-      Found 76 episodes; team selected so far 0/7
+Phase 2: downloading unique episodes 0:63 of 63
+  [1/63] Downloaded 124441538 -> episode-124441538-replay.json
+  [2/63] Downloaded 124441203 -> episode-124441203-replay.json
+  [3/63] Downloaded 124439715 -> episode-124439715-replay.json
+  [4/63] Downloaded 124438443 -> episode-124438443-replay.json
+  [5/63] Downloaded 124437652 -> episode-124437652-replay.json
+  [6/63] Downloaded 124436698 -> episode-124436698-replay.json
+  [7/63] Downloaded 124436523 -> episode-124436523-replay.json
+  [8/63] Downloaded 124441540 -> episode-124441540-replay.json
+  [9/63] Downloaded 124439924 -> episode-124439924-replay.json
+  [10/63] Downloaded 124439287 -> episode-124439287-replay.json
+  [11/63] Downloaded 124438472 -> episode-124438472-replay.json
+  [12/63] Downloaded 124441799 -> episode-124441799-replay.json
+  [13/63] Downloaded 124441471 -> episode-124441471-replay.json
+  [14/63] Downloaded 124441131 -> episode-124441131-replay.json
+  [15/63] Downloaded 124440831 -> episode-124440831-replay.json
+  [16/63] Downloaded 124440791 -> episode-124440791-replay.json
+  [17/63] Downloaded 124440553 -> episode-124440553-replay.json
+  [18/63] Downloaded 124440322 -> episode-124440322-replay.json
+  [19/63] Downloaded 124441864 -> episode-124441864-replay.json
+  [20/63] Downloaded 124441882 -> episode-124441882-replay.json
+  [21/63] Downloaded 124441816 -> episode-124441816-replay.json
+  Failed 124440111: rc=1 err=403 Client Error: Forbidden for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-13. agent_pokemon (team_id=17080215) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57062974 — listing episodes...
-      Found 414 episodes; team selected so far 0/7
+  [23/63] Downloaded 124439246 -> episode-124439246-replay.json
+  [24/63] Downloaded 124438099 -> episode-124438099-replay.json
+  [25/63] Downloaded 124437933 -> episode-124437933-replay.json
+  [26/63] Downloaded 124441825 -> episode-124441825-replay.json
+  [27/63] Downloaded 124439940 -> episode-124439940-replay.json
+  [28/63] Downloaded 124438461 -> episode-124438461-replay.json
+  [29/63] Downloaded 124437456 -> episode-124437456-replay.json
+  [30/63] Downloaded 124437032 -> episode-124437032-replay.json
+  [31/63] Downloaded 124436892 -> episode-124436892-replay.json
+  [32/63] Downloaded 124436756 -> episode-124436756-replay.json
+  [33/63] Downloaded 124441866 -> episode-124441866-replay.json
+  [34/63] Downloaded 124440118 -> episode-124440118-replay.json
+  [35/63] Downloaded 124439447 -> episode-124439447-replay.json
+  [36/63] Downloaded 124438141 -> episode-124438141-replay.json
+  [37/63] Downloaded 124437083 -> episode-124437083-replay.json
+  [38/63] Downloaded 124437168 -> episode-124437168-replay.json
+  [39/63] Downloaded 124436258 -> episode-124436258-replay.json
+  [40/63] Downloaded 124441818 -> episode-124441818-replay.json
+  [41/63] Downloaded 124441479 -> episode-124441479-replay.json
+  [42/63] Downloaded 124441151 -> episode-124441151-replay.json
+  [43/63] Downloaded 124440809 -> episode-124440809-replay.json
+  [44/63] Downloaded 124440575 -> episode-124440575-replay.json
+  [45/63] Downloaded 124440339 -> episode-124440339-replay.json
+  [46/63] Downloaded 124441537 -> episode-124441537-replay.json
+  [47/63] Downloaded 124439881 -> episode-124439881-replay.json
+  [48/63] Downloaded 124439888 -> episode-124439888-replay.json
+  [49/63] Downloaded 124439230 -> episode-124439230-replay.json
+  [50/63] Downloaded 124437914 -> episode-124437914-replay.json
+  [51/63] Downloaded 124437982 -> episode-124437982-replay.json
+  [52/63] Downloaded 124437312 -> episode-124437312-replay.json
+  [53/63] Downloaded 124440860 -> episode-124440860-replay.json
+  [54/63] Downloaded 124440394 -> episode-124440394-replay.json
+  [55/63] Downloaded 124439440 -> episode-124439440-replay.json
+  [56/63] Downloaded 124438621 -> episode-124438621-replay.json
+  [57/63] Downloaded 124437040 -> episode-124437040-replay.json
+  [58/63] Downloaded 124441801 -> episode-124441801-replay.json
+  [59/63] Downloaded 124441138 -> episode-124441138-replay.json
+  [60/63] Downloaded 124440624 -> episode-124440624-replay.json
+  [61/63] Downloaded 124440796 -> episode-124440796-replay.json
+  [62/63] Downloaded 124440637 -> episode-124440637-replay.json
+  [63/63] Downloaded 124440560 -> episode-124440560-replay.json
 
-14. Leon Liu (team_id=16986055) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56719905 — listing episodes...
-      Found 1000 episodes; team selected so far 0/7
+Zipping replay files into pokemon-agent/kaggle_results/top50_fresh/TOP10.zip...
+  Zip size: 20.9 MB
 
-15. Bill Vlasak (team_id=17071115) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57165293 — listing episodes...
-      Found 158 episodes; team selected so far 0/7
-
-16. Adisak Sukul (team_id=17015576) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57159667 — listing episodes...
-      Found 176 episodes; team selected so far 0/7
-
-17. Kentaro Totsuka (team_id=16991525) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57138158 — listing episodes...
-      Found 230 episodes; team selected so far 0/7
-
-18. Cristobal Tudela (team_id=17062195) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57148106 — listing episodes...
-      Found 206 episodes; team selected so far 0/7
-
-19. Mathieu W (team_id=17055574) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57118410 — listing episodes...
-      Found 259 episodes; team selected so far 0/7
-
-20. Majiro_ns (team_id=17055992) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57120297 — listing episodes...
-      Found 274 episodes; team selected so far 0/7
-
-21. YOUKE144 (team_id=17073677) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57124631 — listing episodes...
-      Found 269 episodes; team selected so far 0/7
-
-22. Xinyu Li (team_id=17032277) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57063732 — listing episodes...
-      Found 405 episodes; team selected so far 0/7
-
-23. Zedan Soorya (team_id=17058599) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57071580 — listing episodes...
-      Found 422 episodes; team selected so far 0/7
-
-24. Dariush Afshar (team_id=17074836) — fetching submissions...
-  Found 1 submissions, mining latest 1; quota=7/team
-    Submission 57035621 — listing episodes...
-      Found 496 episodes; team selected so far 0/7
-
-25. Mengfei Li (team_id=17032131) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57087514 — listing episodes...
-      Found 351 episodes; team selected so far 0/7
-
-26. Tys TANA (team_id=17013846) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57091788 — listing episodes...
-      Found 329 episodes; team selected so far 0/7
-
-27. JerryChen (team_id=16994281) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57094923 — listing episodes...
-      Found 330 episodes; team selected so far 0/7
-
-28. Mathurin Ache (team_id=16983339) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57097764 — listing episodes...
-      Found 329 episodes; team selected so far 0/7
-
-29. Briano (team_id=17010375) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56994799 — listing episodes...
-      Found 569 episodes; team selected so far 0/7
-
-30. Prime Directive (team_id=17032923) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57138752 — listing episodes...
-      Found 220 episodes; team selected so far 0/7
-
-31. Hawksartelier (team_id=17034316) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57216756 — listing episodes...
-      Found 61 episodes; team selected so far 0/7
-
-32. Aditya Goyal (team_id=16993925) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57052894 — listing episodes...
-      Found 447 episodes; team selected so far 0/7
-
-33. yu_kuo14 (team_id=17035823) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57070757 — listing episodes...
-      Found 404 episodes; team selected so far 0/7
-
-34. Colton Martin (team_id=17044570) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56969818 — listing episodes...
-      Found 598 episodes; team selected so far 0/7
-
-35. EkremKutukculer (team_id=17077105) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57045700 — listing episodes...
-      Found 468 episodes; team selected so far 0/7
-
-36. Grreg (team_id=17079521) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57202115 — listing episodes...
-      Found 79 episodes; team selected so far 0/7
-
-37. Santiago Maniches (team_id=16982115) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57217358 — listing episodes...
-      Found 57 episodes; team selected so far 0/7
-
-38. dajun666 (team_id=17029072) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56941572 — listing episodes...
-      Found 631 episodes; team selected so far 0/7
-
-39. a/u (team_id=17098934) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57219212 — listing episodes...
-      Found 34 episodes; team selected so far 0/7
-
-40. No Free MIST Energy (team_id=16981808) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57168483 — listing episodes...
-      Found 158 episodes; team selected so far 0/7
-
-41. OceanMix (team_id=17022603) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56841327 — listing episodes...
-      Found 926 episodes; team selected so far 0/7
-
-42. Chonghao Peng (team_id=16994022) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57163656 — listing episodes...
-      Found 164 episodes; team selected so far 0/7
-
-43. KyryloBakumenko (team_id=17028555) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57151952 — listing episodes...
-      Found 214 episodes; team selected so far 0/7
-
-44. kimchikingdom (team_id=17027458) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57214854 — listing episodes...
-      Found 68 episodes; team selected so far 0/7
-
-45. YKuma (team_id=17029369) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57186687 — listing episodes...
-      Found 113 episodes; team selected so far 0/7
-
-46. kleber@1703 (team_id=17090711) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57220534 — listing episodes...
-      Found 27 episodes; team selected so far 0/7
-
-47. Raja Biswas (team_id=16986029) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57011757 — listing episodes...
-      Found 543 episodes; team selected so far 0/7
-
-48. Raihan Ramadistra (team_id=16981951) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57162562 — listing episodes...
-      Found 171 episodes; team selected so far 0/7
-
-49. hotaq (team_id=17054080) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57069341 — listing episodes...
-      Found 417 episodes; team selected so far 0/7
-
-50. Belati Jagad Bintang Syuhada (team_id=16981780) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56847110 — listing episodes...
-      Found 852 episodes; team selected so far 0/7
-
-Phase 2: downloading unique episodes 0:80 of 304
-  Replay 124439715 hit Kaggle 429; retry 1/2 in 20s
-  Replay 124439715 hit Kaggle 429; retry 2/2 in 40s
-  Failed 124439715: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-  Replay 124438443 hit Kaggle 429; retry 1/2 in 20s
-  Replay 124438443 hit Kaggle 429; retry 2/2 in 40s
-  Failed 124438443: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-  Replay 124437652 hit Kaggle 429; retry 1/2 in 20s
-  Replay 124437652 hit Kaggle 429; retry 2/2 in 40s
-  Failed 124437652: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-  Replay 124436698 hit Kaggle 429; retry 1/2 in 20s
-  Replay 124436698 hit Kaggle 429; retry 2/2 in 40s
-  Failed 124436698: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-Stopping phase 2 after 12 consecutive Kaggle 429 replay failures
-
-Done. Selected 350 rows (304 unique episodes) for top 50; teams_with_quota=50, new=0, reused=0, failed=4.
+Done. Selected 70 rows (63 unique episodes) for top 50; teams_with_quota=10, new=62, reused=0, failed=1.
