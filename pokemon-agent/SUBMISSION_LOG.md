@@ -1785,3 +1785,10 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
   Limit konta/tokenu spalony (dzis ~400 pobran + setki prob z obu sesji). Na dysku 10/59 replayow v56T.
 - Mu: 605 -> 570 -> 508 -> 428.1 (rank 283). WR z metadanych ~0.40; wynik osiada do niskich 400.
 - c87 niezaleznie doszlo do Kyo4 wallfix (+11pp vs Shaun) — zbiezna diagnoza.
+
+## Weryfikacja v57 Kyo4 wallfix (c87) — nasz rig, wieksze proby (2026-10-15)
+- Ich mecze potwierdzone: 14 replayow v56T = W8-L6 (4 pliki spoza starszego CSV a450).
+- Reklamowane +11pp vs Shaun (0.31 @100g) NIE replikuje sie @600g: v57c87 0.203 ~ TUNED 0.213. Szum malych prob.
+- fresh22: v57 0.929 vs TUNED 0.932; BEAT6 (killery v56T): wszyscy 0.667; duel v57 vs TUNED 0.506 — parytet. Brak podstaw do wysylki.
+- Nasza v58_kyo4 (Beach zostaje): Shaun 0.277 @600g (realny +6pp), fresh22 0.923 (-0.9pp, granica szumu).
+- Wniosek: nie zmieniac wyslanej v56T na v57c87. Ewentualny kierunek Kyo4 wymaga wiekszego n na fresh22.
