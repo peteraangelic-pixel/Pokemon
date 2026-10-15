@@ -373,7 +373,7 @@ impl<'a> Feat<'a> {
         }
     }
 
-    fn target_poke(&self, opt: &Value, obs: &Value, me: usize) -> (Option<usize>, Option<Value>) {
+    fn target_poke<'v>(&self, opt: &Value, obs: &'v Value, me: usize) -> (Option<usize>, Option<&'v Value>) {
         let area = opt.get("inPlayArea").and_then(|x| x.as_i64());
         let idx = opt.get("inPlayIndex").and_then(|x| x.as_i64());
         if !matches!(area, Some(4) | Some(5)) || idx.is_none() {
@@ -392,9 +392,9 @@ impl<'a> Feat<'a> {
                 if let Some(p) = arr(&players[owner], zone).get(idx) {
                     if !p.is_null() {
                         if otype == 8 || otype == 9 {
-                            return (Some(me), Some((*p).clone()));
+                            return (Some(me), Some(p));
                         }
-                        return (Some(owner), Some((*p).clone()));
+                        return (Some(owner), Some(p));
                     }
                 }
             }
@@ -404,8 +404,9 @@ impl<'a> Feat<'a> {
 
     fn option_feats(&self, opt: &Value, obs: &Value, me: usize) -> [f32; DO] {
         let mut out = [0f32; DO];
-        let cur = obs.get("current").cloned().unwrap_or(Value::Null);
-        let players = arr(&cur, "players");
+        let empty = Value::Null;
+        let cur = obs.get("current").unwrap_or(&empty);
+        let players = arr(cur, "players");
         let otype = opt.get("type").and_then(|x| x.as_i64()).unwrap_or(0);
         if (0..16).contains(&otype) {
             out[otype as usize] = 1.0;
@@ -436,7 +437,7 @@ impl<'a> Feat<'a> {
         }
         let (towner, tpoke) = self.target_poke(opt, obs, me);
         if let Some(tp) = tpoke {
-            let tb = self.poke_block(Some(&tp));
+            let tb = self.poke_block(Some(tp));
             out[60] = tb[0];
             out[61] = tb[2];
             out[62] = tb[6];
@@ -494,30 +495,51 @@ fn gelu(x: f32) -> f32 {
 
 impl Mlp {
     fn scores(&self, state: &[f32; DS], opts: &[[f32; DO]]) -> Vec<f32> {
-        let mut out = Vec::with_capacity(opts.len());
-        let din = DS + DO;
-        for o in opts {
-            let mut x = vec![0f32; din];
-            x[..DS].copy_from_slice(state);
-            x[DS..].copy_from_slice(o);
-            let mut h1 = vec![0f32; self.h1];
-            for j in 0..self.h1 {
-                let mut acc = self.b1[j];
-                for i in 0..din {
-                    acc += x[i] * self.w1[i * self.h1 + j];
+        let h1n = self.h1;
+        let h2n = self.h2;
+        // state contribution to layer-1 pre-activation, computed once
+        let mut s_acc = self.b1.clone();
+        for i in 0..DS {
+            let xi = state[i];
+            if xi != 0.0 {
+                let row = i * h1n;
+                for j in 0..h1n {
+                    s_acc[j] += xi * self.w1[row + j];
                 }
-                h1[j] = gelu(acc);
             }
-            let mut h2 = vec![0f32; self.h2];
-            for j in 0..self.h2 {
-                let mut acc = self.b2[j];
-                for i in 0..self.h1 {
-                    acc += h1[i] * self.w2[i * self.h2 + j];
+        }
+        let mut out = Vec::with_capacity(opts.len());
+        let mut h1 = vec![0f32; h1n];
+        let mut h2 = vec![0f32; h2n];
+        for o in opts {
+            h1.copy_from_slice(&s_acc);
+            for k in 0..DO {
+                let xk = o[k];
+                if xk != 0.0 {
+                    let row = (DS + k) * h1n;
+                    for j in 0..h1n {
+                        h1[j] += xk * self.w1[row + j];
+                    }
                 }
-                h2[j] = gelu(acc);
+            }
+            for v in h1.iter_mut() {
+                *v = gelu(*v);
+            }
+            h2.copy_from_slice(&self.b2);
+            for i in 0..h1n {
+                let xi = h1[i];
+                if xi != 0.0 {
+                    let row = i * h2n;
+                    for j in 0..h2n {
+                        h2[j] += xi * self.w2[row + j];
+                    }
+                }
+            }
+            for v in h2.iter_mut() {
+                *v = gelu(*v);
             }
             let mut acc = self.b3[0];
-            for i in 0..self.h2 {
+            for i in 0..h2n {
                 acc += h2[i] * self.w3[i];
             }
             out.push(acc);
@@ -666,14 +688,15 @@ fn play_game(
                 ERR_STEPS.fetch_add(1, Ordering::Relaxed);
                 break -1;
             }
-            let cur = obs.get("current").cloned().unwrap_or(Value::Null);
+            let empty_cur = Value::Null;
+            let cur = obs.get("current").unwrap_or(&empty_cur);
             if let Some(r) = cur.get("result").and_then(|x| x.as_i64()) {
                 if r >= 0 {
                     break r as i32;
                 }
             }
             let sel = match obs.get("select") {
-                Some(s) if !s.is_null() => s.clone(),
+                Some(s) if !s.is_null() => s,
                 _ => {
                     ERR_NOSEL.fetch_add(1, Ordering::Relaxed);
                     break -1;
