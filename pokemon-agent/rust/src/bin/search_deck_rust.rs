@@ -7,12 +7,10 @@ use rand::Rng;
 use rayon::prelude::*;
 use std::sync::Mutex;
 
-mod engine {
-    include!("../engine.rs");
-}
-mod heuristic {
-    include!("../heuristic.rs");
-}
+#[path = "../engine.rs"]
+mod engine;
+#[path = "../heuristic.rs"]
+mod heuristic;
 use heuristic::{CardIndex, Knobs, Plan};
 use engine::Engine;
 

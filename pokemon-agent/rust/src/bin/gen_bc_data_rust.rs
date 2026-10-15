@@ -7,15 +7,13 @@ use std::sync::{Mutex, Arc};
 use rand::{SeedableRng, rngs::StdRng, Rng};
 use serde_json::Value;
 
-mod engine {
-    include!("../engine.rs");
-}
-mod heuristic {
-    include!("../heuristic.rs");
-}
-mod policy_feats {
-    include!("../policy_feats.rs");
-}
+#[path = "../engine.rs"]
+mod engine;
+#[path = "../heuristic.rs"]
+mod heuristic;
+#[path = "../policy_feats.rs"]
+mod policy_feats;
+
 use engine::Engine;
 use heuristic::{CardIndex as HeurCardIndex, Knobs, Plan};
 use policy_feats::Featurizer;

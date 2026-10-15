@@ -5,12 +5,10 @@ use std::path::{Path, PathBuf};
 use std::fs;
 use std::time::Instant;
 
-mod engine {
-    include!("../engine.rs");
-}
-mod heuristic {
-    include!("../heuristic.rs");
-}
+#[path = "../engine.rs"]
+mod engine;
+#[path = "../heuristic.rs"]
+mod heuristic;
 use engine::Engine;
 use heuristic::{CardIndex, Knobs, Plan};
 
