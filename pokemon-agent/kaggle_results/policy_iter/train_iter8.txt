@@ -1,0 +1,4 @@
+data: 1500000 decisions (train 1380000, val 120000)
+warm start from kaggle_results/policy_iter/policy_iter7.npz
+ep0: train_acc~1.299 val_acc=0.440 (361s)
+saved -> kaggle_results/policy_iter/policy_iter8.npz

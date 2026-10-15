@@ -285,3 +285,180 @@ wrote tools/policy_iter3.json
 + tee kaggle_results/policy_iter/gate_log.txt
 games=2000 valid=1999 main_wr=0.482 elapsed=127.1s games_per_sec=15.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
 >>>>>>> Stashed changes
+===== ITER RUN 38805365738 Thu Oct 15 20:54:20 UTC 2026 =====
++ GAMES=
++ GAMES=20000
++ EPS_IN=
++ EPS_IN=0.08
++ EPOCHS_IN=
++ EPOCHS_IN=2
++ export GAMES EPS_IN EPOCHS_IN
++ set -eo pipefail
++ cd pokemon-agent
++ mkdir -p policy_pool kaggle_results/policy_iter
++ cp decks/v57_trolley34w.csv decks/shaun2024_wall.csv policy_pool/
++ cp decks/live_v56t/BEAT_DEFAULT_Clark_Kitchen_124451815.csv decks/live_v56t/BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv decks/live_v56t/BEAT_MIRROR_xiaogungfu_124451797.csv decks/live_v56t/BEAT_SPREAD_BOB_124451792.csv decks/live_v56t/BEAT_SPREAD_pika28samson_124454118.csv decks/live_v56t/BEAT_WALL_Shaun2024_124453874.csv decks/live_v56t/LOST_DEFAULT_Ramanath_Rakshit_124451521.csv decks/live_v56t/LOST_GRASS_kleber@1703_124452583.csv decks/live_v56t/LOST_MIRROR_Pham_Quang_Nghia_124450972.csv decks/live_v56t/LOST_WALL_Mathieu_W_124451250.csv decks/live_v56t/LOST_WALL_Shiv_sib_124453124.csv decks/live_v56t/LOST_WALL_鲁尚武_LuShangWu_124452051.csv policy_pool/
++ ls policy_pool/
+BEAT_DEFAULT_Clark_Kitchen_124451815.csv
+BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv
+BEAT_MIRROR_xiaogungfu_124451797.csv
+BEAT_SPREAD_BOB_124451792.csv
+BEAT_SPREAD_pika28samson_124454118.csv
+BEAT_WALL_Shaun2024_124453874.csv
+LOST_DEFAULT_Ramanath_Rakshit_124451521.csv
+LOST_GRASS_kleber@1703_124452583.csv
+LOST_MIRROR_Pham_Quang_Nghia_124450972.csv
+LOST_WALL_Mathieu_W_124451250.csv
+LOST_WALL_Shiv_sib_124453124.csv
+LOST_WALL_鲁尚武_LuShangWu_124452051.csv
+shaun2024_wall.csv
+v57_trolley34w.csv
++ echo '=== iteration chain: 5 x PG from iter3 (games=20000) ==='
+=== iteration chain: 5 x PG from iter3 (games=20000) ===
++ PREV_JSON=tools/policy_iter3.json
++ PREV_NPZ=kaggle_results/policy_iter/policy_iter3.npz
++ for K in 4 5 6 7 8
++ echo '===== ITER 4 rollout ====='
+===== ITER 4 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter3.json --decks policy_pool --games 20000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
+games=20000 valid=19998 main_wr=0.502 elapsed=242.2s games_per_sec=82.6 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 4 convert ====='
+===== ITER 4 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 1500000 kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
+1500000 decisions in log
+converted 1500000 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.473
++ rm -f kaggle_results/policy_iter/rollout.bin
++ echo '===== ITER 4 train PG ====='
+===== ITER 4 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_iter/policy_iter3.npz --out kaggle_results/policy_iter/policy_iter4.npz --epochs 1 --lr 1e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_iter/train_iter4.txt
+data: 1500000 decisions (train 1380000, val 120000)
+warm start from kaggle_results/policy_iter/policy_iter3.npz
+ep0: train_acc~1.299 val_acc=0.440 (362s)
+saved -> kaggle_results/policy_iter/policy_iter4.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter4.npz tools/policy_iter4.json
+wrote tools/policy_iter4.json
++ echo '===== ITER 4 gate vs prev ====='
+===== ITER 4 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter4.json --opp-weights tools/policy_iter3.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_iter4.txt
+games=2000 valid=2000 main_wr=0.505 elapsed=20.5s games_per_sec=97.5 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_iter4.json
++ PREV_NPZ=kaggle_results/policy_iter/policy_iter4.npz
++ for K in 4 5 6 7 8
++ echo '===== ITER 5 rollout ====='
+===== ITER 5 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter4.json --decks policy_pool --games 20000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
+games=20000 valid=20000 main_wr=0.498 elapsed=240.4s games_per_sec=83.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 5 convert ====='
+===== ITER 5 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 1500000 kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
+1500000 decisions in log
+converted 1500000 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.473
++ rm -f kaggle_results/policy_iter/rollout.bin
++ echo '===== ITER 5 train PG ====='
+===== ITER 5 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_iter/policy_iter4.npz --out kaggle_results/policy_iter/policy_iter5.npz --epochs 1 --lr 1e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_iter/train_iter5.txt
+data: 1500000 decisions (train 1380000, val 120000)
+warm start from kaggle_results/policy_iter/policy_iter4.npz
+ep0: train_acc~1.300 val_acc=0.438 (361s)
+saved -> kaggle_results/policy_iter/policy_iter5.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter5.npz tools/policy_iter5.json
+wrote tools/policy_iter5.json
++ echo '===== ITER 5 gate vs prev ====='
+===== ITER 5 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter5.json --opp-weights tools/policy_iter4.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_iter5.txt
+games=2000 valid=2000 main_wr=0.487 elapsed=20.5s games_per_sec=97.4 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_iter5.json
++ PREV_NPZ=kaggle_results/policy_iter/policy_iter5.npz
++ for K in 4 5 6 7 8
++ echo '===== ITER 6 rollout ====='
+===== ITER 6 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter5.json --decks policy_pool --games 20000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
+games=20000 valid=19998 main_wr=0.496 elapsed=243.1s games_per_sec=82.3 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 6 convert ====='
+===== ITER 6 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 1500000 kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
+1500000 decisions in log
+converted 1500000 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.472
++ rm -f kaggle_results/policy_iter/rollout.bin
++ echo '===== ITER 6 train PG ====='
+===== ITER 6 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_iter/policy_iter5.npz --out kaggle_results/policy_iter/policy_iter6.npz --epochs 1 --lr 1e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_iter/train_iter6.txt
+data: 1500000 decisions (train 1380000, val 120000)
+warm start from kaggle_results/policy_iter/policy_iter5.npz
+ep0: train_acc~1.301 val_acc=0.440 (363s)
+saved -> kaggle_results/policy_iter/policy_iter6.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter6.npz tools/policy_iter6.json
+wrote tools/policy_iter6.json
++ echo '===== ITER 6 gate vs prev ====='
+===== ITER 6 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter6.json --opp-weights tools/policy_iter5.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_iter6.txt
+games=2000 valid=2000 main_wr=0.498 elapsed=19.9s games_per_sec=100.5 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_iter6.json
++ PREV_NPZ=kaggle_results/policy_iter/policy_iter6.npz
++ for K in 4 5 6 7 8
++ echo '===== ITER 7 rollout ====='
+===== ITER 7 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter6.json --decks policy_pool --games 20000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
+games=20000 valid=19998 main_wr=0.499 elapsed=241.9s games_per_sec=82.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 7 convert ====='
+===== ITER 7 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 1500000 kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
+1500000 decisions in log
+converted 1500000 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.473
++ rm -f kaggle_results/policy_iter/rollout.bin
++ echo '===== ITER 7 train PG ====='
+===== ITER 7 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_iter/policy_iter6.npz --out kaggle_results/policy_iter/policy_iter7.npz --epochs 1 --lr 1e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_iter/train_iter7.txt
+data: 1500000 decisions (train 1380000, val 120000)
+warm start from kaggle_results/policy_iter/policy_iter6.npz
+ep0: train_acc~1.302 val_acc=0.439 (361s)
+saved -> kaggle_results/policy_iter/policy_iter7.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter7.npz tools/policy_iter7.json
+wrote tools/policy_iter7.json
++ echo '===== ITER 7 gate vs prev ====='
+===== ITER 7 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter7.json --opp-weights tools/policy_iter6.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_iter7.txt
+games=2000 valid=1999 main_wr=0.491 elapsed=20.1s games_per_sec=99.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_iter7.json
++ PREV_NPZ=kaggle_results/policy_iter/policy_iter7.npz
++ for K in 4 5 6 7 8
++ echo '===== ITER 8 rollout ====='
+===== ITER 8 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter7.json --decks policy_pool --games 20000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
+games=20000 valid=20000 main_wr=0.496 elapsed=238.7s games_per_sec=83.8 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 8 convert ====='
+===== ITER 8 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 1500000 kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
+1500000 decisions in log
+converted 1500000 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.473
++ rm -f kaggle_results/policy_iter/rollout.bin
++ echo '===== ITER 8 train PG ====='
+===== ITER 8 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_iter/policy_iter7.npz --out kaggle_results/policy_iter/policy_iter8.npz --epochs 1 --lr 1e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_iter/train_iter8.txt
+data: 1500000 decisions (train 1380000, val 120000)
+warm start from kaggle_results/policy_iter/policy_iter7.npz
+ep0: train_acc~1.299 val_acc=0.440 (361s)
+saved -> kaggle_results/policy_iter/policy_iter8.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter8.npz tools/policy_iter8.json
+wrote tools/policy_iter8.json
++ echo '===== ITER 8 gate vs prev ====='
+===== ITER 8 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter8.json --opp-weights tools/policy_iter7.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_iter8.txt
+games=2000 valid=2000 main_wr=0.483 elapsed=20.2s games_per_sec=99.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_iter8.json
++ PREV_NPZ=kaggle_results/policy_iter/policy_iter8.npz
++ echo '===== FINAL gate: iter8 vs seed ====='
+===== FINAL gate: iter8 vs seed =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter8.json --opp-weights tools/policy_seed.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_iter/gate_final.txt
+games=2000 valid=2000 main_wr=0.503 elapsed=20.5s games_per_sec=97.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
