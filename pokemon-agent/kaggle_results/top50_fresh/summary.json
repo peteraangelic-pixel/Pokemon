@@ -1,24 +1,24 @@
 {
-  "fetched_utc": "2026-10-15T08:30:30.324108+00:00",
+  "fetched_utc": "2026-10-15T08:38:07.631771+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "top_n": 50,
   "replays_per_team": 7,
   "subs_per_team": 2,
   "teams": 50,
-  "teams_with_any_episode": 36,
-  "teams_with_full_quota": 36,
-  "selected_rows": 252,
-  "unique_episodes": 223,
+  "teams_with_any_episode": 50,
+  "teams_with_full_quota": 50,
+  "selected_rows": 350,
+  "unique_episodes": 304,
   "replays_downloaded": 0,
   "replays_reused_existing": 0,
   "replays_failed": 4,
   "aborted_429": true,
   "skip_download": false,
   "download_offset": 0,
-  "max_downloads": 0,
+  "max_downloads": 80,
   "status_counts": {
     "failed_429": 6,
-    "pending_429": 246
+    "pending_429": 344
   },
   "manifest": "pokemon-agent/kaggle_results/top50_fresh/top10_manifest.csv",
   "status": "pokemon-agent/kaggle_results/top50_fresh/fetch_status.csv"

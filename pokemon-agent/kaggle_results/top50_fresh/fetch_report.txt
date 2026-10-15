@@ -9,53 +9,53 @@ Top 50 teams (processing 50):
   1. YumeNeko (id=17012386) score=1309.3
   2. やる気元気ミワハルキ 2nd ver. (id=17014244) score=1298.0
   3. Stephen Schott (id=16981890) score=1164.9
-  4. バーベナヘレナでコンボ決めたい連合 (id=16994149) score=1159.4
-  5. Charles Backman On LinkedIn (id=16993626) score=1154.1
-  6. RtoABC2 (id=16981607) score=1138.6
-  7. Akmal Xodarev (Busya PRIME) (id=17043084) score=1138.1
+  4. バーベナヘレナでコンボ決めたい連合 (id=16994149) score=1163.6
+  5. Charles Backman On LinkedIn (id=16993626) score=1149.3
+  6. RtoABC2 (id=16981607) score=1143.9
+  7. Akmal Xodarev (Busya PRIME) (id=17043084) score=1134.0
   8. ANMOL GARG (id=17029228) score=1127.2
   9. choqui62 (id=17024180) score=1115.2
-  10. Darren Sheehan (id=17003892) score=1110.8
-  11. Leon Liu (id=16986055) score=1110.3
+  10. Darren Sheehan (id=17003892) score=1114.1
+  11. Yasuhiro Manai (id=17056358) score=1110.6
   12. sue124 (id=16982182) score=1109.7
   13. agent_pokemon (id=17080215) score=1109.2
-  14. Bill Vlasak (id=17071115) score=1093.3
-  15. Adisak Sukul (id=17015576) score=1087.5
-  16. Kentaro Totsuka (id=16991525) score=1085.6
-  17. Cristobal Tudela (id=17062195) score=1082.1
-  18. Yasuhiro Manai (id=17056358) score=1077.2
+  14. Leon Liu (id=16986055) score=1105.6
+  15. Bill Vlasak (id=17071115) score=1093.3
+  16. Adisak Sukul (id=17015576) score=1087.5
+  17. Kentaro Totsuka (id=16991525) score=1085.6
+  18. Cristobal Tudela (id=17062195) score=1076.2
   19. Mathieu W (id=17055574) score=1074.7
   20. Majiro_ns (id=17055992) score=1067.8
   21. YOUKE144 (id=17073677) score=1051.9
-  22. Xinyu Li (id=17032277) score=1051.7
-  23. Zedan Soorya (id=17058599) score=1051.1
-  24. Tys TANA (id=17013846) score=1041.0
-  25. Mathurin Ache (id=16983339) score=1040.9
-  26. Mengfei Li (id=17032131) score=1038.0
-  27. Dariush Afshar (id=17074836) score=1036.8
-  28. Prime Directive (id=17032923) score=1035.6
-  29. JerryChen (id=16994281) score=1034.0
-  30. Briano (id=17010375) score=1031.0
-  31. Hawksartelier (id=17034316) score=1029.4
+  22. Xinyu Li (id=17032277) score=1047.8
+  23. Zedan Soorya (id=17058599) score=1046.8
+  24. Dariush Afshar (id=17074836) score=1041.1
+  25. Mengfei Li (id=17032131) score=1038.0
+  26. Tys TANA (id=17013846) score=1035.9
+  27. JerryChen (id=16994281) score=1034.0
+  28. Mathurin Ache (id=16983339) score=1032.8
+  29. Briano (id=17010375) score=1031.0
+  30. Prime Directive (id=17032923) score=1030.6
+  31. Hawksartelier (id=17034316) score=1025.8
   32. Aditya Goyal (id=16993925) score=1024.2
   33. yu_kuo14 (id=17035823) score=1023.6
-  34. EkremKutukculer (id=17077105) score=1019.3
-  35. Grreg (id=17079521) score=1018.4
-  36. Colton Martin (id=17044570) score=1018.2
-  37. dajun666 (id=17029072) score=1011.6
-  38. a/u (id=17098934) score=1008.7
-  39. No Free MIST Energy (id=16981808) score=1006.3
-  40. OceanMix (id=17022603) score=1005.8
-  41. Chonghao Peng (id=16994022) score=1001.6
-  42. kimchikingdom (id=17027458) score=1000.3
-  43. KyryloBakumenko (id=17028555) score=999.9
-  44. Santiago Maniches (id=16982115) score=998.8
+  34. Colton Martin (id=17044570) score=1022.5
+  35. EkremKutukculer (id=17077105) score=1019.3
+  36. Grreg (id=17079521) score=1018.4
+  37. Santiago Maniches (id=16982115) score=1015.3
+  38. dajun666 (id=17029072) score=1011.6
+  39. a/u (id=17098934) score=1011.3
+  40. No Free MIST Energy (id=16981808) score=1008.1
+  41. OceanMix (id=17022603) score=1005.8
+  42. Chonghao Peng (id=16994022) score=1005.5
+  43. KyryloBakumenko (id=17028555) score=1003.4
+  44. kimchikingdom (id=17027458) score=1000.3
   45. YKuma (id=17029369) score=997.8
-  46. Raja Biswas (id=16986029) score=990.6
-  47. Raihan Ramadistra (id=16981951) score=985.6
-  48. hotaq (id=17054080) score=981.1
-  49. Belati Jagad Bintang Syuhada (id=16981780) score=980.5
-  50. Ricardo Paizinho (id=17010382) score=971.0
+  46. kleber@1703 (id=17090711) score=996.6
+  47. Raja Biswas (id=16986029) score=990.6
+  48. Raihan Ramadistra (id=16981951) score=985.6
+  49. hotaq (id=17054080) score=981.1
+  50. Belati Jagad Bintang Syuhada (id=16981780) score=980.5
 
 1. YumeNeko (team_id=17012386) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
@@ -80,14 +80,14 @@ Top 50 teams (processing 50):
 5. Charles Backman On LinkedIn (team_id=16993626) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57222448 — listing episodes...
-      Found 3 episodes; team selected so far 0/7
+      Found 5 episodes; team selected so far 0/7
     Submission 57165873 — listing episodes...
-      Found 166 episodes; team selected so far 3/7
+      Found 167 episodes; team selected so far 5/7
 
 6. RtoABC2 (team_id=16981607) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57217041 — listing episodes...
-      Found 57 episodes; team selected so far 0/7
+      Found 59 episodes; team selected so far 0/7
 
 7. Akmal Xodarev (Busya PRIME) (team_id=17043084) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
@@ -109,55 +109,55 @@ Top 50 teams (processing 50):
     Submission 57145542 — listing episodes...
       Found 208 episodes; team selected so far 0/7
 
-11. Leon Liu (team_id=16986055) — fetching submissions...
+11. Yasuhiro Manai (team_id=17056358) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56719905 — listing episodes...
-      Found 1000 episodes; team selected so far 0/7
+    Submission 57221176 — listing episodes...
+      Found 17 episodes; team selected so far 0/7
 
 12. sue124 (team_id=16982182) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57214686 — listing episodes...
-      Found 75 episodes; team selected so far 0/7
+      Found 76 episodes; team selected so far 0/7
 
 13. agent_pokemon (team_id=17080215) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57062974 — listing episodes...
       Found 414 episodes; team selected so far 0/7
 
-14. Bill Vlasak (team_id=17071115) — fetching submissions...
+14. Leon Liu (team_id=16986055) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56719905 — listing episodes...
+      Found 1000 episodes; team selected so far 0/7
+
+15. Bill Vlasak (team_id=17071115) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57165293 — listing episodes...
-      Found 157 episodes; team selected so far 0/7
+      Found 158 episodes; team selected so far 0/7
 
-15. Adisak Sukul (team_id=17015576) — fetching submissions...
+16. Adisak Sukul (team_id=17015576) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57159667 — listing episodes...
       Found 176 episodes; team selected so far 0/7
 
-16. Kentaro Totsuka (team_id=16991525) — fetching submissions...
+17. Kentaro Totsuka (team_id=16991525) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57138158 — listing episodes...
       Found 230 episodes; team selected so far 0/7
 
-17. Cristobal Tudela (team_id=17062195) — fetching submissions...
+18. Cristobal Tudela (team_id=17062195) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57148106 — listing episodes...
-      Found 205 episodes; team selected so far 0/7
-
-18. Yasuhiro Manai (team_id=17056358) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57221176 — listing episodes...
-      Found 15 episodes; team selected so far 0/7
+      Found 206 episodes; team selected so far 0/7
 
 19. Mathieu W (team_id=17055574) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57118410 — listing episodes...
-      Found 258 episodes; team selected so far 0/7
+      Found 259 episodes; team selected so far 0/7
 
 20. Majiro_ns (team_id=17055992) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57120297 — listing episodes...
-      Found 273 episodes; team selected so far 0/7
+      Found 274 episodes; team selected so far 0/7
 
 21. YOUKE144 (team_id=17073677) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
@@ -167,52 +167,52 @@ Top 50 teams (processing 50):
 22. Xinyu Li (team_id=17032277) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57063732 — listing episodes...
-      Found 404 episodes; team selected so far 0/7
+      Found 405 episodes; team selected so far 0/7
 
 23. Zedan Soorya (team_id=17058599) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57071580 — listing episodes...
-      Found 421 episodes; team selected so far 0/7
+      Found 422 episodes; team selected so far 0/7
 
-24. Tys TANA (team_id=17013846) — fetching submissions...
+24. Dariush Afshar (team_id=17074836) — fetching submissions...
+  Found 1 submissions, mining latest 1; quota=7/team
+    Submission 57035621 — listing episodes...
+      Found 496 episodes; team selected so far 0/7
+
+25. Mengfei Li (team_id=17032131) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57087514 — listing episodes...
+      Found 351 episodes; team selected so far 0/7
+
+26. Tys TANA (team_id=17013846) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57091788 — listing episodes...
       Found 329 episodes; team selected so far 0/7
 
-25. Mathurin Ache (team_id=16983339) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57097764 — listing episodes...
-      Found 327 episodes; team selected so far 0/7
-
-26. Mengfei Li (team_id=17032131) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57087514 — listing episodes...
-      Found 350 episodes; team selected so far 0/7
-
-27. Dariush Afshar (team_id=17074836) — fetching submissions...
-  Found 1 submissions, mining latest 1; quota=7/team
-    Submission 57035621 — listing episodes...
-      Found 495 episodes; team selected so far 0/7
-
-28. Prime Directive (team_id=17032923) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57138752 — listing episodes...
-      Found 220 episodes; team selected so far 0/7
-
-29. JerryChen (team_id=16994281) — fetching submissions...
+27. JerryChen (team_id=16994281) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57094923 — listing episodes...
       Found 330 episodes; team selected so far 0/7
 
-30. Briano (team_id=17010375) — fetching submissions...
+28. Mathurin Ache (team_id=16983339) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57097764 — listing episodes...
+      Found 329 episodes; team selected so far 0/7
+
+29. Briano (team_id=17010375) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 56994799 — listing episodes...
       Found 569 episodes; team selected so far 0/7
 
+30. Prime Directive (team_id=17032923) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57138752 — listing episodes...
+      Found 220 episodes; team selected so far 0/7
+
 31. Hawksartelier (team_id=17034316) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 57216756 — listing episodes...
-      Found 60 episodes; team selected so far 0/7
+      Found 61 episodes; team selected so far 0/7
 
 32. Aditya Goyal (team_id=16993925) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
@@ -224,81 +224,92 @@ Top 50 teams (processing 50):
     Submission 57070757 — listing episodes...
       Found 404 episodes; team selected so far 0/7
 
-34. EkremKutukculer (team_id=17077105) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57045700 — listing episodes...
-      Found 468 episodes; team selected so far 0/7
-
-35. Grreg (team_id=17079521) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57202115 — listing episodes...
-      Found 78 episodes; team selected so far 0/7
-
-36. Colton Martin (team_id=17044570) — fetching submissions...
+34. Colton Martin (team_id=17044570) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 56969818 — listing episodes...
       Found 598 episodes; team selected so far 0/7
 
-37. dajun666 (team_id=17029072) — fetching submissions...
+35. EkremKutukculer (team_id=17077105) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57045700 — listing episodes...
+      Found 468 episodes; team selected so far 0/7
+
+36. Grreg (team_id=17079521) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57202115 — listing episodes...
+      Found 79 episodes; team selected so far 0/7
+
+37. Santiago Maniches (team_id=16982115) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57217358 — listing episodes...
+      Found 57 episodes; team selected so far 0/7
+
+38. dajun666 (team_id=17029072) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
     Submission 56941572 — listing episodes...
-      No episodes for submission 56941572
-    Submission 56849119 — listing episodes...
-      No episodes for submission 56849119
+      Found 631 episodes; team selected so far 0/7
 
-38. a/u (team_id=17098934) — fetching submissions...
-  team-submissions failed for 17098934: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
+39. a/u (team_id=17098934) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57219212 — listing episodes...
+      Found 34 episodes; team selected so far 0/7
 
+40. No Free MIST Energy (team_id=16981808) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57168483 — listing episodes...
+      Found 158 episodes; team selected so far 0/7
 
-39. No Free MIST Energy (team_id=16981808) — fetching submissions...
-  team-submissions failed for 16981808: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
+41. OceanMix (team_id=17022603) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56841327 — listing episodes...
+      Found 926 episodes; team selected so far 0/7
 
-
-40. OceanMix (team_id=17022603) — fetching submissions...
-  team-submissions failed for 17022603: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
-
-
-41. Chonghao Peng (team_id=16994022) — fetching submissions...
-  team-submissions failed for 16994022: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
-
-
-42. kimchikingdom (team_id=17027458) — fetching submissions...
-  team-submissions failed for 17027458: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
-
+42. Chonghao Peng (team_id=16994022) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57163656 — listing episodes...
+      Found 164 episodes; team selected so far 0/7
 
 43. KyryloBakumenko (team_id=17028555) — fetching submissions...
-  team-submissions failed for 17028555: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57151952 — listing episodes...
+      Found 214 episodes; team selected so far 0/7
 
-
-44. Santiago Maniches (team_id=16982115) — fetching submissions...
-  team-submissions failed for 16982115: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
-
+44. kimchikingdom (team_id=17027458) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57214854 — listing episodes...
+      Found 68 episodes; team selected so far 0/7
 
 45. YKuma (team_id=17029369) — fetching submissions...
-  team-submissions failed for 17029369: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57186687 — listing episodes...
+      Found 113 episodes; team selected so far 0/7
 
+46. kleber@1703 (team_id=17090711) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57220534 — listing episodes...
+      Found 27 episodes; team selected so far 0/7
 
-46. Raja Biswas (team_id=16986029) — fetching submissions...
-  team-submissions failed for 16986029: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
+47. Raja Biswas (team_id=16986029) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57011757 — listing episodes...
+      Found 543 episodes; team selected so far 0/7
 
+48. Raihan Ramadistra (team_id=16981951) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57162562 — listing episodes...
+      Found 171 episodes; team selected so far 0/7
 
-47. Raihan Ramadistra (team_id=16981951) — fetching submissions...
-  team-submissions failed for 16981951: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
+49. hotaq (team_id=17054080) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 57069341 — listing episodes...
+      Found 417 episodes; team selected so far 0/7
 
+50. Belati Jagad Bintang Syuhada (team_id=16981780) — fetching submissions...
+  Found 2 submissions, mining latest 2; quota=7/team
+    Submission 56847110 — listing episodes...
+      Found 852 episodes; team selected so far 0/7
 
-48. hotaq (team_id=17054080) — fetching submissions...
-  team-submissions failed for 17054080: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
-
-
-49. Belati Jagad Bintang Syuhada (team_id=16981780) — fetching submissions...
-  team-submissions failed for 16981780: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
-
-
-50. Ricardo Paizinho (team_id=17010382) — fetching submissions...
-  team-submissions failed for 17010382: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/ListTeamPublicSubmissions
-
-
-Phase 2: downloading unique episodes 0:223 of 223
+Phase 2: downloading unique episodes 0:80 of 304
   Replay 124439715 hit Kaggle 429; retry 1/2 in 20s
   Replay 124439715 hit Kaggle 429; retry 2/2 in 40s
   Failed 124439715: rc=1 err=429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
@@ -317,4 +328,4 @@ Phase 2: downloading unique episodes 0:223 of 223
 
 Stopping phase 2 after 12 consecutive Kaggle 429 replay failures
 
-Done. Selected 252 rows (223 unique episodes) for top 50; teams_with_quota=36, new=0, reused=0, failed=4.
+Done. Selected 350 rows (304 unique episodes) for top 50; teams_with_quota=50, new=0, reused=0, failed=4.
