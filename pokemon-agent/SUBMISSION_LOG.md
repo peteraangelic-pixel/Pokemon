@@ -1763,3 +1763,10 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
 - fresh22: v60 0.931, v61 0.926, nasza TUNED 0.932 | killers1: 0.692/0.688/0.689
   killers2: v60 0.770@2100g > TUNED 0.754 | duel: v60 vs TUNED 0.527@2000g, v61 vs TUNED 0.516, v60 vs v61 0.517.
 - Werdykt: v60 minimalnie lepszy deck od wyslanej v56 TUNED (kandydat na kolejna iteracje). Brak wysylki.
+
+## v56 TUNED live — stan 2026-10-15 ~12:15Z (analiza a450)
+- Trajektoria: 750 -> 605.1 (11:05) -> 569.8 (11:21) -> 507.8 (~12:15), rank 258. Nadal osiada.
+- Metadane epizodow (bez replayow): 27 gier, W11-L16 (publ. 10-16). Shaun2024 bije nas 3x; wygrana m.in. z Mathieu W.
+- UWAGA: "forensyka v56 TUNED" z galezi c87 (93 replaye) analizuje gry v55 (episode 12441x, sprzed wysylki 10:04Z) — bledna atrybucja.
+- Gleboka forensyka zablokowana: GetEpisodeReplay zwraca 429 dla naszego tokenu (60/60 prob).
+  Dodany bezpiecznik w fetch_replays (stop po 5 porazkach). Ponowic pobieranie po resecie limitu.
