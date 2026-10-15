@@ -2,6 +2,7 @@
 """Assemble agents/main_policy_v58.py = policy_feats + numpy MLP (weights b64)."""
 from __future__ import annotations
 
+import argparse
 import base64
 import io
 from pathlib import Path
@@ -73,9 +74,6 @@ def _scores(S, O):
     B, N, DO = O.shape
     DS = S.shape[1]
     x = np.concatenate([np.broadcast_to(S[:, None, :], (B, N, DS)), O], axis=-1).reshape(B * N, DS + DO)
-    h = x @ W["W1"] + W["b1"]
-    h = np.where(h > 0, h, h * 0.01) + h * 0.0  # placeholder (gelu approx below)
-    # gelu approx: 0.5*x*(1+tanh(0.79788456*(x+0.044715*x^3)))
     def gelu(v):
         return 0.5 * v * (1.0 + np.tanh(0.7978845608 * (v + 0.044715 * v ** 3)))
     h = gelu(x @ W["W1"] + W["b1"])
@@ -119,17 +117,25 @@ def agent(obs):
 
 
 def main():
-    feats = (ROOT / "tools/policy_feats.py").read_text()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--weights", default="kaggle_results/policy_rust.npz")
+    ap.add_argument("--out", default="agents/main_policy_v58.py")
+    ap.add_argument("--feats", default="tools/policy_feats.py")
+    a = ap.parse_args()
+    feats_path = ROOT / a.feats if not Path(a.feats).is_absolute() else Path(a.feats)
+    weights_path = ROOT / a.weights if not Path(a.weights).is_absolute() else Path(a.weights)
+    out_path = ROOT / a.out if not Path(a.out).is_absolute() else Path(a.out)
+    feats = feats_path.read_text()
     marker = feats.index("DS = ")
     feats_body = feats[marker:]
-    weights = (ROOT / "kaggle_results/policy_v58.npz").read_bytes()
+    weights = weights_path.read_bytes()
     b64 = base64.b64encode(weights).decode()
-    out = ("# v58 POLICY (a450): learned option-scorer, BC from champion v44 self-play.\n"
-           "# Inference: pure numpy. Weights: kaggle_results/policy_v58.npz (JAX-trained).\n"
+    out = ("# v58 POLICY (rust): learned option-scorer, BC from champion v44 self-play.\n"
+           "# Inference: pure numpy. Weights: {} (JAX-trained).\n"
            "import io\n"
-           f"_WEIGHTS_B64 = '{b64}'\n") + feats_body + TAIL
-    (ROOT / "agents/main_policy_v58.py").write_text(out)
-    print("wrote agents/main_policy_v58.py", len(out), "bytes")
+           f"_WEIGHTS_B64 = '{b64}'\n").format(weights_path.name) + feats_body + TAIL
+    out_path.write_text(out)
+    print(f"wrote {out_path} {len(out)} bytes")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,122 @@
+name: rl-bc-rust-matrix
+
+on:
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/rl_bc_rust_matrix.trigger"
+  workflow_dispatch:
+    inputs:
+      games_per_shard:
+        default: "2000"
+      shards:
+        default: "10"
+      epochs:
+        default: "5"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet kaggle-environments numpy
+      - name: Build
+        run: |
+          cd pokemon-agent/rust
+          cargo build --release --bin gen_bc_data_rust
+      - name: Generate shard
+        run: |
+          cd pokemon-agent
+          GAMES="${{ inputs.games_per_shard || '2000' }}"
+          SHARD="${{ matrix.shard }}"
+          SEED=$((7 + SHARD * 1000))
+          echo "Shard $SHARD games $GAMES seed $SEED"
+          ./rust/target/release/gen_bc_data_rust \
+            --card-index assets/card_index.json \
+            --deck-pool-dir decks \
+            --out kaggle_results/bc_data_shard_${SHARD}.npz \
+            --games $GAMES \
+            --lib-path .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so \
+            --seed $SEED 2>&1 | tee kaggle_results/bc_rust_shard_${SHARD}.log
+          ls -lh kaggle_results/bc_data_shard_${SHARD}.npz
+      - name: Upload shard
+        uses: actions/upload-artifact@v4
+        with:
+          name: shard-${{ matrix.shard }}
+          path: |
+            pokemon-agent/kaggle_results/bc_data_shard_${{ matrix.shard }}.npz
+            pokemon-agent/kaggle_results/bc_rust_shard_${{ matrix.shard }}.log
+
+  merge-train:
+    runs-on: ubuntu-latest
+    needs: generate
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet jax jaxlib numpy kaggle-environments
+      - uses: actions/download-artifact@v4
+        with:
+          path: /tmp/shards
+          pattern: shard-*
+          merge-multiple: false
+      - name: Merge shards
+        run: |
+          cd pokemon-agent
+          .venv/bin/python - << 'PY'
+          import numpy as np, pathlib, glob
+          shards = list(pathlib.Path("/tmp/shards").rglob("*.npz"))
+          print(f"Found {len(shards)} shards")
+          all_S, all_O, all_M, all_Y, all_R = [], [], [], [], []
+          for p in shards:
+              d = np.load(p)
+              print(p, d["S"].shape)
+              all_S.append(d["S"]); all_O.append(d["O"]); all_M.append(d["M"]); all_Y.append(d["Y"]); all_R.append(d["R"])
+          S = np.concatenate(all_S); O = np.concatenate(all_O); M = np.concatenate(all_M); Y = np.concatenate(all_Y); R = np.concatenate(all_R)
+          print(f"Merged {len(S)} decisions")
+          np.savez_compressed("kaggle_results/bc_data_rust.npz", S=S, O=O, M=M, Y=Y, R=R)
+          PY
+          ls -lh kaggle_results/bc_data_rust.npz
+      - name: Train
+        run: |
+          cd pokemon-agent
+          EPOCHS="${{ inputs.epochs || '5' }}"
+          .venv/bin/python tools/train_policy.py --data kaggle_results/bc_data_rust.npz --out kaggle_results/policy_rust.npz --epochs $EPOCHS --bs 512 --lr 1e-3 2>&1 | tee kaggle_results/train_rust.log
+          ls -lh kaggle_results/policy_rust.npz
+      - name: Build agent
+        run: |
+          cd pokemon-agent
+          .venv/bin/python tools/build_policy_agent.py --weights kaggle_results/policy_rust.npz --out agents/main_policy_v58_rust.py
+          ls -lh agents/main_policy_v58_rust.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f pokemon-agent/kaggle_results/bc_data_rust.npz pokemon-agent/kaggle_results/policy_rust.npz pokemon-agent/kaggle_results/train_rust.log pokemon-agent/agents/main_policy_v58_rust.py
+          git commit -m "rl bc rust matrix ${{ github.run_id }} merged [skip ci]" || echo "no changes"
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
