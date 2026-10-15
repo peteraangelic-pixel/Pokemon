@@ -23,7 +23,7 @@ struct Args {
     deck_pool_dir: String,
     #[arg(long, default_value="kaggle_results/bc_data_rust.npz")]
     out: String,
-    #[arg(long, default_value_t=50)]
+    #[arg(long, default_value_t=5000)]
     games: usize,
     #[arg(long, default_value_t=1)]
     jobs: usize,
@@ -51,9 +51,10 @@ fn collect_deck_files(pool_dir: &Path) -> Vec<PathBuf> {
     let patterns = vec![
         pool_dir.join("v56_tuned_34W.csv"),
         pool_dir.join("v12_30_boss4.csv"),
+        pool_dir.join("c87_v60.csv"),
     ];
     for p in patterns { if p.exists() { out.push(p); } }
-    for sub in ["top50_fresh22", "live_killers"] {
+    for sub in ["top50_fresh22", "top50_fresh_all", "live_killers", "broad_field", "top30_live", "top30_live"] {
         let d = pool_dir.join(sub);
         if d.is_dir() {
             if let Ok(entries) = fs::read_dir(&d) {
@@ -61,23 +62,21 @@ fn collect_deck_files(pool_dir: &Path) -> Vec<PathBuf> {
                     let path = e.path();
                     if path.extension().and_then(|s| s.to_str()) == Some("csv") {
                         out.push(path);
-                        if out.len() >= 20 { break; }
                     }
                 }
             }
         }
     }
-    if out.is_empty() {
-        if let Ok(entries) = fs::read_dir(pool_dir) {
-            for e in entries.flatten() {
-                let path = e.path();
-                if path.extension().and_then(|s| s.to_str()) == Some("csv") {
-                    out.push(path);
-                    if out.len() >= 10 { break; }
-                }
+    if let Ok(entries) = fs::read_dir(pool_dir) {
+        for e in entries.flatten() {
+            let path = e.path();
+            if path.extension().and_then(|s| s.to_str()) == Some("csv") {
+                if !out.contains(&path) { out.push(path); }
             }
         }
     }
+    out.sort();
+    out.dedup();
     out
 }
 
@@ -91,7 +90,7 @@ fn main() -> Result<()> {
     let pool_dir = PathBuf::from(&args.deck_pool_dir);
     let deck_files = collect_deck_files(&pool_dir);
     println!("Deck pool: {} files", deck_files.len());
-    for f in &deck_files {
+    for f in deck_files.iter().take(10) {
         println!("  pool: {:?}", f);
     }
     if deck_files.is_empty() {
@@ -113,6 +112,7 @@ fn main() -> Result<()> {
         let alts = [
             ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so",
             "/home/runner/work/Pokemon/Pokemon/pokemon-agent/.venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so",
+            "/usr/local/lib/python3.11/dist-packages/kaggle_environments/envs/cabt/cg/libcg.so",
         ];
         let mut found = lib_path.clone();
         for alt in alts {
@@ -143,7 +143,6 @@ fn main() -> Result<()> {
     let mut all_r: Vec<f32> = Vec::new();
 
     for game_idx in 0..games {
-        println!("--- Game {}/{} starting ---", game_idx+1, games);
         let mut rng = StdRng::seed_from_u64(seed + game_idx as u64);
         let a = rng.gen_range(0..deck_cache.len());
         let b = rng.gen_range(0..deck_cache.len());
@@ -156,7 +155,7 @@ fn main() -> Result<()> {
         let mut obs = match engine.battle_start(deck_a, deck_b) {
             Ok(o) => o,
             Err(e) => {
-                eprintln!("  battle_start failed: {}", e);
+                eprintln!("  battle_start failed at game {}: {}", game_idx, e);
                 continue;
             }
         };
@@ -166,7 +165,7 @@ fn main() -> Result<()> {
         let mut step = 0;
         loop {
             step+=1;
-            if step > 2000 { break; }
+            if step > 3000 { break; }
             let current = &obs["current"];
             if current.is_null() { break; }
             let res = current["result"].as_i64().unwrap_or(-1);
@@ -211,13 +210,13 @@ fn main() -> Result<()> {
                 all_r.push(win_val as f32);
             }
         }
-        if (game_idx+1) % 10 == 0 {
+        if (game_idx+1) % 100 == 0 {
             let elapsed = start.elapsed().as_secs_f64();
-            println!("Progress {}/{} games, {} decisions, {:.1}s ({:.1} games/s)", game_idx+1, games, all_s.len(), elapsed, (game_idx+1) as f64 / elapsed);
+            println!("Progress {}/{} games, {} decisions, {:.1}s ({:.1} games/s, {:.0} dec/s)", game_idx+1, games, all_s.len(), elapsed, (game_idx+1) as f64 / elapsed, all_s.len() as f64 / elapsed);
         }
     }
 
-    println!("Total: {} games, {} decisions in {:.1}s", games, all_s.len(), start.elapsed().as_secs_f64());
+    println!("Total: {} games, {} decisions in {:.1}s ({:.1} games/s)", games, all_s.len(), start.elapsed().as_secs_f64(), games as f64 / start.elapsed().as_secs_f64());
     if all_s.is_empty() {
         anyhow::bail!("no decisions collected");
     }
@@ -265,17 +264,17 @@ fn main() -> Result<()> {
     write_npy_i32(&tmp_dir.join("Y.npy"), &format!("({},)", n), &all_y)?;
     write_npy_f32(&tmp_dir.join("R.npy"), &format!("({},)", n), all_r.clone())?;
 
-    // Try multiple python candidates that have numpy
     let py_candidates = [
         ".venv/bin/python",
         "/home/runner/work/Pokemon/Pokemon/pokemon-agent/.venv/bin/python",
+        "/usr/local/bin/python",
         "python3",
     ];
     let mut saved = false;
     for py in &py_candidates {
         println!("Trying python {} to save npz", py);
         let out = args.out.clone();
-        let cmd = format!("import numpy as np, pathlib, sys; d=pathlib.Path('/tmp/bc_rust_npy'); S=np.load(d/'S.npy'); O=np.load(d/'O.npy'); M=np.load(d/'M.npy'); Y=np.load(d/'Y.npy'); R=np.load(d/'R.npy'); np.savez_compressed('{}', S=S, O=O, M=M, Y=Y, R=R); print('saved')", out);
+        let cmd = format!("import numpy as np, pathlib; d=pathlib.Path('/tmp/bc_rust_npy'); S=np.load(d/'S.npy'); O=np.load(d/'O.npy'); M=np.load(d/'M.npy'); Y=np.load(d/'Y.npy'); R=np.load(d/'R.npy'); np.savez_compressed('{}', S=S, O=O, M=M, Y=Y, R=R); print('saved')", out);
         let status = std::process::Command::new(py).arg("-c").arg(&cmd).status();
         match status {
             Ok(s) if s.success() => {
@@ -283,12 +282,8 @@ fn main() -> Result<()> {
                 saved = true;
                 break;
             },
-            Ok(s) => {
-                eprintln!("python {} failed with {:?}", py, s);
-            },
-            Err(e) => {
-                eprintln!("python {} error: {}", py, e);
-            }
+            Ok(s) => eprintln!("python {} failed with {:?}", py, s),
+            Err(e) => eprintln!("python {} error: {}", py, e),
         }
     }
     if !saved {
