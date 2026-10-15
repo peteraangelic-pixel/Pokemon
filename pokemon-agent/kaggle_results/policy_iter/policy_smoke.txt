@@ -1,1 +1,1 @@
-games=20 valid=20 seat0_wr=0.450 elapsed=1.6s games_per_sec=12.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+games=400 valid=400 seat0_wr=0.403 elapsed=11.6s games_per_sec=34.6 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
