@@ -108,7 +108,7 @@ jobs:
           echo "===== ITER RUN ${GITHUB_RUN_ID} $(date -u) =====" >> pokemon-agent/kaggle_results/policy_iter/iter_full.txt
           exec >> pokemon-agent/kaggle_results/policy_iter/iter_full.txt 2>&1
           set -x
-          GAMES="${{ inputs.games }}"; GAMES="${GAMES:-10000}"
+          GAMES="${{ inputs.games }}"; GAMES="${GAMES:-20000}"
           EPS_IN="${{ inputs.eps }}"; EPS_IN="${EPS_IN:-0.08}"
           EPOCHS_IN="${{ inputs.epochs }}"; EPOCHS_IN="${EPOCHS_IN:-2}"
           export GAMES EPS_IN EPOCHS_IN
@@ -118,33 +118,44 @@ jobs:
           cp decks/v57_trolley34w.csv decks/shaun2024_wall.csv policy_pool/ 2>/dev/null || true
           cp decks/live_v56t/*.csv policy_pool/ 2>/dev/null || true
           ls policy_pool/
-          echo "=== rollout $GAMES games ==="
+          echo "=== iteration chain: 5 x PG from iter3 (games=$GAMES) ==="
+          PREV_JSON=tools/policy_iter3.json
+          PREV_NPZ=kaggle_results/policy_iter/policy_iter3.npz
+          for K in 4 5 6 7 8; do
+            echo "===== ITER $K rollout ====="
+            ./rust/target/release/policy_rollout \
+              --lib-dir libs --card-index tools/card_index.json \
+              --weights $PREV_JSON \
+              --decks policy_pool --games $GAMES --jobs 4 \
+              --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
+            echo "===== ITER $K convert ====="
+            .venv/bin/python tools/convert_rollout.py --max-dec 1500000 \
+              kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz
+            rm -f kaggle_results/policy_iter/rollout.bin
+            echo "===== ITER $K train PG ====="
+            .venv/bin/python tools/train_policy.py \
+              --data kaggle_results/policy_iter/rollout.npz \
+              --init $PREV_NPZ \
+              --out kaggle_results/policy_iter/policy_iter$K.npz \
+              --epochs 1 --lr 1e-4 --mode pg --entropy 0.01 \
+              2>&1 | tee kaggle_results/policy_iter/train_iter$K.txt
+            .venv/bin/python tools/export_policy_json.py \
+              kaggle_results/policy_iter/policy_iter$K.npz tools/policy_iter$K.json
+            echo "===== ITER $K gate vs prev ====="
+            ./rust/target/release/policy_rollout \
+              --lib-dir libs --card-index tools/card_index.json \
+              --weights tools/policy_iter$K.json --opp-weights $PREV_JSON \
+              --decks policy_pool --games 2000 --jobs 4 \
+              --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_iter/gate_iter$K.txt
+            PREV_JSON=tools/policy_iter$K.json
+            PREV_NPZ=kaggle_results/policy_iter/policy_iter$K.npz
+          done
+          echo "===== FINAL gate: iter8 vs seed ====="
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
-            --weights tools/policy_iter2.json \
-            --decks policy_pool --games $GAMES --jobs 4 \
-            --eps $EPS_IN --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin \
-            2>&1 | tee kaggle_results/policy_iter/rollout_log.txt
-          ls -lh kaggle_results/policy_iter/
-          echo "=== convert ==="
-          .venv/bin/python tools/convert_rollout.py --max-dec 1500000 \
-            kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz \
-            2>&1 | tee -a kaggle_results/policy_iter/rollout_log.txt
-          echo "=== train (warm start) ==="
-          .venv/bin/python tools/train_policy.py \
-            --data kaggle_results/policy_iter/rollout.npz \
-            --init kaggle_results/policy_iter/policy_iter2.npz \
-            --out kaggle_results/policy_iter/policy_iter3.npz \
-            --epochs 1 --lr 1e-4 --mode pg --entropy 0.01 \
-            2>&1 | tee kaggle_results/policy_iter/train_log.txt
-          .venv/bin/python tools/export_policy_json.py \
-            kaggle_results/policy_iter/policy_iter3.npz tools/policy_iter3.json
-          echo "=== gate: iter3 vs iter2 ==="
-          ./rust/target/release/policy_rollout \
-            --lib-dir libs --card-index tools/card_index.json \
-            --weights tools/policy_iter3.json --opp-weights tools/policy_iter2.json \
+            --weights tools/policy_iter8.json --opp-weights tools/policy_seed.json \
             --decks policy_pool --games 2000 --jobs 4 \
-            --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_iter/gate_log.txt
+            --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_iter/gate_final.txt
       - name: Commit results
         if: always()
         run: |

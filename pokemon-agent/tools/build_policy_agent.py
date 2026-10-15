@@ -122,13 +122,15 @@ def main():
     feats = (ROOT / "tools/policy_feats.py").read_text()
     marker = feats.index("DS = ")
     feats_body = feats[marker:]
-    weights = (ROOT / "kaggle_results/policy_v58.npz").read_bytes()
+    import os
+    weights = open(os.environ.get("POLICY_NPZ", ROOT / "kaggle_results/policy_v58.npz"), "rb").read()
     b64 = base64.b64encode(weights).decode()
     out = ("# v58 POLICY (a450): learned option-scorer, BC from champion v44 self-play.\n"
            "# Inference: pure numpy. Weights: kaggle_results/policy_v58.npz (JAX-trained).\n"
            "import io\n"
            f"_WEIGHTS_B64 = '{b64}'\n") + feats_body + TAIL
-    (ROOT / "agents/main_policy_v58.py").write_text(out)
+    out_path = os.environ.get("POLICY_OUT", ROOT / "agents/main_policy_v58.py")
+    open(out_path, "w").write(out)
     print("wrote agents/main_policy_v58.py", len(out), "bytes")
 
 
