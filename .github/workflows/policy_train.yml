@@ -104,6 +104,10 @@ jobs:
             echo "skipping iteration (no [policy-iter] trigger)"
             exit 0
           fi
+          mkdir -p pokemon-agent/kaggle_results/policy_iter
+          echo "===== ITER RUN ${GITHUB_RUN_ID} $(date -u) =====" >> pokemon-agent/kaggle_results/policy_iter/iter_full.txt
+          exec >> pokemon-agent/kaggle_results/policy_iter/iter_full.txt 2>&1
+          set -x
           GAMES="${{ inputs.games }}"; GAMES="${GAMES:-10000}"
           EPS_IN="${{ inputs.eps }}"; EPS_IN="${EPS_IN:-0.15}"
           EPOCHS_IN="${{ inputs.epochs }}"; EPOCHS_IN="${EPOCHS_IN:-2}"
