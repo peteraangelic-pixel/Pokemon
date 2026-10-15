@@ -1,15 +1,18 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T11:26:26.517977+00:00_
+_fetched 2026-10-15T11:35:56.916528+00:00_
 
 - Own submissions: 27
-- Episodes listed: 113
+- Episodes listed: 116
 - Replays downloaded (our last 80 per live sub): 0
 - Official dataset: none found (0 files)
 - Total JSON on disk: 392
 
 ## Recent episodes (our agents)
 
+- {'id': '124456125', 'createTime': '2026-10-15 11:30:30.497000', 'endTime': '2026-10-15 11:31:36.666000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124456153', 'createTime': '2026-10-15 11:30:30.534000', 'endTime': '2026-10-15 11:31:22.280000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124455880', 'createTime': '2026-10-15 11:26:30.489000', 'endTime': '2026-10-15 11:29:10.397000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124455385', 'createTime': '2026-10-15 11:18:30.468000', 'endTime': '2026-10-15 11:23:56.614000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124455638', 'createTime': '2026-10-15 11:22:35.194000', 'endTime': '2026-10-15 11:23:52.193000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124455138', 'createTime': '2026-10-15 11:14:32.170000', 'endTime': '2026-10-15 11:18:56.959000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
@@ -27,9 +30,6 @@ _fetched 2026-10-15T11:26:26.517977+00:00_
 - {'id': '124452051', 'createTime': '2026-10-15 10:26:35.746000', 'endTime': '2026-10-15 10:30:33.528000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124451815', 'createTime': '2026-10-15 10:22:44.117000', 'endTime': '2026-10-15 10:26:19.730000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124451792', 'createTime': '2026-10-15 10:22:44.077000', 'endTime': '2026-10-15 10:23:41.439000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124451521', 'createTime': '2026-10-15 10:18:38.086000', 'endTime': '2026-10-15 10:20:14.942000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124451250', 'createTime': '2026-10-15 10:14:32.243000', 'endTime': '2026-10-15 10:18:59.566000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124450972', 'createTime': '2026-10-15 10:10:30.979000', 'endTime': '2026-10-15 10:11:10.973000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 
 ## Sample replay analysis (first 20)
 
