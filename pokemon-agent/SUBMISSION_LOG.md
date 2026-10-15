@@ -1792,3 +1792,10 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
 - fresh22: v57 0.929 vs TUNED 0.932; BEAT6 (killery v56T): wszyscy 0.667; duel v57 vs TUNED 0.506 — parytet. Brak podstaw do wysylki.
 - Nasza v58_kyo4 (Beach zostaje): Shaun 0.277 @600g (realny +6pp), fresh22 0.923 (-0.9pp, granica szumu).
 - Wniosek: nie zmieniac wyslanej v56T na v57c87. Ewentualny kierunek Kyo4 wymaga wiekszego n na fresh22.
+
+## Weryfikacja v58b (c87) + spike polityki RL (a450, 2026-10-15)
+- v58b Kyo4: claim 0.40 vs Shaun @30g NIE replikuje sie: 0.255 @600g (TUNED 0.213). fresh22 0.921 (TUNED 0.932),
+  killers 0.666 (TUNED 0.689), duel vs TUNED 0.449 @2000g — slabszy. NIE wysylac. (Deck ma Waitress 1235, nie Amarys.)
+- Research konkursu $240k: top = sieci RL self-play (7th/15th place), heurystyki maja sufit ~600-700.
+- a450 spike v58 POLICY: BC z 366k decyzji championa (JAX MLP option-scorer, val acc 0.69),
+  agent numpy self-contained; vs champion 0.302 @600g — petla dziala, wymaga iteracji RL (expert iteration).
