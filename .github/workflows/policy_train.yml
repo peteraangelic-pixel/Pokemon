@@ -44,7 +44,9 @@ jobs:
           ls -lh target/release/policy_rollout
       - name: Python env (engine lib + jax)
         run: |
-          set -eo pipefail
+          mkdir -p pokemon-agent/kaggle_results/policy_iter
+          exec >> pokemon-agent/kaggle_results/policy_iter/pyenv_full.txt 2>&1
+          set -x
           cd pokemon-agent
           python3 -m venv .venv
           .venv/bin/pip install --quiet --upgrade pip
@@ -59,7 +61,8 @@ jobs:
           ls -lh libs/
       - name: Smoke eval (seed vs seed, expect ~0.50)
         run: |
-          set -eo pipefail
+          exec >> pokemon-agent/kaggle_results/policy_iter/smoke_full.txt 2>&1
+          set -x
           cd pokemon-agent
           ls -l libs/
           md5sum libs/libcg.so "$CG_DIR/libcg.so" || true
