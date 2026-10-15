@@ -756,7 +756,7 @@ fn main() -> Result<()> {
     let decks = collect_decks(&args.decks);
     anyhow::ensure!(!decks.is_empty(), "no decks");
     let train = args.mode == "train";
-    rayon::ThreadPoolBuilder::new().num_threads(args.jobs).build_global_thread_pool()?;
+    rayon::ThreadPoolBuilder::new().num_threads(args.jobs).build_global()?;
 
     let mut cfgs = Vec::with_capacity(args.games);
     let mut rng = StdRng::seed_from_u64(args.seed);
