@@ -58,10 +58,11 @@ jobs:
         run: |
           set -eo pipefail
           cd pokemon-agent
+          ls -l libs/
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
             --weights tools/policy_seed.json --opp-weights tools/policy_seed.json \
-            --decks decks/v57_trolley34w.csv --games 200 --jobs 4 \
+            --decks decks/v57_trolley34w.csv --games 20 --jobs 1 \
             --mode eval --league-frac 1.0 2>&1 | tee policy_smoke.txt
       - name: Iteration (rollout -> convert -> train -> gate)
         if: github.event_name == 'workflow_dispatch'
