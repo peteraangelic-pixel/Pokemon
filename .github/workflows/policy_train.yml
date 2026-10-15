@@ -98,20 +98,27 @@ jobs:
             --decks decks/v57_trolley34w.csv --games 400 --jobs 4 \
             --mode eval --league-frac 1.0 2>&1 | tee policy_smoke.txt
       - name: Iteration (rollout -> convert -> train -> gate)
-        if: github.event_name == 'workflow_dispatch'
         run: |
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && ! grep -q "\[policy-iter\]" <<< "${{ github.event.head_commit.message }}"; then
+            echo "skipping iteration (no [policy-iter] trigger)"
+            exit 0
+          fi
+          GAMES="${{ inputs.games }}"; GAMES="${GAMES:-10000}"
+          EPS_IN="${{ inputs.eps }}"; EPS_IN="${EPS_IN:-0.15}"
+          EPOCHS_IN="${{ inputs.epochs }}"; EPOCHS_IN="${EPOCHS_IN:-2}"
+          export GAMES EPS_IN EPOCHS_IN
           set -eo pipefail
           cd pokemon-agent
           mkdir -p policy_pool kaggle_results/policy_iter
           cp decks/v57_trolley34w.csv decks/shaun2024_wall.csv policy_pool/ 2>/dev/null || true
           cp decks/live_v56t/*.csv policy_pool/ 2>/dev/null || true
           ls policy_pool/
-          echo "=== rollout ${{ inputs.games }} games ==="
+          echo "=== rollout $GAMES games ==="
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
             --weights tools/policy_seed.json \
-            --decks policy_pool --games ${{ inputs.games }} --jobs 4 \
-            --eps ${{ inputs.eps }} --mode train --out kaggle_results/policy_iter/rollout.bin \
+            --decks policy_pool --games $GAMES --jobs 4 \
+            --eps $EPS_IN --mode train --out kaggle_results/policy_iter/rollout.bin \
             2>&1 | tee kaggle_results/policy_iter/rollout_log.txt
           ls -lh kaggle_results/policy_iter/
           echo "=== convert ==="
@@ -123,7 +130,7 @@ jobs:
             --data kaggle_results/policy_iter/rollout.npz \
             --init kaggle_results/policy_v58.npz \
             --out kaggle_results/policy_iter/policy_iter1.npz \
-            --epochs ${{ inputs.epochs }} --lr 5e-4 \
+            --epochs $EPOCHS_IN --lr 5e-4 \
             2>&1 | tee kaggle_results/policy_iter/train_log.txt
           .venv/bin/python tools/export_policy_json.py \
             kaggle_results/policy_iter/policy_iter1.npz tools/policy_iter1.json
