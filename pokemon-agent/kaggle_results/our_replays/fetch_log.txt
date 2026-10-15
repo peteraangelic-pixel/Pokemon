@@ -1,12 +1,14 @@
-replay 124464584 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+replay 124468202 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-replay 124463856 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+replay 124467462 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-replay 124463892 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+replay 124466703 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-replay 124463147 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+replay 124466021 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-replay 124462361 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+replay 124465310 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
+
+replay 124467523 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
 replay 124463214 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
@@ -16,21 +18,19 @@ replay 124459674 failed: 429 Client Error: Too Many Requests for url: https://ap
 
 replay 124458379 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
 
-replay 124456887 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
 Fetching replays into pokemon-agent/kaggle_results/our_replays
 Found 27 own submissions
 
 === Submission 57225963 (ptcg_v56_tuned_a450.tar.gz) ===
-  episodes listed: 53
-full dump 57225963: 53 episodes
-  full episode metadata dumped: 53
+  episodes listed: 59
+full dump 57225963: 59 episodes
+  full episode metadata dumped: 59
   stopping downloads: 5 consecutive failures (rate limit?)
 
 === Submission 57199505 (ptcg_v55_mirror_a450.tar.gz) ===
-  episodes listed: 96
-full dump 57199505: 96 episodes
-  full episode metadata dumped: 96
+  episodes listed: 97
+full dump 57199505: 97 episodes
+  full episode metadata dumped: 97
   stopping downloads: 5 consecutive failures (rate limit?)
 
 Total replay JSONs on disk: 406
