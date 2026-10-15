@@ -276,17 +276,18 @@ def detect_goal_class(grid: list[list[int]]) -> str:
     """
     features = extract_game_features(grid)
     
-    # FIX BUG 1: Zmień kolejność reguł - pattern_in_corner (COPY) przed tile_keys (LOCAL_CONSTRAINTS)
-    # Powtarzalny wzorzec 10×10 to mocniejszy dowód niż gęstość bloków 3×3
+    # FIX BUG 1: Zmień kolejność reguł
+    # Najbardziej specyficzne: pattern (COPY) i mechanika (FLOW) przed strukturą (LOCAL_CONSTRAINTS)
+    # Powtarzalny wzorzec 10×10 lub dozownik+naczynia to mocniejsze dowody niż gęstość bloków 3×3
     if features.pattern_in_corner:
         return "COPY"
     
-    # Priorytet: najpierw najbardziej specyficzne
-    if features.tile_keys_3x3_count > 3:
-        return "LOCAL_CONSTRAINTS"
-    
     if features.dispenser_detected and features.vessels_count > 2:
         return "FLOW"
+    
+    # Po FLOW, przed resztą
+    if features.tile_keys_3x3_count > 3:
+        return "LOCAL_CONSTRAINTS"
     
     if features.boxes_count > 2 and features.target_zone_detected:
         return "PLACE"
