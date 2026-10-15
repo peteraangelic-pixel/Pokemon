@@ -1,11 +1,8 @@
 use anyhow::Result;
 use clap::Parser;
-use rayon::prelude::*;
 use std::path::{Path, PathBuf};
 use std::fs;
-use std::sync::{Mutex, Arc};
 use rand::{SeedableRng, rngs::StdRng, Rng};
-use serde_json::Value;
 
 #[path = "../engine.rs"]
 mod engine;
@@ -19,7 +16,6 @@ use heuristic::{CardIndex as HeurCardIndex, Knobs, Plan};
 use policy_feats::Featurizer;
 
 #[derive(Parser, Debug)]
-#[command(name="gen_bc_data_rust", about="Generate BC data with Rust+Rayon, 200x faster")]
 struct Args {
     #[arg(long, default_value="assets/card_index.json")]
     card_index: String,
@@ -27,9 +23,9 @@ struct Args {
     deck_pool_dir: String,
     #[arg(long, default_value="kaggle_results/bc_data_rust.npz")]
     out: String,
-    #[arg(long, default_value_t=2400)]
+    #[arg(long, default_value_t=200)]
     games: usize,
-    #[arg(long, default_value_t=0)]
+    #[arg(long, default_value_t=1)]
     jobs: usize,
     #[arg(long, default_value=".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so")]
     lib_path: String,
@@ -54,9 +50,8 @@ fn collect_deck_files(pool_dir: &Path) -> Vec<PathBuf> {
     let mut out = Vec::new();
     let patterns = vec![
         pool_dir.join("v56_tuned_34W.csv"),
+        pool_dir.join("v12_30_boss4.csv"),
         pool_dir.join("c87_v60.csv"),
-        pool_dir.join("c87_v61.csv"),
-        pool_dir.join("v58_best_both_kyo4.csv"),
     ];
     for p in patterns { if p.exists() { out.push(p); } }
     for sub in ["top50_fresh22", "top50_fresh_all", "live_killers", "broad_field", "top30_live"] {
@@ -103,18 +98,27 @@ fn play_one_game(
     let plan_b = Plan::build(deck_b, heur_index);
     let mut engine = match Engine::new(lib_path) {
         Ok(e) => e,
-        Err(_) => return None,
+        Err(e) => {
+            eprintln!("Engine::new failed for {}: {}", lib_path, e);
+            return None;
+        }
     };
     let mut obs = match engine.battle_start(deck_a, deck_b) {
         Ok(o) => o,
-        Err(_) => return None,
+        Err(e) => {
+            eprintln!("battle_start failed: {}", e);
+            return None;
+        }
     };
     let mut recs: [Vec<([f64; 96], Vec<[f64;64]>, i32)>; 2] = [Vec::new(), Vec::new()];
     let mut result: i32 = -1;
     let mut step = 0;
     loop {
         step+=1;
-        if step > 5000 { break; }
+        if step > 3000 { 
+            eprintln!("step limit 3000 reached, breaking");
+            break; 
+        }
         let current = &obs["current"];
         if current.is_null() { break; }
         let res = current["result"].as_i64().unwrap_or(-1);
@@ -124,7 +128,10 @@ fn play_one_game(
         let me = obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize;
         let (plan, _deck) = if me==0 { (&plan_a, deck_a) } else { (&plan_b, deck_b) };
         let decision = heuristic::decide(&obs, heur_index, plan, knobs, if me==0 { deck_a } else { deck_b });
-        if decision.is_empty() { break; }
+        if decision.is_empty() { 
+            eprintln!("empty decision at step {}", step);
+            break; 
+        }
         let opts = select["option"].as_array();
         if let Some(opts_arr) = opts {
             let s = feat.state_feats(&obs, me);
@@ -137,10 +144,16 @@ fn play_one_game(
         }
         match engine.select(&decision) {
             Ok(next) => obs = next,
-            Err(_) => break,
+            Err(e) => {
+                eprintln!("select failed at step {}: {}", step, e);
+                break;
+            }
         }
     }
-    if result <0 || result>2 { return None; }
+    if result <0 || result>2 { 
+        //eprintln!("game ended without result {}", result);
+        return None; 
+    }
     let mut s_all = Vec::new();
     let mut o_all = Vec::new();
     let mut m_all = Vec::new();
@@ -171,9 +184,7 @@ fn play_one_game(
 
 fn main() -> Result<()> {
     let args = Args::parse();
-    if args.jobs>0 {
-        rayon::ThreadPoolBuilder::new().num_threads(args.jobs).build_global().unwrap();
-    }
+    println!("Args: {:?}", args);
     println!("Card index: {}", args.card_index);
     let heur_index = HeurCardIndex::load(&args.card_index)?;
     let feat = Featurizer::load(&args.card_index)?;
@@ -181,6 +192,9 @@ fn main() -> Result<()> {
     let pool_dir = PathBuf::from(&args.deck_pool_dir);
     let deck_files = collect_deck_files(&pool_dir);
     println!("Deck pool: {} files", deck_files.len());
+    for f in deck_files.iter().take(5) {
+        println!("  pool file: {:?}", f);
+    }
     if deck_files.is_empty() {
         anyhow::bail!("no decks found in {}", args.deck_pool_dir);
     }
@@ -192,11 +206,15 @@ fn main() -> Result<()> {
         }
     }
     println!("Loaded {} valid decks", deck_cache.len());
+    if deck_cache.is_empty() {
+        anyhow::bail!("no valid decks");
+    }
     let lib_path = args.lib_path.clone();
     let lib_path = if Path::new(&lib_path).exists() { lib_path } else {
         let alts = [
             ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so",
             "/home/runner/work/Pokemon/Pokemon/pokemon-agent/.venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so",
+            "pokemon-agent/.venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so",
         ];
         let mut found = lib_path.clone();
         for alt in alts {
@@ -204,76 +222,56 @@ fn main() -> Result<()> {
         }
         found
     };
-    println!("Lib: {}", lib_path);
+    println!("Lib path to use: {}", lib_path);
+    if !Path::new(&lib_path).exists() {
+        eprintln!("WARNING: libcg.so not found at {}", lib_path);
+        // try to find any libcg.so
+        if let Ok(out) = std::process::Command::new("find").arg(".").arg("-name").arg("libcg.so").output() {
+            eprintln!("find libcg.so output: {}", String::from_utf8_lossy(&out.stdout));
+        }
+    }
     let knobs = Knobs::default();
     let games = args.games;
     let seed = args.seed;
-    let deck_cache = Arc::new(deck_cache);
-    let heur_index = Arc::new(heur_index);
-    let feat = Arc::new(feat);
     let start = std::time::Instant::now();
-    let tasks: Vec<(usize, usize, usize)> = (0..games).map(|i| {
-        let mut rng = StdRng::seed_from_u64(seed + i as u64);
+
+    let mut all_s: Vec<[f32; 96]> = Vec::new();
+    let mut all_o: Vec<[[f32;64];32]> = Vec::new();
+    let mut all_m: Vec<[f32;32]> = Vec::new();
+    let mut all_y: Vec<i32> = Vec::new();
+    let mut all_r: Vec<f32> = Vec::new();
+
+    // Single-threaded loop for stability (Rayon version had deadlock with global mutex)
+    // For high throughput, run multiple instances via GitHub Actions matrix, not threads
+    for game_idx in 0..games {
+        let mut rng = StdRng::seed_from_u64(seed + game_idx as u64);
         let a = rng.gen_range(0..deck_cache.len());
         let b = rng.gen_range(0..deck_cache.len());
-        (i, a, b)
-    }).collect();
-
-    let all_s: Mutex<Vec<[f32; 96]>> = Mutex::new(Vec::new());
-    let all_o: Mutex<Vec<[[f32;64];32]>> = Mutex::new(Vec::new());
-    let all_m: Mutex<Vec<[f32;32]>> = Mutex::new(Vec::new());
-    let all_y: Mutex<Vec<i32>> = Mutex::new(Vec::new());
-    let all_r: Mutex<Vec<f32>> = Mutex::new(Vec::new());
-    let done = Arc::new(Mutex::new(0usize));
-    let ndec = Arc::new(Mutex::new(0usize));
-
-    tasks.par_iter().for_each(|(_game_idx, a_idx, b_idx)| {
-        let deck_a = &deck_cache[*a_idx];
-        let deck_b = &deck_cache[*b_idx];
+        let deck_a = &deck_cache[a];
+        let deck_b = &deck_cache[b];
         if let Some(rec) = play_one_game(deck_a, deck_b, &lib_path, &heur_index, &feat, &knobs) {
             let n = rec.s.len();
-            {
-                let mut guard = all_s.lock().unwrap();
-                guard.extend(rec.s);
-            }
-            {
-                let mut guard = all_o.lock().unwrap();
-                guard.extend(rec.o);
-            }
-            {
-                let mut guard = all_m.lock().unwrap();
-                guard.extend(rec.m);
-            }
-            {
-                let mut guard = all_y.lock().unwrap();
-                guard.extend(rec.y);
-            }
-            {
-                let mut guard = all_r.lock().unwrap();
-                guard.extend(rec.r);
-            }
-            {
-                let mut d = ndec.lock().unwrap();
-                *d += n;
-            }
-        }
-        {
-            let mut d = done.lock().unwrap();
-            *d += 1;
-            if *d % 200 == 0 {
+            all_s.extend(rec.s);
+            all_o.extend(rec.o);
+            all_m.extend(rec.m);
+            all_y.extend(rec.y);
+            all_r.extend(rec.r);
+            if (game_idx+1) % 20 == 0 {
                 let elapsed = start.elapsed().as_secs_f64();
-                let nd = *ndec.lock().unwrap();
-                println!("{}/{} games, {} decisions, {:.1}s ({:.1} games/s, {:.0} dec/s)", *d, games, nd, elapsed, *d as f64 / elapsed, nd as f64 / elapsed);
+                println!("{}/{} games, {} decisions, {:.1}s ({:.1} games/s, {:.0} dec/s)", game_idx+1, games, all_s.len(), elapsed, (game_idx+1) as f64 / elapsed, all_s.len() as f64 / elapsed);
+            }
+        } else {
+            if (game_idx+1) % 20 == 0 {
+                println!("{}/{} games (some failed), {} decisions", game_idx+1, games, all_s.len());
             }
         }
-    });
+    }
 
-    let s = all_s.into_inner().unwrap();
-    let o = all_o.into_inner().unwrap();
-    let m = all_m.into_inner().unwrap();
-    let y = all_y.into_inner().unwrap();
-    let r = all_r.into_inner().unwrap();
-    println!("Total: {} games, {} decisions in {:.1}s ({:.1} games/s)", games, s.len(), start.elapsed().as_secs_f64(), games as f64 / start.elapsed().as_secs_f64());
+    println!("Total: {} games attempted, {} decisions collected in {:.1}s ({:.1} games/s)", games, all_s.len(), start.elapsed().as_secs_f64(), games as f64 / start.elapsed().as_secs_f64());
+
+    if all_s.is_empty() {
+        anyhow::bail!("no decisions collected, cannot save");
+    }
 
     let out_path = PathBuf::from(&args.out);
     if let Some(parent) = out_path.parent() { fs::create_dir_all(parent)?; }
@@ -315,12 +313,12 @@ fn main() -> Result<()> {
 
     let tmp_dir = PathBuf::from("/tmp/bc_rust_npy");
     fs::create_dir_all(&tmp_dir)?;
-    let n = s.len();
-    write_npy_header_f32(&tmp_dir.join("S.npy"), &format!("({}, 96)", n), s.iter().flat_map(|row| row.iter()).cloned().collect())?;
-    write_npy_header_f32(&tmp_dir.join("O.npy"), &format!("({}, 32, 64)", n), o.iter().flat_map(|mat| mat.iter().flat_map(|row| row.iter()).cloned()).collect())?;
-    write_npy_header_f32(&tmp_dir.join("M.npy"), &format!("({}, 32)", n), m.iter().flat_map(|row| row.iter()).cloned().collect())?;
-    write_npy_header_i32(&tmp_dir.join("Y.npy"), &format!("({},)", n), &y)?;
-    write_npy_header_f32(&tmp_dir.join("R.npy"), &format!("({},)", n), r.clone())?;
+    let n = all_s.len();
+    write_npy_header_f32(&tmp_dir.join("S.npy"), &format!("({}, 96)", n), all_s.iter().flat_map(|row| row.iter()).cloned().collect())?;
+    write_npy_header_f32(&tmp_dir.join("O.npy"), &format!("({}, 32, 64)", n), all_o.iter().flat_map(|mat| mat.iter().flat_map(|row| row.iter()).cloned()).collect())?;
+    write_npy_header_f32(&tmp_dir.join("M.npy"), &format!("({}, 32)", n), all_m.iter().flat_map(|row| row.iter()).cloned().collect())?;
+    write_npy_header_i32(&tmp_dir.join("Y.npy"), &format!("({},)", n), &all_y)?;
+    write_npy_header_f32(&tmp_dir.join("R.npy"), &format!("({},)", n), all_r.clone())?;
 
     let status = std::process::Command::new("python3")
         .arg("-c")
