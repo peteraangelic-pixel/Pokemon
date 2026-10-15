@@ -1,12 +1,12 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T09:15:49.892524+00:00_
+_fetched 2026-10-15T09:22:41.301549+00:00_
 
 - Own submissions: 26
 - Episodes listed: 186
-- Replays downloaded (our last 80 per live sub): 160
+- Replays downloaded (our last 80 per live sub): 143
 - Official dataset: none found (0 files)
-- Total JSON on disk: 425
+- Total JSON on disk: 422
 
 ## Recent episodes (our agents)
 
