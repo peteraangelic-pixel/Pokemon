@@ -1,0 +1,8 @@
+games=10000 valid=10000 main_wr=0.502 elapsed=401.9s games_per_sec=24.9 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+Traceback (most recent call last):
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/convert_rollout.py", line 48, in <module>
+    main()
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/convert_rollout.py", line 36, in main
+    Ms.append(no)
+    ^^
+NameError: name 'Ms' is not defined. Did you mean: 'Ss'?
