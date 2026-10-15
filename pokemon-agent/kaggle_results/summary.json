@@ -1,28 +1,37 @@
 {
-  "fetched_utc": "2026-10-15T08:30:19+00:00",
+  "fetched_utc": "2026-10-15T11:21:10+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 370,
-  "submission_rows": 26,
+  "leaderboard_rows": 371,
+  "submission_rows": 27,
   "our_leaderboard": [
     {
-      "Rank": "288",
+      "Rank": "228",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-15 00:15:31",
-      "Score": "412.4",
+      "LastSubmissionDate": "2026-10-15 10:04:36",
+      "Score": "569.8",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57225963",
+      "fileName": "ptcg_v56_tuned_a450.tar.gz",
+      "date": "2026-10-15 10:04:36.897000",
+      "description": "submit ptcg_v56_tuned_a450.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "569.8",
+      "privateScore": ""
+    },
+    {
       "ref": "57199505",
       "fileName": "ptcg_v55_mirror_a450.tar.gz",
       "date": "2026-10-15 00:15:31.267000",
       "description": "submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "377.7",
+      "publicScore": "375.6",
       "privateScore": ""
     },
     {
@@ -31,7 +40,7 @@
       "date": "2026-10-14 19:18:47.507000",
       "description": "v42.9 fix 98% NO_POKEMON losses: board dev 80/45/20 basics + evo penalty -90/-40, search gate MegaSignal NightStretcher Cyrano -150, retreat threat-aware no hp<=80, FROSLASS {861,103,1002} + Amarys 1207, deck E32 K4 8b 32W 4Lillie 3Carmine 2Pad 2Ultra Poffin Amarys - hard6 0.843 top50 0.906 broad 0.699 smoke OK - phase1_tuned_v42_9_best_fast.tar.gz 2026-10-14T19:18:45Z",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "412.4",
+      "publicScore": "408.0",
       "privateScore": ""
     },
     {
@@ -95,15 +104,6 @@
       "description": "phase1_tuned_v26_strong_weakfix.tar.gz - 2026-10-13T04:42:26Z - v26 strong weakfix 0.7255 weighted +1.18pp vs v25 knobs broad 0.665 +0.9pp top30 0.861 +1.7pp meta1012 0.678 +1.7pp - fixes thin 0.388 vs weak - slot1/2 NOW",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "395.8",
-      "privateScore": ""
-    },
-    {
-      "ref": "57125561",
-      "fileName": "ptcg_v22b_35w.tar.gz",
-      "date": "2026-10-13 01:08:30.580000",
-      "description": "ptcg_v22b_35w.tar.gz - 2026-10-13T01:08:29Z - v22b 35W control clean knob A/B live E+B pair - slot2/2 NOW per user request",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "328.1",
       "privateScore": ""
     }
   ],
