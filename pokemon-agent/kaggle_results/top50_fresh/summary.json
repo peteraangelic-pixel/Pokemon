@@ -1,5 +1,5 @@
 {
-  "fetched_utc": "2026-10-15T09:01:10.889516+00:00",
+  "fetched_utc": "2026-10-15T09:06:35.452282+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "top_n": 50,
   "replays_per_team": 7,
@@ -8,8 +8,8 @@
   "teams_with_any_episode": 10,
   "teams_with_full_quota": 10,
   "selected_rows": 70,
-  "unique_episodes": 68,
-  "replays_downloaded": 68,
+  "unique_episodes": 69,
+  "replays_downloaded": 69,
   "replays_reused_existing": 0,
   "replays_failed": 0,
   "aborted_429": false,
