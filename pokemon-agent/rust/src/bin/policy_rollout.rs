@@ -615,6 +615,7 @@ struct GameCfg {
     deck0: Vec<i32>,
     deck1: Vec<i32>,
     vs_league: bool,
+    main_seat: usize,
     seed: u64,
 }
 
@@ -676,7 +677,7 @@ fn play_game(
                 }
             };
             let me = cur.get("yourIndex").and_then(|x| x.as_i64()).unwrap_or(0) as usize;
-            let use_opp = cfg.vs_league && me == 1;
+            let use_opp = cfg.vs_league && me != cfg.main_seat;
             let net = if use_opp { opp_mlp.unwrap_or(mlp) } else { mlp };
             let opts_v = arr(&sel, "option");
             if opts_v.is_empty() {
@@ -726,7 +727,7 @@ fn play_game(
                     }
                 }
             }
-            if train && !(cfg.vs_league && me == 1) {
+            if train && (!cfg.vs_league || me == cfg.main_seat) {
                 recs.push((me, Rec { s: state, o: ofeats, chosen: chosen as u16, r: 0 }));
             }
             obs = eng.select(&exec).map_err(|e| {
@@ -822,7 +823,7 @@ fn main() -> Result<()> {
         let d0 = decks[rng.gen_range(0..decks.len())].clone();
         let d1 = decks[rng.gen_range(0..decks.len())].clone();
         let vs_league = opp_mlp.is_some() && rng.gen::<f64>() < args.league_frac;
-        cfgs.push(GameCfg { deck0: d0, deck1: d1, vs_league, seed: args.seed + 1000003 * (g as u64) + 17 });
+        cfgs.push(GameCfg { deck0: d0, deck1: d1, vs_league, main_seat: g % 2, seed: args.seed + 1000003 * (g as u64) + 17 });
     }
 
     let wins = AtomicUsize::new(0);
@@ -844,7 +845,7 @@ fn main() -> Result<()> {
             ERR_PANIC.fetch_add(1, Ordering::Relaxed);
             (Vec::new(), -1)
         });
-        if res == 0 {
+        if res >= 0 && (res as usize) == cfg.main_seat {
             wins.fetch_add(1, Ordering::Relaxed);
         }
         if res >= 0 {
@@ -878,7 +879,7 @@ fn main() -> Result<()> {
     let w = wins.load(Ordering::Relaxed);
     let el = t0.elapsed().as_secs_f64();
     println!(
-        "games={} valid={} seat0_wr={:.3} elapsed={:.1}s games_per_sec={:.1} err[start={} select={} nosel={} steps={} panic={} emptyopt={}]",
+        "games={} valid={} main_wr={:.3} elapsed={:.1}s games_per_sec={:.1} err[start={} select={} nosel={} steps={} panic={} emptyopt={}]",
         args.games,
         gd,
         if gd > 0 { w as f64 / gd as f64 } else { 0.0 },
