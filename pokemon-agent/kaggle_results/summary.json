@@ -1,28 +1,37 @@
 {
-  "fetched_utc": "2026-10-14T22:10:42+00:00",
+  "fetched_utc": "2026-10-15T00:55:49+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
   "leaderboard_rows": 367,
-  "submission_rows": 25,
+  "submission_rows": 26,
   "our_leaderboard": [
     {
-      "Rank": "281",
+      "Rank": "268",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-14 19:18:47",
-      "Score": "433.0",
+      "LastSubmissionDate": "2026-10-15 00:15:31",
+      "Score": "471.3",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57199505",
+      "fileName": "ptcg_v55_mirror_a450.tar.gz",
+      "date": "2026-10-15 00:15:31.267000",
+      "description": "submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "471.3",
+      "privateScore": ""
+    },
+    {
       "ref": "57193182",
       "fileName": "phase1_tuned_v42_9_best_fast.tar.gz",
       "date": "2026-10-14 19:18:47.507000",
       "description": "v42.9 fix 98% NO_POKEMON losses: board dev 80/45/20 basics + evo penalty -90/-40, search gate MegaSignal NightStretcher Cyrano -150, retreat threat-aware no hp<=80, FROSLASS {861,103,1002} + Amarys 1207, deck E32 K4 8b 32W 4Lillie 3Carmine 2Pad 2Ultra Poffin Amarys - hard6 0.843 top50 0.906 broad 0.699 smoke OK - phase1_tuned_v42_9_best_fast.tar.gz 2026-10-14T19:18:45Z",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "433.0",
+      "publicScore": "416.7",
       "privateScore": ""
     },
     {
@@ -31,7 +40,7 @@
       "date": "2026-10-14 17:52:07.950000",
       "description": "v48 CEM2-best knobs fitness 0.927 + BC60 113 replays 7081 decisions pool 0.8655 hard6 0.772 local optimum convergence v42.4 - ptcg_v48_cem2best_imit_a450.tar.gz 2026-10-14T17:52:05Z",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "414.3",
+      "publicScore": "404.9",
       "privateScore": ""
     },
     {
@@ -95,15 +104,6 @@
       "description": "ptcg_v22b_35w.tar.gz - 2026-10-13T01:08:29Z - v22b 35W control clean knob A/B live E+B pair - slot2/2 NOW per user request",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "328.1",
-      "privateScore": ""
-    },
-    {
-      "ref": "57125516",
-      "fileName": "phase1_tuned_v25_knobs_35w.tar.gz",
-      "date": "2026-10-13 01:07:28.637000",
-      "description": "phase1_tuned_v25_knobs_35w.tar.gz - 2026-10-13T01:07:27Z - v25 knobs BEST 0.6291 +0.80 z1.37 md5 055992fd x3 - slot1/2 NOW per user request",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "387.5",
       "privateScore": ""
     }
   ],
