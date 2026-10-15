@@ -1,1 +1,1 @@
-games=50 jobs=1 epochs=2 seed=7 single_once
+games=20 jobs=1 epochs=1 seed=7 quick
