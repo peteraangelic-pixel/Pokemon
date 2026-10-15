@@ -565,6 +565,8 @@ struct Args {
     jobs: usize,
     #[arg(long, default_value_t = 0.1)]
     eps: f32,
+    #[arg(long, default_value_t = 1.0)]
+    temp: f32,
     #[arg(long, default_value_t = 42)]
     seed: u64,
     #[arg(long)]
@@ -632,6 +634,7 @@ fn play_game(
     mlp: &Mlp,
     opp_mlp: Option<&Mlp>,
     eps: f32,
+    temp: f32,
     train: bool,
     pool: &EnginePool,
 ) -> (Vec<Rec>, i32) {
@@ -693,7 +696,7 @@ fn play_game(
             } else if train {
                 // softmax sample
                 let mx = scores.iter().cloned().fold(f32::MIN, f32::max);
-                let exps: Vec<f32> = scores.iter().map(|s| (s - mx).exp()).collect();
+                let exps: Vec<f32> = scores.iter().map(|s| ((s - mx) / temp).exp()).collect();
                 let tot: f32 = exps.iter().sum();
                 let mut pick = rng.gen::<f32>() * tot;
                 let mut idx = n - 1;
@@ -839,7 +842,7 @@ fn main() -> Result<()> {
     let t0 = std::time::Instant::now();
     cfgs.par_iter().for_each(|cfg| {
         let (recs, res) = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            play_game(cfg, &feat, &mlp, opp_mlp.as_ref(), args.eps, train, &pool)
+            play_game(cfg, &feat, &mlp, opp_mlp.as_ref(), args.eps, args.temp, train, &pool)
         }))
         .unwrap_or_else(|_| {
             ERR_PANIC.fetch_add(1, Ordering::Relaxed);

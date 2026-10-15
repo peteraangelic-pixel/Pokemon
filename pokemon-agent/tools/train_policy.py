@@ -43,6 +43,8 @@ def forward(params, S, O):
 
 
 WW = [0.0]  # outcome weighting: winning decisions get x(1+WW)
+MODE = ["bc"]
+ENT = [0.01]
 
 def loss_fn(params, S, O, M, Y, R):
     sc, val = forward(params, S, O)
@@ -51,6 +53,12 @@ def loss_fn(params, S, O, M, Y, R):
     w = 1.0 + WW[0] * (R > 0).astype(jnp.float32)
     ce = -jnp.sum(w * logp[jnp.arange(S.shape[0]), Y]) / jnp.sum(w)
     vloss = jnp.mean((val - R) ** 2)
+    if MODE[0] == "pg":
+        adv = jax.lax.stop_gradient(R - val)
+        pgl = -jnp.mean(logp[jnp.arange(S.shape[0]), Y] * adv)
+        probs = jnp.exp(logp)
+        ent = -jnp.mean(jnp.sum(probs * logp, axis=-1))
+        return pgl + 0.5 * vloss - ENT[0] * ent, (pgl, vloss, ent)
     pred = jnp.argmax(sc, axis=-1)
     acc = jnp.mean((pred == Y).astype(jnp.float32))
     return ce + 0.5 * vloss, (ce, vloss, acc)
@@ -73,8 +81,12 @@ def main():
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--init", default=None, help="warm-start weights npz")
     ap.add_argument("--win-weight", type=float, default=0.5)
+    ap.add_argument("--mode", default="bc", choices=["bc", "pg"])
+    ap.add_argument("--entropy", type=float, default=0.01)
     a = ap.parse_args()
     WW[0] = a.win_weight
+    MODE[0] = a.mode
+    ENT[0] = a.entropy
     d = np.load(a.data)
     S, O, M, Y, R = d["S"], d["O"], d["M"], d["Y"], d["R"]
     n = len(S)

@@ -121,9 +121,9 @@ jobs:
           echo "=== rollout $GAMES games ==="
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
-            --weights tools/policy_iter1.json \
+            --weights tools/policy_iter2.json \
             --decks policy_pool --games $GAMES --jobs 4 \
-            --eps $EPS_IN --mode train --out kaggle_results/policy_iter/rollout.bin \
+            --eps $EPS_IN --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin \
             2>&1 | tee kaggle_results/policy_iter/rollout_log.txt
           ls -lh kaggle_results/policy_iter/
           echo "=== convert ==="
@@ -133,16 +133,16 @@ jobs:
           echo "=== train (warm start) ==="
           .venv/bin/python tools/train_policy.py \
             --data kaggle_results/policy_iter/rollout.npz \
-            --init kaggle_results/policy_iter/policy_iter1.npz \
-            --out kaggle_results/policy_iter/policy_iter2.npz \
-            --epochs $EPOCHS_IN --lr 5e-4 --win-weight 2.0 \
+            --init kaggle_results/policy_iter/policy_iter2.npz \
+            --out kaggle_results/policy_iter/policy_iter3.npz \
+            --epochs 1 --lr 1e-4 --mode pg --entropy 0.01 \
             2>&1 | tee kaggle_results/policy_iter/train_log.txt
           .venv/bin/python tools/export_policy_json.py \
-            kaggle_results/policy_iter/policy_iter2.npz tools/policy_iter2.json
-          echo "=== gate: iter2 vs iter1 ==="
+            kaggle_results/policy_iter/policy_iter3.npz tools/policy_iter3.json
+          echo "=== gate: iter3 vs iter2 ==="
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
-            --weights tools/policy_iter2.json --opp-weights tools/policy_iter1.json \
+            --weights tools/policy_iter3.json --opp-weights tools/policy_iter2.json \
             --decks policy_pool --games 2000 --jobs 4 \
             --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_iter/gate_log.txt
       - name: Commit results
