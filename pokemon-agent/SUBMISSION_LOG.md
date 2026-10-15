@@ -1714,3 +1714,4 @@ Wynik: ZADNA hybryda nie przebija v55. Przetestowane (pilot v55):
 - h5 Kazdel-style Petrel4 Signal2 Beach2: pula16 0.860 (pilot nie eksploatuje Petrela)
 - h6 v55+Boss za Waitress: duel vs v55 0.483@300
 v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/Petrel/Boss = slepy zaulek na naszych rigach; deck-search c87 (40 wariantow x 4 gauntlety) najpewniej znajdzie to samo.
+- Uzupełnienie (plan c87 v43): h7 Kyo3 UB4 Beach Belt bez Waitress: pula16 0.875; h8 Kyo3 UB4 Beach bez Night: pula16 0.886, duel vs v55 0.480@300. Nadal pod v55.
