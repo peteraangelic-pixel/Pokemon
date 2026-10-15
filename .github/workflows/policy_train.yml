@@ -20,6 +20,7 @@ on:
     paths:
       - "pokemon-agent/rust/src/bin/policy_rollout.rs"
       - ".github/workflows/policy_train.yml"
+      - "pokemon-agent/policy_iter_trigger.txt"
 
 permissions:
   contents: write
