@@ -20,6 +20,10 @@ name = "search_deck_rust"
 path = "src/bin/search_deck_rust.rs"
 
 [[bin]]
+name = "policy_rollout"
+path = "src/bin/policy_rollout.rs"
+
+[[bin]]
 name = "analyze_playstyle_rust"
 path = "src/bin/analyze_playstyle_rust.rs"
 

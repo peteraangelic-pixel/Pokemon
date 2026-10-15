@@ -1,0 +1,118 @@
+name: policy-train
+
+# v58 learned policy: Rust+Rayon self-play rollouts -> JAX training loop.
+# Push = smoke only (compile + 200g sanity). workflow_dispatch = full iteration.
+
+on:
+  workflow_dispatch:
+    inputs:
+      games:
+        description: "rollout games per iteration"
+        default: "20000"
+      eps:
+        description: "epsilon for exploration"
+        default: "0.15"
+      epochs:
+        description: "training epochs"
+        default: "2"
+  push:
+    branches: ["arena/a450b00f-pokemon"]
+    paths:
+      - "pokemon-agent/rust/src/bin/policy_rollout.rs"
+      - ".github/workflows/policy_train.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  loop:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build policy_rollout
+        run: |
+          set -eo pipefail
+          cd pokemon-agent/rust
+          cargo build --release --bin policy_rollout 2>&1 | tee build_policy.log.txt
+          ls -lh target/release/policy_rollout
+      - name: Python env (engine lib + jax)
+        run: |
+          set -eo pipefail
+          cd pokemon-agent
+          python3 -m venv .venv
+          .venv/bin/pip install --quiet --upgrade pip
+          .venv/bin/pip install --quiet kaggle-environments "jax[cpu]" numpy
+          LIB=$(find .venv -name libcg.so | head -1)
+          echo "engine lib: $LIB"
+          mkdir -p libs
+          for i in 0 1 2 3; do cp "$LIB" "libs/libcg_$i.so"; done
+          ls -lh libs/
+      - name: Smoke eval (seed vs seed, expect ~0.50)
+        run: |
+          set -eo pipefail
+          cd pokemon-agent
+          ./rust/target/release/policy_rollout \
+            --lib-dir libs --card-index tools/card_index.json \
+            --weights tools/policy_seed.json --opp-weights tools/policy_seed.json \
+            --decks decks/v57_trolley34w.csv --games 200 --jobs 4 \
+            --mode eval --league-frac 1.0 2>&1 | tee policy_smoke.txt
+      - name: Iteration (rollout -> convert -> train -> gate)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          set -eo pipefail
+          cd pokemon-agent
+          mkdir -p policy_pool kaggle_results/policy_iter
+          cp decks/v57_trolley34w.csv decks/shaun2024_wall.csv policy_pool/ 2>/dev/null || true
+          cp decks/live_v56t/*.csv policy_pool/ 2>/dev/null || true
+          ls policy_pool/
+          echo "=== rollout ${{ inputs.games }} games ==="
+          ./rust/target/release/policy_rollout \
+            --lib-dir libs --card-index tools/card_index.json \
+            --weights tools/policy_seed.json \
+            --decks policy_pool --games ${{ inputs.games }} --jobs 4 \
+            --eps ${{ inputs.eps }} --mode train --out kaggle_results/policy_iter/rollout.bin \
+            2>&1 | tee kaggle_results/policy_iter/rollout_log.txt
+          ls -lh kaggle_results/policy_iter/
+          echo "=== convert ==="
+          .venv/bin/python tools/convert_rollout.py \
+            kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz \
+            2>&1 | tee -a kaggle_results/policy_iter/rollout_log.txt
+          echo "=== train (warm start) ==="
+          .venv/bin/python tools/train_policy.py \
+            --data kaggle_results/policy_iter/rollout.npz \
+            --init kaggle_results/policy_v58.npz \
+            --out kaggle_results/policy_iter/policy_iter1.npz \
+            --epochs ${{ inputs.epochs }} --lr 5e-4 \
+            2>&1 | tee kaggle_results/policy_iter/train_log.txt
+          .venv/bin/python tools/export_policy_json.py \
+            kaggle_results/policy_iter/policy_iter1.npz tools/policy_iter1.json
+          echo "=== gate: iter1 vs seed ==="
+          ./rust/target/release/policy_rollout \
+            --lib-dir libs --card-index tools/card_index.json \
+            --weights tools/policy_iter1.json --opp-weights tools/policy_seed.json \
+            --decks policy_pool --games 2000 --jobs 4 \
+            --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_iter/gate_log.txt
+      - name: Commit results
+        if: always()
+        run: |
+          set -eo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          mkdir -p pokemon-agent/kaggle_results/policy_iter
+          cp pokemon-agent/policy_smoke.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
+          cp pokemon-agent/rust/build_policy.log.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
+          rm -f pokemon-agent/kaggle_results/policy_iter/rollout.bin
+          git add -f pokemon-agent/kaggle_results/policy_iter/ pokemon-agent/tools/policy_iter1.json 2>/dev/null || true
+          git diff --cached --stat || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "feat(v58): policy rollout iteration results [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

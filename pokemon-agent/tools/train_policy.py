@@ -42,11 +42,14 @@ def forward(params, S, O):
     return sc, val
 
 
+WW = [0.0]  # outcome weighting: winning decisions get x(1+WW)
+
 def loss_fn(params, S, O, M, Y, R):
     sc, val = forward(params, S, O)
     sc = sc + (1.0 - M) * -1e9
     logp = jax.nn.log_softmax(sc, axis=-1)
-    ce = -jnp.mean(logp[jnp.arange(S.shape[0]), Y])
+    w = 1.0 + WW[0] * (R > 0).astype(jnp.float32)
+    ce = -jnp.sum(w * logp[jnp.arange(S.shape[0]), Y]) / jnp.sum(w)
     vloss = jnp.mean((val - R) ** 2)
     pred = jnp.argmax(sc, axis=-1)
     acc = jnp.mean((pred == Y).astype(jnp.float32))
@@ -68,7 +71,10 @@ def main():
     ap.add_argument("--epochs", type=int, default=3)
     ap.add_argument("--bs", type=int, default=512)
     ap.add_argument("--lr", type=float, default=1e-3)
+    ap.add_argument("--init", default=None, help="warm-start weights npz")
+    ap.add_argument("--win-weight", type=float, default=0.5)
     a = ap.parse_args()
+    WW[0] = a.win_weight
     d = np.load(a.data)
     S, O, M, Y, R = d["S"], d["O"], d["M"], d["Y"], d["R"]
     n = len(S)
@@ -77,6 +83,10 @@ def main():
     tr, va = idx[:ntr], idx[ntr:]
     print(f"data: {n} decisions (train {len(tr)}, val {len(va)})")
     params = init_params(jax.random.PRNGKey(0), S.shape[1], O.shape[2])
+    if a.init:
+        z = np.load(a.init)
+        params = {k: jnp.array(z[k]) for k in params}
+        print("warm start from", a.init)
     t0 = time.time()
     for ep in range(a.epochs):
         rng = np.random.RandomState(ep)
