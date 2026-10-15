@@ -1,15 +1,33 @@
 === gen_bc_data_rust_mt starting (Rayon) ===
-Args: Args { card_index: "assets/card_index.json", deck_pool_dir: "decks", out: "kaggle_results/bc_data_rust.npz", games: 200, jobs: 4, lib_path: ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", seed: 7 }
+Args: Args { card_index: "assets/card_index.json", deck_pool_dir: "decks", out: "kaggle_results/bc_data_rust.npz", games: 2000, jobs: 4, lib_path: ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", seed: 7 }
 Loaded 1431 cards
 Deck pool: 340 files
 Loaded 338 valid decks
 Lib path: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
-Game 100 done
 Game 0 done
-Total: 200 games attempted, 0 failed, 20607 decisions in 1.4s (142.6 games/s)
+Game 1000 done
+Game 1500 done
+Game 1300 done
+Game 1600 done
+Game 100 done
+Game 1100 done
+Game 1400 done
+Game 1700 done
+Game 1200 done
+Game 200 done
+Game 500 done
+Game 1800 done
+Game 600 done
+Game 800 done
+Game 300 done
+Game 1900 done
+Game 700 done
+Game 900 done
+Game 400 done
+Total: 2000 games attempted, 5 failed, 201686 decisions in 14.9s (134.1 games/s)
 Trying python .venv/bin/python to save npz
 <string>:1: UserWarning: Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning.
 saved
 Saved via .venv/bin/python to kaggle_results/bc_data_rust.npz
-Done 20607 decisions
+Done 201686 decisions
 Exit code: 0
