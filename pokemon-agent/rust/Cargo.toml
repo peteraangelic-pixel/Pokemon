@@ -31,6 +31,10 @@ path = "src/bin/evolve_tempo.rs"
 name = "gen_bc_data_rust"
 path = "src/bin/gen_bc_data_rust.rs"
 
+[[bin]]
+name = "gen_bc_data_rust_mt"
+path = "src/bin/gen_bc_data_rust_mt.rs"
+
 [dependencies]
 rayon = "1.10"
 serde = { version = "1.0", features = ["derive"] }

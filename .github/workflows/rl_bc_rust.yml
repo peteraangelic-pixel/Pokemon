@@ -16,7 +16,7 @@ on:
         required: false
       jobs:
         description: "Rayon threads"
-        default: "1"
+        default: "4"
         required: false
       epochs:
         description: "Training epochs"
@@ -46,7 +46,7 @@ jobs:
         run: |
           ls -R pokemon-agent/rust/src/ | head -100
           cat pokemon-agent/rust/Cargo.toml
-          ls -lh pokemon-agent/rust/src/engine.rs pokemon-agent/assets/card_index.json
+          ls -lh pokemon-agent/rust/src/engine.rs pokemon-agent/rust/src/engine_mt.rs pokemon-agent/assets/card_index.json
           ls pokemon-agent/decks/ | head -20
 
       - name: Install Python deps
@@ -56,12 +56,13 @@ jobs:
           .venv/bin/pip install --quiet kaggle-environments jax jaxlib numpy
           ls -lh .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
 
-      - name: Build Rust BC generator
+      - name: Build Rust BC generator (single + multi-thread)
         run: |
           cd pokemon-agent/rust
-          cargo build --release --bin gen_bc_data_rust 2>&1 | tee build_bc.log
-          ls -lh target/release/gen_bc_data_rust
+          cargo build --release --bin gen_bc_data_rust --bin gen_bc_data_rust_mt 2>&1 | tee build_bc.log
+          ls -lh target/release/gen_bc_data_rust*
           ./target/release/gen_bc_data_rust --help 2>&1 | tee -a build_bc.log
+          ./target/release/gen_bc_data_rust_mt --help 2>&1 | tee -a build_bc.log
 
       - name: Generate BC data (Rust+Rayon)
         id: gen
@@ -83,16 +84,29 @@ jobs:
             fi
           fi
           JOBS_INPUT="${{ inputs.jobs || '' }}"
-          if [ -n "$JOBS_INPUT" ]; then JOBS="$JOBS_INPUT"; else JOBS=1; fi
+          if [ -n "$JOBS_INPUT" ]; then JOBS="$JOBS_INPUT"; else JOBS_FROM_FILE=$(echo "$TRIGGER" | grep -oE 'jobs=[0-9]+' | cut -d= -f2 | head -1); if [ -n "$JOBS_FROM_FILE" ]; then JOBS="$JOBS_FROM_FILE"; else JOBS=4; fi; fi
           echo "Using GAMES=$GAMES JOBS=$JOBS"
-          ./rust/target/release/gen_bc_data_rust \
-            --card-index assets/card_index.json \
-            --deck-pool-dir decks \
-            --out kaggle_results/bc_data_rust.npz \
-            --games $GAMES \
-            --jobs $JOBS \
-            --lib-path .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so \
-            --seed 7 2>&1 | tee kaggle_results/bc_rust.log
+          if [ "$JOBS" -gt 1 ]; then
+            echo "Using multi-thread binary gen_bc_data_rust_mt with $JOBS threads (thread_local Engine, no global lock for battles, inspired by kaggriculture Rust port)"
+            ./rust/target/release/gen_bc_data_rust_mt \
+              --card-index assets/card_index.json \
+              --deck-pool-dir decks \
+              --out kaggle_results/bc_data_rust.npz \
+              --games $GAMES \
+              --jobs $JOBS \
+              --lib-path .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so \
+              --seed 7 2>&1 | tee kaggle_results/bc_rust.log
+          else
+            echo "Using single-thread binary gen_bc_data_rust"
+            ./rust/target/release/gen_bc_data_rust \
+              --card-index assets/card_index.json \
+              --deck-pool-dir decks \
+              --out kaggle_results/bc_data_rust.npz \
+              --games $GAMES \
+              --jobs $JOBS \
+              --lib-path .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so \
+              --seed 7 2>&1 | tee kaggle_results/bc_rust.log
+          fi
           echo "Exit code: ${PIPESTATUS[0]}" | tee -a kaggle_results/bc_rust.log
           ls -lh kaggle_results/bc_data_rust.npz || echo "npz not found" | tee -a kaggle_results/bc_rust.log
           cat kaggle_results/bc_rust.log | tail -100
