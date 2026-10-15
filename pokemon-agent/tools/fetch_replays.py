@@ -307,13 +307,18 @@ def main() -> int:
 
         # Download last top-k
         # Episode list is usually newest first? Assume as listed, take first K
-        for ep in eps[: args.top_k]:
+        todo = []
+        for ep in eps:
             eid = ep.get("id") or ep.get("Id") or ep.get("EpisodeId") or ep.get("episodeId")
             if not eid:
                 continue
             eid = str(eid).strip()
             if not eid.isdigit():
                 continue
+            if (outdir / f"episode-{eid}-replay.json").exists():
+                continue  # already on disk; do not burn Kaggle replay quota
+            todo.append(eid)
+        for eid in todo[: args.top_k]:
             ok = download_replay(eid, outdir)
             if ok:
                 downloaded += 1
