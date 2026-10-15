@@ -111,7 +111,8 @@ jobs:
           cp pokemon-agent/policy_smoke.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
           cp pokemon-agent/rust/build_policy.log.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
           rm -f pokemon-agent/kaggle_results/policy_iter/rollout.bin
-          git add -f pokemon-agent/kaggle_results/policy_iter/ pokemon-agent/tools/policy_iter1.json 2>/dev/null || true
+          git add -f pokemon-agent/kaggle_results/policy_iter/ || true
+          git add -f pokemon-agent/tools/policy_iter1.json || true
           git diff --cached --stat || true
           if git diff --cached --quiet; then
             echo "No changes"
