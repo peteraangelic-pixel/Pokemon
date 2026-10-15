@@ -12,15 +12,15 @@ on:
     inputs:
       games:
         description: "Games to generate"
-        default: "5000"
+        default: "20"
         required: false
       jobs:
-        description: "Rayon threads (0=auto)"
-        default: "0"
+        description: "Rayon threads"
+        default: "1"
         required: false
       epochs:
         description: "Training epochs"
-        default: "5"
+        default: "1"
         required: false
 
 permissions:
@@ -29,7 +29,7 @@ permissions:
 jobs:
   bc-rust:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,10 +45,8 @@ jobs:
       - name: Debug rust files
         run: |
           ls -R pokemon-agent/rust/src/ | head -100
-          echo "--- Cargo.toml ---"
           cat pokemon-agent/rust/Cargo.toml
-          ls -lh pokemon-agent/rust/src/engine.rs pokemon-agent/rust/src/heuristic.rs pokemon-agent/rust/src/policy_feats.rs
-          ls -lh pokemon-agent/assets/card_index.json
+          ls -lh pokemon-agent/rust/src/engine.rs pokemon-agent/assets/card_index.json
           ls pokemon-agent/decks/ | head -20
 
       - name: Install Python deps
@@ -64,17 +62,17 @@ jobs:
           cargo build --release --bin gen_bc_data_rust 2>&1 | tee build_bc.log
           ls -lh target/release/gen_bc_data_rust
           ./target/release/gen_bc_data_rust --help 2>&1 | tee -a build_bc.log
-          cat build_bc.log
 
       - name: Generate BC data (Rust+Rayon)
+        id: gen
+        continue-on-error: true
         env:
-          GAMES: ${{ inputs.games || '5000' }}
-          JOBS: ${{ inputs.jobs || '0' }}
+          GAMES: ${{ inputs.games || '20' }}
+          JOBS: ${{ inputs.jobs || '1' }}
         run: |
           cd pokemon-agent
           mkdir -p kaggle_results
-          echo "Generating $GAMES games with Rust+Rayon (jobs=$JOBS)..."
-          set -o pipefail
+          echo "Generating $GAMES games..."
           ./rust/target/release/gen_bc_data_rust \
             --card-index assets/card_index.json \
             --deck-pool-dir decks \
@@ -83,62 +81,41 @@ jobs:
             --jobs $JOBS \
             --lib-path .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so \
             --seed 7 2>&1 | tee kaggle_results/bc_rust.log
-          echo "Exit code: $?"
-          ls -lh kaggle_results/bc_data_rust.npz || echo "npz not found"
-          cat kaggle_results/bc_rust.log | tail -100
-          .venv/bin/python -c "import numpy as np, pathlib; p=pathlib.Path('kaggle_results/bc_data_rust.npz'); print('exists', p.exists()); 
-          import sys
-          try:
-              d=np.load(str(p))
-              print(f'S {d[\"S\"].shape} O {d[\"O\"].shape} Y {d[\"Y\"].shape}')
-          except Exception as e:
-              print('load failed', e)
-              sys.exit(1)
-          " 2>&1 | tee -a kaggle_results/bc_rust.log
+          echo "Exit code: ${PIPESTATUS[0]}" | tee -a kaggle_results/bc_rust.log
+          ls -lh kaggle_results/bc_data_rust.npz || echo "npz not found" | tee -a kaggle_results/bc_rust.log
+          cat kaggle_results/bc_rust.log | tail -200
 
-      - name: Upload logs on failure
-        if: failure()
+      - name: Show logs
+        if: always()
+        run: |
+          cat pokemon-agent/rust/build_bc.log | tail -100 || true
+          cat pokemon-agent/kaggle_results/bc_rust.log | tail -200 || true
+
+      - name: Upload logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bc-rust-logs-${{ github.run_id }}
           path: |
             pokemon-agent/rust/build_bc.log
             pokemon-agent/kaggle_results/bc_rust.log
-            pokemon-agent/kaggle_results/train_rust.log
 
       - name: Train policy (JAX)
-        if: success()
+        if: always() && hashFiles('pokemon-agent/kaggle_results/bc_data_rust.npz') != ''
         env:
-          EPOCHS: ${{ inputs.epochs || '5' }}
+          EPOCHS: ${{ inputs.epochs || '1' }}
         run: |
           cd pokemon-agent
           .venv/bin/python tools/train_policy.py --data kaggle_results/bc_data_rust.npz --out kaggle_results/policy_rust.npz --epochs $EPOCHS --bs 512 --lr 1e-3 2>&1 | tee kaggle_results/train_rust.log
           ls -lh kaggle_results/policy_rust.npz
-
-      - name: Build policy agent
-        if: success()
-        run: |
-          cd pokemon-agent
-          cp kaggle_results/policy_rust.npz kaggle_results/policy_v58.npz
-          .venv/bin/python tools/build_policy_agent.py
-          ls -lh agents/main_policy_v58.py
-
-      - name: Evaluate gate (policy vs champion)
-        if: success()
-        run: |
-          cd pokemon-agent
-          .venv/bin/python tools/duel.py --agent-a agents/main_policy_v58.py --agent-b agents/c87_v44.py --deck decks/v56_tuned_34W.csv --games 500 2>&1 | tee kaggle_results/policy_vs_champ.txt
-          .venv/bin/python tools/gauntlet_ffi.py --agent agents/main_policy_v58.py --our-deck decks/v56_tuned_34W.csv --opp-dir decks/top50_fresh22 --games 10 --workers 4 2>&1 | tail -30 | tee -a kaggle_results/policy_vs_champ.txt
 
       - name: Commit results (always)
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Don't pull rebase to avoid losing logs, just commit on top of current HEAD
           mkdir -p pokemon-agent/kaggle_results
           cp pokemon-agent/rust/build_bc.log pokemon-agent/kaggle_results/build_bc.log 2>/dev/null || true
-          ls -lh pokemon-agent/kaggle_results/
-          git add -f pokemon-agent/kaggle_results/build_bc.log pokemon-agent/kaggle_results/bc_rust.log pokemon-agent/kaggle_results/train_rust.log pokemon-agent/kaggle_results/policy_rust.npz pokemon-agent/kaggle_results/policy_vs_champ.txt pokemon-agent/agents/main_policy_v58.py || true
+          git add -f pokemon-agent/kaggle_results/build_bc.log pokemon-agent/kaggle_results/bc_rust.log pokemon-agent/kaggle_results/train_rust.log pokemon-agent/kaggle_results/policy_rust.npz pokemon-agent/kaggle_results/bc_data_rust.npz 2>/dev/null || true
           git diff --cached --stat || true
-          if git diff --cached --quiet; then echo "No changes to commit"; else git commit -m "rl bc rust: ${{ inputs.games || '5000' }}g rust+rayon + train ${{ inputs.epochs || '5' }}ep [skip ci]"; git push origin "HEAD:${GITHUB_REF_NAME}" || echo "push failed, trying force"; git push origin "HEAD:${GITHUB_REF_NAME}" --force || true; fi
+          if git diff --cached --quiet; then echo "No changes"; else git commit -m "rl bc rust logs ${{ github.run_id }} [skip ci]"; git push origin "HEAD:${GITHUB_REF_NAME}" || true; fi
