@@ -1,0 +1,149 @@
+name: ARC3 LLM agent v6.9 push
+
+# Push v6.9 LLM agent notebook to Kaggle (save-run, not competition submit).
+# Source: peteraangelic-pixel/Smak-Domu-Konkurs @ arena/5ed750ef-smak-domu-konkurs
+#
+# FIRE IT: commit a change to arc-agi-3/llm-agent/.submit-v69.trigger
+#          or Run workflow in the GitHub UI
+#
+# REQUIRES: KAGGLE_API_TOKEN in repo secrets
+# NOTEBOOK: arc-agi-3-llm-agent-v69.ipynb (12 mechanisms, 24 knobs, 106/106 tests)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/llm-agent/.submit-v69.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    defaults:
+      run:
+        working-directory: arc-agi-3/llm-agent
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Kaggle CLI
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p .kaggle
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "::error title=Kaggle::brak KAGGLE_API_TOKEN w secrets"
+            exit 1
+          fi
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > .kaggle/access_token
+          chmod 600 .kaggle/access_token
+          echo "credential: KAGGLE_API_TOKEN (present, not printed)"
+
+      - name: Prepare push directory
+        run: |
+          # kaggle kernels push needs kernel-metadata.json + notebook in same dir
+          cp kernel-metadata-v69.json kernel-metadata.json
+          ls -la
+          echo "kernel-metadata.json:"
+          cat kernel-metadata.json
+
+      - name: Push notebook to Kaggle (save-run)
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          set +e
+          $KG kernels push -p . 2>&1 | tee ../push-v69.log
+          PUSH_EXIT=${PIPESTATUS[0]}
+          set -e
+          echo "kaggle push exit code: $PUSH_EXIT"
+          if [ "$PUSH_EXIT" -ne 0 ]; then
+            if grep -q "successfully pushed" ../push-v69.log; then
+              echo "Version created despite non-zero exit — continuing"
+            else
+              echo "::error title=Kaggle::kernels push failed (exit $PUSH_EXIT)"
+              cat ../push-v69.log
+              exit 1
+            fi
+          fi
+
+      - name: Wait for save-run to complete
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")
+          echo "KERNEL_ID=$KERNEL_ID"
+          for i in $(seq 1 120); do
+            S=$($KG kernels status "$KERNEL_ID" 2>&1) || true
+            echo "[$i] $S"
+            if echo "$S" | grep -qiE 'complete'; then
+              echo "Save-run complete"
+              break
+            fi
+            if echo "$S" | grep -qiE '^error'; then
+              echo "::warning title=Kaggle::status error: $S"
+              break
+            fi
+            sleep 30
+          done
+
+      - name: Download outputs
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")
+          mkdir -p outputs
+          $KG kernels output "$KERNEL_ID" -p outputs/ 2>&1 | tee ../download-v69.log || true
+          echo "=== Outputs ==="
+          ls -la outputs/ || echo "(no outputs)"
+
+      - name: Commit results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          cd $GITHUB_WORKSPACE
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          mkdir -p arc-agi-3/llm-agent/runs
+          TS=$(date -u +%Y%m%dT%H%M%SZ)
+          cp arc-agi-3/llm-agent/push-v69.log "arc-agi-3/llm-agent/runs/v69-push-$TS.log" 2>/dev/null || true
+          cp arc-agi-3/llm-agent/download-v69.log "arc-agi-3/llm-agent/runs/v69-download-$TS.log" 2>/dev/null || true
+          cp -r arc-agi-3/llm-agent/outputs "arc-agi-3/llm-agent/runs/v69-outputs-$TS" 2>/dev/null || true
+          git add arc-agi-3/llm-agent/runs || true
+          if [ -n "$(git status --porcelain arc-agi-3/llm-agent/runs)" ]; then
+            git commit -m "chore(arc): v6.9 save-run results $TS [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "nothing to commit"
+          fi
+
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "### v6.9 push result"
+            echo '```'
+            tail -15 push-v69.log 2>/dev/null || echo "(brak)"
+            echo '```'
+            echo
+            echo "### Outputs"
+            echo '```'
+            ls -la outputs/ 2>/dev/null || echo "(brak)"
+            echo '```'
+          } > /tmp/ann.md
+          python3 - <<'PY'
+          body = open('/tmp/ann.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=ARC3 v6.9 push::{body[:3000]}")
+          PY
