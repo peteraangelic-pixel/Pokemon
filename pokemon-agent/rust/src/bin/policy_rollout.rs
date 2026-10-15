@@ -873,12 +873,18 @@ fn main() -> Result<()> {
     let w = wins.load(Ordering::Relaxed);
     let el = t0.elapsed().as_secs_f64();
     println!(
-        "games={} valid={} seat0_wr={:.3} elapsed={:.1}s games_per_sec={:.1}",
+        "games={} valid={} seat0_wr={:.3} elapsed={:.1}s games_per_sec={:.1} err[start={} select={} nosel={} steps={} panic={} emptyopt={}]",
         args.games,
         gd,
         if gd > 0 { w as f64 / gd as f64 } else { 0.0 },
         el,
-        gd as f64 / el.max(0.001)
+        gd as f64 / el.max(0.001),
+        ERR_START.load(Ordering::Relaxed),
+        ERR_SELECT.load(Ordering::Relaxed),
+        ERR_NOSEL.load(Ordering::Relaxed),
+        ERR_STEPS.load(Ordering::Relaxed),
+        ERR_PANIC.load(Ordering::Relaxed),
+        ERR_EMPTYOPT.load(Ordering::Relaxed),
     );
     Ok(())
 }
