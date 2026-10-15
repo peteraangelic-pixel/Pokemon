@@ -9,7 +9,6 @@ use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
 use rayon::prelude::*;
 use serde_json::Value;
-use std::cell::RefCell;
 use std::collections::HashMap;
 use std::ffi::CStr;
 use std::fs::File;
@@ -576,20 +575,39 @@ struct Args {
     league_frac: f64,
 }
 
-thread_local! {
-    static ENG: RefCell<Option<Engine>> = RefCell::new(None);
+static ERR_START: AtomicUsize = AtomicUsize::new(0);
+static ERR_SELECT: AtomicUsize = AtomicUsize::new(0);
+static ERR_NOSEL: AtomicUsize = AtomicUsize::new(0);
+static ERR_STEPS: AtomicUsize = AtomicUsize::new(0);
+static ERR_PANIC: AtomicUsize = AtomicUsize::new(0);
+static ERR_EMPTYOPT: AtomicUsize = AtomicUsize::new(0);
+
+struct EnginePool {
+    engines: Mutex<Vec<Engine>>,
+    lib_dir: String,
+    counter: AtomicUsize,
+    copies: usize,
 }
 
-fn with_engine<R>(lib_dir: &str, f: impl FnOnce(&mut Engine) -> Result<R>) -> Result<R> {
-    ENG.with(|cell| {
-        let mut slot = cell.borrow_mut();
-        if slot.is_none() {
-            let tid = rayon::current_thread_index().unwrap_or(0);
-            let path = format!("{}/libcg_{}.so", lib_dir, tid);
-            *slot = Some(Engine::new(&path)?);
+// Engine holds a raw battle pointer; engines are only ever used by one
+// thread at a time (checked out of the pool), so moving them is safe.
+unsafe impl Send for Engine {}
+
+impl EnginePool {
+    fn checkout(&self) -> Result<Engine> {
+        {
+            let mut g = self.engines.lock().unwrap();
+            if let Some(e) = g.pop() {
+                return Ok(e);
+            }
         }
-        f(slot.as_mut().unwrap())
-    })
+        let idx = self.counter.fetch_add(1, Ordering::Relaxed) % self.copies;
+        let path = format!("{}/libcg_{}.so", self.lib_dir, idx);
+        Engine::new(&path)
+    }
+    fn checkin(&self, e: Engine) {
+        self.engines.lock().unwrap().push(e);
+    }
 }
 
 struct GameCfg {
@@ -613,19 +631,30 @@ fn play_game(
     opp_mlp: Option<&Mlp>,
     eps: f32,
     train: bool,
-    lib_dir: &str,
+    pool: &EnginePool,
 ) -> (Vec<Rec>, i32) {
+    let mut eng = match pool.checkout() {
+        Ok(e) => e,
+        Err(_) => {
+            ERR_START.fetch_add(1, Ordering::Relaxed);
+            return (Vec::new(), -1);
+        }
+    };
     let mut recs: Vec<(usize, Rec)> = Vec::new(); // (seat, rec)
-    let result = with_engine(lib_dir, |eng| -> Result<i32> {
+    let result: Result<i32> = (|| {
         let mut cards: Vec<c_int> = Vec::with_capacity(120);
         cards.extend(cfg.deck0.iter().map(|&x| x as c_int));
         cards.extend(cfg.deck1.iter().map(|&x| x as c_int));
-        let mut obs = eng.battle_start(&cards)?;
+        let mut obs = eng.battle_start(&cards).map_err(|e| {
+            ERR_START.fetch_add(1, Ordering::Relaxed);
+            e
+        })?;
         let mut rng = StdRng::seed_from_u64(cfg.seed);
         let mut steps = 0usize;
         let res = loop {
             steps += 1;
             if steps > 5000 {
+                ERR_STEPS.fetch_add(1, Ordering::Relaxed);
                 break -1;
             }
             let cur = obs.get("current").cloned().unwrap_or(Value::Null);
@@ -636,7 +665,10 @@ fn play_game(
             }
             let sel = match obs.get("select") {
                 Some(s) if !s.is_null() => s.clone(),
-                _ => break -1,
+                _ => {
+                    ERR_NOSEL.fetch_add(1, Ordering::Relaxed);
+                    break -1;
+                }
             };
             let me = cur.get("yourIndex").and_then(|x| x.as_i64()).unwrap_or(0) as usize;
             let use_opp = cfg.vs_league && me == 1;
@@ -692,11 +724,15 @@ fn play_game(
             if train && !(cfg.vs_league && me == 1) {
                 recs.push((me, Rec { s: state, o: ofeats, chosen: chosen as u16, r: 0 }));
             }
-            obs = eng.select(&exec)?;
+            obs = eng.select(&exec).map_err(|e| {
+                ERR_SELECT.fetch_add(1, Ordering::Relaxed);
+                e
+            })?;
         };
-        eng.finish();
         Ok(res)
-    });
+    })();
+    eng.finish();
+    pool.checkin(eng);
     match result {
         Ok(r) if r == 0 || r == 1 => {
             let mut out = Vec::new();
@@ -780,9 +816,12 @@ fn main() -> Result<()> {
     let t0 = std::time::Instant::now();
     cfgs.par_iter().for_each(|cfg| {
         let (recs, res) = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            play_game(cfg, &feat, &mlp, opp_mlp.as_ref(), args.eps, train, &args.lib_dir)
+            play_game(cfg, &feat, &mlp, opp_mlp.as_ref(), args.eps, train, &pool)
         }))
-        .unwrap_or((Vec::new(), -1));
+        .unwrap_or_else(|_| {
+            ERR_PANIC.fetch_add(1, Ordering::Relaxed);
+            (Vec::new(), -1)
+        });
         if res == 0 {
             wins.fetch_add(1, Ordering::Relaxed);
         }

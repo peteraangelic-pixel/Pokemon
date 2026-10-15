@@ -50,7 +50,7 @@ jobs:
           LIB=$(find .venv -name libcg.so | head -1)
           echo "engine lib: $LIB"
           mkdir -p libs
-          for i in 0 1 2 3; do cp "$LIB" "libs/libcg_$i.so"; done
+          cp "$LIB" libs/libcg.so
           ls -lh libs/
       - name: Smoke eval (seed vs seed, expect ~0.50)
         run: |
