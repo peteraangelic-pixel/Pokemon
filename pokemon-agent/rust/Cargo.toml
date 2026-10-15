@@ -1,0 +1,43 @@
+[package]
+name = "rust_gauntlet"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "rust_gauntlet"
+path = "src/main.rs"
+
+[[bin]]
+name = "rust_full"
+path = "src/bin/full.rs"
+
+[[bin]]
+name = "gauntlet_rust"
+path = "src/bin/gauntlet_rust.rs"
+
+[[bin]]
+name = "search_deck_rust"
+path = "src/bin/search_deck_rust.rs"
+
+[[bin]]
+name = "analyze_playstyle_rust"
+path = "src/bin/analyze_playstyle_rust.rs"
+
+[[bin]]
+name = "evolve_tempo"
+path = "src/bin/evolve_tempo.rs"
+
+[[bin]]
+name = "gen_bc_data_rust"
+path = "src/bin/gen_bc_data_rust.rs"
+
+[dependencies]
+rayon = "1.10"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+clap = { version = "4.5", features = ["derive"] }
+anyhow = "1.0"
+libloading = "0.8"
+regex = "1.10"
+rand = "0.8"
+
