@@ -108,6 +108,18 @@ jobs:
           echo "=== Outputs ==="
           ls -la outputs/ || echo "(no outputs)"
 
+      - name: Submit to competition
+        run: |
+          KG="env KAGGLE_API_TOKEN=$(cat .kaggle/access_token) kaggle"
+          KERNEL_ID=$(python3 -c "import json;print(json.load(open('kernel-metadata.json'))['id'])")
+          echo "Submitting kernel $KERNEL_ID to competition"
+          set +e
+          $KG competitions submit -c arc-prize-2026-arc-agi-3 -k "$KERNEL_ID" -f submission.parquet -m "v6.9 LLM agent @200k" 2>&1 | tee ../competition-submit-v69.log
+          CODE=${PIPESTATUS[0]}
+          set -e
+          echo "competition submit exit code: $CODE"
+          cat ../competition-submit-v69.log
+
       - name: Commit results
         if: always()
         run: |
