@@ -256,6 +256,13 @@ for game_path in games:
         # Get action from policy
         action = policy.choose_action(frame)
         
+        # FIX BUG 2: Handle ABANDON action (early abandon)
+        # ABANDON means policy wants to stop this game and move to next
+        # (not RESET which restarts in same server slot)
+        if action.get("name") == "ABANDON":
+            print(f"  [ABANDON] 0 levels after {policy.total_tokens} tokens, {step+1} actions")
+            break
+        
         # Execute action
         env.step(action["name"])
         

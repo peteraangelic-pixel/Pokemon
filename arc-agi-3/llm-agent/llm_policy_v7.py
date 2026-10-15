@@ -532,9 +532,12 @@ class LLMPolicyV7:
         Returns dict: {name: str, x: int|None, y: int|None, reasoning: dict}
         """
         # v7: Check if we should abandon this game
+        # FIX BUG 2: Return special ABANDON action instead of RESET
+        # RESET restarts the game in same server slot (doesn't free slot)
+        # ABANDON signals notebook to stop this game and move to next
         if self.should_abandon():
             self._should_abandon = True
-            return {"name": RESET, "reasoning": {"abandon": True}}
+            return {"name": "ABANDON", "reasoning": {"abandon": True, "tokens": self.total_tokens - self._game_start_tokens, "actions": self._actions_in_game, "levels": self._last_level}}
         
         state_sig = self._state_signature(frame)
         

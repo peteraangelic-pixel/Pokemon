@@ -75,6 +75,7 @@ def extract_game_features(grid: list[list[int]]) -> GameFeatures:
     # Sprawdzamy czy lewy górny róg (10×10) jest wzorcem
     # BUGFIX #1: Sprawdź czy wzorzec NIE jest pusty (0 vs 0 = fałszywe dopasowanie)
     # BUGFIX #2: Sprawdź czy wzorzec ma znaczące non-zero cells (>10%)
+    # BUGFIX #3 (v7): Uniform róg (1 kolor) nie jest wzorcem - wymaga ≥2 kolorów
     pattern_in_corner = False
     pattern_similarity = 0.0
     if height >= 10 and width >= 10:
@@ -83,8 +84,12 @@ def extract_game_features(grid: list[list[int]]) -> GameFeatures:
         pattern_non_zero = sum(1 for cell in pattern_flat if cell != 0)
         pattern_density = pattern_non_zero / 100.0
         
-        # Tylko jeśli wzorzec jest znaczący (>10% non-zero)
-        if pattern_density > 0.1:
+        # FIX BUG 1: Sprawdź liczbę kolorów we wzorcu (≥2 = realny wzorzec)
+        pattern_colors = set(cell for cell in pattern_flat if cell != 0)
+        has_structure = len(pattern_colors) >= 2
+        
+        # Tylko jeśli wzorzec jest znaczący (>10% non-zero) I ma strukturę (≥2 kolory)
+        if pattern_density > 0.1 and has_structure:
             # Porównaj z resztą gridu
             max_sim = 0.0
             for r in range(0, height-9, 5):
@@ -271,15 +276,17 @@ def detect_goal_class(grid: list[list[int]]) -> str:
     """
     features = extract_game_features(grid)
     
+    # FIX BUG 1: Zmień kolejność reguł - pattern_in_corner (COPY) przed tile_keys (LOCAL_CONSTRAINTS)
+    # Powtarzalny wzorzec 10×10 to mocniejszy dowód niż gęstość bloków 3×3
+    if features.pattern_in_corner:
+        return "COPY"
+    
     # Priorytet: najpierw najbardziej specyficzne
     if features.tile_keys_3x3_count > 3:
         return "LOCAL_CONSTRAINTS"
     
     if features.dispenser_detected and features.vessels_count > 2:
         return "FLOW"
-    
-    if features.pattern_in_corner:
-        return "COPY"
     
     if features.boxes_count > 2 and features.target_zone_detected:
         return "PLACE"
