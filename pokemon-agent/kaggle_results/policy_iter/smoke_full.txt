@@ -127,3 +127,27 @@ games=400 valid=400 main_wr=0.527 elapsed=9.2s games_per_sec=43.4 err[start=0 se
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 400 --jobs 4 --mode eval --league-frac 1.0
 + tee policy_smoke.txt
 games=400 valid=400 main_wr=0.510 elapsed=9.2s games_per_sec=43.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ cd pokemon-agent
++ ls -l libs/
+total 1428
+-rw-r--r-- 1 runner runner 1458504 Oct 15 19:09 libcg.so
++ md5sum libs/libcg.so .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
+5ea6c0ae36535b73f615b89831b6b6a4  libs/libcg.so
+5ea6c0ae36535b73f615b89831b6b6a4  .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ echo '--- python FFI one game ---'
+--- python FFI one game ---
++ .venv/bin/python -
++ tee policy_pycheck.txt
+deck len 60
+battlePtr 94484524259824 errP -1 errT 0
+first select type 9 options 2
++ echo '--- direct package dir ---'
+--- direct package dir ---
++ ./rust/target/release/policy_rollout --lib-dir .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 400 --jobs 4 --mode eval --league-frac 1.0
++ tee policy_smoke_pkg.txt
+games=400 valid=400 main_wr=0.497 elapsed=11.7s games_per_sec=34.3 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '--- copied lib dir ---'
+--- copied lib dir ---
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 400 --jobs 4 --mode eval --league-frac 1.0
++ tee policy_smoke.txt
+games=400 valid=400 main_wr=0.477 elapsed=11.7s games_per_sec=34.1 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
