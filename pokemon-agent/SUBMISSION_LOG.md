@@ -1752,3 +1752,7 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
   fresh22 0.932 | killers1 0.689 (rekord) | killers2 0.755 | LiYang 0.520 | Mathieu 0.790.
   Belt34W: fresh22 0.935, reszta nizej; duel bezposredni 0.501. 35W(-Petrel) odrzucone (0.928).
 - Final: pilot c87_v44 + decks/v57_trolley34w.csv -> bundles/ptcg_v56_tuned_a450.tar.gz (smoke OK).
+
+## v56 TUNED WYSŁANA (2026-10-15 10:04Z, rozkaz usera) — ref 57225963, PENDING
+- Bundle ptcg_v56_tuned_a450.tar.gz (pilot v44 + Kazdel 34W). Log: Successfully submitted.
+- Przy wysylce: v55=375.2, 42.9=408.0. Pierwszy odczyt po zakonczeniu walidacji.
