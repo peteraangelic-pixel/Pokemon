@@ -1,15 +1,17 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T08:35:50.117346+00:00_
+_fetched 2026-10-15T09:15:49.892524+00:00_
 
 - Own submissions: 26
-- Episodes listed: 181
-- Replays downloaded (our last 80 per live sub): 0
+- Episodes listed: 186
+- Replays downloaded (our last 80 per live sub): 160
 - Official dataset: none found (0 files)
-- Total JSON on disk: 356
+- Total JSON on disk: 425
 
 ## Recent episodes (our agents)
 
+- {'id': '124443218', 'createTime': '2026-10-15 08:54:35.087000', 'endTime': '2026-10-15 08:58:19.708000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124440842', 'createTime': '2026-10-15 08:30:31.402000', 'endTime': '2026-10-15 08:36:07.912000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124439263', 'createTime': '2026-10-15 08:02:37.906000', 'endTime': '2026-10-15 08:05:52.174000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124439255', 'createTime': '2026-10-15 08:02:37.898000', 'endTime': '2026-10-15 08:05:19.934000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124438330', 'createTime': '2026-10-15 07:42:35.100000', 'endTime': '2026-10-15 07:46:11.014000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
@@ -28,8 +30,6 @@ _fetched 2026-10-15T08:35:50.117346+00:00_
 - {'id': '124431265', 'createTime': '2026-10-15 03:58:21.551000', 'endTime': '2026-10-15 04:00:04.780000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124431288', 'createTime': '2026-10-15 03:58:21.579000', 'endTime': '2026-10-15 03:59:41.698000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124431305', 'createTime': '2026-10-15 03:58:21.601000', 'endTime': '2026-10-15 03:59:33.763000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431174', 'createTime': '2026-10-15 03:54:22.335000', 'endTime': '2026-10-15 03:58:57.154000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431147', 'createTime': '2026-10-15 03:54:22.303000', 'endTime': '2026-10-15 03:55:24.542000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 
 ## Sample replay analysis (first 20)
 
@@ -42,6 +42,7 @@ _fetched 2026-10-15T08:35:50.117346+00:00_
 - episode-124316117-replay.json: teams=['PeterSharps', 'Aayush Jansari'] winner=PeterSharps steps=189
 - episode-123190778-replay.json: teams=['PeterSharps', 'Jarno Rantala'] winner=Jarno Rantala steps=148
 - episode-124303172-replay.json: teams=['PeterSharps', 'DavideSanta'] winner=PeterSharps steps=149
+- episode-124434623-replay.json: teams=['PeterSharps', 'char0n1'] winner=PeterSharps steps=73
 - episode-124323475-replay.json: teams=['Bros 360x', 'PeterSharps'] winner=Bros 360x steps=134
 - episode-124362234-replay.json: teams=['PeterSharps', 'Atharva Naik'] winner=Atharva Naik steps=75
 - episode-124416389-replay.json: teams=['Richard Guo', 'PeterSharps'] winner=PeterSharps steps=176
@@ -52,4 +53,3 @@ _fetched 2026-10-15T08:35:50.117346+00:00_
 - episode-123396488-replay.json: teams=['PeterSharps', 'PeterSharps'] winner=PeterSharps steps=120
 - episode-123126922-replay.json: teams=['PeterSharps', 'jdx'] winner=jdx steps=137
 - episode-123117927-replay.json: teams=['PeterSharps', 'cottonandcolor'] winner=PeterSharps steps=114
-- episode-124414965-replay.json: teams=['PeterSharps', 'Navneet Prabhat'] winner=PeterSharps steps=200

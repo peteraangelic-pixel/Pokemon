@@ -1,12 +1,12 @@
 {
-  "fetched_utc": "2026-10-15T08:35:50.117346+00:00",
+  "fetched_utc": "2026-10-15T09:15:49.892524+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "own_submissions": 26,
-  "episodes_listed": 181,
-  "replays_downloaded": 0,
+  "episodes_listed": 186,
+  "replays_downloaded": 160,
   "official_dataset": null,
   "official_files": 0,
-  "total_json_on_disk": 356,
+  "total_json_on_disk": 425,
   "sample_analysis": [
     {
       "file": "episode-123120164-replay.json",
@@ -133,6 +133,20 @@
         -1
       ],
       "steps": 149
+    },
+    {
+      "file": "episode-124434623-replay.json",
+      "episodeId": 124434623,
+      "teamNames": [
+        "PeterSharps",
+        "char0n1"
+      ],
+      "winner": "PeterSharps",
+      "rewards": [
+        1,
+        -1
+      ],
+      "steps": 73
     },
     {
       "file": "episode-124323475-replay.json",
@@ -273,20 +287,6 @@
         -1
       ],
       "steps": 114
-    },
-    {
-      "file": "episode-124414965-replay.json",
-      "episodeId": 124414965,
-      "teamNames": [
-        "PeterSharps",
-        "Navneet Prabhat"
-      ],
-      "winner": "PeterSharps",
-      "rewards": [
-        1,
-        -1
-      ],
-      "steps": 200
     }
   ]
 }
