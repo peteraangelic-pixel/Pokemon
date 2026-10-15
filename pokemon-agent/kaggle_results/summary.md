@@ -1,11 +1,11 @@
 # Kaggle results — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T04:15:42+00:00_
+_fetched 2026-10-15T04:20:43+00:00_
 
 ## Our leaderboard row
 
 - **score (μ): 424.3**
-  - Rank: 281
+  - Rank: 282
   - TeamId: 17077007
   - TeamName: PeterSharps
   - LastSubmissionDate: 2026-10-15 00:15:31
@@ -29,30 +29,30 @@ _fetched 2026-10-15T04:15:42+00:00_
 
 ## Field context
 
-369 teams; best 1334.1, median 668.4, worst -209.0
+369 teams; best 1336.1, median 665.8, worst -204.1
 
 | target | score needed |
 |---|---|
 | top 1 % (place 3) | 1191.6 |
-| top 5 % (place 18) | 1066.6 |
-| top 10 % (place 36) | 1014.1 |
-| top 25 % (place 92) | 860.8 |
-| top 50 % (place 184) | 670.0 |
+| top 5 % (place 18) | 1064.1 |
+| top 10 % (place 36) | 1008.7 |
+| top 25 % (place 92) | 858.9 |
+| top 50 % (place 184) | 669.7 |
 
 - our latest submission: **389.9** ~ place 296/369 (top 80 %)
-- our leaderboard row: **424.3** ~ place 281/369 (top 76 %)
+- our leaderboard row: **424.3** ~ place 282/369 (top 76 %)
 
 ## Leaderboard top 10
 
 | Rank | TeamId | TeamName | LastSubmissionDate | Score | SubmissionCount | TeamMemberUserNames |
 |---|---|---|---|---|---|---|
-| 1 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-11 09:17:58 | 1334.1 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
-| 2 | 17012386 | YumeNeko | 2026-10-14 13:22:11 | 1285.0 | 2 | kashiwaba |
+| 1 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-11 09:17:58 | 1336.1 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
+| 2 | 17012386 | YumeNeko | 2026-10-14 13:22:11 | 1286.5 | 2 | kashiwaba |
 | 3 | 16981607 | RtoABC2 | 2026-10-14 10:51:18 | 1191.6 | 2 | go5kuramubon,kaidomitsu,nmlibrary |
-| 4 | 16981890 | Stephen Schott | 2026-10-13 17:41:28 | 1186.5 | 2 | steve421471 |
-| 5 | 16993626 | Charles Backman On LinkedIn | 2026-10-14 03:46:41 | 1161.2 | 2 | charlesbackman |
-| 6 | 17029228 | ANMOL GARG | 2026-10-10 23:05:05 | 1128.6 | 2 | anmolgargnsut |
-| 7 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-11 12:20:43 | 1127.3 | 2 | busyaprime |
+| 4 | 16981890 | Stephen Schott | 2026-10-13 17:41:28 | 1177.2 | 2 | steve421471 |
+| 5 | 16993626 | Charles Backman On LinkedIn | 2026-10-14 03:46:41 | 1156.0 | 2 | charlesbackman |
+| 6 | 17029228 | ANMOL GARG | 2026-10-10 23:05:05 | 1134.0 | 2 | anmolgargnsut |
+| 7 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-11 12:20:43 | 1127.0 | 2 | busyaprime |
 | 8 | 17003892 | Darren Sheehan | 2026-10-13 13:47:16 | 1125.8 | 2 | darrensheehan |
 | 9 | 16986055 | Leon Liu | 2026-09-30 22:09:23 | 1117.5 | 2 | h1deaki |
 | 10 | 17071115 | Bill Vlasak | 2026-10-14 03:22:27 | 1113.5 | 2 | billvlasak |
