@@ -1,1 +1,1 @@
-games=2000 jobs=1 epochs=2 seed=7 scale2000
+games=5000 jobs=1 epochs=5 seed=7 full_decks
