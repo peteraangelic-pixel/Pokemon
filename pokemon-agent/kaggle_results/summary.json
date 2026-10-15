@@ -1,16 +1,16 @@
 {
-  "fetched_utc": "2026-10-15T04:20:43+00:00",
+  "fetched_utc": "2026-10-15T08:30:19+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 369,
+  "leaderboard_rows": 370,
   "submission_rows": 26,
   "our_leaderboard": [
     {
-      "Rank": "282",
+      "Rank": "288",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
       "LastSubmissionDate": "2026-10-15 00:15:31",
-      "Score": "424.3",
+      "Score": "412.4",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
@@ -22,7 +22,7 @@
       "date": "2026-10-15 00:15:31.267000",
       "description": "submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "389.9",
+      "publicScore": "377.7",
       "privateScore": ""
     },
     {
@@ -31,7 +31,7 @@
       "date": "2026-10-14 19:18:47.507000",
       "description": "v42.9 fix 98% NO_POKEMON losses: board dev 80/45/20 basics + evo penalty -90/-40, search gate MegaSignal NightStretcher Cyrano -150, retreat threat-aware no hp<=80, FROSLASS {861,103,1002} + Amarys 1207, deck E32 K4 8b 32W 4Lillie 3Carmine 2Pad 2Ultra Poffin Amarys - hard6 0.843 top50 0.906 broad 0.699 smoke OK - phase1_tuned_v42_9_best_fast.tar.gz 2026-10-14T19:18:45Z",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "424.3",
+      "publicScore": "412.4",
       "privateScore": ""
     },
     {

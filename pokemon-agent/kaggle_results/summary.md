@@ -1,11 +1,11 @@
 # Kaggle results — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T04:20:43+00:00_
+_fetched 2026-10-15T08:30:19+00:00_
 
 ## Our leaderboard row
 
-- **score (μ): 424.3**
-  - Rank: 282
+- **score (μ): 412.4**
+  - Rank: 288
   - TeamId: 17077007
   - TeamName: PeterSharps
   - LastSubmissionDate: 2026-10-15 00:15:31
@@ -16,8 +16,8 @@ _fetched 2026-10-15T04:20:43+00:00_
 
 | file | status | score | date |
 |---|---|---|---|
-| `ptcg_v55_mirror_a450.tar.gz` | SubmissionStatus.COMPLETE | 389.9 | 2026-10-15 00:15:31.267000 |
-| `phase1_tuned_v42_9_best_fast.tar.gz` | SubmissionStatus.COMPLETE | 424.3 | 2026-10-14 19:18:47.507000 |
+| `ptcg_v55_mirror_a450.tar.gz` | SubmissionStatus.COMPLETE | 377.7 | 2026-10-15 00:15:31.267000 |
+| `phase1_tuned_v42_9_best_fast.tar.gz` | SubmissionStatus.COMPLETE | 412.4 | 2026-10-14 19:18:47.507000 |
 | `ptcg_v48_cem2best_imit_a450.tar.gz` | SubmissionStatus.COMPLETE | 404.9 | 2026-10-14 17:52:07.950000 |
 | `ptcg_v51_league_a450.tar.gz` | SubmissionStatus.COMPLETE | 332.6 | 2026-10-14 17:50:34.420000 |
 | `phase1_tuned_v36_adaptive_Kaggriculture.tar.gz` | SubmissionStatus.COMPLETE | 407.9 | 2026-10-14 00:05:23.120000 |
@@ -29,31 +29,31 @@ _fetched 2026-10-15T04:20:43+00:00_
 
 ## Field context
 
-369 teams; best 1336.1, median 665.8, worst -204.1
+370 teams; best 1309.3, median 665.1, worst -210.8
 
 | target | score needed |
 |---|---|
-| top 1 % (place 3) | 1191.6 |
-| top 5 % (place 18) | 1064.1 |
-| top 10 % (place 36) | 1008.7 |
-| top 25 % (place 92) | 858.9 |
-| top 50 % (place 184) | 669.7 |
+| top 1 % (place 3) | 1164.9 |
+| top 5 % (place 18) | 1076.2 |
+| top 10 % (place 37) | 1011.6 |
+| top 25 % (place 92) | 861.6 |
+| top 50 % (place 185) | 665.3 |
 
-- our latest submission: **389.9** ~ place 296/369 (top 80 %)
-- our leaderboard row: **424.3** ~ place 282/369 (top 76 %)
+- our latest submission: **377.7** ~ place 300/370 (top 81 %)
+- our leaderboard row: **412.4** ~ place 288/370 (top 78 %)
 
 ## Leaderboard top 10
 
 | Rank | TeamId | TeamName | LastSubmissionDate | Score | SubmissionCount | TeamMemberUserNames |
 |---|---|---|---|---|---|---|
-| 1 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-11 09:17:58 | 1336.1 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
-| 2 | 17012386 | YumeNeko | 2026-10-14 13:22:11 | 1286.5 | 2 | kashiwaba |
-| 3 | 16981607 | RtoABC2 | 2026-10-14 10:51:18 | 1191.6 | 2 | go5kuramubon,kaidomitsu,nmlibrary |
-| 4 | 16981890 | Stephen Schott | 2026-10-13 17:41:28 | 1177.2 | 2 | steve421471 |
-| 5 | 16993626 | Charles Backman On LinkedIn | 2026-10-14 03:46:41 | 1156.0 | 2 | charlesbackman |
-| 6 | 17029228 | ANMOL GARG | 2026-10-10 23:05:05 | 1134.0 | 2 | anmolgargnsut |
-| 7 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-11 12:20:43 | 1127.0 | 2 | busyaprime |
-| 8 | 17003892 | Darren Sheehan | 2026-10-13 13:47:16 | 1125.8 | 2 | darrensheehan |
-| 9 | 16986055 | Leon Liu | 2026-09-30 22:09:23 | 1117.5 | 2 | h1deaki |
-| 10 | 17071115 | Bill Vlasak | 2026-10-14 03:22:27 | 1113.5 | 2 | billvlasak |
+| 1 | 17012386 | YumeNeko | 2026-10-14 13:22:11 | 1309.3 | 2 | kashiwaba |
+| 2 | 17014244 | やる気元気ミワハルキ 2nd ver. | 2026-10-11 09:17:58 | 1298.0 | 2 | cnumber,confirm,harukimiwa,masayoshi64,tomo0608 |
+| 3 | 16981890 | Stephen Schott | 2026-10-13 17:41:28 | 1164.9 | 2 | steve421471 |
+| 4 | 16994149 | バーベナヘレナでコンボ決めたい連合 | 2026-10-15 04:07:47 | 1163.6 | 2 | nadyresearcher |
+| 5 | 16993626 | Charles Backman On LinkedIn | 2026-10-15 08:10:27 | 1149.3 | 2 | charlesbackman |
+| 6 | 16981607 | RtoABC2 | 2026-10-15 05:01:00 | 1143.9 | 2 | go5kuramubon,kaidomitsu,nmlibrary |
+| 7 | 17043084 | Akmal Xodarev (Busya PRIME) | 2026-10-11 12:20:43 | 1134.0 | 2 | busyaprime |
+| 8 | 17029228 | ANMOL GARG | 2026-10-10 23:05:05 | 1127.2 | 2 | anmolgargnsut |
+| 9 | 17024180 | choqui62 | 2026-10-14 20:35:51 | 1115.2 | 2 | choqui62 |
+| 10 | 17003892 | Darren Sheehan | 2026-10-13 13:47:16 | 1114.1 | 2 | darrensheehan |
 
