@@ -14,6 +14,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("bin")
     ap.add_argument("out")
+    ap.add_argument("--max-dec", type=int, default=0, help="cap decisions (0=all)")
     args = ap.parse_args()
     data = open(args.bin, "rb").read()
     assert data[:4] == b"POL1", "bad magic"
@@ -24,6 +25,8 @@ def main():
         no = data[pos + DS * 2]
         pos += REC_HEAD + no * DO * 2 + 3
         cnt += 1
+        if args.max_dec and cnt >= args.max_dec:
+            break
     print(f"{cnt} decisions in log")
     S = np.zeros((cnt, DS), dtype=np.float32)
     O = np.zeros((cnt, MAX_OPT, DO), dtype=np.float16)

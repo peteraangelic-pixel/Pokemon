@@ -127,7 +127,7 @@ jobs:
             2>&1 | tee kaggle_results/policy_iter/rollout_log.txt
           ls -lh kaggle_results/policy_iter/
           echo "=== convert ==="
-          .venv/bin/python tools/convert_rollout.py \
+          .venv/bin/python tools/convert_rollout.py --max-dec 1500000 \
             kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz \
             2>&1 | tee -a kaggle_results/policy_iter/rollout_log.txt
           echo "=== train (warm start) ==="
