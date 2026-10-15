@@ -48,7 +48,7 @@ jobs:
           cd pokemon-agent
           python3 -m venv .venv
           .venv/bin/pip install --quiet --upgrade pip
-          .venv/bin/pip install --quiet kaggle-environments "jax[cpu]" numpy
+          .venv/bin/pip install --quiet "kaggle-environments==1.33.0" "jax[cpu]" numpy
           LIB=$(find .venv -name libcg.so | head -1)
           echo "engine lib: $LIB"
           mkdir -p libs
@@ -61,6 +61,22 @@ jobs:
           cd pokemon-agent
           ls -l libs/
           md5sum libs/libcg.so "$CG_DIR/libcg.so" || true
+          echo "--- python FFI one game ---"
+          .venv/bin/python - <<'PY' 2>&1 | tee policy_pycheck.txt || true
+          import ctypes, json
+          from kaggle_environments.envs.cabt.cg import sim
+          lib = sim.lib
+          deck = [int(x) for x in open("decks/v57_trolley34w.csv").read().split()]
+          print("deck len", len(deck))
+          cards = (ctypes.c_int * 120)(*deck, *deck)
+          sd = lib.BattleStart(cards)
+          print("battlePtr", sd.battlePtr, "errP", sd.errorPlayer, "errT", sd.errorType)
+          if sd.battlePtr:
+              d = lib.GetBattleData(sd.battlePtr)
+              obs = json.loads(d.json)
+              print("first select type", (obs.get("select") or {}).get("type"), "options", len((obs.get("select") or {}).get("option") or []))
+              lib.BattleFinish(sd.battlePtr)
+          PY
           echo "--- direct package dir ---"
           ./rust/target/release/policy_rollout \
             --lib-dir "$CG_DIR" --card-index tools/card_index.json \
@@ -122,6 +138,7 @@ jobs:
           mkdir -p pokemon-agent/kaggle_results/policy_iter
           cp pokemon-agent/policy_smoke.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
           cp pokemon-agent/policy_smoke_pkg.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
+          cp pokemon-agent/policy_pycheck.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
           cp pokemon-agent/rust/build_policy.log.txt pokemon-agent/kaggle_results/policy_iter/ 2>/dev/null || true
           rm -f pokemon-agent/kaggle_results/policy_iter/rollout.bin
           git add -f pokemon-agent/kaggle_results/policy_iter/ || true
