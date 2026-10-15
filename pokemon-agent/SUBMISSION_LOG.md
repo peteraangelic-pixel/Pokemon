@@ -1728,3 +1728,11 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
 - Warianty odrzucone: Kazdel+Amarys 0.864; Kazdel+Waitress 0.875; v55-Trolley(zamiast Belt) pula 0.885,
   Eugen 0.595, h2h vs Kazdel 0.510@400.
 - Bundle bundles/ptcg_v56_kazdel_a450.tar.gz GOTOWY. NIE WYSLANO (czeka na rozkaz usera).
+
+## Porównanie v56 vs v44 (gałąź c87, 2026-10-15) — nasz rig, FFI libcg
+- v44 = agents/c87_v44.py + decks/c87_v44.csv (31W, bez Trolleya/Beach; ich zmiany: bench guard + flood v2).
+- PULA duel16: v44 0.897 == v56 (Kazdel) 0.897; v44pilot+Kazdel 0.893.
+- Duel pełnych pakietów 600g: v56 vs v44 = 0.472 (szum ±3pp).
+- Pilot delta (ta sama talia Kazdela) 600g: 0.498 — piloci równi.
+- Deck delta: Kazdel lepszy od decku v44 o +1.7pp (pilot v44) i +2.0pp (pilot v55), po 600g.
+- Werdykt: brak przewagi v44; v56 (Kazdel) zostaje kandydatem. Ich claimy (top30 0.908/broad 0.699) na ich rigu.
