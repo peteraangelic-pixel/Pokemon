@@ -6,138 +6,138 @@ Outdir: pokemon-agent/kaggle_results/top50_fresh
   Leaderboard: 370 teams
 
 Top 50 teams (processing 10):
-  11. sue124 (id=16982182) score=1114.1
-  12. Darren Sheehan (id=17003892) score=1114.1
-  13. agent_pokemon (id=17080215) score=1105.1
-  14. Leon Liu (id=16986055) score=1101.2
-  15. Bill Vlasak (id=17071115) score=1100.6
-  16. Adisak Sukul (id=17015576) score=1095.1
-  17. Kentaro Totsuka (id=16991525) score=1088.8
-  18. Cristobal Tudela (id=17062195) score=1080.0
-  19. Mathieu W (id=17055574) score=1066.9
-  20. Majiro_ns (id=17055992) score=1058.7
+  21. Zedan Soorya (id=17058599) score=1048.3
+  22. YOUKE144 (id=17073677) score=1047.1
+  23. Dariush Afshar (id=17074836) score=1039.6
+  24. Xinyu Li (id=17032277) score=1037.2
+  25. Hawksartelier (id=17034316) score=1036.7
+  26. Tys TANA (id=17013846) score=1035.8
+  27. Briano (id=17010375) score=1035.1
+  28. Prime Directive (id=17032923) score=1034.4
+  29. Mathurin Ache (id=16983339) score=1033.6
+  30. Colton Martin (id=17044570) score=1027.3
 
-11. sue124 (team_id=16982182) — fetching submissions...
+21. Zedan Soorya (team_id=17058599) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57214686 — listing episodes...
-      Found 77 episodes; team selected so far 0/7
+    Submission 57071580 — listing episodes...
+      Found 424 episodes; team selected so far 0/7
 
-12. Darren Sheehan (team_id=17003892) — fetching submissions...
+22. YOUKE144 (team_id=17073677) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57145542 — listing episodes...
-      Found 210 episodes; team selected so far 0/7
+    Submission 57124631 — listing episodes...
+      Found 272 episodes; team selected so far 0/7
 
-13. agent_pokemon (team_id=17080215) — fetching submissions...
-  Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57062974 — listing episodes...
-      Found 415 episodes; team selected so far 0/7
+23. Dariush Afshar (team_id=17074836) — fetching submissions...
+  Found 1 submissions, mining latest 1; quota=7/team
+    Submission 57035621 — listing episodes...
+      Found 498 episodes; team selected so far 0/7
 
-14. Leon Liu (team_id=16986055) — fetching submissions...
+24. Xinyu Li (team_id=17032277) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 56719905 — listing episodes...
-      Found 1000 episodes; team selected so far 0/7
+    Submission 57063732 — listing episodes...
+      Found 407 episodes; team selected so far 0/7
 
-15. Bill Vlasak (team_id=17071115) — fetching submissions...
+25. Hawksartelier (team_id=17034316) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57165293 — listing episodes...
-      Found 158 episodes; team selected so far 0/7
+    Submission 57216756 — listing episodes...
+      Found 68 episodes; team selected so far 0/7
 
-16. Adisak Sukul (team_id=17015576) — fetching submissions...
+26. Tys TANA (team_id=17013846) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57159667 — listing episodes...
-      Found 177 episodes; team selected so far 0/7
+    Submission 57091788 — listing episodes...
+      Found 331 episodes; team selected so far 0/7
 
-17. Kentaro Totsuka (team_id=16991525) — fetching submissions...
+27. Briano (team_id=17010375) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57138158 — listing episodes...
-      Found 231 episodes; team selected so far 0/7
+    Submission 56994799 — listing episodes...
+      Found 570 episodes; team selected so far 0/7
 
-18. Cristobal Tudela (team_id=17062195) — fetching submissions...
+28. Prime Directive (team_id=17032923) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57148106 — listing episodes...
-      Found 207 episodes; team selected so far 0/7
+    Submission 57138752 — listing episodes...
+      Found 221 episodes; team selected so far 0/7
 
-19. Mathieu W (team_id=17055574) — fetching submissions...
+29. Mathurin Ache (team_id=16983339) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57118410 — listing episodes...
-      Found 261 episodes; team selected so far 0/7
+    Submission 57097764 — listing episodes...
+      Found 331 episodes; team selected so far 0/7
 
-20. Majiro_ns (team_id=17055992) — fetching submissions...
+30. Colton Martin (team_id=17044570) — fetching submissions...
   Found 2 submissions, mining latest 2; quota=7/team
-    Submission 57120297 — listing episodes...
-      Found 275 episodes; team selected so far 0/7
+    Submission 56969818 — listing episodes...
+      Found 600 episodes; team selected so far 0/7
 
 Phase 2: downloading unique episodes 0:68 of 68
-  [1/68] Downloaded 124441882 -> episode-124441882-replay.json
-  [2/68] Downloaded 124440135 -> episode-124440135-replay.json
-  [3/68] Downloaded 124439940 -> episode-124439940-replay.json
-  [4/68] Downloaded 124439888 -> episode-124439888-replay.json
-  [5/68] Downloaded 124438461 -> episode-124438461-replay.json
-  [6/68] Downloaded 124437616 -> episode-124437616-replay.json
-  [7/68] Downloaded 124437776 -> episode-124437776-replay.json
-  [8/68] Downloaded 124442168 -> episode-124442168-replay.json
-  [9/68] Downloaded 124442149 -> episode-124442149-replay.json
-  [10/68] Downloaded 124440100 -> episode-124440100-replay.json
-  [11/68] Downloaded 124440153 -> episode-124440153-replay.json
-  [12/68] Downloaded 124438814 -> episode-124438814-replay.json
-  [13/68] Downloaded 124438273 -> episode-124438273-replay.json
-  [14/68] Downloaded 124437202 -> episode-124437202-replay.json
-  [15/68] Downloaded 124441481 -> episode-124441481-replay.json
-  [16/68] Downloaded 124440386 -> episode-124440386-replay.json
-  [17/68] Downloaded 124439899 -> episode-124439899-replay.json
-  [18/68] Downloaded 124439659 -> episode-124439659-replay.json
-  [19/68] Downloaded 124438462 -> episode-124438462-replay.json
-  [20/68] Downloaded 124437458 -> episode-124437458-replay.json
-  [21/68] Downloaded 124436748 -> episode-124436748-replay.json
-  [22/68] Downloaded 124441880 -> episode-124441880-replay.json
-  [23/68] Downloaded 124438673 -> episode-124438673-replay.json
-  [24/68] Downloaded 124437632 -> episode-124437632-replay.json
-  [25/68] Downloaded 124436677 -> episode-124436677-replay.json
-  [26/68] Downloaded 124435902 -> episode-124435902-replay.json
-  [27/68] Downloaded 124435838 -> episode-124435838-replay.json
-  [28/68] Downloaded 124440623 -> episode-124440623-replay.json
-  [29/68] Downloaded 124439228 -> episode-124439228-replay.json
-  [30/68] Downloaded 124437821 -> episode-124437821-replay.json
-  [31/68] Downloaded 124436900 -> episode-124436900-replay.json
-  [32/68] Downloaded 124436514 -> episode-124436514-replay.json
-  [33/68] Downloaded 124435695 -> episode-124435695-replay.json
-  [34/68] Downloaded 124441510 -> episode-124441510-replay.json
-  [35/68] Downloaded 124439718 -> episode-124439718-replay.json
-  [36/68] Downloaded 124438447 -> episode-124438447-replay.json
-  [37/68] Downloaded 124437353 -> episode-124437353-replay.json
-  [38/68] Downloaded 124437318 -> episode-124437318-replay.json
-  [39/68] Downloaded 124437081 -> episode-124437081-replay.json
-  [40/68] Downloaded 124436250 -> episode-124436250-replay.json
-  [41/68] Downloaded 124442703 -> episode-124442703-replay.json
-  [42/68] Downloaded 124440394 -> episode-124440394-replay.json
-  [43/68] Downloaded 124439020 -> episode-124439020-replay.json
-  [44/68] Downloaded 124437817 -> episode-124437817-replay.json
-  [45/68] Downloaded 124436889 -> episode-124436889-replay.json
-  [46/68] Downloaded 124436750 -> episode-124436750-replay.json
-  [47/68] Downloaded 124436628 -> episode-124436628-replay.json
-  [48/68] Downloaded 124441815 -> episode-124441815-replay.json
-  [49/68] Downloaded 124440567 -> episode-124440567-replay.json
-  [50/68] Downloaded 124440154 -> episode-124440154-replay.json
-  [51/68] Downloaded 124438817 -> episode-124438817-replay.json
-  [52/68] Downloaded 124438444 -> episode-124438444-replay.json
-  [53/68] Downloaded 124438139 -> episode-124438139-replay.json
-  [54/68] Downloaded 124437453 -> episode-124437453-replay.json
-  [55/68] Downloaded 124442189 -> episode-124442189-replay.json
-  [56/68] Downloaded 124441513 -> episode-124441513-replay.json
-  [57/68] Downloaded 124440353 -> episode-124440353-replay.json
-  [58/68] Downloaded 124438861 -> episode-124438861-replay.json
-  [59/68] Downloaded 124437929 -> episode-124437929-replay.json
-  [60/68] Downloaded 124437625 -> episode-124437625-replay.json
-  [61/68] Downloaded 124437322 -> episode-124437322-replay.json
-  [62/68] Downloaded 124441151 -> episode-124441151-replay.json
-  [63/68] Downloaded 124440875 -> episode-124440875-replay.json
-  [64/68] Downloaded 124439456 -> episode-124439456-replay.json
-  [65/68] Downloaded 124438677 -> episode-124438677-replay.json
-  [66/68] Downloaded 124437630 -> episode-124437630-replay.json
-  [67/68] Downloaded 124437628 -> episode-124437628-replay.json
-  [68/68] Downloaded 124436675 -> episode-124436675-replay.json
+  [1/68] Downloaded 124442723 -> episode-124442723-replay.json
+  [2/68] Downloaded 124440862 -> episode-124440862-replay.json
+  [3/68] Downloaded 124440866 -> episode-124440866-replay.json
+  [4/68] Downloaded 124439433 -> episode-124439433-replay.json
+  [5/68] Downloaded 124439014 -> episode-124439014-replay.json
+  [6/68] Downloaded 124438090 -> episode-124438090-replay.json
+  [7/68] Downloaded 124437632 -> episode-124437632-replay.json
+  [8/68] Downloaded 124442701 -> episode-124442701-replay.json
+  [9/68] Downloaded 124441803 -> episode-124441803-replay.json
+  [10/68] Downloaded 124440873 -> episode-124440873-replay.json
+  [11/68] Downloaded 124439455 -> episode-124439455-replay.json
+  [12/68] Downloaded 124438147 -> episode-124438147-replay.json
+  [13/68] Downloaded 124438094 -> episode-124438094-replay.json
+  [14/68] Downloaded 124437925 -> episode-124437925-replay.json
+  [15/68] Downloaded 124443150 -> episode-124443150-replay.json
+  [16/68] Downloaded 124441168 -> episode-124441168-replay.json
+  [17/68] Downloaded 124440581 -> episode-124440581-replay.json
+  [18/68] Downloaded 124439041 -> episode-124439041-replay.json
+  [19/68] Downloaded 124438151 -> episode-124438151-replay.json
+  [20/68] Downloaded 124437503 -> episode-124437503-replay.json
+  [21/68] Downloaded 124436618 -> episode-124436618-replay.json
+  [22/68] Downloaded 124442168 -> episode-124442168-replay.json
+  [23/68] Downloaded 124441476 -> episode-124441476-replay.json
+  [24/68] Downloaded 124440560 -> episode-124440560-replay.json
+  [25/68] Downloaded 124439863 -> episode-124439863-replay.json
+  [26/68] Downloaded 124438804 -> episode-124438804-replay.json
+  [27/68] Downloaded 124438462 -> episode-124438462-replay.json
+  [28/68] Downloaded 124443161 -> episode-124443161-replay.json
+  [29/68] Downloaded 124442676 -> episode-124442676-replay.json
+  [30/68] Downloaded 124442148 -> episode-124442148-replay.json
+  [31/68] Downloaded 124441815 -> episode-124441815-replay.json
+  [32/68] Downloaded 124441478 -> episode-124441478-replay.json
+  [33/68] Downloaded 124440816 -> episode-124440816-replay.json
+  [34/68] Downloaded 124441154 -> episode-124441154-replay.json
+  [35/68] Downloaded 124442686 -> episode-124442686-replay.json
+  [36/68] Downloaded 124441510 -> episode-124441510-replay.json
+  [37/68] Downloaded 124440338 -> episode-124440338-replay.json
+  [38/68] Downloaded 124439720 -> episode-124439720-replay.json
+  [39/68] Downloaded 124439440 -> episode-124439440-replay.json
+  [40/68] Downloaded 124438136 -> episode-124438136-replay.json
+  [41/68] Downloaded 124437162 -> episode-124437162-replay.json
+  [42/68] Downloaded 124441535 -> episode-124441535-replay.json
+  [43/68] Downloaded 124439894 -> episode-124439894-replay.json
+  [44/68] Downloaded 124439722 -> episode-124439722-replay.json
+  [45/68] Downloaded 124438665 -> episode-124438665-replay.json
+  [46/68] Downloaded 124437609 -> episode-124437609-replay.json
+  [47/68] Downloaded 124437483 -> episode-124437483-replay.json
+  [48/68] Downloaded 124437461 -> episode-124437461-replay.json
+  [49/68] Downloaded 124442703 -> episode-124442703-replay.json
+  [50/68] Downloaded 124440397 -> episode-124440397-replay.json
+  [51/68] Downloaded 124439015 -> episode-124439015-replay.json
+  [52/68] Downloaded 124437813 -> episode-124437813-replay.json
+  [53/68] Downloaded 124437074 -> episode-124437074-replay.json
+  [54/68] Downloaded 124437066 -> episode-124437066-replay.json
+  [55/68] Downloaded 124436285 -> episode-124436285-replay.json
+  [56/68] Downloaded 124441205 -> episode-124441205-replay.json
+  [57/68] Downloaded 124440796 -> episode-124440796-replay.json
+  [58/68] Downloaded 124440827 -> episode-124440827-replay.json
+  [59/68] Downloaded 124440637 -> episode-124440637-replay.json
+  [60/68] Downloaded 124439234 -> episode-124439234-replay.json
+  [61/68] Downloaded 124439009 -> episode-124439009-replay.json
+  [62/68] Downloaded 124438620 -> episode-124438620-replay.json
+  [63/68] Downloaded 124441824 -> episode-124441824-replay.json
+  [64/68] Downloaded 124439909 -> episode-124439909-replay.json
+  [65/68] Downloaded 124438504 -> episode-124438504-replay.json
+  [66/68] Downloaded 124437448 -> episode-124437448-replay.json
+  [67/68] Downloaded 124437067 -> episode-124437067-replay.json
+  [68/68] Downloaded 124436674 -> episode-124436674-replay.json
 
 Zipping replay files into pokemon-agent/kaggle_results/top50_fresh/TOP10.zip...
-  Zip size: 22.8 MB
+  Zip size: 26.6 MB
 
 Done. Selected 70 rows (68 unique episodes) for top 50; teams_with_quota=10, new=68, reused=0, failed=0.
