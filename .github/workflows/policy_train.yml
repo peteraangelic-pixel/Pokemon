@@ -48,7 +48,9 @@ jobs:
           cd pokemon-agent
           python3 -m venv .venv
           .venv/bin/pip install --quiet --upgrade pip
-          .venv/bin/pip install --quiet "kaggle-environments==1.33.0" "jax[cpu]" numpy
+          .venv/bin/pip install "kaggle-environments" "jax[cpu]" numpy 2>&1 | tail -5
+          .venv/bin/pip show kaggle-environments | head -2
+          python3 --version
           LIB=$(find .venv -name libcg.so | head -1)
           echo "engine lib: $LIB"
           mkdir -p libs
