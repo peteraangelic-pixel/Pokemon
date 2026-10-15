@@ -1,0 +1,29 @@
++ cd pokemon-agent
++ python3 -m venv .venv
++ .venv/bin/pip install --quiet --upgrade pip
++ tail -5
++ .venv/bin/pip install kaggle-environments 'jax[cpu]' numpy
+    Found existing installation: setuptools 59.6.0
+    Uninstalling setuptools-59.6.0:
+      Successfully uninstalled setuptools-59.6.0
+
+Successfully installed Chessnut-0.4.1 Flask-3.1.3 absl-py-2.5.1 accelerate-1.15.0 aiofiles-25.1.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 async-timeout-5.0.1 attrs-26.1.0 bitsandbytes-0.50.2 blinker-1.9.0 boto3-1.43.114 botocore-1.43.114 certifi-2026.7.22 charset_normalizer-3.5.2 chex-0.1.90 click-8.5.0 cloudpickle-3.1.2 contourpy-1.3.2 cuda-bindings-13.4.4 cuda-pathfinder-1.8.3 cuda-toolkit-13.0.3.0 cycler-0.12.1 distro-1.9.0 etils-1.13.0 exceptiongroup-1.3.1 farama-notifications-0.0.6 fastuuid-0.14.0 filelock-3.32.7 flax-0.10.7 fonttools-4.65.0 frozenlist-1.8.0 fsspec-2026.9.0 gym-0.26.2 gym_notices-0.1.0 gymnasium-1.2.0 gymnax-0.0.8 h11-0.16.0 h2-4.4.1 hf-xet-1.7.0 hpack-4.2.0 httpcore-1.0.9 httpx-0.28.1 huggingface-hub-1.33.0 humanize-4.16.0 hyperframe-6.1.0 idna-3.20 importlib-metadata-8.9.0 importlib_resources-7.1.0 itsdangerous-2.2.0 jax-0.6.2 jaxlib-0.6.2 jinja2-3.1.6 jiter-0.17.0 jmespath-1.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kaggle-environments-1.20.1 kiwisolver-1.5.1 litellm-1.105.1 markdown-it-py-4.2.0 markupsafe-3.0.4 matplotlib-3.10.9 mdurl-0.1.2 ml-collections-1.1.0 ml_dtypes-0.6.0 mpmath-1.3.0 msgpack-1.2.3 multidict-7.1.0 networkx-3.4.2 numpy-2.2.6 nvidia-cublas-13.1.1.3 nvidia-cuda-cupti-13.0.85 nvidia-cuda-nvrtc-13.0.88 nvidia-cuda-runtime-13.0.96 nvidia-cudnn-cu13-9.24.0.43 nvidia-cufft-12.0.0.61 nvidia-cufile-1.15.1.6 nvidia-curand-10.4.0.35 nvidia-cusolver-12.0.4.66 nvidia-cusparse-12.6.3.3 nvidia-cusparselt-cu13-0.8.1 nvidia-nccl-cu13-2.30.7 nvidia-nvjitlink-13.4.92 nvidia-nvshmem-cu13-3.4.5 nvidia-nvtx-13.0.85 open_spiel-1.6.11 openai-2.54.0 opt_einsum-3.4.0 optax-0.2.8 orbax-checkpoint-0.11.39 packaging-26.3 pandas-2.3.3 pettingzoo-1.24.0 pillow-12.3.0 propcache-0.5.4 protobuf-7.36.2 psutil-7.2.2 pydantic-2.14.1 pydantic-core-2.50.1 pydantic-settings-2.15.0 pygments-2.21.0 pyparsing-3.3.3 python-dateutil-2.9.0.post0 python-dotenv-1.2.4 pytz-2026.5 pyyaml-6.0.3 referencing-0.37.0 regex-2026.9.29 requests-2.34.2 rich-15.0.0 rpds-py-0.30.0 s3transfer-0.19.2 safetensors-0.8.0 scipy-1.15.3 seaborn-0.13.2 setuptools-84.0.0 shellingham-1.5.4 shimmy-2.0.1 simplejson-4.2.0 six-1.17.0 sniffio-1.3.1 stable-baselines3-2.7.0 sympy-1.14.0 tensorstore-0.1.78 tiktoken-0.14.0 tokenizers-0.23.3 tomli-2.5.0 toolz-1.2.0 torch-2.14.1 tqdm-4.70.1 transformers-5.19.0 treescope-0.1.10 triton-3.8.0 typer-0.27.3 typing-extensions-4.16.0 typing-inspection-0.4.4 tzdata-2026.5 urllib3-2.8.0 uvloop-0.23.0 werkzeug-3.1.9 yarl-1.25.1 zipp-4.1.1
++ .venv/bin/pip show kaggle-environments
++ head -2
+Name: kaggle-environments
+Version: 1.20.1
+ERROR: Pipe to stdout was broken
++ python3 --version
+Python 3.10.12
+++ find .venv -name libcg.so
+++ head -1
++ LIB=.venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ echo 'engine lib: .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/libcg.so'
+engine lib: .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ mkdir -p libs
++ cp .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/libcg.so libs/libcg.so
+++ dirname .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ echo CG_DIR=.venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg
++ ls -lh libs/
+total 892K
+-rw-r--r-- 1 runner runner 891K Oct 15 17:46 libcg.so

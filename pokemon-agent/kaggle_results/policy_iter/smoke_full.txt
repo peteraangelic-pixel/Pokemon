@@ -1,0 +1,33 @@
++ cd pokemon-agent
++ ls -l libs/
+total 892
+-rw-r--r-- 1 runner runner 912328 Oct 15 17:46 libcg.so
++ md5sum libs/libcg.so .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
+43a8d5a1a144d62b44c821f10f156cb9  libs/libcg.so
+43a8d5a1a144d62b44c821f10f156cb9  .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
++ echo '--- python FFI one game ---'
+--- python FFI one game ---
++ .venv/bin/python -
++ tee policy_pycheck.txt
+[kaggle_environments.envs.open_spiel.open_spiel] INFO: Successfully loaded OpenSpiel environments: 6.
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_chess
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_connect_four
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_gin_rummy
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_go
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_tic_tac_toe
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_universal_poker
+[kaggle_environments.envs.open_spiel.open_spiel] INFO: OpenSpiel games skipped: 0.
+deck len 60
+battlePtr None errP 0 errT 1
++ echo '--- direct package dir ---'
+--- direct package dir ---
++ ./rust/target/release/policy_rollout --lib-dir .venv/lib/python3.10/site-packages/kaggle_environments/envs/cabt/cg --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 20 --jobs 1 --mode eval --league-frac 1.0
++ tee policy_smoke_pkg.txt
+BATTLESTART ERR: BattleStart null error_player=0 error_type=1
+games=20 valid=0 seat0_wr=0.000 elapsed=0.0s games_per_sec=0.0 err[start=20 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '--- copied lib dir ---'
+--- copied lib dir ---
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_seed.json --opp-weights tools/policy_seed.json --decks decks/v57_trolley34w.csv --games 20 --jobs 1 --mode eval --league-frac 1.0
++ tee policy_smoke.txt
+BATTLESTART ERR: BattleStart null error_player=0 error_type=1
+games=20 valid=0 seat0_wr=0.000 elapsed=0.0s games_per_sec=0.0 err[start=20 select=0 nosel=0 steps=0 panic=0 emptyopt=0]

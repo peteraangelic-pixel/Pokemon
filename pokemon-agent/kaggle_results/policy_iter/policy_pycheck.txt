@@ -1,0 +1,10 @@
+[kaggle_environments.envs.open_spiel.open_spiel] INFO: Successfully loaded OpenSpiel environments: 6.
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_chess
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_connect_four
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_gin_rummy
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_go
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_tic_tac_toe
+[kaggle_environments.envs.open_spiel.open_spiel] INFO:    open_spiel_universal_poker
+[kaggle_environments.envs.open_spiel.open_spiel] INFO: OpenSpiel games skipped: 0.
+deck len 60
+battlePtr None errP 0 errT 1
