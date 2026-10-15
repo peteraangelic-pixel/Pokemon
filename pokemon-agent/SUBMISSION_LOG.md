@@ -1779,3 +1779,9 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
   (Mysterious Rock Inn = immunitet na ex; Kyogre 130dmg vs 150HP + discard energii): v56T 0.213, v60 0.130 (!), v61 0.213.
   Czyli v60 (ich champion) POGARSZA glowny live-matchup. v61 = v56T na killerach (0.730 vs 0.719).
 - Probne odpowiedzi: Kyo4 (-2Petrel +2Kyogre) 0.277-0.317 vs Shaun; Boss 0.267; deck v55 (Baxcalibur) 0.227. Brak pelnej rewalidacji Kyo4.
+
+## v56T pobrania replayow (2026-10-15 po poludniu)
+- 2 wlasne proby pobrania (skip-existing + bezpiecznik): GetEpisodeReplay nadal 429 przy kazdej probie.
+  Limit konta/tokenu spalony (dzis ~400 pobran + setki prob z obu sesji). Na dysku 10/59 replayow v56T.
+- Mu: 605 -> 570 -> 508 -> 428.1 (rank 283). WR z metadanych ~0.40; wynik osiada do niskich 400.
+- c87 niezaleznie doszlo do Kyo4 wallfix (+11pp vs Shaun) — zbiezna diagnoza.
