@@ -1,0 +1,97 @@
+name: ARC3 submit duck v3
+
+# Submit existing duck v3 kernel to competition (no GPU needed)
+# Kernel: petersharps/arc3-duck version 3 (smoke 29.02, never on LB)
+#
+# FIRE IT: commit a change to arc-agi-3/duck/.submit-v3.trigger
+#          or Run workflow in the GitHub UI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/duck/.submit-v3.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Kaggle CLI
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -z "$KAGGLE_API_TOKEN" ]; then
+            echo "::error title=Kaggle::brak KAGGLE_API_TOKEN w secrets"
+            exit 1
+          fi
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      - name: Check submission limits
+        run: |
+          kaggle competitions submissions -c arc-prize-2026-arc-agi-3 --csv > limits.csv 2>&1 || true
+          echo "=== Current submissions ==="
+          cat limits.csv
+          echo
+          REM=$(grep -oiE 'Remaining today: *[0-9]+' limits.csv 2>/dev/null | grep -oE '[0-9]+' | head -1)
+          echo "Remaining today: ${REM:-unknown}"
+
+      - name: Submit duck v3
+        run: |
+          set +e
+          kaggle competitions submit \
+            -c arc-prize-2026-arc-agi-3 \
+            -k petersharps/arc3-duck \
+            -v 3 \
+            -f submission.parquet \
+            -m "duck v3 (smoke 29.02, world model patch 0002) - kalibracja smoke→LB" \
+            2>&1 | tee submit-v3.log
+          CODE=${PIPESTATUS[0]}
+          set -e
+          echo "Submit exit code: $CODE"
+          cat submit-v3.log
+
+      - name: Record results
+        run: |
+          kaggle competitions submissions -c arc-prize-2026-arc-agi-3 --csv > submissions.csv 2>&1 || true
+          echo "=== Updated submissions ==="
+          cat submissions.csv
+
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "### Duck v3 submit result"
+            echo '```'
+            tail -15 submit-v3.log 2>/dev/null || echo "(brak)"
+            echo '```'
+            echo
+            echo "### Updated submissions"
+            echo '```'
+            head -10 submissions.csv 2>/dev/null || echo "(brak)"
+            echo '```'
+          } > /tmp/ann.md
+          python3 - <<'PY'
+          body = open('/tmp/ann.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=ARC3 duck v3 submit::{body[:3000]}")
+          PY
