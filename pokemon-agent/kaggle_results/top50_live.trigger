@@ -1,1 +1,1 @@
-top50 FRESH batch4/5 ranks31-40: top_n=50 replays_per_team=7 subs_per_team=2 max_files=400 delay=1.0 rank_start=31 rank_end=40 outdir=pokemon-agent/kaggle_results/top50_fresh extract_out=pokemon-agent/decks/top50_fresh clean=0
+top50 FRESH batch5/5 ranks41-50: top_n=50 replays_per_team=7 subs_per_team=2 max_files=400 delay=1.0 rank_start=41 rank_end=50 outdir=pokemon-agent/kaggle_results/top50_fresh extract_out=pokemon-agent/decks/top50_fresh clean=0
