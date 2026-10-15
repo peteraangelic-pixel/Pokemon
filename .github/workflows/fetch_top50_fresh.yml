@@ -1,0 +1,169 @@
+name: fetch-top50-fresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      replays_per_team:
+        description: "Replays per team"
+        default: "2"
+  push:
+    branches: ["arena/c87f7a48-pokemon", "arena/a450b00f-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/fetch_top50.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+          elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            python3 - "$KAGGLE_USERNAME" "$KAGGLE_KEY" <<'PY'
+          import json, os
+          json.dump({"username": os.environ["KAGGLE_USERNAME"], "key": os.environ["KAGGLE_KEY"]}, open(os.path.expanduser("~/.kaggle/kaggle.json"), "w"))
+          PY
+            chmod 600 ~/.kaggle/kaggle.json
+          else
+            echo "no auth" && exit 1
+          fi
+
+      - name: Fetch leaderboard fresh
+        run: |
+          cd pokemon-agent
+          mkdir -p kaggle_results
+          kaggle competitions leaderboard show -c the-pokemon-company-ptcg-ai-battle-challenge-playground --csv > kaggle_results/leaderboard.csv || true
+          head -20 kaggle_results/leaderboard.csv
+
+      - name: Fetch top50 replays
+        run: |
+          cd pokemon-agent
+          python3 - <<'PY'
+          import csv, pathlib
+          lb=pathlib.Path("kaggle_results/leaderboard.csv")
+          rows=list(csv.DictReader(open(lb, encoding="utf-8-sig")))
+          top50=sorted(rows, key=lambda r: int(r.get("Rank",9999)))[:50]
+          ids=[r["TeamId"] for r in top50]
+          print(f"Top50 TeamIds: {ids[:10]} ... total {len(ids)}")
+          pathlib.Path("kaggle_results/top50_ids.txt").write_text("\n".join(ids))
+          PY
+          mkdir -p kaggle_results/top50_fresh
+          python3 tools/download_by_team_ids.py --team-ids $(cat kaggle_results/top50_ids.txt | tr '\n' ' ') --replays-per-team ${{ inputs.replays_per_team || '2' }} --outdir kaggle_results/top50_fresh --delay 3.0 2>&1 | tee kaggle_results/top50_fresh/fetch.log
+          ls -lh kaggle_results/top50_fresh/ | tail -30
+          cat kaggle_results/top50_fresh/manifest.csv | head -20
+
+      - name: Build top50_live decks from fresh replays
+        run: |
+          cd pokemon-agent
+          python3 tools/build_top50.py 2>&1 | tee kaggle_results/top50_fresh/build.log || true
+          # Also try building from top50_fresh dir
+          python3 - <<'PY'
+          import csv, json, pathlib
+          from pathlib import Path
+          ROOT=Path(".")
+          KAGGLE=ROOT/"kaggle_results"
+          # Load leaderboard
+          lb_path=KAGGLE/"leaderboard.csv"
+          lb={}
+          import csv
+          with open(lb_path, encoding="utf-8-sig") as fh:
+              for row in csv.DictReader(fh):
+                  try:
+                      lb[row["TeamName"].strip()]=(int(row["Rank"]), float(row["Score"]), row["TeamId"])
+                  except:
+                      continue
+          top50=sorted(lb.items(), key=lambda kv: kv[1][0])[:50]
+          print(f"top50 from leaderboard {len(top50)}")
+          # Extract decks from top50_fresh + existing dirs
+          replay_dirs=[KAGGLE/"top50_fresh", KAGGLE/"replays", KAGGLE/"top10_live", KAGGLE/"rank90_100_live", KAGGLE/"our_replays"]
+          team_decks={}
+          def extract(p):
+              try:
+                  data=json.loads(p.read_text())
+              except:
+                  return
+              info=data.get("info") or {}
+              teams=info.get("TeamNames") or []
+              if len(teams)!=2:
+                  return
+              steps=data.get("steps") or []
+              found={}
+              for s in steps[:3]:
+                  for i, ps in enumerate(s):
+                      act=ps.get("action")
+                      if isinstance(act, list) and len(act)==60 and i not in found:
+                          found[i]=list(act)
+              if not found:
+                  return
+              ep=p.stem.replace("episode-","").replace("-replay","")
+              try:
+                  ep_int=int(ep) if ep.isdigit() else 0
+              except:
+                  ep_int=0
+              for idx, team in enumerate(teams):
+                  if idx in found:
+                      if team not in team_decks or team_decks[team][0]<ep_int:
+                          team_decks[team]=(ep_int, found[idx])
+          for d in replay_dirs:
+              if not d.exists():
+                  continue
+              for rp in d.glob("*.json"):
+                  extract(rp)
+          print(f"extracted {len(team_decks)} decks")
+          out_dir=Path("decks/top50_live_fresh")
+          out_dir.mkdir(parents=True, exist_ok=True)
+          manifest=[]
+          missing=[]
+          for name, (rank, score, tid) in top50:
+              if name in team_decks:
+                  ep, deck=team_decks[name]
+                  safe="".join(c if c.isalnum() or c in " _-" else "_" for c in name).strip().replace(" ","_")[:80]
+                  (out_dir/f"{safe}.csv").write_text("\n".join(map(str, deck))+"\n")
+                  manifest.append((rank, score, name, tid, ep, safe))
+              else:
+                  missing.append((rank, name, tid))
+          with open(out_dir/"_manifest.csv","w",newline="") as fh:
+              w=csv.writer(fh)
+              w.writerow(["rank","score","team","team_id","episode","file"])
+              w.writerows(manifest)
+          print(f"wrote {len(manifest)} fresh decks to {out_dir}, missing {len(missing)}")
+          for m in missing[:10]:
+              print(f"missing {m}")
+          PY
+          ls -lh decks/top50_live_fresh/ | head -20
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git add pokemon-agent/kaggle_results/leaderboard.csv pokemon-agent/kaggle_results/top50_fresh/ pokemon-agent/kaggle_results/top50_ids.txt pokemon-agent/decks/top50_live_fresh/ || true
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "chore(kaggle): top50 fresh replays + decks [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}" || echo "push failed"
+          else
+            echo "nothing to commit"
+          fi
