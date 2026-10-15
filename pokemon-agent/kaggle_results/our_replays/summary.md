@@ -1,15 +1,16 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T11:35:56.916528+00:00_
+_fetched 2026-10-15T11:40:18.833515+00:00_
 
 - Own submissions: 27
-- Episodes listed: 116
+- Episodes listed: 117
 - Replays downloaded (our last 80 per live sub): 0
 - Official dataset: none found (0 files)
 - Total JSON on disk: 392
 
 ## Recent episodes (our agents)
 
+- {'id': '124456362', 'createTime': '2026-10-15 11:34:31.376000', 'endTime': '2026-10-15 11:37:17.204000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124456125', 'createTime': '2026-10-15 11:30:30.497000', 'endTime': '2026-10-15 11:31:36.666000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124456153', 'createTime': '2026-10-15 11:30:30.534000', 'endTime': '2026-10-15 11:31:22.280000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124455880', 'createTime': '2026-10-15 11:26:30.489000', 'endTime': '2026-10-15 11:29:10.397000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
@@ -29,7 +30,6 @@ _fetched 2026-10-15T11:35:56.916528+00:00_
 - {'id': '124452321', 'createTime': '2026-10-15 10:30:35.345000', 'endTime': '2026-10-15 10:32:21.166000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124452051', 'createTime': '2026-10-15 10:26:35.746000', 'endTime': '2026-10-15 10:30:33.528000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 - {'id': '124451815', 'createTime': '2026-10-15 10:22:44.117000', 'endTime': '2026-10-15 10:26:19.730000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124451792', 'createTime': '2026-10-15 10:22:44.077000', 'endTime': '2026-10-15 10:23:41.439000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 
 ## Sample replay analysis (first 20)
 
