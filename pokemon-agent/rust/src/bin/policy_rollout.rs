@@ -61,7 +61,7 @@ impl Engine {
                 self._lib.get(b"BattleStart")?;
             let sd = func(cards.as_ptr());
             if sd.battle_ptr.is_null() {
-                anyhow::bail!("BattleStart null");
+                anyhow::bail!("BattleStart null error_player={} error_type={}", sd.error_player, sd.error_type);
             }
             self.battle_ptr = sd.battle_ptr;
             self.get_data()
@@ -636,8 +636,10 @@ fn play_game(
 ) -> (Vec<Rec>, i32) {
     let mut eng = match pool.checkout() {
         Ok(e) => e,
-        Err(_) => {
-            ERR_START.fetch_add(1, Ordering::Relaxed);
+        Err(e) => {
+            if ERR_START.fetch_add(1, Ordering::Relaxed) == 0 {
+                eprintln!("CHECKOUT ERR: {:?}", e);
+            }
             return (Vec::new(), -1);
         }
     };
@@ -647,7 +649,9 @@ fn play_game(
         cards.extend(cfg.deck0.iter().map(|&x| x as c_int));
         cards.extend(cfg.deck1.iter().map(|&x| x as c_int));
         let mut obs = eng.battle_start(&cards).map_err(|e| {
-            ERR_START.fetch_add(1, Ordering::Relaxed);
+            if ERR_START.fetch_add(1, Ordering::Relaxed) == 0 {
+                eprintln!("BATTLESTART ERR: {:?}", e);
+            }
             e
         })?;
         let mut rng = StdRng::seed_from_u64(cfg.seed);
