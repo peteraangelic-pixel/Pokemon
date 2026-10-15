@@ -109,7 +109,7 @@ jobs:
           exec >> pokemon-agent/kaggle_results/policy_iter/iter_full.txt 2>&1
           set -x
           GAMES="${{ inputs.games }}"; GAMES="${GAMES:-10000}"
-          EPS_IN="${{ inputs.eps }}"; EPS_IN="${EPS_IN:-0.15}"
+          EPS_IN="${{ inputs.eps }}"; EPS_IN="${EPS_IN:-0.08}"
           EPOCHS_IN="${{ inputs.epochs }}"; EPOCHS_IN="${EPOCHS_IN:-2}"
           export GAMES EPS_IN EPOCHS_IN
           set -eo pipefail
@@ -121,7 +121,7 @@ jobs:
           echo "=== rollout $GAMES games ==="
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
-            --weights tools/policy_seed.json \
+            --weights tools/policy_iter1.json \
             --decks policy_pool --games $GAMES --jobs 4 \
             --eps $EPS_IN --mode train --out kaggle_results/policy_iter/rollout.bin \
             2>&1 | tee kaggle_results/policy_iter/rollout_log.txt
@@ -133,16 +133,16 @@ jobs:
           echo "=== train (warm start) ==="
           .venv/bin/python tools/train_policy.py \
             --data kaggle_results/policy_iter/rollout.npz \
-            --init kaggle_results/policy_v58.npz \
-            --out kaggle_results/policy_iter/policy_iter1.npz \
-            --epochs $EPOCHS_IN --lr 5e-4 \
+            --init kaggle_results/policy_iter/policy_iter1.npz \
+            --out kaggle_results/policy_iter/policy_iter2.npz \
+            --epochs $EPOCHS_IN --lr 5e-4 --win-weight 2.0 \
             2>&1 | tee kaggle_results/policy_iter/train_log.txt
           .venv/bin/python tools/export_policy_json.py \
-            kaggle_results/policy_iter/policy_iter1.npz tools/policy_iter1.json
-          echo "=== gate: iter1 vs seed ==="
+            kaggle_results/policy_iter/policy_iter2.npz tools/policy_iter2.json
+          echo "=== gate: iter2 vs iter1 ==="
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index.json \
-            --weights tools/policy_iter1.json --opp-weights tools/policy_seed.json \
+            --weights tools/policy_iter2.json --opp-weights tools/policy_iter1.json \
             --decks policy_pool --games 2000 --jobs 4 \
             --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_iter/gate_log.txt
       - name: Commit results
