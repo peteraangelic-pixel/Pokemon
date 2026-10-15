@@ -56,14 +56,14 @@ jobs:
             --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
             --outdir pokemon-agent/kaggle_results/our_replays \
             --top-k 80 --no-official > /tmp/fetch.log 2>&1 \
-            || { echo "FETCH FAILED"; tail -60 /tmp/fetch.log; exit 1; }
-          echo "---- fetch.log tail ----"; tail -20 /tmp/fetch.log
+            || echo "FETCH FAILED (see fetch.log)"
+          cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch.log || true
+          echo "---- fetch.log tail ----"; tail -30 /tmp/fetch.log || true
           python pokemon-agent/tools/summarize_episodes.py \
             --outdir pokemon-agent/kaggle_results/our_replays > /tmp/summarize.log 2>&1 \
-            || { echo "SUMMARIZE FAILED"; tail -60 /tmp/summarize.log; exit 1; }
-          echo "---- summarize.log ----"; cat /tmp/summarize.log
-          cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch.log
-          cp /tmp/summarize.log pokemon-agent/kaggle_results/our_replays/summarize.log
+            || echo "SUMMARIZE FAILED (see summarize.log)"
+          cp /tmp/summarize.log pokemon-agent/kaggle_results/our_replays/summarize.log || true
+          echo "---- summarize.log ----"; cat /tmp/summarize.log || true
 
       - uses: actions/upload-artifact@v4
         if: always()
