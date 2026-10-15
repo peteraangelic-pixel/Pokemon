@@ -1,35 +1,35 @@
 # Replays — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-15T09:26:25.623908+00:00_
+_fetched 2026-10-15T11:26:26.517977+00:00_
 
-- Own submissions: 26
-- Episodes listed: 188
+- Own submissions: 27
+- Episodes listed: 113
 - Replays downloaded (our last 80 per live sub): 0
 - Official dataset: none found (0 files)
-- Total JSON on disk: 391
+- Total JSON on disk: 392
 
 ## Recent episodes (our agents)
 
-- {'id': '124446192', 'createTime': '2026-10-15 09:18:33.839000', 'endTime': '2026-10-15 09:20:34.543000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124443218', 'createTime': '2026-10-15 08:54:35.087000', 'endTime': '2026-10-15 08:58:19.708000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124440842', 'createTime': '2026-10-15 08:30:31.402000', 'endTime': '2026-10-15 08:36:07.912000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124439263', 'createTime': '2026-10-15 08:02:37.906000', 'endTime': '2026-10-15 08:05:52.174000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124439255', 'createTime': '2026-10-15 08:02:37.898000', 'endTime': '2026-10-15 08:05:19.934000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124438330', 'createTime': '2026-10-15 07:42:35.100000', 'endTime': '2026-10-15 07:46:11.014000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124437346', 'createTime': '2026-10-15 07:18:29.817000', 'endTime': '2026-10-15 07:20:38.927000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124436527', 'createTime': '2026-10-15 06:54:31.057000', 'endTime': '2026-10-15 06:56:59.382000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124435732', 'createTime': '2026-10-15 06:26:29.906000', 'endTime': '2026-10-15 06:29:42.681000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124435578', 'createTime': '2026-10-15 06:22:32.063000', 'endTime': '2026-10-15 06:24:36.276000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124434694', 'createTime': '2026-10-15 05:54:23.256000', 'endTime': '2026-10-15 05:58:40.303000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124434765', 'createTime': '2026-10-15 05:54:23.335000', 'endTime': '2026-10-15 05:56:35.105000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124434366', 'createTime': '2026-10-15 05:42:23.542000', 'endTime': '2026-10-15 05:44:25.430000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124433537', 'createTime': '2026-10-15 05:14:22.774000', 'endTime': '2026-10-15 05:18:25.047000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124432728', 'createTime': '2026-10-15 04:46:23.552000', 'endTime': '2026-10-15 04:49:35.900000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431997', 'createTime': '2026-10-15 04:22:25.080000', 'endTime': '2026-10-15 04:26:21.631000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431390', 'createTime': '2026-10-15 04:02:23.232000', 'endTime': '2026-10-15 04:05:45.755000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431399', 'createTime': '2026-10-15 04:02:23.246000', 'endTime': '2026-10-15 04:03:44.904000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431265', 'createTime': '2026-10-15 03:58:21.551000', 'endTime': '2026-10-15 04:00:04.780000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
-- {'id': '124431288', 'createTime': '2026-10-15 03:58:21.579000', 'endTime': '2026-10-15 03:59:41.698000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124455385', 'createTime': '2026-10-15 11:18:30.468000', 'endTime': '2026-10-15 11:23:56.614000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124455638', 'createTime': '2026-10-15 11:22:35.194000', 'endTime': '2026-10-15 11:23:52.193000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124455138', 'createTime': '2026-10-15 11:14:32.170000', 'endTime': '2026-10-15 11:18:56.959000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124454892', 'createTime': '2026-10-15 11:10:31.936000', 'endTime': '2026-10-15 11:15:14.781000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124454635', 'createTime': '2026-10-15 11:06:31.011000', 'endTime': '2026-10-15 11:10:05.439000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124454384', 'createTime': '2026-10-15 11:02:39.935000', 'endTime': '2026-10-15 11:07:06.484000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124454118', 'createTime': '2026-10-15 10:58:32.166000', 'endTime': '2026-10-15 10:59:47.236000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124453874', 'createTime': '2026-10-15 10:54:32.982000', 'endTime': '2026-10-15 10:59:05.274000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124453625', 'createTime': '2026-10-15 10:50:31.734000', 'endTime': '2026-10-15 10:54:59.022000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124453381', 'createTime': '2026-10-15 10:46:31.763000', 'endTime': '2026-10-15 10:49:50.879000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124453124', 'createTime': '2026-10-15 10:42:36.245000', 'endTime': '2026-10-15 10:46:03.430000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124452866', 'createTime': '2026-10-15 10:38:33.319000', 'endTime': '2026-10-15 10:40:47.252000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124452583', 'createTime': '2026-10-15 10:34:35.339000', 'endTime': '2026-10-15 10:38:43.905000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124452321', 'createTime': '2026-10-15 10:30:35.345000', 'endTime': '2026-10-15 10:32:21.166000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124452051', 'createTime': '2026-10-15 10:26:35.746000', 'endTime': '2026-10-15 10:30:33.528000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124451815', 'createTime': '2026-10-15 10:22:44.117000', 'endTime': '2026-10-15 10:26:19.730000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124451792', 'createTime': '2026-10-15 10:22:44.077000', 'endTime': '2026-10-15 10:23:41.439000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124451521', 'createTime': '2026-10-15 10:18:38.086000', 'endTime': '2026-10-15 10:20:14.942000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124451250', 'createTime': '2026-10-15 10:14:32.243000', 'endTime': '2026-10-15 10:18:59.566000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
+- {'id': '124450972', 'createTime': '2026-10-15 10:10:30.979000', 'endTime': '2026-10-15 10:11:10.973000', 'state': 'EpisodeState.COMPLETED', 'type': 'EpisodeType.EPISODE_TYPE_PUBLIC'}
 
 ## Sample replay analysis (first 20)
 
