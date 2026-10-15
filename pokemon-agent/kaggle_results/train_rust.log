@@ -1,0 +1,3 @@
+data: 2790 decisions (train 2566, val 224)
+ep0: train_acc~0.569 val_acc=0.549 (3s)
+saved -> kaggle_results/policy_rust.npz

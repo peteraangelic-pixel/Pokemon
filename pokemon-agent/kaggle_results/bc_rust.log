@@ -1,0 +1,58 @@
+=== gen_bc_data_rust starting ===
+Args: Args { card_index: "assets/card_index.json", deck_pool_dir: "decks", out: "kaggle_results/bc_data_rust.npz", games: 20, jobs: 1, lib_path: ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", seed: 7 }
+Loaded 1431 cards, 1755 attacks
+Deck pool: 21 files
+  pool: "decks/v56_tuned_34W.csv"
+  pool: "decks/v12_30_boss4.csv"
+  pool: "decks/top50_fresh22/Yasuhiro_Manai__124441801.csv"
+  pool: "decks/top50_fresh22/Mathieu_W__124442189.csv"
+  pool: "decks/top50_fresh22/Adisak_Sukul__124441510.csv"
+  pool: "decks/top50_fresh22/yu_kuo14__124443684.csv"
+  pool: "decks/top50_fresh22/Xinyu_Li__124442168.csv"
+  pool: "decks/top50_fresh22/Raja_Biswas__124442141.csv"
+  pool: "decks/top50_fresh22/agent_pokemon__124441481.csv"
+  pool: "decks/top50_fresh22/Santiago_Maniches__124444160.csv"
+  pool: "decks/top50_fresh22/Tys_TANA__124442686.csv"
+  pool: "decks/top50_fresh22/Stephen_Schott__124441825.csv"
+  pool: "decks/top50_fresh22/kimchikingdom__124442718.csv"
+  pool: "decks/top50_fresh22/choqui62__124441864.csv"
+  pool: "decks/top50_fresh22/Mathurin_Ache__124441205.csv"
+  pool: "decks/top50_fresh22/sue124__124441882.csv"
+  pool: "decks/top50_fresh22/YumeNeko__124441538.csv"
+  pool: "decks/top50_fresh22/kleber_1703__124444149.csv"
+  pool: "decks/top50_fresh22/Mengfei_Li__124443723.csv"
+  pool: "decks/top50_fresh22/hotaq__124443720.csv"
+  pool: "decks/live_killers/DEFAULT_Don't_foget_me_124427116.csv"
+Loaded 21 valid decks
+Lib path: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
+Creating Engine once...
+Engine created OK
+--- Game 1/20 starting ---
+--- Game 2/20 starting ---
+--- Game 3/20 starting ---
+--- Game 4/20 starting ---
+--- Game 5/20 starting ---
+--- Game 6/20 starting ---
+--- Game 7/20 starting ---
+--- Game 8/20 starting ---
+--- Game 9/20 starting ---
+--- Game 10/20 starting ---
+Progress 10/20 games, 1623 decisions, 0.3s (39.4 games/s)
+--- Game 11/20 starting ---
+--- Game 12/20 starting ---
+--- Game 13/20 starting ---
+--- Game 14/20 starting ---
+--- Game 15/20 starting ---
+--- Game 16/20 starting ---
+--- Game 17/20 starting ---
+--- Game 18/20 starting ---
+--- Game 19/20 starting ---
+--- Game 20/20 starting ---
+Progress 20/20 games, 2790 decisions, 0.4s (46.5 games/s)
+Total: 20 games, 2790 decisions in 0.4s
+Trying python .venv/bin/python to save npz
+<string>:1: UserWarning: Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning.
+saved
+Saved via .venv/bin/python to kaggle_results/bc_data_rust.npz
+Done, saved 2790 decisions to kaggle_results/bc_data_rust.npz
+Exit code: 0

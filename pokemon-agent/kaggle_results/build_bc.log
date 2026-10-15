@@ -1,0 +1,258 @@
+[1m[92m    Updating[0m crates.io index
+[1m[92m     Locking[0m 51 packages to highest compatible versions
+[1m[92m      Adding[0m libloading v0.8.9 [1m[33m(available: v0.9.0)[0m
+[1m[92m      Adding[0m rand v0.8.8 [1m[33m(available: v0.10.3)[0m
+[1m[92m Downloading[0m crates ...
+[1m[92m  Downloaded[0m anstyle-query v1.1.5
+[1m[92m  Downloaded[0m anstyle-parse v1.0.0
+[1m[92m  Downloaded[0m anstream v1.0.0
+[1m[92m  Downloaded[0m anstyle v1.0.14
+[1m[92m  Downloaded[0m unicode-ident v1.0.27
+[1m[92m  Downloaded[0m aho-corasick v1.1.5
+[1m[92m  Downloaded[0m anyhow v1.0.104
+[1m[92m  Downloaded[0m regex v1.13.1
+[1m[92m  Downloaded[0m colorchoice v1.0.5
+[1m[92m  Downloaded[0m quote v1.0.47
+[1m[92m  Downloaded[0m rayon v1.12.0
+[1m[92m  Downloaded[0m strsim v0.11.1
+[1m[92m  Downloaded[0m cfg-if v1.0.5
+[1m[92m  Downloaded[0m rand_core v0.6.4
+[1m[92m  Downloaded[0m zmij v1.0.23
+[1m[92m  Downloaded[0m clap_lex v1.1.1
+[1m[92m  Downloaded[0m itoa v1.0.18
+[1m[92m  Downloaded[0m utf8parse v0.2.2
+[1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
+[1m[92m  Downloaded[0m rand_chacha v0.3.1
+[1m[92m  Downloaded[0m either v1.19.0
+[1m[92m  Downloaded[0m ppv-lite86 v0.2.21
+[1m[92m  Downloaded[0m proc-macro2 v1.0.107
+[1m[92m  Downloaded[0m serde_derive v1.0.229
+[1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
+[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m heck v0.5.0
+[1m[92m  Downloaded[0m libloading v0.8.9
+[1m[92m  Downloaded[0m serde_core v1.0.229
+[1m[92m  Downloaded[0m clap_derive v4.6.7
+[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
+[1m[92m  Downloaded[0m getrandom v0.2.17
+[1m[92m  Downloaded[0m rayon-core v1.13.0
+[1m[92m  Downloaded[0m clap v4.6.7
+[1m[92m  Downloaded[0m serde v1.0.229
+[1m[92m  Downloaded[0m memchr v2.8.3
+[1m[92m  Downloaded[0m rand v0.8.8
+[1m[92m  Downloaded[0m serde_json v1.0.154
+[1m[92m  Downloaded[0m clap_builder v4.6.7
+[1m[92m  Downloaded[0m regex-syntax v0.8.11
+[1m[92m  Downloaded[0m syn v3.0.9
+[1m[92m  Downloaded[0m zerocopy v0.8.63
+[1m[92m  Downloaded[0m regex-automata v0.4.18
+[1m[92m  Downloaded[0m libc v0.2.190
+[1m[92m   Compiling[0m proc-macro2 v1.0.107
+[1m[92m   Compiling[0m unicode-ident v1.0.27
+[1m[92m   Compiling[0m quote v1.0.47
+[1m[92m   Compiling[0m libc v0.2.190
+[1m[92m   Compiling[0m crossbeam-utils v0.8.23
+[1m[92m   Compiling[0m zerocopy v0.8.63
+[1m[92m   Compiling[0m cfg-if v1.0.5
+[1m[92m   Compiling[0m crossbeam-epoch v0.9.21
+[1m[92m   Compiling[0m memchr v2.8.3
+[1m[92m   Compiling[0m serde_core v1.0.229
+[1m[92m   Compiling[0m syn v3.0.9
+[1m[92m   Compiling[0m crossbeam-deque v0.8.8
+[1m[92m   Compiling[0m utf8parse v0.2.2
+[1m[92m   Compiling[0m anstyle-parse v1.0.0
+[1m[92m   Compiling[0m getrandom v0.2.17
+[1m[92m   Compiling[0m anstyle v1.0.14
+[1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
+[1m[92m   Compiling[0m colorchoice v1.0.5
+[1m[92m   Compiling[0m zmij v1.0.23
+[1m[92m   Compiling[0m rayon-core v1.13.0
+[1m[92m   Compiling[0m anstyle-query v1.1.5
+[1m[92m   Compiling[0m anstream v1.0.0
+[1m[92m   Compiling[0m rand_core v0.6.4
+[1m[92m   Compiling[0m aho-corasick v1.1.5
+[1m[92m   Compiling[0m anyhow v1.0.104
+[1m[92m   Compiling[0m serde v1.0.229
+[1m[92m   Compiling[0m regex-syntax v0.8.11
+[1m[92m   Compiling[0m serde_json v1.0.154
+[1m[92m   Compiling[0m heck v0.5.0
+[1m[92m   Compiling[0m strsim v0.11.1
+[1m[92m   Compiling[0m ppv-lite86 v0.2.21
+[1m[92m   Compiling[0m clap_lex v1.1.1
+[1m[92m   Compiling[0m rand_chacha v0.3.1
+[1m[92m   Compiling[0m clap_builder v4.6.7
+[1m[92m   Compiling[0m clap_derive v4.6.7
+[1m[92m   Compiling[0m regex-automata v0.4.18
+[1m[92m   Compiling[0m serde_derive v1.0.229
+[1m[92m   Compiling[0m either v1.19.0
+[1m[92m   Compiling[0m itoa v1.0.18
+[1m[92m   Compiling[0m rayon v1.12.0
+[1m[92m   Compiling[0m regex v1.13.1
+[1m[92m   Compiling[0m clap v4.6.7
+[1m[92m   Compiling[0m rand v0.8.8
+[1m[92m   Compiling[0m libloading v0.8.9
+[1m[92m   Compiling[0m rust_gauntlet v0.1.0 (/home/runner/work/Pokemon/Pokemon/pokemon-agent/rust)
+[1m[33mwarning[0m[1m: unused import: `CString`[0m
+ [1m[94m--> [0msrc/bin/../engine.rs:2:22
+  [1m[94m|[0m
+[1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
+  [1m[94m|[0m                      [1m[33m^^^^^^^[0m
+  [1m[94m|[0m
+  [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: variable does not need to be mutable[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:119:13
+    [1m[94m|[0m
+[1m[94m119[0m [1m[94m|[0m [1m[94m...[0m   let mut pokemon: Vec<i32> = counts.keys().filter(|cid| index.card(**cid).map(|c| c.ct==0).unwrap_or(false)).cloned().collect();
+    [1m[94m|[0m           [1m[94m----[0m[1m[33m^^^^^^^[0m
+    [1m[94m|[0m           [1m[94m|[0m
+    [1m[94m|[0m           [1m[94mhelp: remove this `mut`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: unused variable: `poke`[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:414:23
+    [1m[94m|[0m
+[1m[94m414[0m [1m[94m|[0m fn best_attack_damage(poke: &Value, attacker_cid: i32, defender_cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, opp_idx: u[1m[94m...[0m
+    [1m[94m|[0m                       [1m[33m^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_poke`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: unused variable: `deck`[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:758:77
+    [1m[94m|[0m
+[1m[94m758[0m [1m[94m|[0m fn retrieval_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, deck: &[i32]) -> i32 {
+    [1m[94m|[0m                                                                             [1m[33m^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_deck`[0m
+
+[1m[33mwarning[0m[1m: unused variable: `deck`[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:991:112
+    [1m[94m|[0m
+[1m[94m991[0m [1m[94m|[0m fn score_generic_card(opt: &Value, obs: &Value, me_idx: usize, opp_idx: usize, index: &CardIndex, plan: &Plan, deck: &[i32]) -> i32 {
+    [1m[94m|[0m                                                                                                                [1m[33m^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_deck`[0m
+
+[1m[33mwarning[0m[1m: value assigned to `score` is never read[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1024:33
+     [1m[94m|[0m
+[1m[94m1024[0m [1m[94m|[0m                 let mut score = 0;
+     [1m[94m|[0m                                 [1m[33m^[0m [1m[33mthis value is reassigned later and never used[0m
+[1m[94m...[0m
+[1m[94m1030[0m [1m[94m|[0m                 } else { score = 20; }
+     [1m[94m|[0m                          [1m[94m----------[0m [1m[94m`score` is overwritten here before the previous value is read[0m
+     [1m[94m|[0m
+     [1m[94m= [0m[1mnote[0m: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: value assigned to `idx` is never read[0m
+   [1m[94m--> [0msrc/bin/../policy_feats.rs:251:50
+    [1m[94m|[0m
+[1m[94m251[0m [1m[94m|[0m         out[idx] = (energies.min(8) as f64)/8.0; idx+=1;
+    [1m[94m|[0m                                                  [1m[33m^^^^^^[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mhelp[0m: maybe it is overwritten before being read?
+
+[1m[33mwarning[0m[1m: method `get_battle_data` is never used[0m
+  [1m[94m--> [0msrc/bin/../engine.rs:82:12
+   [1m[94m|[0m
+[1m[94m36[0m [1m[94m|[0m impl Engine {
+   [1m[94m|[0m [1m[94m-----------[0m [1m[94mmethod in this implementation[0m
+[1m[94m...[0m
+[1m[94m82[0m [1m[94m|[0m     pub fn get_battle_data(&self) -> anyhow::Result<Value> {
+   [1m[94m|[0m            [1m[33m^^^^^^^^^^^^^^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: fields `id` and `ace` are never read[0m
+  [1m[94m--> [0msrc/bin/../heuristic.rs:8:9
+   [1m[94m|[0m
+[1m[94m 7[0m [1m[94m|[0m pub struct Card {
+   [1m[94m|[0m            [1m[94m----[0m [1m[94mfields in this struct[0m
+[1m[94m 8[0m [1m[94m|[0m     pub id: i32,
+   [1m[94m|[0m         [1m[33m^^[0m
+[1m[94m...[0m
+[1m[94m18[0m [1m[94m|[0m     pub ace: bool,
+   [1m[94m|[0m         [1m[33m^^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `Card` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+[1m[33mwarning[0m[1m: fields `id` and `name` are never read[0m
+  [1m[94m--> [0msrc/bin/../heuristic.rs:32:9
+   [1m[94m|[0m
+[1m[94m31[0m [1m[94m|[0m pub struct Attack {
+   [1m[94m|[0m            [1m[94m------[0m [1m[94mfields in this struct[0m
+[1m[94m32[0m [1m[94m|[0m     pub id: i32,
+   [1m[94m|[0m         [1m[33m^^[0m
+[1m[94m33[0m [1m[94m|[0m     pub name: String,
+   [1m[94m|[0m         [1m[33m^^^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `Attack` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+[1m[33mwarning[0m[1m: fields `counts` and `primary_power` are never read[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:107:9
+    [1m[94m|[0m
+[1m[94m106[0m [1m[94m|[0m pub struct Plan {
+    [1m[94m|[0m            [1m[94m----[0m [1m[94mfields in this struct[0m
+[1m[94m107[0m [1m[94m|[0m     pub counts: HashMap<i32, i32>,
+    [1m[94m|[0m         [1m[33m^^^^^^[0m
+[1m[94m...[0m
+[1m[94m110[0m [1m[94m|[0m     pub primary_power: i32,
+    [1m[94m|[0m         [1m[33m^^^^^^^^^^^^^[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `Plan` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+[1m[33mwarning[0m[1m: fields `gust_bonus`, `beach_wall`, and `primary_bonus` are never read[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:184:9
+    [1m[94m|[0m
+[1m[94m170[0m [1m[94m|[0m pub struct Knobs {
+    [1m[94m|[0m            [1m[94m-----[0m [1m[94mfields in this struct[0m
+[1m[94m...[0m
+[1m[94m184[0m [1m[94m|[0m     pub gust_bonus: i32,
+    [1m[94m|[0m         [1m[33m^^^^^^^^^^[0m
+[1m[94m...[0m
+[1m[94m189[0m [1m[94m|[0m     pub beach_wall: i32,
+    [1m[94m|[0m         [1m[33m^^^^^^^^^^[0m
+[1m[94m...[0m
+[1m[94m196[0m [1m[94m|[0m     pub primary_bonus: i32,
+    [1m[94m|[0m         [1m[33m^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `get_i64` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:232:4
+    [1m[94m|[0m
+[1m[94m232[0m [1m[94m|[0m fn get_i64(v: &Value, key: &str) -> Option<i64> { v.get(key).and_then(|x| x.as_i64()) }
+    [1m[94m|[0m    [1m[33m^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `get_usize` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:233:4
+    [1m[94m|[0m
+[1m[94m233[0m [1m[94m|[0m fn get_usize(v: &Value, key: &str) -> usize { v.get(key).and_then(|x| x.as_u64()).unwrap_or(0) as usize }
+    [1m[94m|[0m    [1m[33m^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `me_idx_from_obs` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:469:4
+    [1m[94m|[0m
+[1m[94m469[0m [1m[94m|[0m fn me_idx_from_obs(obs: &Value) -> usize { obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize }
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `regex_deck_count` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:479:4
+    [1m[94m|[0m
+[1m[94m479[0m [1m[94m|[0m fn regex_deck_count() -> &'static Regex {
+    [1m[94m|[0m    [1m[33m^^^^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: function `decide_legacy` is never used[0m
+    [1m[94m--> [0msrc/bin/../heuristic.rs:1139:8
+     [1m[94m|[0m
+[1m[94m1139[0m [1m[94m|[0m pub fn decide_legacy(obs: &Value, index: &CardIndex, knobs: &Knobs) -> Vec<i32> {
+     [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^[0m
+
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gen_bc_data_rust") generated 17 warnings (run `cargo fix --bin "gen_bc_data_rust" -p rust_gauntlet` to apply 5 suggestions)
+[1m[92m    Finished[0m `release` profile [optimized] target(s) in 20.89s
+Usage: gen_bc_data_rust [OPTIONS]
+
+Options:
+      --card-index <CARD_INDEX>        [default: assets/card_index.json]
+      --deck-pool-dir <DECK_POOL_DIR>  [default: decks]
+      --out <OUT>                      [default: kaggle_results/bc_data_rust.npz]
+      --games <GAMES>                  [default: 50]
+      --jobs <JOBS>                    [default: 1]
+      --lib-path <LIB_PATH>            [default: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so]
+      --seed <SEED>                    [default: 7]
+  -h, --help                           Print help
