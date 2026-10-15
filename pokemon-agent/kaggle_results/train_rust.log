@@ -1,4 +1,4 @@
-data: 29361 decisions (train 27012, val 2349)
-ep0: train_acc~0.547 val_acc=0.540 (8s)
-ep1: train_acc~0.565 val_acc=0.562 (12s)
+data: 298621 decisions (train 274731, val 23890)
+ep0: train_acc~0.621 val_acc=0.664 (60s)
+ep1: train_acc~0.685 val_acc=0.701 (116s)
 saved -> kaggle_results/policy_rust.npz
