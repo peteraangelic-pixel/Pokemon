@@ -49,8 +49,10 @@ impl Engine {
     fn new(lib_path: &str) -> Result<Self> {
         unsafe {
             let lib = Library::new(lib_path)?;
-            let init: Symbol<unsafe extern "C" fn()> = lib.get(b"GameInitialize")?;
-            init();
+            {
+                let init: Symbol<unsafe extern "C" fn()> = lib.get(b"GameInitialize")?;
+                init();
+            }
             Ok(Self { _lib: lib, battle_ptr: std::ptr::null_mut(), init_done: true })
         }
     }

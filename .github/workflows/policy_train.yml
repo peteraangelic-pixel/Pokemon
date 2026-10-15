@@ -36,9 +36,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - name: Build policy_rollout
         run: |
-          set -eo pipefail
+          mkdir -p pokemon-agent/kaggle_results/policy_iter
           cd pokemon-agent/rust
-          cargo build --release --bin policy_rollout 2>&1 | tee build_policy.log.txt
+          cargo build --release --bin policy_rollout > ../kaggle_results/policy_iter/build_policy.log.txt 2>&1 || { tail -n 120 ../kaggle_results/policy_iter/build_policy.log.txt; exit 1; }
           ls -lh target/release/policy_rollout
       - name: Python env (engine lib + jax)
         run: |
