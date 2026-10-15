@@ -52,11 +52,12 @@ jobs:
       - name: Build Rust BC generator
         run: |
           cd pokemon-agent/rust
-          cargo build --release --bin gen_bc_data_rust
+          cargo build --release --bin gen_bc_data_rust 2>&1 | tee build_bc.log
           ls -lh target/release/gen_bc_data_rust
-          ./target/release/gen_bc_data_rust --help
+          ./target/release/gen_bc_data_rust --help 2>&1 | tee -a build_bc.log
 
       - name: Generate BC data (Rust+Rayon)
+        if: success()
         env:
           GAMES: ${{ inputs.games || '5000' }}
           JOBS: ${{ inputs.jobs || '0' }}
@@ -76,6 +77,7 @@ jobs:
           .venv/bin/python -c "import numpy as np; d=np.load('kaggle_results/bc_data_rust.npz'); print(f'S {d[\"S\"].shape} O {d[\"O\"].shape} Y {d[\"Y\"].shape} mean Y {d[\"Y\"].mean():.2f}')"
 
       - name: Train policy (JAX)
+        if: success()
         env:
           EPOCHS: ${{ inputs.epochs || '5' }}
         run: |
@@ -84,6 +86,7 @@ jobs:
           ls -lh kaggle_results/policy_rust.npz
 
       - name: Build policy agent
+        if: success()
         run: |
           cd pokemon-agent
           cp kaggle_results/policy_rust.npz kaggle_results/policy_v58.npz
@@ -92,6 +95,7 @@ jobs:
           wc -l agents/main_policy_v58.py
 
       - name: Evaluate gate (policy vs champion)
+        if: success()
         run: |
           cd pokemon-agent
           echo "Evaluating policy vs champion c87_v44..."
@@ -99,11 +103,14 @@ jobs:
           .venv/bin/python tools/gauntlet_ffi.py --agent agents/main_policy_v58.py --our-deck decks/v56_tuned_34W.csv --opp-dir decks/top50_fresh22 --games 10 --workers 4 2>&1 | tail -30 | tee -a kaggle_results/policy_vs_champ.txt
           cat kaggle_results/policy_vs_champ.txt
 
-      - name: Commit results
+      - name: Commit results (always)
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
-          git add -f pokemon-agent/kaggle_results/bc_rust.log pokemon-agent/kaggle_results/train_rust.log pokemon-agent/kaggle_results/policy_rust.npz pokemon-agent/kaggle_results/policy_vs_champ.txt pokemon-agent/agents/main_policy_v58.py pokemon-agent/rust/src/bin/gen_bc_data_rust.rs pokemon-agent/rust/src/policy_feats.rs pokemon-agent/tools/duel.py || true
+          mkdir -p pokemon-agent/kaggle_results
+          cp pokemon-agent/rust/build_bc.log pokemon-agent/kaggle_results/build_bc.log 2>/dev/null || true
+          git add -f pokemon-agent/kaggle_results/build_bc.log pokemon-agent/kaggle_results/bc_rust.log pokemon-agent/kaggle_results/train_rust.log pokemon-agent/kaggle_results/policy_rust.npz pokemon-agent/kaggle_results/policy_vs_champ.txt pokemon-agent/agents/main_policy_v58.py pokemon-agent/rust/src/bin/gen_bc_data_rust.rs pokemon-agent/rust/src/policy_feats.rs pokemon-agent/tools/duel.py || true
           git diff --cached --stat
           if git diff --cached --quiet; then echo "No changes"; else git commit -m "rl bc rust: ${{ inputs.games || '5000' }}g rust+rayon + train ${{ inputs.epochs || '5' }}ep [skip ci]"; git push origin "HEAD:${GITHUB_REF_NAME}"; fi
