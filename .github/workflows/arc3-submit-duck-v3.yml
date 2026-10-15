@@ -62,7 +62,6 @@ jobs:
             -c arc-prize-2026-arc-agi-3 \
             -k petersharps/arc3-duck \
             -v 3 \
-            -f submission.parquet \
             -m "duck v3 (smoke 29.02, world model patch 0002) - kalibracja smoke→LB" \
             2>&1 | tee submit-v3.log
           CODE=${PIPESTATUS[0]}
