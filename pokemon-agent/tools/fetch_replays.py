@@ -318,8 +318,16 @@ def main() -> int:
             if (outdir / f"episode-{eid}-replay.json").exists():
                 continue  # already on disk; do not burn Kaggle replay quota
             todo.append(eid)
+        fails = 0
         for eid in todo[: args.top_k]:
             ok = download_replay(eid, outdir)
+            if ok:
+                fails = 0
+            else:
+                fails += 1
+                if fails >= 5:
+                    print("  stopping downloads: 5 consecutive failures (rate limit?)")
+                    break
             if ok:
                 downloaded += 1
                 print(f"  downloaded replay {eid}")
