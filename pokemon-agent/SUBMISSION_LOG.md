@@ -1719,3 +1719,12 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
 ## 2026-10-15 00:15 UTC — SUBMIT v55 mirror (ref 57199505)
 - Rozkaz usera: "wrzuc teraz swoje 55 na kaggle". Trigger bundles/ptcg_v55_mirror_a450.trigger, workflow kaggle-submit, log: Successfully submitted, status PENDING.
 - Stan pola z listingu: v42.9 415.8, v48 409.3, v51 332.6. v55 w ewaluacji — wynik mu po kilku godzinach gier.
+
+## v56 KAZDEL (a450, 2026-10-15) — kandydat po słabym v55 live (389.9)
+- Forensyka v55 live (44 gry, W15-L29): mirror 9-15, SPREAD 2-6, famine 35/44.
+- Hybrydy v55+v52 (8 wariantów): wszystkie odrzucone (pula ≤0.886 < v55 0.890).
+- v56 = pilot v55 + deck prawdziwego zwycięzcy mirrorów (Kazdel, 33W/Kyo2/UB4/Signal2/Petrel4/Beach2/Trolley):
+  pula duel16 0.897 (rekord), Eugen 0.540, SPREAD 0.955, Froslass 0.530, duel vs talia v55 0.530.
+- Warianty odrzucone: Kazdel+Amarys 0.864; Kazdel+Waitress 0.875; v55-Trolley(zamiast Belt) pula 0.885,
+  Eugen 0.595, h2h vs Kazdel 0.510@400.
+- Bundle bundles/ptcg_v56_kazdel_a450.tar.gz GOTOWY. NIE WYSLANO (czeka na rozkaz usera).
