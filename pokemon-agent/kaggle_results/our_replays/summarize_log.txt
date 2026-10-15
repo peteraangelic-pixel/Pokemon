@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/summarize_episodes.py", line 247, in <module>
+    main()
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/summarize_episodes.py", line 161, in main
+    sub_of[row["id"]] = sub
+           ~~~^^^^^^
+KeyError: 'id'
