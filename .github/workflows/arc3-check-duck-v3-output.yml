@@ -1,0 +1,78 @@
+name: ARC3 check duck v3 output
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/duck/.check-v3-output.trigger"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Kaggle CLI
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      - name: Check duck v3 output
+        run: |
+          echo "=== Checking kernel petersharps/arc3-duck ==="
+          kaggle kernels status petersharps/arc3-duck 2>&1 | tee kernel-status.txt
+          echo
+          echo "=== Trying to download output ==="
+          mkdir -p output-check
+          kaggle kernels output petersharps/arc3-duck -p output-check/ 2>&1 | tee download.log
+          echo
+          echo "=== Output files ==="
+          ls -lh output-check/ 2>&1
+          echo
+          echo "=== Submission parquet check ==="
+          if [ -f output-check/submission.parquet ]; then
+            echo "✅ submission.parquet EXISTS"
+            file output-check/submission.parquet
+          else
+            echo "❌ submission.parquet NOT FOUND"
+          fi
+
+      - name: Announce
+        if: always()
+        run: |
+          {
+            echo "### Duck v3 output check"
+            echo '```'
+            cat kernel-status.txt 2>/dev/null
+            echo '```'
+            echo
+            echo "### Output files"
+            echo '```'
+            ls -lh output-check/ 2>/dev/null || echo "no output"
+            echo '```'
+            echo
+            if [ -f output-check/submission.parquet ]; then
+              echo "✅ **submission.parquet EXISTS** - can submit after 00:00 UTC"
+            else
+              echo "❌ **submission.parquet NOT FOUND** - need to run kernel first (requires GPU quota)"
+            fi
+          } > /tmp/ann.md
+          python3 - <<'PY'
+          body = open('/tmp/ann.md').read()
+          body = body.replace('%','%25').replace('\r','%0D').replace('\n','%0A')
+          print(f"::notice title=Duck v3 output::{body[:3000]}")
+          PY
