@@ -1,5 +1,5 @@
 === gen_bc_data_rust starting ===
-Args: Args { card_index: "assets/card_index.json", deck_pool_dir: "decks", out: "kaggle_results/bc_data_rust.npz", games: 20, jobs: 1, lib_path: ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", seed: 7 }
+Args: Args { card_index: "assets/card_index.json", deck_pool_dir: "decks", out: "kaggle_results/bc_data_rust.npz", games: 200, jobs: 1, lib_path: ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", seed: 7 }
 Loaded 1431 cards, 1755 attacks
 Deck pool: 21 files
   pool: "decks/v56_tuned_34W.csv"
@@ -27,32 +27,230 @@ Loaded 21 valid decks
 Lib path: .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
 Creating Engine once...
 Engine created OK
---- Game 1/20 starting ---
---- Game 2/20 starting ---
---- Game 3/20 starting ---
---- Game 4/20 starting ---
---- Game 5/20 starting ---
---- Game 6/20 starting ---
---- Game 7/20 starting ---
---- Game 8/20 starting ---
---- Game 9/20 starting ---
---- Game 10/20 starting ---
-Progress 10/20 games, 1773 decisions, 0.3s (32.6 games/s)
---- Game 11/20 starting ---
---- Game 12/20 starting ---
---- Game 13/20 starting ---
---- Game 14/20 starting ---
---- Game 15/20 starting ---
---- Game 16/20 starting ---
---- Game 17/20 starting ---
---- Game 18/20 starting ---
---- Game 19/20 starting ---
---- Game 20/20 starting ---
-Progress 20/20 games, 2931 decisions, 0.5s (39.9 games/s)
-Total: 20 games, 2931 decisions in 0.5s
+--- Game 1/200 starting ---
+--- Game 2/200 starting ---
+--- Game 3/200 starting ---
+--- Game 4/200 starting ---
+--- Game 5/200 starting ---
+--- Game 6/200 starting ---
+--- Game 7/200 starting ---
+--- Game 8/200 starting ---
+--- Game 9/200 starting ---
+--- Game 10/200 starting ---
+Progress 10/200 games, 1786 decisions, 0.2s (44.9 games/s)
+--- Game 11/200 starting ---
+--- Game 12/200 starting ---
+--- Game 13/200 starting ---
+--- Game 14/200 starting ---
+--- Game 15/200 starting ---
+--- Game 16/200 starting ---
+--- Game 17/200 starting ---
+--- Game 18/200 starting ---
+--- Game 19/200 starting ---
+--- Game 20/200 starting ---
+Progress 20/200 games, 3418 decisions, 0.4s (46.6 games/s)
+--- Game 21/200 starting ---
+--- Game 22/200 starting ---
+--- Game 23/200 starting ---
+--- Game 24/200 starting ---
+--- Game 25/200 starting ---
+--- Game 26/200 starting ---
+--- Game 27/200 starting ---
+--- Game 28/200 starting ---
+--- Game 29/200 starting ---
+--- Game 30/200 starting ---
+Progress 30/200 games, 4838 decisions, 0.6s (49.6 games/s)
+--- Game 31/200 starting ---
+--- Game 32/200 starting ---
+--- Game 33/200 starting ---
+--- Game 34/200 starting ---
+--- Game 35/200 starting ---
+--- Game 36/200 starting ---
+--- Game 37/200 starting ---
+--- Game 38/200 starting ---
+--- Game 39/200 starting ---
+--- Game 40/200 starting ---
+Progress 40/200 games, 6272 decisions, 0.8s (51.7 games/s)
+--- Game 41/200 starting ---
+--- Game 42/200 starting ---
+--- Game 43/200 starting ---
+--- Game 44/200 starting ---
+--- Game 45/200 starting ---
+--- Game 46/200 starting ---
+--- Game 47/200 starting ---
+--- Game 48/200 starting ---
+--- Game 49/200 starting ---
+--- Game 50/200 starting ---
+Progress 50/200 games, 7704 decisions, 0.9s (52.9 games/s)
+--- Game 51/200 starting ---
+--- Game 52/200 starting ---
+--- Game 53/200 starting ---
+--- Game 54/200 starting ---
+--- Game 55/200 starting ---
+--- Game 56/200 starting ---
+--- Game 57/200 starting ---
+--- Game 58/200 starting ---
+--- Game 59/200 starting ---
+--- Game 60/200 starting ---
+Progress 60/200 games, 9484 decisions, 1.2s (51.8 games/s)
+--- Game 61/200 starting ---
+--- Game 62/200 starting ---
+--- Game 63/200 starting ---
+--- Game 64/200 starting ---
+--- Game 65/200 starting ---
+--- Game 66/200 starting ---
+--- Game 67/200 starting ---
+--- Game 68/200 starting ---
+--- Game 69/200 starting ---
+--- Game 70/200 starting ---
+Progress 70/200 games, 11138 decisions, 1.4s (51.6 games/s)
+--- Game 71/200 starting ---
+--- Game 72/200 starting ---
+--- Game 73/200 starting ---
+--- Game 74/200 starting ---
+--- Game 75/200 starting ---
+--- Game 76/200 starting ---
+--- Game 77/200 starting ---
+--- Game 78/200 starting ---
+--- Game 79/200 starting ---
+--- Game 80/200 starting ---
+Progress 80/200 games, 12547 decisions, 1.5s (52.4 games/s)
+--- Game 81/200 starting ---
+--- Game 82/200 starting ---
+--- Game 83/200 starting ---
+--- Game 84/200 starting ---
+--- Game 85/200 starting ---
+--- Game 86/200 starting ---
+--- Game 87/200 starting ---
+--- Game 88/200 starting ---
+--- Game 89/200 starting ---
+--- Game 90/200 starting ---
+Progress 90/200 games, 13967 decisions, 1.7s (53.2 games/s)
+--- Game 91/200 starting ---
+--- Game 92/200 starting ---
+--- Game 93/200 starting ---
+--- Game 94/200 starting ---
+--- Game 95/200 starting ---
+--- Game 96/200 starting ---
+--- Game 97/200 starting ---
+--- Game 98/200 starting ---
+--- Game 99/200 starting ---
+--- Game 100/200 starting ---
+Progress 100/200 games, 15701 decisions, 1.9s (52.6 games/s)
+--- Game 101/200 starting ---
+--- Game 102/200 starting ---
+--- Game 103/200 starting ---
+--- Game 104/200 starting ---
+--- Game 105/200 starting ---
+--- Game 106/200 starting ---
+--- Game 107/200 starting ---
+--- Game 108/200 starting ---
+--- Game 109/200 starting ---
+--- Game 110/200 starting ---
+Progress 110/200 games, 16932 decisions, 2.0s (53.7 games/s)
+--- Game 111/200 starting ---
+--- Game 112/200 starting ---
+--- Game 113/200 starting ---
+--- Game 114/200 starting ---
+--- Game 115/200 starting ---
+--- Game 116/200 starting ---
+--- Game 117/200 starting ---
+--- Game 118/200 starting ---
+--- Game 119/200 starting ---
+--- Game 120/200 starting ---
+Progress 120/200 games, 18264 decisions, 2.2s (54.4 games/s)
+--- Game 121/200 starting ---
+--- Game 122/200 starting ---
+--- Game 123/200 starting ---
+--- Game 124/200 starting ---
+--- Game 125/200 starting ---
+--- Game 126/200 starting ---
+--- Game 127/200 starting ---
+--- Game 128/200 starting ---
+--- Game 129/200 starting ---
+--- Game 130/200 starting ---
+Progress 130/200 games, 19882 decisions, 2.4s (54.2 games/s)
+--- Game 131/200 starting ---
+--- Game 132/200 starting ---
+--- Game 133/200 starting ---
+--- Game 134/200 starting ---
+--- Game 135/200 starting ---
+--- Game 136/200 starting ---
+--- Game 137/200 starting ---
+--- Game 138/200 starting ---
+--- Game 139/200 starting ---
+--- Game 140/200 starting ---
+Progress 140/200 games, 21550 decisions, 2.6s (53.9 games/s)
+--- Game 141/200 starting ---
+--- Game 142/200 starting ---
+--- Game 143/200 starting ---
+--- Game 144/200 starting ---
+--- Game 145/200 starting ---
+--- Game 146/200 starting ---
+--- Game 147/200 starting ---
+--- Game 148/200 starting ---
+--- Game 149/200 starting ---
+--- Game 150/200 starting ---
+Progress 150/200 games, 22995 decisions, 2.8s (54.1 games/s)
+--- Game 151/200 starting ---
+--- Game 152/200 starting ---
+--- Game 153/200 starting ---
+--- Game 154/200 starting ---
+--- Game 155/200 starting ---
+--- Game 156/200 starting ---
+--- Game 157/200 starting ---
+--- Game 158/200 starting ---
+--- Game 159/200 starting ---
+--- Game 160/200 starting ---
+Progress 160/200 games, 24099 decisions, 2.9s (55.1 games/s)
+--- Game 161/200 starting ---
+--- Game 162/200 starting ---
+--- Game 163/200 starting ---
+--- Game 164/200 starting ---
+--- Game 165/200 starting ---
+--- Game 166/200 starting ---
+--- Game 167/200 starting ---
+--- Game 168/200 starting ---
+--- Game 169/200 starting ---
+--- Game 170/200 starting ---
+Progress 170/200 games, 25300 decisions, 3.0s (55.8 games/s)
+--- Game 171/200 starting ---
+--- Game 172/200 starting ---
+--- Game 173/200 starting ---
+--- Game 174/200 starting ---
+--- Game 175/200 starting ---
+--- Game 176/200 starting ---
+--- Game 177/200 starting ---
+--- Game 178/200 starting ---
+--- Game 179/200 starting ---
+--- Game 180/200 starting ---
+Progress 180/200 games, 26705 decisions, 3.2s (55.4 games/s)
+--- Game 181/200 starting ---
+--- Game 182/200 starting ---
+--- Game 183/200 starting ---
+--- Game 184/200 starting ---
+--- Game 185/200 starting ---
+--- Game 186/200 starting ---
+--- Game 187/200 starting ---
+--- Game 188/200 starting ---
+--- Game 189/200 starting ---
+--- Game 190/200 starting ---
+Progress 190/200 games, 28092 decisions, 3.4s (55.7 games/s)
+--- Game 191/200 starting ---
+--- Game 192/200 starting ---
+--- Game 193/200 starting ---
+--- Game 194/200 starting ---
+--- Game 195/200 starting ---
+--- Game 196/200 starting ---
+--- Game 197/200 starting ---
+--- Game 198/200 starting ---
+--- Game 199/200 starting ---
+--- Game 200/200 starting ---
+Progress 200/200 games, 29361 decisions, 3.6s (56.0 games/s)
+Total: 200 games, 29361 decisions in 3.6s
 Trying python .venv/bin/python to save npz
 <string>:1: UserWarning: Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning.
 saved
 Saved via .venv/bin/python to kaggle_results/bc_data_rust.npz
-Done, saved 2931 decisions to kaggle_results/bc_data_rust.npz
+Done, saved 29361 decisions to kaggle_results/bc_data_rust.npz
 Exit code: 0
