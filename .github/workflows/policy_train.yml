@@ -100,7 +100,10 @@ jobs:
       - name: Commit results
         if: always()
         run: |
-          set -eo pipefail
+          set -x
+          find . -name "build_policy.log.txt" 2>/dev/null || true
+          ls -la pokemon-agent/kaggle_results/policy_iter/ || true
+          git status --porcelain | head -30 || true
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
