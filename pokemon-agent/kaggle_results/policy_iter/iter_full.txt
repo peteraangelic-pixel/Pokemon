@@ -159,3 +159,36 @@ wrote tools/policy_iter2.json
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter2.json --opp-weights tools/policy_iter1.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
 + tee kaggle_results/policy_iter/gate_log.txt
 games=2000 valid=2000 main_wr=0.489 elapsed=131.5s games_per_sec=15.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+===== ITER RUN 38799827240 Thu Oct 15 20:13:41 UTC 2026 =====
++ GAMES=
++ GAMES=10000
++ EPS_IN=
++ EPS_IN=0.08
++ EPOCHS_IN=
++ EPOCHS_IN=2
++ export GAMES EPS_IN EPOCHS_IN
++ set -eo pipefail
++ cd pokemon-agent
++ mkdir -p policy_pool kaggle_results/policy_iter
++ cp decks/v57_trolley34w.csv decks/shaun2024_wall.csv policy_pool/
++ cp decks/live_v56t/BEAT_DEFAULT_Clark_Kitchen_124451815.csv decks/live_v56t/BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv decks/live_v56t/BEAT_MIRROR_xiaogungfu_124451797.csv decks/live_v56t/BEAT_SPREAD_BOB_124451792.csv decks/live_v56t/BEAT_SPREAD_pika28samson_124454118.csv decks/live_v56t/BEAT_WALL_Shaun2024_124453874.csv decks/live_v56t/LOST_DEFAULT_Ramanath_Rakshit_124451521.csv decks/live_v56t/LOST_GRASS_kleber@1703_124452583.csv decks/live_v56t/LOST_MIRROR_Pham_Quang_Nghia_124450972.csv decks/live_v56t/LOST_WALL_Mathieu_W_124451250.csv decks/live_v56t/LOST_WALL_Shiv_sib_124453124.csv decks/live_v56t/LOST_WALL_鲁尚武_LuShangWu_124452051.csv policy_pool/
++ ls policy_pool/
+BEAT_DEFAULT_Clark_Kitchen_124451815.csv
+BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv
+BEAT_MIRROR_xiaogungfu_124451797.csv
+BEAT_SPREAD_BOB_124451792.csv
+BEAT_SPREAD_pika28samson_124454118.csv
+BEAT_WALL_Shaun2024_124453874.csv
+LOST_DEFAULT_Ramanath_Rakshit_124451521.csv
+LOST_GRASS_kleber@1703_124452583.csv
+LOST_MIRROR_Pham_Quang_Nghia_124450972.csv
+LOST_WALL_Mathieu_W_124451250.csv
+LOST_WALL_Shiv_sib_124453124.csv
+LOST_WALL_鲁尚武_LuShangWu_124452051.csv
+shaun2024_wall.csv
+v57_trolley34w.csv
++ echo '=== rollout 10000 games ==='
+=== rollout 10000 games ===
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index.json --weights tools/policy_iter2.json --decks policy_pool --games 10000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin
++ tee kaggle_results/policy_iter/rollout_log.txt
+Error: No such file or directory (os error 2)

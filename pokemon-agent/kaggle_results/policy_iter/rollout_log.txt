@@ -1,3 +1,1 @@
-games=10000 valid=10000 main_wr=0.507 elapsed=737.2s games_per_sec=13.6 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
-1438662 decisions in log
-converted 1438662 decisions -> kaggle_results/policy_iter/rollout.npz  win_frac=0.474
+Error: No such file or directory (os error 2)
