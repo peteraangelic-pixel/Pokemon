@@ -1756,3 +1756,10 @@ v55 zostaje championem (pula 0.890, Eugen 0.600, Froslass 0.560). Kierunek Kyo3/
 ## v56 TUNED WYSŁANA (2026-10-15 10:04Z, rozkaz usera) — ref 57225963, PENDING
 - Bundle ptcg_v56_tuned_a450.tar.gz (pilot v44 + Kazdel 34W). Log: Successfully submitted.
 - Przy wysylce: v55=375.2, 42.9=408.0. Pierwszy odczyt po zakonczeniu walidacji.
+
+## Sprawdzone v60/v61 (c87, 2026-10-15) — nasz rig
+- Pilot v44_tuned == v44 (identyczny). v60/v61 to warianty decku na 34W:
+  v60: -Beach(0) Pet3 Pad2 | v61: Pet2 Beach1 Pad1 Waitress1 (1235).
+- fresh22: v60 0.931, v61 0.926, nasza TUNED 0.932 | killers1: 0.692/0.688/0.689
+  killers2: v60 0.770@2100g > TUNED 0.754 | duel: v60 vs TUNED 0.527@2000g, v61 vs TUNED 0.516, v60 vs v61 0.517.
+- Werdykt: v60 minimalnie lepszy deck od wyslanej v56 TUNED (kandydat na kolejna iteracje). Brak wysylki.
