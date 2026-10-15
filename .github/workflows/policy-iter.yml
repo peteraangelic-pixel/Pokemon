@@ -1,0 +1,105 @@
+name: policy-iter
+
+on:
+  push:
+    branches: ["arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/kaggle_results/policy_iter.trigger"
+      - "pokemon-agent/rust/src/bin/policy_rollout.rs"
+      - ".github/workflows/policy-iter.yml"
+  workflow_dispatch:
+    inputs:
+      games:
+        default: "10000"
+      eps:
+        default: "0.08"
+      epochs:
+        default: "1"
+      mode:
+        default: "pg"
+
+permissions:
+  contents: write
+
+jobs:
+  iter:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build policy_rollout (lto)
+        run: |
+          cd pokemon-agent/rust
+          cargo build --release --bin policy_rollout 2>&1 | tee build_policy.log
+          ls -lh target/release/policy_rollout
+      - name: Python env + libs copies
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet "kaggle-environments==1.33.0" "jax[cpu]" numpy
+          LIB=$(find .venv -name libcg.so | head -1)
+          echo "LIB=$LIB"
+          mkdir -p libs
+          cp "$LIB" libs/libcg.so
+          ls -lh libs/
+          # Create copies like a450 does
+          for i in 0 1 2 3 4 5; do cp libs/libcg.so libs/libcg_${i}.so; done
+          ls -lh libs/
+      - name: Rollout train
+        run: |
+          cd pokemon-agent
+          TRIGGER=$(cat kaggle_results/policy_iter.trigger 2>/dev/null || echo "")
+          GAMES=$(echo "$TRIGGER" | grep -oE 'games=[0-9]+' | cut -d= -f2 | head -1); GAMES=${GAMES:-${{ inputs.games || '10000' }}}
+          EPS=$(echo "$TRIGGER" | grep -oE 'eps=[0-9.]+' | cut -d= -f2 | head -1); EPS=${EPS:-${{ inputs.eps || '0.08' }}}
+          EPOCHS=$(echo "$TRIGGER" | grep -oE 'epochs=[0-9]+' | cut -d= -f2 | head -1); EPOCHS=${EPOCHS:-${{ inputs.epochs || '1' }}}
+          MODE=$(echo "$TRIGGER" | grep -oE 'mode=[a-z]+' | cut -d= -f2 | head -1); MODE=${MODE:-${{ inputs.mode || 'pg' }}}
+          echo "GAMES=$GAMES EPS=$EPS EPOCHS=$EPOCHS MODE=$MODE"
+          mkdir -p policy_pool kaggle_results/policy_iter
+          cp decks/v56_tuned_34W.csv decks/shaun2024_wall.csv policy_pool/ 2>/dev/null || true
+          cp decks/live_v56t/*.csv policy_pool/ 2>/dev/null || true
+          cp decks/top50_fresh22/*.csv policy_pool/ 2>/dev/null | head -20 || true
+          ls policy_pool/ | wc -l
+          # Use current policy_rust.json or policy_v58 as seed
+          if [ -f kaggle_results/policy_rust.json ]; then SEED_JSON=kaggle_results/policy_rust.json; else SEED_JSON=tools/policy_seed.json; fi
+          if [ ! -f "$SEED_JSON" ]; then
+            echo "Creating seed JSON from policy_rust.npz"
+            .venv/bin/python tools/export_policy_json.py kaggle_results/policy_rust.npz $SEED_JSON
+          fi
+          ls -lh $SEED_JSON
+          ./rust/target/release/policy_rollout --lib-dir libs --card-index assets/card_index.json --weights $SEED_JSON --decks policy_pool --games $GAMES --jobs 4 --eps $EPS --temp 0.7 --mode train --out kaggle_results/policy_iter/rollout.bin 2>&1 | tee kaggle_results/policy_iter/rollout.log
+          ls -lh kaggle_results/policy_iter/rollout.bin
+      - name: Convert + Train PG
+        run: |
+          cd pokemon-agent
+          TRIGGER=$(cat kaggle_results/policy_iter.trigger 2>/dev/null || echo "")
+          EPOCHS=$(echo "$TRIGGER" | grep -oE 'epochs=[0-9]+' | cut -d= -f2 | head -1); EPOCHS=${EPOCHS:-${{ inputs.epochs || '1' }}}
+          MODE=$(echo "$TRIGGER" | grep -oE 'mode=[a-z]+' | cut -d= -f2 | head -1); MODE=${MODE:-${{ inputs.mode || 'pg' }}}
+          .venv/bin/python tools/convert_rollout.py kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz 2>&1 | tee -a kaggle_results/policy_iter/rollout.log
+          ls -lh kaggle_results/policy_iter/rollout.npz
+          .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_rust.npz --out kaggle_results/policy_iter/policy_iter.npz --epochs $EPOCHS --lr 1e-4 --mode $MODE --entropy 0.01 --win-weight 0.5 2>&1 | tee kaggle_results/policy_iter/train.log
+          ls -lh kaggle_results/policy_iter/policy_iter.npz
+          .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter.npz kaggle_results/policy_iter/policy_iter.json
+          ls -lh kaggle_results/policy_iter/policy_iter.json
+      - name: Gate eval
+        run: |
+          cd pokemon-agent
+          ./rust/target/release/policy_rollout --lib-dir libs --card-index assets/card_index.json --weights kaggle_results/policy_iter/policy_iter.json --opp-weights kaggle_results/policy_rust.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_iter/gate.log
+          cat kaggle_results/policy_iter/gate.log
+      - name: Build agent + Commit
+        if: always()
+        run: |
+          cd pokemon-agent
+          .venv/bin/python tools/build_policy_agent.py --weights kaggle_results/policy_iter/policy_iter.npz --out agents/main_policy_iter.py || true
+          ls -lh agents/main_policy_iter.py || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f kaggle_results/policy_iter/ agents/main_policy_iter.py || true
+          git commit -m "policy iter ${{ github.run_id }} [skip ci]" || echo "no changes"
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
