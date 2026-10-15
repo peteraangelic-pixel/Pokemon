@@ -8,26 +8,26 @@ Game 0 done
 Game 1000 done
 Game 1500 done
 Game 1300 done
+Game 1100 done
 Game 1600 done
 Game 100 done
-Game 1100 done
 Game 1400 done
-Game 1700 done
 Game 1200 done
+Game 1700 done
 Game 200 done
 Game 500 done
-Game 1800 done
-Game 600 done
-Game 800 done
 Game 300 done
-Game 1900 done
-Game 700 done
-Game 900 done
+Game 1800 done
+Game 800 done
+Game 600 done
 Game 400 done
-Total: 2000 games attempted, 5 failed, 201686 decisions in 14.9s (134.1 games/s)
+Game 1900 done
+Game 900 done
+Game 700 done
+Total: 2000 games attempted, 7 failed, 201688 decisions in 15.1s (132.9 games/s)
 Trying python .venv/bin/python to save npz
 <string>:1: UserWarning: Reading `.npy` or `.npz` file required additional header parsing as it was created on Python 2. Save the file again to speed up loading and avoid this warning.
 saved
 Saved via .venv/bin/python to kaggle_results/bc_data_rust.npz
-Done 201686 decisions
+Done 201688 decisions
 Exit code: 0
