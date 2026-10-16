@@ -100,7 +100,7 @@ jobs:
             --mode eval --league-frac 1.0 2>&1 | tee policy_smoke.txt
       - name: Iteration (rollout -> convert -> train -> gate)
         run: |
-          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && ! grep -q "\[policy-iter\]" <<< "${{ github.event.head_commit.message }}"; then
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && ! grep -q "\[policy-alakazam\]" <<< "${{ github.event.head_commit.message }}"; then
             echo "skipping iteration (no [policy-alakazam] trigger)"
             exit 0
           fi
