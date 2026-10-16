@@ -44,3 +44,11 @@ path = "src/bin/evolve_tempo.rs"
 [profile.release]
 lto = "thin"
 codegen-units = 1
+
+[[bin]]
+name = "gen_bc_data_rust_mt"
+path = "src/bin/gen_bc_data_rust_mt.rs"
+
+[[bin]]
+name = "gen_bc_data_rust"
+path = "src/bin/gen_bc_data_rust.rs"
