@@ -1,1 +1,1 @@
-games=10000 eps=0.08 epochs=1 mode=pg iter1
+games=40000 eps=0.08 epochs=3 mode=pg
