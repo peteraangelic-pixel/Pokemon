@@ -25,7 +25,7 @@ import policy_feats as PF
 
 ROOT = Path(__file__).resolve().parents[1]
 TEACHER = ROOT / "agents/v65_alakazam.py"
-DECK_PATH = ROOT / "decks/top30_live/YumeNeko.csv"
+DECK_PATH = ROOT / "decks/v66_alakazam_simple.csv"
 FZ = None
 MOD = None
 DECK = None

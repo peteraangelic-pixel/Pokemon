@@ -108,7 +108,7 @@ jobs:
           echo "===== ITER RUN ${GITHUB_RUN_ID} $(date -u) =====" >> pokemon-agent/kaggle_results/policy_alakazam/iter_full.txt
           exec >> pokemon-agent/kaggle_results/policy_alakazam/iter_full.txt 2>&1
           set -x
-          GAMES="${{ inputs.games }}"; GAMES="${GAMES:-20000}"
+          GAMES="${{ inputs.games }}"; GAMES="${GAMES:-40000}"
           EPS_IN="${{ inputs.eps }}"; EPS_IN="${EPS_IN:-0.08}"
           EPOCHS_IN="${{ inputs.epochs }}"; EPOCHS_IN="${EPOCHS_IN:-2}"
           export GAMES EPS_IN EPOCHS_IN
@@ -118,10 +118,10 @@ jobs:
           cp decks/top30_live/YumeNeko.csv decks/v57_trolley34w.csv decks/shaun2024_wall.csv kaggle_results/our_replays/opp_decks_v59/opp_15.csv policy_pool/ 2>/dev/null || true
           cp decks/live_v56t/*.csv policy_pool/ 2>/dev/null || true
           ls policy_pool/
-          echo "=== iteration chain: 5 x PG from alakazam BC seed (games=$GAMES) ==="
+          echo "=== iteration chain: 6 x PG v2 (lr8e-4 ep3) from alakazam BC seed v2 (games=$GAMES) ==="
           PREV_JSON=tools/policy_alakazam_seed.json
           PREV_NPZ=kaggle_results/policy_alakazam_seed.npz
-          for K in 1 2 3 4 5; do
+          for K in 1 2 3 4 5 6; do
             echo "===== ITER $K rollout ====="
             ./rust/target/release/policy_rollout \
               --lib-dir libs --card-index tools/card_index_empty.json \
@@ -129,7 +129,7 @@ jobs:
               --decks policy_pool --games $GAMES --jobs 4 \
               --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
             echo "===== ITER $K convert ====="
-            .venv/bin/python tools/convert_rollout.py --max-dec 1500000 \
+            .venv/bin/python tools/convert_rollout.py --max-dec 2500000 \
               kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
             rm -f kaggle_results/policy_alakazam/rollout.bin
             echo "===== ITER $K train PG ====="
@@ -137,7 +137,7 @@ jobs:
               --data kaggle_results/policy_alakazam/rollout.npz \
               --init $PREV_NPZ \
               --out kaggle_results/policy_alakazam/policy_alakazam_iter$K.npz \
-              --epochs 1 --lr 1e-4 --mode pg --entropy 0.01 \
+              --epochs 3 --lr 8e-4 --mode pg --entropy 0.01 \
               2>&1 | tee kaggle_results/policy_alakazam/train_iter$K.txt
             .venv/bin/python tools/export_policy_json.py \
               kaggle_results/policy_alakazam/policy_alakazam_iter$K.npz tools/policy_alakazam_iter$K.json
@@ -153,7 +153,7 @@ jobs:
           echo "===== FINAL gate: iter8 vs seed ====="
           ./rust/target/release/policy_rollout \
             --lib-dir libs --card-index tools/card_index_empty.json \
-            --weights tools/policy_alakazam_iter5.json --opp-weights tools/policy_alakazam_seed.json \
+            --weights tools/policy_alakazam_iter6.json --opp-weights tools/policy_alakazam_seed.json \
             --decks policy_pool --games 2000 --jobs 4 \
             --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_alakazam/gate_final.txt
       - name: Commit results
