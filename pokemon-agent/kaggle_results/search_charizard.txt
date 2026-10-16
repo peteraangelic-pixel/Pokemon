@@ -1,0 +1,35 @@
+YumeNeko                                    2- 0- 0  1.000
+Majiro_ns                                   2- 0- 0  1.000
+Kentaro_Totsuka                             2- 0- 0  1.000
+JerryChen                                   2- 0- 0  1.000
+Darren_Sheehan                              2- 0- 0  1.000
+Chonghao_Peng                               2- 0- 0  1.000
+Akmal_Xodarev__Busya_PRIME_                 2- 0- 0  1.000
+sue124                                      1- 1- 0  0.500
+leo_turing                                  1- 1- 0  0.500
+Zedan_Soorya                                1- 1- 0  0.500
+Xinyu_Li                                    1- 1- 0  0.500
+Stephen_Schott                              1- 1- 0  0.500
+Raja_Biswas                                 1- 1- 0  0.500
+OceanMix                                    1- 1- 0  0.500
+No_Free_MIST_Energy                         1- 1- 0  0.500
+Mengfei_Li                                  1- 1- 0  0.500
+Mathieu_W                                   1- 1- 0  0.500
+Leon_Liu                                    1- 1- 0  0.500
+KyryloBakumenko                             1- 1- 0  0.500
+Cristobal_Tudela                            1- 1- 0  0.500
+Colton_Martin                               1- 1- 0  0.500
+やる気元気ミワハルキ_2nd_ver_                         1- 0- 1  0.500
+バーベナヘレナでコンボ決めたい連合                           0- 2- 0  0.000
+yu_kuo14                                    0- 2- 0  0.000
+dajun666                                    0- 2- 0  0.000
+Bill_Vlasak                                 0- 2- 0  0.000
+ANMOL_GARG                                  0- 2- 0  0.000
+
+TOTAL 29W-24L-1D = 0.537  (27 decks x 2 games, 2s)
+worst 5:
+  ANMOL_GARG                                 0-2-0  0.000
+  Bill_Vlasak                                0-2-0  0.000
+  dajun666                                   0-2-0  0.000
+  yu_kuo14                                   0-2-0  0.000
+  バーベナヘレナでコンボ決めたい連合                          0-2-0  0.000

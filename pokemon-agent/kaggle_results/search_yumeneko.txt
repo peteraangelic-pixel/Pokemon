@@ -1,0 +1,35 @@
+YumeNeko                                    2- 0- 0  1.000
+Majiro_ns                                   2- 0- 0  1.000
+KyryloBakumenko                             2- 0- 0  1.000
+Darren_Sheehan                              2- 0- 0  1.000
+Zedan_Soorya                                1- 1- 0  0.500
+Stephen_Schott                              1- 1- 0  0.500
+Mengfei_Li                                  1- 1- 0  0.500
+Mathieu_W                                   1- 1- 0  0.500
+Chonghao_Peng                               1- 1- 0  0.500
+ANMOL_GARG                                  1- 1- 0  0.500
+やる気元気ミワハルキ_2nd_ver_                         1- 0- 1  0.500
+バーベナヘレナでコンボ決めたい連合                           0- 2- 0  0.000
+yu_kuo14                                    0- 2- 0  0.000
+sue124                                      0- 2- 0  0.000
+leo_turing                                  0- 2- 0  0.000
+dajun666                                    0- 2- 0  0.000
+Xinyu_Li                                    0- 2- 0  0.000
+Raja_Biswas                                 0- 2- 0  0.000
+OceanMix                                    0- 2- 0  0.000
+No_Free_MIST_Energy                         0- 2- 0  0.000
+Leon_Liu                                    0- 2- 0  0.000
+Kentaro_Totsuka                             0- 2- 0  0.000
+JerryChen                                   0- 2- 0  0.000
+Cristobal_Tudela                            0- 2- 0  0.000
+Colton_Martin                               0- 2- 0  0.000
+Bill_Vlasak                                 0- 2- 0  0.000
+Akmal_Xodarev__Busya_PRIME_                 0- 2- 0  0.000
+
+TOTAL 15W-38L-1D = 0.278  (27 decks x 2 games, 2s)
+worst 5:
+  Akmal_Xodarev__Busya_PRIME_                0-2-0  0.000
+  Bill_Vlasak                                0-2-0  0.000
+  Colton_Martin                              0-2-0  0.000
+  Cristobal_Tudela                           0-2-0  0.000
+  JerryChen                                  0-2-0  0.000

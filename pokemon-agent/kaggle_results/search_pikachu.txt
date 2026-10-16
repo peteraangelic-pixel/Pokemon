@@ -1,0 +1,35 @@
+やる気元気ミワハルキ_2nd_ver_                         2- 0- 0  1.000
+sue124                                      2- 0- 0  1.000
+Xinyu_Li                                    2- 0- 0  1.000
+No_Free_MIST_Energy                         2- 0- 0  1.000
+Darren_Sheehan                              2- 0- 0  1.000
+yu_kuo14                                    1- 1- 0  0.500
+YumeNeko                                    1- 1- 0  0.500
+Stephen_Schott                              1- 1- 0  0.500
+OceanMix                                    1- 1- 0  0.500
+Mengfei_Li                                  1- 1- 0  0.500
+Majiro_ns                                   1- 1- 0  0.500
+Leon_Liu                                    1- 1- 0  0.500
+Kentaro_Totsuka                             1- 1- 0  0.500
+Colton_Martin                               1- 1- 0  0.500
+ANMOL_GARG                                  1- 1- 0  0.500
+バーベナヘレナでコンボ決めたい連合                           0- 2- 0  0.000
+leo_turing                                  0- 2- 0  0.000
+dajun666                                    0- 2- 0  0.000
+Zedan_Soorya                                0- 2- 0  0.000
+Raja_Biswas                                 0- 2- 0  0.000
+Mathieu_W                                   0- 2- 0  0.000
+KyryloBakumenko                             0- 2- 0  0.000
+JerryChen                                   0- 2- 0  0.000
+Cristobal_Tudela                            0- 2- 0  0.000
+Chonghao_Peng                               0- 2- 0  0.000
+Bill_Vlasak                                 0- 2- 0  0.000
+Akmal_Xodarev__Busya_PRIME_                 0- 2- 0  0.000
+
+TOTAL 20W-34L-0D = 0.370  (27 decks x 2 games, 1s)
+worst 5:
+  Akmal_Xodarev__Busya_PRIME_                0-2-0  0.000
+  Bill_Vlasak                                0-2-0  0.000
+  Chonghao_Peng                              0-2-0  0.000
+  Cristobal_Tudela                           0-2-0  0.000
+  JerryChen                                  0-2-0  0.000

@@ -1,0 +1,35 @@
+バーベナヘレナでコンボ決めたい連合                           2- 0- 0  1.000
+やる気元気ミワハルキ_2nd_ver_                         2- 0- 0  1.000
+sue124                                      2- 0- 0  1.000
+leo_turing                                  2- 0- 0  1.000
+Zedan_Soorya                                2- 0- 0  1.000
+YumeNeko                                    2- 0- 0  1.000
+Stephen_Schott                              2- 0- 0  1.000
+OceanMix                                    2- 0- 0  1.000
+No_Free_MIST_Energy                         2- 0- 0  1.000
+Mengfei_Li                                  2- 0- 0  1.000
+Mathieu_W                                   2- 0- 0  1.000
+Majiro_ns                                   2- 0- 0  1.000
+Leon_Liu                                    2- 0- 0  1.000
+KyryloBakumenko                             2- 0- 0  1.000
+Kentaro_Totsuka                             2- 0- 0  1.000
+JerryChen                                   2- 0- 0  1.000
+Darren_Sheehan                              2- 0- 0  1.000
+Chonghao_Peng                               2- 0- 0  1.000
+Akmal_Xodarev__Busya_PRIME_                 2- 0- 0  1.000
+ANMOL_GARG                                  2- 0- 0  1.000
+yu_kuo14                                    1- 1- 0  0.500
+Xinyu_Li                                    1- 1- 0  0.500
+Raja_Biswas                                 1- 1- 0  0.500
+Cristobal_Tudela                            1- 1- 0  0.500
+dajun666                                    0- 2- 0  0.000
+Colton_Martin                               0- 2- 0  0.000
+Bill_Vlasak                                 0- 2- 0  0.000
+
+TOTAL 44W-10L-0D = 0.815  (27 decks x 2 games, 1s)
+worst 5:
+  Bill_Vlasak                                0-2-0  0.000
+  Colton_Martin                              0-2-0  0.000
+  dajun666                                   0-2-0  0.000
+  Cristobal_Tudela                           1-1-0  0.500
+  Raja_Biswas                                1-1-0  0.500
