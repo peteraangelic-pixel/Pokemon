@@ -15,7 +15,7 @@ use engine::Engine;
 use heuristic::{CardIndex, Knobs, Plan};
 
 #[derive(Parser, Debug)]
-#[command(name="bench_local", about="Local PC benchmark Rust+Rayon+FFI — simulates 1.6M games and 600g test")]
+#[command(name="bench_local", about="Local PC benchmark Rust+Rayon+FFI — min 60s to warm CPU, then estimates 1.6M")]
 struct Args {
     #[arg(long, default_value="heuristic", value_parser=["heuristic","policy"])]
     mode: String,
@@ -23,8 +23,10 @@ struct Args {
     our_deck: String,
     #[arg(long, default_value="decks/trolley_pool")]
     opp_dir: String,
-    #[arg(long, default_value_t=600)]
+    #[arg(long, default_value_t=0)]
     games: usize,
+    #[arg(long, default_value_t=60)]
+    min_seconds: u64,
     #[arg(long, default_value_t=32)]
     jobs: usize,
     #[arg(long, default_value="libs")]
@@ -33,8 +35,6 @@ struct Args {
     card_index: String,
     #[arg(long, default_value="tools/policy_alakazam_iter6.json")]
     weights: String,
-    #[arg(long, default_value="")]
-    opp_weights: String,
 }
 
 fn load_deck_ids(path: &Path) -> Result<Vec<i32>> {
@@ -64,7 +64,6 @@ fn collect_opp_decks(dir: &str) -> Vec<(String, Vec<i32>)> {
             }
         }
     } else {
-        // single file
         if let Ok(deck) = load_deck_ids(&PathBuf::from(dir)) {
             if deck.len()==60 {
                 out.push((dir.to_string(), deck));
@@ -89,6 +88,13 @@ impl EnginePool {
         }
         let idx = self.counter.fetch_add(1, Ordering::Relaxed) % self.copies;
         let lib_path = format!("{}/libcg_{}.so", self.lib_dir, idx);
+        // Windows fallback: try .dll if .so not exists
+        let lib_path = if Path::new(&lib_path).exists() {
+            lib_path
+        } else {
+            let dll_path = format!("{}/libcg_{}.dll", self.lib_dir, idx);
+            if Path::new(&dll_path).exists() { dll_path } else { lib_path }
+        };
         Engine::new(&lib_path).expect("engine new")
     }
     fn put(&self, eng: Engine) {
@@ -133,45 +139,55 @@ fn run_heuristic_game(our_deck: &[i32], opp_deck: &[i32], our_plan: &Plan, opp_p
 
 fn main() -> Result<()> {
     let args = Args::parse();
-    println!("=== bench_local Rust+Rayon+FFI ===");
-    println!("mode={} our_deck={} opp_dir={} games={} jobs={} lib_dir={} card_index={}", args.mode, args.our_deck, args.opp_dir, args.games, args.jobs, args.lib_dir, args.card_index);
+    println!("=== bench_local Rust+Rayon+FFI — min {}s to warm CPU ===", args.min_seconds);
+    println!("mode={} our_deck={} opp_dir={} games={} min_seconds={} jobs={} lib_dir={}", args.mode, args.our_deck, args.opp_dir, args.games, args.min_seconds, args.jobs, args.lib_dir);
     
     // prepare lib copies
-    let base = format!("{}/libcg.so", args.lib_dir);
+    let base_so = format!("{}/libcg.so", args.lib_dir);
+    let base_dll = format!("{}/libcg.dll", args.lib_dir);
+    let base = if Path::new(&base_so).exists() { base_so.clone() } else if Path::new(&base_dll).exists() { base_dll.clone() } else { base_so.clone() };
     if !Path::new(&base).exists() {
-        // try find .venv
         let alt = ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so";
+        let alt_win = ".venv/Lib/site-packages/kaggle_environments/envs/cabt/cg/libcg.dll";
         if Path::new(alt).exists() {
             fs::create_dir_all(&args.lib_dir)?;
             fs::copy(alt, &base)?;
             println!("copied lib from {}", alt);
+        } else if Path::new(alt_win).exists() {
+            fs::create_dir_all(&args.lib_dir)?;
+            fs::copy(alt_win, &base)?;
+            println!("copied lib from {}", alt_win);
         } else {
-            anyhow::bail!("libcg.so not found in {} nor {}", args.lib_dir, alt);
+            anyhow::bail!("libcg not found in {} nor {} nor {}", args.lib_dir, alt, alt_win);
         }
     }
     for i in 0..args.jobs+4 {
-        let dst = format!("{}/libcg_{}.so", args.lib_dir, i);
-        if !Path::new(&dst).exists() {
-            fs::copy(&base, &dst)?;
+        let dst_so = format!("{}/libcg_{}.so", args.lib_dir, i);
+        let dst_dll = format!("{}/libcg_{}.dll", args.lib_dir, i);
+        // copy both extensions if base is so, also create dll copy for Windows
+        if base.ends_with(".so") {
+            if !Path::new(&dst_so).exists() { fs::copy(&base, &dst_so)?; }
+            if !Path::new(&dst_dll).exists() { let _ = fs::copy(&base, &dst_dll); }
+        } else {
+            if !Path::new(&dst_dll).exists() { fs::copy(&base, &dst_dll)?; }
+            if !Path::new(&dst_so).exists() { let _ = fs::copy(&base, &dst_so); }
         }
     }
     println!("lib copies ready: {} copies", args.jobs+4);
 
     let card_index = CardIndex::load(&args.card_index)?;
-    println!("card_index loaded: {} cards", card_index.cards.len());
+    println!("card_index: {} cards", card_index.cards.len());
 
     let our_deck = load_deck_ids(Path::new(&args.our_deck))?;
-    assert_eq!(our_deck.len(), 60, "our deck must be 60");
+    assert_eq!(our_deck.len(), 60);
     let opp_decks = collect_opp_decks(&args.opp_dir);
-    assert!(!opp_decks.is_empty(), "no opp decks in {}", args.opp_dir);
+    assert!(!opp_decks.is_empty(), "no opp decks");
     println!("opp decks: {} from {}", opp_decks.len(), args.opp_dir);
 
-    // heuristic plans (default knobs)
     let our_plan = Plan::default();
     let opp_plan = Plan::default();
     let knobs = Knobs::default();
 
-    // thread pool
     rayon::ThreadPoolBuilder::new().num_threads(args.jobs).build_global()?;
 
     let pool = EnginePool {
@@ -181,37 +197,59 @@ fn main() -> Result<()> {
         copies: args.jobs+4,
     };
 
-    // build game configs: for each opp deck, games per deck
-    let games_per_deck = (args.games + opp_decks.len() -1) / opp_decks.len();
-    let mut configs = Vec::new();
-    for (opp_name, opp_deck) in &opp_decks {
-        for g in 0..games_per_deck {
-            let seat = g % 2;
-            configs.push((opp_name.clone(), opp_deck.clone(), seat));
-        }
-    }
-    // truncate to exact games
-    configs.truncate(args.games);
-    println!("total game configs: {} ({} per deck avg)", configs.len(), games_per_deck);
+    // determine games needed for min_seconds: if games==0, run until min_seconds
+    let target_games = if args.games==0 {
+        // estimate: 400 g/s * 60s = 24000
+        (400 * args.min_seconds as usize).max(600)
+    } else {
+        args.games
+    };
 
     let wins = AtomicUsize::new(0);
     let losses = AtomicUsize::new(0);
     let draws = AtomicUsize::new(0);
+    let total_done = AtomicUsize::new(0);
 
     let t0 = Instant::now();
-    configs.par_iter().for_each(|(opp_name, opp_deck, seat)| {
-        let res = if args.mode=="heuristic" {
-            run_heuristic_game(&our_deck, opp_deck, &our_plan, &opp_plan, &card_index, &knobs, &pool, *seat)
-        } else {
-            // for policy mode we would need MLP inference — fallback to heuristic for now, but count as policy
-            run_heuristic_game(&our_deck, opp_deck, &our_plan, &opp_plan, &card_index, &knobs, &pool, *seat)
-        };
-        match res {
-            1 => { wins.fetch_add(1, Ordering::Relaxed); },
-            -1 => { losses.fetch_add(1, Ordering::Relaxed); },
-            _ => { draws.fetch_add(1, Ordering::Relaxed); },
+    let mut batch = 0;
+    loop {
+        batch+=1;
+        let games_this_batch = target_games;
+        let mut configs = Vec::with_capacity(games_this_batch);
+        for i in 0..games_this_batch {
+            let (opp_name, opp_deck) = &opp_decks[i % opp_decks.len()];
+            let seat = i % 2;
+            configs.push((opp_name.clone(), opp_deck.clone(), seat));
         }
-    });
+
+        configs.par_iter().for_each(|(opp_name, opp_deck, seat)| {
+            let res = run_heuristic_game(&our_deck, opp_deck, &our_plan, &opp_plan, &card_index, &knobs, &pool, *seat);
+            match res {
+                1 => { wins.fetch_add(1, Ordering::Relaxed); },
+                -1 => { losses.fetch_add(1, Ordering::Relaxed); },
+                _ => { draws.fetch_add(1, Ordering::Relaxed); },
+            }
+            total_done.fetch_add(1, Ordering::Relaxed);
+        });
+
+        let elapsed = t0.elapsed().as_secs_f64();
+        let total = total_done.load(Ordering::Relaxed);
+        let gps = total as f64 / elapsed.max(0.001);
+        println!("[batch {}] {}/{} games, {:.1}s elapsed, {:.1} g/s", batch, total, target_games, elapsed, gps);
+
+        if elapsed >= args.min_seconds as f64 {
+            break;
+        }
+        if args.games!=0 && total>=args.games {
+            // if user specified games and we already reached min_seconds, break
+            if elapsed >= args.min_seconds as f64 { break; }
+            // else continue looping to reach min_seconds
+        }
+        if args.games==0 && elapsed >= args.min_seconds as f64 {
+            break;
+        }
+    }
+
     let elapsed = t0.elapsed().as_secs_f64();
     let w = wins.load(Ordering::Relaxed);
     let l = losses.load(Ordering::Relaxed);
@@ -220,26 +258,17 @@ fn main() -> Result<()> {
     let wr = if total>0 { w as f64 / total as f64 } else { 0.0 };
     let gps = total as f64 / elapsed.max(0.001);
 
-    println!("\n=== RESULT ===");
+    println!("\n=== RESULT (CPU warmed) ===");
     println!("mode={} games={} wins={} losses={} draws={} winrate={:.3} elapsed={:.1}s games_per_sec={:.1}", args.mode, total, w, l, d, wr, elapsed, gps);
     
-    // estimates
-    let target_600 = 600.0;
-    let target_1_6m = 1_600_000.0;
-    println!("\n=== ESTIMATES FOR YOUR PC ({} threads) ===", args.jobs);
-    println!("600g test (Mengfei/trolley): {:.1}s @ {:.1} g/s", target_600 / gps, gps);
-    println!("1.6M games rollout: {:.1}s = {:.1} min = {:.2}h @ {:.1} g/s", target_1_6m / gps, target_1_6m / gps / 60.0, target_1_6m / gps / 3600.0, gps);
-    
-    // with training overhead: per 40k iter = rollout 40k/gps + 8 min training (est local)
-    let rollout_40k = 40000.0 / gps;
-    let train_40k = 8.0*60.0; // 8 min est for 32 threads
-    let iter_time = rollout_40k + train_40k;
-    let iters_needed = target_1_6m / 40000.0;
-    println!("\nWith training (8 min per 40k iter, 32 threads):");
-    println!("per iter (40k): rollout {:.1}s + train {:.0}s = {:.1}s = {:.1} min", rollout_40k, train_40k, iter_time, iter_time/60.0);
-    println!("40 iters (1.6M): {:.1}h", iters_needed * iter_time / 3600.0);
-    println!("To reach 0.709 from 0.51 (+20pp @0.5pp/40k): ~40 iters = {:.1}h", iters_needed * iter_time / 3600.0);
-    println!("Real plateau: likely 5-10M games needed → {:.1}h - {:.1}h", 5_000_000.0 / 40000.0 * iter_time / 3600.0, 10_000_000.0 / 40000.0 * iter_time / 3600.0);
+    println!("\n=== ESTIMATES FOR YOUR PC ({} threads, warmed) ===", args.jobs);
+    println!("600g test: {:.1}s @ {:.1} g/s", 600.0 / gps, gps);
+    println!("40k rollout: {:.1}s = {:.1} min", 40000.0 / gps, 40000.0 / gps / 60.0);
+    println!("1.6M rollout: {:.1}s = {:.1} min = {:.2}h", 1600000.0 / gps, 1600000.0 / gps / 60.0, 1600000.0 / gps / 3600.0);
+    let train_40k = 8.0*60.0;
+    let iter_time = 40000.0 / gps + train_40k;
+    println!("40 iters (1.6M) + trening 8min/iter: {:.1}h", 40.0 * iter_time / 3600.0);
+    println!("Do 0.709 (+20pp @0.5pp/40k): ~40 iters = {:.1}h, realnie 5-10M = {:.1}h-{:.1}h", 40.0 * iter_time / 3600.0, 125.0 * iter_time / 3600.0, 250.0 * iter_time / 3600.0);
 
     Ok(())
 }
