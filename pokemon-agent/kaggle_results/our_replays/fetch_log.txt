@@ -1,38 +1,170 @@
-replay 124468202 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124467462 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124466703 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124466021 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124465310 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124467523 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124463214 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124460183 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124459674 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
-replay 124458379 failed: 429 Client Error: Too Many Requests for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/GetEpisodeReplay
-
 Fetching replays into pokemon-agent/kaggle_results/our_replays
-Found 27 own submissions
+Found 28 own submissions
+
+=== Submission 57249391 (v59_10k_1M_772val.tar.gz) ===
+  episodes listed: 65
+full dump 57249391: 65 episodes
+  full episode metadata dumped: 65
+  downloaded replay 124642289
+  downloaded replay 124641643
+  downloaded replay 124640986
+  downloaded replay 124640347
+  downloaded replay 124639696
+  downloaded replay 124639056
+  downloaded replay 124638409
+  downloaded replay 124637759
+  downloaded replay 124637130
+  downloaded replay 124636465
+  downloaded replay 124635811
+  downloaded replay 124635173
+  downloaded replay 124634525
+  downloaded replay 124633847
+  downloaded replay 124633181
+  downloaded replay 124632520
+  downloaded replay 124631869
+  downloaded replay 124631196
+  downloaded replay 124630523
+  downloaded replay 124629868
+  downloaded replay 124629158
+  downloaded replay 124628454
+  downloaded replay 124627814
+  downloaded replay 124627202
+  downloaded replay 124626484
+  downloaded replay 124625848
+  downloaded replay 124625147
+  downloaded replay 124624471
+  downloaded replay 124623836
+  downloaded replay 124623852
+  downloaded replay 124623237
+  downloaded replay 124623160
+  downloaded replay 124622520
+  downloaded replay 124622583
+  downloaded replay 124621819
+  downloaded replay 124621241
+  downloaded replay 124621186
+  downloaded replay 124620588
+  downloaded replay 124620557
+  downloaded replay 124619884
+  downloaded replay 124619217
+  downloaded replay 124618533
+  downloaded replay 124617854
+  downloaded replay 124617168
+  downloaded replay 124616512
+  downloaded replay 124615790
+  downloaded replay 124615102
+  downloaded replay 124614336
+  downloaded replay 124613609
+  downloaded replay 124612862
+  downloaded replay 124612034
+  downloaded replay 124611245
+  downloaded replay 124610424
+  downloaded replay 124609602
+  downloaded replay 124608793
+  downloaded replay 124607917
+  downloaded replay 124607047
+  downloaded replay 124606131
+  downloaded replay 124605148
+  downloaded replay 124605135
+  downloaded replay 124602459
+  downloaded replay 124604365
+  downloaded replay 124603258
+  downloaded replay 124603335
+  downloaded replay 124600562
 
 === Submission 57225963 (ptcg_v56_tuned_a450.tar.gz) ===
-  episodes listed: 59
-full dump 57225963: 59 episodes
-  full episode metadata dumped: 59
-  stopping downloads: 5 consecutive failures (rate limit?)
+  episodes listed: 117
+full dump 57225963: 117 episodes
+  full episode metadata dumped: 117
+  downloaded replay 124643016
+  downloaded replay 124639680
+  downloaded replay 124637145
+  downloaded replay 124632596
+  downloaded replay 124629927
+  downloaded replay 124625878
+  downloaded replay 124623828
+  downloaded replay 124623166
+  downloaded replay 124622567
+  downloaded replay 124618562
+  downloaded replay 124613678
+  downloaded replay 124608840
+  downloaded replay 124603303
+  downloaded replay 124597130
+  downloaded replay 124592374
+  downloaded replay 124591103
+  downloaded replay 124585333
+  downloaded replay 124579618
+  downloaded replay 124574072
+  downloaded replay 124569234
+  downloaded replay 124564788
+  downloaded replay 124561150
+  downloaded replay 124560426
+  downloaded replay 124556327
+  downloaded replay 124552065
+  downloaded replay 124552112
+  downloaded replay 124548531
+  downloaded replay 124544360
+  downloaded replay 124540656
+  downloaded replay 124536221
+  downloaded replay 124532245
+  downloaded replay 124528291
+  downloaded replay 124528300
+  downloaded replay 124523552
+  downloaded replay 124518811
+  downloaded replay 124513883
+  downloaded replay 124510729
+  downloaded replay 124509241
+  downloaded replay 124506711
+  downloaded replay 124504444
+  downloaded replay 124498990
+  downloaded replay 124494230
+  downloaded replay 124489469
+  downloaded replay 124486947
+  downloaded replay 124483863
+  downloaded replay 124479188
+  downloaded replay 124477664
+  downloaded replay 124477001
+  downloaded replay 124472581
+  downloaded replay 124471156
+  downloaded replay 124471199
+  downloaded replay 124471145
+  downloaded replay 124470419
+  downloaded replay 124469698
+  downloaded replay 124469679
+  downloaded replay 124469745
+  downloaded replay 124468938
+  downloaded replay 124468267
+  downloaded replay 124468202
+  downloaded replay 124467462
+  downloaded replay 124466703
+  downloaded replay 124466021
+  downloaded replay 124465310
+  downloaded replay 124465369
+  downloaded replay 124464584
+  downloaded replay 124463856
+  downloaded replay 124463892
+  downloaded replay 124463147
+  downloaded replay 124462361
+  downloaded replay 124461780
+  downloaded replay 124461167
+  downloaded replay 124461165
+  downloaded replay 124460725
+  downloaded replay 124460369
+  downloaded replay 124459845
+  downloaded replay 124460111
+  downloaded replay 124459600
+  downloaded replay 124458870
+  downloaded replay 124459360
+  downloaded replay 124459124
 
-=== Submission 57199505 (ptcg_v55_mirror_a450.tar.gz) ===
-  episodes listed: 97
-full dump 57199505: 97 episodes
-  full episode metadata dumped: 97
-  stopping downloads: 5 consecutive failures (rate limit?)
-
-Total replay JSONs on disk: 406
-
-Wrote pokemon-agent/kaggle_results/our_replays/summary.json + summary.md
+Total replay JSONs on disk: 552
+Traceback (most recent call last):
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 395, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 350, in main
+    analyzed.append(analyze_replay_file(rp))
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 216, in analyze_replay_file
+    info = data.get("info") or {}
+           ^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
