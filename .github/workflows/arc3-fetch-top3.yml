@@ -1,0 +1,76 @@
+name: ARC3 fetch top3 notebooks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/.fetch-top3.trigger"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Kaggle CLI
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.kaggle
+          printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+          chmod 600 ~/.kaggle/access_token
+
+      - name: Fetch top notebooks
+        run: |
+          mkdir -p arc-agi-3/top-analysis
+          cd arc-agi-3/top-analysis
+          
+          # Top 3 z leaderboardu (z ostatnich submisji)
+          # 1. Tufa Labs (68.91)
+          # 2. Yi-Chia Chen (67.49)
+          # 3. mtg (45.00)
+          
+          echo "=== Fetching top public notebooks ==="
+          kaggle kernels list -c arc-prize-2026-arc-agi-3 --sort-by score --csv > top-kernels.csv 2>&1 || true
+          head -30 top-kernels.csv
+          
+          echo
+          echo "=== Searching for Tufa Labs ==="
+          kaggle kernels list -s "tufa" -c arc-prize-2026-arc-agi-3 --csv 2>&1 | tee tufa-search.csv || true
+          
+          echo
+          echo "=== Searching for Yi-Chia Chen ==="
+          kaggle kernels list -s "yi-chia" -c arc-prize-2026-arc-agi-3 --csv 2>&1 | tee yichia-search.csv || true
+          
+          echo
+          echo "=== Searching for mtg ==="
+          kaggle kernels list -s "mtg" -c arc-prize-2026-arc-agi-3 --csv 2>&1 | tee mtg-search.csv || true
+          
+          echo
+          echo "=== All top kernels by score ==="
+          kaggle kernels list -c arc-prize-2026-arc-agi-3 --sort-by score --page-size 20 --csv 2>&1 | tee all-top.csv || true
+          cat all-top.csv
+
+      - name: Commit results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git add arc-agi-3/top-analysis || true
+          if [ -n "$(git status --porcelain arc-agi-3/top-analysis)" ]; then
+            git commit -m "analysis: fetch top3 notebooks [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
