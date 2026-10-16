@@ -14,7 +14,7 @@ on:
       eps:
         default: "0.08"
       epochs:
-        default: "1"
+        default: "3"
       mode:
         default: "pg"
 
@@ -58,7 +58,7 @@ jobs:
           TRIGGER=$(cat kaggle_results/policy_iter.trigger 2>/dev/null || echo "")
           GAMES=$(echo "$TRIGGER" | grep -oE 'games=[0-9]+' | cut -d= -f2 | head -1); GAMES=${GAMES:-${{ inputs.games || '10000' }}}
           EPS=$(echo "$TRIGGER" | grep -oE 'eps=[0-9.]+' | cut -d= -f2 | head -1); EPS=${EPS:-${{ inputs.eps || '0.08' }}}
-          EPOCHS=$(echo "$TRIGGER" | grep -oE 'epochs=[0-9]+' | cut -d= -f2 | head -1); EPOCHS=${EPOCHS:-${{ inputs.epochs || '1' }}}
+          EPOCHS=$(echo "$TRIGGER" | grep -oE 'epochs=[0-9]+' | cut -d= -f2 | head -1); EPOCHS=${EPOCHS:-${{ inputs.epochs || '3' }}}
           MODE=$(echo "$TRIGGER" | grep -oE 'mode=[a-z]+' | cut -d= -f2 | head -1); MODE=${MODE:-${{ inputs.mode || 'pg' }}}
           echo "GAMES=$GAMES EPS=$EPS EPOCHS=$EPOCHS MODE=$MODE"
           mkdir -p policy_pool kaggle_results/policy_iter
@@ -79,11 +79,11 @@ jobs:
         run: |
           cd pokemon-agent
           TRIGGER=$(cat kaggle_results/policy_iter.trigger 2>/dev/null || echo "")
-          EPOCHS=$(echo "$TRIGGER" | grep -oE 'epochs=[0-9]+' | cut -d= -f2 | head -1); EPOCHS=${EPOCHS:-${{ inputs.epochs || '1' }}}
+          EPOCHS=$(echo "$TRIGGER" | grep -oE 'epochs=[0-9]+' | cut -d= -f2 | head -1); EPOCHS=${EPOCHS:-${{ inputs.epochs || '3' }}}
           MODE=$(echo "$TRIGGER" | grep -oE 'mode=[a-z]+' | cut -d= -f2 | head -1); MODE=${MODE:-${{ inputs.mode || 'pg' }}}
           .venv/bin/python tools/convert_rollout.py kaggle_results/policy_iter/rollout.bin kaggle_results/policy_iter/rollout.npz 2>&1 | tee -a kaggle_results/policy_iter/rollout.log
           ls -lh kaggle_results/policy_iter/rollout.npz
-          .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_rust.npz --out kaggle_results/policy_iter/policy_iter.npz --epochs $EPOCHS --lr 1e-4 --mode $MODE --entropy 0.01 --win-weight 0.5 2>&1 | tee kaggle_results/policy_iter/train.log
+          .venv/bin/python tools/train_policy.py --data kaggle_results/policy_iter/rollout.npz --init kaggle_results/policy_rust.npz --out kaggle_results/policy_iter/policy_iter.npz --epochs $EPOCHS --lr 8e-4 --mode $MODE --entropy 0.01 --win-weight 0.5 2>&1 | tee kaggle_results/policy_iter/train.log
           ls -lh kaggle_results/policy_iter/policy_iter.npz
           .venv/bin/python tools/export_policy_json.py kaggle_results/policy_iter/policy_iter.npz kaggle_results/policy_iter/policy_iter.json
           ls -lh kaggle_results/policy_iter/policy_iter.json
