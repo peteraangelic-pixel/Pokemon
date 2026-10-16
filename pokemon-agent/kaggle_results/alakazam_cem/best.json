@@ -1,0 +1,17 @@
+{
+  "wr": 0.5833333333333334,
+  "wr_val": 0.4666666666666667,
+  "cfg": {
+    "PTCG_RARE_CANDY": 0,
+    "PTCG_HAND_THRESH": 4,
+    "PTCG_HAND_BONUS": 1,
+    "PTCG_BOSS_KO": 1,
+    "PTCG_BOSS_MARGIN": 10,
+    "PTCG_EVO_ALAK": 1,
+    "PTCG_NO_ATK_BEFORE_SETUP": 1,
+    "PTCG_ABRA_TP_THRESH": 50,
+    "PTCG_SIMPLE_DECK": 1
+  },
+  "w": 56,
+  "l": 64
+}

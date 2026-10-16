@@ -1,0 +1,386 @@
+[
+  {
+    "wr": 0.5833333333333334,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 35,
+    "l": 25
+  },
+  {
+    "wr": 0.5333333333333333,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 3,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 50,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 32,
+    "l": 28
+  },
+  {
+    "wr": 0.5333333333333333,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 32,
+    "l": 28
+  },
+  {
+    "wr": 0.5,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 30,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 30,
+    "l": 30
+  },
+  {
+    "wr": 0.5,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 4,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 30,
+    "l": 30
+  },
+  {
+    "wr": 0.5,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 0,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 30,
+    "l": 30
+  },
+  {
+    "wr": 0.48333333333333334,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 50,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 29,
+    "l": 31
+  },
+  {
+    "wr": 0.48333333333333334,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 4,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 29,
+    "l": 31
+  },
+  {
+    "wr": 0.4666666666666667,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 3,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 28,
+    "l": 32
+  },
+  {
+    "wr": 0.4666666666666667,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 30,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 28,
+    "l": 32
+  },
+  {
+    "wr": 0.45,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 27,
+    "l": 33
+  },
+  {
+    "wr": 0.45,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 4,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 60,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 27,
+    "l": 33
+  },
+  {
+    "wr": 0.45,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 6,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 27,
+    "l": 33
+  },
+  {
+    "wr": 0.45,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 4,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 60,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 27,
+    "l": 33
+  },
+  {
+    "wr": 0.43333333333333335,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 26,
+    "l": 34
+  },
+  {
+    "wr": 0.43333333333333335,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 6,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 0,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 70,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 26,
+    "l": 34
+  },
+  {
+    "wr": 0.43333333333333335,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 0,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 26,
+    "l": 34
+  },
+  {
+    "wr": 0.4166666666666667,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 6,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 0,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 70,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 25,
+    "l": 35
+  },
+  {
+    "wr": 0.4,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 4,
+      "PTCG_HAND_BONUS": 0,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 24,
+    "l": 36
+  },
+  {
+    "wr": 0.4,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 24,
+    "l": 36
+  },
+  {
+    "wr": 0.4,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 4,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 0,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 0
+    },
+    "w": 24,
+    "l": 36
+  },
+  {
+    "wr": 0.4,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 5,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 40,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 24,
+    "l": 36
+  },
+  {
+    "wr": 0.38333333333333336,
+    "cfg": {
+      "PTCG_RARE_CANDY": 0,
+      "PTCG_HAND_THRESH": 4,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 0,
+      "PTCG_BOSS_MARGIN": 0,
+      "PTCG_EVO_ALAK": 1,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 60,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 23,
+    "l": 37
+  },
+  {
+    "wr": 0.31666666666666665,
+    "cfg": {
+      "PTCG_RARE_CANDY": 1,
+      "PTCG_HAND_THRESH": 3,
+      "PTCG_HAND_BONUS": 1,
+      "PTCG_BOSS_KO": 1,
+      "PTCG_BOSS_MARGIN": 10,
+      "PTCG_EVO_ALAK": 0,
+      "PTCG_NO_ATK_BEFORE_SETUP": 1,
+      "PTCG_ABRA_TP_THRESH": 50,
+      "PTCG_SIMPLE_DECK": 1
+    },
+    "w": 19,
+    "l": 41
+  }
+]
