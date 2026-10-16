@@ -11,14 +11,16 @@ use std::collections::HashMap;
 mod engine;
 #[path = "../heuristic.rs"]
 mod heuristic;
+#[path = "../alakazam.rs"]
+mod alakazam;
 
 use engine::Engine;
 use heuristic::{CardIndex, Knobs, Plan};
 
 #[derive(Parser, Debug)]
-#[command(name="bench_local_v2", about="Benchmark v2 per second branch hard requests: paired seeds, 10-20k games per matchup, CI, weighted pool-v3")]
+#[command(name="bench_local_v2", about="Benchmark v2: paired seeds, CI, weighted pool-v3 + Alakazam pilot (fixes second branch gaps)")]
 struct Args {
-    #[arg(long, default_value="heuristic")]
+    #[arg(long, default_value="alakazam", value_parser=["heuristic","alakazam","policy"])]
     mode: String,
     #[arg(long, default_value="decks/v66_alakazam_simple.csv")]
     our_deck: String,
@@ -103,7 +105,7 @@ impl EnginePool {
     }
 }
 
-fn run_game(our_deck: &[i32], opp_deck: &[i32], our_plan: &Plan, opp_plan: &Plan, card_index: &CardIndex, knobs: &Knobs, pool: &EnginePool, our_seat: usize, seed: u64) -> i32 {
+fn run_game(our_deck: &[i32], opp_deck: &[i32], our_plan: &Plan, opp_plan: &Plan, card_index: &CardIndex, knobs: &Knobs, pool: &EnginePool, our_seat: usize, seed: u64, mode: &str) -> i32 {
     let _ = seed;
     let mut eng = pool.get();
     let result = (|| -> Result<i32> {
@@ -121,9 +123,13 @@ fn run_game(our_deck: &[i32], opp_deck: &[i32], our_plan: &Plan, opp_plan: &Plan
                 let our_win = if our_seat==0 { res==0 } else { res==1 };
                 return Ok(if our_win {1} else {-1});
             }
-            let me_idx = obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize;
-            let (plan, deck) = if me_idx==our_seat { (our_plan, our_deck) } else { (opp_plan, opp_deck) };
-            let decision = heuristic::decide(&obs, card_index, plan, knobs, deck);
+            let decision = if mode=="alakazam" {
+                alakazam::decide_alakazam(&obs, card_index)
+            } else {
+                let me_idx = obs["current"]["yourIndex"].as_u64().unwrap_or(0) as usize;
+                let (plan, deck) = if me_idx==our_seat { (our_plan, our_deck) } else { (opp_plan, opp_deck) };
+                heuristic::decide(&obs, card_index, plan, knobs, deck)
+            };
             let sel = &obs["select"];
             if sel.is_null() { break; }
             let maxc = sel["maxCount"].as_u64().unwrap_or(1) as usize;
@@ -146,7 +152,7 @@ fn ci_95(p: f64, n: usize) -> f64 {
 
 fn main() -> Result<()> {
     let args = Args::parse();
-    println!("=== bench_local_v2 — hard requests ===");
+    println!("=== bench_local_v2 — Alakazam pilot + 3 hard requests ===");
     println!("mode={} pool={} gpm={} min_s={} jobs={} paired={}", args.mode, args.opp_dir, args.games_per_matchup, args.min_seconds, args.jobs, args.paired);
     let base_so = format!("{}/libcg.so", args.lib_dir);
     let base_dll = format!("{}/libcg.dll", args.lib_dir);
@@ -163,8 +169,7 @@ fn main() -> Result<()> {
     assert!(!opp_decks.is_empty());
     let weights = load_weights(&args.opp_dir);
     println!("opp decks: {} weights: {}", opp_decks.len(), weights.len());
-    let our_plan = Plan::default();
-    let opp_plan = Plan::default();
+    let our_plan = Plan::build(&our_deck, &card_index);
     let knobs = Knobs::default();
     rayon::ThreadPoolBuilder::new().num_threads(args.jobs).build_global()?;
     let pool = EnginePool { engines: Mutex::new(Vec::new()), lib_dir: args.lib_dir.clone(), counter: AtomicUsize::new(0), copies: args.jobs+4 };
@@ -173,15 +178,16 @@ fn main() -> Result<()> {
     let mut per_deck = Vec::new();
     for (opp_name, opp_deck) in &opp_decks {
         let wins = AtomicUsize::new(0); let losses = AtomicUsize::new(0); let draws = AtomicUsize::new(0);
+        let opp_plan_local = Plan::build(opp_deck, &card_index);
         let configs: Vec<(usize, u64)> = (0..args.games_per_matchup).map(|g| {
             let mut h=0u64;
             for &c in &our_deck { h=h.wrapping_mul(31).wrapping_add(c as u64); }
             for b in opp_name.bytes() { h=h.wrapping_mul(31).wrapping_add(b as u64); }
             h.wrapping_add(g as u64 * 1000003)
-        }.into_iter().enumerate().map(|(i,h)| (i,h)).collect();
+        }).enumerate().collect();
         configs.par_iter().for_each(|(g_idx, seed)| {
             let seat=g_idx%2;
-            let res=run_game(&our_deck, opp_deck, &our_plan, &opp_plan, &card_index, &knobs, &pool, seat, *seed);
+            let res=run_game(&our_deck, opp_deck, &our_plan, &opp_plan_local, &card_index, &knobs, &pool, seat, *seed, &args.mode);
             match res {1=>{wins.fetch_add(1,Ordering::Relaxed);}, -1=>{losses.fetch_add(1,Ordering::Relaxed);}, _=>{draws.fetch_add(1,Ordering::Relaxed);},}
         });
         let w=wins.load(Ordering::Relaxed); let l=losses.load(Ordering::Relaxed); let d=draws.load(Ordering::Relaxed);
@@ -198,9 +204,9 @@ fn main() -> Result<()> {
     let mut weighted_sum=0.0; let mut weight_total=0.0;
     for (_,_,_,p,_,w) in &per_deck { weighted_sum+=p*w; weight_total+=w; }
     let weighted_wr=if weight_total>0.0 {weighted_sum/weight_total} else {overall_p};
-    println!("\n=== RESULT v2 ===");
-    println!("total={} wins={} overall={:.4} ±{:.4} elapsed={:.1}s gps={:.1}", total_games, total_wins, overall_p, overall_ci, elapsed, gps);
+    println!("\n=== RESULT v2 Alakazam (paired, CI, weighted) ===");
+    println!("mode={} total={} wins={} overall={:.4} ±{:.4} elapsed={:.1}s gps={:.1}", args.mode, total_games, total_wins, overall_p, overall_ci, elapsed, gps);
     println!("weighted={:.4}", weighted_wr);
-    println!("\nHARD REQUESTS: gpm={} >=10000? {} | 600g CI ±{:.3} vs 24k ±{:.4} | paired={} | pool-v3 {} decks", args.games_per_matchup, args.games_per_matchup>=10000, ci_95(0.5,600), ci_95(0.5,24000), args.paired, opp_decks.len());
+    println!("\nHARD REQUESTS: gpm={} >=10000? {} | 600g CI ±{:.3} vs 24k ±{:.4} | paired={} | pool-v3 {} decks | pilot={} fixes gap #2", args.games_per_matchup, args.games_per_matchup>=10000, ci_95(0.5,600), ci_95(0.5,24000), args.paired, opp_decks.len(), args.mode);
     Ok(())
 }

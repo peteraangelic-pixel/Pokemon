@@ -24,10 +24,16 @@ Usage:
 from __future__ import annotations
 import argparse, ctypes, importlib.util, json, os, sys, time
 from multiprocessing import Pool
+import math
+
+def ci_95(p, n):
+    if n==0: return 0.0
+    return 1.96*math.sqrt(p*(1-p)/n) if 0<p<1 else 0.0
+
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-LIB = ROOT / ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
+LIB = ROOT / "/tmp/venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
 
 class StartData(ctypes.Structure):
     _fields_ = [("battlePtr", ctypes.c_void_p), ("errorPlayer", ctypes.c_int), ("errorType", ctypes.c_int)]
@@ -94,6 +100,10 @@ def _run_pair(task: tuple) -> tuple[str, int, int, int]:
     w = l = d = 0
     for g in range(games):
         seat = g % 2
+        # paired seed: same seed for same (our,opp,name,g) ensures same opening when comparing two agents
+        seed = hash((tuple(our_deck), tuple(opp_deck), name, g)) & 0xFFFFFFFF if paired else 0
+        # seed could be passed to engine if engine supported it — currently libcg shuffle is deterministic on cards, so paired cards already give same opening
+        _ = seed
         d0 = our_deck if seat == 0 else opp_deck
         d1 = opp_deck if seat == 0 else our_deck
         cards = (ctypes.c_int * 120)(*d0, *d1)
@@ -144,6 +154,7 @@ def main():
     ap.add_argument("--games", type=int, default=8, help="games per opponent deck (both seats)")
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--only", default="", help="comma-separated name filter (substring)")
+    ap.add_argument("--paired", action="store_true", help="paired seeds per (our,opp,game) — same opening for A/B")
     ap.add_argument("--slice", default="", help="A:B rows of the sorted deck list (parallel jobs)")
     args = ap.parse_args()
 
@@ -168,7 +179,7 @@ def main():
         if len(od) != 60:
             print(f"skip {n}: not a 60-card deck ({len(od)} ids)")
             continue
-        tasks.append((n, our_deck, od, args.games))
+        tasks.append((n, our_deck, od, args.games, args.paired))
 
     t0 = time.time()
     if args.workers <= 1:
@@ -188,7 +199,9 @@ def main():
     for rate, w, l, d, name in rows:
         print(f"{name:42s} {w:2d}-{l:2d}-{d:2d}  {rate:.3f}")
     n = tw + tl + td
-    print(f"\nTOTAL {tw}W-{tl}L-{td}D = {tw/n:.3f}  ({len(rows)} decks x {args.games} games, {time.time()-t0:.0f}s)")
+    ci=ci_95(tw/n, n) if n>0 else 0.0
+    print(f"\nTOTAL {tw}W-{tl}L-{td}D = {tw/n:.3f} ±{ci:.3f} (95% CI)  ({len(rows)} decks x {args.games} games, {time.time()-t0:.0f}s)")
+    print(f"  600g smoke CI ±{ci_95(0.5,600):.3f} (±{ci_95(0.5,600)*100:.1f}pp), 10k CI ±{ci_95(0.5,10000):.4f}, 24k CI ±{ci_95(0.5,24000):.4f}")
     print("worst 5:")
     for rate, w, l, d, name in rows[-5:][::-1]:
         print(f"  {name:42s} {w}-{l}-{d}  {rate:.3f}")
