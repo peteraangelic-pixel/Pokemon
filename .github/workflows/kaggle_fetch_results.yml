@@ -1,0 +1,55 @@
+name: kaggle-fetch-results
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/c87f7a48-pokemon
+    paths:
+      - pokemon-agent/kaggle_results/fetch.trigger
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install --quiet kaggle
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "${KAGGLE_API_TOKEN:-}" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '\r\n' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+          elif [ -n "${KAGGLE_USERNAME:-}" ] && [ -n "${KAGGLE_KEY:-}" ]; then
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+            chmod 600 ~/.kaggle/kaggle.json
+          else
+            echo "no creds"; exit 1
+          fi
+      - run: |
+          kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground -v 2>&1 | tee pokemon-agent/kaggle_results/latest_submissions.txt
+          cat pokemon-agent/kaggle_results/latest_submissions.txt
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -rf /tmp/keep && mkdir -p /tmp/keep
+          cp -r pokemon-agent/kaggle_results /tmp/keep/ || true
+          git fetch origin "${GITHUB_REF_NAME}"
+          git reset --hard "origin/${GITHUB_REF_NAME}"
+          cp -r /tmp/keep/kaggle_results/. pokemon-agent/kaggle_results/ || true
+          git add -f pokemon-agent/kaggle_results/latest_submissions.txt || true
+          git rm -q --ignore-unmatch pokemon-agent/kaggle_results/fetch.trigger || true
+          git commit -m "fetch latest kaggle results [skip ci]" || echo "no changes"
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
