@@ -1,0 +1,82 @@
+name: kaggle-our-replays
+on:
+  push:
+    paths:
+      - 'pokemon-agent/kaggle_results/our_replays.trigger'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  replays:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install --quiet kaggle
+      - name: Configure Kaggle credentials
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token; chmod 600 ~/.kaggle/access_token
+          elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            python3 - "$KAGGLE_USERNAME" "$KAGGLE_KEY" <<'PY'
+          import json, os
+          json.dump({"username": os.environ["KAGGLE_USERNAME"], "key": os.environ["KAGGLE_KEY"]}, open(os.path.expanduser("~/.kaggle/kaggle.json"), "w"))
+          PY
+            chmod 600 ~/.kaggle/kaggle.json
+          else
+            echo "no auth" && exit 1
+          fi
+      - name: Fetch our latest-submission replays
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: 1
+        run: |
+          set -euo pipefail
+          mkdir -p pokemon-agent/kaggle_results/our_replays
+          rm -rf pokemon-agent/kaggle_results/our_replays/loss_replays
+          python pokemon-agent/tools/fetch_replays.py \
+            --competition "the-pokemon-company-ptcg-ai-battle-challenge-playground" \
+            --outdir pokemon-agent/kaggle_results/our_replays \
+            --top-k 80 --no-official > /tmp/fetch.log 2>&1 \
+            || echo "FETCH FAILED (see fetch.log)"
+          cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch_log.txt || true
+          echo "---- fetch.log tail ----"; tail -50 /tmp/fetch.log || true
+          python pokemon-agent/tools/summarize_episodes.py \
+            --outdir pokemon-agent/kaggle_results/our_replays > /tmp/summarize.log 2>&1 \
+            || echo "SUMMARIZE FAILED (see summarize.log)"
+          cp /tmp/summarize.log pokemon-agent/kaggle_results/our_replays/summarize_log.txt || true
+          echo "---- summarize.log ----"; cat /tmp/summarize.log || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kaggle-our-replays
+          path: pokemon-agent/kaggle_results/our_replays/
+          if-no-files-found: warn
+      - name: Commit back
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          find pokemon-agent/kaggle_results/our_replays -type f -size +5M -delete || true
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" >/dev/null 2>&1 || true
+            git add -A pokemon-agent/kaggle_results/our_replays/ || true
+            if git diff --cached --quiet; then echo "nothing to commit"; break; fi
+            git commit -m "chore(kaggle): our replays digest [skip ci]" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then break; fi
+            sleep $((i*10))
+          done
