@@ -162,6 +162,9 @@ class Featurizer:
         area, idx = opt.get("area"), opt.get("index")
         if idx is None:
             return None
+        if area is None and opt.get("type") == 7:
+            # PLAY options carry no area: index refers to the hand
+            area = 2
         cur = obs.get("current") or {}
         players = cur.get("players") or []
         owner = opt.get("playerIndex", me)

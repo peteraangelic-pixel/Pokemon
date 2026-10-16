@@ -347,7 +347,11 @@ impl<'a> Feat<'a> {
                 return Some(cid);
             }
         }
-        let area = opt.get("area").and_then(|x| x.as_i64());
+        let mut area = opt.get("area").and_then(|x| x.as_i64());
+        if area.is_none() && opt.get("type").and_then(|x| x.as_i64()) == Some(7) {
+            // PLAY options carry no area: index refers to the hand
+            area = Some(2);
+        }
         let idx = opt.get("index").and_then(|x| x.as_i64())? as usize;
         let owner = opt.get("playerIndex").and_then(|x| x.as_i64()).unwrap_or(me as i64) as usize;
         let cur = obs.get("current")?;
