@@ -1,0 +1,61 @@
+name: deck-archetype-search
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/c87f7a48-pokemon
+    paths:
+      - pokemon-agent/kaggle_results/deck_search.trigger
+
+permissions:
+  contents: write
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          cd pokemon-agent
+          python -m venv .venv
+          .venv/bin/pip install --quiet kaggle-environments numpy
+          ls -lh .venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so
+      - name: Run archetype search (v44 vs top30_live)
+        run: |
+          cd pokemon-agent
+          .venv/bin/python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/top30_live/YumeNeko.csv --opp-dir decks/top30_live --games 2 --workers 4 2>&1 | tee kaggle_results/search_yumeneko.txt
+          .venv/bin/python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/_arch/dragapult.csv --opp-dir decks/top30_live --games 2 --workers 4 2>&1 | tee kaggle_results/search_dragapult.txt
+          .venv/bin/python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/_arch/charizard_mega.csv --opp-dir decks/top30_live --games 2 --workers 4 2>&1 | tee kaggle_results/search_charizard.txt
+          .venv/bin/python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/_arch/gardevoir_mega.csv --opp-dir decks/top30_live --games 2 --workers 4 2>&1 | tee kaggle_results/search_gardevoir.txt
+          .venv/bin/python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/_arch/pikachu_tera.csv --opp-dir decks/top30_live --games 2 --workers 4 2>&1 | tee kaggle_results/search_pikachu.txt
+          .venv/bin/python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/_arch/raging_bolt.csv --opp-dir decks/top30_live --games 2 --workers 4 2>&1 | tee kaggle_results/search_raging.txt
+          .venv/bin/python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/c87_v61.csv --opp-dir decks/top30_live --games 2 --workers 4 2>&1 | tee kaggle_results/search_v61.txt
+          cat kaggle_results/search_*.txt
+          .venv/bin/python << 'PY'
+          import glob, re
+          for path in sorted(glob.glob("kaggle_results/search_*.txt")):
+              txt=open(path).read()
+              m=re.search(r"(\d+)W-(\d+)L.*([\d\.]+)", txt)
+              print(path, m.group(0) if m else txt[-200:])
+          PY
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -rf /tmp/keep && mkdir -p /tmp/keep
+          cp -r pokemon-agent/kaggle_results /tmp/keep/ || true
+          git fetch origin "${GITHUB_REF_NAME}"
+          git reset --hard "origin/${GITHUB_REF_NAME}"
+          cp -r /tmp/keep/kaggle_results/. pokemon-agent/kaggle_results/ || true
+          git add -f pokemon-agent/kaggle_results/search_*.txt || true
+          git rm -q --ignore-unmatch pokemon-agent/kaggle_results/deck_search.trigger || true
+          git commit -m "deck archetype search results [skip ci]" || echo "no changes"
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
