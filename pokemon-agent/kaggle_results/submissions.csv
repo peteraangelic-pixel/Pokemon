@@ -1,6 +1,9 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57225963,ptcg_v56_tuned_a450.tar.gz,2026-10-15 10:04:36.897000,submit ptcg_v56_tuned_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,428.1,
-57199505,ptcg_v55_mirror_a450.tar.gz,2026-10-15 00:15:31.267000,submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,378.9,
+57270737,v69_alakazam_simple_652.tar.gz,2026-10-16 13:32:32.790000,v69 Alakazam simple 4x Alakazam 11E hybrid 0.652 top30 0.825 walls — revolution to 1000+,SubmissionStatus.COMPLETE,373.5,
+57261105,v59_10k_1M_772val.tar.gz,2026-10-16 08:08:09.107000,"v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",SubmissionStatus.COMPLETE,406.6,
+57249391,v59_10k_1M_772val.tar.gz,2026-10-16 00:48:08.647000,"v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",SubmissionStatus.COMPLETE,381.3,
+57225963,ptcg_v56_tuned_a450.tar.gz,2026-10-15 10:04:36.897000,submit ptcg_v56_tuned_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,423.9,
+57199505,ptcg_v55_mirror_a450.tar.gz,2026-10-15 00:15:31.267000,submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,365.3,
 57193182,phase1_tuned_v42_9_best_fast.tar.gz,2026-10-14 19:18:47.507000,"v42.9 fix 98% NO_POKEMON losses: board dev 80/45/20 basics + evo penalty -90/-40, search gate MegaSignal NightStretcher Cyrano -150, retreat threat-aware no hp<=80, FROSLASS {861,103,1002} + Amarys 1207, deck E32 K4 8b 32W 4Lillie 3Carmine 2Pad 2Ultra Poffin Amarys - hard6 0.843 top50 0.906 broad 0.699 smoke OK - phase1_tuned_v42_9_best_fast.tar.gz 2026-10-14T19:18:45Z",SubmissionStatus.COMPLETE,408.0,
 57191144,ptcg_v48_cem2best_imit_a450.tar.gz,2026-10-14 17:52:07.950000,v48 CEM2-best knobs fitness 0.927 + BC60 113 replays 7081 decisions pool 0.8655 hard6 0.772 local optimum convergence v42.4 - ptcg_v48_cem2best_imit_a450.tar.gz 2026-10-14T17:52:05Z,SubmissionStatus.COMPLETE,404.9,
 57191098,ptcg_v51_league_a450.tar.gz,2026-10-14 17:50:34.420000,v51 league 24k games 456k states acc 0.777 vs base 0.513 first ML +1.2pp pool over v48 (0.8774 vs 0.8655 n~5000) hard6 -1.4pp bundle smoke OK - ptcg_v51_league_a450.tar.gz 2026-10-14T17:50:32Z,SubmissionStatus.COMPLETE,332.6,
