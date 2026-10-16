@@ -188,6 +188,8 @@ def _score_main(opt, me_p, opp_p, hand):
         if c.get("ct") == 0 and c.get("b"):  # basic Pokemon -> bench it
             if board_n >= 6:
                 return -50
+            if cid == FEZAN:
+                return 30 if hand_n <= 4 else -40
             score = 60
             if cid == ABRA:
                 score = 90 if n_line < 3 else 70
@@ -219,9 +221,9 @@ def _score_main(opt, me_p, opp_p, hand):
                 return 70 if hand_n <= 5 else 40
             if cid == 1182:  # Boss's Orders
                 bench = _bench(opp_p)
-                if any(_hp(b) <= (20 * hand_n if my_act and my_act.get("id") == ALAKAZAM else 90)
-                       for b in bench):
-                    return 78
+                my_dmg = _best_damage(my_act, hand_n, opp_act)[0] if my_act else 0
+                if my_dmg > 0 and any(0 < _hp(b) <= my_dmg for b in bench):
+                    return 84  # gust a KO off the bench
                 return 10
             if cid == 1184:  # Lana's Aid
                 return 20
@@ -266,39 +268,50 @@ def _score_main(opt, me_p, opp_p, hand):
             return 96 if e == 0 else 30  # one energy is enough
         if cid == KADABRA:
             return 60 if e == 0 else 10
-        if cid in (DUDUNSPARCE, TOUCANNON, TOGEKISS, FEZAN):
+        if cid == DUDUNSPARCE:
+            return 18 if e == 0 else 0
+        if cid in (TOUCANNON, TOGEKISS, FEZAN):
             return 45 if e < 2 else 5
         if cid == ABRA:
             return 25 if e == 0 else 0
         return 10
 
-    if t == 10:  # ABILITY
-        return 58  # Dudunsparce draw etc: good, but board first
+    if t == 10:  # ABILITY (Dudunsparce cycles itself back to the deck)
+        if board_n <= 2:
+            return -10
+        return 55 if hand_n <= 6 else 20
 
     if t == 13:  # ATTACK
         if not my_act:
             return -100
+        if my_act.get("id") == ABRA and opt.get("attackId") == 1070:
+            ready = [p for p in _bench(me_p)
+                     if p.get("id") == ALAKAZAM and _energies(p) >= 1]
+            if ready and _hp(my_act) <= 50:
+                return 66  # teleport out, bring the cannon in
         dmg, _ = _best_damage(my_act, hand_n, opp_act)
         aid = opt.get("attackId")
         # restrict to attacks of active pokemon
         if aid is not None and aid not in (_card(my_act.get("id")).get("atk") or []):
             return -100
         d_here = _atk_damage(my_act, aid, hand_n, opp_act) if aid else dmg
-        score = 50 + min(d_here, 200) / 4.0
+        # attacking ends the turn: keep below all setup scores (60-100),
+        # damage only breaks ties between attacks
+        score = 44 + min(d_here, 200) / 40.0
         if opp_act and d_here >= _hp(opp_act) and _hp(opp_act) > 0:
-            score += 55  # KO -> prize
+            score += 4  # KO -> prize
             if (_card(opp_act.get("id")).get("ex") or _card(opp_act.get("id")).get("mex")):
-                score += 25  # 2 prizes
+                score += 2  # 2 prizes
         # tempo: don't throw away a charged Alakazam for chip damage
         if my_act.get("id") == ALAKAZAM and d_here < 60 and board_n <= 2:
-            score -= 15
+            score -= 6
         # never end the turn attacking with a pre-evolution that could
         # evolve right now (unless it takes the KO)
         aid_here = my_act.get("id")
         evo = {ABRA: KADABRA, KADABRA: ALAKAZAM}.get(aid_here)
         if evo is not None and evo in hand:
             if not (opp_act and d_here >= _hp(opp_act) and _hp(opp_act) > 0):
-                score -= 45
+                score -= 20
         return score
 
     if t == 12:  # RETREAT
@@ -336,13 +349,32 @@ def agent(obs: dict) -> list[int]:
         opts = sel.get("option") or []
         if not opts:
             return []
-        stype = int(sel.get("type") or -1)
+        _st = sel.get("type")
+        stype = int(_st) if _st is not None else -1
         hand = _hand_ids(me_p)
 
-        if stype == 0:  # main phase
-            scored = [(_score_main(o, me_p, opp_p, hand), i) for i, o in enumerate(opts)]
-            scored.sort(reverse=True)
-            return [scored[0][1]]
+        if stype == 0:  # main phase: trust engine option order, override rarely
+            # 1) evolve into Alakazam whenever offered
+            for i, o in enumerate(opts):
+                if o.get("type") == 9 and _opt_hand_card(o, me_p) == ALAKAZAM:
+                    return [i]
+            # 2) Rare Candy line: Abra on board + Alakazam in hand
+            if ALAKAZAM in hand and any(p.get("id") == ABRA for p in _board(me_p)):
+                for i, o in enumerate(opts):
+                    if o.get("type") == 7 and _opt_hand_card(o, me_p) == 1079:
+                        return [i]
+            # 3) don't attack before setup: if first option is an attack but
+            #    an evolve/attach-to-line action exists, do that instead
+            if opts[0].get("type") == 13:
+                for i, o in enumerate(opts):
+                    if o.get("type") == 9:
+                        return [i]
+                act = _active(me_p)
+                if act and _energies(act) == 0:
+                    for i, o in enumerate(opts):
+                        if o.get("type") == 8 and o.get("inPlayArea") == 4:
+                            return [i]
+            return [0]
 
         # all non-main selects: score every option, return exactly
         # minCount best (prize takes and searches demand exact counts;

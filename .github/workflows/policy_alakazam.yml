@@ -1,0 +1,183 @@
+name: policy-alakazam
+
+# Alakazam policy: Rust+Rayon self-play PG from the BC seed (zero-card regime).
+# Push = smoke only (compile + 200g sanity). workflow_dispatch = full iteration.
+
+on:
+  workflow_dispatch:
+    inputs:
+      games:
+        description: "rollout games per iteration"
+        default: "20000"
+      eps:
+        description: "epsilon for exploration"
+        default: "0.15"
+      epochs:
+        description: "training epochs"
+        default: "2"
+  push:
+    branches: ["arena/a450b00f-pokemon"]
+    paths:
+      - "pokemon-agent/rust/src/bin/policy_rollout.rs"
+      - ".github/workflows/policy_alakazam.yml"
+      - "pokemon-agent/policy_alakazam_trigger.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  loop:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build policy_rollout
+        run: |
+          mkdir -p pokemon-agent/kaggle_results/policy_alakazam
+          cd pokemon-agent/rust
+          LOG=../kaggle_results/policy_alakazam/build_policy_${GITHUB_RUN_ID}.log.txt
+          { md5sum src/bin/policy_rollout.rs; grep -c "fn main" src/bin/policy_rollout.rs; cargo --version; } > "$LOG" 2>&1
+          cargo build --release --bin policy_rollout >> "$LOG" 2>&1 || { tail -n 120 "$LOG"; exit 1; }
+          ls -lh target/release/policy_rollout
+      - name: Python env (engine lib + jax)
+        run: |
+          mkdir -p pokemon-agent/kaggle_results/policy_alakazam
+          exec >> pokemon-agent/kaggle_results/policy_alakazam/pyenv_full.txt 2>&1
+          set -x
+          cd pokemon-agent
+          python3 -m venv .venv
+          .venv/bin/pip install --quiet --upgrade pip
+          .venv/bin/pip install "kaggle-environments==1.33.0" "jax[cpu]" numpy 2>&1 | tail -5
+          .venv/bin/pip show kaggle-environments | head -2
+          python3 --version
+          LIB=$(find .venv -name libcg.so | head -1)
+          echo "engine lib: $LIB"
+          mkdir -p libs
+          cp "$LIB" libs/libcg.so
+          echo "CG_DIR=$(dirname "$LIB")" >> "$GITHUB_ENV"
+          ls -lh libs/
+      - name: Smoke eval (seed vs seed, expect ~0.50)
+        run: |
+          exec >> pokemon-agent/kaggle_results/policy_alakazam/smoke_full.txt 2>&1
+          set -x
+          cd pokemon-agent
+          ls -l libs/
+          md5sum libs/libcg.so "$CG_DIR/libcg.so" || true
+          echo "--- python FFI one game ---"
+          .venv/bin/python - <<'PY' 2>&1 | tee policy_pycheck.txt || true
+          import ctypes, json
+          from kaggle_environments.envs.cabt.cg import sim
+          lib = sim.lib
+          deck = [int(x) for x in open("decks/top30_live/YumeNeko.csv").read().split()]
+          print("deck len", len(deck))
+          cards = (ctypes.c_int * 120)(*deck, *deck)
+          sd = lib.BattleStart(cards)
+          print("battlePtr", sd.battlePtr, "errP", sd.errorPlayer, "errT", sd.errorType)
+          if sd.battlePtr:
+              d = lib.GetBattleData(sd.battlePtr)
+              obs = json.loads(d.json)
+              print("first select type", (obs.get("select") or {}).get("type"), "options", len((obs.get("select") or {}).get("option") or []))
+              lib.BattleFinish(sd.battlePtr)
+          PY
+          echo "--- direct package dir ---"
+          ./rust/target/release/policy_rollout \
+            --lib-dir "$CG_DIR" --card-index tools/card_index_empty.json \
+            --weights tools/policy_alakazam_seed.json --opp-weights tools/policy_alakazam_seed.json \
+            --decks decks/top30_live/YumeNeko.csv --games 400 --jobs 4 \
+            --mode eval --league-frac 1.0 2>&1 | tee policy_smoke_pkg.txt
+          echo "--- copied lib dir ---"
+          ./rust/target/release/policy_rollout \
+            --lib-dir libs --card-index tools/card_index_empty.json \
+            --weights tools/policy_alakazam_seed.json --opp-weights tools/policy_alakazam_seed.json \
+            --decks decks/top30_live/YumeNeko.csv --games 400 --jobs 4 \
+            --mode eval --league-frac 1.0 2>&1 | tee policy_smoke.txt
+      - name: Iteration (rollout -> convert -> train -> gate)
+        run: |
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && ! grep -q "\[policy-iter\]" <<< "${{ github.event.head_commit.message }}"; then
+            echo "skipping iteration (no [policy-alakazam] trigger)"
+            exit 0
+          fi
+          mkdir -p pokemon-agent/kaggle_results/policy_alakazam
+          echo "===== ITER RUN ${GITHUB_RUN_ID} $(date -u) =====" >> pokemon-agent/kaggle_results/policy_alakazam/iter_full.txt
+          exec >> pokemon-agent/kaggle_results/policy_alakazam/iter_full.txt 2>&1
+          set -x
+          GAMES="${{ inputs.games }}"; GAMES="${GAMES:-20000}"
+          EPS_IN="${{ inputs.eps }}"; EPS_IN="${EPS_IN:-0.08}"
+          EPOCHS_IN="${{ inputs.epochs }}"; EPOCHS_IN="${EPOCHS_IN:-2}"
+          export GAMES EPS_IN EPOCHS_IN
+          set -eo pipefail
+          cd pokemon-agent
+          mkdir -p policy_pool kaggle_results/policy_alakazam
+          cp decks/top30_live/YumeNeko.csv decks/v57_trolley34w.csv decks/shaun2024_wall.csv kaggle_results/our_replays/opp_decks_v59/opp_15.csv policy_pool/ 2>/dev/null || true
+          cp decks/live_v56t/*.csv policy_pool/ 2>/dev/null || true
+          ls policy_pool/
+          echo "=== iteration chain: 5 x PG from alakazam BC seed (games=$GAMES) ==="
+          PREV_JSON=tools/policy_alakazam_seed.json
+          PREV_NPZ=kaggle_results/policy_alakazam_seed.npz
+          for K in 1 2 3 4 5; do
+            echo "===== ITER $K rollout ====="
+            ./rust/target/release/policy_rollout \
+              --lib-dir libs --card-index tools/card_index_empty.json \
+              --weights $PREV_JSON \
+              --decks policy_pool --games $GAMES --jobs 4 \
+              --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
+            echo "===== ITER $K convert ====="
+            .venv/bin/python tools/convert_rollout.py --max-dec 1500000 \
+              kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
+            rm -f kaggle_results/policy_alakazam/rollout.bin
+            echo "===== ITER $K train PG ====="
+            .venv/bin/python tools/train_policy.py \
+              --data kaggle_results/policy_alakazam/rollout.npz \
+              --init $PREV_NPZ \
+              --out kaggle_results/policy_alakazam/policy_alakazam_iter$K.npz \
+              --epochs 1 --lr 1e-4 --mode pg --entropy 0.01 \
+              2>&1 | tee kaggle_results/policy_alakazam/train_iter$K.txt
+            .venv/bin/python tools/export_policy_json.py \
+              kaggle_results/policy_alakazam/policy_alakazam_iter$K.npz tools/policy_alakazam_iter$K.json
+            echo "===== ITER $K gate vs prev ====="
+            ./rust/target/release/policy_rollout \
+              --lib-dir libs --card-index tools/card_index_empty.json \
+              --weights tools/policy_alakazam_iter$K.json --opp-weights $PREV_JSON \
+              --decks policy_pool --games 2000 --jobs 4 \
+              --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_alakazam/gate_iter$K.txt
+            PREV_JSON=tools/policy_alakazam_iter$K.json
+            PREV_NPZ=kaggle_results/policy_alakazam/policy_alakazam_iter$K.npz
+          done
+          echo "===== FINAL gate: iter8 vs seed ====="
+          ./rust/target/release/policy_rollout \
+            --lib-dir libs --card-index tools/card_index_empty.json \
+            --weights tools/policy_alakazam_iter5.json --opp-weights tools/policy_alakazam_seed.json \
+            --decks policy_pool --games 2000 --jobs 4 \
+            --mode eval --league-frac 1.0 2>&1 | tee kaggle_results/policy_alakazam/gate_final.txt
+      - name: Commit results
+        if: always()
+        run: |
+          set -x
+          find . -name "build_policy.log.txt" 2>/dev/null || true
+          ls -la pokemon-agent/kaggle_results/policy_alakazam/ || true
+          git status --porcelain | head -30 || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          mkdir -p pokemon-agent/kaggle_results/policy_alakazam
+          cp pokemon-agent/policy_smoke.txt pokemon-agent/kaggle_results/policy_alakazam/ 2>/dev/null || true
+          cp pokemon-agent/policy_smoke_pkg.txt pokemon-agent/kaggle_results/policy_alakazam/ 2>/dev/null || true
+          cp pokemon-agent/policy_pycheck.txt pokemon-agent/kaggle_results/policy_alakazam/ 2>/dev/null || true
+          cp pokemon-agent/rust/build_policy.log.txt pokemon-agent/kaggle_results/policy_alakazam/ 2>/dev/null || true
+          rm -f pokemon-agent/kaggle_results/policy_alakazam/rollout.bin
+          git add -f pokemon-agent/kaggle_results/policy_alakazam/ || true
+          git add -f "pokemon-agent/tools/policy_alakazam_iter*.json" || true
+          git diff --cached --stat || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "feat(alakazam): policy PG iteration results [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
