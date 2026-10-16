@@ -363,6 +363,19 @@ def agent(obs: dict) -> list[int]:
                 for i, o in enumerate(opts):
                     if o.get("type") == 7 and _opt_hand_card(o, me_p) == 1079:
                         return [i]
+            # 2b) hand is damage: refill when small
+            if len(hand) <= 4:
+                for i, o in enumerate(opts):
+                    if o.get("type") == 7 and _opt_hand_card(o, me_p) in (1231, 1225):
+                        return [i]
+            # 2c) Boss's Orders converts to a KO right now
+            _act = _active(me_p)
+            if _act is not None:
+                _dmg = _best_damage(_act, len(hand), _active(opp_p))
+                if _dmg > 0 and any(0 < _hp(b) <= _dmg for b in _bench(opp_p)):
+                    for i, o in enumerate(opts):
+                        if o.get("type") == 7 and _opt_hand_card(o, me_p) == 1182:
+                            return [i]
             # 3) don't attack before setup: if first option is an attack but
             #    an evolve/attach-to-line action exists, do that instead
             if opts[0].get("type") == 13:
