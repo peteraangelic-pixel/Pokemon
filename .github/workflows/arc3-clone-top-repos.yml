@@ -1,0 +1,68 @@
+name: ARC3 clone top repos
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["arena/7911f950-pokemon"]
+    paths:
+      - "arc-agi-3/.clone-top-repos.trigger"
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Clone Yi-Chia Chen repo
+        run: |
+          mkdir -p arc-agi-3/top-analysis
+          cd arc-agi-3/top-analysis
+          git clone --depth 50 https://github.com/cataluna84/arc-agi-3.git yichia-arc-agi-3 2>&1 | tail -10
+          echo "=== Yi-Chia Chen repo ==="
+          ls -la yichia-arc-agi-3/ 2>&1 | head -30
+          echo
+          echo "=== README ==="
+          head -100 yichia-arc-agi-3/README.md 2>/dev/null || echo "No README"
+          echo
+          echo "=== CHANGELOG ==="
+          head -100 yichia-arc-agi-3/CHANGELOG.md 2>/dev/null || echo "No CHANGELOG"
+          echo
+          echo "=== Memories ==="
+          head -200 yichia-arc-agi-3/.factory/memories.md 2>/dev/null || echo "No memories"
+
+      - name: Commit analysis
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          # Don't commit the cloned repo (too large), just analyze
+          mkdir -p arc-agi-3/top-analysis
+          cd arc-agi-3/top-analysis/yichia-arc-agi-3
+          {
+            echo "# Yi-Chia Chen (cataluna84) - ARC-AGI-3 Analysis"
+            echo
+            echo "## Repo structure"
+            echo '```'
+            find . -maxdepth 2 -not -path './.git/*' | head -50
+            echo '```'
+            echo
+            echo "## Phase plan (from README)"
+            echo
+            grep -A 30 "Phase plan" README.md 2>/dev/null || echo "Not found"
+            echo
+            echo "## Recent memories"
+            echo
+            head -300 .factory/memories.md 2>/dev/null || echo "Not found"
+          } > ../yichia-analysis.md
+          cd ..
+          rm -rf yichia-arc-agi-3
+          git add arc-agi-3/top-analysis/yichia-analysis.md || true
+          if [ -n "$(git status --porcelain arc-agi-3/top-analysis)" ]; then
+            git commit -m "analysis: Yi-Chia Chen repo [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
