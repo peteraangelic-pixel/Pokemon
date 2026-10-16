@@ -74,14 +74,9 @@ class Featurizer:
             return [0.0] * 10
         cid = poke.get("id")
         c = self.card(cid)
-        hp = _f(c.get("hp"))
-        cur_hp = hp - _f(poke.get("damage", poke.get("damageCounter", 0))) * 1.0
-        # engine uses damage counters in units of 10 sometimes; guard both
-        dmg = _f(poke.get("damage", 0))
-        if dmg > hp and hp > 0:
-            dmg = dmg / 10.0
-        cur_hp = max(hp - dmg, 0.0)
-        energies = poke.get("energies") or poke.get("energy") or []
+        max_hp = _f(poke.get("maxHp")) or _f(c.get("hp"))
+        cur_hp = _f(poke.get("hp"), max_hp)
+        energies = poke.get("energies") or []
         n_en = len(energies) if isinstance(energies, list) else _f(energies)
         atks = c.get("atk") or []
         best = 0.0
@@ -90,15 +85,15 @@ class Featurizer:
         ex = 1.0 if c.get("ex") else 0.0
         mex = 1.0 if c.get("mex") else 0.0
         return [
-            (cur_hp / hp) if hp > 0 else 0.0,
-            hp / 350.0,
+            (cur_hp / max_hp) if max_hp > 0 else 0.0,
+            max_hp / 350.0,
             min(n_en, 8) / 8.0,
             _f(c.get("et")) / 3.0,
             ex, mex,
             (3.0 if mex else (2.0 if ex else 1.0)) / 3.0,
             best / 300.0,
             1.0 if poke.get("id") is not None else 0.0,
-            min(_f(poke.get("tool", 0)) if isinstance(poke.get("tool"), (int, float)) else (1.0 if poke.get("tool") else 0.0), 1.0),
+            1.0 if (poke.get("tools") or []) else 0.0,
         ]
 
     def _board_block(self, player):
@@ -167,6 +162,9 @@ class Featurizer:
         area, idx = opt.get("area"), opt.get("index")
         if idx is None:
             return None
+        if area is None and opt.get("type") == 7:
+            # PLAY options carry no area: index refers to the hand
+            area = 2
         cur = obs.get("current") or {}
         players = cur.get("players") or []
         owner = opt.get("playerIndex", me)
