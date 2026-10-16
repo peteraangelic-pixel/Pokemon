@@ -4,16 +4,19 @@ on:
     inputs:
       agent:
         description: "Agent to submit"
-        default: "agents/main_heuristic_v61_merged.py"
+        default: "agents/v69_tunable.py"
         required: false
       name:
         description: "Bundle name"
-        default: "v61_heuristic_merged"
+        default: "v69_alakazam_simple_652"
         required: false
       message:
         description: "Submission message"
-        default: "v61 heuristic merged c87_v44 + wall guard Kyogre, bench guard 1000, all bugs fixed"
+        default: "v69 Alakazam simple 4x Alakazam 11E hybrid 0.652 top30 0.825 walls — revolution to 1000+"
         required: false
+  push:
+    paths:
+      - 'pokemon-agent/kaggle_results/submit_now.trigger'
 
 permissions:
   contents: write
@@ -56,6 +59,8 @@ jobs:
           cd pokemon-agent
           AGENT="${{ inputs.agent }}"
           NAME="${{ inputs.name }}"
+          if [ -z "$AGENT" ]; then AGENT="agents/v69_tunable.py"; fi
+          if [ -z "$NAME" ]; then NAME="v69_alakazam_simple_652"; fi
           echo "Building $AGENT as $NAME"
           ls -lh $AGENT deck.csv assets/card_index.json
           python build_submission.py --agent $AGENT --name $NAME
@@ -66,6 +71,8 @@ jobs:
           MESSAGE: ${{ inputs.message }}
         run: |
           cd pokemon-agent
+          BUNDLE_NAME="${BUNDLE_NAME:-v69_alakazam_simple_652}"
+          MESSAGE="${MESSAGE:-v69 Alakazam simple 4x Alakazam 11E hybrid 0.652 top30 0.825 walls — revolution to 1000+}"
           BUNDLE="bundles/${BUNDLE_NAME}.tar.gz"
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f $BUNDLE -m "$MESSAGE" 2>&1 | tee kaggle_results/submit_2am.log
           kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground -v 2>&1 | head -100 | tee -a kaggle_results/submit_2am.log
