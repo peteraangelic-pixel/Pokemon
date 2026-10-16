@@ -1,0 +1,34 @@
+name: alakazam-cem
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'pokemon-agent/kaggle_results/alakazam_cem.trigger'
+
+jobs:
+  cem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/c87f7a48-pokemon
+          fetch-depth: 2
+      - name: Install kaggle-environments
+        run: |
+          pip install kaggle-environments --quiet
+          python -c "import kaggle_environments; print('ok')"
+          find $(python -c "import sysconfig; print(sysconfig.get_path('purelib'))") -name libcg.so
+      - name: Run CEM for Alakazam v69
+        run: |
+          cd pokemon-agent
+          mkdir -p kaggle_results/alakazam_cem
+          /usr/bin/python3 tools/cem_alakazam.py 2>&1 | tee kaggle_results/alakazam_cem/cem.log
+      - name: Commit results
+        run: |
+          cd pokemon-agent
+          git config user.email "agent@arena.io"
+          git config user.name "arena-agent"
+          git add kaggle_results/alakazam_cem/ agents/best_from_alakazam_cem.py || true
+          git commit -m "alakazam CEM gen0-2 best [skip ci]" || echo "nothing to commit"
+          git push origin arena/c87f7a48-pokemon || echo "push failed"
