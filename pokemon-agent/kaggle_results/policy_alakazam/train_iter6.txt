@@ -1,0 +1,6 @@
+data: 2500000 decisions (train 2300000, val 200000)
+warm start from kaggle_results/policy_alakazam/policy_alakazam_iter5.npz
+ep0: train_acc~1.272 val_acc=0.451 (514s)
+ep1: train_acc~1.272 val_acc=0.451 (1010s)
+ep2: train_acc~1.272 val_acc=0.451 (1508s)
+saved -> kaggle_results/policy_alakazam/policy_alakazam_iter6.npz

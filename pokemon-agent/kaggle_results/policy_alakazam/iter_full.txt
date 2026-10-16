@@ -177,3 +177,222 @@ games=2000 valid=2000 main_wr=0.495 elapsed=22.0s games_per_sec=91.1 err[start=0
 + ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter5.json --opp-weights tools/policy_alakazam_seed.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
 + tee kaggle_results/policy_alakazam/gate_final.txt
 games=2000 valid=2000 main_wr=0.487 elapsed=21.9s games_per_sec=91.1 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+===== ITER RUN 38913724053 Fri Oct 16 14:13:34 UTC 2026 =====
++ GAMES=
++ GAMES=40000
++ EPS_IN=
++ EPS_IN=0.08
++ EPOCHS_IN=
++ EPOCHS_IN=2
++ export GAMES EPS_IN EPOCHS_IN
++ set -eo pipefail
++ cd pokemon-agent
++ mkdir -p policy_pool kaggle_results/policy_alakazam
++ cp decks/top30_live/YumeNeko.csv decks/v57_trolley34w.csv decks/shaun2024_wall.csv kaggle_results/our_replays/opp_decks_v59/opp_15.csv policy_pool/
++ cp decks/live_v56t/BEAT_DEFAULT_Clark_Kitchen_124451815.csv decks/live_v56t/BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv decks/live_v56t/BEAT_MIRROR_xiaogungfu_124451797.csv decks/live_v56t/BEAT_SPREAD_BOB_124451792.csv decks/live_v56t/BEAT_SPREAD_pika28samson_124454118.csv decks/live_v56t/BEAT_WALL_Shaun2024_124453874.csv decks/live_v56t/LOST_DEFAULT_Ramanath_Rakshit_124451521.csv decks/live_v56t/LOST_GRASS_kleber@1703_124452583.csv decks/live_v56t/LOST_MIRROR_Pham_Quang_Nghia_124450972.csv decks/live_v56t/LOST_WALL_Mathieu_W_124451250.csv decks/live_v56t/LOST_WALL_Shiv_sib_124453124.csv decks/live_v56t/LOST_WALL_鲁尚武_LuShangWu_124452051.csv policy_pool/
++ ls policy_pool/
+BEAT_DEFAULT_Clark_Kitchen_124451815.csv
+BEAT_DEFAULT_Riccardo_Lo_Bianco_124450737.csv
+BEAT_MIRROR_xiaogungfu_124451797.csv
+BEAT_SPREAD_BOB_124451792.csv
+BEAT_SPREAD_pika28samson_124454118.csv
+BEAT_WALL_Shaun2024_124453874.csv
+LOST_DEFAULT_Ramanath_Rakshit_124451521.csv
+LOST_GRASS_kleber@1703_124452583.csv
+LOST_MIRROR_Pham_Quang_Nghia_124450972.csv
+LOST_WALL_Mathieu_W_124451250.csv
+LOST_WALL_Shiv_sib_124453124.csv
+LOST_WALL_鲁尚武_LuShangWu_124452051.csv
+YumeNeko.csv
+opp_15.csv
+shaun2024_wall.csv
+v57_trolley34w.csv
++ echo '=== iteration chain: 6 x PG v2 (lr8e-4 ep3) from alakazam BC seed v2 (games=40000) ==='
+=== iteration chain: 6 x PG v2 (lr8e-4 ep3) from alakazam BC seed v2 (games=40000) ===
++ PREV_JSON=tools/policy_alakazam_seed.json
++ PREV_NPZ=kaggle_results/policy_alakazam_seed.npz
++ for K in 1 2 3 4 5 6
++ echo '===== ITER 1 rollout ====='
+===== ITER 1 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_seed.json --decks policy_pool --games 40000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
+games=40000 valid=40000 main_wr=0.498 elapsed=606.8s games_per_sec=65.9 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 1 convert ====='
+===== ITER 1 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 2500000 kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
+2500000 decisions in log
+converted 2500000 decisions -> kaggle_results/policy_alakazam/rollout.npz  win_frac=0.473
++ rm -f kaggle_results/policy_alakazam/rollout.bin
++ echo '===== ITER 1 train PG ====='
+===== ITER 1 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_alakazam/rollout.npz --init kaggle_results/policy_alakazam_seed.npz --out kaggle_results/policy_alakazam/policy_alakazam_iter1.npz --epochs 3 --lr 8e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_alakazam/train_iter1.txt
+data: 2500000 decisions (train 2300000, val 200000)
+warm start from kaggle_results/policy_alakazam_seed.npz
+ep0: train_acc~1.227 val_acc=0.474 (519s)
+ep1: train_acc~1.228 val_acc=0.474 (1024s)
+ep2: train_acc~1.230 val_acc=0.474 (1524s)
+saved -> kaggle_results/policy_alakazam/policy_alakazam_iter1.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_alakazam/policy_alakazam_iter1.npz tools/policy_alakazam_iter1.json
+wrote tools/policy_alakazam_iter1.json
++ echo '===== ITER 1 gate vs prev ====='
+===== ITER 1 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter1.json --opp-weights tools/policy_alakazam_seed.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_alakazam/gate_iter1.txt
+games=2000 valid=2000 main_wr=0.477 elapsed=28.3s games_per_sec=70.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_alakazam_iter1.json
++ PREV_NPZ=kaggle_results/policy_alakazam/policy_alakazam_iter1.npz
++ for K in 1 2 3 4 5 6
++ echo '===== ITER 2 rollout ====='
+===== ITER 2 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter1.json --decks policy_pool --games 40000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
+games=40000 valid=40000 main_wr=0.496 elapsed=617.8s games_per_sec=64.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 2 convert ====='
+===== ITER 2 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 2500000 kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
+2500000 decisions in log
+converted 2500000 decisions -> kaggle_results/policy_alakazam/rollout.npz  win_frac=0.475
++ rm -f kaggle_results/policy_alakazam/rollout.bin
++ echo '===== ITER 2 train PG ====='
+===== ITER 2 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_alakazam/rollout.npz --init kaggle_results/policy_alakazam/policy_alakazam_iter1.npz --out kaggle_results/policy_alakazam/policy_alakazam_iter2.npz --epochs 3 --lr 8e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_alakazam/train_iter2.txt
+data: 2500000 decisions (train 2300000, val 200000)
+warm start from kaggle_results/policy_alakazam/policy_alakazam_iter1.npz
+ep0: train_acc~1.236 val_acc=0.469 (517s)
+ep1: train_acc~1.237 val_acc=0.469 (1020s)
+ep2: train_acc~1.238 val_acc=0.469 (1515s)
+saved -> kaggle_results/policy_alakazam/policy_alakazam_iter2.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_alakazam/policy_alakazam_iter2.npz tools/policy_alakazam_iter2.json
+wrote tools/policy_alakazam_iter2.json
++ echo '===== ITER 2 gate vs prev ====='
+===== ITER 2 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter2.json --opp-weights tools/policy_alakazam_iter1.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_alakazam/gate_iter2.txt
+games=2000 valid=1999 main_wr=0.475 elapsed=27.7s games_per_sec=72.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_alakazam_iter2.json
++ PREV_NPZ=kaggle_results/policy_alakazam/policy_alakazam_iter2.npz
++ for K in 1 2 3 4 5 6
++ echo '===== ITER 3 rollout ====='
+===== ITER 3 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter2.json --decks policy_pool --games 40000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
+games=40000 valid=39998 main_wr=0.498 elapsed=601.4s games_per_sec=66.5 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 3 convert ====='
+===== ITER 3 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 2500000 kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
+2500000 decisions in log
+converted 2500000 decisions -> kaggle_results/policy_alakazam/rollout.npz  win_frac=0.475
++ rm -f kaggle_results/policy_alakazam/rollout.bin
++ echo '===== ITER 3 train PG ====='
+===== ITER 3 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_alakazam/rollout.npz --init kaggle_results/policy_alakazam/policy_alakazam_iter2.npz --out kaggle_results/policy_alakazam/policy_alakazam_iter3.npz --epochs 3 --lr 8e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_alakazam/train_iter3.txt
+data: 2500000 decisions (train 2300000, val 200000)
+warm start from kaggle_results/policy_alakazam/policy_alakazam_iter2.npz
+ep0: train_acc~1.249 val_acc=0.463 (512s)
+ep1: train_acc~1.250 val_acc=0.463 (1022s)
+ep2: train_acc~1.252 val_acc=0.463 (1531s)
+saved -> kaggle_results/policy_alakazam/policy_alakazam_iter3.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_alakazam/policy_alakazam_iter3.npz tools/policy_alakazam_iter3.json
+wrote tools/policy_alakazam_iter3.json
++ echo '===== ITER 3 gate vs prev ====='
+===== ITER 3 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter3.json --opp-weights tools/policy_alakazam_iter2.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_alakazam/gate_iter3.txt
+games=2000 valid=2000 main_wr=0.493 elapsed=28.9s games_per_sec=69.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_alakazam_iter3.json
++ PREV_NPZ=kaggle_results/policy_alakazam/policy_alakazam_iter3.npz
++ for K in 1 2 3 4 5 6
++ echo '===== ITER 4 rollout ====='
+===== ITER 4 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter3.json --decks policy_pool --games 40000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
+games=40000 valid=39998 main_wr=0.502 elapsed=604.6s games_per_sec=66.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 4 convert ====='
+===== ITER 4 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 2500000 kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
+2500000 decisions in log
+converted 2500000 decisions -> kaggle_results/policy_alakazam/rollout.npz  win_frac=0.477
++ rm -f kaggle_results/policy_alakazam/rollout.bin
++ echo '===== ITER 4 train PG ====='
+===== ITER 4 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_alakazam/rollout.npz --init kaggle_results/policy_alakazam/policy_alakazam_iter3.npz --out kaggle_results/policy_alakazam/policy_alakazam_iter4.npz --epochs 3 --lr 8e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_alakazam/train_iter4.txt
+data: 2500000 decisions (train 2300000, val 200000)
+warm start from kaggle_results/policy_alakazam/policy_alakazam_iter3.npz
+ep0: train_acc~1.261 val_acc=0.460 (513s)
+ep1: train_acc~1.262 val_acc=0.459 (1011s)
+ep2: train_acc~1.262 val_acc=0.459 (1515s)
+saved -> kaggle_results/policy_alakazam/policy_alakazam_iter4.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_alakazam/policy_alakazam_iter4.npz tools/policy_alakazam_iter4.json
+wrote tools/policy_alakazam_iter4.json
++ echo '===== ITER 4 gate vs prev ====='
+===== ITER 4 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter4.json --opp-weights tools/policy_alakazam_iter3.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_alakazam/gate_iter4.txt
+games=2000 valid=2000 main_wr=0.510 elapsed=28.0s games_per_sec=71.5 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_alakazam_iter4.json
++ PREV_NPZ=kaggle_results/policy_alakazam/policy_alakazam_iter4.npz
++ for K in 1 2 3 4 5 6
++ echo '===== ITER 5 rollout ====='
+===== ITER 5 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter4.json --decks policy_pool --games 40000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
+games=40000 valid=39998 main_wr=0.499 elapsed=595.9s games_per_sec=67.1 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 5 convert ====='
+===== ITER 5 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 2500000 kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
+2500000 decisions in log
+converted 2500000 decisions -> kaggle_results/policy_alakazam/rollout.npz  win_frac=0.478
++ rm -f kaggle_results/policy_alakazam/rollout.bin
++ echo '===== ITER 5 train PG ====='
+===== ITER 5 train PG =====
++ tee kaggle_results/policy_alakazam/train_iter5.txt
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_alakazam/rollout.npz --init kaggle_results/policy_alakazam/policy_alakazam_iter4.npz --out kaggle_results/policy_alakazam/policy_alakazam_iter5.npz --epochs 3 --lr 8e-4 --mode pg --entropy 0.01
+data: 2500000 decisions (train 2300000, val 200000)
+warm start from kaggle_results/policy_alakazam/policy_alakazam_iter4.npz
+ep0: train_acc~1.269 val_acc=0.454 (510s)
+ep1: train_acc~1.269 val_acc=0.454 (1014s)
+ep2: train_acc~1.269 val_acc=0.453 (1517s)
+saved -> kaggle_results/policy_alakazam/policy_alakazam_iter5.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_alakazam/policy_alakazam_iter5.npz tools/policy_alakazam_iter5.json
+wrote tools/policy_alakazam_iter5.json
++ echo '===== ITER 5 gate vs prev ====='
+===== ITER 5 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter5.json --opp-weights tools/policy_alakazam_iter4.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_alakazam/gate_iter5.txt
+games=2000 valid=2000 main_wr=0.499 elapsed=27.3s games_per_sec=73.1 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_alakazam_iter5.json
++ PREV_NPZ=kaggle_results/policy_alakazam/policy_alakazam_iter5.npz
++ for K in 1 2 3 4 5 6
++ echo '===== ITER 6 rollout ====='
+===== ITER 6 rollout =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter5.json --decks policy_pool --games 40000 --jobs 4 --eps 0.08 --temp 0.7 --mode train --out kaggle_results/policy_alakazam/rollout.bin
+games=40000 valid=39997 main_wr=0.498 elapsed=582.4s games_per_sec=68.7 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ echo '===== ITER 6 convert ====='
+===== ITER 6 convert =====
++ .venv/bin/python tools/convert_rollout.py --max-dec 2500000 kaggle_results/policy_alakazam/rollout.bin kaggle_results/policy_alakazam/rollout.npz
+2500000 decisions in log
+converted 2500000 decisions -> kaggle_results/policy_alakazam/rollout.npz  win_frac=0.479
++ rm -f kaggle_results/policy_alakazam/rollout.bin
++ echo '===== ITER 6 train PG ====='
+===== ITER 6 train PG =====
++ .venv/bin/python tools/train_policy.py --data kaggle_results/policy_alakazam/rollout.npz --init kaggle_results/policy_alakazam/policy_alakazam_iter5.npz --out kaggle_results/policy_alakazam/policy_alakazam_iter6.npz --epochs 3 --lr 8e-4 --mode pg --entropy 0.01
++ tee kaggle_results/policy_alakazam/train_iter6.txt
+data: 2500000 decisions (train 2300000, val 200000)
+warm start from kaggle_results/policy_alakazam/policy_alakazam_iter5.npz
+ep0: train_acc~1.272 val_acc=0.451 (514s)
+ep1: train_acc~1.272 val_acc=0.451 (1010s)
+ep2: train_acc~1.272 val_acc=0.451 (1508s)
+saved -> kaggle_results/policy_alakazam/policy_alakazam_iter6.npz
++ .venv/bin/python tools/export_policy_json.py kaggle_results/policy_alakazam/policy_alakazam_iter6.npz tools/policy_alakazam_iter6.json
+wrote tools/policy_alakazam_iter6.json
++ echo '===== ITER 6 gate vs prev ====='
+===== ITER 6 gate vs prev =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter6.json --opp-weights tools/policy_alakazam_iter5.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_alakazam/gate_iter6.txt
+games=2000 valid=2000 main_wr=0.511 elapsed=25.4s games_per_sec=78.8 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
++ PREV_JSON=tools/policy_alakazam_iter6.json
++ PREV_NPZ=kaggle_results/policy_alakazam/policy_alakazam_iter6.npz
++ echo '===== FINAL gate: iter8 vs seed ====='
+===== FINAL gate: iter8 vs seed =====
++ ./rust/target/release/policy_rollout --lib-dir libs --card-index tools/card_index_empty.json --weights tools/policy_alakazam_iter6.json --opp-weights tools/policy_alakazam_seed.json --decks policy_pool --games 2000 --jobs 4 --mode eval --league-frac 1.0
++ tee kaggle_results/policy_alakazam/gate_final.txt
+games=2000 valid=2000 main_wr=0.544 elapsed=26.7s games_per_sec=74.8 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
