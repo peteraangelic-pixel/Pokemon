@@ -1,0 +1,1 @@
+games=2000 valid=1999 main_wr=0.494 elapsed=22.6s games_per_sec=88.4 err[start=0 select=0 nosel=0 steps=1 panic=0 emptyopt=0]
