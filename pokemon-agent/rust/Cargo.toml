@@ -56,3 +56,7 @@ rand = "0.8"
 [profile.release]
 lto = "thin"
 codegen-units = 1
+
+[[bin]]
+name = "bench_local"
+path = "src/bin/bench_local.rs"
