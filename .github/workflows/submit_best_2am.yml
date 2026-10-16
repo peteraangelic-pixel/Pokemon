@@ -2,12 +2,12 @@ name: submit-best-2am
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 00:00 UTC = 02:00 Warsaw (CEST)
+    - cron: "0 0 * * *"  # 00:00 UTC = 02:00 Warsaw
   workflow_dispatch:
     inputs:
       agent:
         description: "Agent to submit (path)"
-        default: "agents/main_policy_v59_10k.py"
+        default: "agents/main_policy_v59_10k_772.py"
         required: false
       name:
         description: "Bundle name"
@@ -17,6 +17,11 @@ on:
         description: "Submission message"
         default: "v59 10k games 998k decisions 0.772 val_acc, 142g/s mt, matrix 5x2000g"
         required: false
+  push:
+    branches:
+      - arena/c87f7a48-pokemon
+    paths:
+      - pokemon-agent/kaggle_results/submit_now.trigger
 
 permissions:
   contents: write
@@ -57,9 +62,8 @@ jobs:
       - name: Build bundle
         run: |
           cd pokemon-agent
-          AGENT="${{ inputs.agent || 'agents/main_policy_v59_10k.py' }}"
+          AGENT="${{ inputs.agent || 'agents/main_policy_v59_10k_772.py' }}"
           NAME="${{ inputs.name || 'v59_10k_1M_772val' }}"
-          # If best_agent.txt exists, use it
           if [ -f kaggle_results/best_agent.txt ]; then
             BEST=$(cat kaggle_results/best_agent.txt)
             if [ -n "$BEST" ] && [ -f "$BEST" ]; then
@@ -68,8 +72,8 @@ jobs:
             fi
           fi
           echo "Building bundle for $AGENT as $NAME"
-          ls -lh $AGENT || echo "agent not found, trying v58"
-          if [ ! -f "$AGENT" ]; then AGENT="agents/main_policy_v58_rust.py"; fi
+          ls -lh $AGENT || echo "agent not found"
+          if [ ! -f "$AGENT" ]; then AGENT="agents/main_policy_v59_10k_772.py"; fi
           python build_submission.py --agent $AGENT --name $NAME
           ls -lh bundles/${NAME}.tar.gz
       - name: Submit
@@ -80,13 +84,12 @@ jobs:
           cd pokemon-agent
           BUNDLE="bundles/${BUNDLE_NAME}.tar.gz"
           if [ ! -f "$BUNDLE" ]; then
-            # Find latest bundle
             BUNDLE=$(ls -t bundles/*.tar.gz | head -1)
             echo "Using latest bundle $BUNDLE"
           fi
           echo "Submitting $BUNDLE with message $MESSAGE"
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f $BUNDLE -m "$MESSAGE" 2>&1 | tee kaggle_results/submit_2am.log
-          kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground 2>&1 | head -20
+          kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground 2>&1 | head -30 | tee -a kaggle_results/submit_2am.log
       - name: Commit log
         if: always()
         run: |
@@ -95,4 +98,3 @@ jobs:
           git add -f pokemon-agent/kaggle_results/submit_2am.log pokemon-agent/bundles/ || true
           git commit -m "submit 2am log [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
-# trigger index Fri Oct 16 00:40:50 UTC 2026
