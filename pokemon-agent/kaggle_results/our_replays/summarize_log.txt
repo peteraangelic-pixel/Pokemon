@@ -1,0 +1,2 @@
+episodes parsed: 120  (wins: 49, losses: 71)
+wrote pokemon-agent/kaggle_results/our_replays/episodes_table.csv, loss_snapshots.jsonl (71 losses), 71 loss replays kept

@@ -1,0 +1,145 @@
+Fetching replays into pokemon-agent/kaggle_results/our_replays
+Found 30 own submissions
+
+=== Submission 57270737 (v69_alakazam_simple_652.tar.gz) ===
+  episodes listed: 41
+full dump 57270737: 41 episodes
+  full episode metadata dumped: 41
+  downloaded replay 124754049
+  downloaded replay 124753396
+  downloaded replay 124753437
+  downloaded replay 124752736
+  downloaded replay 124752056
+  downloaded replay 124751394
+  downloaded replay 124750709
+  downloaded replay 124750139
+  downloaded replay 124749315
+  downloaded replay 124748686
+  downloaded replay 124748084
+  downloaded replay 124748010
+  downloaded replay 124748019
+  downloaded replay 124747407
+  downloaded replay 124746715
+  downloaded replay 124746028
+  downloaded replay 124745369
+  downloaded replay 124744707
+  downloaded replay 124744053
+  downloaded replay 124743403
+  downloaded replay 124742731
+  downloaded replay 124742155
+  downloaded replay 124742065
+  downloaded replay 124741399
+  downloaded replay 124740762
+  downloaded replay 124740110
+  downloaded replay 124739468
+  downloaded replay 124738812
+  downloaded replay 124738181
+  downloaded replay 124737554
+  downloaded replay 124737502
+  downloaded replay 124736881
+  downloaded replay 124736294
+  downloaded replay 124736230
+  downloaded replay 124735588
+  downloaded replay 124734925
+  downloaded replay 124734349
+  downloaded replay 124734281
+  downloaded replay 124733619
+  downloaded replay 124732961
+  downloaded replay 124732404
+
+=== Submission 57261105 (v59_10k_1M_772val.tar.gz) ===
+  episodes listed: 79
+full dump 57261105: 79 episodes
+  full episode metadata dumped: 79
+  downloaded replay 124754098
+  downloaded replay 124749396
+  downloaded replay 124746800
+  downloaded replay 124744113
+  downloaded replay 124743480
+  downloaded replay 124743437
+  downloaded replay 124738859
+  downloaded replay 124734335
+  downloaded replay 124729761
+  downloaded replay 124725071
+  downloaded replay 124720316
+  downloaded replay 124715600
+  downloaded replay 124715570
+  downloaded replay 124714877
+  downloaded replay 124714204
+  downloaded replay 124713555
+  downloaded replay 124713522
+  downloaded replay 124712871
+  downloaded replay 124712900
+  downloaded replay 124712200
+  downloaded replay 124712175
+  downloaded replay 124711523
+  downloaded replay 124710827
+  downloaded replay 124710162
+  downloaded replay 124709522
+  downloaded replay 124709490
+  downloaded replay 124708792
+  downloaded replay 124708814
+  downloaded replay 124708128
+  downloaded replay 124707472
+  downloaded replay 124706787
+  downloaded replay 124706120
+  downloaded replay 124705415
+  downloaded replay 124705442
+  downloaded replay 124704768
+  downloaded replay 124704103
+  downloaded replay 124703436
+  downloaded replay 124702777
+  downloaded replay 124702076
+  downloaded replay 124701407
+  downloaded replay 124701389
+  downloaded replay 124700734
+  downloaded replay 124700068
+  downloaded replay 124699418
+  downloaded replay 124698720
+  downloaded replay 124698051
+  downloaded replay 124697372
+  downloaded replay 124696704
+  downloaded replay 124696044
+  downloaded replay 124696068
+  downloaded replay 124695345
+  downloaded replay 124694662
+  downloaded replay 124694000
+  downloaded replay 124693323
+  downloaded replay 124692630
+  downloaded replay 124691966
+  downloaded replay 124691266
+  downloaded replay 124690629
+  downloaded replay 124689955
+  downloaded replay 124689290
+  downloaded replay 124688616
+  downloaded replay 124687952
+  downloaded replay 124687298
+  downloaded replay 124686606
+  downloaded replay 124685933
+  downloaded replay 124685215
+  downloaded replay 124684553
+  downloaded replay 124683814
+  downloaded replay 124683117
+  downloaded replay 124682458
+  downloaded replay 124681765
+  downloaded replay 124681089
+  downloaded replay 124680364
+  downloaded replay 124680392
+  downloaded replay 124679679
+  downloaded replay 124678985
+  downloaded replay 124679029
+  downloaded replay 124678236
+  downloaded replay 124677663
+
+Total replay JSONs on disk: 122
+Traceback (most recent call last):
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 395, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 350, in main
+    analyzed.append(analyze_replay_file(rp))
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 216, in analyze_replay_file
+    info = data.get("info") or {}
+           ^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
