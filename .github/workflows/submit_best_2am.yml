@@ -1,27 +1,19 @@
 name: submit-best-2am
-
 on:
-  schedule:
-    - cron: "0 0 * * *"
   workflow_dispatch:
     inputs:
       agent:
         description: "Agent to submit"
-        default: "agents/main_policy_v59_10k_772.py"
+        default: "agents/main_heuristic_v61_merged.py"
         required: false
       name:
         description: "Bundle name"
-        default: "v59_10k_1M_772val"
+        default: "v61_heuristic_merged"
         required: false
       message:
         description: "Submission message"
-        default: "v59 10k games 998k decisions 0.772 val_acc, 142g/s mt matrix 5x2000g"
+        default: "v61 heuristic merged c87_v44 + wall guard Kyogre, bench guard 1000, all bugs fixed"
         required: false
-  push:
-    branches:
-      - arena/c87f7a48-pokemon
-    paths:
-      - pokemon-agent/kaggle_results/submit_now.trigger
 
 permissions:
   contents: write
@@ -39,91 +31,56 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Install kaggle
-        run: python -m pip install --disable-pip-version-check --quiet kaggle
-
+      - run: python -m pip install --disable-pip-version-check --quiet kaggle
       - name: Configure Kaggle
         env:
           KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
-          set -euo pipefail
           mkdir -p ~/.kaggle
           if [ -n "${KAGGLE_API_TOKEN:-}" ]; then
             printf '%s' "$KAGGLE_API_TOKEN" | tr -d '\r\n' > ~/.kaggle/access_token
             chmod 600 ~/.kaggle/access_token
-            echo "Using KAGGLE_API_TOKEN"
           elif [ -n "${KAGGLE_USERNAME:-}" ] && [ -n "${KAGGLE_KEY:-}" ]; then
             printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
             chmod 600 ~/.kaggle/kaggle.json
-            echo "Using KAGGLE_USERNAME/KEY"
           else
-            echo "No Kaggle credentials - abort"
-            exit 1
+            echo "no creds"; exit 1
           fi
-
       - name: Build bundle
         run: |
-          set -euo pipefail
           cd pokemon-agent
-          AGENT="${{ inputs.agent || 'agents/main_policy_v59_10k_772.py' }}"
-          NAME="${{ inputs.name || 'v59_10k_1M_772val' }}"
-          if [ -f kaggle_results/best_agent.txt ]; then
-            BEST=$(cat kaggle_results/best_agent.txt)
-            if [ -n "$BEST" ] && [ -f "$BEST" ]; then
-              AGENT="$BEST"
-              echo "Using best_agent.txt: $AGENT"
-            fi
-          fi
+          AGENT="${{ inputs.agent }}"
+          NAME="${{ inputs.name }}"
           echo "Building $AGENT as $NAME"
-          ls -lh $AGENT
-          ls -lh deck.csv assets/card_index.json
+          ls -lh $AGENT deck.csv assets/card_index.json
           python build_submission.py --agent $AGENT --name $NAME
           ls -lh bundles/${NAME}.tar.gz
-          echo "SHA256 $(sha256sum bundles/${NAME}.tar.gz)"
-
-      - name: Submit to Kaggle
+      - name: Submit
         env:
-          BUNDLE_NAME: ${{ inputs.name || 'v59_10k_1M_772val' }}
-          MESSAGE: ${{ inputs.message || 'v59 10k games 998k decisions 0.772 val_acc, 142g/s mt' }}
+          BUNDLE_NAME: ${{ inputs.name }}
+          MESSAGE: ${{ inputs.message }}
         run: |
-          set -euo pipefail
           cd pokemon-agent
           BUNDLE="bundles/${BUNDLE_NAME}.tar.gz"
-          if [ ! -f "$BUNDLE" ]; then
-            BUNDLE=$(ls -t bundles/*.tar.gz | head -1)
-            echo "Using latest $BUNDLE"
-          fi
-          echo "Submitting $BUNDLE"
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f $BUNDLE -m "$MESSAGE" 2>&1 | tee kaggle_results/submit_2am.log
-          echo "--- submissions list ---"
-          kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground 2>&1 | head -50 | tee -a kaggle_results/submit_2am.log
-
-      - name: Commit log (safe pattern)
+          kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground -v 2>&1 | head -100 | tee -a kaggle_results/submit_2am.log
+      - name: Commit log
         if: always()
         run: |
-          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # save outputs
           rm -rf /tmp/keep && mkdir -p /tmp/keep
-          cp -r pokemon-agent/kaggle_results /tmp/keep/ 2>/dev/null || true
-          cp -r pokemon-agent/bundles /tmp/keep/ 2>/dev/null || true
+          cp -r pokemon-agent/kaggle_results /tmp/keep/ || true
+          cp -r pokemon-agent/bundles /tmp/keep/ || true
           git fetch origin "${GITHUB_REF_NAME}"
           git reset --hard "origin/${GITHUB_REF_NAME}"
-          cp -r /tmp/keep/kaggle_results/. pokemon-agent/kaggle_results/ 2>/dev/null || true
-          cp -r /tmp/keep/bundles/. pokemon-agent/bundles/ 2>/dev/null || true
+          cp -r /tmp/keep/kaggle_results/. pokemon-agent/kaggle_results/ || true
+          cp -r /tmp/keep/bundles/. pokemon-agent/bundles/ || true
           git add -f pokemon-agent/kaggle_results/submit_2am.log pokemon-agent/bundles/ || true
-          git rm -q --ignore-unmatch pokemon-agent/kaggle_results/submit_now.trigger || true
-          if [ -z "$(git diff --cached --name-only)" ]; then
-            echo "Nothing to commit"
-            exit 0
-          fi
-          git commit -m "submit v59 log [skip ci]"
+          git commit -m "submit log [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
