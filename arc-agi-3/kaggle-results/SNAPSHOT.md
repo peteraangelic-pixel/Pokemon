@@ -1,8 +1,9 @@
-# Kaggle Snapshot 2026-10-15T10:23:00Z
+# Kaggle Snapshot 2026-10-16T10:31:20Z
 
 ## Our submissions
 ```
 ref,fileName,date,description,status,publicScore,privateScore
+57247568,submission.parquet,2026-10-16 00:02:30.717000,"duck v3 (smoke 29.02, kalibracja smoke->LB; slot 16.10)",SubmissionStatus.COMPLETE,26.25,
 57201063,submission.parquet,2026-10-15 01:15:19.820000,v5-world-model-stuck (level notes + stuck audit + executable world model) git 82f2033,SubmissionStatus.COMPLETE,23.94,
 57125322,submission.parquet,2026-10-13 01:00:59.017000,v2-think-less (Franzen M2 + experiment hint + level notes + stuck audit) git 0f1f212,SubmissionStatus.COMPLETE,24.66,
 57104951,submission.parquet,2026-10-12 10:55:29.233000,t4-v2 qwen2.5-7b-nf4-bnb 5edcf932fae924ce6a1d091751b53d56c1c16ed5,SubmissionStatus.ERROR,,
@@ -12,26 +13,26 @@ ref,fileName,date,description,status,publicScore,privateScore
 
 ## Public leaderboard (top 20)
 ```
-Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOFiPp7-J_NfJzVJcNYwNc8phc5b-NVcZo_09FXpdgUbTQ_eMoknKhaqAVoJPzEI5AU
+Next Page Token = CfDJ8JDwKpgsc5hJpcljKjpYpOF2YG0cEYFXN_9jFOF4grcVigq60WGzSs7fb835VJ8vInUXglvOb7V4cfPwHs9puvo
 teamId,teamName,submissionDate,score
-15486995,Tufa Labs,2026-10-14 17:24:56.603000,68.91
-15499660,Yi-Chia Chen,2026-10-14 21:09:03.600000,67.49
-16153655,mtg,2026-10-14 08:37:11.860000,45.00
-15770880,NVARC3,2026-10-14 22:24:06.920000,43.94
-16021367,the last dance 🕺,2026-10-14 22:06:57.330000,43.64
-16958599,Majkel1337,2026-10-14 21:19:56.183000,42.66
-15605182,Son & Mark & Ronen,2026-10-14 13:23:17.690000,41.97
-16132261,artificialagencylab.com,2026-10-14 21:52:33.276000,41.74
-16447222,ARC Slayers,2026-10-14 22:08:30.910000,41.19
-16537511,Vineeth Sai Varikuntla,2026-10-14 02:06:25.226000,40.09
-16569113,復活の混テキスト,2026-10-14 20:03:28.610000,39.53
+15486995,Tufa Labs,2026-10-15 11:33:00.360000,68.91
+15499660,Yi-Chia Chen,2026-10-15 17:56:25.386000,67.49
+16021367,the last dance 🕺,2026-10-15 22:00:15.186000,49.85
+15605182,Son & Mark & Ronen,2026-10-15 06:25:56.800000,47.25
+16153655,mtg,2026-10-15 09:17:25.603000,45.00
+16958599,Majkel1337,2026-10-15 16:57:08.363000,44.84
+15770880,NVARC3,2026-10-15 23:25:46.503000,43.94
+16132261,artificialagencylab.com,2026-10-15 22:04:20.393000,41.74
+16447222,ARC Slayers,2026-10-15 19:03:37.260000,41.19
+16490178,Grigoriy Zatravkin,2026-10-15 23:47:07.533000,40.63
+16537511,Vineeth Sai Varikuntla,2026-10-15 02:06:22.746000,40.09
+16569113,復活の混テキスト,2026-10-15 19:18:58.980000,39.53
 16805955,dreach.ai,2026-10-14 00:04:22.073000,39.11
-16754530,大阪公立大学生AIチーム,2026-10-14 02:26:58.123000,38.98
-15488763,AquaUrsa Research,2026-10-15 00:02:46.523000,38.97
-16958955,Nhan Duc Nguyen,2026-10-14 00:03:18.896000,38.84
-16253766,"speed, my mom is kinda homless",2026-10-15 00:41:50.856000,38.22
-16992721,fshindo,2026-10-14 00:01:26.960000,38.20
-16760493,SparseTech,2026-10-14 22:57:19.093000,37.98
+16754530,大阪公立大学生AIチーム,2026-10-15 11:20:39.943000,38.98
+15488763,AquaUrsa Research,2026-10-16 00:02:10.670000,38.97
+16958955,Nhan Duc Nguyen,2026-10-15 01:22:42.500000,38.84
+16253766,"speed, my mom is kinda homless",2026-10-16 00:27:49.080000,38.22
+16992721,fshindo,2026-10-15 17:29:24.300000,38.20
 ```
 
 ## Kernel status (v6.9)
