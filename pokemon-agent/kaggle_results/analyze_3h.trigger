@@ -1,1 +1,1 @@
-fetch both active thorough test v74 v75 no auto-submit - final version
+thorough test v70 v74 v75 with fixed path, no auto-submit
