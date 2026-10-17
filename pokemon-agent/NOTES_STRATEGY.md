@@ -1,6 +1,16 @@
-# NOTES_STRATEGY — droga do 1000+ (update 2026-10-17 po drugiej gałęzi correction)
+# NOTES_STRATEGY — droga do 1000+ (update 2026-10-17 15:00 po weryfikacji v83/v84/v85)
 
-## Obecny stan (2026-10-17 12:00)
+## Obecny stan (2026-10-17 15:00)
+- Live 57290311 v63_super_fix_a450: 30W-50L=0.375, vs KYOGRE 11W-19L=0.37 (mirror słaby), rating 399.7 po szczycie 773.7 — potwierdza że mirror to klucz.
+- Weryfikacja drugiej gałęzi: v83 z poprawnym deckiem Kyogre (c87_v44.csv) vs base 600g: 285W-315L=0.475 WR, nie 0.125 — ich 0.125 wynikał z buga deck.csv (Alakazam w bundle Kyogre). Po fixie v83 nie jest katastrofą, ale słabszy od championa (avg prizes 1.96 vs 2.94).
+- A/B 2 idei na championie 600g: v84a retreat only 299W-301L=0.498, v84b energy bench Snover 288W-312L=0.480, v84 both 293W-307L=0.488, base mirror 297W-303L=0.495 — retreat idea neutralna, energy idea lekko gorsza. vs new_losses 20g: v84a 0.800 vs base 0.796 — tie, ale vs jazivxt mirror 3-17=0.15 vs base 9-11=0.45 — retreat szkodzi w mirrorze.
+- Nowy trop: imitacja z słabszego nauczyciela szkodzi (second branch: PG z v70 słabszy). Testy:
+  - v85 no imit mirror (c87_v44 + wyłącz imitację tylko w MIRROR mode): 1200g vs base 631W-569L=0.526 WR (vs base mirror 609W-591L=0.507) +1.9pp, new_losses 40g 0.802 vs base 0.796 +0.6pp, top30 40g 0.908 vs 0.928 -2.0pp — **najlepszy mirror fix**
+  - v86 no imit at all: 1200g 607W-593L=0.506 vs base 0.507 tie, new_losses 0.796 tie
+  - v86b imit20: 0.488 vs base gorszy
+- Wniosek: v85 to pierwszy wariant który bije championa c87_v44 w mirrorze 1200g (0.526) i poprawia new_losses (0.802), kosztem -2pp top30. To jest kierunek per second branch: nie bench guard, tylko tempo i usunięcie słabego nauczyciela.
+
+## Obecny stan (2026-10-17 12:00) [archiwum]
 - Live v63: 33W-50L (83 gry) rating 399.7 po szczytach 773.7/611.8; v70g: 39W-33L (72 gry) rating 354.2 po dołku 220.5. Obie zbiegają do ~400. Różnica winrate 0.54 vs 0.40 zawyżona ścieżką ratingu.
 - Najlepsze lokalne: v74 0.665 new_losses / 0.650 top30 (v80 bundle), v83 Kyogre tempo 0.681 new_losses / 0.552 top30, v83 Alakazam fix 0.635 / 0.635.
 - v78 odrzucony: 59 kart -> BattleStart null -> 392 drawy/540 (0.111) - silnik odrzuca nielegalną listę, harness liczył jako drawy.
@@ -57,10 +67,13 @@ Kryteria: >0.63 new_losses AND >0.65 top30 AND zero-prize <30%
 
 ### Faza A — mirror tempo (zrobione v83)
 - [x] Pilot pod mirror Abomasnowa i głód nagród — 15 z 44 porażek ściany
-- [x] v83 tempo: 0.681 new_losses, 0% zero-prize vs 52% live — sukces na metryce głodu
-- [ ] v84: c87_v44 full + tempo patche (energy to bench Snover, early Snover T1-3, Mega Signal boost, retreat Snover vs Aboma) — cel >0.63 new_losses i >0.65 top30
+- [x] v83 tempo: 0.681 new_losses, 0% zero-prize vs 52% live — sukces na metryce głodu, ale bundle miał bug deck.csv Alakazam
+- [x] v83 fixed deck: vs base 600g 0.475 WR (nie 0.125), avg prizes 1.96 vs 2.94 — słabszy od championa, bug decku naprawiony
+- [x] v84 A/B: retreat only 0.498, energy bench 0.480, both 0.488 vs base 0.495 — brak zysku, retreat szkodzi vs jazivxt mirror 0.15 vs 0.45
+- [x] v85 no imit mirror: c87_v44 + wyłącz imitację w MIRROR — 1200g 0.526 WR vs base 0.507 (+1.9pp), new_losses 40g 0.802 vs 0.796 (+0.6pp), top30 40g 0.908 vs 0.928 (-2.0pp) — **best mirror fix, rekomendowany do submitu**
+- [x] v86 no imit all: 1200g 0.506 vs 0.507 tie
 
-### Faza B — walidacja 4800g (do wdrożenia)
+### Faza B — walidacja 4800g (zrobione 40g)
 - Grupy: trolley, Crustle wall, Mengfei Kangaskhan, top30_live split top10/reszta, live_killers 18 decków, new_losses 13 decków
 - Każda grupa 600 gier, łącznie ~4800, raport winrate per grupa, worst5, zero-prize % w mirror
 - Używać multiprocessing.Pool + gauntlet_ffi — 84k próbek 128s, Rust+Rayon w Actions dla >20g/s
