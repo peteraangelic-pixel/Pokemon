@@ -1,28 +1,37 @@
 {
-  "fetched_utc": "2026-10-17T06:08:59+00:00",
+  "fetched_utc": "2026-10-17T20:25:38+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 403,
-  "submission_rows": 32,
+  "leaderboard_rows": 417,
+  "submission_rows": 33,
   "our_leaderboard": [
     {
-      "Rank": "318",
+      "Rank": "314",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-17 01:26:36",
-      "Score": "399.7",
+      "LastSubmissionDate": "2026-10-17 16:50:39",
+      "Score": "440.8",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57318827",
+      "fileName": "ptcg_v67_wall_a450.tar.gz",
+      "date": "2026-10-17 16:50:39.943000",
+      "description": "v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "440.8",
+      "privateScore": ""
+    },
+    {
       "ref": "57290311",
       "fileName": "ptcg_v63_super_fix_a450.tar.gz",
       "date": "2026-10-17 01:26:36.140000",
       "description": "submit ptcg_v63_super_fix_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "399.7",
+      "publicScore": "419.6",
       "privateScore": ""
     },
     {
@@ -31,7 +40,7 @@
       "date": "2026-10-17 01:24:23.883000",
       "description": "v70g final token fix - 0.596 top30 0.637 pool - should now auth with API_TOKEN",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "358.5",
+      "publicScore": "372.3",
       "privateScore": ""
     },
     {
@@ -95,15 +104,6 @@
       "description": "v48 CEM2-best knobs fitness 0.927 + BC60 113 replays 7081 decisions pool 0.8655 hard6 0.772 local optimum convergence v42.4 - ptcg_v48_cem2best_imit_a450.tar.gz 2026-10-14T17:52:05Z",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "404.9",
-      "privateScore": ""
-    },
-    {
-      "ref": "57191098",
-      "fileName": "ptcg_v51_league_a450.tar.gz",
-      "date": "2026-10-14 17:50:34.420000",
-      "description": "v51 league 24k games 456k states acc 0.777 vs base 0.513 first ML +1.2pp pool over v48 (0.8774 vs 0.8655 n~5000) hard6 -1.4pp bundle smoke OK - ptcg_v51_league_a450.tar.gz 2026-10-14T17:50:32Z",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "332.6",
       "privateScore": ""
     }
   ],
