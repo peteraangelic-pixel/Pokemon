@@ -23,23 +23,95 @@ jobs:
       - run: pip install -q kaggle-environments
       - run: |
           cd pokemon-agent
-          echo "=== v84 champion tempo 2 ideas vs new_losses 20g (ffi) ===" | tee /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v84_champion_tempo_fix.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v83 vs base champion 400g PYTHON (second branch claim 81% hunger) ===" | tee /tmp/q.txt
+          python3 - << 'PY' 2>&1 | tee -a /tmp/q.txt
+          import sys, pathlib, json, ctypes
+          from pathlib import Path
+          ROOT=Path(".")
+          sys.path.insert(0, str(ROOT/"tools"))
+          from gauntlet_ffi import load_deck, load_module, rebind, get_lib
+          lib=get_lib()
+          deck=load_deck("decks/c87_v44.csv")
+          def load_agent(p,n):
+              m=load_module(p,n)
+              rebind(m,deck)
+              return m
+          mod_v83=load_agent("agents/v83_kyogre_mirror_tempo.py","v83")
+          mod_v84=load_agent("agents/v84_champion_tempo_fix.py","v84")
+          mod_base=load_agent("agents/c87_v44.py","base")
+          def run_pair(a0,a1,s):
+              cards=(ctypes.c_int*120)(*deck,*deck)
+              sd=lib.BattleStart(cards)
+              bp=sd.battlePtr
+              if not bp:
+                  return None,0
+              win=None
+              our=0
+              try:
+                  while True:
+                      data=lib.GetBattleData(bp)
+                      obs=json.loads(data.json)
+                      cur=obs.get("current") or {}
+                      res=cur.get("result")
+                      if res is not None and res>=0:
+                          if res==2:
+                              win=None
+                          else:
+                              win=(res==s)
+                          pls=cur.get("players") or []
+                          if len(pls)>=2:
+                              try:
+                                  me=pls[s]
+                                  opp=pls[1-s]
+                                  our=6-len(opp.get("prize") or [])
+                              except:
+                                  pass
+                          break
+                      me_idx=int(cur.get("yourIndex") or 0)
+                      if obs.get("select") is None:
+                          break
+                      dec=(a0 if me_idx==s else a1)(obs)
+                      if not isinstance(dec,list):
+                          dec=[]
+                      arg=(ctypes.c_int*len(dec))(*dec)
+                      if lib.Select(bp,arg,len(dec))!=0:
+                          break
+              finally:
+                  lib.BattleFinish(bp)
+              return win,our
+          def test_vs(name,ma,mb,games=400):
+              w=l=d=zero=0
+              tot=0
+              for gg in range(games):
+                  seat=gg%2
+                  if seat==0:
+                      win,our=run_pair(ma.agent, mb.agent, seat)
+                  else:
+                      win,our=run_pair(mb.agent, ma.agent, 1)
+                  tot+=our
+                  if win is None:
+                      d+=1
+                  elif win:
+                      w+=1
+                  else:
+                      l+=1
+                      if our==0:
+                          zero+=1
+              print(f"{name} vs base {games}g: {w}W-{l}L-{d}D = {w/games:.3f} WR")
+              if l>0:
+                  print(f"  zero-prize losses {zero}/{l}={zero/l:.2%}")
+              print(f"  avg prizes {tot/games:.2f}")
+
+          test_vs("v83", mod_v83, mod_base, 400)
+          test_vs("v84 2ideas", mod_v84, mod_base, 400)
+          test_vs("base mirror", mod_base, mod_base, 400)
+          PY
           echo "" | tee -a /tmp/q.txt
-          echo "=== v84 vs top30 20g ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v84_champion_tempo_fix.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v84 champion tempo vs new_losses 20g ffi (inflated, for ref) ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v84_champion_tempo_fix.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
           echo "" | tee -a /tmp/q.txt
-          echo "=== v84 mirror prizetest 400g PYTHON (real engine) ===" | tee -a /tmp/q.txt
-          python tools/prizetest.py --agent agents/v84_champion_tempo_fix.py --deck decks/c87_v44.csv --games 400 2>&1 | tee -a /tmp/q.txt | tail -n 40
-          echo "" | tee -a /tmp/q.txt
-          echo "=== v83 Kyogre tempo fixed deck mirror prizetest 400g PYTHON ===" | tee -a /tmp/q.txt
-          python tools/prizetest.py --agent agents/v83_kyogre_mirror_tempo.py --deck decks/c87_v44.csv --games 400 2>&1 | tee -a /tmp/q.txt | tail -n 40
-          echo "" | tee -a /tmp/q.txt
-          echo "=== c87_v44 baseline mirror prizetest 400g PYTHON ===" | tee -a /tmp/q.txt
-          python tools/prizetest.py --agent agents/c87_v44.py --deck decks/c87_v44.csv --games 400 2>&1 | tee -a /tmp/q.txt | tail -n 40
-          echo "" | tee -a /tmp/q.txt
-          echo "=== v74 Alakazam resistant vs new_losses 20g ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v74_alakazam_resistant.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
+          echo "=== v84 vs top30 20g ffi ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v84_champion_tempo_fix.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
           cat /tmp/q.txt
           cp /tmp/q.txt kaggle_results/our_replays/quick_v79_v82.txt
       - name: Commit
@@ -47,5 +119,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f pokemon-agent/kaggle_results/our_replays/quick_v79_v82.txt || true
-          git commit -m "quick v84 champion tempo 2 ideas + verify v83 per second branch [skip ci]" || echo "no changes"
+          git commit -m "verify v83 vs base per second branch 81% claim + v84 [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
