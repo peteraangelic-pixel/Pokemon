@@ -1,1 +1,1 @@
-submit v69_alakazam_simple_652 0.652 top30 0.825 walls — revolution to 1000+ Fri Oct 16 13:32:01 UTC 2026
+ptcg_v67_wall_a450 v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall
