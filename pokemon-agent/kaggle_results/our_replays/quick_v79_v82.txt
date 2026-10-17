@@ -1,52 +1,80 @@
-=== v85 no imit mirror vs base 600g ===
-v85 no imit mirror vs base 600g: 310W-290L-0D = 0.517 WR zero 0/290 avg 2.84
-v84a retreat vs base 600g: 302W-298L-0D = 0.503 WR zero 1/298 avg 2.94
-base mirror vs base 600g: 300W-300L-0D = 0.500 WR zero 1/300 avg 2.96
+=== v85 no imit mirror vs base 600g x2 for variance ===
+v85 vs base 600g: 321W-279L-0D = 0.535 WR zero 2/279 avg 2.74
+v85 2nd run vs base 600g: 302W-298L-0D = 0.503 WR zero 0/298 avg 3.08
+base mirror vs base 600g: 310W-290L-0D = 0.517 WR zero 0/290 avg 2.73
 
-=== v85 vs new_losses 20g FFI ===
-124847705_Tolga Kiremit                    20- 0- 0  1.000
-124847612_Majiro_ns                        20- 0- 0  1.000
-124847084_inego                            20- 0- 0  1.000
-124845967_Festival                         20- 0- 0  1.000
-124845953_Praneeth Yeddu                   20- 0- 0  1.000
-124845423_Kentaro Totsuka                  20- 0- 0  1.000
-124844896_WolfeyVGC                        20- 0- 0  1.000
-124844855_Mozune4002                       20- 0- 0  1.000
-124848177_Igor Zharov                      16- 4- 0  0.800
-124846518_jazivxt                          12- 8- 0  0.600
-124848716_Noel Bobby                       11- 9- 0  0.550
-124846514_Steveneg13                        9-11- 0  0.450
-124845954_Faaiz Hussain                     5-15- 0  0.250
+=== v85 vs top30 20g FFI ===
+sue124                                     20- 0- 0  1.000
+YumeNeko                                   20- 0- 0  1.000
+Majiro_ns                                  20- 0- 0  1.000
+Kentaro_Totsuka                            20- 0- 0  1.000
+Stephen_Schott                             19- 1- 0  0.950
+OceanMix                                   19- 1- 0  0.950
+No_Free_MIST_Energy                        19- 1- 0  0.950
+KyryloBakumenko                            19- 1- 0  0.950
+JerryChen                                  19- 1- 0  0.950
+Darren_Sheehan                             19- 1- 0  0.950
+Akmal_Xodarev__Busya_PRIME_                19- 1- 0  0.950
+ANMOL_GARG                                 19- 1- 0  0.950
+バーベナヘレナでコンボ決めたい連合                          18- 2- 0  0.900
+Zedan_Soorya                               18- 2- 0  0.900
+Leon_Liu                                   18- 2- 0  0.900
+dajun666                                   17- 3- 0  0.850
+Xinyu_Li                                   17- 3- 0  0.850
+Raja_Biswas                                17- 3- 0  0.850
+Mengfei_Li                                 17- 3- 0  0.850
+Mathieu_W                                  17- 3- 0  0.850
+Cristobal_Tudela                           17- 3- 0  0.850
+Colton_Martin                              17- 3- 0  0.850
+Chonghao_Peng                              17- 3- 0  0.850
+やる気元気ミワハルキ_2nd_ver_                        17- 2- 1  0.850
+leo_turing                                 15- 5- 0  0.750
+yu_kuo14                                   13- 7- 0  0.650
+Bill_Vlasak                                12- 8- 0  0.600
 
-TOTAL 213W-47L-0D = 0.819 ±0.047 (95% CI)  (13 decks x 20 games, 3s)
+TOTAL 479W-60L-1D = 0.887 ±0.027 (95% CI)  (27 decks x 20 games, 8s)
   600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
 worst 5:
-  124845954_Faaiz Hussain                    5-15-0  0.250
-  124846514_Steveneg13                       9-11-0  0.450
-  124848716_Noel Bobby                       11-9-0  0.550
-  124846518_jazivxt                          12-8-0  0.600
-  124848177_Igor Zharov                      16-4-0  0.800
+  Bill_Vlasak                                12-8-0  0.600
+  yu_kuo14                                   13-7-0  0.650
+  leo_turing                                 15-5-0  0.750
+  やる気元気ミワハルキ_2nd_ver_                        17-2-1  0.850
+  Chonghao_Peng                              17-3-0  0.850
 
-=== base vs new_losses 20g FFI ===
-124847705_Tolga Kiremit                    20- 0- 0  1.000
-124847612_Majiro_ns                        20- 0- 0  1.000
-124845967_Festival                         20- 0- 0  1.000
-124845953_Praneeth Yeddu                   20- 0- 0  1.000
-124845423_Kentaro Totsuka                  20- 0- 0  1.000
-124847084_inego                            19- 1- 0  0.950
-124844896_WolfeyVGC                        18- 2- 0  0.900
-124844855_Mozune4002                       17- 3- 0  0.850
-124848177_Igor Zharov                      13- 7- 0  0.650
-124846514_Steveneg13                       13- 7- 0  0.650
-124846518_jazivxt                           8-12- 0  0.400
-124848716_Noel Bobby                        7-13- 0  0.350
-124845954_Faaiz Hussain                     5-15- 0  0.250
+=== base vs top30 20g FFI ===
+バーベナヘレナでコンボ決めたい連合                          20- 0- 0  1.000
+YumeNeko                                   20- 0- 0  1.000
+No_Free_MIST_Energy                        20- 0- 0  1.000
+Mathieu_W                                  20- 0- 0  1.000
+KyryloBakumenko                            20- 0- 0  1.000
+Cristobal_Tudela                           20- 0- 0  1.000
+sue124                                     19- 1- 0  0.950
+Xinyu_Li                                   19- 1- 0  0.950
+OceanMix                                   19- 1- 0  0.950
+Majiro_ns                                  19- 1- 0  0.950
+Leon_Liu                                   19- 1- 0  0.950
+Colton_Martin                              19- 1- 0  0.950
+yu_kuo14                                   18- 2- 0  0.900
+dajun666                                   18- 2- 0  0.900
+Raja_Biswas                                18- 2- 0  0.900
+Kentaro_Totsuka                            18- 2- 0  0.900
+Darren_Sheehan                             18- 2- 0  0.900
+ANMOL_GARG                                 18- 2- 0  0.900
+leo_turing                                 17- 3- 0  0.850
+Zedan_Soorya                               17- 3- 0  0.850
+やる気元気ミワハルキ_2nd_ver_                        17- 2- 1  0.850
+Stephen_Schott                             16- 4- 0  0.800
+Mengfei_Li                                 16- 4- 0  0.800
+JerryChen                                  16- 4- 0  0.800
+Bill_Vlasak                                16- 4- 0  0.800
+Akmal_Xodarev__Busya_PRIME_                16- 4- 0  0.800
+Chonghao_Peng                              15- 5- 0  0.750
 
-TOTAL 200W-60L-0D = 0.769 ±0.051 (95% CI)  (13 decks x 20 games, 3s)
+TOTAL 488W-51L-1D = 0.904 ±0.025 (95% CI)  (27 decks x 20 games, 8s)
   600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
 worst 5:
-  124845954_Faaiz Hussain                    5-15-0  0.250
-  124848716_Noel Bobby                       7-13-0  0.350
-  124846518_jazivxt                          8-12-0  0.400
-  124846514_Steveneg13                       13-7-0  0.650
-  124848177_Igor Zharov                      13-7-0  0.650
+  Chonghao_Peng                              15-5-0  0.750
+  Akmal_Xodarev__Busya_PRIME_                16-4-0  0.800
+  Bill_Vlasak                                16-4-0  0.800
+  JerryChen                                  16-4-0  0.800
+  Mengfei_Li                                 16-4-0  0.800
