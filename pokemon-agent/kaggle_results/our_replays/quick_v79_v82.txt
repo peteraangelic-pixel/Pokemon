@@ -1,4 +1,123 @@
-=== 1200g v86 no imit vs base (best so far) ===
-v86 no imit vs base 1200g: 607W-593L-0D = 0.506 WR zero 1/593 avg 2.98
-v85 no imit mirror vs base 1200g: 631W-569L-0D = 0.526 WR zero 1/569 avg 2.80
-base mirror vs base 1200g: 609W-591L-0D = 0.507 WR zero 0/591 avg 2.97
+=== v85 vs new_losses 40g FFI ===
+124847705_Tolga Kiremit                    40- 0- 0  1.000
+124847612_Majiro_ns                        40- 0- 0  1.000
+124847084_inego                            40- 0- 0  1.000
+124845967_Festival                         39- 1- 0  0.975
+124845953_Praneeth Yeddu                   39- 1- 0  0.975
+124844896_WolfeyVGC                        39- 1- 0  0.975
+124845423_Kentaro Totsuka                  38- 2- 0  0.950
+124844855_Mozune4002                       38- 2- 0  0.950
+124848177_Igor Zharov                      27-13- 0  0.675
+124846518_jazivxt                          23-17- 0  0.575
+124848716_Noel Bobby                       21-19- 0  0.525
+124846514_Steveneg13                       17-23- 0  0.425
+124845954_Faaiz Hussain                    16-24- 0  0.400
+
+TOTAL 417W-103L-0D = 0.802 ±0.034 (95% CI)  (13 decks x 40 games, 4s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124845954_Faaiz Hussain                    16-24-0  0.400
+  124846514_Steveneg13                       17-23-0  0.425
+  124848716_Noel Bobby                       21-19-0  0.525
+  124846518_jazivxt                          23-17-0  0.575
+  124848177_Igor Zharov                      27-13-0  0.675
+
+=== base vs new_losses 40g FFI ===
+124847705_Tolga Kiremit                    40- 0- 0  1.000
+124847612_Majiro_ns                        40- 0- 0  1.000
+124847084_inego                            40- 0- 0  1.000
+124845953_Praneeth Yeddu                   40- 0- 0  1.000
+124845967_Festival                         39- 1- 0  0.975
+124844896_WolfeyVGC                        39- 1- 0  0.975
+124845423_Kentaro Totsuka                  38- 2- 0  0.950
+124844855_Mozune4002                       34- 6- 0  0.850
+124848177_Igor Zharov                      26-14- 0  0.650
+124846514_Steveneg13                       25-15- 0  0.625
+124846518_jazivxt                          18-22- 0  0.450
+124845954_Faaiz Hussain                    18-22- 0  0.450
+124848716_Noel Bobby                       17-23- 0  0.425
+
+TOTAL 414W-106L-0D = 0.796 ±0.035 (95% CI)  (13 decks x 40 games, 4s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124848716_Noel Bobby                       17-23-0  0.425
+  124845954_Faaiz Hussain                    18-22-0  0.450
+  124846518_jazivxt                          18-22-0  0.450
+  124846514_Steveneg13                       25-15-0  0.625
+  124848177_Igor Zharov                      26-14-0  0.650
+
+=== v85 vs top30 40g FFI ===
+Majiro_ns                                  40- 0- 0  1.000
+Leon_Liu                                   40- 0- 0  1.000
+Darren_Sheehan                             40- 0- 0  1.000
+sue124                                     39- 1- 0  0.975
+YumeNeko                                   39- 1- 0  0.975
+Stephen_Schott                             39- 1- 0  0.975
+Kentaro_Totsuka                            39- 1- 0  0.975
+JerryChen                                  39- 1- 0  0.975
+leo_turing                                 38- 2- 0  0.950
+OceanMix                                   38- 2- 0  0.950
+No_Free_MIST_Energy                        38- 2- 0  0.950
+Zedan_Soorya                               37- 3- 0  0.925
+Raja_Biswas                                37- 3- 0  0.925
+Cristobal_Tudela                           37- 3- 0  0.925
+バーベナヘレナでコンボ決めたい連合                          36- 4- 0  0.900
+Mathieu_W                                  36- 4- 0  0.900
+KyryloBakumenko                            36- 4- 0  0.900
+Chonghao_Peng                              36- 4- 0  0.900
+Akmal_Xodarev__Busya_PRIME_                36- 4- 0  0.900
+ANMOL_GARG                                 36- 4- 0  0.900
+Xinyu_Li                                   35- 5- 0  0.875
+Mengfei_Li                                 35- 5- 0  0.875
+やる気元気ミワハルキ_2nd_ver_                        35- 0- 5  0.875
+dajun666                                   34- 6- 0  0.850
+Colton_Martin                              34- 6- 0  0.850
+yu_kuo14                                   31- 9- 0  0.775
+Bill_Vlasak                                21-19- 0  0.525
+
+TOTAL 981W-94L-5D = 0.908 ±0.017 (95% CI)  (27 decks x 40 games, 14s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Bill_Vlasak                                21-19-0  0.525
+  yu_kuo14                                   31-9-0  0.775
+  Colton_Martin                              34-6-0  0.850
+  dajun666                                   34-6-0  0.850
+  やる気元気ミワハルキ_2nd_ver_                        35-0-5  0.875
+
+=== base vs top30 40g FFI ===
+sue124                                     40- 0- 0  1.000
+YumeNeko                                   40- 0- 0  1.000
+Majiro_ns                                  40- 0- 0  1.000
+Kentaro_Totsuka                            40- 0- 0  1.000
+Darren_Sheehan                             40- 0- 0  1.000
+OceanMix                                   39- 1- 0  0.975
+Cristobal_Tudela                           39- 1- 0  0.975
+やる気元気ミワハルキ_2nd_ver_                        39- 0- 1  0.975
+バーベナヘレナでコンボ決めたい連合                          38- 2- 0  0.950
+No_Free_MIST_Energy                        38- 2- 0  0.950
+KyryloBakumenko                            38- 2- 0  0.950
+leo_turing                                 37- 3- 0  0.925
+dajun666                                   37- 3- 0  0.925
+Stephen_Schott                             37- 3- 0  0.925
+Mathieu_W                                  37- 3- 0  0.925
+Leon_Liu                                   37- 3- 0  0.925
+JerryChen                                  37- 3- 0  0.925
+Zedan_Soorya                               36- 4- 0  0.900
+Xinyu_Li                                   36- 4- 0  0.900
+Raja_Biswas                                36- 4- 0  0.900
+Chonghao_Peng                              36- 4- 0  0.900
+Akmal_Xodarev__Busya_PRIME_                36- 4- 0  0.900
+yu_kuo14                                   34- 6- 0  0.850
+Mengfei_Li                                 34- 6- 0  0.850
+Colton_Martin                              34- 6- 0  0.850
+ANMOL_GARG                                 34- 6- 0  0.850
+Bill_Vlasak                                33- 7- 0  0.825
+
+TOTAL 1002W-77L-1D = 0.928 ±0.015 (95% CI)  (27 decks x 40 games, 11s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Bill_Vlasak                                33-7-0  0.825
+  ANMOL_GARG                                 34-6-0  0.850
+  Colton_Martin                              34-6-0  0.850
+  Mengfei_Li                                 34-6-0  0.850
+  yu_kuo14                                   34-6-0  0.850
