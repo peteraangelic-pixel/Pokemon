@@ -5,133 +5,35 @@ Found 32 own submissions
   episodes listed: 75
 full dump 57290311: 75 episodes
   full episode metadata dumped: 75
-  downloaded replay 124878725
-  downloaded replay 124877547
-  downloaded replay 124877096
-  downloaded replay 124876227
-  downloaded replay 124874969
-  downloaded replay 124874562
-  downloaded replay 124874118
-  downloaded replay 124873688
-  downloaded replay 124873253
-  downloaded replay 124872783
-  downloaded replay 124872330
-  downloaded replay 124871681
-  downloaded replay 124871188
-  downloaded replay 124870683
-  downloaded replay 124870192
-  downloaded replay 124869703
-  downloaded replay 124869712
-  downloaded replay 124869201
-  downloaded replay 124868713
-  downloaded replay 124868214
-  downloaded replay 124867727
-  downloaded replay 124867240
-  downloaded replay 124866711
-  downloaded replay 124866254
-  downloaded replay 124865740
-  downloaded replay 124865728
-  downloaded replay 124865226
-  downloaded replay 124864690
-  downloaded replay 124864153
-  downloaded replay 124863588
-  downloaded replay 124863037
-  downloaded replay 124863071
-  downloaded replay 124862468
-  downloaded replay 124862537
-  downloaded replay 124861939
-  downloaded replay 124861365
-  downloaded replay 124860792
-  downloaded replay 124860840
-  downloaded replay 124860304
-  downloaded replay 124859689
-  downloaded replay 124860240
-  downloaded replay 124858603
-  downloaded replay 124859145
-  downloaded replay 124858678
-  downloaded replay 124858246
-  downloaded replay 124858159
-  downloaded replay 124857563
-  downloaded replay 124857022
-  downloaded replay 124856462
-  downloaded replay 124855884
-  downloaded replay 124855341
-  downloaded replay 124854784
-  downloaded replay 124854277
-  downloaded replay 124853685
-  downloaded replay 124853118
-  downloaded replay 124852575
-  downloaded replay 124852028
-  downloaded replay 124852094
-  downloaded replay 124851464
-  downloaded replay 124849823
-  downloaded replay 124850930
-  downloaded replay 124850357
-  downloaded replay 124849279
+  downloaded replay 124848716
+  downloaded replay 124848177
+  downloaded replay 124847612
+  downloaded replay 124847082
+  downloaded replay 124846518
+  downloaded replay 124845967
+  downloaded replay 124845954
+  downloaded replay 124845424
+  downloaded replay 124844896
+  downloaded replay 124844886
+  downloaded replay 124844856
+  downloaded replay 124843880
 
 === Submission 57290256 (v70g_alakazam_endgame_2am_final_tokenfix.tar.gz) ===
-  episodes listed: 66
-full dump 57290256: 66 episodes
-  full episode metadata dumped: 66
-  downloaded replay 124877104
-  downloaded replay 124875444
-  downloaded replay 124873686
-  downloaded replay 124873252
-  downloaded replay 124872785
-  downloaded replay 124872404
-  downloaded replay 124872336
-  downloaded replay 124871683
-  downloaded replay 124871190
-  downloaded replay 124870684
-  downloaded replay 124870193
-  downloaded replay 124869704
-  downloaded replay 124869203
-  downloaded replay 124868714
-  downloaded replay 124868216
-  downloaded replay 124867806
-  downloaded replay 124867726
-  downloaded replay 124867237
-  downloaded replay 124866708
-  downloaded replay 124866245
-  downloaded replay 124865771
-  downloaded replay 124865741
-  downloaded replay 124865229
-  downloaded replay 124864689
-  downloaded replay 124864151
-  downloaded replay 124863587
-  downloaded replay 124863655
-  downloaded replay 124863120
-  downloaded replay 124863033
-  downloaded replay 124862466
-  downloaded replay 124861931
-  downloaded replay 124861363
-  downloaded replay 124860789
-  downloaded replay 124860236
-  downloaded replay 124859685
-  downloaded replay 124859757
-  downloaded replay 124859144
-  downloaded replay 124858607
-  downloaded replay 124858158
-  downloaded replay 124857644
-  downloaded replay 124857565
-  downloaded replay 124857021
-  downloaded replay 124856461
-  downloaded replay 124855885
-  downloaded replay 124855340
-  downloaded replay 124854781
-  downloaded replay 124854275
-  downloaded replay 124853683
-  downloaded replay 124853121
-  downloaded replay 124852576
-  downloaded replay 124852030
-  downloaded replay 124851467
-  downloaded replay 124850926
-  downloaded replay 124850356
-  downloaded replay 124849832
-  downloaded replay 124849275
-  downloaded replay 124848712
+  episodes listed: 67
+full dump 57290256: 67 episodes
+  full episode metadata dumped: 67
+  downloaded replay 124879575
+  downloaded replay 124848175
+  downloaded replay 124847705
+  downloaded replay 124847611
+  downloaded replay 124847084
+  downloaded replay 124846514
+  downloaded replay 124845953
+  downloaded replay 124845423
+  downloaded replay 124844855
+  downloaded replay 124843777
 
-Total replay JSONs on disk: 188
+Total replay JSONs on disk: 202
 Traceback (most recent call last):
   File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 395, in <module>
     raise SystemExit(main())
