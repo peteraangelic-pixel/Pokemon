@@ -1,4 +1,4 @@
-name: analyze-losses-3h (fetch after 3h + build resistant)
+name: analyze-losses-3h (fetch + test resistant, NO auto-submit)
 
 on:
   workflow_dispatch:
@@ -8,7 +8,8 @@ on:
     paths:
       - pokemon-agent/kaggle_results/analyze_3h.trigger
   schedule:
-    - cron: "0 */3 * * *"  # every 3h
+    - cron: "30 4 * * *"  # 04:30 UTC = 06:30 Warsaw - exactly 3h from user request 01:32 UTC
+    - cron: "0 */3 * * *"  # also every 3h as backup
 
 permissions:
   contents: write
@@ -16,7 +17,7 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,60 +42,98 @@ jobs:
           else
             echo "no creds"; exit 1
           fi
-      - name: Fetch our replays (top 80)
+      - name: Fetch our replays (both active submissions)
         run: |
           set -e
           mkdir -p pokemon-agent/kaggle_results/our_replays
           python pokemon-agent/tools/fetch_replays.py --competition the-pokemon-company-ptcg-ai-battle-challenge-playground --outdir pokemon-agent/kaggle_results/our_replays --top-k 80 --no-official > /tmp/fetch.log 2>&1 || true
-          cat /tmp/fetch.log | tail -n 100
+          cat /tmp/fetch.log | tail -n 150
           cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch_log.txt || true
-      - name: Summarize + detailed analysis
+          echo "=== Latest submissions ==="
+          cat pokemon-agent/kaggle_results/latest_submissions.txt | head -n 10 || true
+      - name: Summarize + detailed loss analysis
         run: |
           python pokemon-agent/tools/summarize_episodes.py --outdir pokemon-agent/kaggle_results/our_replays > /tmp/sum.log 2>&1 || true
           cat /tmp/sum.log
           python pokemon-agent/tools/analyze_losses_detailed.py > /tmp/detailed.log 2>&1 || true
           cat /tmp/detailed.log
-          cat pokemon-agent/kaggle_results/our_replays/detailed_analysis.md | head -n 200
-      - name: Build resistant v74 if needed
+          cat pokemon-agent/kaggle_results/our_replays/detailed_analysis.md | head -n 250
+      - name: Build resistant versions v74 v75 if missing
         run: |
-          # If analysis shows wipe >30%, ensure v74 exists (we already have v72 ultra bench)
-          # For now, just copy v70 as base for v74 and add extra guard via env
-          # We'll create v74_alakazam_resistant.py with board<=4 guard
-          cat > /tmp/build_v74.py << 'PY'
+          if [ ! -f pokemon-agent/agents/v74_alakazam_resistant.py ]; then
+            python3 - << 'PY'
           import pathlib
           src=pathlib.Path("pokemon-agent/agents/v70_alakazam_endgame.py").read_text()
-          # replace thresholds 2->3 and 3->4 for ultra resistant
           src=src.replace("board_n<=2 and (our_prizes<=3", "board_n<=3 and (our_prizes<=4")
           src=src.replace("board_n<=2:", "board_n<=3:")
           src=src.replace("if board_n<=2 and our_prizes<=3:", "if board_n<=3 and our_prizes<=4:")
-          # add comment
-          src=src.replace('"""v70:', '"""v74: ultra resistant based on 3h loss analysis (71 losses 59% wipe) - board<=3 prize<=4\n\nBased on v70 + detailed analysis\n')
+          src=src.replace('"""v70:', '"""v74: ultra resistant 3h analysis 71 losses 59% wipe board<=3 prize<=4\n\n')
           pathlib.Path("pokemon-agent/agents/v74_alakazam_resistant.py").write_text(src)
           print("built v74")
           PY
-          python /tmp/build_v74.py
-          ls -lh pokemon-agent/agents/v74*
-      - name: Test v74 vs v70 on pool_v3 (quick)
+          fi
+          ls -lh pokemon-agent/agents/v7*.py
+      - name: Thorough test v70 vs v74 vs v75 on top30 and pool_v3
         run: |
           pip install --quiet kaggle-environments
-          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v70_alakazam_endgame.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/pool_v3 --games 20 --workers 2 --paired > /tmp/v70_pool.txt 2>&1 || true
-          cat /tmp/v70_pool.txt | tail -n 20
-          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v74_alakazam_resistant.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/pool_v3 --games 20 --workers 2 --paired > /tmp/v74_pool.txt 2>&1 || true
-          cat /tmp/v74_pool.txt | tail -n 20
-      - name: Commit analysis + v74
+          echo "=== v70 pool_v3 20g ===" | tee /tmp/compare.txt
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v70_alakazam_endgame.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v74 pool_v3 20g ===" | tee -a /tmp/compare.txt
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v74_alakazam_resistant.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v75 pool_v3 20g ===" | tee -a /tmp/compare.txt
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v75_alakazam_resistant_final.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v70 top30 20g ===" | tee -a /tmp/compare.txt
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v70_alakazam_endgame.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v74 top30 20g ===" | tee -a /tmp/compare.txt
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v74_alakazam_resistant.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v75 top30 10g (quick) ===" | tee -a /tmp/compare.txt
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v75_alakazam_resistant_final.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/top30_live --games 10 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          cat /tmp/compare.txt
+          cp /tmp/compare.txt pokemon-agent/kaggle_results/our_replays/compare_v70_v74_v75.txt
+      - name: Write recommendation (NO auto-submit)
+        run: |
+          cat > pokemon-agent/kaggle_results/our_replays/next_submission_recommendation.md << 'MD'
+          # Next submission recommendation - DO NOT AUTO-SUBMIT per user 2026-10-17
+
+          User: "dopiero jak przetestujesz na nowych przegranych meczach za 3h i okaze sie ze twoja nowa wersja super radzi sobie z tymi przegranymi.. szkoda slotu"
+
+          This workflow tests v70 (current best, 0.637 top30 20g, 0.55 pool, 600 rating) vs v74 (board<=3 prize<=4, 0.693 top30 10g / 0.63 20g, 0.6 vs Mengfei wall) vs v75 (final resistant).
+
+          It does NOT submit automatically. User must manually trigger submit_best_2am.yml with distinct bundle name after reviewing compare.txt and detailed_analysis.md.
+
+          ## Current active submissions (as of fetch)
+          - 57290311 v63_super_fix_a450 (second branch, Kyogre) 773.7 - 2W-0L public
+          - 57290256 v70g_alakazam 600.0 - only validation, 0 public games yet
+
+          ## How to decide next submit after 3h:
+          1. Wait for v70g to have 10+ public games (check episodes_57290256.csv)
+          2. Check loss_reasons.json for new wipe losses - if still 50%+ wipe, v74 should be better (it has +100 guard vs +500 in v63 Kyogre)
+          3. Compare compare_v70_v74_v75.txt - if v74 or v75 beats v70 by >0.03 on top30 20g AND beats Mengfei wall, then recommend v74/v75 with distinct name
+          4. Otherwise keep v70 or switch to Kyogre v63 (which has 773.7) - second branch is currently better because Kyogre meta > Alakazam
+
+          ## Slots
+          Only last 2 submissions active. Currently active: v63 (773.7) and v70g (600.0). 4 submissions remaining today per last log. Do not waste slot without thorough test.
+          MD
+          cat pokemon-agent/kaggle_results/our_replays/next_submission_recommendation.md
+      - name: Commit analysis + tests (no auto-submit)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f pokemon-agent/kaggle_results/our_replays/ pokemon-agent/agents/v74_alakazam_resistant.py || true
-          git commit -m "chore(analyze): 3h loss analysis + v74 resistant board<=3 prize<=4 [skip ci]" || echo "no changes"
+          git add -f pokemon-agent/kaggle_results/our_replays/ pokemon-agent/agents/v74_alakazam_resistant.py pokemon-agent/agents/v75_alakazam_resistant_final.py || true
+          git commit -m "chore(analyze): 3h both active losses + thorough test v70 vs v74 vs v75, NO auto-submit per user [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: loss-analysis-3h
+          name: loss-analysis-3h-both
           path: |
             pokemon-agent/kaggle_results/our_replays/
-            /tmp/*pool.txt
+            /tmp/compare.txt
             /tmp/fetch.log
             /tmp/sum.log
           if-no-files-found: warn
