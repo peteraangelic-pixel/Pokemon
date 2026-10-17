@@ -116,7 +116,7 @@ jobs:
                   print(f"skip {ep_path} {ex}")
           print("new_losses count", len(list(pathlib.Path(outdir).glob("*.csv"))))
           PY
-      - name: Thorough test v70 vs v74 vs v75 on top30, pool_v3, new_losses
+      - name: Thorough test v70 vs v74 vs v75 vs v76 on top30, pool_v3, new_losses
         run: |
           pip install --quiet kaggle-environments
           cd pokemon-agent
@@ -129,6 +129,9 @@ jobs:
           echo "=== v75 pool_v3 20g ===" | tee -a /tmp/compare.txt
           python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
+          echo "=== v76 pool_v3 20g ===" | tee -a /tmp/compare.txt
+          python tools/gauntlet_ffi.py --agent agents/v76_alakazam_ultra_resistant.py --our-deck decks/v76_alakazam_ultra_resistant.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
+          echo "" | tee -a /tmp/compare.txt
           echo "=== v70 top30 20g ===" | tee -a /tmp/compare.txt
           python tools/gauntlet_ffi.py --agent agents/v70_alakazam_endgame.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
@@ -138,6 +141,9 @@ jobs:
           echo "=== v75 top30 10g (quick) ===" | tee -a /tmp/compare.txt
           python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 10 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
+          echo "=== v76 top30 20g ===" | tee -a /tmp/compare.txt
+          python tools/gauntlet_ffi.py --agent agents/v76_alakazam_ultra_resistant.py --our-deck decks/v76_alakazam_ultra_resistant.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
+          echo "" | tee -a /tmp/compare.txt
           echo "=== v70 new_losses 20g (recent wipe losses) ===" | tee -a /tmp/compare.txt
           python tools/gauntlet_ffi.py --agent agents/v70_alakazam_endgame.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 30
           echo "" | tee -a /tmp/compare.txt
@@ -146,8 +152,12 @@ jobs:
           echo "" | tee -a /tmp/compare.txt
           echo "=== v75 new_losses 20g ===" | tee -a /tmp/compare.txt
           python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 30
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v76 new_losses 20g ===" | tee -a /tmp/compare.txt
+          python tools/gauntlet_ffi.py --agent agents/v76_alakazam_ultra_resistant.py --our-deck decks/v76_alakazam_ultra_resistant.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 30
           cat /tmp/compare.txt
           cp /tmp/compare.txt kaggle_results/our_replays/compare_v70_v74_v75.txt
+          cp /tmp/compare.txt kaggle_results/our_replays/compare_v70_v74_v75_v76.txt
       - name: Write recommendation (NO auto-submit)
         run: |
           cat > pokemon-agent/kaggle_results/our_replays/next_submission_recommendation.md << 'MD'
@@ -177,8 +187,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f pokemon-agent/kaggle_results/our_replays/ pokemon-agent/agents/v74_alakazam_resistant.py pokemon-agent/agents/v75_alakazam_resistant_final.py || true
-          git commit -m "chore(analyze): 3h both active losses + thorough test v70 vs v74 vs v75, NO auto-submit per user [skip ci]" || echo "no changes"
+          git add -f pokemon-agent/kaggle_results/our_replays/ pokemon-agent/agents/v74_alakazam_resistant.py pokemon-agent/agents/v75_alakazam_resistant_final.py pokemon-agent/agents/v76_alakazam_ultra_resistant.py pokemon-agent/decks/v76_alakazam_ultra_resistant.csv || true
+          git commit -m "chore(analyze): 3h both active losses + thorough test v70 vs v74 vs v75 vs v76 ultra resistant, NO auto-submit per user [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
       - uses: actions/upload-artifact@v4
         if: always()
