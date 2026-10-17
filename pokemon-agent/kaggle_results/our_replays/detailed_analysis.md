@@ -1,179 +1,202 @@
 # Detailed Loss Analysis - Alakazam
 
-Total losses: 27
+Total losses: 80
 
 ## By detailed reason
-- WIPE_1_SINGLE: 11 (40.7%)
-- WIPE_0_EMPTY: 6 (22.2%)
-- OTHER_?: 4 (14.8%)
-- RISK_2_LOW: 4 (14.8%)
-- BENCH_DISADV_3vs5_MEOWTH+FEZANDIP: 1 (3.7%)
-- EARLY_LOSS_T9_KYOGRE: 1 (3.7%)
+- WIPE_1_SINGLE: 31 (38.8%)
+- WIPE_0_EMPTY: 11 (13.8%)
+- OTHER_?: 10 (12.5%)
+- RISK_2_LOW: 9 (11.2%)
+- OTHER_KYOGRE: 8 (10.0%)
+- OTHER_LUCARIO: 3 (3.8%)
+- EARLY_LOSS_T9_?: 1 (1.2%)
+- OTHER_FEZANDIP: 1 (1.2%)
+- OTHER_LUCARIO+FEZANDIP: 1 (1.2%)
+- BENCH_DISADV_3vs5_FEZANDIP: 1 (1.2%)
+- BENCH_DISADV_3vs5_MEOWTH+FEZANDIP: 1 (1.2%)
+- OTHER_MEOWTH: 1 (1.2%)
+- BENCH_DISADV_3vs6_?: 1 (1.2%)
+- EARLY_LOSS_T9_KYOGRE: 1 (1.2%)
 
 ## By opponent arch
-- KYOGRE: 11
-- ?: 10
-- MEOWTH+FEZANDIP: 2
-- FEZANDIP: 2
-- LUCARIO: 1
+- KYOGRE: 29
+- ?: 28
+- MEOWTH+FEZANDIP: 7
+- FEZANDIP: 7
+- LUCARIO: 4
+- LATIAS+FEZANDIP: 1
+- LUCARIO+FEZANDIP: 1
 - LATIAS+MEOWTH+FEZANDIP: 1
+- LUCARIO+KOROIDON: 1
+- MEOWTH: 1
 
 ## By turn
-- T8: 2
-- T9: 4
-- T10: 3
-- T11: 3
-- T12: 1
-- T13: 1
-- T14: 3
-- T17: 2
-- T19: 2
-- T23: 2
+- T4: 1
+- T5: 1
+- T6: 1
+- T7: 3
+- T8: 4
+- T9: 6
+- T10: 5
+- T11: 5
+- T12: 8
+- T13: 5
+- T14: 10
+- T15: 2
+- T16: 3
+- T17: 5
+- T18: 3
+- T19: 4
+- T20: 2
+- T21: 1
+- T22: 3
+- T23: 3
+- T24: 1
 - T27: 1
 - T28: 1
 - T30: 1
 - T31: 1
 
 ## Wipe losses deep dive (first 20)
-### 124858159 vs Sliver-Ze (KYOGRE) T10
-- our_board: ['A:card722(90/90)']
-- opp_board: ['A:card723(250/350)', 'B:card723(350)', 'B:card721(150)']
+### 124844896 vs WolfeyVGC (MEOWTH+FEZANDIP) T14
+- our_board: ['B:card723(350)', 'B:card723(270)']
+- opp_board: ['A:card121(320/320)', 'B:card121(280)', 'B:card121(320)', 'B:card65(60)', 'B:card120(90)']
 - our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 3, 'cardIdTarget': 722, 'playerIndex': 1, 'serial': 64, 'serialTarget': 99, 'type': 11}]
-- moves_tail: [{'turn': 9, 'type': 0, 'opt': None}, {'turn': 9, 'type': 0, 'opt': None}, {'turn': 9, 'type': 0, 'opt': None}, {'turn': 9, 'type': 0, 'opt': None}, {'turn': 9, 'type': 0, 'opt': None}]
-
-### 124859689 vs Morokoshi (MEOWTH+FEZANDIP) T13
-- our_board: ['B:card721(150)']
-- opp_board: ['A:card121(70/320)', 'B:card121(20)', 'B:card120(90)', 'B:card120(90)', 'B:card235(30)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 721, 'fromArea': 4, 'playerIndex': 0, 'serial': 37, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 62, 'toArea': 3, 'type': 6}, {'cardId': 133, 'fromArea': 5, 'playerIndex': 1, 'serial': 84, 'toArea': 3, 'type': 6}, {'cardId': 132, 'fromArea': 10, 'playerIndex': 1, 'serial': 83, 'toArea': 3, 'type': 6}, {'cardId': 131, 'fromArea': 10, 'playerIndex': 1, 'serial': 82, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}]
-
-### 124860240 vs lswuwu (LUCARIO) T11
-- our_board: []
-- opp_board: ['A:card678(190/340)', 'B:card673(80)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'attackId': 982, 'cardId': 678, 'playerIndex': 1, 'serial': 90, 'type': 15}, {'cardId': 721, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 37, 'type': 16, 'value': -130}, {'cardId': 721, 'fromArea': 4, 'playerIndex': 0, 'serial': 37, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 12, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 10, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}]
-
-### 124860792 vs diujin217 (KYOGRE) T8
-- our_board: ['A:card723(350/350)']
-- opp_board: ['A:card723(350/350)', 'B:card722(90)', 'B:card722(90)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'playerIndex': 0, 'type': 5}, {'cardId': 3, 'cardIdTarget': 723, 'playerIndex': 0, 'serial': 62, 'serialTarget': 11, 'type': 11}, {'playerIndex': 0, 'type': 3}, {'playerIndex': 1, 'type': 2}, {'cardId': 3, 'playerIndex': 1, 'serial': 89, 'type': 4}]
-- moves_tail: [{'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}]
-
-### 124860840 vs Dnyanesh (KYOGRE) T11
-- our_board: ['B:card722(90)']
-- opp_board: ['A:card721(150/150)', 'B:card723(350)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'playerIndex': 1, 'type': 0}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 42, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 39, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 30, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 19, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 9, 'type': 1, 'opt': None}, {'turn': 9, 'type': 1, 'opt': None}, {'turn': 9, 'type': 1, 'opt': None}, {'turn': 9, 'type': 1, 'opt': None}, {'turn': 9, 'type': 1, 'opt': None}]
-
-### 124861365 vs Ricardo Paizinho (?) T11
-- our_board: ['A:card721(150/150)']
-- opp_board: ['B:card305(70)', 'B:card742(80)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 3, 'fromArea': 3, 'playerIndex': 1, 'serial': 77, 'toArea': 1, 'type': 6}, {'playerIndex': 1, 'type': 0}, {'cardId': 743, 'fromArea': 4, 'playerIndex': 0, 'serial': 26, 'toArea': 3, 'type': 6}, {'cardId': 741, 'fromArea': 10, 'playerIndex': 0, 'serial': 19, 'toArea': 3, 'type': 6}, {'cardId': 19, 'fromArea': 8, 'playerIndex': 0, 'serial': 8, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 7, 'type': 1, 'opt': None}, {'turn': 7, 'type': 1, 'opt': None}, {'turn': 7, 'type': 1, 'opt': None}, {'turn': 7, 'type': 1, 'opt': None}, {'turn': 7, 'type': 1, 'opt': None}]
-
-### 124863037 vs tategami (?) T23
-- our_board: ['A:card722(90/90)']
-- opp_board: ['A:card103(60/60)', 'B:card103(60)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 3, 'cardIdTarget': 722, 'playerIndex': 1, 'serial': 80, 'serialTarget': 101, 'type': 11}]
-- moves_tail: [{'turn': 1, 'type': 0, 'opt': None}, {'turn': 1, 'type': 0, 'opt': None}, {'turn': 1, 'type': 0, 'opt': None}, {'turn': 1, 'type': 0, 'opt': None}, {'turn': 1, 'type': 0, 'opt': None}]
-
-### 124864153 vs Revue (?) T30
-- our_board: []
-- opp_board: ['A:card345(230/270)', 'B:card756(130)', 'B:card344(70)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 16, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 34, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 26, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 23, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 13, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 20, 'type': 0, 'opt': None}, {'turn': 20, 'type': 0, 'opt': None}, {'turn': 20, 'type': 0, 'opt': None}, {'turn': 20, 'type': 0, 'opt': None}, {'turn': 20, 'type': 0, 'opt': None}]
-
-### 124864690 vs Raihan Ramadistra (MEOWTH+FEZANDIP) T14
-- our_board: ['A:card723(30/350)', 'B:card721(70)', 'B:card723(270)']
-- opp_board: ['B:card120(90)', 'B:card1071(170)', 'B:card140(210)', 'B:card112(100)', 'B:card120(70)']
-- our_ko: ['card722', 'card722', 'card722', 'card722', 'card722', 'card722'] opp_ko: []
-- last_logs: [{'cardId': 121, 'fromArea': 4, 'playerIndex': 0, 'serial': 25, 'toArea': 3, 'type': 6}, {'cardId': 120, 'fromArea': 10, 'playerIndex': 0, 'serial': 22, 'toArea': 3, 'type': 6}, {'cardId': 119, 'fromArea': 10, 'playerIndex': 0, 'serial': 19, 'toArea': 3, 'type': 6}, {'cardId': 5, 'fromArea': 8, 'playerIndex': 0, 'serial': 7, 'toArea': 3, 'type': 6}, {'cardId': 2, 'fromArea': 8, 'playerIndex': 0, 'serial': 3, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 13, 'type': 1, 'opt': None}, {'turn': 13, 'type': 1, 'opt': None}, {'turn': 13, 'type': 1, 'opt': None}, {'turn': 13, 'type': 1, 'opt': None}, {'turn': 13, 'type': 1, 'opt': None}]
-
-### 124865226 vs Elbachir Salik (KYOGRE) T9
-- our_board: ['A:card721(150/150)']
-- opp_board: ['A:card723(240/350)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 3, 'cardIdTarget': 721, 'playerIndex': 1, 'serial': 95, 'serialTarget': 97, 'type': 11}]
-- moves_tail: [{'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}]
-
-### 124866711 vs RAHUL REDDY PULICHARLA (KYOGRE) T8
-- our_board: []
-- opp_board: ['A:card721(60/150)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 722, 'fromArea': 4, 'playerIndex': 0, 'serial': 41, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 13, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 8, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 10, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 16, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}]
-
-### 124868214 vs 加油华为 (LATIAS+MEOWTH+FEZANDIP) T17
-- our_board: ['A:card723(90/350)', 'B:card721(150)']
-- opp_board: ['A:card121(320/320)', 'B:card121(320)', 'B:card120(90)', 'B:card1071(170)']
-- our_ko: ['card721', 'card721', 'card721', 'card721', 'card721', 'card721'] opp_ko: []
-- last_logs: [{'cardId': 723, 'playerIndex': 0, 'putDamageCounter': True, 'serial': 45, 'type': 16, 'value': -10}, {'cardId': 723, 'fromArea': 5, 'playerIndex': 0, 'serial': 45, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 39, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 19, 'toArea': 3, 'type': 6}]
+- last_logs: [{'cardId': 723, 'playerIndex': 0, 'putDamageCounter': True, 'serial': 44, 'type': 16, 'value': -10}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 43, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 41, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 12, 'toArea': 3, 'type': 6}]
 - moves_tail: [{'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}]
 
-### 124869201 vs Leo (?) T31
-- our_board: ['B:card723(110)', 'B:card721(150)']
-- opp_board: ['A:card345(60/150)', 'B:card1074(150)', 'B:card1074(150)', 'B:card1074(150)', 'B:card345(150)', 'B:card1074(150)']
+### 124845423 vs Kentaro Totsuka (?) T7
+- our_board: ['A:card305(70/70)']
+- opp_board: ['A:card93(80/80)', 'B:card90(100)', 'B:card89(70)', 'B:card89(70)', 'B:card149(40)', 'B:card149(40)']
 - our_ko: [] opp_ko: []
-- last_logs: [{'attackId': 479, 'cardId': 345, 'playerIndex': 1, 'serial': 96, 'type': 15}, {'cardId': 723, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 44, 'type': 16, 'value': -120}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 44, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 39, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 11, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 30, 'type': 0, 'opt': None}, {'turn': 30, 'type': 0, 'opt': None}, {'turn': 30, 'type': 0, 'opt': None}, {'turn': 30, 'type': 0, 'opt': None}, {'turn': 30, 'type': 0, 'opt': None}]
+- last_logs: [{'cardId': 305, 'fromArea': 5, 'playerIndex': 1, 'serial': 80, 'toArea': 4, 'type': 6}]
+- moves_tail: [{'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}]
 
-### 124870192 vs Mahog (?) T12
+### 124845953 vs Praneeth Yeddu (LATIAS+FEZANDIP) T13
+- our_board: ['A:card66(140/140)']
+- opp_board: ['A:card756(300/300)', 'B:card756(300)', 'B:card96(210)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 19, 'fromArea': 1, 'playerIndex': 1, 'serial': 71, 'toArea': 2, 'type': 6}, {'playerIndex': 1, 'type': 0}]
+- moves_tail: [{'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}]
+
+### 124845954 vs Faaiz Hussain (MEOWTH+FEZANDIP) T12
+- our_board: ['A:card723(140/350)']
+- opp_board: ['B:card150(330)', 'B:card1071(170)', 'B:card709(110)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 96, 'fromArea': 4, 'playerIndex': 0, 'serial': 3, 'toArea': 3, 'type': 6}, {'cardId': 1, 'fromArea': 8, 'playerIndex': 0, 'serial': 49, 'toArea': 3, 'type': 6}, {'cardId': 1, 'fromArea': 8, 'playerIndex': 0, 'serial': 57, 'toArea': 3, 'type': 6}, {'cardId': 1, 'fromArea': 8, 'playerIndex': 0, 'serial': 55, 'toArea': 3, 'type': 6}, {'cardId': 1, 'fromArea': 8, 'playerIndex': 0, 'serial': 52, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}]
+
+### 124845967 vs Festival (?) T13
+- our_board: ['B:card721(150)']
+- opp_board: ['A:card93(80/80)', 'B:card240(110)', 'B:card90(100)', 'B:card90(100)', 'B:card90(100)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 723, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 43, 'type': 16, 'value': -120}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 43, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 41, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 23, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 15, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}]
+
+### 124846514 vs Steveneg13 (KYOGRE) T8
 - our_board: []
-- opp_board: ['A:card648(320/320)', 'B:card860(70)', 'B:card112(110)', 'B:card112(110)', 'B:card646(70)', 'B:card112(110)']
+- opp_board: ['A:card723(350/350)', 'B:card722(90)', 'B:card721(150)']
 - our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 1097, 'fromArea': 6, 'playerIndex': 1, 'serial': 99, 'toArea': 2, 'type': 6}]
-- moves_tail: [{'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}]
+- last_logs: [{'cardId': 3, 'fromArea': 1, 'playerIndex': 1, 'serial': 95, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 1, 'playerIndex': 1, 'serial': 88, 'toArea': 3, 'type': 6}, {'cardId': 742, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 26, 'type': 16, 'value': -600}, {'cardId': 742, 'fromArea': 4, 'playerIndex': 0, 'serial': 26, 'toArea': 3, 'type': 6}, {'cardId': 741, 'fromArea': 10, 'playerIndex': 0, 'serial': 22, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 7, 'type': 1, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}]
 
-### 124870683 vs zengbo1 (KYOGRE) T9
-- our_board: ['A:card721(150/150)']
-- opp_board: ['A:card723(290/350)', 'B:card721(150)']
+### 124846518 vs jazivxt (?) T12
+- our_board: ['A:card721(150/150)', 'B:card723(350)']
+- opp_board: ['A:card190(300/300)', 'B:card74(70)', 'B:card343(80)', 'B:card666(160)', 'B:card190(300)', 'B:card117(210)']
 - our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 3, 'cardIdTarget': 721, 'playerIndex': 1, 'serial': 75, 'serialTarget': 97, 'type': 11}]
-- moves_tail: [{'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}]
-
-### 124872330 vs Elbachir Salik (KYOGRE) T14
-- our_board: ['A:card722(90/90)']
-- opp_board: ['A:card723(260/350)', 'B:card723(350)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 3, 'cardIdTarget': 722, 'playerIndex': 1, 'serial': 69, 'serialTarget': 99, 'type': 11}]
-- moves_tail: [{'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}]
-
-### 124874118 vs Mitsuaki Inoue (FEZANDIP) T19
-- our_board: ['B:card723(350)']
-- opp_board: ['A:card743(140/140)', 'B:card742(80)', 'B:card140(210)', 'B:card66(140)', 'B:card959(50)']
-- our_ko: [] opp_ko: ['card743', 'card743', 'card743', 'card743']
-- last_logs: [{'attackId': 1072, 'cardId': 743, 'playerIndex': 1, 'serial': 86, 'type': 15}, {'cardId': 723, 'playerIndex': 0, 'putDamageCounter': True, 'serial': 44, 'type': 16, 'value': -500}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 44, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 41, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 13, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 18, 'type': 1, 'opt': None}, {'turn': 18, 'type': 1, 'opt': None}, {'turn': 18, 'type': 1, 'opt': None}, {'turn': 18, 'type': 1, 'opt': None}, {'turn': 18, 'type': 1, 'opt': None}]
-
-### 124874562 vs Riccardo Lo Bianco (?) T10
-- our_board: []
-- opp_board: ['A:card861(280/310)', 'B:card103(60)', 'B:card103(60)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'attackId': 1240, 'cardId': 861, 'playerIndex': 1, 'serial': 104, 'type': 15}, {'cardId': 722, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 39, 'type': 16, 'value': -300}, {'cardId': 722, 'fromArea': 4, 'playerIndex': 0, 'serial': 39, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 25, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 35, 'toArea': 3, 'type': 6}]
-- moves_tail: [{'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}]
-
-### 124874969 vs wdzlyq (KYOGRE) T17
-- our_board: ['A:card723(350/350)', 'B:card723(350)']
-- opp_board: ['A:card723(350/350)', 'B:card721(150)', 'B:card721(150)', 'B:card159(130)', 'B:card722(90)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardIdActive': 723, 'cardIdBench': 723, 'playerIndex': 1, 'serialActive': 103, 'serialBench': 105, 'type': 8}]
+- last_logs: [{'cardId': 3, 'cardIdTarget': 723, 'playerIndex': 1, 'serial': 68, 'serialTarget': 102, 'type': 11}]
 - moves_tail: [{'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}]
 
-### 124876227 vs IAMNAMNAM (FEZANDIP) T14
-- our_board: ['A:card723(50/350)', 'B:card722(90)']
-- opp_board: ['A:card1406(340/340)', 'B:card1331(150)', 'B:card343(80)', 'B:card140(210)', 'B:card86(100)']
+### 124847612 vs Majiro_ns (FEZANDIP) T22
+- our_board: ['B:card723(350)']
+- opp_board: ['A:card743(140/140)', 'B:card305(70)']
+- our_ko: [] opp_ko: ['card959', 'card959']
+- last_logs: [{'cardId': 723, 'playerIndex': 0, 'putDamageCounter': True, 'serial': 45, 'type': 16, 'value': -400}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 45, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 38, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 7, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 11, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}, {'turn': 12, 'type': 1, 'opt': None}]
+
+### 124848177 vs Igor Zharov (?) T8
+- our_board: ['B:card723(350)', 'B:card722(90)']
+- opp_board: ['A:card190(400/400)', 'B:card666(160)', 'B:card169(130)', 'B:card57(100)']
 - our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 722, 'playerIndex': 1, 'serial': 99, 'type': 10}]
-- moves_tail: [{'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}]
+- last_logs: [{'attackId': 253, 'cardId': 190, 'playerIndex': 1, 'serial': 79, 'type': 15}, {'cardId': 723, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 45, 'type': 16, 'value': -440}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 45, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 41, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 27, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}]
+
+### 124848716 vs Noel Bobby (?) T6
+- our_board: ['A:card721(150/150)']
+- opp_board: ['A:card96(180/210)', 'B:card96(210)', 'B:card96(210)', 'B:card96(210)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 3, 'cardIdTarget': 721, 'playerIndex': 1, 'serial': 73, 'serialTarget': 97, 'type': 11}]
+- moves_tail: [{'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}]
+
+### 124849823 vs kutty1119 (MEOWTH+FEZANDIP) T19
+- our_board: ['B:card721(90)']
+- opp_board: ['A:card121(320/320)', 'B:card140(210)', 'B:card235(30)', 'B:card112(110)', 'B:card120(90)', 'B:card1071(170)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 721, 'playerIndex': 0, 'putDamageCounter': True, 'serial': 36, 'type': 16, 'value': -10}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 45, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 41, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 7, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 28, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 11, 'type': 1, 'opt': None}, {'turn': 11, 'type': 1, 'opt': None}, {'turn': 11, 'type': 1, 'opt': None}, {'turn': 11, 'type': 1, 'opt': None}, {'turn': 11, 'type': 1, 'opt': None}]
+
+### 124850357 vs Noel Bobby (?) T12
+- our_board: ['A:card721(150/150)', 'B:card722(90)']
+- opp_board: ['A:card96(210/210)', 'B:card96(210)', 'B:card96(210)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 3, 'cardIdTarget': 721, 'playerIndex': 1, 'serial': 65, 'serialTarget': 97, 'type': 11}]
+- moves_tail: [{'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}]
+
+### 124850930 vs saravana Kishore (KYOGRE) T5
+- our_board: ['A:card722(80/90)']
+- opp_board: ['A:card722(90/90)', 'B:card722(90)', 'B:card721(150)', 'B:card722(90)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 3, 'cardIdTarget': 722, 'playerIndex': 1, 'serial': 78, 'serialTarget': 98, 'type': 11}]
+- moves_tail: [{'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}]
+
+### 124851464 vs Brian Bonti (MEOWTH+FEZANDIP) T11
+- our_board: []
+- opp_board: ['A:card96(160/210)', 'B:card96(210)', 'B:card710(160)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'attackId': 120, 'cardId': 96, 'playerIndex': 1, 'serial': 81, 'type': 15}, {'cardId': 721, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 36, 'type': 16, 'value': -420}, {'cardId': 721, 'fromArea': 4, 'playerIndex': 0, 'serial': 36, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 27, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}, {'turn': 10, 'type': 0, 'opt': None}]
+
+### 124852030 vs Aayush Jansari (MEOWTH+FEZANDIP) T7
+- our_board: ['A:card305(70/70)']
+- opp_board: ['A:card120(90/90)', 'B:card120(90)', 'B:card235(30)', 'B:card119(70)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 5, 'cardIdTarget': 305, 'playerIndex': 1, 'serial': 65, 'serialTarget': 80, 'type': 11}]
+- moves_tail: [{'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}]
+
+### 124852094 vs DavideSanta (?) T12
+- our_board: []
+- opp_board: ['A:card96(260/310)', 'B:card96(210)', 'B:card96(210)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'attackId': 120, 'cardId': 96, 'playerIndex': 1, 'serial': 65, 'type': 15}, {'cardId': 723, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 44, 'type': 16, 'value': -390}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 44, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 38, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 24, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}]
+
+### 124852575 vs Pawit Sahare (KYOGRE) T9
+- our_board: ['A:card722(90/90)']
+- opp_board: ['A:card723(70/350)', 'B:card721(150)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 3, 'cardIdTarget': 722, 'playerIndex': 1, 'serial': 89, 'serialTarget': 100, 'type': 11}]
+- moves_tail: [{'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}, {'turn': 7, 'type': 0, 'opt': None}]
+
+### 124853683 vs RAHUL REDDY PULICHARLA (KYOGRE) T12
+- our_board: []
+- opp_board: ['A:card721(150/150)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 3, 'fromArea': 3, 'playerIndex': 1, 'serial': 97, 'toArea': 1, 'type': 6}, {'cardId': 3, 'fromArea': 3, 'playerIndex': 1, 'serial': 110, 'toArea': 1, 'type': 6}, {'playerIndex': 1, 'type': 0}, {'cardId': 305, 'fromArea': 4, 'playerIndex': 0, 'serial': 18, 'toArea': 3, 'type': 6}, {'cardId': 19, 'fromArea': 8, 'playerIndex': 0, 'serial': 10, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 11, 'type': 1, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}, {'turn': 11, 'type': 0, 'opt': None}]
+
+### 124853685 vs diujin217 (KYOGRE) T10
+- our_board: ['A:card721(150/150)']
+- opp_board: ['A:card723(150/350)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 3, 'cardIdTarget': 721, 'playerIndex': 1, 'serial': 73, 'serialTarget': 97, 'type': 11}]
+- moves_tail: [{'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}, {'turn': 8, 'type': 0, 'opt': None}]
+
+### 124854784 vs Sliver-Ze (KYOGRE) T17
+- our_board: ['A:card723(250/350)', 'B:card722(90)']
+- opp_board: ['B:card721(150)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 723, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 10, 'type': 16, 'value': -600}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 10, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 3, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 20, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 36, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}]
 
 ## Recommendations for resistant version
 
