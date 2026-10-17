@@ -1,0 +1,1 @@
+trigger fetch all
