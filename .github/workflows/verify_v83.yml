@@ -1,0 +1,119 @@
+name: verify-v83-second-branch
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/c87f7a48-pokemon
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q kaggle-environments
+      - run: |
+          cd pokemon-agent
+          python3 - << 'PY'
+          import sys, pathlib, json, ctypes, math
+          from pathlib import Path
+          ROOT=Path(".")
+          sys.path.insert(0, str(ROOT/"tools"))
+          from gauntlet_ffi import load_deck, load_module, rebind, get_lib
+          lib=get_lib()
+          deck_path="decks/c87_v44.csv"
+          deck=load_deck(deck_path)
+
+          def load_agent(path, name):
+              mod=load_module(path, name)
+              rebind(mod, deck)
+              return mod
+
+          mod_v83=load_agent("agents/v83_kyogre_mirror_tempo.py","v83")
+          mod_v84=load_agent("agents/v84_champion_tempo_fix.py","v84")
+          mod_base=load_agent("agents/c87_v44.py","base")
+
+          def run_pair(agent0, agent1, deck0, deck1, seat):
+              cards=(ctypes.c_int*120)(*deck0,*deck1)
+              sd=lib.BattleStart(cards)
+              bp=sd.battlePtr
+              if not bp:
+                  return None,0,0,0,0
+              win=None
+              our_prizes=0
+              try:
+                  while True:
+                      data=lib.GetBattleData(bp)
+                      obs=json.loads(data.json)
+                      cur=obs.get("current") or {}
+                      res=cur.get("result")
+                      if res is not None and res>=0:
+                          if res==2:
+                              win=None
+                          else:
+                              win=(res==seat)
+                          players=cur.get("players") or []
+                          if len(players)>=2:
+                              try:
+                                  me_p=players[seat]
+                                  opp_p=players[1-seat]
+                                  our_rem=len(me_p.get("prize") or [])
+                                  opp_rem=len(opp_p.get("prize") or [])
+                                  our_prizes=6-opp_rem
+                              except:
+                                  pass
+                          break
+                      me_idx=int(cur.get("yourIndex") or 0)
+                      sel=obs.get("select")
+                      if sel is None:
+                          break
+                      dec = agent0(obs) if me_idx==seat else agent1(obs)
+                      if not isinstance(dec,list):
+                          dec=[]
+                      arg=(ctypes.c_int*len(dec))(*dec)
+                      if lib.Select(bp,arg,len(dec))!=0:
+                          break
+              finally:
+                  lib.BattleFinish(bp)
+              return win, our_prizes
+
+          def test_vs(a_name, mod_a, mod_b, games=400):
+              wins=0
+              losses=0
+              draws=0
+              zero=0
+              total_our=0
+              for g in range(games):
+                  seat=g%2
+                  if seat==0:
+                      win, our = run_pair(mod_a.agent, mod_b.agent, deck, deck, seat)
+                  else:
+                      win, our = run_pair(mod_b.agent, mod_a.agent, deck, deck, 1)
+                  if win is None:
+                      draws+=1
+                  elif win:
+                      wins+=1
+                      total_our+=our
+                  else:
+                      losses+=1
+                      total_our+=our
+                      if our==0:
+                          zero+=1
+              print(f"{a_name} vs base {games}g: {wins}W-{losses}L-{draws}D = {wins/games:.3f} WR")
+              if losses>0:
+                  print(f"  zero-prize losses: {zero}/{losses} = {zero/losses:.2%}")
+              print(f"  avg prizes: {total_our/games:.2f}")
+
+          print("=== v83 vs base champion 400g ===")
+          test_vs("v83", mod_v83, mod_base, 400)
+          print("")
+          print("=== v84 (2 ideas) vs base champion 400g ===")
+          test_vs("v84", mod_v84, mod_base, 400)
+          print("")
+          print("=== base vs base mirror 400g ===")
+          test_vs("base", mod_base, mod_base, 400)
+          PY
