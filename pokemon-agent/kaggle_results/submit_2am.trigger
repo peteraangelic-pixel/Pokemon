@@ -1,1 +1,1 @@
-agents/v70_alakazam_endgame.py|decks/v66_alakazam_simple.csv|v70g_alakazam_endgame_2am_final_tokenfix|v70g final token fix - 0.596 top30 0.637 pool - should now auth with API_TOKEN
+agents/v67_stack.py|decks/c87_v44.csv|ptcg_v67_wall_a450|v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall
