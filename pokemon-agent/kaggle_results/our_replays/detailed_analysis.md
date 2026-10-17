@@ -1,14 +1,14 @@
 # Detailed Loss Analysis - Alakazam
 
-Total losses: 77
+Total losses: 78
 
 ## By detailed reason
-- WIPE_1_SINGLE: 30 (39.0%)
-- WIPE_0_EMPTY: 10 (13.0%)
-- OTHER_?: 10 (13.0%)
-- RISK_2_LOW: 9 (11.7%)
-- OTHER_KYOGRE: 8 (10.4%)
-- OTHER_LUCARIO: 3 (3.9%)
+- WIPE_1_SINGLE: 30 (38.5%)
+- WIPE_0_EMPTY: 11 (14.1%)
+- OTHER_?: 10 (12.8%)
+- RISK_2_LOW: 9 (11.5%)
+- OTHER_KYOGRE: 8 (10.3%)
+- OTHER_LUCARIO: 3 (3.8%)
 - EARLY_LOSS_T9_?: 1 (1.3%)
 - OTHER_FEZANDIP: 1 (1.3%)
 - OTHER_LUCARIO+FEZANDIP: 1 (1.3%)
@@ -19,7 +19,7 @@ Total losses: 77
 
 ## By opponent arch
 - ?: 28
-- KYOGRE: 26
+- KYOGRE: 27
 - MEOWTH+FEZANDIP: 7
 - FEZANDIP: 7
 - LUCARIO: 4
@@ -51,6 +51,7 @@ Total losses: 77
 - T22: 3
 - T23: 3
 - T24: 1
+- T27: 1
 - T28: 1
 - T30: 1
 - T31: 1

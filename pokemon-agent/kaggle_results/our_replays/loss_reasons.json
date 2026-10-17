@@ -1270,5 +1270,17 @@
     "opp_board": [
       "A:card721(150/150)"
     ]
+  },
+  {
+    "episode_id": "124880892",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Jonathan Axl",
+    "arch": "KYOGRE",
+    "turn": 27,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(310/350)",
+      "B:card723(350)"
+    ]
   }
 ]

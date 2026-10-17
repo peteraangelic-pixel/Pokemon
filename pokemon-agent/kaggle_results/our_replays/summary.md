@@ -14,8 +14,8 @@ _fetched by kaggle-our-replays_57290256_
 - vs SLOWPOKE+LATIAS+CLEFAIRY+MEOWTH+FEZANDIP+KYUREM+CONKELDURR: 1W-0L (1.00) n=1
 - recurring opponents (n>=2): Guenoir 2-1; Steveneg13 1-1; Red 1-1; wdzlyq 1-1; Morokoshi 1-1; ᴵᴹᴾᴼˢᵀᴼᴿ ᴾᴿᴼᶠᴱˢˢᴼᴿ ᴼᴬᴷ 2-0; Aayush Jansari 0-2; RAHUL REDDY PULICHARLA 1-1; Jonekrun 2-0; Riccardo Lo Bianco 0-2; lswuwu 2-0; F.A.Nina 2-0; Taras Harbar 1-1; Enerohafizh Syauqi Hariri 2-0
 
-## submission 57290311: 75 episodes, 31W-44L = 0.413
-- vs KYOGRE: 12W-15L (0.44) n=27
+## submission 57290311: 76 episodes, 31W-45L = 0.408
+- vs KYOGRE: 12W-16L (0.43) n=28
 - vs ?: 6W-18L (0.25) n=24
 - vs MEOWTH+FEZANDIP: 6W-6L (0.50) n=12
 - vs FEZANDIP: 2W-3L (0.40) n=5
