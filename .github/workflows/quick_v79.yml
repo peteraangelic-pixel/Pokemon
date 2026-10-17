@@ -11,7 +11,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,88 +23,17 @@ jobs:
       - run: pip install -q kaggle-environments
       - run: |
           cd pokemon-agent
-          python3 - << 'PY' 2>&1 | tee /tmp/q.txt
-          import sys, pathlib, json, ctypes
-          from pathlib import Path
-          ROOT=Path(".")
-          sys.path.insert(0, str(ROOT/"tools"))
-          from gauntlet_ffi import load_deck, load_module, rebind, get_lib
-          lib=get_lib()
-          deck=load_deck("decks/c87_v44.csv")
-          def load_agent(p,n):
-              m=load_module(p,n)
-              rebind(m,deck)
-              return m
-          mod_base=load_agent("agents/c87_v44.py","base")
-          mod_v86=load_agent("agents/v86_no_imit.py","v86")
-          mod_v85=load_agent("agents/v85_no_imit_mirror.py","v85")
-
-          def run_pair(a0,a1,s):
-              cards=(ctypes.c_int*120)(*deck,*deck)
-              sd=lib.BattleStart(cards)
-              bp=sd.battlePtr
-              if not bp:
-                  return None,0
-              win=None
-              our=0
-              try:
-                  while True:
-                      data=lib.GetBattleData(bp)
-                      obs=json.loads(data.json)
-                      cur=obs.get("current") or {}
-                      res=cur.get("result")
-                      if res is not None and res>=0:
-                          if res==2:
-                              win=None
-                          else:
-                              win=(res==s)
-                          pls=cur.get("players") or []
-                          if len(pls)>=2:
-                              try:
-                                  me=pls[s]
-                                  opp=pls[1-s]
-                                  our=6-len(opp.get("prize") or [])
-                              except:
-                                  pass
-                          break
-                      me_idx=int(cur.get("yourIndex") or 0)
-                      if obs.get("select") is None:
-                          break
-                      dec=(a0 if me_idx==s else a1)(obs)
-                      if not isinstance(dec,list):
-                          dec=[]
-                      arg=(ctypes.c_int*len(dec))(*dec)
-                      if lib.Select(bp,arg,len(dec))!=0:
-                          break
-              finally:
-                  lib.BattleFinish(bp)
-              return win,our
-
-          def test_vs(name,ma,mb,games=1200):
-              w=l=d=zero=0
-              tot=0
-              for gg in range(games):
-                  seat=gg%2
-                  if seat==0:
-                      win,our=run_pair(ma.agent, mb.agent, seat)
-                  else:
-                      win,our=run_pair(mb.agent, ma.agent, 1)
-                  tot+=our
-                  if win is None:
-                      d+=1
-                  elif win:
-                      w+=1
-                  else:
-                      l+=1
-                      if our==0:
-                          zero+=1
-              print(f"{name} vs base {games}g: {w}W-{l}L-{d}D = {w/games:.3f} WR zero {zero}/{l} avg {tot/games:.2f}")
-
-          print("=== 1200g v86 no imit vs base (best so far) ===")
-          test_vs("v86 no imit", mod_v86, mod_base, 1200)
-          test_vs("v85 no imit mirror", mod_v85, mod_base, 1200)
-          test_vs("base mirror", mod_base, mod_base, 1200)
-          PY
+          echo "=== v85 vs new_losses 40g FFI ===" | tee /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v85_no_imit_mirror.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 40 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "" | tee -a /tmp/q.txt
+          echo "=== base vs new_losses 40g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 40 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "" | tee -a /tmp/q.txt
+          echo "=== v85 vs top30 40g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v85_no_imit_mirror.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 40 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "" | tee -a /tmp/q.txt
+          echo "=== base vs top30 40g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 40 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
           cat /tmp/q.txt
           cp /tmp/q.txt kaggle_results/our_replays/quick_v79_v82.txt
       - name: Commit
@@ -112,5 +41,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f pokemon-agent/kaggle_results/our_replays/quick_v79_v82.txt || true
-          git commit -m "1200g v86 no imit vs base [skip ci]" || echo "no changes"
+          git commit -m "v85 40g new_losses + top30 FFI [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
