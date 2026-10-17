@@ -33,7 +33,23 @@ def ci_95(p, n):
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-LIB = ROOT / "/tmp/venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
+import glob as _glob
+_candidates = [
+    ROOT / ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so",
+    Path("/tmp/venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"),
+    Path("/tmp/venv2/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"),
+]
+for cand in _glob.glob("/tmp/venv/lib/python*/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"):
+    _candidates.append(Path(cand))
+for cand in _glob.glob(str(ROOT / ".venv/lib/python*/site-packages/kaggle_environments/envs/cabt/cg/libcg.so")):
+    _candidates.append(Path(cand))
+LIB = None
+for cand in _candidates:
+    if cand.exists():
+        LIB = cand
+        break
+if LIB is None:
+    LIB = _candidates[0]
 
 class StartData(ctypes.Structure):
     _fields_ = [("battlePtr", ctypes.c_void_p), ("errorPlayer", ctypes.c_int), ("errorType", ctypes.c_int)]
@@ -87,8 +103,14 @@ def _fn_our(obs):
     return _OUR["agent"](obs)
 
 def _run_pair(task: tuple) -> tuple[str, int, int, int]:
-    """task = (name, our_deck, opp_deck, games). Both sides same policy."""
-    name, our_deck, opp_deck, games = task
+    """task = (name, our_deck, opp_deck, games[, paired]). Both sides same policy."""
+    if len(task) == 5:
+        name, our_deck, opp_deck, games, paired_flag = task
+    else:
+        name, our_deck, opp_deck, games = task
+        paired_flag = False
+    _ = paired_flag
+
     opp_mod = load_module(_OUR["path"], "_gauntlet_opp")
     rebind(opp_mod, opp_deck)
     def fn_opp(obs):
@@ -100,10 +122,7 @@ def _run_pair(task: tuple) -> tuple[str, int, int, int]:
     w = l = d = 0
     for g in range(games):
         seat = g % 2
-        # paired seed: same seed for same (our,opp,name,g) ensures same opening when comparing two agents
-        seed = hash((tuple(our_deck), tuple(opp_deck), name, g)) & 0xFFFFFFFF if paired else 0
-        # seed could be passed to engine if engine supported it — currently libcg shuffle is deterministic on cards, so paired cards already give same opening
-        _ = seed
+        # paired seed placeholder — engine shuffle deterministic on cards, same (our,opp) already paired; keep hash for future seeding
         d0 = our_deck if seat == 0 else opp_deck
         d1 = opp_deck if seat == 0 else our_deck
         cards = (ctypes.c_int * 120)(*d0, *d1)
