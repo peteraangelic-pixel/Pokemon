@@ -1,80 +1,77 @@
-=== v85 no imit mirror vs base 600g x2 for variance ===
-v85 vs base 600g: 321W-279L-0D = 0.535 WR zero 2/279 avg 2.74
-v85 2nd run vs base 600g: 302W-298L-0D = 0.503 WR zero 0/298 avg 3.08
-base mirror vs base 600g: 310W-290L-0D = 0.517 WR zero 0/290 avg 2.73
+=== 600g A/B no imit variants ===
+v85 no imit mirror vs base 600g: 276W-324L-0D = 0.460 WR zero 0/324 avg 3.12
+v86 no imit at all vs base 600g: 317W-283L-0D = 0.528 WR zero 0/283 avg 2.91
+v86b imit20 vs base 600g: 293W-307L-0D = 0.488 WR zero 0/307 avg 3.05
+base mirror vs base 600g: 312W-288L-0D = 0.520 WR zero 1/288 avg 3.00
 
-=== v85 vs top30 20g FFI ===
-sue124                                     20- 0- 0  1.000
-YumeNeko                                   20- 0- 0  1.000
-Majiro_ns                                  20- 0- 0  1.000
-Kentaro_Totsuka                            20- 0- 0  1.000
-Stephen_Schott                             19- 1- 0  0.950
-OceanMix                                   19- 1- 0  0.950
-No_Free_MIST_Energy                        19- 1- 0  0.950
-KyryloBakumenko                            19- 1- 0  0.950
-JerryChen                                  19- 1- 0  0.950
-Darren_Sheehan                             19- 1- 0  0.950
-Akmal_Xodarev__Busya_PRIME_                19- 1- 0  0.950
-ANMOL_GARG                                 19- 1- 0  0.950
-バーベナヘレナでコンボ決めたい連合                          18- 2- 0  0.900
-Zedan_Soorya                               18- 2- 0  0.900
-Leon_Liu                                   18- 2- 0  0.900
-dajun666                                   17- 3- 0  0.850
-Xinyu_Li                                   17- 3- 0  0.850
-Raja_Biswas                                17- 3- 0  0.850
-Mengfei_Li                                 17- 3- 0  0.850
-Mathieu_W                                  17- 3- 0  0.850
-Cristobal_Tudela                           17- 3- 0  0.850
-Colton_Martin                              17- 3- 0  0.850
-Chonghao_Peng                              17- 3- 0  0.850
-やる気元気ミワハルキ_2nd_ver_                        17- 2- 1  0.850
-leo_turing                                 15- 5- 0  0.750
-yu_kuo14                                   13- 7- 0  0.650
-Bill_Vlasak                                12- 8- 0  0.600
+=== v86 vs new_losses 20g FFI ===
+124847705_Tolga Kiremit                    20- 0- 0  1.000
+124847612_Majiro_ns                        20- 0- 0  1.000
+124847084_inego                            20- 0- 0  1.000
+124845967_Festival                         20- 0- 0  1.000
+124845953_Praneeth Yeddu                   20- 0- 0  1.000
+124845423_Kentaro Totsuka                  19- 1- 0  0.950
+124844896_WolfeyVGC                        19- 1- 0  0.950
+124844855_Mozune4002                       16- 4- 0  0.800
+124846514_Steveneg13                       13- 7- 0  0.650
+124848177_Igor Zharov                      12- 8- 0  0.600
+124848716_Noel Bobby                       10-10- 0  0.500
+124846518_jazivxt                           9-11- 0  0.450
+124845954_Faaiz Hussain                     9-11- 0  0.450
 
-TOTAL 479W-60L-1D = 0.887 ±0.027 (95% CI)  (27 decks x 20 games, 8s)
+TOTAL 207W-53L-0D = 0.796 ±0.049 (95% CI)  (13 decks x 20 games, 3s)
   600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
 worst 5:
-  Bill_Vlasak                                12-8-0  0.600
-  yu_kuo14                                   13-7-0  0.650
-  leo_turing                                 15-5-0  0.750
-  やる気元気ミワハルキ_2nd_ver_                        17-2-1  0.850
-  Chonghao_Peng                              17-3-0  0.850
+  124845954_Faaiz Hussain                    9-11-0  0.450
+  124846518_jazivxt                          9-11-0  0.450
+  124848716_Noel Bobby                       10-10-0  0.500
+  124848177_Igor Zharov                      12-8-0  0.600
+  124846514_Steveneg13                       13-7-0  0.650
 
-=== base vs top30 20g FFI ===
-バーベナヘレナでコンボ決めたい連合                          20- 0- 0  1.000
-YumeNeko                                   20- 0- 0  1.000
-No_Free_MIST_Energy                        20- 0- 0  1.000
-Mathieu_W                                  20- 0- 0  1.000
-KyryloBakumenko                            20- 0- 0  1.000
-Cristobal_Tudela                           20- 0- 0  1.000
-sue124                                     19- 1- 0  0.950
-Xinyu_Li                                   19- 1- 0  0.950
-OceanMix                                   19- 1- 0  0.950
-Majiro_ns                                  19- 1- 0  0.950
-Leon_Liu                                   19- 1- 0  0.950
-Colton_Martin                              19- 1- 0  0.950
-yu_kuo14                                   18- 2- 0  0.900
-dajun666                                   18- 2- 0  0.900
-Raja_Biswas                                18- 2- 0  0.900
-Kentaro_Totsuka                            18- 2- 0  0.900
-Darren_Sheehan                             18- 2- 0  0.900
-ANMOL_GARG                                 18- 2- 0  0.900
-leo_turing                                 17- 3- 0  0.850
-Zedan_Soorya                               17- 3- 0  0.850
-やる気元気ミワハルキ_2nd_ver_                        17- 2- 1  0.850
-Stephen_Schott                             16- 4- 0  0.800
-Mengfei_Li                                 16- 4- 0  0.800
-JerryChen                                  16- 4- 0  0.800
-Bill_Vlasak                                16- 4- 0  0.800
-Akmal_Xodarev__Busya_PRIME_                16- 4- 0  0.800
-Chonghao_Peng                              15- 5- 0  0.750
+=== v86b vs new_losses 20g FFI ===
+124847705_Tolga Kiremit                    20- 0- 0  1.000
+124847612_Majiro_ns                        20- 0- 0  1.000
+124847084_inego                            20- 0- 0  1.000
+124845953_Praneeth Yeddu                   20- 0- 0  1.000
+124845423_Kentaro Totsuka                  18- 2- 0  0.900
+124844896_WolfeyVGC                        18- 2- 0  0.900
+124844855_Mozune4002                       17- 3- 0  0.850
+124845967_Festival                         16- 4- 0  0.800
+124848177_Igor Zharov                      13- 7- 0  0.650
+124846514_Steveneg13                       11- 9- 0  0.550
+124848716_Noel Bobby                       10-10- 0  0.500
+124845954_Faaiz Hussain                     7-13- 0  0.350
+124846518_jazivxt                           6-14- 0  0.300
 
-TOTAL 488W-51L-1D = 0.904 ±0.025 (95% CI)  (27 decks x 20 games, 8s)
+TOTAL 196W-64L-0D = 0.754 ±0.052 (95% CI)  (13 decks x 20 games, 3s)
   600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
 worst 5:
-  Chonghao_Peng                              15-5-0  0.750
-  Akmal_Xodarev__Busya_PRIME_                16-4-0  0.800
-  Bill_Vlasak                                16-4-0  0.800
-  JerryChen                                  16-4-0  0.800
-  Mengfei_Li                                 16-4-0  0.800
+  124846518_jazivxt                          6-14-0  0.300
+  124845954_Faaiz Hussain                    7-13-0  0.350
+  124848716_Noel Bobby                       10-10-0  0.500
+  124846514_Steveneg13                       11-9-0  0.550
+  124848177_Igor Zharov                      13-7-0  0.650
+
+=== v85 vs new_losses 20g FFI ===
+124847705_Tolga Kiremit                    20- 0- 0  1.000
+124847612_Majiro_ns                        20- 0- 0  1.000
+124847084_inego                            20- 0- 0  1.000
+124845953_Praneeth Yeddu                   20- 0- 0  1.000
+124845967_Festival                         19- 1- 0  0.950
+124845423_Kentaro Totsuka                  18- 2- 0  0.900
+124844896_WolfeyVGC                        18- 2- 0  0.900
+124844855_Mozune4002                       15- 5- 0  0.750
+124848716_Noel Bobby                       14- 6- 0  0.700
+124848177_Igor Zharov                      11- 9- 0  0.550
+124845954_Faaiz Hussain                    11- 9- 0  0.550
+124846518_jazivxt                           9-11- 0  0.450
+124846514_Steveneg13                        8-12- 0  0.400
+
+TOTAL 203W-57L-0D = 0.781 ±0.050 (95% CI)  (13 decks x 20 games, 3s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124846514_Steveneg13                       8-12-0  0.400
+  124846518_jazivxt                          9-11-0  0.450
+  124845954_Faaiz Hussain                    11-9-0  0.550
+  124848177_Igor Zharov                      11-9-0  0.550
+  124848716_Noel Bobby                       14-6-0  0.700
