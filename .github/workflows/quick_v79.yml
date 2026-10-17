@@ -23,26 +23,29 @@ jobs:
       - run: pip install -q kaggle-environments
       - run: |
           cd pokemon-agent
-          echo "=== v79 Kyogre resistant vs new_losses 20g ===" | tee /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v79_kyogre_resistant.py --our-deck decks/v79_kyogre_resistant.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v83 Kyogre mirror tempo vs new_losses 20g ===" | tee /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v83_kyogre_mirror_tempo.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
           echo "" | tee -a /tmp/q.txt
-          echo "=== v79 vs top30 20g ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v79_kyogre_resistant.py --our-deck decks/v79_kyogre_resistant.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v83 vs top30 20g ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v83_kyogre_mirror_tempo.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
           echo "" | tee -a /tmp/q.txt
-          echo "=== v79 vs pool_v3 20g ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v79_kyogre_resistant.py --our-deck decks/v79_kyogre_resistant.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v83 vs pool_v3 20g ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v83_kyogre_mirror_tempo.py --our-deck decks/c87_v44.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
           echo "" | tee -a /tmp/q.txt
-          echo "=== v82 Kyogre mirror resistant vs new_losses 20g ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v82_kyogre_mirror.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
-          echo "" | tee -a /tmp/q.txt
-          echo "=== v82 vs top30 20g ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v82_kyogre_mirror.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v83 mirror prizetest 100g ===" | tee -a /tmp/q.txt
+          python tools/prizetest.py --agent agents/v83_kyogre_mirror_tempo.py --deck decks/c87_v44.csv --games 100 2>&1 | tee -a /tmp/q.txt | tail -n 30
           echo "" | tee -a /tmp/q.txt
           echo "=== v82 mirror prizetest 100g ===" | tee -a /tmp/q.txt
           python tools/prizetest.py --agent agents/v82_kyogre_mirror.py --deck decks/c87_v44.csv --games 100 2>&1 | tee -a /tmp/q.txt | tail -n 30
           echo "" | tee -a /tmp/q.txt
-          echo "=== v63 baseline (c87_v44) mirror prizetest 100g ===" | tee -a /tmp/q.txt
-          python tools/prizetest.py --agent agents/c87_v44.py --deck decks/c87_v44.csv --games 100 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v83 Alakazam fix vs new_losses 20g ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v83_alakazam_fix.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "" | tee -a /tmp/q.txt
+          echo "=== v83 Alakazam vs top30 20g ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v83_alakazam_fix.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "" | tee -a /tmp/q.txt
+          echo "=== v74 baseline vs new_losses 20g ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v74_alakazam_resistant.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
           cat /tmp/q.txt
           cp /tmp/q.txt kaggle_results/our_replays/quick_v79_v82.txt
       - name: Commit
@@ -50,5 +53,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f pokemon-agent/kaggle_results/our_replays/quick_v79_v82.txt || true
-          git commit -m "quick v79 v82 Kyogre mirror test per second branch fa4fe68 [skip ci]" || echo "no changes"
+          git commit -m "quick v83 tempo + Alakazam fix per second branch correction [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
