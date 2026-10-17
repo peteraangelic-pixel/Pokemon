@@ -1,0 +1,1123 @@
+[
+  {
+    "episode_id": "124677663",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "PeterSharps",
+    "arch": "KYOGRE",
+    "turn": 14,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(100/350)",
+      "B:card721(150)"
+    ]
+  },
+  {
+    "episode_id": "124678236",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "cocosu3434",
+    "arch": "LATIAS+CLEFAIRY",
+    "turn": 12,
+    "our_board": [],
+    "opp_board": [
+      "A:card1380(140/140)",
+      "B:card184(210)",
+      "B:card272(190)",
+      "B:card44(260)",
+      "B:card305(70)",
+      "B:card1380(140)"
+    ]
+  },
+  {
+    "episode_id": "124678985",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "pika28samson",
+    "arch": "FEZANDIP",
+    "turn": 12,
+    "our_board": [],
+    "opp_board": [
+      "A:card743(140/140)",
+      "B:card743(140)",
+      "B:card742(80)"
+    ]
+  },
+  {
+    "episode_id": "124679029",
+    "reason": "RISK_2_LOW",
+    "opp": "yyx673",
+    "arch": "LUCARIO",
+    "turn": 13,
+    "our_board": [
+      "A:card723(20/350)",
+      "B:card721(150)"
+    ],
+    "opp_board": [
+      "A:card678(340/340)",
+      "B:card675(110)",
+      "B:card675(70)",
+      "B:card676(110)",
+      "B:card673(80)"
+    ]
+  },
+  {
+    "episode_id": "124680364",
+    "reason": "OTHER_?",
+    "opp": "Shaun2024",
+    "arch": "?",
+    "turn": 17,
+    "our_board": [
+      "A:card723(110/350)",
+      "B:card721(150)",
+      "B:card723(350)"
+    ],
+    "opp_board": [
+      "A:card345(150/150)",
+      "B:card345(150)"
+    ]
+  },
+  {
+    "episode_id": "124680392",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "the soul hunter",
+    "arch": "KYOGRE",
+    "turn": 11,
+    "our_board": [
+      "A:card722(90/90)"
+    ],
+    "opp_board": [
+      "A:card722(90/90)"
+    ]
+  },
+  {
+    "episode_id": "124681089",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "DavideSanta",
+    "arch": "?",
+    "turn": 11,
+    "our_board": [
+      "B:card723(350)"
+    ],
+    "opp_board": [
+      "A:card96(210/210)",
+      "B:card96(210)"
+    ]
+  },
+  {
+    "episode_id": "124681765",
+    "reason": "OTHER_FEZANDIP",
+    "opp": "RtoABC2",
+    "arch": "FEZANDIP",
+    "turn": 11,
+    "our_board": [
+      "A:card723(350/350)",
+      "B:card721(150)",
+      "B:card721(150)",
+      "B:card723(350)"
+    ],
+    "opp_board": [
+      "A:card1406(340/340)",
+      "B:card343(40)",
+      "B:card86(100)",
+      "B:card547(220)",
+      "B:card86(100)",
+      "B:card86(100)"
+    ]
+  },
+  {
+    "episode_id": "124682458",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Utandra",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 7,
+    "our_board": [],
+    "opp_board": [
+      "A:card96(120/210)",
+      "B:card92(40)",
+      "B:card710(160)",
+      "B:card140(210)",
+      "B:card96(210)"
+    ]
+  },
+  {
+    "episode_id": "124683814",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Prashant Rawat",
+    "arch": "?",
+    "turn": 23,
+    "our_board": [
+      "A:card723(110/350)"
+    ],
+    "opp_board": [
+      "A:card345(110/150)",
+      "B:card345(170)",
+      "B:card345(150)",
+      "B:card344(70)"
+    ]
+  },
+  {
+    "episode_id": "124685933",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Elbachir Salik",
+    "arch": "KYOGRE",
+    "turn": 7,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(300/350)",
+      "B:card722(90)"
+    ]
+  },
+  {
+    "episode_id": "124687298",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "mo",
+    "arch": "LUCARIO",
+    "turn": 17,
+    "our_board": [],
+    "opp_board": [
+      "A:card678(340/340)",
+      "B:card675(110)",
+      "B:card677(80)",
+      "B:card676(110)",
+      "B:card675(110)"
+    ]
+  },
+  {
+    "episode_id": "124687952",
+    "reason": "OTHER_?",
+    "opp": "Zhe Peng666",
+    "arch": "?",
+    "turn": 11,
+    "our_board": [
+      "A:card723(350/350)",
+      "B:card723(350)",
+      "B:card722(90)"
+    ],
+    "opp_board": [
+      "A:card190(400/400)",
+      "B:card169(130)",
+      "B:card169(130)"
+    ]
+  },
+  {
+    "episode_id": "124689955",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Hitisha Goyal",
+    "arch": "KYOGRE",
+    "turn": 8,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(280/350)",
+      "B:card723(350)",
+      "B:card723(350)",
+      "B:card722(90)"
+    ]
+  },
+  {
+    "episode_id": "124690629",
+    "reason": "RISK_2_LOW",
+    "opp": "Rashid Khazeiynasab",
+    "arch": "LUCARIO",
+    "turn": 13,
+    "our_board": [
+      "B:card721(150)",
+      "B:card721(150)"
+    ],
+    "opp_board": [
+      "A:card678(310/340)",
+      "B:card676(110)",
+      "B:card678(340)",
+      "B:card675(110)",
+      "B:card44(260)",
+      "B:card678(340)"
+    ]
+  },
+  {
+    "episode_id": "124692630",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Angel Francisco Aguayo Salazar",
+    "arch": "?",
+    "turn": 11,
+    "our_board": [],
+    "opp_board": [
+      "A:card781(150/280)",
+      "B:card337(180)",
+      "B:card781(280)",
+      "B:card781(280)",
+      "B:card781(280)"
+    ]
+  },
+  {
+    "episode_id": "124693323",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "SC",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 15,
+    "our_board": [],
+    "opp_board": [
+      "A:card121(250/320)",
+      "B:card121(320)",
+      "B:card121(320)",
+      "B:card112(110)"
+    ]
+  },
+  {
+    "episode_id": "124694000",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Mibbles",
+    "arch": "FEZANDIP",
+    "turn": 11,
+    "our_board": [],
+    "opp_board": [
+      "A:card743(70/140)",
+      "B:card743(140)",
+      "B:card742(80)",
+      "B:card743(140)",
+      "B:card305(70)"
+    ]
+  },
+  {
+    "episode_id": "124695345",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "LivMaAn",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 10,
+    "our_board": [],
+    "opp_board": [
+      "A:card150(330/330)",
+      "B:card140(210)",
+      "B:card710(160)",
+      "B:card93(80)",
+      "B:card1071(170)",
+      "B:card96(210)"
+    ]
+  },
+  {
+    "episode_id": "124696068",
+    "reason": "RISK_2_LOW",
+    "opp": "Sayuru Rehan Bopitiya",
+    "arch": "FEZANDIP",
+    "turn": 15,
+    "our_board": [
+      "B:card722(90)",
+      "B:card722(90)"
+    ],
+    "opp_board": [
+      "A:card743(130/140)",
+      "B:card305(70)",
+      "B:card742(80)",
+      "B:card343(80)",
+      "B:card305(70)"
+    ]
+  },
+  {
+    "episode_id": "124696704",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Rajveer Vora",
+    "arch": "?",
+    "turn": 21,
+    "our_board": [
+      "A:card721(10/150)"
+    ],
+    "opp_board": [
+      "A:card1074(80/150)",
+      "B:card344(40)",
+      "B:card1073(40)"
+    ]
+  },
+  {
+    "episode_id": "124697372",
+    "reason": "RISK_2_LOW",
+    "opp": "Don't foget me",
+    "arch": "?",
+    "turn": 10,
+    "our_board": [
+      "A:card722(90/90)",
+      "B:card721(150)"
+    ],
+    "opp_board": [
+      "A:card1406(310/340)",
+      "B:card547(220)",
+      "B:card85(70)",
+      "B:card85(70)",
+      "B:card547(220)",
+      "B:card547(220)"
+    ]
+  },
+  {
+    "episode_id": "124699418",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Richard Guo",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 9,
+    "our_board": [
+      "A:card721(130/150)"
+    ],
+    "opp_board": [
+      "B:card120(90)",
+      "B:card120(90)"
+    ]
+  },
+  {
+    "episode_id": "124701389",
+    "reason": "OTHER_?",
+    "opp": "nguyenbaotri-VIETNAM",
+    "arch": "?",
+    "turn": 37,
+    "our_board": [
+      "A:card723(50/350)",
+      "B:card721(150)",
+      "B:card723(350)"
+    ],
+    "opp_board": [
+      "A:card290(190/190)",
+      "B:card688(80)",
+      "B:card290(190)"
+    ]
+  },
+  {
+    "episode_id": "124701407",
+    "reason": "OTHER_?",
+    "opp": "dajiaohuang",
+    "arch": "?",
+    "turn": 16,
+    "our_board": [
+      "B:card721(150)",
+      "B:card721(150)",
+      "B:card723(350)"
+    ],
+    "opp_board": [
+      "A:card743(140/140)",
+      "B:card743(140)"
+    ]
+  },
+  {
+    "episode_id": "124702777",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "JIVRAJ SINGH",
+    "arch": "KYOGRE",
+    "turn": 12,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(240/350)",
+      "B:card723(350)",
+      "B:card723(350)",
+      "B:card721(150)"
+    ]
+  },
+  {
+    "episode_id": "124705415",
+    "reason": "RISK_2_LOW",
+    "opp": "Zhe Peng666",
+    "arch": "?",
+    "turn": 16,
+    "our_board": [
+      "B:card722(90)",
+      "B:card721(150)"
+    ],
+    "opp_board": [
+      "A:card190(300/300)",
+      "B:card192(130)",
+      "B:card190(300)"
+    ]
+  },
+  {
+    "episode_id": "124706120",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Quinton McReynolds",
+    "arch": "KYOGRE",
+    "turn": 8,
+    "our_board": [
+      "A:card721(40/150)"
+    ],
+    "opp_board": [
+      "A:card723(310/350)"
+    ]
+  },
+  {
+    "episode_id": "124706787",
+    "reason": "OTHER_KYOGRE",
+    "opp": "Samuel Ballenger",
+    "arch": "KYOGRE",
+    "turn": 12,
+    "our_board": [
+      "A:card723(150/350)",
+      "B:card721(150)",
+      "B:card722(90)"
+    ],
+    "opp_board": [
+      "B:card723(350)",
+      "B:card180(110)",
+      "B:card722(90)"
+    ]
+  },
+  {
+    "episode_id": "124707472",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "LivMaAn",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 9,
+    "our_board": [
+      "A:card721(150/150)"
+    ],
+    "opp_board": [
+      "A:card96(170/210)"
+    ]
+  },
+  {
+    "episode_id": "124708128",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Atharva Naik",
+    "arch": "KYOGRE",
+    "turn": 9,
+    "our_board": [
+      "A:card721(150/150)"
+    ],
+    "opp_board": [
+      "B:card722(90)"
+    ]
+  },
+  {
+    "episode_id": "124708792",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "zengbo1",
+    "arch": "KYOGRE",
+    "turn": 12,
+    "our_board": [
+      "A:card723(350/350)"
+    ],
+    "opp_board": [
+      "A:card723(340/350)"
+    ]
+  },
+  {
+    "episode_id": "124709490",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Elbachir Salik",
+    "arch": "KYOGRE",
+    "turn": 19,
+    "our_board": [
+      "B:card721(150)"
+    ],
+    "opp_board": [
+      "A:card723(350/350)",
+      "B:card723(350)"
+    ]
+  },
+  {
+    "episode_id": "124710162",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "SC",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 19,
+    "our_board": [],
+    "opp_board": [
+      "A:card121(320/320)",
+      "B:card112(110)",
+      "B:card121(320)",
+      "B:card140(210)"
+    ]
+  },
+  {
+    "episode_id": "124710827",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Andr\u00e9 Salgado",
+    "arch": "KYOGRE",
+    "turn": 10,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(350/350)",
+      "B:card722(90)"
+    ]
+  },
+  {
+    "episode_id": "124711523",
+    "reason": "OTHER_?",
+    "opp": "Riccardo Lo Bianco",
+    "arch": "?",
+    "turn": 41,
+    "our_board": [
+      "A:card723(50/350)",
+      "B:card721(150)",
+      "B:card723(350)"
+    ],
+    "opp_board": [
+      "B:card861(310)",
+      "B:card1002(200)"
+    ]
+  },
+  {
+    "episode_id": "124712175",
+    "reason": "OTHER_FEZANDIP",
+    "opp": "nikepoke",
+    "arch": "FEZANDIP",
+    "turn": 11,
+    "our_board": [
+      "A:card723(350/350)",
+      "B:card721(150)",
+      "B:card722(90)"
+    ],
+    "opp_board": [
+      "A:card1406(340/340)",
+      "B:card86(100)",
+      "B:card547(40)",
+      "B:card86(100)"
+    ]
+  },
+  {
+    "episode_id": "124712200",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Elbachir Salik",
+    "arch": "KYOGRE",
+    "turn": 7,
+    "our_board": [
+      "A:card721(150/150)"
+    ],
+    "opp_board": [
+      "A:card723(350/350)",
+      "B:card723(350)"
+    ]
+  },
+  {
+    "episode_id": "124712871",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "lswuwu",
+    "arch": "LUCARIO",
+    "turn": 17,
+    "our_board": [],
+    "opp_board": [
+      "A:card678(300/440)",
+      "B:card675(110)",
+      "B:card678(340)"
+    ]
+  },
+  {
+    "episode_id": "124713522",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Sayuru Rehan Bopitiya",
+    "arch": "FEZANDIP",
+    "turn": 16,
+    "our_board": [
+      "A:card722(90/90)"
+    ],
+    "opp_board": [
+      "A:card741(50/50)",
+      "B:card741(50)",
+      "B:card741(50)",
+      "B:card741(50)",
+      "B:card305(70)"
+    ]
+  },
+  {
+    "episode_id": "124714877",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Noel Bobby",
+    "arch": "?",
+    "turn": 13,
+    "our_board": [
+      "A:card723(200/350)"
+    ],
+    "opp_board": [
+      "A:card96(10/310)",
+      "B:card96(210)"
+    ]
+  },
+  {
+    "episode_id": "124715570",
+    "reason": "OTHER_?",
+    "opp": "Zhe Peng666",
+    "arch": "?",
+    "turn": 19,
+    "our_board": [
+      "A:card723(350/350)",
+      "B:card721(150)",
+      "B:card722(90)",
+      "B:card722(90)"
+    ],
+    "opp_board": [
+      "B:card190(290)",
+      "B:card190(300)",
+      "B:card169(130)"
+    ]
+  },
+  {
+    "episode_id": "124720316",
+    "reason": "RISK_2_LOW",
+    "opp": "Sayuru Rehan Bopitiya",
+    "arch": "FEZANDIP",
+    "turn": 15,
+    "our_board": [
+      "A:card723(350/350)",
+      "B:card721(150)"
+    ],
+    "opp_board": [
+      "B:card743(140)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ]
+  },
+  {
+    "episode_id": "124725071",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Articuno0144",
+    "arch": "LUCARIO",
+    "turn": 11,
+    "our_board": [
+      "A:card723(190/350)"
+    ],
+    "opp_board": [
+      "A:card678(440/440)",
+      "B:card675(110)",
+      "B:card676(110)",
+      "B:card677(80)"
+    ]
+  },
+  {
+    "episode_id": "124732961",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Julieta Alnitak34",
+    "arch": "?",
+    "turn": 14,
+    "our_board": [
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card648(200/320)",
+      "B:card104(40)",
+      "B:card104(90)",
+      "B:card112(50)",
+      "B:card647(100)",
+      "B:card112(60)"
+    ]
+  },
+  {
+    "episode_id": "124733619",
+    "reason": "OTHER_?",
+    "opp": "kloaken",
+    "arch": "?",
+    "turn": 23,
+    "our_board": [
+      "A:card743(140/140)",
+      "B:card140(210)",
+      "B:card743(140)",
+      "B:card742(80)",
+      "B:card742(80)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card58(140/140)",
+      "B:card345(90)",
+      "B:card344(70)",
+      "B:card344(70)"
+    ]
+  },
+  {
+    "episode_id": "124734281",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Rayan",
+    "arch": "?",
+    "turn": 10,
+    "our_board": [],
+    "opp_board": [
+      "A:card40(310/310)",
+      "B:card860(70)",
+      "B:card65(60)"
+    ]
+  },
+  {
+    "episode_id": "124734349",
+    "reason": "OTHER_FEZANDIP",
+    "opp": "MaxHan12",
+    "arch": "FEZANDIP",
+    "turn": 15,
+    "our_board": [
+      "A:card743(140/140)",
+      "B:card743(140)",
+      "B:card140(210)",
+      "B:card305(70)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "B:card741(50)"
+    ]
+  },
+  {
+    "episode_id": "124735588",
+    "reason": "RISK_2_LOW",
+    "opp": "F.A.Nina",
+    "arch": "KYOGRE",
+    "turn": 21,
+    "our_board": [
+      "A:card305(30/70)",
+      "B:card741(50)"
+    ],
+    "opp_board": [
+      "A:card721(150/150)",
+      "B:card723(350)",
+      "B:card723(350)",
+      "B:card721(150)"
+    ]
+  },
+  {
+    "episode_id": "124736881",
+    "reason": "OTHER_KYOGRE",
+    "opp": "Luiz Seabra De Marco",
+    "arch": "KYOGRE",
+    "turn": 15,
+    "our_board": [
+      "B:card140(210)",
+      "B:card743(140)",
+      "B:card66(140)",
+      "B:card66(140)",
+      "B:card741(50)"
+    ],
+    "opp_board": [
+      "A:card723(350/350)"
+    ]
+  },
+  {
+    "episode_id": "124737502",
+    "reason": "RISK_2_LOW",
+    "opp": "Sanchay Singh",
+    "arch": "KYOGRE",
+    "turn": 18,
+    "our_board": [
+      "A:card305(70/70)",
+      "B:card305(60)"
+    ],
+    "opp_board": [
+      "A:card722(90/90)",
+      "B:card723(350)"
+    ]
+  },
+  {
+    "episode_id": "124737554",
+    "reason": "OTHER_?",
+    "opp": "Julian M",
+    "arch": "?",
+    "turn": 17,
+    "our_board": [
+      "A:card743(140/140)",
+      "B:card743(140)",
+      "B:card140(210)",
+      "B:card66(140)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card756(400/400)",
+      "B:card756(160)",
+      "B:card345(150)",
+      "B:card345(150)"
+    ]
+  },
+  {
+    "episode_id": "124738181",
+    "reason": "OTHER_KYOGRE",
+    "opp": "thebrownkid",
+    "arch": "KYOGRE",
+    "turn": 18,
+    "our_board": [
+      "B:card140(210)",
+      "B:card66(140)",
+      "B:card66(140)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card723(30/350)"
+    ]
+  },
+  {
+    "episode_id": "124738859",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Abu Ruhan Mahamud",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 9,
+    "our_board": [
+      "A:card721(150/150)"
+    ],
+    "opp_board": [
+      "A:card96(80/210)",
+      "B:card140(210)",
+      "B:card1071(170)",
+      "B:card920(140)"
+    ]
+  },
+  {
+    "episode_id": "124741399",
+    "reason": "OTHER_MEOWTH+FEZANDIP",
+    "opp": "boonies",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 13,
+    "our_board": [
+      "A:card743(120/140)",
+      "B:card743(140)",
+      "B:card140(210)",
+      "B:card66(140)",
+      "B:card742(80)",
+      "B:card66(140)"
+    ],
+    "opp_board": [
+      "A:card235(30/30)",
+      "B:card140(210)",
+      "B:card112(110)",
+      "B:card112(110)"
+    ]
+  },
+  {
+    "episode_id": "124742065",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "cottonandcolor",
+    "arch": "KYOGRE",
+    "turn": 11,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(330/350)",
+      "B:card721(150)",
+      "B:card722(90)",
+      "B:card722(90)"
+    ]
+  },
+  {
+    "episode_id": "124742155",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Raihan Ramadistra",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 17,
+    "our_board": [
+      "A:card140(150/210)"
+    ],
+    "opp_board": [
+      "A:card121(320/320)",
+      "B:card1071(140)",
+      "B:card120(70)",
+      "B:card112(90)",
+      "B:card120(70)",
+      "B:card119(50)"
+    ]
+  },
+  {
+    "episode_id": "124743437",
+    "reason": "RISK_2_LOW",
+    "opp": "Blake Mosley",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 15,
+    "our_board": [
+      "B:card721(150)",
+      "B:card723(350)"
+    ],
+    "opp_board": [
+      "A:card96(210/210)",
+      "B:card917(70)"
+    ]
+  },
+  {
+    "episode_id": "124744053",
+    "reason": "OTHER_FEZANDIP",
+    "opp": "[Deleted] bc3788a4-9814-4a00-b747-879c74bdf086",
+    "arch": "FEZANDIP",
+    "turn": 24,
+    "our_board": [
+      "A:card66(140/140)",
+      "B:card140(210)",
+      "B:card305(70)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card1406(200/340)",
+      "B:card1331(70)",
+      "B:card140(30)",
+      "B:card547(220)",
+      "B:card86(100)",
+      "B:card86(100)"
+    ]
+  },
+  {
+    "episode_id": "124745369",
+    "reason": "BENCH_DISADV_3vs6_?",
+    "opp": "Bill Vlasak",
+    "arch": "?",
+    "turn": 15,
+    "our_board": [
+      "B:card305(70)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card93(80/80)",
+      "B:card90(100)",
+      "B:card149(40)",
+      "B:card90(100)",
+      "B:card100(50)",
+      "B:card149(40)"
+    ]
+  },
+  {
+    "episode_id": "124746028",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Dnyanesh",
+    "arch": "KYOGRE",
+    "turn": 13,
+    "our_board": [
+      "A:card742(80/80)"
+    ],
+    "opp_board": [
+      "A:card723(340/350)"
+    ]
+  },
+  {
+    "episode_id": "124746715",
+    "reason": "OTHER_KYOGRE",
+    "opp": "Pham Quang Nghia",
+    "arch": "KYOGRE",
+    "turn": 15,
+    "our_board": [
+      "B:card140(210)",
+      "B:card743(140)",
+      "B:card66(140)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card723(350/350)",
+      "B:card723(350)"
+    ]
+  },
+  {
+    "episode_id": "124746800",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Yash Dalal",
+    "arch": "KYOGRE",
+    "turn": 15,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(350/350)",
+      "B:card723(350)"
+    ]
+  },
+  {
+    "episode_id": "124748010",
+    "reason": "OTHER_MEOWTH+FEZANDIP",
+    "opp": "Morokoshi",
+    "arch": "MEOWTH+FEZANDIP",
+    "turn": 22,
+    "our_board": [
+      "A:card743(140/140)",
+      "B:card743(140)",
+      "B:card140(170)",
+      "B:card743(140)",
+      "B:card66(140)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card120(90/90)",
+      "B:card132(90)",
+      "B:card343(80)",
+      "B:card140(210)",
+      "B:card791(120)"
+    ]
+  },
+  {
+    "episode_id": "124748084",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "xiaogungfu",
+    "arch": "KYOGRE",
+    "turn": 11,
+    "our_board": [],
+    "opp_board": [
+      "A:card723(350/350)"
+    ]
+  },
+  {
+    "episode_id": "124749315",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Paal",
+    "arch": "CLEFAIRY+FEZANDIP",
+    "turn": 10,
+    "our_board": [
+      "A:card741(50/50)"
+    ],
+    "opp_board": [
+      "A:card743(140/140)",
+      "B:card235(30)",
+      "B:card743(140)",
+      "B:card305(70)",
+      "B:card742(80)"
+    ]
+  },
+  {
+    "episode_id": "124750709",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "eastnix",
+    "arch": "KYOGRE",
+    "turn": 5,
+    "our_board": [
+      "A:card66(140/140)"
+    ],
+    "opp_board": [
+      "A:card721(150/150)"
+    ]
+  },
+  {
+    "episode_id": "124752056",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Vinit",
+    "arch": "?",
+    "turn": 14,
+    "our_board": [],
+    "opp_board": [
+      "A:card381(310/330)",
+      "B:card380(100)",
+      "B:card1056(310)"
+    ]
+  },
+  {
+    "episode_id": "124752736",
+    "reason": "WIPE_0_EMPTY",
+    "opp": "Riccardo Lo Bianco",
+    "arch": "?",
+    "turn": 9,
+    "our_board": [],
+    "opp_board": [
+      "A:card861(310/310)",
+      "B:card861(310)",
+      "B:card103(60)",
+      "B:card103(60)",
+      "B:card1002(200)"
+    ]
+  },
+  {
+    "episode_id": "124753437",
+    "reason": "OTHER_KYOGRE",
+    "opp": "Jonathan Axl",
+    "arch": "KYOGRE",
+    "turn": 13,
+    "our_board": [
+      "B:card140(210)",
+      "B:card66(140)",
+      "B:card305(70)",
+      "B:card305(70)",
+      "B:card305(70)"
+    ],
+    "opp_board": [
+      "A:card723(310/350)",
+      "B:card723(350)",
+      "B:card722(90)"
+    ]
+  },
+  {
+    "episode_id": "124754098",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "Anto Antony Selvaraj",
+    "arch": "KYOGRE",
+    "turn": 14,
+    "our_board": [
+      "A:card722(90/90)"
+    ],
+    "opp_board": [
+      "A:card722(90/90)",
+      "B:card722(90)"
+    ]
+  }
+]
