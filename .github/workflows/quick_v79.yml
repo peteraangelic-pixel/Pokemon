@@ -36,10 +36,8 @@ jobs:
               rebind(m,deck)
               return m
           mod_base=load_agent("agents/c87_v44.py","base")
-          mod_v83=load_agent("agents/v83_kyogre_mirror_tempo.py","v83")
-          mod_v84=load_agent("agents/v84_champion_tempo_fix.py","v84")
           mod_v84a=load_agent("agents/v84a_retreat_only.py","v84a")
-          mod_v84b=load_agent("agents/v84b_energy_only.py","v84b")
+          mod_v84=load_agent("agents/v84_champion_tempo_fix.py","v84")
 
           def run_pair(a0,a1,s):
               cards=(ctypes.c_int*120)(*deck,*deck)
@@ -100,19 +98,25 @@ jobs:
                       l+=1
                       if our==0:
                           zero+=1
-              print(f"{name} vs base {games}g: {w}W-{l}L-{d}D = {w/games:.3f} WR")
-              if l>0:
-                  print(f"  zero-prize {zero}/{l}={zero/l:.2%} avg prizes {tot/games:.2f}")
-              else:
-                  print(f"  avg prizes {tot/games:.2f}")
+              print(f"{name} vs base {games}g: {w}W-{l}L-{d}D = {w/games:.3f} WR zero {zero}/{l} avg {tot/games:.2f}")
 
-          print("=== A/B 600g per second branch: 2 ideas individually on champion ===")
+          print("=== v84a vs base 600g (best from A/B) ===")
           test_vs("v84a retreat only", mod_v84a, mod_base, 600)
-          test_vs("v84b energy bench Snover", mod_v84b, mod_base, 600)
           test_vs("v84 both", mod_v84, mod_base, 600)
-          test_vs("v83 tempo", mod_v83, mod_base, 600)
           test_vs("base mirror", mod_base, mod_base, 600)
           PY
+          echo "" | tee -a /tmp/q.txt
+          echo "=== v84a vs new_losses 20g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v84a_retreat_only.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "" | tee -a /tmp/q.txt
+          echo "=== base vs new_losses 20g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "" | tee -a /tmp/q.txt
+          echo "=== v84a vs top30 20g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v84a_retreat_only.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
+          echo "" | tee -a /tmp/q.txt
+          echo "=== base vs top30 20g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
           cat /tmp/q.txt
           cp /tmp/q.txt kaggle_results/our_replays/quick_v79_v82.txt
       - name: Commit
@@ -120,5 +124,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f pokemon-agent/kaggle_results/our_replays/quick_v79_v82.txt || true
-          git commit -m "A/B 600g v84a retreat only + v84b energy only per second branch [skip ci]" || echo "no changes"
+          git commit -m "v84a vs base + vs new_losses/top30 FFI [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
