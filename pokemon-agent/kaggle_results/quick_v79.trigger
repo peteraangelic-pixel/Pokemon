@@ -1,1 +1,1 @@
-trigger 1200g Sat Oct 17 11:58:09 UTC 2026
+trigger 40g Sat Oct 17 12:00:59 UTC 2026
