@@ -1,4 +1,4 @@
-name: submit-best-2am (DISARMED — manual only, no auto)
+name: submit-best-2am (DISARMED — manual only, no auto, plus push trigger)
 
 on:
   workflow_dispatch:
@@ -19,6 +19,11 @@ on:
         description: "Submission message"
         default: "v70 endgame bench guard >=2, recovery, no last Abra — fixes 0.15->0.50 vs Mengfei wall, 0.632 broad"
         required: false
+  push:
+    branches:
+      - arena/c87f7a48-pokemon
+    paths:
+      - pokemon-agent/kaggle_results/submit_2am.trigger
 
 permissions:
   contents: write
@@ -41,12 +46,43 @@ jobs:
           AGENT="${{ inputs.agent }}"
           DECK="${{ inputs.deck }}"
           NAME="${{ inputs.name }}"
+          MSG="${{ inputs.message }}"
+          # If triggered via push, read from trigger file (format: agent|deck|name|message or 4 lines)
+          if [ -z "$AGENT" ] || [ "$AGENT" = "" ]; then
+            if [ -f "kaggle_results/submit_2am.trigger" ]; then
+              echo "Reading trigger file:"
+              cat kaggle_results/submit_2am.trigger
+              # try pipe-separated first
+              if grep -q "|" kaggle_results/submit_2am.trigger; then
+                AGENT=$(cut -d'|' -f1 kaggle_results/submit_2am.trigger)
+                DECK=$(cut -d'|' -f2 kaggle_results/submit_2am.trigger)
+                NAME=$(cut -d'|' -f3 kaggle_results/submit_2am.trigger)
+                MSG=$(cut -d'|' -f4- kaggle_results/submit_2am.trigger)
+              else
+                AGENT=$(sed -n '1p' kaggle_results/submit_2am.trigger)
+                DECK=$(sed -n '2p' kaggle_results/submit_2am.trigger)
+                NAME=$(sed -n '3p' kaggle_results/submit_2am.trigger)
+                MSG=$(sed -n '4p' kaggle_results/submit_2am.trigger)
+              fi
+            fi
+          fi
+          # defaults
+          [ -z "$AGENT" ] && AGENT="agents/v70_alakazam_endgame.py"
+          [ -z "$DECK" ] && DECK="decks/v66_alakazam_simple.csv"
+          [ -z "$NAME" ] && NAME="v70_alakazam_endgame_632"
+          [ -z "$MSG" ] && MSG="v70 endgame bench guard >=2"
+          echo "AGENT=$AGENT DECK=$DECK NAME=$NAME MSG=$MSG"
           mkdir -p /tmp/bundle
           cp "$AGENT" /tmp/bundle/main.py
           cp "$DECK" /tmp/bundle/deck.csv
           cp assets/card_index.json /tmp/bundle/card_index.json
           tar -czvf "bundles/${NAME}.tar.gz" -C /tmp/bundle main.py deck.csv card_index.json
           ls -lh "bundles/${NAME}.tar.gz"
+          # save for next step
+          echo "AGENT=$AGENT" >> $GITHUB_ENV
+          echo "DECK=$DECK" >> $GITHUB_ENV
+          echo "BUNDLE_NAME=$NAME" >> $GITHUB_ENV
+          echo "BUNDLE_MSG=$MSG" >> $GITHUB_ENV
       - name: Submit to Kaggle (requires secrets)
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
@@ -54,8 +90,11 @@ jobs:
         run: |
           cd pokemon-agent
           pip install --quiet kaggle
-          NAME="${{ inputs.name }}"
-          MSG="${{ inputs.message }}"
+          NAME="${{ env.BUNDLE_NAME }}"
+          if [ -z "$NAME" ]; then NAME="${{ inputs.name }}"; fi
+          MSG="${{ env.BUNDLE_MSG }}"
+          if [ -z "$MSG" ]; then MSG="${{ inputs.message }}"; fi
+          echo "Submitting $NAME with msg $MSG"
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "bundles/${NAME}.tar.gz" -m "$MSG" 2>&1 | tee ../kaggle_results/submit_2am.log
           echo "Submitted $NAME" | tee -a ../kaggle_results/submit_2am.log
       - name: Commit log

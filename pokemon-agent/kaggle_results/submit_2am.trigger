@@ -1,0 +1,1 @@
+agents/v70_alakazam_endgame.py|decks/v66_alakazam_simple.csv|v70b_alakazam_endgame_2am_596top30_637pool|v70 endgame bench>=2 guard recovery no last Abra - 0.596 top30_live 270g ±0.059 0.637 pool_v3 80g ±0.105 Mengfei 0.45-0.5 vs old 0.15 - overnight 5 slots free per 2026-10-15 perm
