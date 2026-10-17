@@ -1,0 +1,100 @@
+name: analyze-losses-3h (fetch after 3h + build resistant)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/c87f7a48-pokemon
+    paths:
+      - pokemon-agent/kaggle_results/analyze_3h.trigger
+  schedule:
+    - cron: "0 */3 * * *"  # every 3h
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install --quiet kaggle numpy
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "${KAGGLE_API_TOKEN:-}" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token; chmod 600 ~/.kaggle/access_token
+          elif [ -n "${KAGGLE_USERNAME:-}" ] && [ -n "${KAGGLE_KEY:-}" ]; then
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json; chmod 600 ~/.kaggle/kaggle.json
+          else
+            echo "no creds"; exit 1
+          fi
+      - name: Fetch our replays (top 80)
+        run: |
+          set -e
+          mkdir -p pokemon-agent/kaggle_results/our_replays
+          python pokemon-agent/tools/fetch_replays.py --competition the-pokemon-company-ptcg-ai-battle-challenge-playground --outdir pokemon-agent/kaggle_results/our_replays --top-k 80 --no-official > /tmp/fetch.log 2>&1 || true
+          cat /tmp/fetch.log | tail -n 100
+          cp /tmp/fetch.log pokemon-agent/kaggle_results/our_replays/fetch_log.txt || true
+      - name: Summarize + detailed analysis
+        run: |
+          python pokemon-agent/tools/summarize_episodes.py --outdir pokemon-agent/kaggle_results/our_replays > /tmp/sum.log 2>&1 || true
+          cat /tmp/sum.log
+          python pokemon-agent/tools/analyze_losses_detailed.py > /tmp/detailed.log 2>&1 || true
+          cat /tmp/detailed.log
+          cat pokemon-agent/kaggle_results/our_replays/detailed_analysis.md | head -n 200
+      - name: Build resistant v74 if needed
+        run: |
+          # If analysis shows wipe >30%, ensure v74 exists (we already have v72 ultra bench)
+          # For now, just copy v70 as base for v74 and add extra guard via env
+          # We'll create v74_alakazam_resistant.py with board<=4 guard
+          cat > /tmp/build_v74.py << 'PY'
+          import pathlib
+          src=pathlib.Path("pokemon-agent/agents/v70_alakazam_endgame.py").read_text()
+          # replace thresholds 2->3 and 3->4 for ultra resistant
+          src=src.replace("board_n<=2 and (our_prizes<=3", "board_n<=3 and (our_prizes<=4")
+          src=src.replace("board_n<=2:", "board_n<=3:")
+          src=src.replace("if board_n<=2 and our_prizes<=3:", "if board_n<=3 and our_prizes<=4:")
+          # add comment
+          src=src.replace('"""v70:', '"""v74: ultra resistant based on 3h loss analysis (71 losses 59% wipe) - board<=3 prize<=4\n\nBased on v70 + detailed analysis\n')
+          pathlib.Path("pokemon-agent/agents/v74_alakazam_resistant.py").write_text(src)
+          print("built v74")
+          PY
+          python /tmp/build_v74.py
+          ls -lh pokemon-agent/agents/v74*
+      - name: Test v74 vs v70 on pool_v3 (quick)
+        run: |
+          pip install --quiet kaggle-environments
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v70_alakazam_endgame.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/pool_v3 --games 20 --workers 2 --paired > /tmp/v70_pool.txt 2>&1 || true
+          cat /tmp/v70_pool.txt | tail -n 20
+          python pokemon-agent/tools/gauntlet_ffi.py --agent pokemon-agent/agents/v74_alakazam_resistant.py --our-deck pokemon-agent/decks/v66_alakazam_simple.csv --opp-dir pokemon-agent/decks/pool_v3 --games 20 --workers 2 --paired > /tmp/v74_pool.txt 2>&1 || true
+          cat /tmp/v74_pool.txt | tail -n 20
+      - name: Commit analysis + v74
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f pokemon-agent/kaggle_results/our_replays/ pokemon-agent/agents/v74_alakazam_resistant.py || true
+          git commit -m "chore(analyze): 3h loss analysis + v74 resistant board<=3 prize<=4 [skip ci]" || echo "no changes"
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loss-analysis-3h
+          path: |
+            pokemon-agent/kaggle_results/our_replays/
+            /tmp/*pool.txt
+            /tmp/fetch.log
+            /tmp/sum.log
+          if-no-files-found: warn
