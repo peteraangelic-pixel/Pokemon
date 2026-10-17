@@ -1,0 +1,70 @@
+name: fetch-all-missing-replays
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/c87f7a48-pokemon
+    paths:
+      - pokemon-agent/kaggle_results/fetch_all.trigger
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install --quiet kaggle
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "${KAGGLE_API_TOKEN:-}" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token; chmod 600 ~/.kaggle/access_token
+          elif [ -n "${KAGGLE_USERNAME:-}" ] && [ -n "${KAGGLE_KEY:-}" ]; then
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json; chmod 600 ~/.kaggle/kaggle.json
+          else
+            echo "no creds"; exit 1
+          fi
+      - name: Fetch full episode lists + all missing replays
+        run: |
+          cd pokemon-agent
+          # first refresh episode lists
+          python tools/fetch_replays.py --competition the-pokemon-company-ptcg-ai-battle-challenge-playground --outdir kaggle_results/our_replays --top-k 200 --no-official > /tmp/fetch.log 2>&1 || true
+          cat /tmp/fetch.log | tail -n 100
+          # now fetch all missing
+          python tools/fetch_all_missing.py 2>&1 | tee /tmp/missing.log
+          cat /tmp/missing.log | tail -n 100
+          echo "=== counts ==="
+          ls kaggle_results/our_replays/episode-*.json 2>/dev/null | wc -l
+          ls kaggle_results/our_replays/loss_replays/*.json 2>/dev/null | wc -l
+          cat kaggle_results/our_replays/episodes_57290256.csv | wc -l
+          cat kaggle_results/our_replays/episodes_57290311.csv | wc -l
+      - name: Summarize after full fetch
+        run: |
+          cd pokemon-agent
+          python tools/summarize_episodes.py --outdir kaggle_results/our_replays > /tmp/sum.log 2>&1 || true
+          cat /tmp/sum.log
+          cat kaggle_results/our_replays/summary.md
+          python tools/analyze_losses_detailed.py > /tmp/detailed.log 2>&1 || true
+          cat kaggle_results/our_replays/detailed_analysis.md | head -n 100
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f pokemon-agent/kaggle_results/our_replays/
+          git commit -m "fetch all missing replays - 66+74 public games, should be >12 losses each [skip ci]" || echo "no changes"
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
