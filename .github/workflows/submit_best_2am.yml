@@ -40,6 +40,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install kaggle
+        run: python -m pip install --disable-pip-version-check --quiet kaggle
+      - name: Configure Kaggle
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
       - name: Build bundle
         run: |
           cd pokemon-agent
@@ -47,12 +60,9 @@ jobs:
           DECK="${{ inputs.deck }}"
           NAME="${{ inputs.name }}"
           MSG="${{ inputs.message }}"
-          # If triggered via push, read from trigger file (format: agent|deck|name|message or 4 lines)
           if [ -z "$AGENT" ] || [ "$AGENT" = "" ]; then
             if [ -f "kaggle_results/submit_2am.trigger" ]; then
-              echo "Reading trigger file:"
               cat kaggle_results/submit_2am.trigger
-              # try pipe-separated first
               if grep -q "|" kaggle_results/submit_2am.trigger; then
                 AGENT=$(cut -d'|' -f1 kaggle_results/submit_2am.trigger)
                 DECK=$(cut -d'|' -f2 kaggle_results/submit_2am.trigger)
@@ -66,7 +76,6 @@ jobs:
               fi
             fi
           fi
-          # defaults
           [ -z "$AGENT" ] && AGENT="agents/v70_alakazam_endgame.py"
           [ -z "$DECK" ] && DECK="decks/v66_alakazam_simple.csv"
           [ -z "$NAME" ] && NAME="v70_alakazam_endgame_632"
@@ -78,25 +87,31 @@ jobs:
           cp assets/card_index.json /tmp/bundle/card_index.json
           tar -czvf "bundles/${NAME}.tar.gz" -C /tmp/bundle main.py deck.csv card_index.json
           ls -lh "bundles/${NAME}.tar.gz"
-          # save for next step
           echo "AGENT=$AGENT" >> $GITHUB_ENV
           echo "DECK=$DECK" >> $GITHUB_ENV
           echo "BUNDLE_NAME=$NAME" >> $GITHUB_ENV
           echo "BUNDLE_MSG=$MSG" >> $GITHUB_ENV
-      - name: Submit to Kaggle (requires secrets)
+      - name: Submit to Kaggle
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
           cd pokemon-agent
-          pip install --quiet kaggle
           NAME="${{ env.BUNDLE_NAME }}"
           if [ -z "$NAME" ]; then NAME="${{ inputs.name }}"; fi
           MSG="${{ env.BUNDLE_MSG }}"
           if [ -z "$MSG" ]; then MSG="${{ inputs.message }}"; fi
           echo "Submitting $NAME with msg $MSG"
           kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "bundles/${NAME}.tar.gz" -m "$MSG" 2>&1 | tee ../kaggle_results/submit_2am.log
-          echo "Submitted $NAME" | tee -a ../kaggle_results/submit_2am.log
+          if grep -q "Successfully submitted" ../kaggle_results/submit_2am.log; then
+            echo "Submit reported success"
+            echo "Submitted $NAME" | tee -a ../kaggle_results/submit_2am.log
+            exit 0
+          else
+            echo "Submit failed"
+            cat ../kaggle_results/submit_2am.log
+            exit 1
+          fi
       - name: Commit log
         if: always()
         run: |

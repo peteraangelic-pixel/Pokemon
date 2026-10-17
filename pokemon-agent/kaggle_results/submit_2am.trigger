@@ -1,1 +1,1 @@
-agents/v70_alakazam_endgame.py|decks/v66_alakazam_simple.csv|v70c_alakazam_endgame_2am_596top30|v70c endgame bench>=2 guard recovery no last Abra - 0.596 top30_live 270g ±0.059 0.637 pool_v3 80g ±0.105 - retry after 403 fix, distinct name
+agents/v70_alakazam_endgame.py|decks/v66_alakazam_simple.csv|v70d_alakazam_endgame_2am_596top30|v70d endgame bench>=2 guard recovery no last Abra - 0.596 top30 270g 0.637 pool 80g - fixed workflow
