@@ -37,6 +37,8 @@ jobs:
               return m
           mod_base=load_agent("agents/c87_v44.py","base")
           mod_v85=load_agent("agents/v85_no_imit_mirror.py","v85")
+          mod_v86=load_agent("agents/v86_no_imit.py","v86")
+          mod_v86b=load_agent("agents/v86b_imit20.py","v86b")
 
           def run_pair(a0,a1,s):
               cards=(ctypes.c_int*120)(*deck,*deck)
@@ -99,17 +101,21 @@ jobs:
                           zero+=1
               print(f"{name} vs base {games}g: {w}W-{l}L-{d}D = {w/games:.3f} WR zero {zero}/{l} avg {tot/games:.2f}")
 
-          print("=== v85 no imit mirror vs base 600g x2 for variance ===")
-          test_vs("v85", mod_v85, mod_base, 600)
-          test_vs("v85 2nd run", mod_v85, mod_base, 600)
+          print("=== 600g A/B no imit variants ===")
+          test_vs("v85 no imit mirror", mod_v85, mod_base, 600)
+          test_vs("v86 no imit at all", mod_v86, mod_base, 600)
+          test_vs("v86b imit20", mod_v86b, mod_base, 600)
           test_vs("base mirror", mod_base, mod_base, 600)
           PY
           echo "" | tee -a /tmp/q.txt
-          echo "=== v85 vs top30 20g FFI ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/v85_no_imit_mirror.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v86 vs new_losses 20g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v86_no_imit.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
           echo "" | tee -a /tmp/q.txt
-          echo "=== base vs top30 20g FFI ===" | tee -a /tmp/q.txt
-          python tools/gauntlet_ffi.py --agent agents/c87_v44.py --our-deck decks/c87_v44.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 30
+          echo "=== v86b vs new_losses 20g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v86b_imit20.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
+          echo "" | tee -a /tmp/q.txt
+          echo "=== v85 vs new_losses 20g FFI ===" | tee -a /tmp/q.txt
+          python tools/gauntlet_ffi.py --agent agents/v85_no_imit_mirror.py --our-deck decks/c87_v44.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/q.txt | tail -n 20
           cat /tmp/q.txt
           cp /tmp/q.txt kaggle_results/our_replays/quick_v79_v82.txt
       - name: Commit
@@ -117,5 +123,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -f pokemon-agent/kaggle_results/our_replays/quick_v79_v82.txt || true
-          git commit -m "v85 600g x2 + top30 FFI [skip ci]" || echo "no changes"
+          git commit -m "v86 no imit vs v86b imit20 vs v85 [skip ci]" || echo "no changes"
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
