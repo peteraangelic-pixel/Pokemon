@@ -1,121 +1,22 @@
 episode_id,sub,opp,win,turn,our_arch,opp_arch,opp_ko_our,we_ko,opp_board,our_board,file
-124677663,57261105,PeterSharps,0,14,KYOGRE,KYOGRE,,,A:card723(100/350) B:card721(150),,episode-124677663-replay.json
-124678236,57261105,cocosu3434,0,12,KYOGRE,LATIAS+CLEFAIRY,,,A:card1380(140/140) B:card184(210) B:card272(190) B:card44(260) B:card305(70) B:card1380(140),,episode-124678236-replay.json
-124678985,57261105,pika28samson,0,12,KYOGRE,FEZANDIP,,,A:card743(140/140) B:card743(140) B:card742(80),,episode-124678985-replay.json
-124679029,57261105,yyx673,0,13,KYOGRE,LUCARIO,,,A:card678(340/340) B:card675(110) B:card675(70) B:card676(110) B:card673(80),A:card723(20/350) B:card721(150),episode-124679029-replay.json
-124679679,57261105,Praneeth Yeddu,1,14,KYOGRE,LATIAS+FEZANDIP,,,A:card96(210/210) B:card756(300) B:card96(210),A:card723(350/350) B:card723(350) B:card723(350),episode-124679679-replay.json
-124680364,57261105,Shaun2024,0,17,KYOGRE,?,,,A:card345(150/150) B:card345(150),A:card723(110/350) B:card721(150) B:card723(350),episode-124680364-replay.json
-124680392,57261105,the soul hunter,0,11,KYOGRE,KYOGRE,,,A:card722(90/90),A:card722(90/90),episode-124680392-replay.json
-124681089,57261105,DavideSanta,0,11,KYOGRE,?,,,A:card96(210/210) B:card96(210),B:card723(350),episode-124681089-replay.json
-124681765,57261105,RtoABC2,0,11,KYOGRE,FEZANDIP,,,A:card1406(340/340) B:card343(40) B:card86(100) B:card547(220) B:card86(100) B:card86(100),A:card723(350/350) B:card721(150) B:card721(150) B:card723(350),episode-124681765-replay.json
-124682458,57261105,Utandra,0,7,KYOGRE,MEOWTH+FEZANDIP,,,A:card96(120/210) B:card92(40) B:card710(160) B:card140(210) B:card96(210),,episode-124682458-replay.json
-124683117,57261105,Vinit,1,17,KYOGRE,?,,,A:card886(10/250),A:card723(350/350) B:card723(350) B:card722(90) B:card722(90),episode-124683117-replay.json
-124683814,57261105,Prashant Rawat,0,23,KYOGRE,?,,,A:card345(110/150) B:card345(170) B:card345(150) B:card344(70),A:card723(110/350),episode-124683814-replay.json
-124684553,57261105,Quinton McReynolds,1,18,KYOGRE,KYOGRE,,,,A:card723(350/350) B:card723(350) B:card723(350) B:card722(90),episode-124684553-replay.json
-124685215,57261105,Noel Bobby,1,10,KYOGRE,?,,,A:card96(260/260) B:card96(240),A:card723(200/350) B:card721(180) B:card722(120),episode-124685215-replay.json
-124685933,57261105,Elbachir Salik,0,7,KYOGRE,KYOGRE,,,A:card723(300/350) B:card722(90),,episode-124685933-replay.json
-124686606,57261105,Kevin Hulin,1,16,KYOGRE,MEOWTH+FEZANDIP,,,A:card112(110/110) B:card235(30) B:card119(70),A:card723(320/350) B:card723(350) B:card721(150),episode-124686606-replay.json
-124687298,57261105,mo,0,17,KYOGRE,LUCARIO,,,A:card678(340/340) B:card675(110) B:card677(80) B:card676(110) B:card675(110),,episode-124687298-replay.json
-124687952,57261105,Zhe Peng666,0,11,KYOGRE,?,,,A:card190(400/400) B:card169(130) B:card169(130),A:card723(350/350) B:card723(350) B:card722(90),episode-124687952-replay.json
-124688616,57261105,SC,1,18,KYOGRE,MEOWTH+FEZANDIP,,card721|card721|card721|card721|card721|card721|card721|card721|card721|card721|card721|card721,B:card119(70),A:card723(350/350) B:card721(150) B:card722(30),episode-124688616-replay.json
-124689290,57261105,BSCode,1,12,KYOGRE,?,,,,A:card723(300/350) B:card721(100),episode-124689290-replay.json
-124689955,57261105,Hitisha Goyal,0,8,KYOGRE,KYOGRE,,,A:card723(280/350) B:card723(350) B:card723(350) B:card722(90),,episode-124689955-replay.json
-124690629,57261105,Rashid Khazeiynasab,0,13,KYOGRE,LUCARIO,,,A:card678(310/340) B:card676(110) B:card678(340) B:card675(110) B:card44(260) B:card678(340),B:card721(150) B:card721(150),episode-124690629-replay.json
-124691266,57261105,tategami,1,10,KYOGRE,?,,,B:card103(60) B:card103(60),A:card723(280/350),episode-124691266-replay.json
-124691966,57261105,Angel Francisco Aguayo Salazar,1,10,KYOGRE,?,,,A:card781(280/280) B:card781(280) B:card781(280) B:card337(220) B:card337(220) B:card337(220),A:card723(180/350) B:card721(150) B:card723(350) B:card722(90),episode-124691966-replay.json
-124692630,57261105,Angel Francisco Aguayo Salazar,0,11,KYOGRE,?,,,A:card781(150/280) B:card337(180) B:card781(280) B:card781(280) B:card781(280),,episode-124692630-replay.json
-124693323,57261105,SC,0,15,KYOGRE,MEOWTH+FEZANDIP,,,A:card121(250/320) B:card121(320) B:card121(320) B:card112(110),,episode-124693323-replay.json
-124694000,57261105,Mibbles,0,11,KYOGRE,FEZANDIP,,,A:card743(70/140) B:card743(140) B:card742(80) B:card743(140) B:card305(70),,episode-124694000-replay.json
-124694662,57261105,Elbachir Salik,1,16,KYOGRE,KYOGRE,,,,A:card723(350/350) B:card721(150) B:card723(350) B:card723(350),episode-124694662-replay.json
-124695345,57261105,LivMaAn,0,10,KYOGRE,MEOWTH+FEZANDIP,,,A:card150(330/330) B:card140(210) B:card710(160) B:card93(80) B:card1071(170) B:card96(210),,episode-124695345-replay.json
-124696044,57261105,Pham Quang Nghia,1,13,KYOGRE,KYOGRE,,,A:card722(90/90),A:card722(90/90) B:card721(150),episode-124696044-replay.json
-124696068,57261105,Sayuru Rehan Bopitiya,0,15,KYOGRE,FEZANDIP,,,A:card743(130/140) B:card305(70) B:card742(80) B:card343(80) B:card305(70),B:card722(90) B:card722(90),episode-124696068-replay.json
-124696704,57261105,Rajveer Vora,0,21,KYOGRE,?,,,A:card1074(80/150) B:card344(40) B:card1073(40),A:card721(10/150),episode-124696704-replay.json
-124697372,57261105,Don't foget me,0,10,KYOGRE,?,,,A:card1406(310/340) B:card547(220) B:card85(70) B:card85(70) B:card547(220) B:card547(220),A:card722(90/90) B:card721(150),episode-124697372-replay.json
-124698051,57261105,diujin217,1,11,KYOGRE,KYOGRE,,,A:card722(90/90),A:card723(300/350) B:card721(150) B:card721(150) B:card722(90) B:card722(90) B:card722(90),episode-124698051-replay.json
-124698720,57261105,eastnix,1,9,KYOGRE,KYOGRE,,,A:card723(350/350),A:card723(350/350) B:card722(90),episode-124698720-replay.json
-124699418,57261105,Richard Guo,0,9,KYOGRE,MEOWTH+FEZANDIP,,,B:card120(90) B:card120(90),A:card721(130/150),episode-124699418-replay.json
-124700068,57261105,Luiz Seabra De Marco,1,9,KYOGRE,KYOGRE,,,A:card722(90/90),A:card723(150/350) B:card721(150) B:card721(150),episode-124700068-replay.json
-124700734,57261105,lswuwu,1,12,KYOGRE,LUCARIO,,card722|card722|card722|card722,A:card678(340/340) B:card675(110) B:card673(80),A:card723(350/350) B:card723(350),episode-124700734-replay.json
-124701389,57261105,nguyenbaotri-VIETNAM,0,37,KYOGRE,?,,,A:card290(190/190) B:card688(80) B:card290(190),A:card723(50/350) B:card721(150) B:card723(350),episode-124701389-replay.json
-124701407,57261105,dajiaohuang,0,16,KYOGRE,?,,,A:card743(140/140) B:card743(140),B:card721(150) B:card721(150) B:card723(350),episode-124701407-replay.json
-124702076,57261105,Taras Harbar,1,12,KYOGRE,LUCARIO,,,A:card678(340/340) B:card675(110) B:card676(110) B:card677(80),A:card723(220/350) B:card721(150),episode-124702076-replay.json
-124702777,57261105,JIVRAJ SINGH,0,12,KYOGRE,KYOGRE,,,A:card723(240/350) B:card723(350) B:card723(350) B:card721(150),,episode-124702777-replay.json
-124703436,57261105,Angel Francisco Aguayo Salazar,1,15,KYOGRE,?,,,A:card781(80/280) B:card337(220) B:card781(280),A:card723(350/350) B:card721(150) B:card721(150) B:card723(350),episode-124703436-replay.json
-124704103,57261105,nikepoke,1,11,KYOGRE,FEZANDIP,,,A:card86(100/100) B:card85(70) B:card85(70) B:card85(70),A:card723(350/350) B:card721(150) B:card722(90) B:card722(90) B:card722(90),episode-124704103-replay.json
-124704768,57261105,Don_Cry_Baby,1,19,KYOGRE,?,,,A:card849(330/330) B:card66(140) B:card861(310) B:card849(330) B:card305(70) B:card860(70),A:card723(350/350),episode-124704768-replay.json
-124705415,57261105,Zhe Peng666,0,16,KYOGRE,?,,,A:card190(300/300) B:card192(130) B:card190(300),B:card722(90) B:card721(150),episode-124705415-replay.json
-124705442,57261105,LiYang578,1,18,KYOGRE,KYOGRE,,,A:card722(90/90),A:card723(20/350) B:card721(150) B:card723(350) B:card723(350) B:card723(350),episode-124705442-replay.json
-124706120,57261105,Quinton McReynolds,0,8,KYOGRE,KYOGRE,,,A:card723(310/350),A:card721(40/150),episode-124706120-replay.json
-124706787,57261105,Samuel Ballenger,0,12,KYOGRE,KYOGRE,,,B:card723(350) B:card180(110) B:card722(90),A:card723(150/350) B:card721(150) B:card722(90),episode-124706787-replay.json
-124707472,57261105,LivMaAn,0,9,KYOGRE,MEOWTH+FEZANDIP,,,A:card96(170/210),A:card721(150/150),episode-124707472-replay.json
-124708128,57261105,Atharva Naik,0,9,KYOGRE,KYOGRE,,,B:card722(90),A:card721(150/150),episode-124708128-replay.json
-124708792,57261105,zengbo1,0,12,KYOGRE,KYOGRE,,,A:card723(340/350),A:card723(350/350),episode-124708792-replay.json
-124708814,57261105,Aayush Jansari,1,25,KYOGRE,FEZANDIP,,card721|card721|card721|card721|card721|card721,A:card235(30/30),A:card722(80/90) B:card721(150),episode-124708814-replay.json
-124709490,57261105,Elbachir Salik,0,19,KYOGRE,KYOGRE,,,A:card723(350/350) B:card723(350),B:card721(150),episode-124709490-replay.json
-124709522,57261105,Zapaxe,1,8,KYOGRE,?,,,B:card96(210) B:card63(240),A:card723(350/350) B:card721(150) B:card721(150) B:card722(90) B:card722(90) B:card722(90),episode-124709522-replay.json
-124710162,57261105,SC,0,19,KYOGRE,MEOWTH+FEZANDIP,,card721|card721|card721|card721|card721|card721,A:card121(320/320) B:card112(110) B:card121(320) B:card140(210),,episode-124710162-replay.json
-124710827,57261105,André Salgado,0,10,KYOGRE,KYOGRE,,,A:card723(350/350) B:card722(90),,episode-124710827-replay.json
-124711523,57261105,Riccardo Lo Bianco,0,41,KYOGRE,?,,,B:card861(310) B:card1002(200),A:card723(50/350) B:card721(150) B:card723(350),episode-124711523-replay.json
-124712175,57261105,nikepoke,0,11,KYOGRE,FEZANDIP,,,A:card1406(340/340) B:card86(100) B:card547(40) B:card86(100),A:card723(350/350) B:card721(150) B:card722(90),episode-124712175-replay.json
-124712200,57261105,Elbachir Salik,0,7,KYOGRE,KYOGRE,,,A:card723(350/350) B:card723(350),A:card721(150/150),episode-124712200-replay.json
-124712871,57261105,lswuwu,0,17,KYOGRE,LUCARIO,,,A:card678(300/440) B:card675(110) B:card678(340),,episode-124712871-replay.json
-124712900,57261105,yihui ding123,1,33,KYOGRE,?,,,A:card756(400/400) B:card345(150) B:card117(210),A:card723(330/350) B:card721(130),episode-124712900-replay.json
-124713522,57261105,Sayuru Rehan Bopitiya,0,16,KYOGRE,FEZANDIP,,,A:card741(50/50) B:card741(50) B:card741(50) B:card741(50) B:card305(70),A:card722(90/90),episode-124713522-replay.json
-124713555,57261105,F.A.Nina,1,14,KYOGRE,KYOGRE,,,B:card722(90),A:card723(150/350) B:card721(150) B:card723(350),episode-124713555-replay.json
-124714204,57261105,Sanchay Singh,1,9,KYOGRE,KYOGRE,,,A:card723(350/350),B:card723(350) B:card721(150),episode-124714204-replay.json
-124714877,57261105,Noel Bobby,0,13,KYOGRE,?,,,A:card96(10/310) B:card96(210),A:card723(200/350),episode-124714877-replay.json
-124715570,57261105,Zhe Peng666,0,19,KYOGRE,?,,,B:card190(290) B:card190(300) B:card169(130),A:card723(350/350) B:card721(150) B:card722(90) B:card722(90),episode-124715570-replay.json
-124715600,57261105,Pham Quang Nghia,1,22,KYOGRE,KYOGRE,,,A:card722(90/90),A:card723(340/350) B:card721(150) B:card721(150) B:card722(90) B:card722(90) B:card722(90),episode-124715600-replay.json
-124720316,57261105,Sayuru Rehan Bopitiya,0,15,KYOGRE,FEZANDIP,,,B:card743(140) B:card305(70) B:card305(70),A:card723(350/350) B:card721(150),episode-124720316-replay.json
-124725071,57261105,Articuno0144,0,11,KYOGRE,LUCARIO,,,A:card678(440/440) B:card675(110) B:card676(110) B:card677(80),A:card723(190/350),episode-124725071-replay.json
-124729761,57261105,Red,1,19,KYOGRE,?,,,A:card58(140/140) B:card58(140) B:card135(150) B:card1388(130) B:card1388(130) B:card682(130),A:card723(150/350) B:card721(110) B:card723(350) B:card722(90) B:card722(90),episode-124729761-replay.json
-124732404,57270737,PeterSharps,1,14,FEZANDIP,FEZANDIP,,,A:card743(140/140) B:card305(70) B:card305(70) B:card741(50) B:card741(50),B:card743(140) B:card743(140) B:card743(140) B:card140(210) B:card305(70),episode-124732404-replay.json
-124732961,57270737,Julieta Alnitak34,0,14,FEZANDIP,?,,card742|card743|card741,A:card648(200/320) B:card104(40) B:card104(90) B:card112(50) B:card647(100) B:card112(60),B:card305(70),episode-124732961-replay.json
-124733619,57270737,kloaken,0,23,FEZANDIP,?,,,A:card58(140/140) B:card345(90) B:card344(70) B:card344(70),A:card743(140/140) B:card140(210) B:card743(140) B:card742(80) B:card742(80) B:card305(70),episode-124733619-replay.json
-124734281,57270737,Rayan,0,10,FEZANDIP,?,,,A:card40(310/310) B:card860(70) B:card65(60),,episode-124734281-replay.json
-124734335,57261105,Eugen LNCanti,1,12,KYOGRE,KYOGRE,,,A:card721(150/150) B:card721(150),A:card723(290/350) B:card722(90),episode-124734335-replay.json
-124734349,57270737,MaxHan12,0,15,FEZANDIP,FEZANDIP,,,B:card741(50),A:card743(140/140) B:card743(140) B:card140(210) B:card305(70) B:card305(70) B:card305(70),episode-124734349-replay.json
-124734925,57270737,laa1991,1,17,FEZANDIP,KYOGRE,,,,A:card743(140/140) B:card140(210) B:card66(140) B:card66(140) B:card305(70),episode-124734925-replay.json
-124735588,57270737,F.A.Nina,0,21,?,KYOGRE,,card741|card741,A:card721(150/150) B:card723(350) B:card723(350) B:card721(150),A:card305(30/70) B:card741(50),episode-124735588-replay.json
-124736230,57270737,Guenoir,1,14,FEZANDIP,LUCARIO+FEZANDIP,,,B:card678(340) B:card756(300) B:card1388(130) B:card756(300),A:card743(40/140) B:card743(140) B:card743(140) B:card140(210) B:card66(140) B:card66(140),episode-124736230-replay.json
-124736294,57270737,Pranshul Maithani,1,5,?,LUCARIO,,,,A:card743(140/140) B:card742(80) B:card741(50) B:card741(50) B:card305(70) B:card305(70),episode-124736294-replay.json
-124736881,57270737,Luiz Seabra De Marco,0,15,FEZANDIP,KYOGRE,,,A:card723(350/350),B:card140(210) B:card743(140) B:card66(140) B:card66(140) B:card741(50),episode-124736881-replay.json
-124737502,57270737,Sanchay Singh,0,18,FEZANDIP,KYOGRE,,,A:card722(90/90) B:card723(350),A:card305(70/70) B:card305(60),episode-124737502-replay.json
-124737554,57270737,Julian M,0,17,FEZANDIP,?,,,A:card756(400/400) B:card756(160) B:card345(150) B:card345(150),A:card743(140/140) B:card743(140) B:card140(210) B:card66(140) B:card305(70) B:card305(70),episode-124737554-replay.json
-124738181,57270737,thebrownkid,0,18,FEZANDIP,KYOGRE,,,A:card723(30/350),B:card140(210) B:card66(140) B:card66(140) B:card305(70) B:card305(70),episode-124738181-replay.json
-124738812,57270737,Dnyanesh,1,10,?,KYOGRE,,,A:card723(10/350),B:card743(140) B:card743(140) B:card305(70) B:card305(70) B:card305(70),episode-124738812-replay.json
-124738859,57261105,Abu Ruhan Mahamud,0,9,KYOGRE,MEOWTH+FEZANDIP,,,A:card96(80/210) B:card140(210) B:card1071(170) B:card920(140),A:card721(150/150),episode-124738859-replay.json
-124739468,57270737,Tien N.,1,14,FEZANDIP,MEOWTH+FEZANDIP,,,B:card1071(170) B:card96(210) B:card920(140) B:card96(210) B:card96(210),A:card743(140/140) B:card743(140) B:card140(210) B:card743(140) B:card743(140),episode-124739468-replay.json
-124740110,57270737,Guenoir,1,18,FEZANDIP,LUCARIO+FEZANDIP,,card140|card140,A:card678(340/340) B:card678(340) B:card333(70) B:card1388(130) B:card140(210),B:card743(140) B:card743(140),episode-124740110-replay.json
-124740762,57270737,彭文龙,1,16,FEZANDIP,LUCARIO,,,A:card678(260/340) B:card678(340) B:card974(70),A:card743(140/140) B:card743(140) B:card743(140) B:card305(70) B:card140(210) B:card305(70),episode-124740762-replay.json
-124741399,57270737,boonies,0,13,FEZANDIP,MEOWTH+FEZANDIP,,,A:card235(30/30) B:card140(210) B:card112(110) B:card112(110),A:card743(120/140) B:card743(140) B:card140(210) B:card66(140) B:card742(80) B:card66(140),episode-124741399-replay.json
-124742065,57270737,cottonandcolor,0,11,FEZANDIP,KYOGRE,,,A:card723(330/350) B:card721(150) B:card722(90) B:card722(90),,episode-124742065-replay.json
-124742155,57270737,Raihan Ramadistra,0,17,FEZANDIP,MEOWTH+FEZANDIP,,,A:card121(320/320) B:card1071(140) B:card120(70) B:card112(90) B:card120(70) B:card119(50),A:card140(150/210),episode-124742155-replay.json
-124742731,57270737,Kevin Hulin,1,18,FEZANDIP,MEOWTH+FEZANDIP,,card741|card741|card741|card741|card741|card741|card140|card140|card140|card140|card140|card140,B:card140(210) B:card235(30) B:card120(90) B:card121(160),A:card743(140/140) B:card140(210) B:card305(70) B:card743(140) B:card741(50) B:card305(70),episode-124742731-replay.json
-124743403,57270737,Steveneg13,1,11,FEZANDIP,KYOGRE,,,A:card723(10/350),B:card140(210) B:card743(140) B:card741(50) B:card305(70) B:card305(70),episode-124743403-replay.json
-124743437,57261105,Blake Mosley,0,15,KYOGRE,MEOWTH+FEZANDIP,,,A:card96(210/210) B:card917(70),B:card721(150) B:card723(350),episode-124743437-replay.json
-124743480,57261105,laa1991,1,20,KYOGRE,KYOGRE,,,A:card721(110/150),A:card723(350/350) B:card723(350) B:card722(90),episode-124743480-replay.json
-124744053,57270737,[Deleted] bc3788a4-9814-4a00-b747-879c74bdf086,0,24,FEZANDIP,FEZANDIP,,,A:card1406(200/340) B:card1331(70) B:card140(30) B:card547(220) B:card86(100) B:card86(100),A:card66(140/140) B:card140(210) B:card305(70) B:card305(70) B:card305(70),episode-124744053-replay.json
-124744113,57261105,Jonathan Axl,1,14,KYOGRE,KYOGRE,,,B:card721(150),A:card723(150/350) B:card722(90) B:card722(90) B:card722(90),episode-124744113-replay.json
-124744707,57270737,ninbyo02,1,18,FEZANDIP,LUCARIO,,,A:card678(120/340) B:card678(220),B:card743(140) B:card743(140) B:card305(70) B:card741(50) B:card305(70),episode-124744707-replay.json
-124745369,57270737,Bill Vlasak,0,15,FEZANDIP,?,,,A:card93(80/80) B:card90(100) B:card149(40) B:card90(100) B:card100(50) B:card149(40),B:card305(70) B:card305(70) B:card305(70),episode-124745369-replay.json
-124746028,57270737,Dnyanesh,0,13,FEZANDIP,KYOGRE,,,A:card723(340/350),A:card742(80/80),episode-124746028-replay.json
-124746715,57270737,Pham Quang Nghia,0,15,FEZANDIP,KYOGRE,,,A:card723(350/350) B:card723(350),B:card140(210) B:card743(140) B:card66(140) B:card305(70) B:card305(70),episode-124746715-replay.json
-124746800,57261105,Yash Dalal,0,15,KYOGRE,KYOGRE,,,A:card723(350/350) B:card723(350),,episode-124746800-replay.json
-124747407,57270737,Pawit Sahare,1,11,FEZANDIP,KYOGRE,,,A:card721(110/150),A:card743(10/140) B:card742(80) B:card741(50) B:card741(50) B:card305(70),episode-124747407-replay.json
-124748010,57270737,Morokoshi,0,22,FEZANDIP,MEOWTH+FEZANDIP,,card741|card741|card741|card741|card741|card741,A:card120(90/90) B:card132(90) B:card343(80) B:card140(210) B:card791(120),A:card743(140/140) B:card743(140) B:card140(170) B:card743(140) B:card66(140) B:card305(70),episode-124748010-replay.json
-124748019,57270737,AByT3s,1,19,FEZANDIP,KYOGRE,,,,A:card743(140/140) B:card140(210) B:card743(140) B:card743(140) B:card305(70) B:card305(70),episode-124748019-replay.json
-124748084,57270737,xiaogungfu,0,11,?,KYOGRE,,,A:card723(350/350),,episode-124748084-replay.json
-124748686,57270737,jazivxt,1,15,FEZANDIP,?,,,A:card117(30/210),A:card743(50/140) B:card140(210) B:card743(140) B:card743(140) B:card742(80) B:card305(70),episode-124748686-replay.json
-124749315,57270737,Paal,0,10,?,CLEFAIRY+FEZANDIP,card132|card132,,A:card743(140/140) B:card235(30) B:card743(140) B:card305(70) B:card742(80),A:card741(50/50),episode-124749315-replay.json
-124749396,57261105,praveen_02706,1,19,KYOGRE,FEZANDIP,,,A:card131(60/60) B:card122(30) B:card132(90) B:card140(210),A:card723(230/350) B:card723(350) B:card723(350),episode-124749396-replay.json
-124750139,57270737,Angel Francisco Aguayo Salazar,1,9,FEZANDIP,?,,,B:card781(280),A:card743(140/140) B:card140(210) B:card743(140) B:card743(140) B:card305(70) B:card741(50),episode-124750139-replay.json
-124750709,57270737,eastnix,0,5,?,KYOGRE,,,A:card721(150/150),A:card66(140/140),episode-124750709-replay.json
-124751394,57270737,Avik Das,1,12,FEZANDIP,KYOGRE,,,,A:card743(10/140) B:card742(80) B:card305(70) B:card305(70) B:card305(70),episode-124751394-replay.json
-124752056,57270737,Vinit,0,14,FEZANDIP,?,,,A:card381(310/330) B:card380(100) B:card1056(310),,episode-124752056-replay.json
-124752736,57270737,Riccardo Lo Bianco,0,9,?,?,,,A:card861(310/310) B:card861(310) B:card103(60) B:card103(60) B:card1002(200),,episode-124752736-replay.json
-124753396,57270737,Guenoir,1,16,FEZANDIP,LUCARIO+FEZANDIP,,card140|card140|card140,A:card1388(130/130) B:card140(210) B:card756(300) B:card678(340) B:card756(300),B:card743(110) B:card743(140) B:card743(140) B:card305(70) B:card305(70),episode-124753396-replay.json
-124753437,57270737,Jonathan Axl,0,13,FEZANDIP,KYOGRE,,,A:card723(310/350) B:card723(350) B:card722(90),B:card140(210) B:card66(140) B:card305(70) B:card305(70) B:card305(70),episode-124753437-replay.json
-124754049,57270737,Enerohafizh Syauqi Hariri,1,10,FEZANDIP,KYOGRE,,,A:card723(350/350),B:card743(140) B:card140(210) B:card743(140) B:card741(50) B:card305(70),episode-124754049-replay.json
-124754098,57261105,Anto Antony Selvaraj,0,14,KYOGRE,KYOGRE,,,A:card722(90/90) B:card722(90),A:card722(90/90),episode-124754098-replay.json
+124843777,57290256,PeterSharps,1,12,FEZANDIP,FEZANDIP,,,A:card743(140/140) B:card743(140) B:card140(210) B:card66(140) B:card66(140) B:card743(140),B:card305(70),episode-124843777-replay.json
+124843880,57290311,PeterSharps,1,13,KYOGRE,KYOGRE,,,A:card721(150/150),A:card723(350/350) B:card722(90) B:card722(90),episode-124843880-replay.json
+124844855,57290256,Mozune4002,0,9,FEZANDIP,?,,,A:card240(110/110) B:card90(100) B:card93(80) B:card93(80) B:card90(100) B:card89(70),B:card741(50) B:card305(70) B:card741(50),episode-124844855-replay.json
+124844856,57290311,Bros 360x,1,10,KYOGRE,?,card756|card756,,A:card756(300/300) B:card343(80) B:card344(70) B:card344(70) B:card756(300),A:card723(310/350),episode-124844856-replay.json
+124844886,57290311,Daniil Iakupov,1,22,KYOGRE,LUCARIO,,,B:card678(340) B:card674(150) B:card675(110) B:card676(110) B:card678(340),A:card723(350/350) B:card722(90) B:card722(90),episode-124844886-replay.json
+124844896,57290311,WolfeyVGC,0,14,KYOGRE,MEOWTH+FEZANDIP,,,A:card121(320/320) B:card121(280) B:card121(320) B:card65(60) B:card120(90),B:card723(350) B:card723(270),episode-124844896-replay.json
+124845423,57290256,Kentaro Totsuka,0,7,?,?,,,A:card93(80/80) B:card90(100) B:card89(70) B:card89(70) B:card149(40) B:card149(40),A:card305(70/70),episode-124845423-replay.json
+124845424,57290311,Ted Mothwake,1,12,KYOGRE,?,,,B:card117(250) B:card861(310) B:card414(120),A:card723(50/350) B:card721(150) B:card721(150) B:card722(90) B:card722(90),episode-124845424-replay.json
+124845953,57290256,Praneeth Yeddu,0,13,FEZANDIP,LATIAS+FEZANDIP,,,A:card756(300/300) B:card756(300) B:card96(210),A:card66(140/140),episode-124845953-replay.json
+124845954,57290311,Faaiz Hussain,0,12,KYOGRE,MEOWTH+FEZANDIP,,,B:card150(330) B:card1071(170) B:card709(110),A:card723(140/350),episode-124845954-replay.json
+124845967,57290311,Festival,0,13,KYOGRE,?,,,A:card93(80/80) B:card240(110) B:card90(100) B:card90(100) B:card90(100),B:card721(150),episode-124845967-replay.json
+124846514,57290256,Steveneg13,0,8,?,KYOGRE,,,A:card723(350/350) B:card722(90) B:card721(150),,episode-124846514-replay.json
+124846518,57290311,jazivxt,0,12,KYOGRE,?,,,A:card190(300/300) B:card74(70) B:card343(80) B:card666(160) B:card190(300) B:card117(210),A:card721(150/150) B:card723(350),episode-124846518-replay.json
+124847082,57290311,fttcotttton,1,13,KYOGRE,MEOWTH+FEZANDIP,,,,A:card723(210/350) B:card721(150),episode-124847082-replay.json
+124847084,57290256,inego,0,17,FEZANDIP,?,,,A:card121(320/320) B:card120(90) B:card119(70),A:card743(140/140) B:card140(210) B:card743(140) B:card66(140) B:card305(70) B:card305(70),episode-124847084-replay.json
+124847611,57290256,MarPez,1,13,FEZANDIP,KYOGRE,,,A:card723(350/350),A:card743(100/140) B:card743(140) B:card743(140) B:card140(210) B:card743(140) B:card305(70),episode-124847611-replay.json
+124847612,57290311,Majiro_ns,0,22,KYOGRE,FEZANDIP,card959|card959,,A:card743(140/140) B:card305(70),B:card723(350),episode-124847612-replay.json
+124847705,57290256,Tolga Kiremit,0,22,FEZANDIP,?,,,A:card345(120/150) B:card344(70) B:card1074(150) B:card344(70) B:card344(70),B:card742(80) B:card741(50) B:card66(140) B:card140(210) B:card66(140),episode-124847705-replay.json
+124848175,57290256,Red,1,15,FEZANDIP,?,,,B:card135(150) B:card41(140) B:card41(140) B:card1388(130) B:card135(150),A:card743(60/140) B:card743(60) B:card743(80) B:card140(210) B:card66(140) B:card66(140),episode-124848175-replay.json
+124848177,57290311,Igor Zharov,0,8,KYOGRE,?,,,A:card190(400/400) B:card666(160) B:card169(130) B:card57(100),B:card723(350) B:card722(90),episode-124848177-replay.json
+124848716,57290311,Noel Bobby,0,6,KYOGRE,?,,,A:card96(180/210) B:card96(210) B:card96(210) B:card96(210),A:card721(150/150),episode-124848716-replay.json

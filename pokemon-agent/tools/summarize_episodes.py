@@ -155,10 +155,16 @@ def main():
     load_names(outdir)
 
     sub_of = {}
-    for cf in sorted(glob.glob(os.path.join(outdir, "episodes_*.csv"))):
-        sub = os.path.basename(cf).split("_")[1].split(".")[0]
+    # only numeric submission ids, not episodes_table.csv
+    for cf in sorted(glob.glob(os.path.join(outdir, "episodes_[0-9]*.csv"))):
+        try:
+            sub = os.path.basename(cf).split("_")[1].split(".")[0]
+            int(sub)  # must be numeric
+        except Exception:
+            continue
         for row in csv.DictReader(open(cf)):
-            sub_of[row["id"]] = sub
+            if "id" in row and row["id"]:
+                sub_of[row["id"]] = sub
 
     rows = []
     skipped = []

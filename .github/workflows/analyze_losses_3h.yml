@@ -73,27 +73,79 @@ jobs:
           PY
           fi
           ls -lh pokemon-agent/agents/v7*.py
-      - name: Thorough test v70 vs v74 vs v75 on top30 and pool_v3
+      - name: Build new_losses decks from recent loss replays
+        run: |
+          cd pokemon-agent
+          python3 - << 'PY'
+          import json, glob, os, pathlib
+          from collections import Counter
+          outdir="decks/new_losses"
+          os.makedirs(outdir, exist_ok=True)
+          # extract full decks from loss replays (serial_map gives full 60)
+          for ep_path in glob.glob("kaggle_results/our_replays/loss_replays/episode-*.json"):
+              try:
+                  d=json.load(open(ep_path))
+                  teams=(d.get("info") or {}).get("TeamNames") or []
+                  if "PeterSharps" not in teams:
+                      continue
+                  our_idx=teams.index("PeterSharps")
+                  opp_idx=1-our_idx
+                  opp_name=teams[opp_idx].replace(" ","_").replace("/","_")[:40]
+                  ep_id=pathlib.Path(ep_path).stem.replace("episode-","").replace("-replay","")
+                  serial_map={}
+                  for s in d.get("steps") or []:
+                      for ag in s:
+                          o=ag.get("observation") or {}
+                          for e in o.get("logs") or []:
+                              pi=e.get("playerIndex"); ser=e.get("serial"); cid=e.get("cardId")
+                              if pi is not None and ser is not None and cid is not None:
+                                  serial_map[(pi,int(ser))]=int(cid)
+                  opp=[v for (pi,_),v in serial_map.items() if pi==opp_idx]
+                  if len(opp)<20:
+                      continue
+                  if len(opp)<60:
+                      cnt=Counter(opp)
+                      energies=[c for c in opp if c<=8]
+                      most=Counter(energies).most_common(1)[0][0] if energies else 1
+                      opp=opp+[most]*(60-len(opp))
+                  opp=opp[:60]
+                  out=f"{outdir}/{ep_id}_{opp_name}.csv"
+                  open(out,"w").write(",".join(map(str,opp)))
+                  print(f"{ep_id} {opp_name} {len(opp)}")
+              except Exception as ex:
+                  print(f"skip {ep_path} {ex}")
+          print("new_losses count", len(list(pathlib.Path(outdir).glob("*.csv"))))
+          PY
+      - name: Thorough test v70 vs v74 vs v75 on top30, pool_v3, new_losses
         run: |
           pip install --quiet kaggle-environments
           cd pokemon-agent
           echo "=== v70 pool_v3 20g ===" | tee /tmp/compare.txt
-          python tools/gauntlet_ffi.py --agent agents/v70_alakazam_endgame.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          python tools/gauntlet_ffi.py --agent agents/v70_alakazam_endgame.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
           echo "=== v74 pool_v3 20g ===" | tee -a /tmp/compare.txt
-          python tools/gauntlet_ffi.py --agent agents/v74_alakazam_resistant.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          python tools/gauntlet_ffi.py --agent agents/v74_alakazam_resistant.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
           echo "=== v75 pool_v3 20g ===" | tee -a /tmp/compare.txt
-          python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
           echo "=== v70 top30 20g ===" | tee -a /tmp/compare.txt
-          python tools/gauntlet_ffi.py --agent agents/v70_alakazam_endgame.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          python tools/gauntlet_ffi.py --agent agents/v70_alakazam_endgame.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
           echo "=== v74 top30 20g ===" | tee -a /tmp/compare.txt
-          python tools/gauntlet_ffi.py --agent agents/v74_alakazam_resistant.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          python tools/gauntlet_ffi.py --agent agents/v74_alakazam_resistant.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
           echo "" | tee -a /tmp/compare.txt
           echo "=== v75 top30 10g (quick) ===" | tee -a /tmp/compare.txt
-          python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 10 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 20
+          python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/top30_live --games 10 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 25
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v70 new_losses 20g (recent wipe losses) ===" | tee -a /tmp/compare.txt
+          python tools/gauntlet_ffi.py --agent agents/v70_alakazam_endgame.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 30
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v74 new_losses 20g ===" | tee -a /tmp/compare.txt
+          python tools/gauntlet_ffi.py --agent agents/v74_alakazam_resistant.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 30
+          echo "" | tee -a /tmp/compare.txt
+          echo "=== v75 new_losses 20g ===" | tee -a /tmp/compare.txt
+          python tools/gauntlet_ffi.py --agent agents/v75_alakazam_resistant_final.py --our-deck decks/v66_alakazam_simple.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tee -a /tmp/compare.txt | tail -n 30
           cat /tmp/compare.txt
           cp /tmp/compare.txt kaggle_results/our_replays/compare_v70_v74_v75.txt
       - name: Write recommendation (NO auto-submit)
