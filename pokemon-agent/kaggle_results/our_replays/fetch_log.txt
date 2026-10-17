@@ -2,30 +2,17 @@ Fetching replays into pokemon-agent/kaggle_results/our_replays
 Found 32 own submissions
 
 === Submission 57290311 (ptcg_v63_super_fix_a450.tar.gz) ===
-  episodes listed: 10
-full dump 57290311: 10 episodes
-  full episode metadata dumped: 10
-  downloaded replay 124847612
-  downloaded replay 124847082
-  downloaded replay 124846518
-  downloaded replay 124845967
-  downloaded replay 124845954
-  downloaded replay 124845424
-  downloaded replay 124844896
+  episodes listed: 11
+full dump 57290311: 11 episodes
+  full episode metadata dumped: 11
+  downloaded replay 124848177
 
 === Submission 57290256 (v70g_alakazam_endgame_2am_final_tokenfix.tar.gz) ===
   episodes listed: 8
 full dump 57290256: 8 episodes
   full episode metadata dumped: 8
-  downloaded replay 124847705
-  downloaded replay 124847611
-  downloaded replay 124847084
-  downloaded replay 124846514
-  downloaded replay 124845953
-  downloaded replay 124845423
-  downloaded replay 124844855
 
-Total replay JSONs on disk: 65
+Total replay JSONs on disk: 66
 Traceback (most recent call last):
   File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/fetch_replays.py", line 395, in <module>
     raise SystemExit(main())
