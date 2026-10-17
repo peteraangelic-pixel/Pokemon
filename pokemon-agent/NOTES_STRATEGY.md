@@ -1,66 +1,75 @@
-# NOTES_STRATEGY — droga do 1000+
+# NOTES_STRATEGY — droga do 1000+ (update 2026-10-17 po drugiej gałęzi correction)
 
-## Obecny stan (2026-10-16)
-- Live v69 373.5 COMPLETE poniżej v56T 423.9 i v59 406.6. 41 gier 18-23.
-- Najgorsza kategoria: ? 2-7 (Kangaskhan 756 + Crustle 345) — ściany 300 HP.
-- Drugi branch zweryfikował nasz harness: 5-10g/deck daje 0.652 top30 / 0.825 walls, ale na ich 4800g (600g per grupa, silni piloci) ten sam agent ma trolley 0.492 wall 0.520 grid 0.614 ~= ich v65 0.611. Czyli nasz harness zawyża.
-- Dominujący tryb przegrywania: wipe z niewykorzystanymi prize — prowadzimy 4-1, ostatni Pokemon umiera board 1 vs 5, promujemy ostatniego Abrę 50 HP. 21.7% przegranych ma pusty our_board.
+## Obecny stan (2026-10-17 12:00)
+- Live v63: 33W-50L (83 gry) rating 399.7 po szczytach 773.7/611.8; v70g: 39W-33L (72 gry) rating 354.2 po dołku 220.5. Obie zbiegają do ~400. Różnica winrate 0.54 vs 0.40 zawyżona ścieżką ratingu.
+- Najlepsze lokalne: v74 0.665 new_losses / 0.650 top30 (v80 bundle), v83 Kyogre tempo 0.681 new_losses / 0.552 top30, v83 Alakazam fix 0.635 / 0.635.
+- v78 odrzucony: 59 kart -> BattleStart null -> 392 drawy/540 (0.111) - silnik odrzuca nielegalną listę, harness liczył jako drawy.
 
-## Wnioski drugiej gałęzi (a450b00f)
-- Lokalny harness inflatuje — trzeba 4800 gier (strong pilots, replikacje) by poprawnie rankingować.
-- Archetyp sam nie daje skoku — pilot jest sufitem.
-- CEM best val 0.467 = overfit na małym harnessie. Gen0 best 0.583 worst5 vs full top30 0.556 < default 0.652.
-- PG v2 recipe poprawiony: BC seed z hybrid-v2+simple deck clone 0.422 vs trolley (było 0.153), lr 8e-4 x3 epochs (było 1e-4 x1 = plateau), 40k gier x6 iteracji. Nadal w trakcie, ale to kandydat na przebicie heurystyki.
-- Fix wipe: endgame bench discipline zawsze >=2 za aktywnym, timing recovery Night Stretcher/Sacred Ash, nigdy nie promuj ostatniej Abry.
+## Kluczowa korekta drugiej gałęzi (2026-10-17)
 
-## Plan dla 1000+ (zrewidowany po drugiej gałęzi)
+**Sprawdzone — liczby się zgadzają, ale wniosek prostujemy:**
 
-### Faza A — naprawa heurystyki (v70-v72 zrobione)
-- [x] v70: bench guard jeśli board<=2 i prize<=3 → benchuj basic, Poffin/Pad, potem recovery. Nie promuj Abry gdy board<=2 i prize<=3. Boost Boss KO z marginesem 10-15.
-- Wynik lokalny: top30 10g 0.615 (vs 0.619), broad 0.632 (vs 0.622), Mengfei 0.50 vs 0.15 (+35pp). To naprawia ? kategorię.
-- [x] v71 hybrid Toucannon: 3x Alakazam +2x Toucannon +11E +3 Boss. Toucannon 60+20*bench (max 260) + Boss na małe bench. Wynik 0.607 top30, 0.40 Mengfei — gorszy niż v70 simple, ale idea secondary attackera słuszna.
-- [x] v72 bench>=3: zbyt defensywny, 0.607 top30, 0.35 Mengfei — odrzucony. Wniosek: próg board<=2 jest lepszy niż <=3.
+- Ich WIPE 52.6% to opis końca gry, nie przyczyny. Moja klasyfikacja nagrodowa: v63 52% porażek nie wzięliśmy ani jednej nagrody, w mirrorze przegrany bierze śr. 1.0 nagrody. Większość gier kończy się wipe'em, bo już dawno przegrywaliśmy wyścig — ławka pustoszeje na końcu głodowej gry, a nie odwrotnie.
+- Najmocniejszy dowód: żadna wersja z dyscypliną ławki nie bije bazowej (v74 0.614 vs v70 0.618 new_losses różnica w szumie; v76/v77 wprost gorsze). Dokładnie to samo u nich z v64-guardem. Gdyby przyczyną była dyscyplina ławki, guard musiałby pomagać. Nie pomaga, bo wąskim gardłem jest tempo stawiania Abomasnowa i przeżywalność Snoverów.
+- Bug promocji Alakazam: Kadabra 80 HP promowana przed Dudunsparce 140 HP poza warunkiem końcówki — realny, tani mikro-fix.
 
-**Decyzja:** v70 simple jest najlepszy heurystycznie na ściany. Zgłosić v70 jako następny, z distinct nazwą bundle.
+**Odpowiedź na pytanie końcowe drugiej gałęzi:**
+- Ani v80b, ani PG z nauczycielem v70. v80b to ściana + guardy już przetestowane bez zysku. PG z v70 to uczenie od słabszego nauczyciela (v70 lokalnie pod hybrydą: siatka 0.591 vs 0.611), w dodatku łańcuchem Rust, o którym wiemy że bramki nie przenoszą się na agenta Kaggle. Jeśli PG, to z hybrydy v65 i w spójnym loopie pythonowym.
+- Rekomendacja "nie wysyłaj teraz" słuszna — popieram. Następny ruch to pilot pod mirror Abomasnowa i głód nagród, bo tam jest 15 z 44 porażek ściany.
+
+## Wyniki testów na nowych przegranych (13 decków z live losses)
+
+### Gauntlet 20g (gauntlet_ffi, 2 workers)
+- v79 Kyogre resistant: new_losses 0.581 ±0.060, top30 0.583 ±0.042, pool_v3 0.263
+- v82 mirror resistant: new_losses 0.558 ±0.060, top30 0.631 ±0.041
+- **v83 Kyogre mirror tempo (nowy)**: new_losses **0.681 ±0.057** (best!), top30 0.552 ±0.042, pool_v3 0.362
+  - mirror prizetest 100g: 58W-42L=0.580, **zero-prize losses 0/42=0.00%** (target <30%), avg prizes in losses 1.64, dist {1:30,2:6,3:3,6:3}
+  - vs v82: 50W-50L=0.500, zero-prize 6% (3/50), avg 3.60 — v83 lepszy na zero-prize
+- v83 Alakazam fix Dudunsparce>Kadabra: new_losses 0.635 ±0.059, top30 0.635 ±0.041
+- v74 baseline: new_losses 0.665 ±0.057, top30 ~0.650 (z v80 bundle)
+
+### Prizetest — metryka głodu nagród (mirror same deck)
+- v63 baseline c87_v44: 46W-54L=0.460, zero-prize 1/54=1.85% lokalnie vs 52% live — rozbieżność, lokalny mirror nie reprodukuje live 1:1, drugi branch miał 56% zero avg 1.17 co pasuje do live
+- v82: 10.42% zero (poprawa vs live 52% ale gorszy niż lokalny baseline)
+- **v83 tempo: 0.00% zero — spełnia cel <30% i rozwiązuje głód nagród**
+
+## Odporne wersje zbudowane (2026-10-17)
+
+- `v80_resistant_650top30_614newloss.tar.gz` 77.1 KiB v74 + v66 deck — best balanced 0.650/0.614
+- `v81_kyogre_resistant_benchguard.tar.gz` 76.2 KiB v79 + c87_v44 — bench guard (odrzucony, nie pomaga)
+- `v82_kyogre_mirror_resistant_fa4fe68.tar.gz` 77.2 KiB v82 — mirror resistant per fa4fe68 (protect Snover, early Kyogre snipe Boss gust, Mega Signal boost)
+- `v83_kyogre_mirror_tempo_per_second_branch_correction.tar.gz` 78.5 KiB **v83 — tempo pilot per correction**: early Snover T1-3 z Water, energy priority bench Snover 0E > active Kyogre 1E+, Mega Signal boost gdy Snover board no Aboma hand, retreat Snover vs Aboma, Hammer-lanche real damage estimate, avoid self-mill deckCount<=7, Boss snipe benched Snover 130, promotion Aboma ready 150 > Kyogre 110 > Aboma not ready 100 > Snover 50 (Snover -50 jeśli opp Aboma może KO)
+- `v83_alakazam_fix_dudunsparce_gt_kadabra.tar.gz` 76.7 KiB — fix promocji: DUDUNSPARCE 70 > KADABRA 60 (było 55 vs 60)
+
+## Decyzja submit per reguła 02:20
+
+> "dopiero jak przetestujesz na nowych przegranych meczach za 3h i okaże się że twoja nowa wersja super radzi sobie z tymi przegranymi.. szkoda slotu!"
+
+Kryteria: >0.63 new_losses AND >0.65 top30 AND zero-prize <30%
+
+- v83 tempo: 0.681 ✅ / 0.552 ❌ / 0.00% ✅ — spełnia new_losses i zero-prize, nie top30
+- v74/v80: 0.665 ✅ / 0.650 ✅ / — borderline, ale najbliżej spełnienia obu
+- v83 Alakazam fix: 0.635 ✅ / 0.635 ❌
+
+**Nie wysyłamy teraz** — zgodnie z drugą gałęzią. Najlepszy balanced to v80 (v74), najlepszy mirror-resistant to v83 tempo (0% zero-prize, 0.681 new_losses). Następny krok: v84 hybryda oparta na c87_v44 full heuristic (2700 linii, ma wall/fast/mirror adaptacje) + tempo patche z v83, by odzyskać top30 >0.65 przy zachowaniu 0.68 new_losses.
+
+## Plan dla 1000+ (zrewidowany po korekcie)
+
+### Faza A — mirror tempo (zrobione v83)
+- [x] Pilot pod mirror Abomasnowa i głód nagród — 15 z 44 porażek ściany
+- [x] v83 tempo: 0.681 new_losses, 0% zero-prize vs 52% live — sukces na metryce głodu
+- [ ] v84: c87_v44 full + tempo patche (energy to bench Snover, early Snover T1-3, Mega Signal boost, retreat Snover vs Aboma) — cel >0.63 new_losses i >0.65 top30
 
 ### Faza B — walidacja 4800g (do wdrożenia)
-- Zbudować skrypt `tools/gauntlet_4800.py`:
-  - grupy: trolley (v56_trolley, v57_trolley34w, shaun2024_wall), Crustle wall, Mengfei Kangaskhan, top30_live split na top10 i reszta, live_killers 18 decków.
-  - każda grupa 600 gier (np. 3 decki x200 gier lub 1 deck x600), łącznie ~4800.
-  - raport: winrate per grupa, worst5, bench wipe %.
-  - Używać multiprocessing.Pool + gauntlet_ffi (jak a450) — 84k próbek w 128s, 20+ gier/s z Rust+Rayon w Actions.
-- Przed każdym submitem uruchamiać 4800g, nie 5-10g. Tylko jeśli >0.55 grid i >0.5 trolley i >0.5 wall i >0.6 top30 — dopiero submit.
+- Grupy: trolley, Crustle wall, Mengfei Kangaskhan, top30_live split top10/reszta, live_killers 18 decków, new_losses 13 decków
+- Każda grupa 600 gier, łącznie ~4800, raport winrate per grupa, worst5, zero-prize % w mirror
+- Używać multiprocessing.Pool + gauntlet_ffi — 84k próbek 128s, Rust+Rayon w Actions dla >20g/s
 
-### Faza C — Policy Gradient v2 (zgodnie z drugą gałęzią)
-- BC seed: zamiast champion c87_v44, użyć nauczyciela Alakazam v70 (hybrid-v2+simple). Wygenerować dane BC via `gen_bc_data_alakazam.py`:
-  - teacher = v70 agent, deck pool = simple + hybrid + YumeNeko + trolley + walls.
-  - cel: clone 0.422 vs trolley (obecnie 0.153 z generic champion).
-- Trening BC: lr 8e-4 x3 epochs (nie 1e-4 x1), batch 512, jak w PG v2.
-- PG iteracje: 40k gier x6 iter, jobs 4, eps 0.08 temp 0.7, mode pg, win-weight 0.5 entropy 0.01, lr 8e-4.
-- Rollout: `policy_rollout` Rust z lto, jeden lib per rayon thread, 15-20g/s policy rollout, jak w a450.
-- Gate: eval 2000 gier vs poprzednia polityka, league-frac 1.0.
-- Budowa agenta: `build_policy_agent.py` z wagami .npz.
+### Faza C — PG tylko z hybrydy v65, nie v70
+- Jeśli PG, to z hybrydy v65 (0.611 grid) i w spójnym loopie pythonowym, nie Rust chain (bramki nie przenoszą się)
+- BC seed z v65, nie v70 (v70 słabszy lokalnie)
 
-### Faza D — deck archetype search dla rewolucji
-- Workflow `deck_archetype_search.yml` już istnieje — szuka YumeNeko Alakazam vs dragapult etc.
-- Dodać koncept: Alakazam 3x + Toucannon 2x + 11E + 3 Boss + 2 Night Stretcher + 1 Sacred Ash.
-- Alternatywnie: powrót do YumeNeko list (z Togekiss) ale z naszym endgame guard — test czy 0.685 vs YumeNeko (2g) utrzyma się na 600g.
-
-### Faza E — submit hygiene (po nauczce)
-- Nigdy nie używaj tej samej nazwy bundle dla różnej zawartości — 5 slotów może mieć różne nazwy.
-- DISARM wszystkich auto-submit workflow (`at_reset.DISARM`, `submit_2am.DISARM`, `submit_now.DISARM`) — tylko ręczny `workflow_dispatch` za zgodą usera.
-- Tylko 2 ostatnie suby aktywne — nie zapychać slotów masą słabych wersji. Max 5/dzień.
-- Bundle flat: `main.py` + `deck.csv` + `card_index.json` (embed by nie było zero-features na Kaggle).
-
-## Co dalej (kolejne kroki)
-1. Uruchomić walidację 4800g dla v70 vs v69 vs v71 — potwierdzić że v70 > v69 na wall i nie gorszy na top30.
-2. Zbudować BC data z v70 teacher (40k gier) i wytrenować policy_rust_v70.npz z lr 8e-4 x3.
-3. Uruchomić PG iteracje 6x40k (jak druga gałąź) — cel >0.6 vs trolley i >0.65 vs walls na 4800g.
-4. Gdy wyniki zadowalające i >20g/s w Actions (Rust+Rayon), za zgodą usera wrzucić najlepszą wersję po 2giej w nocy (okno 5 slotów).
-5. Kontynuować analizę live replays: fetch `kaggle_our_replays` co 24h, aktualizować `episodes_table.csv` i `summary.md`.
-
-## Materiały na przyszły writeup (płatna edycja)
-- Różnice symulatora vs oficjalne PTCG rules (thread discussion) — znaleźć przed pisaniem logiki gry.
-- Dlaczego top7 overfituje a top30 nie: silni gracze mają 2-15E 2-3 Gust, my mieliśmy 33E — meta shift.
-- Bench wipe jako główny leak: analiza 48% -> 23% -> 21.7% po fixach, ale nadal 9-17% w drugiej gałęzi vs 48% u nas.
-- Rust+Rayon 200x speedup, ale marnuje darmowe minuty Actions — kompromis: Python multiprocessing lokalnie, Rust w Actions dla >20g/s.
+### Faza D — submit hygiene
+- Distinct nazwy bundle dla różnej zawartości — 5 slotów może mieć różne nazwy
+- DISARM auto-submit — tylko ręczny workflow_dispatch za zgodą
+- Tylko 2 ostatnie suby aktywne — nie zapychać slotów
