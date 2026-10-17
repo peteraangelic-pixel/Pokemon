@@ -1,103 +1,72 @@
-=== v84 champion tempo 2 ideas vs new_losses 20g (ffi) ===
+=== v83 vs base champion 400g PYTHON (second branch claim 81% hunger) ===
+v83 vs base 400g: 188W-212L-0D = 0.470 WR
+  zero-prize losses 0/212=0.00%
+  avg prizes 1.98
+v84 2ideas vs base 400g: 191W-209L-0D = 0.477 WR
+  zero-prize losses 0/209=0.00%
+  avg prizes 2.93
+base mirror vs base 400g: 202W-198L-0D = 0.505 WR
+  zero-prize losses 0/198=0.00%
+  avg prizes 2.98
+
+=== v84 champion tempo vs new_losses 20g ffi (inflated, for ref) ===
 124847705_Tolga Kiremit                    20- 0- 0  1.000
 124847612_Majiro_ns                        20- 0- 0  1.000
 124847084_inego                            20- 0- 0  1.000
-124845967_Festival                         20- 0- 0  1.000
 124845953_Praneeth Yeddu                   20- 0- 0  1.000
 124845423_Kentaro Totsuka                  19- 1- 0  0.950
-124844855_Mozune4002                       19- 1- 0  0.950
-124844896_WolfeyVGC                        18- 2- 0  0.900
-124848177_Igor Zharov                      14- 6- 0  0.700
-124846514_Steveneg13                       11- 9- 0  0.550
-124845954_Faaiz Hussain                    11- 9- 0  0.550
-124846518_jazivxt                           9-11- 0  0.450
-124848716_Noel Bobby                        7-13- 0  0.350
-
-TOTAL 208W-52L-0D = 0.800 ±0.049 (95% CI)  (13 decks x 20 games, 2s)
-  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
-worst 5:
-  124848716_Noel Bobby                       7-13-0  0.350
-  124846518_jazivxt                          9-11-0  0.450
-  124845954_Faaiz Hussain                    11-9-0  0.550
-  124846514_Steveneg13                       11-9-0  0.550
-  124848177_Igor Zharov                      14-6-0  0.700
-
-=== v84 vs top30 20g ===
-YumeNeko                                   20- 0- 0  1.000
-No_Free_MIST_Energy                        20- 0- 0  1.000
-Majiro_ns                                  20- 0- 0  1.000
-Kentaro_Totsuka                            20- 0- 0  1.000
-バーベナヘレナでコンボ決めたい連合                          19- 1- 0  0.950
-sue124                                     19- 1- 0  0.950
-Zedan_Soorya                               19- 1- 0  0.950
-Raja_Biswas                                19- 1- 0  0.950
-Colton_Martin                              19- 1- 0  0.950
-ANMOL_GARG                                 19- 1- 0  0.950
-Stephen_Schott                             18- 2- 0  0.900
-Mathieu_W                                  18- 2- 0  0.900
-KyryloBakumenko                            18- 2- 0  0.900
-Darren_Sheehan                             18- 2- 0  0.900
-Chonghao_Peng                              18- 2- 0  0.900
-Akmal_Xodarev__Busya_PRIME_                18- 2- 0  0.900
-やる気元気ミワハルキ_2nd_ver_                        18- 0- 2  0.900
-yu_kuo14                                   17- 3- 0  0.850
-leo_turing                                 17- 3- 0  0.850
-Xinyu_Li                                   17- 3- 0  0.850
-OceanMix                                   17- 3- 0  0.850
-Mengfei_Li                                 17- 3- 0  0.850
-Leon_Liu                                   17- 3- 0  0.850
-Cristobal_Tudela                           17- 3- 0  0.850
-dajun666                                   16- 4- 0  0.800
-JerryChen                                  16- 4- 0  0.800
-Bill_Vlasak                                16- 4- 0  0.800
-
-TOTAL 487W-51L-2D = 0.902 ±0.025 (95% CI)  (27 decks x 20 games, 6s)
-  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
-worst 5:
-  Bill_Vlasak                                16-4-0  0.800
-  JerryChen                                  16-4-0  0.800
-  dajun666                                   16-4-0  0.800
-  Cristobal_Tudela                           17-3-0  0.850
-  Leon_Liu                                   17-3-0  0.850
-
-=== v84 mirror prizetest 400g PYTHON (real engine) ===
-Mirror 400 games: 194W-206L-0D = 0.485
-Zero-prize losses: 0/206 = 0.00%  (target <30%)
-Avg prizes taken in losses: 4.45 (target >2.0)
-Prizes distribution in losses: {1: 21, 2: 21, 3: 24, 4: 22, 5: 15, 6: 103}
-
-=== v83 Kyogre tempo fixed deck mirror prizetest 400g PYTHON ===
-Mirror 400 games: 219W-181L-0D = 0.547
-Zero-prize losses: 0/181 = 0.00%  (target <30%)
-Avg prizes taken in losses: 1.92 (target >2.0)
-Prizes distribution in losses: {1: 122, 2: 25, 3: 4, 4: 7, 5: 3, 6: 20}
-
-=== c87_v44 baseline mirror prizetest 400g PYTHON ===
-Mirror 400 games: 209W-191L-0D = 0.522
-Zero-prize losses: 0/191 = 0.00%  (target <30%)
-Avg prizes taken in losses: 4.38 (target >2.0)
-Prizes distribution in losses: {1: 16, 2: 30, 3: 19, 4: 16, 5: 21, 6: 89}
-
-=== v74 Alakazam resistant vs new_losses 20g ===
-124845423_Kentaro Totsuka                  16- 4- 0  0.800
-124847612_Majiro_ns                        15- 5- 0  0.750
-124844896_WolfeyVGC                        15- 5- 0  0.750
-124844855_Mozune4002                       15- 5- 0  0.750
-124848716_Noel Bobby                       14- 6- 0  0.700
-124846514_Steveneg13                       14- 6- 0  0.700
-124848177_Igor Zharov                      13- 7- 0  0.650
-124847084_inego                            12- 8- 0  0.600
-124847705_Tolga Kiremit                    11- 9- 0  0.550
-124845967_Festival                         11- 9- 0  0.550
-124845953_Praneeth Yeddu                   11- 9- 0  0.550
+124844896_WolfeyVGC                        19- 1- 0  0.950
+124845967_Festival                         18- 2- 0  0.900
+124844855_Mozune4002                       18- 2- 0  0.900
+124848716_Noel Bobby                       12- 8- 0  0.600
+124848177_Igor Zharov                      11- 9- 0  0.550
 124846518_jazivxt                          10-10- 0  0.500
 124845954_Faaiz Hussain                     9-11- 0  0.450
+124846514_Steveneg13                        8-12- 0  0.400
 
-TOTAL 166W-94L-0D = 0.638 ±0.058 (95% CI)  (13 decks x 20 games, 2s)
+TOTAL 204W-56L-0D = 0.785 ±0.050 (95% CI)  (13 decks x 20 games, 3s)
   600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
 worst 5:
+  124846514_Steveneg13                       8-12-0  0.400
   124845954_Faaiz Hussain                    9-11-0  0.450
   124846518_jazivxt                          10-10-0  0.500
-  124845953_Praneeth Yeddu                   11-9-0  0.550
-  124845967_Festival                         11-9-0  0.550
-  124847705_Tolga Kiremit                    11-9-0  0.550
+  124848177_Igor Zharov                      11-9-0  0.550
+  124848716_Noel Bobby                       12-8-0  0.600
+
+=== v84 vs top30 20g ffi ===
+バーベナヘレナでコンボ決めたい連合                          20- 0- 0  1.000
+sue124                                     20- 0- 0  1.000
+YumeNeko                                   20- 0- 0  1.000
+Mathieu_W                                  20- 0- 0  1.000
+Kentaro_Totsuka                            20- 0- 0  1.000
+Cristobal_Tudela                           20- 0- 0  1.000
+Colton_Martin                              20- 0- 0  1.000
+Xinyu_Li                                   19- 1- 0  0.950
+OceanMix                                   19- 1- 0  0.950
+Majiro_ns                                  19- 1- 0  0.950
+JerryChen                                  19- 1- 0  0.950
+Darren_Sheehan                             19- 1- 0  0.950
+Akmal_Xodarev__Busya_PRIME_                19- 1- 0  0.950
+yu_kuo14                                   18- 2- 0  0.900
+No_Free_MIST_Energy                        18- 1- 1  0.900
+leo_turing                                 17- 3- 0  0.850
+dajun666                                   17- 3- 0  0.850
+Zedan_Soorya                               17- 3- 0  0.850
+Raja_Biswas                                17- 3- 0  0.850
+Mengfei_Li                                 17- 3- 0  0.850
+Leon_Liu                                   17- 3- 0  0.850
+Chonghao_Peng                              17- 3- 0  0.850
+やる気元気ミワハルキ_2nd_ver_                        17- 0- 3  0.850
+Stephen_Schott                             16- 4- 0  0.800
+KyryloBakumenko                            16- 4- 0  0.800
+ANMOL_GARG                                 15- 5- 0  0.750
+Bill_Vlasak                                14- 6- 0  0.700
+
+TOTAL 487W-49L-4D = 0.902 ±0.025 (95% CI)  (27 decks x 20 games, 9s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Bill_Vlasak                                14-6-0  0.700
+  ANMOL_GARG                                 15-5-0  0.750
+  KyryloBakumenko                            16-4-0  0.800
+  Stephen_Schott                             16-4-0  0.800
+  やる気元気ミワハルキ_2nd_ver_                        17-0-3  0.850
