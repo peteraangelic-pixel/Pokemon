@@ -1,25 +1,5 @@
 [
   {
-    "episode_id": "124844855",
-    "reason": "EARLY_LOSS_T9_?",
-    "opp": "Mozune4002",
-    "arch": "?",
-    "turn": 9,
-    "our_board": [
-      "B:card741(50)",
-      "B:card305(70)",
-      "B:card741(50)"
-    ],
-    "opp_board": [
-      "A:card240(110/110)",
-      "B:card90(100)",
-      "B:card93(80)",
-      "B:card93(80)",
-      "B:card90(100)",
-      "B:card89(70)"
-    ]
-  },
-  {
     "episode_id": "124844896",
     "reason": "RISK_2_LOW",
     "opp": "WolfeyVGC",
@@ -35,39 +15,6 @@
       "B:card121(320)",
       "B:card65(60)",
       "B:card120(90)"
-    ]
-  },
-  {
-    "episode_id": "124845423",
-    "reason": "WIPE_1_SINGLE",
-    "opp": "Kentaro Totsuka",
-    "arch": "?",
-    "turn": 7,
-    "our_board": [
-      "A:card305(70/70)"
-    ],
-    "opp_board": [
-      "A:card93(80/80)",
-      "B:card90(100)",
-      "B:card89(70)",
-      "B:card89(70)",
-      "B:card149(40)",
-      "B:card149(40)"
-    ]
-  },
-  {
-    "episode_id": "124845953",
-    "reason": "WIPE_1_SINGLE",
-    "opp": "Praneeth Yeddu",
-    "arch": "LATIAS+FEZANDIP",
-    "turn": 13,
-    "our_board": [
-      "A:card66(140/140)"
-    ],
-    "opp_board": [
-      "A:card756(300/300)",
-      "B:card756(300)",
-      "B:card96(210)"
     ]
   },
   {
@@ -1281,6 +1228,37 @@
     "opp_board": [
       "A:card723(310/350)",
       "B:card723(350)"
+    ]
+  },
+  {
+    "episode_id": "124883369",
+    "reason": "WIPE_1_SINGLE",
+    "opp": "eastnix",
+    "arch": "KYOGRE",
+    "turn": 9,
+    "our_board": [
+      "A:card721(150/150)"
+    ],
+    "opp_board": [
+      "A:card723(350/350)",
+      "B:card723(270)"
+    ]
+  },
+  {
+    "episode_id": "124886128",
+    "reason": "EARLY_LOSS_T9_KYOGRE",
+    "opp": "Abu Ruhan Mahamud",
+    "arch": "KYOGRE",
+    "turn": 9,
+    "our_board": [
+      "A:card723(150/350)",
+      "B:card722(90)",
+      "B:card721(150)"
+    ],
+    "opp_board": [
+      "A:card723(310/350)",
+      "B:card721(150)",
+      "B:card721(150)"
     ]
   }
 ]

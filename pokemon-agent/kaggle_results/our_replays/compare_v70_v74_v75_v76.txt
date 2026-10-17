@@ -1,0 +1,763 @@
+=== v70 pool_v3 20g ===
+v57_trolley34w                             12- 8- 0  0.600
+shaun2024_wall                             11- 9- 0  0.550
+Mengfei_Li                                 10-10- 0  0.500
+v56_trolley                                 8-12- 0  0.400
+
+TOTAL 41W-39L-0D = 0.512 ±0.110 (95% CI)  (4 decks x 20 games, 1s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  v56_trolley                                8-12-0  0.400
+  Mengfei_Li                                 10-10-0  0.500
+  shaun2024_wall                             11-9-0  0.550
+  v57_trolley34w                             12-8-0  0.600
+
+=== v74 pool_v3 20g ===
+v56_trolley                                12- 8- 0  0.600
+shaun2024_wall                             11- 9- 0  0.550
+Mengfei_Li                                 11- 9- 0  0.550
+v57_trolley34w                              9-11- 0  0.450
+
+TOTAL 43W-37L-0D = 0.537 ±0.109 (95% CI)  (4 decks x 20 games, 1s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  v57_trolley34w                             9-11-0  0.450
+  Mengfei_Li                                 11-9-0  0.550
+  shaun2024_wall                             11-9-0  0.550
+  v56_trolley                                12-8-0  0.600
+
+=== v75 pool_v3 20g ===
+shaun2024_wall                             15- 5- 0  0.750
+v56_trolley                                10-10- 0  0.500
+v57_trolley34w                              8-12- 0  0.400
+Mengfei_Li                                  8-12- 0  0.400
+
+TOTAL 41W-39L-0D = 0.512 ±0.110 (95% CI)  (4 decks x 20 games, 1s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Mengfei_Li                                 8-12-0  0.400
+  v57_trolley34w                             8-12-0  0.400
+  v56_trolley                                10-10-0  0.500
+  shaun2024_wall                             15-5-0  0.750
+
+=== v76 pool_v3 20g ===
+v57_trolley34w                             11- 9- 0  0.550
+shaun2024_wall                             11- 9- 0  0.550
+v56_trolley                                10-10- 0  0.500
+Mengfei_Li                                  6-14- 0  0.300
+
+TOTAL 38W-42L-0D = 0.475 ±0.109 (95% CI)  (4 decks x 20 games, 1s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Mengfei_Li                                 6-14-0  0.300
+  v56_trolley                                10-10-0  0.500
+  shaun2024_wall                             11-9-0  0.550
+  v57_trolley34w                             11-9-0  0.550
+
+=== v70 top30 20g ===
+No_Free_MIST_Energy                        18- 2- 0  0.900
+バーベナヘレナでコンボ決めたい連合                          17- 3- 0  0.850
+KyryloBakumenko                            17- 3- 0  0.850
+Mathieu_W                                  16- 4- 0  0.800
+Cristobal_Tudela                           16- 4- 0  0.800
+やる気元気ミワハルキ_2nd_ver_                        15- 5- 0  0.750
+Leon_Liu                                   15- 5- 0  0.750
+Colton_Martin                              15- 5- 0  0.750
+Chonghao_Peng                              15- 5- 0  0.750
+Akmal_Xodarev__Busya_PRIME_                15- 5- 0  0.750
+YumeNeko                                   14- 6- 0  0.700
+Xinyu_Li                                   14- 6- 0  0.700
+Raja_Biswas                                14- 6- 0  0.700
+OceanMix                                   14- 6- 0  0.700
+JerryChen                                  14- 6- 0  0.700
+dajun666                                   13- 7- 0  0.650
+Zedan_Soorya                               13- 7- 0  0.650
+Bill_Vlasak                                13- 7- 0  0.650
+ANMOL_GARG                                 13- 7- 0  0.650
+leo_turing                                 12- 8- 0  0.600
+Stephen_Schott                             12- 8- 0  0.600
+Majiro_ns                                  11- 9- 0  0.550
+Kentaro_Totsuka                            11- 9- 0  0.550
+Mengfei_Li                                 10-10- 0  0.500
+yu_kuo14                                    9-11- 0  0.450
+sue124                                      5-15- 0  0.250
+Darren_Sheehan                              3-17- 0  0.150
+
+TOTAL 354W-186L-0D = 0.656 ±0.040 (95% CI)  (27 decks x 20 games, 5s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Darren_Sheehan                             3-17-0  0.150
+  sue124                                     5-15-0  0.250
+  yu_kuo14                                   9-11-0  0.450
+  Mengfei_Li                                 10-10-0  0.500
+  Kentaro_Totsuka                            11-9-0  0.550
+
+=== v74 top30 20g ===
+No_Free_MIST_Energy                        20- 0- 0  1.000
+Cristobal_Tudela                           19- 1- 0  0.950
+Bill_Vlasak                                18- 2- 0  0.900
+dajun666                                   17- 3- 0  0.850
+Chonghao_Peng                              16- 4- 0  0.800
+ANMOL_GARG                                 16- 4- 0  0.800
+バーベナヘレナでコンボ決めたい連合                          15- 5- 0  0.750
+Xinyu_Li                                   15- 5- 0  0.750
+やる気元気ミワハルキ_2nd_ver_                        15- 4- 1  0.750
+leo_turing                                 14- 6- 0  0.700
+Zedan_Soorya                               14- 6- 0  0.700
+Akmal_Xodarev__Busya_PRIME_                14- 6- 0  0.700
+yu_kuo14                                   13- 7- 0  0.650
+Stephen_Schott                             13- 7- 0  0.650
+Mathieu_W                                  13- 7- 0  0.650
+KyryloBakumenko                            13- 7- 0  0.650
+Raja_Biswas                                12- 8- 0  0.600
+OceanMix                                   12- 8- 0  0.600
+Leon_Liu                                   12- 8- 0  0.600
+JerryChen                                  12- 8- 0  0.600
+YumeNeko                                   11- 9- 0  0.550
+Majiro_ns                                  11- 9- 0  0.550
+Colton_Martin                              11- 9- 0  0.550
+Mengfei_Li                                 10-10- 0  0.500
+Kentaro_Totsuka                             9-11- 0  0.450
+sue124                                      1-19- 0  0.050
+Darren_Sheehan                              1-19- 0  0.050
+
+TOTAL 347W-192L-1D = 0.643 ±0.040 (95% CI)  (27 decks x 20 games, 6s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Darren_Sheehan                             1-19-0  0.050
+  sue124                                     1-19-0  0.050
+  Kentaro_Totsuka                            9-11-0  0.450
+  Mengfei_Li                                 10-10-0  0.500
+  Colton_Martin                              11-9-0  0.550
+
+=== v75 top30 10g (quick) ===
+No_Free_MIST_Energy                        10- 0- 0  1.000
+やる気元気ミワハルキ_2nd_ver_                         9- 1- 0  0.900
+leo_turing                                  9- 1- 0  0.900
+Raja_Biswas                                 9- 1- 0  0.900
+バーベナヘレナでコンボ決めたい連合                           8- 2- 0  0.800
+Chonghao_Peng                               8- 2- 0  0.800
+Akmal_Xodarev__Busya_PRIME_                 8- 2- 0  0.800
+ANMOL_GARG                                  8- 2- 0  0.800
+dajun666                                    7- 3- 0  0.700
+YumeNeko                                    7- 3- 0  0.700
+Mathieu_W                                   7- 3- 0  0.700
+KyryloBakumenko                             7- 3- 0  0.700
+JerryChen                                   7- 3- 0  0.700
+Colton_Martin                               7- 3- 0  0.700
+yu_kuo14                                    6- 4- 0  0.600
+OceanMix                                    6- 4- 0  0.600
+Stephen_Schott                              5- 5- 0  0.500
+Bill_Vlasak                                 5- 5- 0  0.500
+Zedan_Soorya                                4- 6- 0  0.400
+Xinyu_Li                                    4- 6- 0  0.400
+Majiro_ns                                   4- 6- 0  0.400
+Leon_Liu                                    4- 6- 0  0.400
+Cristobal_Tudela                            4- 6- 0  0.400
+Mengfei_Li                                  3- 7- 0  0.300
+Kentaro_Totsuka                             3- 7- 0  0.300
+Darren_Sheehan                              2- 8- 0  0.200
+sue124                                      0-10- 0  0.000
+
+TOTAL 161W-109L-0D = 0.596 ±0.059 (95% CI)  (27 decks x 10 games, 3s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  sue124                                     0-10-0  0.000
+  Darren_Sheehan                             2-8-0  0.200
+  Kentaro_Totsuka                            3-7-0  0.300
+  Mengfei_Li                                 3-7-0  0.300
+  Cristobal_Tudela                           4-6-0  0.400
+
+=== v76 top30 20g ===
+バーベナヘレナでコンボ決めたい連合                          18- 2- 0  0.900
+Zedan_Soorya                               18- 2- 0  0.900
+Xinyu_Li                                   17- 3- 0  0.850
+No_Free_MIST_Energy                        17- 3- 0  0.850
+Raja_Biswas                                16- 4- 0  0.800
+ANMOL_GARG                                 16- 4- 0  0.800
+Stephen_Schott                             14- 6- 0  0.700
+OceanMix                                   14- 6- 0  0.700
+Mathieu_W                                  14- 6- 0  0.700
+Leon_Liu                                   14- 6- 0  0.700
+Colton_Martin                              14- 6- 0  0.700
+Chonghao_Peng                              14- 6- 0  0.700
+Akmal_Xodarev__Busya_PRIME_                14- 6- 0  0.700
+YumeNeko                                   13- 7- 0  0.650
+やる気元気ミワハルキ_2nd_ver_                        13- 6- 1  0.650
+yu_kuo14                                   12- 8- 0  0.600
+KyryloBakumenko                            12- 8- 0  0.600
+Cristobal_Tudela                           12- 8- 0  0.600
+Majiro_ns                                  10-10- 0  0.500
+Bill_Vlasak                                10-10- 0  0.500
+leo_turing                                  9-11- 0  0.450
+dajun666                                    8-12- 0  0.400
+JerryChen                                   8-12- 0  0.400
+sue124                                      7-13- 0  0.350
+Kentaro_Totsuka                             7-13- 0  0.350
+Mengfei_Li                                  4-16- 0  0.200
+Darren_Sheehan                              2-18- 0  0.100
+
+TOTAL 327W-212L-1D = 0.606 ±0.041 (95% CI)  (27 decks x 20 games, 6s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Darren_Sheehan                             2-18-0  0.100
+  Mengfei_Li                                 4-16-0  0.200
+  Kentaro_Totsuka                            7-13-0  0.350
+  sue124                                     7-13-0  0.350
+  JerryChen                                  8-12-0  0.400
+
+=== v70 new_losses 20g (recent wipe losses) ===
+124872404_Angel_Francisco_Aguayo_Salazar   19- 1- 0  0.950
+124845423_Kentaro Totsuka                  18- 2- 0  0.900
+124725071_Articuno0144                     18- 2- 0  0.900
+124710827_André_Salgado                    18- 2- 0  0.900
+124868216_Jemin                            17- 3- 0  0.850
+124864690_Raihan_Ramadistra                17- 3- 0  0.850
+124861363_praveen_02706                    17- 3- 0  0.850
+124859689_Morokoshi                        17- 3- 0  0.850
+124857644_Guenoir                          17- 3- 0  0.850
+124876227_IAMNAMNAM                        16- 4- 0  0.800
+124872336_Quinton_McReynolds               16- 4- 0  0.800
+124860840_Dnyanesh                         16- 4- 0  0.800
+124860240_lswuwu                           16- 4- 0  0.800
+124858159_Sliver-Ze                        16- 4- 0  0.800
+124850356_Morokoshi                        16- 4- 0  0.800
+124847084_inego                            16- 4- 0  0.800
+124844896_WolfeyVGC                        16- 4- 0  0.800
+124746028_Dnyanesh                         16- 4- 0  0.800
+124692630_Angel_Francisco_Aguayo_Salazar   16- 4- 0  0.800
+124874969_wdzlyq                           15- 5- 0  0.750
+124868214_加油华为                             15- 5- 0  0.750
+124866245_Kazama_Hareka                    15- 5- 0  0.750
+124863037_tategami                         15- 5- 0  0.750
+124853685_diujin217                        15- 5- 0  0.750
+124852030_Aayush_Jansari                   15- 5- 0  0.750
+124848716_Noel Bobby                       15- 5- 0  0.750
+124848712_wdzlyq                           15- 5- 0  0.750
+124848177_Igor_Zharov                      15- 5- 0  0.750
+124846518_jazivxt                          15- 5- 0  0.750
+124845967_Festival                         15- 5- 0  0.750
+124844855_Mozune4002                       15- 5- 0  0.750
+124752056_Vinit                            15- 5- 0  0.750
+124746800_Yash_Dalal                       15- 5- 0  0.750
+124699418_Richard_Guo                      15- 5- 0  0.750
+124680364_Shaun2024                        15- 5- 0  0.750
+124879575_masterlincs                      14- 6- 0  0.700
+124870192_Mahog                            14- 6- 0  0.700
+124867237_MathieuD                         14- 6- 0  0.700
+124856462_Enerohafizh_Syauqi_Hariri        14- 6- 0  0.700
+124855340_Aayush_Jansari                   14- 6- 0  0.700
+124851464_Brian_Bonti                      14- 6- 0  0.700
+124848177_Igor Zharov                      14- 6- 0  0.700
+124749315_Paal                             14- 6- 0  0.700
+124742065_cottonandcolor                   14- 6- 0  0.700
+124734281_Rayan                            14- 6- 0  0.700
+124707472_LivMaAn                          14- 6- 0  0.700
+124706120_Quinton_McReynolds               14- 6- 0  0.700
+124695345_LivMaAn                          14- 6- 0  0.700
+124877104_Taras_Harbar                     13- 7- 0  0.650
+124866711_RAHUL_REDDY_PULICHARLA           13- 7- 0  0.650
+124866708_Lingzhenxu                       13- 7- 0  0.650
+124863033_diujin217                        13- 7- 0  0.650
+124854277_yihui_ding123                    13- 7- 0  0.650
+124852575_Pawit_Sahare                     13- 7- 0  0.650
+124849279_Pranshul_Maithani                13- 7- 0  0.650
+124849275_Red                              13- 7- 0  0.650
+124847612_Majiro_ns                        13- 7- 0  0.650
+124845423_Kentaro_Totsuka                  13- 7- 0  0.650
+124708792_zengbo1                          13- 7- 0  0.650
+124702777_JIVRAJ_SINGH                     13- 7- 0  0.650
+124690629_Rashid_Khazeiynasab              13- 7- 0  0.650
+124682458_Utandra                          13- 7- 0  0.650
+124677663_PeterSharps                      13- 7- 0  0.650
+124880892_Jonathan_Axl                     12- 8- 0  0.600
+124871683_Dnyanesh                         12- 8- 0  0.600
+124869704_Ritsuki_Hoshimoto                12- 8- 0  0.600
+124869201_Leo                              12- 8- 0  0.600
+124868714_Ryan_Fernandes                   12- 8- 0  0.600
+124860792_diujin217                        12- 8- 0  0.600
+124858158_Atharva_Naik                     12- 8- 0  0.600
+124854784_Sliver-Ze                        12- 8- 0  0.600
+124852028_Graydon                          12- 8- 0  0.600
+124850930_saravana_Kishore                 12- 8- 0  0.600
+124845954_Faaiz_Hussain                    12- 8- 0  0.600
+124845954_Faaiz Hussain                    12- 8- 0  0.600
+124743437_Blake_Mosley                     12- 8- 0  0.600
+124708128_Atharva_Naik                     12- 8- 0  0.600
+124706787_Samuel_Ballenger                 12- 8- 0  0.600
+124685933_Elbachir_Salik                   12- 8- 0  0.600
+124678985_pika28samson                     12- 8- 0  0.600
+124883369_eastnix                          11- 9- 0  0.550
+124874118_Mitsuaki_Inoue                   11- 9- 0  0.550
+124872330_Elbachir_Salik                   11- 9- 0  0.550
+124864151_Riccardo_Lo_Bianco               11- 9- 0  0.550
+124862466_[Deleted]_bc3788a4-9814-4a00-b747-879c74 11- 9- 0  0.550
+124858607_ninbyo02                         11- 9- 0  0.550
+124849823_kutty1119                        11- 9- 0  0.550
+124847705_Tolga_Kiremit                    11- 9- 0  0.550
+124846514_Steveneg13                       11- 9- 0  0.550
+124750709_eastnix                          11- 9- 0  0.550
+124709490_Elbachir_Salik                   11- 9- 0  0.550
+124697372_Don't_foget_me                   11- 9- 0  0.550
+124886128_Abu_Ruhan_Mahamud                10-10- 0  0.500
+124877547_Clark_Kitchen                    10-10- 0  0.500
+124865226_Elbachir_Salik                   10-10- 0  0.500
+124864153_Revue                            10-10- 0  0.500
+124860236_Riccardo_Lo_Bianco               10-10- 0  0.500
+124853683_RAHUL_REDDY_PULICHARLA           10-10- 0  0.500
+124845953_Praneeth Yeddu                   10-10- 0  0.500
+124754098_Anto_Antony_Selvaraj             10-10- 0  0.500
+124738859_Abu_Ruhan_Mahamud                10-10- 0  0.500
+124715570_Zhe_Peng666                      10-10- 0  0.500
+124701407_dajiaohuang                      10-10- 0  0.500
+124687952_Zhe_Peng666                      10-10- 0  0.500
+124850357_Noel_Bobby                        9-11- 0  0.450
+124705415_Zhe_Peng666                       9-11- 0  0.450
+124689955_Hitisha_Goyal                     9-11- 0  0.450
+124680392_the_soul_hunter                   9-11- 0  0.450
+124872783_Ricardo_Paizinho                  8-12- 0  0.400
+124870683_zengbo1                           8-12- 0  0.400
+124847705_Tolga Kiremit                     8-12- 0  0.400
+124752736_Riccardo_Lo_Bianco                8-12- 0  0.400
+124712200_Elbachir_Salik                    8-12- 0  0.400
+124694000_Mibbles                           8-12- 0  0.400
+124861365_Ricardo_Paizinho                  7-13- 0  0.350
+124852094_DavideSanta                       7-13- 0  0.350
+124696068_Sayuru_Rehan_Bopitiya             7-13- 0  0.350
+124874562_Riccardo_Lo_Bianco                6-14- 0  0.300
+124872785_eastnix                           6-14- 0  0.300
+124855884_BSCode                            6-14- 0  0.300
+124714877_Noel_Bobby                        6-14- 0  0.300
+124866254_Julian_M                          5-15- 0  0.250
+124862537_BSCode                            5-15- 0  0.250
+124845953_Praneeth_Yeddu                    5-15- 0  0.250
+124681089_DavideSanta                       4-16- 0  0.200
+124875444_Julian_M                          3-17- 0  0.150
+124848716_Noel_Bobby                        3-17- 0  0.150
+124678236_cocosu3434                        3-17- 0  0.150
+
+TOTAL 1548W-1012L-0D = 0.605 ±0.019 (95% CI)  (128 decks x 20 games, 17s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124678236_cocosu3434                       3-17-0  0.150
+  124848716_Noel_Bobby                       3-17-0  0.150
+  124875444_Julian_M                         3-17-0  0.150
+  124681089_DavideSanta                      4-16-0  0.200
+  124845953_Praneeth_Yeddu                   5-15-0  0.250
+
+=== v74 new_losses 20g ===
+124866245_Kazama_Hareka                    19- 1- 0  0.950
+124859689_Morokoshi                        19- 1- 0  0.950
+124872336_Quinton_McReynolds               18- 2- 0  0.900
+124867237_MathieuD                         18- 2- 0  0.900
+124861363_praveen_02706                    18- 2- 0  0.900
+124847084_inego                            18- 2- 0  0.900
+124845954_Faaiz_Hussain                    18- 2- 0  0.900
+124868714_Ryan_Fernandes                   17- 3- 0  0.850
+124868214_加油华为                             17- 3- 0  0.850
+124860240_lswuwu                           17- 3- 0  0.850
+124856462_Enerohafizh_Syauqi_Hariri        17- 3- 0  0.850
+124852030_Aayush_Jansari                   17- 3- 0  0.850
+124850356_Morokoshi                        17- 3- 0  0.850
+124846518_jazivxt                          17- 3- 0  0.850
+124845423_Kentaro Totsuka                  17- 3- 0  0.850
+124699418_Richard_Guo                      17- 3- 0  0.850
+124868216_Jemin                            16- 4- 0  0.800
+124860840_Dnyanesh                         16- 4- 0  0.800
+124858159_Sliver-Ze                        16- 4- 0  0.800
+124850930_saravana_Kishore                 16- 4- 0  0.800
+124849279_Pranshul_Maithani                16- 4- 0  0.800
+124746800_Yash_Dalal                       16- 4- 0  0.800
+124706120_Quinton_McReynolds               16- 4- 0  0.800
+124872404_Angel_Francisco_Aguayo_Salazar   15- 5- 0  0.750
+124866711_RAHUL_REDDY_PULICHARLA           15- 5- 0  0.750
+124864151_Riccardo_Lo_Bianco               15- 5- 0  0.750
+124862466_[Deleted]_bc3788a4-9814-4a00-b747-879c74 15- 5- 0  0.750
+124857644_Guenoir                          15- 5- 0  0.750
+124845954_Faaiz Hussain                    15- 5- 0  0.750
+124845423_Kentaro_Totsuka                  15- 5- 0  0.750
+124844896_WolfeyVGC                        15- 5- 0  0.750
+124742065_cottonandcolor                   15- 5- 0  0.750
+124710827_André_Salgado                    15- 5- 0  0.750
+124685933_Elbachir_Salik                   15- 5- 0  0.750
+124680364_Shaun2024                        15- 5- 0  0.750
+124880892_Jonathan_Axl                     14- 6- 0  0.700
+124877547_Clark_Kitchen                    14- 6- 0  0.700
+124874118_Mitsuaki_Inoue                   14- 6- 0  0.700
+124870683_zengbo1                          14- 6- 0  0.700
+124866708_Lingzhenxu                       14- 6- 0  0.700
+124864690_Raihan_Ramadistra                14- 6- 0  0.700
+124860792_diujin217                        14- 6- 0  0.700
+124853685_diujin217                        14- 6- 0  0.700
+124853683_RAHUL_REDDY_PULICHARLA           14- 6- 0  0.700
+124849823_kutty1119                        14- 6- 0  0.700
+124848712_wdzlyq                           14- 6- 0  0.700
+124845967_Festival                         14- 6- 0  0.700
+124844855_Mozune4002                       14- 6- 0  0.700
+124749315_Paal                             14- 6- 0  0.700
+124883369_eastnix                          13- 7- 0  0.650
+124879575_masterlincs                      13- 7- 0  0.650
+124874969_wdzlyq                           13- 7- 0  0.650
+124858607_ninbyo02                         13- 7- 0  0.650
+124858158_Atharva_Naik                     13- 7- 0  0.650
+124854784_Sliver-Ze                        13- 7- 0  0.650
+124852575_Pawit_Sahare                     13- 7- 0  0.650
+124852028_Graydon                          13- 7- 0  0.650
+124848716_Noel Bobby                       13- 7- 0  0.650
+124848177_Igor Zharov                      13- 7- 0  0.650
+124752056_Vinit                            13- 7- 0  0.650
+124750709_eastnix                          13- 7- 0  0.650
+124746028_Dnyanesh                         13- 7- 0  0.650
+124715570_Zhe_Peng666                      13- 7- 0  0.650
+124706787_Samuel_Ballenger                 13- 7- 0  0.650
+124690629_Rashid_Khazeiynasab              13- 7- 0  0.650
+124876227_IAMNAMNAM                        12- 8- 0  0.600
+124863037_tategami                         12- 8- 0  0.600
+124863033_diujin217                        12- 8- 0  0.600
+124854277_yihui_ding123                    12- 8- 0  0.600
+124851464_Brian_Bonti                      12- 8- 0  0.600
+124849275_Red                              12- 8- 0  0.600
+124848177_Igor_Zharov                      12- 8- 0  0.600
+124847612_Majiro_ns                        12- 8- 0  0.600
+124846514_Steveneg13                       12- 8- 0  0.600
+124712200_Elbachir_Salik                   12- 8- 0  0.600
+124709490_Elbachir_Salik                   12- 8- 0  0.600
+124701407_dajiaohuang                      12- 8- 0  0.600
+124697372_Don't_foget_me                   12- 8- 0  0.600
+124695345_LivMaAn                          12- 8- 0  0.600
+124692630_Angel_Francisco_Aguayo_Salazar   12- 8- 0  0.600
+124687952_Zhe_Peng666                      12- 8- 0  0.600
+124865226_Elbachir_Salik                   11- 9- 0  0.550
+124861365_Ricardo_Paizinho                 11- 9- 0  0.550
+124855340_Aayush_Jansari                   11- 9- 0  0.550
+124847705_Tolga_Kiremit                    11- 9- 0  0.550
+124725071_Articuno0144                     11- 9- 0  0.550
+124708128_Atharva_Naik                     11- 9- 0  0.550
+124689955_Hitisha_Goyal                    11- 9- 0  0.550
+124682458_Utandra                          11- 9- 0  0.550
+124677663_PeterSharps                      11- 9- 0  0.550
+124874562_Riccardo_Lo_Bianco               10-10- 0  0.500
+124872785_eastnix                          10-10- 0  0.500
+124872330_Elbachir_Salik                   10-10- 0  0.500
+124871683_Dnyanesh                         10-10- 0  0.500
+124869704_Ritsuki_Hoshimoto                10-10- 0  0.500
+124852094_DavideSanta                      10-10- 0  0.500
+124845953_Praneeth Yeddu                   10-10- 0  0.500
+124738859_Abu_Ruhan_Mahamud                10-10- 0  0.500
+124707472_LivMaAn                          10-10- 0  0.500
+124705415_Zhe_Peng666                      10-10- 0  0.500
+124696068_Sayuru_Rehan_Bopitiya            10-10- 0  0.500
+124694000_Mibbles                          10-10- 0  0.500
+124680392_the_soul_hunter                  10-10- 0  0.500
+124886128_Abu_Ruhan_Mahamud                 9-11- 0  0.450
+124877104_Taras_Harbar                      9-11- 0  0.450
+124702777_JIVRAJ_SINGH                      9-11- 0  0.450
+124681089_DavideSanta                       9-11- 0  0.450
+124869201_Leo                               8-12- 0  0.400
+124862537_BSCode                            8-12- 0  0.400
+124855884_BSCode                            8-12- 0  0.400
+124847705_Tolga Kiremit                     8-12- 0  0.400
+124754098_Anto_Antony_Selvaraj              8-12- 0  0.400
+124743437_Blake_Mosley                      8-12- 0  0.400
+124734281_Rayan                             8-12- 0  0.400
+124708792_zengbo1                           8-12- 0  0.400
+124870192_Mahog                             7-13- 0  0.350
+124864153_Revue                             7-13- 0  0.350
+124860236_Riccardo_Lo_Bianco                7-13- 0  0.350
+124850357_Noel_Bobby                        7-13- 0  0.350
+124752736_Riccardo_Lo_Bianco                7-13- 0  0.350
+124866254_Julian_M                          6-14- 0  0.300
+124845953_Praneeth_Yeddu                    6-14- 0  0.300
+124678985_pika28samson                      6-14- 0  0.300
+124714877_Noel_Bobby                        5-15- 0  0.250
+124875444_Julian_M                          4-16- 0  0.200
+124872783_Ricardo_Paizinho                  4-16- 0  0.200
+124678236_cocosu3434                        4-16- 0  0.200
+124848716_Noel_Bobby                        3-17- 0  0.150
+
+TOTAL 1571W-989L-0D = 0.614 ±0.019 (95% CI)  (128 decks x 20 games, 16s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124848716_Noel_Bobby                       3-17-0  0.150
+  124678236_cocosu3434                       4-16-0  0.200
+  124872783_Ricardo_Paizinho                 4-16-0  0.200
+  124875444_Julian_M                         4-16-0  0.200
+  124714877_Noel_Bobby                       5-15-0  0.250
+
+=== v75 new_losses 20g ===
+124849823_kutty1119                        19- 1- 0  0.950
+124868714_Ryan_Fernandes                   18- 2- 0  0.900
+124866245_Kazama_Hareka                    18- 2- 0  0.900
+124852030_Aayush_Jansari                   18- 2- 0  0.900
+124752056_Vinit                            18- 2- 0  0.900
+124687952_Zhe_Peng666                      18- 2- 0  0.900
+124879575_masterlincs                      17- 3- 0  0.850
+124872404_Angel_Francisco_Aguayo_Salazar   17- 3- 0  0.850
+124868214_加油华为                             17- 3- 0  0.850
+124864690_Raihan_Ramadistra                17- 3- 0  0.850
+124860792_diujin217                        17- 3- 0  0.850
+124860240_lswuwu                           17- 3- 0  0.850
+124855340_Aayush_Jansari                   17- 3- 0  0.850
+124845423_Kentaro_Totsuka                  17- 3- 0  0.850
+124844896_WolfeyVGC                        17- 3- 0  0.850
+124699418_Richard_Guo                      17- 3- 0  0.850
+124876227_IAMNAMNAM                        16- 4- 0  0.800
+124868216_Jemin                            16- 4- 0  0.800
+124861363_praveen_02706                    16- 4- 0  0.800
+124859689_Morokoshi                        16- 4- 0  0.800
+124848177_Igor Zharov                      16- 4- 0  0.800
+124845423_Kentaro Totsuka                  16- 4- 0  0.800
+124877104_Taras_Harbar                     15- 5- 0  0.750
+124872336_Quinton_McReynolds               15- 5- 0  0.750
+124867237_MathieuD                         15- 5- 0  0.750
+124858158_Atharva_Naik                     15- 5- 0  0.750
+124856462_Enerohafizh_Syauqi_Hariri        15- 5- 0  0.750
+124853685_diujin217                        15- 5- 0  0.750
+124850356_Morokoshi                        15- 5- 0  0.750
+124846518_jazivxt                          15- 5- 0  0.750
+124845967_Festival                         15- 5- 0  0.750
+124750709_eastnix                          15- 5- 0  0.750
+124710827_André_Salgado                    15- 5- 0  0.750
+124690629_Rashid_Khazeiynasab              15- 5- 0  0.750
+124682458_Utandra                          15- 5- 0  0.750
+124680364_Shaun2024                        15- 5- 0  0.750
+124874969_wdzlyq                           14- 6- 0  0.700
+124874118_Mitsuaki_Inoue                   14- 6- 0  0.700
+124870683_zengbo1                          14- 6- 0  0.700
+124869704_Ritsuki_Hoshimoto                14- 6- 0  0.700
+124863037_tategami                         14- 6- 0  0.700
+124863033_diujin217                        14- 6- 0  0.700
+124862466_[Deleted]_bc3788a4-9814-4a00-b747-879c74 14- 6- 0  0.700
+124860840_Dnyanesh                         14- 6- 0  0.700
+124857644_Guenoir                          14- 6- 0  0.700
+124853683_RAHUL_REDDY_PULICHARLA           14- 6- 0  0.700
+124847084_inego                            14- 6- 0  0.700
+124846514_Steveneg13                       14- 6- 0  0.700
+124749315_Paal                             14- 6- 0  0.700
+124742065_cottonandcolor                   14- 6- 0  0.700
+124725071_Articuno0144                     14- 6- 0  0.700
+124880892_Jonathan_Axl                     13- 7- 0  0.650
+124877547_Clark_Kitchen                    13- 7- 0  0.650
+124866711_RAHUL_REDDY_PULICHARLA           13- 7- 0  0.650
+124866708_Lingzhenxu                       13- 7- 0  0.650
+124865226_Elbachir_Salik                   13- 7- 0  0.650
+124858607_ninbyo02                         13- 7- 0  0.650
+124858159_Sliver-Ze                        13- 7- 0  0.650
+124848716_Noel Bobby                       13- 7- 0  0.650
+124844855_Mozune4002                       13- 7- 0  0.650
+124746800_Yash_Dalal                       13- 7- 0  0.650
+124715570_Zhe_Peng666                      13- 7- 0  0.650
+124709490_Elbachir_Salik                   13- 7- 0  0.650
+124706787_Samuel_Ballenger                 13- 7- 0  0.650
+124697372_Don't_foget_me                   13- 7- 0  0.650
+124689955_Hitisha_Goyal                    13- 7- 0  0.650
+124677663_PeterSharps                      13- 7- 0  0.650
+124883369_eastnix                          12- 8- 0  0.600
+124872785_eastnix                          12- 8- 0  0.600
+124854784_Sliver-Ze                        12- 8- 0  0.600
+124852575_Pawit_Sahare                     12- 8- 0  0.600
+124851464_Brian_Bonti                      12- 8- 0  0.600
+124850930_saravana_Kishore                 12- 8- 0  0.600
+124848712_wdzlyq                           12- 8- 0  0.600
+124847705_Tolga Kiremit                    12- 8- 0  0.600
+124845954_Faaiz Hussain                    12- 8- 0  0.600
+124743437_Blake_Mosley                     12- 8- 0  0.600
+124734281_Rayan                            12- 8- 0  0.600
+124712200_Elbachir_Salik                   12- 8- 0  0.600
+124702777_JIVRAJ_SINGH                     12- 8- 0  0.600
+124872330_Elbachir_Salik                   11- 9- 0  0.550
+124871683_Dnyanesh                         11- 9- 0  0.550
+124869201_Leo                              11- 9- 0  0.550
+124852028_Graydon                          11- 9- 0  0.550
+124848177_Igor_Zharov                      11- 9- 0  0.550
+124847705_Tolga_Kiremit                    11- 9- 0  0.550
+124847612_Majiro_ns                        11- 9- 0  0.550
+124754098_Anto_Antony_Selvaraj             11- 9- 0  0.550
+124746028_Dnyanesh                         11- 9- 0  0.550
+124707472_LivMaAn                          11- 9- 0  0.550
+124705415_Zhe_Peng666                      11- 9- 0  0.550
+124701407_dajiaohuang                      11- 9- 0  0.550
+124692630_Angel_Francisco_Aguayo_Salazar   11- 9- 0  0.550
+124852094_DavideSanta                      10-10- 0  0.500
+124849279_Pranshul_Maithani                10-10- 0  0.500
+124845953_Praneeth_Yeddu                   10-10- 0  0.500
+124708128_Atharva_Naik                     10-10- 0  0.500
+124706120_Quinton_McReynolds               10-10- 0  0.500
+124695345_LivMaAn                          10-10- 0  0.500
+124694000_Mibbles                          10-10- 0  0.500
+124874562_Riccardo_Lo_Bianco                9-11- 0  0.450
+124864151_Riccardo_Lo_Bianco                9-11- 0  0.450
+124861365_Ricardo_Paizinho                  9-11- 0  0.450
+124860236_Riccardo_Lo_Bianco                9-11- 0  0.450
+124849275_Red                               9-11- 0  0.450
+124738859_Abu_Ruhan_Mahamud                 9-11- 0  0.450
+124870192_Mahog                             8-12- 0  0.400
+124845954_Faaiz_Hussain                     8-12- 0  0.400
+124708792_zengbo1                           8-12- 0  0.400
+124696068_Sayuru_Rehan_Bopitiya             8-12- 0  0.400
+124685933_Elbachir_Salik                    8-12- 0  0.400
+124678236_cocosu3434                        8-12- 0  0.400
+124886128_Abu_Ruhan_Mahamud                 7-13- 0  0.350
+124855884_BSCode                            7-13- 0  0.350
+124850357_Noel_Bobby                        7-13- 0  0.350
+124845953_Praneeth Yeddu                    7-13- 0  0.350
+124752736_Riccardo_Lo_Bianco                7-13- 0  0.350
+124875444_Julian_M                          6-14- 0  0.300
+124854277_yihui_ding123                     6-14- 0  0.300
+124681089_DavideSanta                       6-14- 0  0.300
+124680392_the_soul_hunter                   6-14- 0  0.300
+124678985_pika28samson                      6-14- 0  0.300
+124866254_Julian_M                          5-15- 0  0.250
+124864153_Revue                             5-15- 0  0.250
+124862537_BSCode                            5-15- 0  0.250
+124848716_Noel_Bobby                        5-15- 0  0.250
+124872783_Ricardo_Paizinho                  4-16- 0  0.200
+124714877_Noel_Bobby                        4-16- 0  0.200
+
+TOTAL 1567W-993L-0D = 0.612 ±0.019 (95% CI)  (128 decks x 20 games, 17s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124714877_Noel_Bobby                       4-16-0  0.200
+  124872783_Ricardo_Paizinho                 4-16-0  0.200
+  124848716_Noel_Bobby                       5-15-0  0.250
+  124862537_BSCode                           5-15-0  0.250
+  124864153_Revue                            5-15-0  0.250
+
+=== v76 new_losses 20g ===
+124872404_Angel_Francisco_Aguayo_Salazar   19- 1- 0  0.950
+124868214_加油华为                             19- 1- 0  0.950
+124850356_Morokoshi                        19- 1- 0  0.950
+124845423_Kentaro_Totsuka                  19- 1- 0  0.950
+124725071_Articuno0144                     19- 1- 0  0.950
+124874969_wdzlyq                           18- 2- 0  0.900
+124868714_Ryan_Fernandes                   18- 2- 0  0.900
+124868216_Jemin                            18- 2- 0  0.900
+124866711_RAHUL_REDDY_PULICHARLA           18- 2- 0  0.900
+124861363_praveen_02706                    18- 2- 0  0.900
+124859689_Morokoshi                        18- 2- 0  0.900
+124847084_inego                            18- 2- 0  0.900
+124855340_Aayush_Jansari                   17- 3- 0  0.850
+124699418_Richard_Guo                      17- 3- 0  0.850
+124692630_Angel_Francisco_Aguayo_Salazar   17- 3- 0  0.850
+124874118_Mitsuaki_Inoue                   16- 4- 0  0.800
+124860840_Dnyanesh                         16- 4- 0  0.800
+124860792_diujin217                        16- 4- 0  0.800
+124849823_kutty1119                        16- 4- 0  0.800
+124844896_WolfeyVGC                        16- 4- 0  0.800
+124844855_Mozune4002                       16- 4- 0  0.800
+124746800_Yash_Dalal                       16- 4- 0  0.800
+124715570_Zhe_Peng666                      16- 4- 0  0.800
+124710827_André_Salgado                    16- 4- 0  0.800
+124866245_Kazama_Hareka                    15- 5- 0  0.750
+124852030_Aayush_Jansari                   15- 5- 0  0.750
+124851464_Brian_Bonti                      15- 5- 0  0.750
+124845967_Festival                         15- 5- 0  0.750
+124742065_cottonandcolor                   15- 5- 0  0.750
+124872336_Quinton_McReynolds               14- 6- 0  0.700
+124866708_Lingzhenxu                       14- 6- 0  0.700
+124865226_Elbachir_Salik                   14- 6- 0  0.700
+124864690_Raihan_Ramadistra                14- 6- 0  0.700
+124862466_[Deleted]_bc3788a4-9814-4a00-b747-879c74 14- 6- 0  0.700
+124860240_lswuwu                           14- 6- 0  0.700
+124850930_saravana_Kishore                 14- 6- 0  0.700
+124848177_Igor Zharov                      14- 6- 0  0.700
+124846518_jazivxt                          14- 6- 0  0.700
+124750709_eastnix                          14- 6- 0  0.700
+124749315_Paal                             14- 6- 0  0.700
+124697372_Don't_foget_me                   14- 6- 0  0.700
+124685933_Elbachir_Salik                   14- 6- 0  0.700
+124680364_Shaun2024                        14- 6- 0  0.700
+124879575_masterlincs                      13- 7- 0  0.650
+124871683_Dnyanesh                         13- 7- 0  0.650
+124858607_ninbyo02                         13- 7- 0  0.650
+124858159_Sliver-Ze                        13- 7- 0  0.650
+124858158_Atharva_Naik                     13- 7- 0  0.650
+124857644_Guenoir                          13- 7- 0  0.650
+124854277_yihui_ding123                    13- 7- 0  0.650
+124848712_wdzlyq                           13- 7- 0  0.650
+124845954_Faaiz Hussain                    13- 7- 0  0.650
+124746028_Dnyanesh                         13- 7- 0  0.650
+124708792_zengbo1                          13- 7- 0  0.650
+124706120_Quinton_McReynolds               13- 7- 0  0.650
+124689955_Hitisha_Goyal                    13- 7- 0  0.650
+124677663_PeterSharps                      13- 7- 0  0.650
+124877104_Taras_Harbar                     12- 8- 0  0.600
+124876227_IAMNAMNAM                        12- 8- 0  0.600
+124853683_RAHUL_REDDY_PULICHARLA           12- 8- 0  0.600
+124852575_Pawit_Sahare                     12- 8- 0  0.600
+124847705_Tolga_Kiremit                    12- 8- 0  0.600
+124845423_Kentaro Totsuka                  12- 8- 0  0.600
+124754098_Anto_Antony_Selvaraj             12- 8- 0  0.600
+124752056_Vinit                            12- 8- 0  0.600
+124743437_Blake_Mosley                     12- 8- 0  0.600
+124738859_Abu_Ruhan_Mahamud                12- 8- 0  0.600
+124702777_JIVRAJ_SINGH                     12- 8- 0  0.600
+124695345_LivMaAn                          12- 8- 0  0.600
+124690629_Rashid_Khazeiynasab              12- 8- 0  0.600
+124886128_Abu_Ruhan_Mahamud                11- 9- 0  0.550
+124877547_Clark_Kitchen                    11- 9- 0  0.550
+124870683_zengbo1                          11- 9- 0  0.550
+124867237_MathieuD                         11- 9- 0  0.550
+124863033_diujin217                        11- 9- 0  0.550
+124860236_Riccardo_Lo_Bianco               11- 9- 0  0.550
+124856462_Enerohafizh_Syauqi_Hariri        11- 9- 0  0.550
+124853685_diujin217                        11- 9- 0  0.550
+124845954_Faaiz_Hussain                    11- 9- 0  0.550
+124845953_Praneeth Yeddu                   11- 9- 0  0.550
+124708128_Atharva_Naik                     11- 9- 0  0.550
+124705415_Zhe_Peng666                      11- 9- 0  0.550
+124701407_dajiaohuang                      11- 9- 0  0.550
+124880892_Jonathan_Axl                     10-10- 0  0.500
+124869201_Leo                              10-10- 0  0.500
+124863037_tategami                         10-10- 0  0.500
+124852028_Graydon                          10-10- 0  0.500
+124849275_Red                              10-10- 0  0.500
+124848177_Igor_Zharov                      10-10- 0  0.500
+124847612_Majiro_ns                        10-10- 0  0.500
+124734281_Rayan                            10-10- 0  0.500
+124870192_Mahog                             9-11- 0  0.450
+124712200_Elbachir_Salik                    9-11- 0  0.450
+124709490_Elbachir_Salik                    9-11- 0  0.450
+124707472_LivMaAn                           9-11- 0  0.450
+124694000_Mibbles                           9-11- 0  0.450
+124687952_Zhe_Peng666                       9-11- 0  0.450
+124682458_Utandra                           9-11- 0  0.450
+124680392_the_soul_hunter                   9-11- 0  0.450
+124883369_eastnix                           8-12- 0  0.400
+124872330_Elbachir_Salik                    8-12- 0  0.400
+124869704_Ritsuki_Hoshimoto                 8-12- 0  0.400
+124866254_Julian_M                          8-12- 0  0.400
+124854784_Sliver-Ze                         8-12- 0  0.400
+124849279_Pranshul_Maithani                 8-12- 0  0.400
+124847705_Tolga Kiremit                     8-12- 0  0.400
+124846514_Steveneg13                        8-12- 0  0.400
+124845953_Praneeth_Yeddu                    8-12- 0  0.400
+124752736_Riccardo_Lo_Bianco                8-12- 0  0.400
+124706787_Samuel_Ballenger                  8-12- 0  0.400
+124696068_Sayuru_Rehan_Bopitiya             8-12- 0  0.400
+124678985_pika28samson                      8-12- 0  0.400
+124875444_Julian_M                          7-13- 0  0.350
+124874562_Riccardo_Lo_Bianco                7-13- 0  0.350
+124872785_eastnix                           7-13- 0  0.350
+124864151_Riccardo_Lo_Bianco                7-13- 0  0.350
+124848716_Noel Bobby                        7-13- 0  0.350
+124678236_cocosu3434                        7-13- 0  0.350
+124714877_Noel_Bobby                        6-14- 0  0.300
+124864153_Revue                             5-15- 0  0.250
+124861365_Ricardo_Paizinho                  5-15- 0  0.250
+124681089_DavideSanta                       5-15- 0  0.250
+124872783_Ricardo_Paizinho                  4-16- 0  0.200
+124855884_BSCode                            4-16- 0  0.200
+124852094_DavideSanta                       4-16- 0  0.200
+124850357_Noel_Bobby                        4-16- 0  0.200
+124862537_BSCode                            3-17- 0  0.150
+124848716_Noel_Bobby                        0-20- 0  0.000
+
+TOTAL 1506W-1054L-0D = 0.588 ±0.019 (95% CI)  (128 decks x 20 games, 17s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124848716_Noel_Bobby                       0-20-0  0.000
+  124862537_BSCode                           3-17-0  0.150
+  124850357_Noel_Bobby                       4-16-0  0.200
+  124852094_DavideSanta                      4-16-0  0.200
+  124855884_BSCode                           4-16-0  0.200

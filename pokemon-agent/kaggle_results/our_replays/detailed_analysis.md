@@ -1,29 +1,28 @@
 # Detailed Loss Analysis - Alakazam
 
-Total losses: 78
+Total losses: 77
 
 ## By detailed reason
-- WIPE_1_SINGLE: 30 (38.5%)
-- WIPE_0_EMPTY: 11 (14.1%)
-- OTHER_?: 10 (12.8%)
-- RISK_2_LOW: 9 (11.5%)
-- OTHER_KYOGRE: 8 (10.3%)
-- OTHER_LUCARIO: 3 (3.8%)
-- EARLY_LOSS_T9_?: 1 (1.3%)
+- WIPE_1_SINGLE: 29 (37.7%)
+- WIPE_0_EMPTY: 11 (14.3%)
+- OTHER_?: 10 (13.0%)
+- RISK_2_LOW: 9 (11.7%)
+- OTHER_KYOGRE: 8 (10.4%)
+- OTHER_LUCARIO: 3 (3.9%)
 - OTHER_FEZANDIP: 1 (1.3%)
 - OTHER_LUCARIO+FEZANDIP: 1 (1.3%)
 - BENCH_DISADV_3vs5_FEZANDIP: 1 (1.3%)
 - BENCH_DISADV_3vs5_MEOWTH+FEZANDIP: 1 (1.3%)
 - OTHER_MEOWTH: 1 (1.3%)
 - BENCH_DISADV_3vs6_?: 1 (1.3%)
+- EARLY_LOSS_T9_KYOGRE: 1 (1.3%)
 
 ## By opponent arch
-- ?: 28
-- KYOGRE: 27
+- KYOGRE: 29
+- ?: 26
 - MEOWTH+FEZANDIP: 7
 - FEZANDIP: 7
 - LUCARIO: 4
-- LATIAS+FEZANDIP: 1
 - LUCARIO+FEZANDIP: 1
 - LATIAS+MEOWTH+FEZANDIP: 1
 - LUCARIO+KOROIDON: 1
@@ -33,13 +32,13 @@ Total losses: 78
 - T4: 1
 - T5: 1
 - T6: 1
-- T7: 3
+- T7: 2
 - T8: 4
-- T9: 4
+- T9: 5
 - T10: 5
 - T11: 5
 - T12: 8
-- T13: 5
+- T13: 4
 - T14: 10
 - T15: 2
 - T16: 3
@@ -63,20 +62,6 @@ Total losses: 78
 - our_ko: [] opp_ko: []
 - last_logs: [{'cardId': 723, 'playerIndex': 0, 'putDamageCounter': True, 'serial': 44, 'type': 16, 'value': -10}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 43, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 41, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 12, 'toArea': 3, 'type': 6}]
 - moves_tail: [{'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}, {'turn': 13, 'type': 0, 'opt': None}]
-
-### 124845423 vs Kentaro Totsuka (?) T7
-- our_board: ['A:card305(70/70)']
-- opp_board: ['A:card93(80/80)', 'B:card90(100)', 'B:card89(70)', 'B:card89(70)', 'B:card149(40)', 'B:card149(40)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 305, 'fromArea': 5, 'playerIndex': 1, 'serial': 80, 'toArea': 4, 'type': 6}]
-- moves_tail: [{'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}]
-
-### 124845953 vs Praneeth Yeddu (LATIAS+FEZANDIP) T13
-- our_board: ['A:card66(140/140)']
-- opp_board: ['A:card756(300/300)', 'B:card756(300)', 'B:card96(210)']
-- our_ko: [] opp_ko: []
-- last_logs: [{'cardId': 19, 'fromArea': 1, 'playerIndex': 1, 'serial': 71, 'toArea': 2, 'type': 6}, {'playerIndex': 1, 'type': 0}]
-- moves_tail: [{'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 1, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}, {'turn': 5, 'type': 0, 'opt': None}]
 
 ### 124845954 vs Faaiz Hussain (MEOWTH+FEZANDIP) T12
 - our_board: ['A:card723(140/350)']
@@ -196,6 +181,20 @@ Total losses: 78
 - our_ko: [] opp_ko: []
 - last_logs: [{'cardId': 723, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 10, 'type': 16, 'value': -600}, {'cardId': 723, 'fromArea': 4, 'playerIndex': 0, 'serial': 10, 'toArea': 3, 'type': 6}, {'cardId': 722, 'fromArea': 10, 'playerIndex': 0, 'serial': 3, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 20, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 36, 'toArea': 3, 'type': 6}]
 - moves_tail: [{'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}, {'turn': 16, 'type': 1, 'opt': None}]
+
+### 124855340 vs Aayush Jansari (?) T10
+- our_board: ['A:card305(70/70)']
+- opp_board: ['A:card119(70/70)', 'B:card112(110)', 'B:card119(70)', 'B:card119(70)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'cardId': 5, 'cardIdTarget': 305, 'playerIndex': 1, 'serial': 64, 'serialTarget': 80, 'type': 11}]
+- moves_tail: [{'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}, {'turn': 3, 'type': 0, 'opt': None}]
+
+### 124855884 vs BSCode (?) T7
+- our_board: []
+- opp_board: ['A:card1031(250/330)', 'B:card1030(70)', 'B:card1030(70)']
+- our_ko: [] opp_ko: []
+- last_logs: [{'attackId': 1487, 'cardId': 1031, 'playerIndex': 1, 'serial': 66, 'type': 15}, {'cardId': 721, 'playerIndex': 0, 'putDamageCounter': False, 'serial': 36, 'type': 16, 'value': -120}, {'cardId': 721, 'fromArea': 4, 'playerIndex': 0, 'serial': 36, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 11, 'toArea': 3, 'type': 6}, {'cardId': 3, 'fromArea': 8, 'playerIndex': 0, 'serial': 5, 'toArea': 3, 'type': 6}]
+- moves_tail: [{'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}, {'turn': 6, 'type': 0, 'opt': None}]
 
 ## Recommendations for resistant version
 
