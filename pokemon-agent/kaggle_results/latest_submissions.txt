@@ -1,5 +1,6 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57290256,v70g_alakazam_endgame_2am_final_tokenfix.tar.gz,2026-10-17 01:24:23.883000,v70g final token fix - 0.596 top30 0.637 pool - should now auth with API_TOKEN,SubmissionStatus.PENDING,,
+57290311,ptcg_v63_super_fix_a450.tar.gz,2026-10-17 01:26:36.140000,submit ptcg_v63_super_fix_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,773.7,
+57290256,v70g_alakazam_endgame_2am_final_tokenfix.tar.gz,2026-10-17 01:24:23.883000,v70g final token fix - 0.596 top30 0.637 pool - should now auth with API_TOKEN,SubmissionStatus.COMPLETE,600.0,
 57270737,v69_alakazam_simple_652.tar.gz,2026-10-16 13:32:32.790000,v69 Alakazam simple 4x Alakazam 11E hybrid 0.652 top30 0.825 walls — revolution to 1000+,SubmissionStatus.COMPLETE,356.8,
 57261105,v59_10k_1M_772val.tar.gz,2026-10-16 08:08:09.107000,"v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",SubmissionStatus.COMPLETE,419.8,
 57249391,v59_10k_1M_772val.tar.gz,2026-10-16 00:48:08.647000,"v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",SubmissionStatus.COMPLETE,381.3,
