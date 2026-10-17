@@ -1,0 +1,149 @@
+=== v79 Kyogre resistant vs new_losses 20g ===
+124844896_WolfeyVGC                        17- 3- 0  0.850
+124845423_Kentaro Totsuka                  15- 5- 0  0.750
+124845953_Praneeth Yeddu                   13- 7- 0  0.650
+124848716_Noel Bobby                       12- 8- 0  0.600
+124847705_Tolga Kiremit                    12- 8- 0  0.600
+124846514_Steveneg13                       12- 8- 0  0.600
+124845954_Faaiz Hussain                    12- 8- 0  0.600
+124848177_Igor Zharov                      11- 9- 0  0.550
+124847612_Majiro_ns                        11- 9- 0  0.550
+124844855_Mozune4002                       11- 9- 0  0.550
+124847084_inego                             9-11- 0  0.450
+124846518_jazivxt                           8-12- 0  0.400
+124845967_Festival                          8-12- 0  0.400
+
+TOTAL 151W-109L-0D = 0.581 ±0.060 (95% CI)  (13 decks x 20 games, 2s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124845967_Festival                         8-12-0  0.400
+  124846518_jazivxt                          8-12-0  0.400
+  124847084_inego                            9-11-0  0.450
+  124844855_Mozune4002                       11-9-0  0.550
+  124847612_Majiro_ns                        11-9-0  0.550
+
+=== v79 vs top30 20g ===
+No_Free_MIST_Energy                        16- 4- 0  0.800
+Leon_Liu                                   16- 4- 0  0.800
+やる気元気ミワハルキ_2nd_ver_                        15- 5- 0  0.750
+Bill_Vlasak                                15- 5- 0  0.750
+leo_turing                                 14- 6- 0  0.700
+YumeNeko                                   14- 6- 0  0.700
+Stephen_Schott                             14- 6- 0  0.700
+Mathieu_W                                  13- 7- 0  0.650
+Akmal_Xodarev__Busya_PRIME_                13- 7- 0  0.650
+yu_kuo14                                   12- 8- 0  0.600
+KyryloBakumenko                            12- 8- 0  0.600
+Colton_Martin                              12- 8- 0  0.600
+Chonghao_Peng                              12- 8- 0  0.600
+sue124                                     11- 9- 0  0.550
+dajun666                                   11- 9- 0  0.550
+Zedan_Soorya                               11- 9- 0  0.550
+Xinyu_Li                                   11- 9- 0  0.550
+OceanMix                                   11- 9- 0  0.550
+JerryChen                                  11- 9- 0  0.550
+Darren_Sheehan                             11- 9- 0  0.550
+ANMOL_GARG                                 11- 9- 0  0.550
+Raja_Biswas                                 9-11- 0  0.450
+Majiro_ns                                   9-11- 0  0.450
+Cristobal_Tudela                            9-11- 0  0.450
+バーベナヘレナでコンボ決めたい連合                           8-12- 0  0.400
+Mengfei_Li                                  7-13- 0  0.350
+Kentaro_Totsuka                             7-13- 0  0.350
+
+TOTAL 315W-225L-0D = 0.583 ±0.042 (95% CI)  (27 decks x 20 games, 5s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Kentaro_Totsuka                            7-13-0  0.350
+  Mengfei_Li                                 7-13-0  0.350
+  バーベナヘレナでコンボ決めたい連合                          8-12-0  0.400
+  Cristobal_Tudela                           9-11-0  0.450
+  Majiro_ns                                  9-11-0  0.450
+
+=== v79 vs pool_v3 20g ===
+v57_trolley34w                              8-12- 0  0.400
+Mengfei_Li                                  5-15- 0  0.250
+v56_trolley                                 4-16- 0  0.200
+shaun2024_wall                              4-16- 0  0.200
+
+TOTAL 21W-59L-0D = 0.263 ±0.096 (95% CI)  (4 decks x 20 games, 1s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  shaun2024_wall                             4-16-0  0.200
+  v56_trolley                                4-16-0  0.200
+  Mengfei_Li                                 5-15-0  0.250
+  v57_trolley34w                             8-12-0  0.400
+
+=== v82 Kyogre mirror resistant vs new_losses 20g ===
+124847612_Majiro_ns                        16- 4- 0  0.800
+124848177_Igor Zharov                      15- 5- 0  0.750
+124847084_inego                            14- 6- 0  0.700
+124845953_Praneeth Yeddu                   14- 6- 0  0.700
+124845967_Festival                         12- 8- 0  0.600
+124845423_Kentaro Totsuka                  12- 8- 0  0.600
+124844855_Mozune4002                       11- 9- 0  0.550
+124847705_Tolga Kiremit                    10-10- 0  0.500
+124844896_WolfeyVGC                        10-10- 0  0.500
+124845954_Faaiz Hussain                     9-11- 0  0.450
+124846518_jazivxt                           8-12- 0  0.400
+124848716_Noel Bobby                        7-13- 0  0.350
+124846514_Steveneg13                        7-13- 0  0.350
+
+TOTAL 145W-115L-0D = 0.558 ±0.060 (95% CI)  (13 decks x 20 games, 2s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  124846514_Steveneg13                       7-13-0  0.350
+  124848716_Noel Bobby                       7-13-0  0.350
+  124846518_jazivxt                          8-12-0  0.400
+  124845954_Faaiz Hussain                    9-11-0  0.450
+  124844896_WolfeyVGC                        10-10-0  0.500
+
+=== v82 vs top30 20g ===
+Leon_Liu                                   20- 0- 0  1.000
+No_Free_MIST_Energy                        18- 2- 0  0.900
+KyryloBakumenko                            16- 4- 0  0.800
+Zedan_Soorya                               15- 5- 0  0.750
+YumeNeko                                   15- 5- 0  0.750
+Akmal_Xodarev__Busya_PRIME_                15- 5- 0  0.750
+やる気元気ミワハルキ_2nd_ver_                        15- 2- 3  0.750
+バーベナヘレナでコンボ決めたい連合                          14- 6- 0  0.700
+Stephen_Schott                             14- 6- 0  0.700
+Chonghao_Peng                              14- 6- 0  0.700
+dajun666                                   13- 7- 0  0.650
+Mathieu_W                                  13- 7- 0  0.650
+Majiro_ns                                  13- 7- 0  0.650
+JerryChen                                  13- 7- 0  0.650
+leo_turing                                 12- 8- 0  0.600
+OceanMix                                   12- 8- 0  0.600
+Darren_Sheehan                             12- 8- 0  0.600
+ANMOL_GARG                                 12- 8- 0  0.600
+yu_kuo14                                   11- 9- 0  0.550
+Xinyu_Li                                   11- 9- 0  0.550
+Raja_Biswas                                11- 9- 0  0.550
+Bill_Vlasak                                11- 9- 0  0.550
+sue124                                     10-10- 0  0.500
+Colton_Martin                              10-10- 0  0.500
+Kentaro_Totsuka                             8-12- 0  0.400
+Cristobal_Tudela                            8-12- 0  0.400
+Mengfei_Li                                  5-15- 0  0.250
+
+TOTAL 341W-196L-3D = 0.631 ±0.041 (95% CI)  (27 decks x 20 games, 5s)
+  600g smoke CI ±0.040 (±4.0pp), 10k CI ±0.0098, 24k CI ±0.0063
+worst 5:
+  Mengfei_Li                                 5-15-0  0.250
+  Cristobal_Tudela                           8-12-0  0.400
+  Kentaro_Totsuka                            8-12-0  0.400
+  Colton_Martin                              10-10-0  0.500
+  sue124                                     10-10-0  0.500
+
+=== v82 mirror prizetest 100g ===
+Mirror 100 games: 52W-48L-0D = 0.520
+Zero-prize losses: 5/48 = 10.42%  (target <30%)
+Avg prizes taken in losses: 3.23 (target >2.0)
+Prizes distribution in losses: {0: 5, 1: 10, 2: 5, 3: 8, 4: 3, 5: 3, 6: 14}
+
+=== v63 baseline (c87_v44) mirror prizetest 100g ===
+Mirror 100 games: 46W-54L-0D = 0.460
+Zero-prize losses: 1/54 = 1.85%  (target <30%)
+Avg prizes taken in losses: 4.15 (target >2.0)
+Prizes distribution in losses: {0: 1, 1: 6, 2: 9, 3: 5, 4: 1, 5: 11, 6: 21}
