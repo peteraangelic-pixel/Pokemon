@@ -1,0 +1,26 @@
+name: quick-v79-kyogre
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - arena/c87f7a48-pokemon
+    paths:
+      - pokemon-agent/kaggle_results/quick_v79.trigger
+permissions:
+  contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q kaggle-environments
+      - run: |
+          cd pokemon-agent
+          python tools/gauntlet_ffi.py --agent agents/v79_kyogre_resistant.py --our-deck decks/v79_kyogre_resistant.csv --opp-dir decks/new_losses --games 20 --workers 2 --paired 2>&1 | tail -n 30
+          python tools/gauntlet_ffi.py --agent agents/v79_kyogre_resistant.py --our-deck decks/v79_kyogre_resistant.csv --opp-dir decks/top30_live --games 20 --workers 2 --paired 2>&1 | tail -n 30
+          python tools/gauntlet_ffi.py --agent agents/v79_kyogre_resistant.py --our-deck decks/v79_kyogre_resistant.csv --opp-dir decks/pool_v3 --games 20 --workers 2 --paired 2>&1 | tail -n 30
