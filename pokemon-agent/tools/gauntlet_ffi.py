@@ -43,6 +43,10 @@ for cand in _glob.glob("/tmp/venv/lib/python*/site-packages/kaggle_environments/
     _candidates.append(Path(cand))
 for cand in _glob.glob(str(ROOT / ".venv/lib/python*/site-packages/kaggle_environments/envs/cabt/cg/libcg.so")):
     _candidates.append(Path(cand))
+for cand in _glob.glob("/opt/hostedtoolcache/**/site-packages/kaggle_environments/envs/cabt/cg/libcg.so", recursive=True):
+    _candidates.append(Path(cand))
+for cand in _glob.glob("/home/runner/**/libcg.so", recursive=True):
+    _candidates.append(Path(cand))
 LIB = None
 for cand in _candidates:
     if cand.exists():
