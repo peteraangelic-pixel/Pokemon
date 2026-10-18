@@ -456,6 +456,47 @@ def _fallback(obs):
         return list(range(min(maxc, len(opts))))
     except Exception:
         return [0]
+
+def _active_simple(obs, pidx):
+    try:
+        pl=obs["current"]["players"][pidx]
+        act=pl.get("active") or []
+        return act[0] if act else None
+    except Exception:
+        return None
+
+def _est_dmg_simple(aid, ci):
+    try:
+        if aid is None:
+            return 0
+        atks=ci.get("attacks") or {}
+        a=atks.get(str(int(aid))) or {}
+        return int(a.get("d") or 0)
+    except Exception:
+        return 0
+
+def _is_lethal(opt, obs, me, opp, ci):
+    try:
+        # attack type 13
+        if int(opt.get("type") or -1) != 13:
+            return False
+        aid=opt.get("attackId")
+        dmg=_est_dmg_simple(aid, ci)
+        opp_act=_active_simple(obs, opp)
+        if not opp_act:
+            return False
+        # get HP
+        cid=opp_act.get("id")
+        cards=ci.get("cards") or {}
+        c=cards.get(str(int(cid))) if cid is not None else {}
+        hp=int(c.get("hp") or 0) if c else 0
+        cur_dmg=int(opp_act.get("damage") or 0)
+        remaining=hp - cur_dmg
+        return dmg >= remaining and remaining>0
+    except Exception:
+        return False
+
+
 def agent(obs):
     _load()
     try:
@@ -501,6 +542,44 @@ def agent(obs):
             logits,_=forward(_W, tok, st, opts, mask)
             n=max(enc[4],1)
             lg=logits[0][:n]
+            # lethal check +2000 boost (7th place technique)
+            try:
+                sel=obs.get("select") or {}
+                raw_opts=sel.get("option") or []
+                for i in range(min(n, len(raw_opts))):
+                    if _is_lethal(raw_opts[i], obs, me, 1-me, _load_ci()):
+                        lg[i] += 2000
+            except Exception:
+                pass
+            # gated search margin>=250 endgame
+            try:
+                cur=obs.get("current") or {}
+                players=cur.get("players") or []
+                if len(players)>=2:
+                    me_p=players[me]; opp_p=players[1-me]
+                    my_rem=len(me_p.get("prize") or []); opp_rem=len(opp_p.get("prize") or [])
+                    if my_rem<=3 or opp_rem<=3:
+                        # penalize non-lethal attacks that don't KO when we are behind
+                        for i in range(min(n, len(raw_opts))):
+                            if int(raw_opts[i].get("type") or -1)==13:
+                                aid=raw_opts[i].get("attackId")
+                                dmg=_est_dmg_simple(aid, _load_ci())
+                                opp_act=_active_simple(obs, 1-me)
+                                if opp_act:
+                                    cid=opp_act.get("id")
+                                    cards=_load_ci().get("cards") or {}
+                                    c=cards.get(str(int(cid))) if cid is not None else {}
+                                    hp=int(c.get("hp") or 0) if c else 0
+                                    cur_dmg=int(opp_act.get("damage") or 0)
+                                    rem=hp-cur_dmg
+                                    margin=dmg-rem
+                                    if margin>=0:
+                                        lg[i]+=200
+                                    elif margin>=-50 and my_rem<=2 and opp_rem==1:
+                                        # close but not enough, and we would give 2 prizes
+                                        lg[i]-=200
+            except Exception:
+                pass
             return [int(np.argmax(lg))]
         else:
             return _fallback(obs)
