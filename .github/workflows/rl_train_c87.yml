@@ -1,0 +1,28 @@
+name: rl-train-c87
+on:
+  push:
+    paths: ['pokemon-agent/rl_train.trigger']
+  workflow_dispatch: {}
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    permissions: { contents: write }
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: arena/c87f7a48-pokemon }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install deps
+        run: |
+          pip install --quiet kaggle-environments jax flax optax numpy
+      - name: Train BC + PPO vs league
+        working-directory: pokemon-agent
+        run: |
+          python -m rl.train --bc-games 6000 --bc-steps 2500 --ppo-iters 20 --ppo-games 200 --eval-games 100 --out rl/params_best.npz 2>&1 | tee rl/train_log.txt
+      - name: Commit params back
+        run: |
+          git config user.email "actions@github.com"; git config user.name "rl-train-c87"
+          git add pokemon-agent/rl/params_best.npz pokemon-agent/rl/train_log.txt || true
+          git commit -m "rl: BC+PPO 6000g training run c87 [skip ci]" || echo "nothing to commit"
+          git push origin HEAD:arena/c87f7a48-pokemon || true
