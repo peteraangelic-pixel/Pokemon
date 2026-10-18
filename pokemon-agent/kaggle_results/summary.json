@@ -1,28 +1,37 @@
 {
-  "fetched_utc": "2026-10-18T02:02:22+00:00",
+  "fetched_utc": "2026-10-18T04:18:51+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
   "leaderboard_rows": 419,
-  "submission_rows": 35,
+  "submission_rows": 36,
   "our_leaderboard": [
     {
-      "Rank": "324",
+      "Rank": "327",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-17 21:59:30",
-      "Score": "421.9",
+      "LastSubmissionDate": "2026-10-18 02:09:12",
+      "Score": "419.4",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57334418",
+      "fileName": "ptcg_v70_horizon_a450.tar.gz",
+      "date": "2026-10-18 02:09:12.870000",
+      "description": "v70 horizon bezkompromisowa – 0.786 new_losses 120g 0.918 top30 0.523 vs champ, 78.6% vs przegrane, po v69 417.5 spadek, YumeNeko 1350 RL",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "419.4",
+      "privateScore": ""
+    },
+    {
       "ref": "57327179",
       "fileName": "ptcg_v69_resistant_v2_a450.tar.gz",
       "date": "2026-10-17 21:59:30.953000",
       "description": "v69 anti-FEZANDIP board<=4 Judge+250 Boss+180 Kyogre pref vs Fezandip snipe 100, fixes live 0-5 vs FEZANDIP, top30 0.909 vs v67 0.894 new_losses 0.700 vs 0.691",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "417.5",
+      "publicScore": "414.1",
       "privateScore": ""
     },
     {
@@ -31,7 +40,7 @@
       "date": "2026-10-17 21:59:01.913000",
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "421.9",
+      "publicScore": "428.0",
       "privateScore": ""
     },
     {
@@ -95,15 +104,6 @@
       "description": "submit ptcg_v56_tuned_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "423.9",
-      "privateScore": ""
-    },
-    {
-      "ref": "57199505",
-      "fileName": "ptcg_v55_mirror_a450.tar.gz",
-      "date": "2026-10-15 00:15:31.267000",
-      "description": "submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "365.3",
       "privateScore": ""
     }
   ],
