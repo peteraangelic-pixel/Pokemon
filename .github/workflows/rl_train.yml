@@ -20,7 +20,8 @@ jobs:
       - name: Train BC + PPO vs league
         working-directory: pokemon-agent
         run: |
-          python -m rl.train --bc-games 6000 --bc-steps 2500 --ppo-iters 60 --ppo-games 300 --eval-games 200 --out rl/params_best.npz 2>&1 | tee rl/train_log.txt
+          set -o pipefail
+          python -m rl.train --bc-games 6000 --bc-steps 2500 --ppo-iters 12 --ppo-games 200 --eval-games 100 --out rl/params_best.npz 2>&1 | tee rl/train_log.txt
       - name: Commit params back
         run: |
           git config user.email "actions@github.com"; git config user.name "rl-train"
