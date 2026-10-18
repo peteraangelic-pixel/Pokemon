@@ -16,13 +16,16 @@ jobs:
       - name: Install deps
         run: |
           pip install --quiet kaggle-environments jax flax optax numpy
-      - name: Train BC + PPO vs league
+          python -c "import kaggle_environments; print('kaggle ok')"
+      - name: Train BC + PPO vs league v2
         working-directory: pokemon-agent
+        env:
+          PYTHONPATH: .:tools
         run: |
-          python -m rl.train --bc-games 6000 --bc-steps 2500 --ppo-iters 20 --ppo-games 200 --eval-games 100 --out rl/params_best.npz 2>&1 | tee rl/train_log.txt
+          python -m rl.train_v2 --bc-games 6000 --bc-steps 2500 --ppo-iters 20 --ppo-games 200 --eval-games 100 --out rl/params_best.npz 2>&1 | tee rl/train_log.txt
       - name: Commit params back
         run: |
           git config user.email "actions@github.com"; git config user.name "rl-train-c87"
           git add pokemon-agent/rl/params_best.npz pokemon-agent/rl/train_log.txt || true
-          git commit -m "rl: BC+PPO 6000g training run c87 [skip ci]" || echo "nothing to commit"
+          git commit -m "rl: BC+PPO 6000g v2 training run c87 [skip ci]" || echo "nothing to commit"
           git push origin HEAD:arena/c87f7a48-pokemon || true
