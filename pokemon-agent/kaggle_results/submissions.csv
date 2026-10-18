@@ -1,6 +1,8 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57318827,ptcg_v67_wall_a450.tar.gz,2026-10-17 16:50:39.943000,v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall,SubmissionStatus.COMPLETE,440.8,
-57290311,ptcg_v63_super_fix_a450.tar.gz,2026-10-17 01:26:36.140000,submit ptcg_v63_super_fix_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,419.6,
+57327179,ptcg_v69_resistant_v2_a450.tar.gz,2026-10-17 21:59:30.953000,"v69 anti-FEZANDIP board<=4 Judge+250 Boss+180 Kyogre pref vs Fezandip snipe 100, fixes live 0-5 vs FEZANDIP, top30 0.909 vs v67 0.894 new_losses 0.700 vs 0.691",SubmissionStatus.COMPLETE,417.5,
+57327167,ptcg_v69_resistant_v2_a450.tar.gz,2026-10-17 21:59:01.913000,,SubmissionStatus.COMPLETE,421.9,
+57318827,ptcg_v67_wall_a450.tar.gz,2026-10-17 16:50:39.943000,v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall,SubmissionStatus.COMPLETE,443.2,
+57290311,ptcg_v63_super_fix_a450.tar.gz,2026-10-17 01:26:36.140000,submit ptcg_v63_super_fix_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,436.7,
 57290256,v70g_alakazam_endgame_2am_final_tokenfix.tar.gz,2026-10-17 01:24:23.883000,v70g final token fix - 0.596 top30 0.637 pool - should now auth with API_TOKEN,SubmissionStatus.COMPLETE,372.3,
 57270737,v69_alakazam_simple_652.tar.gz,2026-10-16 13:32:32.790000,v69 Alakazam simple 4x Alakazam 11E hybrid 0.652 top30 0.825 walls — revolution to 1000+,SubmissionStatus.COMPLETE,356.8,
 57261105,v59_10k_1M_772val.tar.gz,2026-10-16 08:08:09.107000,"v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",SubmissionStatus.COMPLETE,419.8,

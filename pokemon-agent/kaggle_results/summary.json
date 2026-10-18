@@ -1,28 +1,46 @@
 {
-  "fetched_utc": "2026-10-17T20:25:38+00:00",
+  "fetched_utc": "2026-10-18T02:02:22+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 417,
-  "submission_rows": 33,
+  "leaderboard_rows": 419,
+  "submission_rows": 35,
   "our_leaderboard": [
     {
-      "Rank": "314",
+      "Rank": "324",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-17 16:50:39",
-      "Score": "440.8",
+      "LastSubmissionDate": "2026-10-17 21:59:30",
+      "Score": "421.9",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57327179",
+      "fileName": "ptcg_v69_resistant_v2_a450.tar.gz",
+      "date": "2026-10-17 21:59:30.953000",
+      "description": "v69 anti-FEZANDIP board<=4 Judge+250 Boss+180 Kyogre pref vs Fezandip snipe 100, fixes live 0-5 vs FEZANDIP, top30 0.909 vs v67 0.894 new_losses 0.700 vs 0.691",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "417.5",
+      "privateScore": ""
+    },
+    {
+      "ref": "57327167",
+      "fileName": "ptcg_v69_resistant_v2_a450.tar.gz",
+      "date": "2026-10-17 21:59:01.913000",
+      "description": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "421.9",
+      "privateScore": ""
+    },
+    {
       "ref": "57318827",
       "fileName": "ptcg_v67_wall_a450.tar.gz",
       "date": "2026-10-17 16:50:39.943000",
       "description": "v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "440.8",
+      "publicScore": "443.2",
       "privateScore": ""
     },
     {
@@ -31,7 +49,7 @@
       "date": "2026-10-17 01:26:36.140000",
       "description": "submit ptcg_v63_super_fix_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "419.6",
+      "publicScore": "436.7",
       "privateScore": ""
     },
     {
@@ -86,24 +104,6 @@
       "description": "submit ptcg_v55_mirror_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "365.3",
-      "privateScore": ""
-    },
-    {
-      "ref": "57193182",
-      "fileName": "phase1_tuned_v42_9_best_fast.tar.gz",
-      "date": "2026-10-14 19:18:47.507000",
-      "description": "v42.9 fix 98% NO_POKEMON losses: board dev 80/45/20 basics + evo penalty -90/-40, search gate MegaSignal NightStretcher Cyrano -150, retreat threat-aware no hp<=80, FROSLASS {861,103,1002} + Amarys 1207, deck E32 K4 8b 32W 4Lillie 3Carmine 2Pad 2Ultra Poffin Amarys - hard6 0.843 top50 0.906 broad 0.699 smoke OK - phase1_tuned_v42_9_best_fast.tar.gz 2026-10-14T19:18:45Z",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "408.0",
-      "privateScore": ""
-    },
-    {
-      "ref": "57191144",
-      "fileName": "ptcg_v48_cem2best_imit_a450.tar.gz",
-      "date": "2026-10-14 17:52:07.950000",
-      "description": "v48 CEM2-best knobs fitness 0.927 + BC60 113 replays 7081 decisions pool 0.8655 hard6 0.772 local optimum convergence v42.4 - ptcg_v48_cem2best_imit_a450.tar.gz 2026-10-14T17:52:05Z",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "404.9",
       "privateScore": ""
     }
   ],
