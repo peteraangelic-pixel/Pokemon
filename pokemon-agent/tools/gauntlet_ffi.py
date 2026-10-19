@@ -28,6 +28,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LIB = ROOT / ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
+if not LIB.exists():
+    import sysconfig
+    _sp = Path(sysconfig.get_paths()["purelib"])
+    _cand = _sp / "kaggle_environments/envs/cabt/cg/libcg.so"
+    if _cand.exists():
+        LIB = _cand
 
 class StartData(ctypes.Structure):
     _fields_ = [("battlePtr", ctypes.c_void_p), ("errorPlayer", ctypes.c_int), ("errorType", ctypes.c_int)]
