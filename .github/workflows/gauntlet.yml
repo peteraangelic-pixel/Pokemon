@@ -14,11 +14,11 @@ on:
     inputs:
       agent:
         description: "Agent to test (path from repo root)"
-        default: "pokemon-agent/agents/main_heuristic_v11e.py"
+        default: "pokemon-agent/agents/v78_rl.py"
         required: false
       deck:
         description: "Deck to test"
-        default: "pokemon-agent/decks/v10_34_sig4.csv"
+        default: "pokemon-agent/decks/v57_trolley34w.csv"
         required: false
       games:
         description: "Games per matchup"
@@ -74,8 +74,8 @@ jobs:
 
       - name: Run gauntlet vs top7_live
         env:
-          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/main_heuristic_v11e.py' }}
-          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v10_34_sig4.csv' }}
+          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/v78_rl.py' }}
+          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v57_trolley34w.csv' }}
           GAMES: ${{ inputs.games || '2' }}
         run: |
           cd pokemon-agent
@@ -86,8 +86,8 @@ jobs:
 
       - name: Run vs walls
         env:
-          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/main_heuristic_v11e.py' }}
-          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v10_34_sig4.csv' }}
+          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/v78_rl.py' }}
+          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v57_trolley34w.csv' }}
         run: |
           cd pokemon-agent
           .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games 2 --include-archetypes --only crustle_wall,sylveon_safeguard 2>&1 | tail -n 30
