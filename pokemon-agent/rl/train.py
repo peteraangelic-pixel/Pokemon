@@ -13,6 +13,10 @@ LEAGUE = [
     ("v67", "agents/v67_wall_tempo_noimit.py", "decks/v57_trolley34w.csv"),
     ("v63", "agents/v63_super_sub.py", "decks/v57_trolley34w.csv"),
     ("alakazam", "agents/v65_alakazam.py", "decks/v66_alakazam_simple.csv"),
+    ("lucario", "agents/c87_v44.py", "kaggle_results/our_replays/opp_decks_v59/opp_02.csv"),
+    ("crustle", "agents/c87_v44.py", "kaggle_results/our_replays/opp_decks_v59/opp_15.csv"),
+    ("fezandipiti", "agents/c87_v44.py", "kaggle_results/our_replays/opp_decks_v59/opp_04.csv"),
+    ("dragapult", "agents/c87_v44.py", "kaggle_results/our_replays/opp_decks_v59/opp_10.csv"),
 ]
 TROLLEY = "decks/v57_trolley34w.csv"
 
@@ -152,6 +156,8 @@ def main():
 
     opt_ppo = optax.adam(3e-4)
     osta = opt_ppo.init(params)
+    best_eval = -1.0
+    best_params = None
     for it in range(a.ppo_iters):
         traj, rets = [], []
         W = L = 0
@@ -181,8 +187,23 @@ def main():
                 b = sel[i:i + 512]
                 params, osta, l = step_ppo(params, osta, tok[b], st[b], opts[b], mask[b],
                                            act[b], oldlp[b], adv[b].astype(np.float32), ret[b])
+        ev = evaluate(a.eval_games)
+        score = sum(ev.values()) / len(ev)
+        if score > best_eval:
+            best_eval = score
+            best_params = jax.tree_util.tree_map(lambda x: np.array(x), params)
+            # zapis najlepszego checkpointu (splaszczony)
+            flat = {}
+            def _rf(p, prefix=""):
+                if isinstance(p, dict):
+                    for k2, v2 in p.items():
+                        _rf(v2, f"{prefix}/{k2}")
+                else:
+                    flat[prefix] = np.array(p)
+            _rf(best_params)
+            np.savez('rl/params_best.npz', **flat)
         print(f"PPO iter {it}: WR={W/max(W+L,1):.3f} decyzji={len(traj)} loss={float(l):.3f} "
-              f"eval={evaluate(a.eval_games)}", flush=True)
+              f"eval={ev} best={best_eval:.3f}", flush=True)
 
     # zapis parametrow (splaszczone do npz pod numpy-inference)
     flat = {}

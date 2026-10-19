@@ -21,7 +21,7 @@ jobs:
         working-directory: pokemon-agent
         run: |
           set -o pipefail
-          python -m rl.train --bc-games 6000 --bc-steps 2500 --ppo-iters 12 --ppo-games 200 --eval-games 100 --out rl/params_best.npz 2>&1 | tee rl/train_log.txt
+          python -m rl.train --bc-games 6000 --bc-steps 2500 --ppo-iters 40 --ppo-games 250 --eval-games 150 --out rl/params_best.npz 2>&1 | tee rl/train_log.txt
       - name: Commit params back
         run: |
           git config user.email "actions@github.com"; git config user.name "rl-train"
