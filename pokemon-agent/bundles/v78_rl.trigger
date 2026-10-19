@@ -1,1 +1,1 @@
-v78 super BC6000+PPO 0.700 vs v67 0.800 vs a450 v76, flat bundle
+v78 BC2000 0.841 FFI top7_live
