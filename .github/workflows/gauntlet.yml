@@ -14,11 +14,11 @@ on:
     inputs:
       agent:
         description: "Agent to test (path from repo root)"
-        default: "pokemon-agent/agents/v78_rl.py"
+        default: "agents/v78_rl.py"
         required: false
       deck:
         description: "Deck to test"
-        default: "pokemon-agent/decks/v57_trolley34w.csv"
+        default: "decks/v57_trolley34w.csv"
         required: false
       games:
         description: "Games per matchup"
@@ -61,8 +61,8 @@ jobs:
 
       - name: Run gauntlet vs top7_live and top30_live
         env:
-          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/v78_rl.py' }}
-          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v57_trolley34w.csv' }}
+          AGENT: ${{ inputs.agent || 'agents/v78_rl.py' }}
+          DECK: ${{ inputs.deck || 'decks/v57_trolley34w.csv' }}
           GAMES: ${{ inputs.games || '20' }}
         run: |
           cd pokemon-agent
