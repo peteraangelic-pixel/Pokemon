@@ -22,16 +22,16 @@ on:
         required: false
       games:
         description: "Games per matchup"
-        default: "2"
+        default: "20"
         required: false
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   gauntlet:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,40 +54,36 @@ jobs:
         run: |
           cd pokemon-agent/rust
           set -eo pipefail
-          # Only rust_gauntlet is needed here; a full build makes quick-test
-          # fail whenever ANY aux bin has a compile error.
           cargo build --release --bin rust_gauntlet 2>&1 | tee build.log
           mkdir -p ../rust/bin
           cp target/release/rust_gauntlet ../rust/bin/rust_gauntlet
           ls -lh ../rust/bin/
 
-      - name: Commit build log on failure
-        if: failure()
+      - name: Run gauntlet vs top7_live and top30_live
+        env:
+          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/v78_rl.py' }}
+          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v57_trolley34w.csv' }}
+          GAMES: ${{ inputs.games || '20' }}
+        run: |
+          cd pokemon-agent
+          mkdir -p kaggle_results/gauntlet
+          echo "Testing $AGENT vs top7_live with $DECK $GAMES games" | tee kaggle_results/gauntlet/latest.log
+          .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tee -a kaggle_results/gauntlet/latest.log | tail -n 100
+          echo "--- Rust gauntlet top7 ---" | tee -a kaggle_results/gauntlet/latest.log
+          timeout 300 ./rust/bin/rust_gauntlet --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tee -a kaggle_results/gauntlet/latest.log | tail -n 100
+          echo "--- Rust gauntlet top30 ---" | tee -a kaggle_results/gauntlet/latest.log
+          timeout 300 ./rust/bin/rust_gauntlet --our-deck $DECK --agent $AGENT --live-dir decks/top30_live --games 5 2>&1 | tee -a kaggle_results/gauntlet/latest.log | tail -n 100
+          echo "--- vs v67 and v76 ---" | tee -a kaggle_results/gauntlet/latest.log
+          .venv/bin/python tools/gauntlet_ffi.py --agent $AGENT --our-deck $DECK --opp-dir decks/top7_live --games 2 2>&1 | tail -n 20 | tee -a kaggle_results/gauntlet/latest.log || true
+
+      - name: Commit gauntlet log
+        if: always()
         run: |
           set -e
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
-          cp pokemon-agent/rust/build.log pokemon-agent/rust/bin/quicktest_build.log || true
-          git add -f pokemon-agent/rust/bin/quicktest_build.log || true
-          if git diff --cached --quiet; then echo "no log"; else git commit -m "ci: quick-test build log [skip ci]"; git push origin "HEAD:${GITHUB_REF_NAME}"; fi
-
-      - name: Run gauntlet vs top7_live
-        env:
-          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/v78_rl.py' }}
-          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v57_trolley34w.csv' }}
-          GAMES: ${{ inputs.games || '2' }}
-        run: |
-          cd pokemon-agent
-          echo "Testing $AGENT vs top7_live with $DECK $GAMES games"
-          .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tail -n 100
-          echo "--- Rust gauntlet ---"
-          timeout 180 ./rust/bin/rust_gauntlet --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games $GAMES 2>&1 | tail -n 100
-
-      - name: Run vs walls
-        env:
-          AGENT: ${{ inputs.agent || 'pokemon-agent/agents/v78_rl.py' }}
-          DECK: ${{ inputs.deck || 'pokemon-agent/decks/v57_trolley34w.csv' }}
-        run: |
-          cd pokemon-agent
-          .venv/bin/python tools/gauntlet_live.py --our-deck $DECK --agent $AGENT --live-dir decks/top7_live --games 2 --include-archetypes --only crustle_wall,sylveon_safeguard 2>&1 | tail -n 30
+          mkdir -p pokemon-agent/kaggle_results/gauntlet
+          cp pokemon-agent/kaggle_results/gauntlet/latest.log pokemon-agent/kaggle_results/gauntlet/${{ github.run_id }}.log || true
+          git add -f pokemon-agent/kaggle_results/gauntlet/ || true
+          if git diff --cached --quiet; then echo "no log"; else git commit -m "gauntlet log ${{ github.run_id }} for ${{ inputs.agent || 'v78_rl' }} [skip ci]"; git push origin "HEAD:${GITHUB_REF_NAME}" || true; fi
