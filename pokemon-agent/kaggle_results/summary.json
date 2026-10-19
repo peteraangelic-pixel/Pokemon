@@ -1,28 +1,46 @@
 {
-  "fetched_utc": "2026-10-19T05:42:05+00:00",
+  "fetched_utc": "2026-10-19T22:01:02+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 435,
-  "submission_rows": 38,
+  "leaderboard_rows": 440,
+  "submission_rows": 40,
   "our_leaderboard": [
     {
-      "Rank": "337",
+      "Rank": "334",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-18 22:01:13",
-      "Score": "427.0",
+      "LastSubmissionDate": "2026-10-19 21:02:51",
+      "Score": "419.2",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57409358",
+      "fileName": "ptcg_v76_rl_a450.tar.gz",
+      "date": "2026-10-19 21:02:51.067000",
+      "description": "submit ptcg_v76_rl_a450.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "369.6",
+      "privateScore": ""
+    },
+    {
+      "ref": "57384689",
+      "fileName": "v77_rl.tar.gz",
+      "date": "2026-10-19 05:54:03.837000",
+      "description": "submit v77_rl.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
       "ref": "57370290",
       "fileName": "ptcg_v70_meta_a450.tar.gz",
       "date": "2026-10-18 22:01:13.700000",
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "427.0",
+      "publicScore": "419.2",
       "privateScore": ""
     },
     {
@@ -40,7 +58,7 @@
       "date": "2026-10-18 02:09:12.870000",
       "description": "v70 horizon bezkompromisowa – 0.786 new_losses 120g 0.918 top30 0.523 vs champ, 78.6% vs przegrane, po v69 417.5 spadek, YumeNeko 1350 RL",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "422.2",
+      "publicScore": "450.8",
       "privateScore": ""
     },
     {
@@ -86,24 +104,6 @@
       "description": "v70g final token fix - 0.596 top30 0.637 pool - should now auth with API_TOKEN",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "372.3",
-      "privateScore": ""
-    },
-    {
-      "ref": "57270737",
-      "fileName": "v69_alakazam_simple_652.tar.gz",
-      "date": "2026-10-16 13:32:32.790000",
-      "description": "v69 Alakazam simple 4x Alakazam 11E hybrid 0.652 top30 0.825 walls — revolution to 1000+",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "356.8",
-      "privateScore": ""
-    },
-    {
-      "ref": "57261105",
-      "fileName": "v59_10k_1M_772val.tar.gz",
-      "date": "2026-10-16 08:08:09.107000",
-      "description": "v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "419.8",
       "privateScore": ""
     }
   ],
