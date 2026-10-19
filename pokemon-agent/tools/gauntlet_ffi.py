@@ -28,12 +28,35 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LIB = ROOT / ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
+# fallback for Actions / different venv layouts
 if not LIB.exists():
-    import sysconfig
-    _sp = Path(sysconfig.get_paths()["purelib"])
-    _cand = _sp / "kaggle_environments/envs/cabt/cg/libcg.so"
-    if _cand.exists():
-        LIB = _cand
+    import sysconfig, importlib.util
+    # try purelib
+    for base in [Path(sysconfig.get_paths()["purelib"]), Path(sysconfig.get_paths()["platlib"])]:
+        cand = base / "kaggle_environments/envs/cabt/cg/libcg.so"
+        if cand.exists():
+            LIB = cand
+            break
+    # try via importlib
+    if not LIB.exists():
+        try:
+            spec = importlib.util.find_spec("kaggle_environments.envs.cabt.cg")
+            if spec and spec.submodule_search_locations:
+                cand = Path(spec.submodule_search_locations[0]) / "libcg.so"
+                if cand.exists():
+                    LIB = cand
+        except Exception:
+            pass
+    # try via kaggle_environments package file
+    if not LIB.exists():
+        try:
+            import kaggle_environments
+            cand = Path(kaggle_environments.__file__).parent / "envs/cabt/cg/libcg.so"
+            if cand.exists():
+                LIB = cand
+        except Exception:
+            pass
+
 
 class StartData(ctypes.Structure):
     _fields_ = [("battlePtr", ctypes.c_void_p), ("errorPlayer", ctypes.c_int), ("errorType", ctypes.c_int)]
