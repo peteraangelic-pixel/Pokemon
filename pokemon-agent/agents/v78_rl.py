@@ -577,3 +577,4 @@ def agent(obs):
             return _fallback(obs)
     except Exception:
         return _fallback(obs)
+# trigger gauntlet with archetypes fix
