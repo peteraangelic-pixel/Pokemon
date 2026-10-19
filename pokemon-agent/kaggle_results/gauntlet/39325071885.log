@@ -1,0 +1,27 @@
+Testing pokemon-agent/agents/v78_rl.py vs top7_live with pokemon-agent/decks/v57_trolley34w.csv 20 games
+.venv/bin/python: can't open file '/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_live.py': [Errno 2] No such file or directory
+--- Rust gauntlet top7 ---
+Our deck: pokemon-agent/decks/v57_trolley34w.csv (0 cards)
+Agent: pokemon-agent/agents/v78_rl.py
+Live decks: 0 in decks/top7_live
+Games per matchup: 20 (rayon threads: 4)
+
+=== Sorted worst first ===
+--- Rust gauntlet top30 ---
+Our deck: pokemon-agent/decks/v57_trolley34w.csv (0 cards)
+Agent: pokemon-agent/agents/v78_rl.py
+Live decks: 0 in decks/top30_live
+Games per matchup: 5 (rayon threads: 4)
+
+=== Sorted worst first ===
+--- vs v67 and v76 ---
+Traceback (most recent call last):
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_ffi.py", line 226, in <module>
+    main()
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_ffi.py", line 181, in main
+    our_deck = load_deck(str(our_deck_path))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_ffi.py", line 83, in load_deck
+    return [int(t) for line in open(path) for t in line.replace(",", " ").split() if t]
+                               ^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/Pokemon/Pokemon/pokemon-agent/pokemon-agent/decks/v57_trolley34w.csv'
