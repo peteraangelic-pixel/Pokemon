@@ -1,0 +1,98 @@
+name: kaggle-submit
+
+on:
+  workflow_dispatch:
+    inputs:
+      bundle:
+        description: "Bundle to submit (z bundles/)"
+        default: "phase1_tuned_v14_top30_v11f.tar.gz"
+        required: false
+      message:
+        description: "Submission message"
+        default: "v14 top30 v11f 0.767 top30 0.692 broad 0.848 top30_live - best vs weak fix"
+        required: false
+  push:
+    branches: ["arena/a450b00f-pokemon", "arena/c87f7a48-pokemon"]
+    paths:
+      - "pokemon-agent/bundles/*.trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install kaggle
+        run: pip install --quiet kaggle
+
+      - name: Configure Kaggle
+        env:
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          if [ -n "$KAGGLE_API_TOKEN" ]; then
+            printf '%s' "$KAGGLE_API_TOKEN" | tr -d '[:space:]' > ~/.kaggle/access_token
+            chmod 600 ~/.kaggle/access_token
+            echo "Using KAGGLE_API_TOKEN"
+          elif [ -n "$KAGGLE_USERNAME" ] && [ -n "$KAGGLE_KEY" ]; then
+            printf '{"username":"%s","key":"%s"}' "$KAGGLE_USERNAME" "$KAGGLE_KEY" > ~/.kaggle/kaggle.json
+            chmod 600 ~/.kaggle/kaggle.json
+          else
+            echo "No Kaggle credentials"
+            exit 1
+          fi
+
+      - name: Submit bundle
+        env:
+          IN_BUNDLE: ${{ inputs.bundle }}
+          IN_MESSAGE: ${{ inputs.message }}
+        run: |
+          cd pokemon-agent
+          if [ "${{ github.event_name }}" = "push" ]; then
+            TRIGGER=$(git diff --name-only HEAD~1 HEAD | grep 'bundles/.*\.trigger$' | head -1 || true)
+            if [ -z "$TRIGGER" ]; then
+              echo "No new bundles/*.trigger in this push -- nothing to submit"
+              exit 0
+            fi
+            BUNDLE=$(basename "$TRIGGER" .trigger).tar.gz
+            MESSAGE="submit $BUNDLE via bundles/*.trigger push"
+            echo "Detected trigger $TRIGGER -> bundle $BUNDLE"
+          else
+            BUNDLE="$IN_BUNDLE"
+            MESSAGE="$IN_MESSAGE"
+          fi
+          BUNDLE_PATH="bundles/$BUNDLE"
+          ls -lh bundles/ | tail -20
+          echo "Submitting $BUNDLE_PATH"
+          echo "Message: $MESSAGE"
+          set -o pipefail
+          mkdir -p kaggle_results/submit_logs
+          kaggle competitions submit -c the-pokemon-company-ptcg-ai-battle-challenge-playground -f "$BUNDLE_PATH" -m "$MESSAGE" 2>&1 | tee "kaggle_results/submit_logs/${BUNDLE%.tar.gz}_$(date -u +%H%M%S).log"
+          echo "=== last submissions ==="
+          kaggle competitions submissions -c the-pokemon-company-ptcg-ai-battle-challenge-playground 2>&1 | head -6 | tee -a "kaggle_results/submit_logs/${BUNDLE%.tar.gz}_$(date -u +%H%M%S).log"
+
+      - name: Commit submit log (always, even on failure)
+        if: always()
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && break || sleep $((i*10))
+          done
+          git add -f pokemon-agent/kaggle_results/submit_logs/ 2>/dev/null || true
+          if git diff --cached --quiet; then echo "no log"; else git commit -m "submit log [skip ci]"; for i in 1 2 3; do git push origin "HEAD:${GITHUB_REF_NAME}" && break || { sleep $((i*5)); git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true; }; done; fi
+          cat submit.log
