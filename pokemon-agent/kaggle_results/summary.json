@@ -1,28 +1,46 @@
 {
-  "fetched_utc": "2026-10-18T04:18:51+00:00",
+  "fetched_utc": "2026-10-19T05:42:05+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 419,
-  "submission_rows": 36,
+  "leaderboard_rows": 435,
+  "submission_rows": 38,
   "our_leaderboard": [
     {
-      "Rank": "327",
+      "Rank": "337",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-18 02:09:12",
-      "Score": "419.4",
+      "LastSubmissionDate": "2026-10-18 22:01:13",
+      "Score": "427.0",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57370290",
+      "fileName": "ptcg_v70_meta_a450.tar.gz",
+      "date": "2026-10-18 22:01:13.700000",
+      "description": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "427.0",
+      "privateScore": ""
+    },
+    {
+      "ref": "57370255",
+      "fileName": "v75_rl_lethal.tar.gz",
+      "date": "2026-10-18 21:59:45.497000",
+      "description": "",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
       "ref": "57334418",
       "fileName": "ptcg_v70_horizon_a450.tar.gz",
       "date": "2026-10-18 02:09:12.870000",
       "description": "v70 horizon bezkompromisowa – 0.786 new_losses 120g 0.918 top30 0.523 vs champ, 78.6% vs przegrane, po v69 417.5 spadek, YumeNeko 1350 RL",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "419.4",
+      "publicScore": "422.2",
       "privateScore": ""
     },
     {
@@ -31,7 +49,7 @@
       "date": "2026-10-17 21:59:30.953000",
       "description": "v69 anti-FEZANDIP board<=4 Judge+250 Boss+180 Kyogre pref vs Fezandip snipe 100, fixes live 0-5 vs FEZANDIP, top30 0.909 vs v67 0.894 new_losses 0.700 vs 0.691",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "414.1",
+      "publicScore": "427.2",
       "privateScore": ""
     },
     {
@@ -86,24 +104,6 @@
       "description": "v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "419.8",
-      "privateScore": ""
-    },
-    {
-      "ref": "57249391",
-      "fileName": "v59_10k_1M_772val.tar.gz",
-      "date": "2026-10-16 00:48:08.647000",
-      "description": "v59 10k games 998k decisions 0.772 val_acc, 142g/s mt",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "381.3",
-      "privateScore": ""
-    },
-    {
-      "ref": "57225963",
-      "fileName": "ptcg_v56_tuned_a450.tar.gz",
-      "date": "2026-10-15 10:04:36.897000",
-      "description": "submit ptcg_v56_tuned_a450.tar.gz via bundles/*.trigger push",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "423.9",
       "privateScore": ""
     }
   ],
