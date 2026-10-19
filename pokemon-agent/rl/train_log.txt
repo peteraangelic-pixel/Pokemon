@@ -4,16 +4,10 @@ Traceback (most recent call last):
   File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/rl/train_v2.py", line 251, in <module>
     raise SystemExit(main())
                      ^^^^^^
-  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/rl/train_v2.py", line 40, in main
-    lib = G.get_lib()
-          ^^^^^^^^^^^
-  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_ffi.py", line 41, in get_lib
-    lib = ctypes.cdll.LoadLibrary(str(LIB))
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/ctypes/__init__.py", line 454, in LoadLibrary
-    return self._dlltype(name)
-           ^^^^^^^^^^^^^^^^^^^
-  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/ctypes/__init__.py", line 376, in __init__
-    self._handle = _dlopen(self._name, mode)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-OSError: /home/runner/work/Pokemon/Pokemon/pokemon-agent/.venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so: cannot open shared object file: No such file or directory
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/rl/train_v2.py", line 47, in main
+    champ_fn, champ_deck = pilots["champion"]
+                           ~~~~~~^^^^^^^^^^^^
+KeyError: 'champion'
+league skip champion: [Errno 2] No such file or directory: 'decks/v57_trolley34w.csv'
+league skip v67: [Errno 2] No such file or directory: 'decks/v57_trolley34w.csv'
+league skip v63: [Errno 2] No such file or directory: 'decks/v57_trolley34w.csv'
