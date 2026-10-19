@@ -10,7 +10,7 @@ BC 6000g: match 0.977, eval 0.57/0.46 (100g). PPO 12 iter: eval
 
 ## v76 = model + lethal-win override + fallback champion (1 plik)
 Clean-room (sam main.py+deck+card_index, jak Kaggle):
-- vs v67 0.517 @600 | vs champion 0.552 @600 | siatka 200/deck (nizej)
+- vs v67 0.517 @600 | vs champion 0.552 @600 | siatka: mirror 0.520 (pelna siatka pominieta - wolna featuryzacja)
 Wczesniej rl/agent.py: 0.509/0.507 @1200. Model = poziom nauczyciela,
 PPO jeszcze nie przebija wyraznie. Paczka ptcg_v76_rl_a450.tar.gz
 przechodzi bramki; NIE wyslana (brak rozkazu).
