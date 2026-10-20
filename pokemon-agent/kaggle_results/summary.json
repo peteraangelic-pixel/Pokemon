@@ -1,0 +1,101 @@
+{
+  "fetched_utc": "2026-10-20T14:41:16+00:00",
+  "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
+  "team": "(unknown - pass --team to filter)",
+  "leaderboard_rows": 453,
+  "submission_rows": 42,
+  "our_leaderboard": [],
+  "latest_submissions": [
+    {
+      "ref": "57411289",
+      "fileName": "v78_rl.tar.gz",
+      "date": "2026-10-19 22:33:27.063000",
+      "description": "submit v78_rl.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "383.3",
+      "privateScore": ""
+    },
+    {
+      "ref": "57411034",
+      "fileName": "v78_rl.tar.gz",
+      "date": "2026-10-19 22:22:12.030000",
+      "description": "submit v78_rl.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "436.2",
+      "privateScore": ""
+    },
+    {
+      "ref": "57409358",
+      "fileName": "ptcg_v76_rl_a450.tar.gz",
+      "date": "2026-10-19 21:02:51.067000",
+      "description": "submit ptcg_v76_rl_a450.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "378.0",
+      "privateScore": ""
+    },
+    {
+      "ref": "57384689",
+      "fileName": "v77_rl.tar.gz",
+      "date": "2026-10-19 05:54:03.837000",
+      "description": "submit v77_rl.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "57370290",
+      "fileName": "ptcg_v70_meta_a450.tar.gz",
+      "date": "2026-10-18 22:01:13.700000",
+      "description": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "415.9",
+      "privateScore": ""
+    },
+    {
+      "ref": "57370255",
+      "fileName": "v75_rl_lethal.tar.gz",
+      "date": "2026-10-18 21:59:45.497000",
+      "description": "",
+      "status": "SubmissionStatus.ERROR",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "57334418",
+      "fileName": "ptcg_v70_horizon_a450.tar.gz",
+      "date": "2026-10-18 02:09:12.870000",
+      "description": "v70 horizon bezkompromisowa – 0.786 new_losses 120g 0.918 top30 0.523 vs champ, 78.6% vs przegrane, po v69 417.5 spadek, YumeNeko 1350 RL",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "450.8",
+      "privateScore": ""
+    },
+    {
+      "ref": "57327179",
+      "fileName": "ptcg_v69_resistant_v2_a450.tar.gz",
+      "date": "2026-10-17 21:59:30.953000",
+      "description": "v69 anti-FEZANDIP board<=4 Judge+250 Boss+180 Kyogre pref vs Fezandip snipe 100, fixes live 0-5 vs FEZANDIP, top30 0.909 vs v67 0.894 new_losses 0.700 vs 0.691",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "427.2",
+      "privateScore": ""
+    },
+    {
+      "ref": "57327167",
+      "fileName": "ptcg_v69_resistant_v2_a450.tar.gz",
+      "date": "2026-10-17 21:59:01.913000",
+      "description": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "428.0",
+      "privateScore": ""
+    },
+    {
+      "ref": "57318827",
+      "fileName": "ptcg_v67_wall_a450.tar.gz",
+      "date": "2026-10-17 16:50:39.943000",
+      "description": "v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "443.2",
+      "privateScore": ""
+    }
+  ],
+  "problems": []
+}

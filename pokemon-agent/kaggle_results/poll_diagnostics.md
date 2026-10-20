@@ -1,9 +1,9 @@
 ## run diagnostics
 
-run_id: 39440525966   attempt: 1
+run_id: 39441412491   attempt: 1
 event: push
 ref: arena/c87f7a48-pokemon
-utc: 2026-10-20T14:35:25Z
+utc: 2026-10-20T14:41:13Z
 
 credentials present (names only, never values):
 - KAGGLE_API_TOKEN: YES
@@ -11,4 +11,3 @@ credentials present (names only, never values):
 - KAGGLE_KEY:       not set
 
 auth: KAGGLE_API_TOKEN -> ~/.kaggle/access_token
-fetch step failed (see summary.json for problems)
