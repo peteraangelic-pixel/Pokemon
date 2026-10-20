@@ -1,0 +1,195 @@
+Testing agents/v78_rl.py vs top7_live with decks/v57_trolley34w.csv 20 games
+Warning! The implementation of 'quoridor' has known issues. Please see the games list on github or the code for details.
+Our deck: decks/v57_trolley34w.csv 60 cards
+Agent: agents/v78_rl.py
+Games per matchup: 20 (alternating seats)
+
+Live decks: 22 in decks/top7_live
+Traceback (most recent call last):
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_live.py", line 162, in <module>
+    main()
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_live.py", line 130, in main
+    rate,w,l,d=run_matches(our_deck, opp, args.agent, games=args.games, bo=args.bo)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_live.py", line 56, in run_matches
+    rebind_deck(base, our_deck)
+  File "/home/runner/work/Pokemon/Pokemon/pokemon-agent/tools/gauntlet_live.py", line 38, in rebind_deck
+    mod.PLAN=mod._build_plan(mod.DECK)
+             ^^^^^^^^^^^^^^^
+AttributeError: module 'agent_30626_our' has no attribute '_build_plan'
+--- Rust gauntlet top7 ---
+Our deck: decks/v57_trolley34w.csv (60 cards)
+Agent: agents/v78_rl.py
+Live decks: 22 in decks/top7_live
+Games per matchup: 20 (rayon threads: 4)
+Failed to parse result for inego: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_37213_our' has no attribute '_build_plan''
+  inego                               0.000 (0-0 d0)
+Failed to parse result for vrmichalski: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_1792_our' has no attribute '_build_plan''
+  vrmichalski                         0.000 (0-0 d0)
+Failed to parse result for Colton_Martin: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_72441_our' has no attribute '_build_plan''
+  Colton_Martin                       0.000 (0-0 d0)
+Failed to parse result for Chonghao_Peng: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_80235_our' has no attribute '_build_plan''
+  Chonghao_Peng                       0.000 (0-0 d0)
+Failed to parse result for No_Free_MIST_Energy: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_54124_our' has no attribute '_build_plan''
+  No_Free_MIST_Energy                 0.000 (0-0 d0)
+Failed to parse result for GiovanniCR: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_4003_our' has no attribute '_build_plan''
+  GiovanniCR                          0.000 (0-0 d0)
+Failed to parse result for やる気元気ミワハルキ_2nd_ver_: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_38192_our' has no attribute '_build_plan''
+  やる気元気ミワハルキ_2nd_ver_                 0.000 (0-0 d0)
+Failed to parse result for Kentaro_Totsuka: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_36232_our' has no attribute '_build_plan''
+  Kentaro_Totsuka                     0.000 (0-0 d0)
+Failed to parse result for YumeNeko: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_36350_our' has no attribute '_build_plan''
+  YumeNeko                            0.000 (0-0 d0)
+Failed to parse result for Stephen_Schott: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_16700_our' has no attribute '_build_plan''
+  Stephen_Schott                      0.000 (0-0 d0)
+Failed to parse result for Darren_Sheehan: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_236_our' has no attribute '_build_plan''
+  Darren_Sheehan                      0.000 (0-0 d0)
+Failed to parse result for Zefirrr: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_19451_our' has no attribute '_build_plan''
+  Zefirrr                             0.000 (0-0 d0)
+Failed to parse result for Eugen_LNCanti: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_90052_our' has no attribute '_build_plan''
+  Eugen_LNCanti                       0.000 (0-0 d0)
+Failed to parse result for Akmal_Xodarev__Busya_PRIME_: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_95275_our' has no attribute '_build_plan''
+  Akmal_Xodarev__Busya_PRIME_         0.000 (0-0 d0)
+Failed to parse result for Vinit: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_46150_our' has no attribute '_build_plan''
+  Vinit                               0.000 (0-0 d0)
+Failed to parse result for Anthony_Oxendine: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_12313_our' has no attribute '_build_plan''
+  Anthony_Oxendine                    0.000 (0-0 d0)
+Failed to parse result for Don_Cry_Baby: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_22367_our' has no attribute '_build_plan''
+  Don_Cry_Baby                        0.000 (0-0 d0)
+Failed to parse result for バーベナヘレナでコンボ決めたい連合: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_34314_our' has no attribute '_build_plan''
+  バーベナヘレナでコンボ決めたい連合                   0.000 (0-0 d0)
+Failed to parse result for Pawit_Sahare: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_72446_our' has no attribute '_build_plan''
+  Pawit_Sahare                        0.000 (0-0 d0)
+Failed to parse result for ANMOL_GARG: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_34663_our' has no attribute '_build_plan''
+  ANMOL_GARG                          0.000 (0-0 d0)
+Failed to parse result for OceanMix: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_69426_our' has no attribute '_build_plan''
+  OceanMix                            0.000 (0-0 d0)
+Failed to parse result for LiYang578: stdout tail='Live decks: 22 in decks/top7_live' stderr tail='AttributeError: module 'agent_9710_our' has no attribute '_build_plan''
+  LiYang578                           0.000 (0-0 d0)
+
+=== Sorted worst first ===
+Chonghao_Peng                            0.000 (0-0)
+Kentaro_Totsuka                          0.000 (0-0)
+Zefirrr                                  0.000 (0-0)
+Anthony_Oxendine                         0.000 (0-0)
+ANMOL_GARG                               0.000 (0-0)
+Akmal_Xodarev__Busya_PRIME_              0.000 (0-0)
+Don_Cry_Baby                             0.000 (0-0)
+OceanMix                                 0.000 (0-0)
+Vinit                                    0.000 (0-0)
+バーベナヘレナでコンボ決めたい連合                        0.000 (0-0)
+LiYang578                                0.000 (0-0)
+Colton_Martin                            0.000 (0-0)
+GiovanniCR                               0.000 (0-0)
+vrmichalski                              0.000 (0-0)
+No_Free_MIST_Energy                      0.000 (0-0)
+YumeNeko                                 0.000 (0-0)
+inego                                    0.000 (0-0)
+やる気元気ミワハルキ_2nd_ver_                      0.000 (0-0)
+Darren_Sheehan                           0.000 (0-0)
+Stephen_Schott                           0.000 (0-0)
+Eugen_LNCanti                            0.000 (0-0)
+Pawit_Sahare                             0.000 (0-0)
+--- Rust gauntlet top30 ---
+Our deck: decks/v57_trolley34w.csv (60 cards)
+Agent: agents/v78_rl.py
+Live decks: 25 in decks/top30_live
+Games per matchup: 5 (rayon threads: 4)
+Failed to parse result for Akmal_Xodarev__Busya_PRIME_: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_38340_our' has no attribute '_build_plan''
+  Akmal_Xodarev__Busya_PRIME_         0.000 (0-0 d0)
+Failed to parse result for sue124: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_92089_our' has no attribute '_build_plan''
+  sue124                              0.000 (0-0 d0)
+Failed to parse result for Chonghao_Peng: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_95216_our' has no attribute '_build_plan''
+  Chonghao_Peng                       0.000 (0-0 d0)
+Failed to parse result for Raja_Biswas: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_27594_our' has no attribute '_build_plan''
+  Raja_Biswas                         0.000 (0-0 d0)
+Failed to parse result for OceanMix: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_8550_our' has no attribute '_build_plan''
+  OceanMix                            0.000 (0-0 d0)
+Failed to parse result for Zedan_Soorya: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_38852_our' has no attribute '_build_plan''
+  Zedan_Soorya                        0.000 (0-0 d0)
+Failed to parse result for Majiro_ns: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_63404_our' has no attribute '_build_plan''
+Failed to parse result for Mathieu_W: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_767_our' has no attribute '_build_plan''
+  Mathieu_W                           0.000 (0-0 d0)
+  Majiro_ns                           0.000 (0-0 d0)
+Failed to parse result for バーベナヘレナでコンボ決めたい連合: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_97167_our' has no attribute '_build_plan''
+  バーベナヘレナでコンボ決めたい連合                   0.000 (0-0 d0)
+Failed to parse result for KyryloBakumenko: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_68401_our' has no attribute '_build_plan''
+  KyryloBakumenko                     0.000 (0-0 d0)
+Failed to parse result for Leon_Liu: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_94027_our' has no attribute '_build_plan''
+  Leon_Liu                            0.000 (0-0 d0)
+Failed to parse result for Colton_Martin: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_61497_our' has no attribute '_build_plan''
+  Colton_Martin                       0.000 (0-0 d0)
+Failed to parse result for YumeNeko: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_90637_our' has no attribute '_build_plan''
+  YumeNeko                            0.000 (0-0 d0)
+Failed to parse result for Kentaro_Totsuka: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_82268_our' has no attribute '_build_plan''
+  Kentaro_Totsuka                     0.000 (0-0 d0)
+Failed to parse result for Darren_Sheehan: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_2185_our' has no attribute '_build_plan''
+  Darren_Sheehan                      0.000 (0-0 d0)
+Failed to parse result for No_Free_MIST_Energy: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_72708_our' has no attribute '_build_plan''
+  No_Free_MIST_Energy                 0.000 (0-0 d0)
+Failed to parse result for やる気元気ミワハルキ_2nd_ver_: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_25393_our' has no attribute '_build_plan''
+  やる気元気ミワハルキ_2nd_ver_                 0.000 (0-0 d0)
+Failed to parse result for Mengfei_Li: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_21124_our' has no attribute '_build_plan''
+  Mengfei_Li                          0.000 (0-0 d0)
+Failed to parse result for JerryChen: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_87031_our' has no attribute '_build_plan''
+  JerryChen                           0.000 (0-0 d0)
+Failed to parse result for Cristobal_Tudela: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_95708_our' has no attribute '_build_plan''
+  Cristobal_Tudela                    0.000 (0-0 d0)
+Failed to parse result for Bill_Vlasak: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_73592_our' has no attribute '_build_plan''
+  Bill_Vlasak                         0.000 (0-0 d0)
+Failed to parse result for ANMOL_GARG: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_90326_our' has no attribute '_build_plan''
+  ANMOL_GARG                          0.000 (0-0 d0)
+Failed to parse result for Stephen_Schott: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_52861_our' has no attribute '_build_plan''
+  Stephen_Schott                      0.000 (0-0 d0)
+Failed to parse result for Xinyu_Li: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_2733_our' has no attribute '_build_plan''
+  Xinyu_Li                            0.000 (0-0 d0)
+Failed to parse result for leo_turing: stdout tail='Live decks: 25 in decks/top30_live' stderr tail='AttributeError: module 'agent_66160_our' has no attribute '_build_plan''
+  leo_turing                          0.000 (0-0 d0)
+
+=== Sorted worst first ===
+Chonghao_Peng                            0.000 (0-0)
+Mathieu_W                                0.000 (0-0)
+Leon_Liu                                 0.000 (0-0)
+Kentaro_Totsuka                          0.000 (0-0)
+JerryChen                                0.000 (0-0)
+ANMOL_GARG                               0.000 (0-0)
+sue124                                   0.000 (0-0)
+Zedan_Soorya                             0.000 (0-0)
+KyryloBakumenko                          0.000 (0-0)
+Akmal_Xodarev__Busya_PRIME_              0.000 (0-0)
+OceanMix                                 0.000 (0-0)
+バーベナヘレナでコンボ決めたい連合                        0.000 (0-0)
+Raja_Biswas                              0.000 (0-0)
+Majiro_ns                                0.000 (0-0)
+Colton_Martin                            0.000 (0-0)
+No_Free_MIST_Energy                      0.000 (0-0)
+Cristobal_Tudela                         0.000 (0-0)
+Xinyu_Li                                 0.000 (0-0)
+YumeNeko                                 0.000 (0-0)
+やる気元気ミワハルキ_2nd_ver_                      0.000 (0-0)
+Bill_Vlasak                              0.000 (0-0)
+Darren_Sheehan                           0.000 (0-0)
+Mengfei_Li                               0.000 (0-0)
+Stephen_Schott                           0.000 (0-0)
+leo_turing                               0.000 (0-0)
+--- vs v67 and v76 ---
+GiovanniCR                                  2- 0- 0  1.000
+Don_Cry_Baby                                2- 0- 0  1.000
+Colton_Martin                               2- 0- 0  1.000
+Chonghao_Peng                               2- 0- 0  1.000
+Akmal_Xodarev__Busya_PRIME_                 2- 0- 0  1.000
+ANMOL_GARG                                  2- 0- 0  1.000
+バーベナヘレナでコンボ決めたい連合                           1- 1- 0  0.500
+Vinit                                       1- 1- 0  0.500
+Stephen_Schott                              1- 1- 0  0.500
+Anthony_Oxendine                            1- 1- 0  0.500
+Eugen_LNCanti                               0- 2- 0  0.000
+Darren_Sheehan                              0- 2- 0  0.000
+
+TOTAL 36W-8L-0D = 0.818  (22 decks x 2 games, 8s)
+worst 5:
+  Darren_Sheehan                             0-2-0  0.000
+  Eugen_LNCanti                              0-2-0  0.000
+  Anthony_Oxendine                           1-1-0  0.500
+  Stephen_Schott                             1-1-0  0.500
+  Vinit                                      1-1-0  0.500
