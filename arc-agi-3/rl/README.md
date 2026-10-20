@@ -114,14 +114,20 @@ python rl/evaluate_policy.py \
 
 ## 📊 Expected Results
 
-| Phase | Method | Expected Win Rate | Training Time |
-|-------|--------|-------------------|---------------|
-| 0 | LLM agent v7 | ~0.26 (baseline) | 0 |
-| 1 | BC (MLP) | ~0.30-0.40 | 2h |
-| 2 | BC + PPO | ~0.40-0.50 | 20h |
-| 3 | Transformer+Pointer | ~0.50-0.60 | 10h |
+**Uczciwie: brak wiarygodnych liczb.** Nie mamy jeszcze danych eksperta, więc każda
+tabela "expected win rate" byłaby zgadywaniem. Zmierzone jest tylko to, co poniżej.
 
-**Goal**: 0.5+ win rate → ~55+ points on LB (from current 26.25)
+| Element | Status | Zmierzone |
+|---|---|---|
+| Silnik lokalny (krok gry) | ✅ działa | 0.10 ms/krok, ~300 epizodów/s na 16 rdzeniach |
+| Polityka LLM-free (heurystyka) | ✅ działa | 0.27% poziomów, 2/25 gier z postępem |
+| Biblioteka gwarantowanych rozwiązań | ✅ działa | cd82 i sp80 → 100% poziomu 1 |
+| BC / PPO / Transformer | ⛔ zablokowane | brak trajektorii eksperta do uczenia |
+
+Kolejność ma znaczenie: **najpierw dane** (nagrania z runów Kaggle → replay lokalnie →
+pary (obserwacja, akcja)), **potem** BC. Trening na danych syntetycznych z LLM-a ma sens
+dopiero, gdy lokalna pętla replay działa — inaczej nie ma jak zweryfikować, że polityka
+naśladuje cokolwiek użytecznego.
 
 ## 🔧 Implementation Details
 

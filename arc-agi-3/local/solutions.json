@@ -1,0 +1,40 @@
+{
+  "note": "Guaranteed level paths found by local/solver.py. Budget 700 nodes/game, 2 cores. Verify with solver.replay() before trusting.",
+  "solutions": {
+    "cd82": [
+      [
+        [
+          3
+        ],
+        [
+          2
+        ],
+        [
+          2
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ]
+      ]
+    ],
+    "sp80": [
+      [
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ]
+      ]
+    ]
+  }
+}
