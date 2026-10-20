@@ -202,6 +202,13 @@ def main():
                     flat[prefix] = np.array(p)
             _rf(best_params)
             np.savez('rl/params_best.npz', **flat)
+            if it % 5 == 4:
+                import subprocess
+                subprocess.run(['git', 'add', 'rl/params_best.npz'], capture_output=True)
+                subprocess.run(['git', '-c', 'user.email=actions@github.com', '-c',
+                                'user.name=rl-train', 'commit', '-m',
+                                f'rl mid-run checkpoint iter {it} [skip ci]'], capture_output=True)
+                subprocess.run(['git', 'push'], capture_output=True)
         print(f"PPO iter {it}: WR={W/max(W+L,1):.3f} decyzji={len(traj)} loss={float(l):.3f} "
               f"eval={ev} best={best_eval:.3f}", flush=True)
 
