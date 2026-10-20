@@ -1,18 +1,27 @@
 {
-  "fetched_utc": "2026-10-20T14:41:16+00:00",
+  "fetched_utc": "2026-10-20T21:44:37+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "(unknown - pass --team to filter)",
-  "leaderboard_rows": 453,
-  "submission_rows": 42,
+  "leaderboard_rows": 459,
+  "submission_rows": 43,
   "our_leaderboard": [],
   "latest_submissions": [
+    {
+      "ref": "57453454",
+      "fileName": "v79_final.tar.gz",
+      "date": "2026-10-20 21:19:06.470000",
+      "description": "submit v79_final.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "522.3",
+      "privateScore": ""
+    },
     {
       "ref": "57411289",
       "fileName": "v78_rl.tar.gz",
       "date": "2026-10-19 22:33:27.063000",
       "description": "submit v78_rl.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "383.3",
+      "publicScore": "390.8",
       "privateScore": ""
     },
     {
@@ -21,7 +30,7 @@
       "date": "2026-10-19 22:22:12.030000",
       "description": "submit v78_rl.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "436.2",
+      "publicScore": "438.4",
       "privateScore": ""
     },
     {
@@ -85,15 +94,6 @@
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "428.0",
-      "privateScore": ""
-    },
-    {
-      "ref": "57318827",
-      "fileName": "ptcg_v67_wall_a450.tar.gz",
-      "date": "2026-10-17 16:50:39.943000",
-      "description": "v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "443.2",
       "privateScore": ""
     }
   ],
