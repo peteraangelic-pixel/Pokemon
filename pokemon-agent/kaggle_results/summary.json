@@ -1,28 +1,55 @@
 {
-  "fetched_utc": "2026-10-19T22:01:02+00:00",
+  "fetched_utc": "2026-10-20T21:19:56+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "petersharps",
-  "leaderboard_rows": 440,
-  "submission_rows": 40,
+  "leaderboard_rows": 459,
+  "submission_rows": 43,
   "our_leaderboard": [
     {
-      "Rank": "334",
+      "Rank": "350",
       "TeamId": "17077007",
       "TeamName": "PeterSharps",
-      "LastSubmissionDate": "2026-10-19 21:02:51",
-      "Score": "419.2",
+      "LastSubmissionDate": "2026-10-19 22:33:27",
+      "Score": "438.4",
       "SubmissionCount": "2",
       "TeamMemberUserNames": "petersharps"
     }
   ],
   "latest_submissions": [
     {
+      "ref": "57453454",
+      "fileName": "v79_final.tar.gz",
+      "date": "2026-10-20 21:19:06.470000",
+      "description": "submit v79_final.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.PENDING",
+      "publicScore": "",
+      "privateScore": ""
+    },
+    {
+      "ref": "57411289",
+      "fileName": "v78_rl.tar.gz",
+      "date": "2026-10-19 22:33:27.063000",
+      "description": "submit v78_rl.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "381.4",
+      "privateScore": ""
+    },
+    {
+      "ref": "57411034",
+      "fileName": "v78_rl.tar.gz",
+      "date": "2026-10-19 22:22:12.030000",
+      "description": "submit v78_rl.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "438.4",
+      "privateScore": ""
+    },
+    {
       "ref": "57409358",
       "fileName": "ptcg_v76_rl_a450.tar.gz",
       "date": "2026-10-19 21:02:51.067000",
       "description": "submit ptcg_v76_rl_a450.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "369.6",
+      "publicScore": "378.0",
       "privateScore": ""
     },
     {
@@ -40,7 +67,7 @@
       "date": "2026-10-18 22:01:13.700000",
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "419.2",
+      "publicScore": "415.9",
       "privateScore": ""
     },
     {
@@ -77,33 +104,6 @@
       "description": "",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "428.0",
-      "privateScore": ""
-    },
-    {
-      "ref": "57318827",
-      "fileName": "ptcg_v67_wall_a450.tar.gz",
-      "date": "2026-10-17 16:50:39.943000",
-      "description": "v67 stack R1+R2+no imit mirror 2400g 0.527 WR 53% hunger 0.714 grid per second branch + our verification - best wall",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "443.2",
-      "privateScore": ""
-    },
-    {
-      "ref": "57290311",
-      "fileName": "ptcg_v63_super_fix_a450.tar.gz",
-      "date": "2026-10-17 01:26:36.140000",
-      "description": "submit ptcg_v63_super_fix_a450.tar.gz via bundles/*.trigger push",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "436.7",
-      "privateScore": ""
-    },
-    {
-      "ref": "57290256",
-      "fileName": "v70g_alakazam_endgame_2am_final_tokenfix.tar.gz",
-      "date": "2026-10-17 01:24:23.883000",
-      "description": "v70g final token fix - 0.596 top30 0.637 pool - should now auth with API_TOKEN",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "372.3",
       "privateScore": ""
     }
   ],

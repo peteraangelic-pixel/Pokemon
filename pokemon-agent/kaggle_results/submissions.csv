@@ -1,7 +1,10 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57409358,ptcg_v76_rl_a450.tar.gz,2026-10-19 21:02:51.067000,submit ptcg_v76_rl_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,369.6,
+57453454,v79_final.tar.gz,2026-10-20 21:19:06.470000,submit v79_final.tar.gz via bundles/*.trigger push,SubmissionStatus.PENDING,,
+57411289,v78_rl.tar.gz,2026-10-19 22:33:27.063000,submit v78_rl.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,381.4,
+57411034,v78_rl.tar.gz,2026-10-19 22:22:12.030000,submit v78_rl.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,438.4,
+57409358,ptcg_v76_rl_a450.tar.gz,2026-10-19 21:02:51.067000,submit ptcg_v76_rl_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,378.0,
 57384689,v77_rl.tar.gz,2026-10-19 05:54:03.837000,submit v77_rl.tar.gz via bundles/*.trigger push,SubmissionStatus.ERROR,,
-57370290,ptcg_v70_meta_a450.tar.gz,2026-10-18 22:01:13.700000,,SubmissionStatus.COMPLETE,419.2,
+57370290,ptcg_v70_meta_a450.tar.gz,2026-10-18 22:01:13.700000,,SubmissionStatus.COMPLETE,415.9,
 57370255,v75_rl_lethal.tar.gz,2026-10-18 21:59:45.497000,,SubmissionStatus.ERROR,,
 57334418,ptcg_v70_horizon_a450.tar.gz,2026-10-18 02:09:12.870000,"v70 horizon bezkompromisowa – 0.786 new_losses 120g 0.918 top30 0.523 vs champ, 78.6% vs przegrane, po v69 417.5 spadek, YumeNeko 1350 RL",SubmissionStatus.COMPLETE,450.8,
 57327179,ptcg_v69_resistant_v2_a450.tar.gz,2026-10-17 21:59:30.953000,"v69 anti-FEZANDIP board<=4 Judge+250 Boss+180 Kyogre pref vs Fezandip snipe 100, fixes live 0-5 vs FEZANDIP, top30 0.909 vs v67 0.894 new_losses 0.700 vs 0.691",SubmissionStatus.COMPLETE,427.2,
