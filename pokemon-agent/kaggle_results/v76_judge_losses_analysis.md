@@ -21,3 +21,13 @@ v70 Judge: WR 0.710; najslabsze: **Crustle 0.275** (87 porazek), mirrory
 Wniosek: wspolny zrodlowy problem obu submisji = sciana Crustle +
 coin-flip mirror. Liga treningowa v4 (z opp_15/opp_02/opp_04/opp_10)
 adresuje dokladnie to — pod warunkiem, ze run dojedzie do konca.
+
+## Trening v5 (meta-liga, 24 iter) — WYNIK NEGATYWNY (2026-10-20)
+Run ukonczony w 3h, checkpointy dzialaly. Pomiar params z commitu
+(600g): vs champion 0.420, vs v67 0.373 — GORZEJ niz model v76
+(0.509/0.517). Sciana Crustle 0.100 -> 0.253 (300g), nadal slabo.
+Ewaluacje treningowe plateau ~0.50 (poziom nauczyciela), final ponizej.
+Dwa bledy: (1) finalny zapis nadpisuje best-checkpoint (ocenione =
+ostatnia iteracja), (2) PPO w obecnym przepisie degraduje polityke —
+budzet Actions (~10k gier/run) jest o rzad wielkosci za maly i/lub
+brak kotwicy KL do BC. NIE pakowac z tego modelu.
