@@ -1,18 +1,27 @@
 {
-  "fetched_utc": "2026-10-20T21:44:37+00:00",
+  "fetched_utc": "2026-10-20T22:19:30+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "(unknown - pass --team to filter)",
   "leaderboard_rows": 459,
-  "submission_rows": 43,
+  "submission_rows": 44,
   "our_leaderboard": [],
   "latest_submissions": [
+    {
+      "ref": "57454079",
+      "fileName": "v80_final.tar.gz",
+      "date": "2026-10-20 21:50:27.147000",
+      "description": "submit v80_final.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "415.3",
+      "privateScore": ""
+    },
     {
       "ref": "57453454",
       "fileName": "v79_final.tar.gz",
       "date": "2026-10-20 21:19:06.470000",
       "description": "submit v79_final.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "522.3",
+      "publicScore": "493.8",
       "privateScore": ""
     },
     {
@@ -85,15 +94,6 @@
       "description": "v69 anti-FEZANDIP board<=4 Judge+250 Boss+180 Kyogre pref vs Fezandip snipe 100, fixes live 0-5 vs FEZANDIP, top30 0.909 vs v67 0.894 new_losses 0.700 vs 0.691",
       "status": "SubmissionStatus.COMPLETE",
       "publicScore": "427.2",
-      "privateScore": ""
-    },
-    {
-      "ref": "57327167",
-      "fileName": "ptcg_v69_resistant_v2_a450.tar.gz",
-      "date": "2026-10-17 21:59:01.913000",
-      "description": "",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "428.0",
       "privateScore": ""
     }
   ],

@@ -1,5 +1,6 @@
 ref,fileName,date,description,status,publicScore,privateScore
-57453454,v79_final.tar.gz,2026-10-20 21:19:06.470000,submit v79_final.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,522.3,
+57454079,v80_final.tar.gz,2026-10-20 21:50:27.147000,submit v80_final.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,415.3,
+57453454,v79_final.tar.gz,2026-10-20 21:19:06.470000,submit v79_final.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,493.8,
 57411289,v78_rl.tar.gz,2026-10-19 22:33:27.063000,submit v78_rl.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,390.8,
 57411034,v78_rl.tar.gz,2026-10-19 22:22:12.030000,submit v78_rl.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,438.4,
 57409358,ptcg_v76_rl_a450.tar.gz,2026-10-19 21:02:51.067000,submit ptcg_v76_rl_a450.tar.gz via bundles/*.trigger push,SubmissionStatus.COMPLETE,378.0,
