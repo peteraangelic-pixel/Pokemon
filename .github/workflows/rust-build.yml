@@ -63,3 +63,35 @@ jobs:
             git commit -m "chore(rust): commit rust binaries + build.log [skip ci]"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
+
+  build-windows:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build rust binaries (Windows)
+        shell: pwsh
+        run: |
+          cd pokemon-agent/rust
+          cargo build --release 2>&1 | Tee-Object -FilePath build-win.log
+          Get-ChildItem target/release/*.exe | Select-Object Name, Length
+          ./target/release/gauntlet_rust.exe --help | Out-Host
+          New-Item -ItemType Directory -Force -Path bin-win | Out-Null
+          Copy-Item target/release/*.exe bin-win/ -Exclude rust_gauntlet.exe
+          Copy-Item target/release/rust_gauntlet.exe bin-win/ -ErrorAction SilentlyContinue
+      - name: Commit windows binaries
+        if: always()
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase --autostash origin "${{ github.ref_name }}"
+          git add -f pokemon-agent/rust/bin-win/
+          if ((git diff --cached --quiet) -eq $null) { }
+          git diff --cached --stat
+          git commit -m "chore(rust): windows binaries (.exe) for user PC [skip ci]"
+          git push origin "HEAD:${{ github.ref_name }}"

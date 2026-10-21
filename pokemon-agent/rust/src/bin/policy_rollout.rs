@@ -631,7 +631,11 @@ impl EnginePool {
             }
         }
         let idx = self.counter.fetch_add(1, Ordering::Relaxed) % self.copies;
-        let path = format!("{}/libcg_{}.so", self.lib_dir, idx);
+        let path = if cfg!(target_os = "windows") {
+            format!("{}/cg_{}.dll", self.lib_dir, idx)
+        } else {
+            format!("{}/libcg_{}.so", self.lib_dir, idx)
+        };
         Engine::new(&path)
     }
     fn checkin(&self, e: Engine) {

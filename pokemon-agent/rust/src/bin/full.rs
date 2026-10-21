@@ -12,6 +12,16 @@ mod heuristic {
 use engine::Engine;
 use heuristic::{CardIndex, Knobs, Plan};
 
+// Platform default for the cabt engine library. Windows ships cg.dll in the
+// kaggle-environments wheel; place it next to the .exe or pass --lib.
+const DEFAULT_LIB: &str = if cfg!(target_os = "windows") {
+    "cg.dll"
+} else if cfg!(target_os = "macos") {
+    ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.dylib"
+} else {
+    ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
+};
+
 #[derive(Parser, Debug)]
 struct Args {
     #[arg(long, default_value="decks/v2_boss.csv")]
@@ -20,7 +30,7 @@ struct Args {
     opp_deck: String,
     #[arg(long, default_value_t=2)]
     games: usize,
-    #[arg(long, default_value=".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so")]
+    #[arg(long, default_value = DEFAULT_LIB)]
     lib_path: String,
     #[arg(long, default_value="assets/card_index.json")]
     card_index: String,
