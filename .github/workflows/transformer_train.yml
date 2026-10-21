@@ -7,12 +7,11 @@ on:
       bc_games:
         description: "BC games"
         default: "2400"
+        required: false
       epochs:
         description: "BC epochs"
         default: "10"
-      ppo_iters:
-        description: "PPO iters vs league"
-        default: "12"
+        required: false
 
 jobs:
   train:
@@ -27,18 +26,22 @@ jobs:
       - name: Install deps
         run: |
           pip install --quiet kaggle-environments jax[cpu] flax optax numpy tqdm
-          python -c "import jax; print(jax.devices()); import flax; print('deps ok')"
-      - name: Gen BC data 2400 games
+          python -c "import jax; print(jax.devices())"
+      - name: Gen BC data
         working-directory: pokemon-agent
         run: |
-          python tools/gen_bc_data.py --games ${{ inputs.bc_games || 2400 }} --out /tmp/bc_data.npz --workers 4 2>&1 | tee /tmp/bc_gen.log
+          GAMES=${{ github.event.inputs.bc_games || 2400 }}
+          echo "Generating $GAMES games"
+          python tools/gen_bc_data.py --games $GAMES --out /tmp/bc_data.npz --workers 4 2>&1 | tee /tmp/bc_gen.log
           ls -lh /tmp/bc_data.npz
       - name: Train transformer BC
         working-directory: pokemon-agent
         run: |
-          python tools/train_transformer.py --data /tmp/bc_data.npz --out /tmp/transformer_bc.npz --epochs ${{ inputs.epochs || 10 }} --bs 64 --lr 1e-4 2>&1 | tee /tmp/transformer_train.log
+          EPOCHS=${{ github.event.inputs.epochs || 10 }}
+          echo "Training $EPOCHS epochs"
+          python tools/train_transformer.py --data /tmp/bc_data.npz --out /tmp/transformer_bc.npz --epochs $EPOCHS --bs 64 --lr 1e-4 2>&1 | tee /tmp/transformer_train.log
           ls -lh /tmp/transformer_bc.npz
-      - name: Commit transformer weights
+      - name: Commit weights
         run: |
           mkdir -p pokemon-agent/rl
           cp /tmp/bc_data.npz pokemon-agent/rl/bc_data_2400.npz || true
@@ -48,5 +51,5 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "transformer-train"
           git add pokemon-agent/rl/transformer_bc.npz pokemon-agent/rl/bc_data_2400.npz pokemon-agent/rl/*.log || true
-          git commit -m "transformer: BC 2400 games + 10 epochs D256 L4 H4 GRU256 pointer head ~3M [skip ci]" || echo "nothing to commit"
+          git commit -m "transformer: BC 2400 + 10 epochs D256 L4 H4 GRU256 pointer ~3M [skip ci]" || echo "nothing"
           git push origin HEAD:${{ github.ref_name }} || true
