@@ -4,103 +4,95 @@
 [1m[92m      Adding[0m libloading v0.8.9 [1m[33m(available: v0.9.0)[0m
 [1m[92m      Adding[0m rand v0.8.8 [1m[33m(available: v0.10.3)[0m
 [1m[92m Downloading[0m crates ...
-[1m[92m  Downloaded[0m anstyle-parse v1.0.0
 [1m[92m  Downloaded[0m anstyle-query v1.1.5
-[1m[92m  Downloaded[0m itoa v1.0.18
-[1m[92m  Downloaded[0m heck v0.5.0
-[1m[92m  Downloaded[0m colorchoice v1.0.5
+[1m[92m  Downloaded[0m aho-corasick v1.1.5
+[1m[92m  Downloaded[0m anstream v1.0.0
+[1m[92m  Downloaded[0m anstyle v1.0.14
+[1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
+[1m[92m  Downloaded[0m utf8parse v0.2.2
+[1m[92m  Downloaded[0m clap_lex v1.1.1
 [1m[92m  Downloaded[0m rand_chacha v0.3.1
 [1m[92m  Downloaded[0m cfg-if v1.0.5
-[1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
-[1m[92m  Downloaded[0m clap_lex v1.1.1
-[1m[92m  Downloaded[0m utf8parse v0.2.2
+[1m[92m  Downloaded[0m itoa v1.0.18
+[1m[92m  Downloaded[0m colorchoice v1.0.5
 [1m[92m  Downloaded[0m strsim v0.11.1
-[1m[92m  Downloaded[0m anstyle v1.0.14
-[1m[92m  Downloaded[0m rand_core v0.6.4
-[1m[92m  Downloaded[0m anstream v1.0.0
-[1m[92m  Downloaded[0m either v1.19.0
-[1m[92m  Downloaded[0m zmij v1.0.23
-[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
-[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
-[1m[92m  Downloaded[0m quote v1.0.47
-[1m[92m  Downloaded[0m anyhow v1.0.104
+[1m[92m  Downloaded[0m heck v0.5.0
+[1m[92m  Downloaded[0m anstyle-parse v1.0.0
 [1m[92m  Downloaded[0m libloading v0.8.9
-[1m[92m  Downloaded[0m getrandom v0.2.17
-[1m[92m  Downloaded[0m clap_derive v4.6.7
-[1m[92m  Downloaded[0m unicode-ident v1.0.27
-[1m[92m  Downloaded[0m aho-corasick v1.1.5
-[1m[92m  Downloaded[0m proc-macro2 v1.0.107
+[1m[92m  Downloaded[0m crossbeam-deque v0.8.8
+[1m[92m  Downloaded[0m either v1.19.0
 [1m[92m  Downloaded[0m ppv-lite86 v0.2.21
-[1m[92m  Downloaded[0m serde_derive v1.0.229
+[1m[92m  Downloaded[0m rand_core v0.6.4
+[1m[92m  Downloaded[0m quote v1.0.47
+[1m[92m  Downloaded[0m zmij v1.0.23
+[1m[92m  Downloaded[0m anyhow v1.0.104
+[1m[92m  Downloaded[0m clap_derive v4.6.7
+[1m[92m  Downloaded[0m getrandom v0.2.17
 [1m[92m  Downloaded[0m crossbeam-epoch v0.9.21
-[1m[92m  Downloaded[0m clap v4.6.7
+[1m[92m  Downloaded[0m proc-macro2 v1.0.107
+[1m[92m  Downloaded[0m crossbeam-utils v0.8.23
+[1m[92m  Downloaded[0m serde_derive v1.0.229
+[1m[92m  Downloaded[0m unicode-ident v1.0.27
 [1m[92m  Downloaded[0m rayon-core v1.13.0
 [1m[92m  Downloaded[0m serde_core v1.0.229
-[1m[92m  Downloaded[0m memchr v2.8.3
+[1m[92m  Downloaded[0m clap v4.6.7
 [1m[92m  Downloaded[0m serde v1.0.229
+[1m[92m  Downloaded[0m memchr v2.8.3
 [1m[92m  Downloaded[0m rand v0.8.8
 [1m[92m  Downloaded[0m regex v1.13.1
-[1m[92m  Downloaded[0m serde_json v1.0.154
 [1m[92m  Downloaded[0m clap_builder v4.6.7
+[1m[92m  Downloaded[0m serde_json v1.0.154
 [1m[92m  Downloaded[0m rayon v1.12.0
-[1m[92m  Downloaded[0m syn v3.0.9
 [1m[92m  Downloaded[0m zerocopy v0.8.63
+[1m[92m  Downloaded[0m syn v3.0.9
 [1m[92m  Downloaded[0m regex-syntax v0.8.11
 [1m[92m  Downloaded[0m regex-automata v0.4.18
 [1m[92m  Downloaded[0m libc v0.2.191
 [1m[92m   Compiling[0m proc-macro2 v1.0.107
 [1m[92m   Compiling[0m quote v1.0.47
 [1m[92m   Compiling[0m unicode-ident v1.0.27
-[1m[92m   Compiling[0m crossbeam-utils v0.8.23
 [1m[92m   Compiling[0m libc v0.2.191
-[1m[92m   Compiling[0m cfg-if v1.0.5
+[1m[92m   Compiling[0m crossbeam-utils v0.8.23
 [1m[92m   Compiling[0m zerocopy v0.8.63
 [1m[92m   Compiling[0m crossbeam-epoch v0.9.21
-[1m[92m   Compiling[0m serde_core v1.0.229
-[1m[92m   Compiling[0m crossbeam-deque v0.8.8
+[1m[92m   Compiling[0m cfg-if v1.0.5
 [1m[92m   Compiling[0m memchr v2.8.3
+[1m[92m   Compiling[0m crossbeam-deque v0.8.8
+[1m[92m   Compiling[0m serde_core v1.0.229
 [1m[92m   Compiling[0m utf8parse v0.2.2
 [1m[92m   Compiling[0m anstyle-parse v1.0.0
 [1m[92m   Compiling[0m syn v3.0.9
 [1m[92m   Compiling[0m getrandom v0.2.17
 [1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
-[1m[92m   Compiling[0m rayon-core v1.13.0
 [1m[92m   Compiling[0m zmij v1.0.23
 [1m[92m   Compiling[0m colorchoice v1.0.5
 [1m[92m   Compiling[0m anstyle-query v1.1.5
 [1m[92m   Compiling[0m anstyle v1.0.14
+[1m[92m   Compiling[0m rayon-core v1.13.0
 [1m[92m   Compiling[0m anstream v1.0.0
 [1m[92m   Compiling[0m rand_core v0.6.4
 [1m[92m   Compiling[0m aho-corasick v1.1.5
-[1m[92m   Compiling[0m heck v0.5.0
-[1m[92m   Compiling[0m serde v1.0.229
-[1m[92m   Compiling[0m serde_json v1.0.154
 [1m[92m   Compiling[0m anyhow v1.0.104
+[1m[92m   Compiling[0m heck v0.5.0
+[1m[92m   Compiling[0m regex-syntax v0.8.11
+[1m[92m   Compiling[0m serde_json v1.0.154
 [1m[92m   Compiling[0m strsim v0.11.1
 [1m[92m   Compiling[0m clap_lex v1.1.1
-[1m[92m   Compiling[0m regex-syntax v0.8.11
+[1m[92m   Compiling[0m serde v1.0.229
 [1m[92m   Compiling[0m clap_builder v4.6.7
-[1m[92m   Compiling[0m ppv-lite86 v0.2.21
-[1m[92m   Compiling[0m serde_derive v1.0.229
-[1m[92m   Compiling[0m rand_chacha v0.3.1
 [1m[92m   Compiling[0m clap_derive v4.6.7
+[1m[92m   Compiling[0m ppv-lite86 v0.2.21
+[1m[92m   Compiling[0m rand_chacha v0.3.1
 [1m[92m   Compiling[0m regex-automata v0.4.18
-[1m[92m   Compiling[0m either v1.19.0
+[1m[92m   Compiling[0m serde_derive v1.0.229
 [1m[92m   Compiling[0m itoa v1.0.18
+[1m[92m   Compiling[0m either v1.19.0
 [1m[92m   Compiling[0m rayon v1.12.0
 [1m[92m   Compiling[0m regex v1.13.1
 [1m[92m   Compiling[0m clap v4.6.7
 [1m[92m   Compiling[0m rand v0.8.8
 [1m[92m   Compiling[0m libloading v0.8.9
 [1m[92m   Compiling[0m rust_gauntlet v0.1.0 (/home/runner/work/Pokemon/Pokemon/pokemon-agent/rust)
-[1m[33mwarning[0m[1m: unused import: `CString`[0m
- [1m[94m--> [0msrc/bin/../engine.rs:2:22
-  [1m[94m|[0m
-[1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
-  [1m[94m|[0m                      [1m[33m^^^^^^^[0m
-  [1m[94m|[0m
-  [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
-
 [1m[33mwarning[0m[1m: unused import: `PathBuf`[0m
  [1m[94m--> [0msrc/bin/full.rs:3:23
   [1m[94m|[0m
@@ -114,6 +106,46 @@
   [1m[94m|[0m
 [1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
   [1m[94m|[0m                      [1m[33m^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: unused import: `HashSet`[0m
+  [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:15:33
+   [1m[94m|[0m
+[1m[94m15[0m [1m[94m|[0m use std::collections::{HashMap, HashSet};
+   [1m[94m|[0m                                 [1m[33m^^^^^^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: field `id` is never read[0m
+  [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:33:5
+   [1m[94m|[0m
+[1m[94m30[0m [1m[94m|[0m struct Play {
+   [1m[94m|[0m        [1m[94m----[0m [1m[94mfield in this struct[0m
+[1m[94m...[0m
+[1m[94m33[0m [1m[94m|[0m     id: i64,
+   [1m[94m|[0m     [1m[33m^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `Play` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: field `file` is never read[0m
+  [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:45:5
+   [1m[94m|[0m
+[1m[94m44[0m [1m[94m|[0m struct ReplayInfo {
+   [1m[94m|[0m        [1m[94m----------[0m [1m[94mfield in this struct[0m
+[1m[94m45[0m [1m[94m|[0m     file: String,
+   [1m[94m|[0m     [1m[33m^^^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `ReplayInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+[1m[33mwarning[0m[1m: variable does not need to be mutable[0m
+   [1m[94m--> [0msrc/bin/evolve_tempo.rs:143:9
+    [1m[94m|[0m
+[1m[94m143[0m [1m[94m|[0m     let mut add_dir = |d: &str, weight: f64, prefix: &str, out: &mut Vec<PoolEntry>| {
+    [1m[94m|[0m         [1m[94m----[0m[1m[33m^^^^^^^[0m
+    [1m[94m|[0m         [1m[94m|[0m
+    [1m[94m|[0m         [1m[94mhelp: remove this `mut`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
 
 [1m[33mwarning[0m[1m: variable does not need to be mutable[0m
    [1m[94m--> [0msrc/bin/../heuristic.rs:119:13
@@ -250,65 +282,33 @@
 [1m[94m1139[0m [1m[94m|[0m pub fn decide_legacy(obs: &Value, index: &CardIndex, knobs: &Knobs) -> Vec<i32> {
      [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^[0m
 
+[1m[33mwarning[0m[1m: unused import: `CString`[0m
+ [1m[94m--> [0msrc/bin/../engine.rs:2:22
+  [1m[94m|[0m
+[1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
+  [1m[94m|[0m                      [1m[33m^^^^^^^[0m
+  [1m[94m|[0m
+  [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
 [1m[33mwarning[0m[1m: unused variable: `our_seat_base`[0m
    [1m[94m--> [0msrc/bin/gauntlet_rust.rs:112:153
     [1m[94m|[0m
 [1m[94m112[0m [1m[94m|[0m [1m[94m...[0mobs, games: usize, our_seat_base: usize) -> (usize, usize, usize) {
     [1m[94m|[0m                       [1m[33m^^^^^^^^^^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_our_seat_base`[0m
 
-[1m[33mwarning[0m[1m: unused import: `HashSet`[0m
-  [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:15:33
-   [1m[94m|[0m
-[1m[94m15[0m [1m[94m|[0m use std::collections::{HashMap, HashSet};
-   [1m[94m|[0m                                 [1m[33m^^^^^^^[0m
-   [1m[94m|[0m
-   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
-
-[1m[33mwarning[0m[1m: field `id` is never read[0m
-  [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:33:5
-   [1m[94m|[0m
-[1m[94m30[0m [1m[94m|[0m struct Play {
-   [1m[94m|[0m        [1m[94m----[0m [1m[94mfield in this struct[0m
-[1m[94m...[0m
-[1m[94m33[0m [1m[94m|[0m     id: i64,
-   [1m[94m|[0m     [1m[33m^^[0m
-   [1m[94m|[0m
-   [1m[94m= [0m[1mnote[0m: `Play` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-   [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
-
-[1m[33mwarning[0m[1m: field `file` is never read[0m
-  [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:45:5
-   [1m[94m|[0m
-[1m[94m44[0m [1m[94m|[0m struct ReplayInfo {
-   [1m[94m|[0m        [1m[94m----------[0m [1m[94mfield in this struct[0m
-[1m[94m45[0m [1m[94m|[0m     file: String,
-   [1m[94m|[0m     [1m[33m^^^^[0m
-   [1m[94m|[0m
-   [1m[94m= [0m[1mnote[0m: `ReplayInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
-
-[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 17 warnings (5 duplicates) (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 2 suggestions)
-[1m[33mwarning[0m[1m: variable does not need to be mutable[0m
-   [1m[94m--> [0msrc/bin/evolve_tempo.rs:143:9
-    [1m[94m|[0m
-[1m[94m143[0m [1m[94m|[0m     let mut add_dir = |d: &str, weight: f64, prefix: &str, out: &mut Vec<PoolEntry>| {
-    [1m[94m|[0m         [1m[94m----[0m[1m[33m^^^^^^^[0m
-    [1m[94m|[0m         [1m[94m|[0m
-    [1m[94m|[0m         [1m[94mhelp: remove this `mut`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
-
-[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 16 warnings (12 duplicates) (run `cargo fix --bin "search_deck_rust" -p rust_gauntlet` to apply 3 suggestions)
-[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 17 warnings (14 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 3 suggestions)
 [1m[33mwarning[0m: `rust_gauntlet` (bin "analyze_playstyle_rust") generated 3 warnings (run `cargo fix --bin "analyze_playstyle_rust" -p rust_gauntlet` to apply 1 suggestion)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 17 warnings (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 6 suggestions)
 [1m[33mwarning[0m: `rust_gauntlet` (bin "evolve_tempo") generated 1 warning (run `cargo fix --bin "evolve_tempo" -p rust_gauntlet` to apply 1 suggestion)
-[1m[92m    Finished[0m `release` profile [optimized] target(s) in 1m 00s
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 17 warnings (15 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 2 suggestions)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 16 warnings (16 duplicates)
+[1m[92m    Finished[0m `release` profile [optimized] target(s) in 55.16s
 === ls ===
--rwxr-xr-x 2 runner runner 1.2M Oct 21 08:23 target/release/analyze_playstyle_rust
--rwxr-xr-x 2 runner runner 3.0M Oct 21 08:23 target/release/evolve_tempo
--rwxr-xr-x 2 runner runner 2.9M Oct 21 08:23 target/release/gauntlet_rust
--rwxr-xr-x 2 runner runner 2.8M Oct 21 08:23 target/release/rust_full
--rwxr-xr-x 2 runner runner 1.2M Oct 21 08:23 target/release/rust_gauntlet
--rwxr-xr-x 2 runner runner 2.9M Oct 21 08:23 target/release/search_deck_rust
+-rwxr-xr-x 2 runner runner 1.2M Oct 21 08:27 target/release/analyze_playstyle_rust
+-rwxr-xr-x 2 runner runner 3.0M Oct 21 08:27 target/release/evolve_tempo
+-rwxr-xr-x 2 runner runner 2.9M Oct 21 08:27 target/release/gauntlet_rust
+-rwxr-xr-x 2 runner runner 2.8M Oct 21 08:27 target/release/rust_full
+-rwxr-xr-x 2 runner runner 1.2M Oct 21 08:27 target/release/rust_gauntlet
+-rwxr-xr-x 2 runner runner 2.9M Oct 21 08:27 target/release/search_deck_rust
 Parallel gauntlet using Rayon
 
 Usage: rust_gauntlet [OPTIONS]
@@ -383,25 +383,25 @@ info: downloading component rust-std
 [1m[92m   Compiling[0m serde_core v1.0.229
 [1m[92m   Compiling[0m crossbeam-deque v0.8.8
 [1m[92m   Compiling[0m anstyle-parse v1.0.0
-[1m[92m   Compiling[0m anstyle-wincon v3.0.11
 [1m[92m   Compiling[0m anstyle-query v1.1.5
-[1m[92m   Compiling[0m colorchoice v1.0.5
+[1m[92m   Compiling[0m anstyle-wincon v3.0.11
 [1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
+[1m[92m   Compiling[0m colorchoice v1.0.5
+[1m[92m   Compiling[0m anstream v1.0.0
 [1m[92m   Compiling[0m rayon-core v1.13.0
 [1m[92m   Compiling[0m zmij v1.0.23
-[1m[92m   Compiling[0m anstream v1.0.0
 [1m[92m   Compiling[0m aho-corasick v1.1.5
 [1m[92m   Compiling[0m rand_core v0.6.4
-[1m[92m   Compiling[0m regex-syntax v0.8.11
 [1m[92m   Compiling[0m clap_lex v1.1.1
 [1m[92m   Compiling[0m strsim v0.11.1
-[1m[92m   Compiling[0m anyhow v1.0.104
-[1m[92m   Compiling[0m clap_builder v4.6.7
-[1m[92m   Compiling[0m serde v1.0.229
+[1m[92m   Compiling[0m regex-syntax v0.8.11
 [1m[92m   Compiling[0m serde_json v1.0.154
+[1m[92m   Compiling[0m clap_builder v4.6.7
 [1m[92m   Compiling[0m regex-automata v0.4.18
 [1m[92m   Compiling[0m ppv-lite86 v0.2.21
 [1m[92m   Compiling[0m rand_chacha v0.3.1
+[1m[92m   Compiling[0m serde v1.0.229
+[1m[92m   Compiling[0m anyhow v1.0.104
 [1m[92m   Compiling[0m itoa v1.0.18
 [1m[92m   Compiling[0m either v1.19.0
 [1m[92m   Compiling[0m rayon v1.12.0
@@ -410,6 +410,14 @@ info: downloading component rust-std
 [1m[92m   Compiling[0m rand v0.8.8
 [1m[92m   Compiling[0m libloading v0.8.9
 [1m[92m   Compiling[0m rust_gauntlet v0.1.0 (/home/runner/work/Pokemon/Pokemon/pokemon-agent/rust)
+[1m[33mwarning[0m[1m: unused import: `PathBuf`[0m
+ [1m[94m--> [0msrc/bin/full.rs:3:23
+  [1m[94m|[0m
+[1m[94m3[0m [1m[94m|[0m use std::path::{Path, PathBuf};
+  [1m[94m|[0m                       [1m[33m^^^^^^^[0m
+  [1m[94m|[0m
+  [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
 [1m[33mwarning[0m[1m: unused import: `CString`[0m
  [1m[94m--> [0msrc/bin/../engine.rs:2:22
   [1m[94m|[0m
@@ -417,6 +425,12 @@ info: downloading component rust-std
   [1m[94m|[0m                      [1m[33m^^^^^^^[0m
   [1m[94m|[0m
   [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+[1m[33mwarning[0m[1m: unused import: `CString`[0m
+ [1m[94m--> [0msrc/bin/../engine.rs:2:22
+  [1m[94m|[0m
+[1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
+  [1m[94m|[0m                      [1m[33m^^^^^^^[0m
 
 [1m[33mwarning[0m[1m: variable does not need to be mutable[0m
    [1m[94m--> [0msrc/bin/../heuristic.rs:119:13
@@ -442,17 +456,6 @@ info: downloading component rust-std
 [1m[94m758[0m [1m[94m|[0m fn retrieval_bonus(cid: i32, index: &CardIndex, obs: &Value, me_idx: usize, deck: &[i32]) -> i32 {
     [1m[94m|[0m                                                                             [1m[33m^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_deck`[0m
 
-[1m[33mwarning[0m[1m: field `init_done` is never read[0m
-  [1m[94m--> [0msrc/bin/policy_rollout.rs:44:5
-   [1m[94m|[0m
-[1m[94m41[0m [1m[94m|[0m struct Engine {
-   [1m[94m|[0m        [1m[94m------[0m [1m[94mfield in this struct[0m
-[1m[94m...[0m
-[1m[94m44[0m [1m[94m|[0m     init_done: bool,
-   [1m[94m|[0m     [1m[33m^^^^^^^^^[0m
-   [1m[94m|[0m
-   [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
-
 [1m[33mwarning[0m[1m: unused variable: `deck`[0m
    [1m[94m--> [0msrc/bin/../heuristic.rs:991:112
     [1m[94m|[0m
@@ -469,12 +472,6 @@ info: downloading component rust-std
      [1m[94m|[0m                          [1m[94m----------[0m [1m[94m`score` is overwritten here before the previous value is read[0m
      [1m[94m|[0m
      [1m[94m= [0m[1mnote[0m: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
-
-[1m[33mwarning[0m[1m: unused variable: `our_seat_base`[0m
-   [1m[94m--> [0msrc/bin/gauntlet_rust.rs:112:153
-    [1m[94m|[0m
-[1m[94m112[0m [1m[94m|[0m [1m[94m...[0mobs, games: usize, our_seat_base: usize) -> (usize, usize, usize) {
-    [1m[94m|[0m                       [1m[33m^^^^^^^^^^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_our_seat_base`[0m
 
 [1m[33mwarning[0m[1m: method `get_battle_data` is never used[0m
   [1m[94m--> [0msrc/bin/../engine.rs:82:12
@@ -570,6 +567,43 @@ info: downloading component rust-std
 [1m[94m1139[0m [1m[94m|[0m pub fn decide_legacy(obs: &Value, index: &CardIndex, knobs: &Knobs) -> Vec<i32> {
      [1m[94m|[0m        [1m[33m^^^^^^^^^^^^^[0m
 
+[1m[33mwarning[0m[1m: fields `id`, `ace`, `s1`, `s2`, and `ef` are never read[0m
+  [1m[94m--> [0msrc/bin/../heuristic.rs:8:9
+   [1m[94m|[0m
+[1m[94m 7[0m [1m[94m|[0m pub struct Card {
+   [1m[94m|[0m            [1m[94m----[0m [1m[94mfields in this struct[0m
+[1m[94m 8[0m [1m[94m|[0m     pub id: i32,
+   [1m[94m|[0m         [1m[33m^^[0m
+[1m[94m...[0m
+[1m[94m18[0m [1m[94m|[0m     pub ace: bool,
+   [1m[94m|[0m         [1m[33m^^^[0m
+[1m[94m19[0m [1m[94m|[0m     pub b: bool,
+[1m[94m20[0m [1m[94m|[0m     pub s1: bool,
+   [1m[94m|[0m         [1m[33m^^[0m
+[1m[94m21[0m [1m[94m|[0m     pub s2: bool,
+   [1m[94m|[0m         [1m[33m^^[0m
+[1m[94m22[0m [1m[94m|[0m     pub ef: Option<String>,
+   [1m[94m|[0m         [1m[33m^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `Card` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+[1m[33mwarning[0m[1m: field `by_name` is never read[0m
+  [1m[94m--> [0msrc/bin/../heuristic.rs:42:9
+   [1m[94m|[0m
+[1m[94m39[0m [1m[94m|[0m pub struct CardIndex {
+   [1m[94m|[0m            [1m[94m---------[0m [1m[94mfield in this struct[0m
+[1m[94m...[0m
+[1m[94m42[0m [1m[94m|[0m     pub by_name: HashMap<String, Vec<i32>>,
+   [1m[94m|[0m         [1m[33m^^^^^^^[0m
+
+[1m[33mwarning[0m[1m: associated function `build` is never used[0m
+   [1m[94m--> [0msrc/bin/../heuristic.rs:114:12
+    [1m[94m|[0m
+[1m[94m113[0m [1m[94m|[0m impl Plan {
+    [1m[94m|[0m [1m[94m---------[0m [1m[94massociated function in this implementation[0m
+[1m[94m114[0m [1m[94m|[0m     pub fn build(deck: &[i32], index: &CardIndex) -> Self {
+    [1m[94m|[0m            [1m[33m^^^^^[0m
+
 [1m[33mwarning[0m[1m: value assigned to `idx` is never read[0m
    [1m[94m--> [0msrc/bin/../policy_feats.rs:251:50
     [1m[94m|[0m
@@ -578,22 +612,22 @@ info: downloading component rust-std
     [1m[94m|[0m
     [1m[94m= [0m[1mhelp[0m: maybe it is overwritten before being read?
 
-[1m[33mwarning[0m: `rust_gauntlet` (bin "policy_rollout") generated 1 warning
-[1m[33mwarning[0m[1m: unused import: `PathBuf`[0m
- [1m[94m--> [0msrc/bin/full.rs:3:23
-  [1m[94m|[0m
-[1m[94m3[0m [1m[94m|[0m use std::path::{Path, PathBuf};
-  [1m[94m|[0m                       [1m[33m^^^^^^^[0m
-  [1m[94m|[0m
-  [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+[1m[33mwarning[0m[1m: fields `id` and `ace` are never read[0m
+  [1m[94m--> [0msrc/bin/../heuristic.rs:8:9
+   [1m[94m|[0m
+[1m[94m 7[0m [1m[94m|[0m pub struct Card {
+   [1m[94m|[0m            [1m[94m----[0m [1m[94mfields in this struct[0m
+[1m[94m 8[0m [1m[94m|[0m     pub id: i32,
+   [1m[94m|[0m         [1m[33m^^[0m
+[1m[94m...[0m
+[1m[94m18[0m [1m[94m|[0m     pub ace: bool,
+   [1m[94m|[0m         [1m[33m^^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `Card` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
 
-[1m[33mwarning[0m[1m: unused import: `CString`[0m
- [1m[94m--> [0msrc/bin/../engine.rs:2:22
-  [1m[94m|[0m
-[1m[94m2[0m [1m[94m|[0m use std::ffi::{CStr, CString};
-  [1m[94m|[0m                      [1m[33m^^^^^^^[0m
-
-[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 17 warnings (3 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 4 suggestions)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 17 warnings (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 6 suggestions)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_native") generated 17 warnings (13 duplicates) (run `cargo fix --bin "gauntlet_native" -p rust_gauntlet` to apply 1 suggestion)
 [1m[33mwarning[0m[1m: unused import: `HashSet`[0m
   [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:15:33
    [1m[94m|[0m
@@ -602,7 +636,6 @@ info: downloading component rust-std
    [1m[94m|[0m
    [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
-[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 16 warnings (13 duplicates) (run `cargo fix --bin "search_deck_rust" -p rust_gauntlet` to apply 2 suggestions)
 [1m[33mwarning[0m[1m: field `id` is never read[0m
   [1m[94m--> [0msrc/bin/analyze_playstyle_rust.rs:33:5
    [1m[94m|[0m
@@ -625,6 +658,7 @@ info: downloading component rust-std
    [1m[94m|[0m
    [1m[94m= [0m[1mnote[0m: `ReplayInfo` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
 
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gen_bc_data_rust") generated 17 warnings (17 duplicates)
 [1m[33mwarning[0m[1m: variable does not need to be mutable[0m
    [1m[94m--> [0msrc/bin/evolve_tempo.rs:143:9
     [1m[94m|[0m
@@ -635,31 +669,38 @@ info: downloading component rust-std
     [1m[94m|[0m
     [1m[94m= [0m[1mnote[0m: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
 
-[1m[33mwarning[0m: `rust_gauntlet` (bin "gen_bc_data_rust") generated 17 warnings (16 duplicates)
-[1m[91merror[E0061][0m[1m: this function takes 5 arguments but 3 arguments were supplied[0m
-    [1m[94m--> [0msrc/bin/gauntlet_native.rs:114:19
-     [1m[94m|[0m
-[1m[94m 114[0m [1m[94m|[0m         let dec = heuristic::decide(&obs, index, knobs);
-     [1m[94m|[0m                   [1m[91m^^^^^^^^^^^^^^^^^[0m[1m[94m--------------------[0m
-     [1m[94m|[0m                                    [1m[94m|[0m             [1m[94m|[0m
-     [1m[94m|[0m                                    [1m[94m|[0m             [1m[94margument #3 of type `&Plan` is missing[0m
-     [1m[94m|[0m                                    [1m[94margument #5 of type `&[i32]` is missing[0m
-     [1m[94m|[0m
-[1m[92mnote[0m: function defined here
-    [1m[94m--> [0msrc/bin/../heuristic.rs:1081:8
-     [1m[94m|[0m
-[1m[94m1081[0m [1m[94m|[0m pub fn decide(obs: &Value, index: &CardIndex, plan: &Plan, knobs: &Knobs, deck: &[i32]) -> Vec<i32> {
-     [1m[94m|[0m        [1m[92m^^^^^^[0m                                 [1m[94m-----------[0m                 [1m[94m------------[0m
-[1m[96mhelp[0m: provide the arguments
-     [1m[94m|[0m
-[1m[94m 114[0m [91m- [0m        let dec = heuristic::decide[91m(&obs, index, knobs)[0m;
-[1m[94m 114[0m [92m+ [0m        let dec = heuristic::decide[92m(&obs, index, /* &Plan */, knobs, /* &[i32] */)[0m;
-     [1m[94m|[0m
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gen_bc_data_rust_mt") generated 15 warnings (13 duplicates)
+[1m[33mwarning[0m[1m: unused variable: `our_seat_base`[0m
+   [1m[94m--> [0msrc/bin/gauntlet_rust.rs:112:153
+    [1m[94m|[0m
+[1m[94m112[0m [1m[94m|[0m [1m[94m...[0mobs, games: usize, our_seat_base: usize) -> (usize, usize, usize) {
+    [1m[94m|[0m                       [1m[33m^^^^^^^^^^^^^[0m [1m[33mhelp: if this is intentional, prefix it with an underscore: `_our_seat_base`[0m
 
-[1mFor more information about this error, try `rustc --explain E0061`.[0m
-[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_native") generated 6 warnings (6 duplicates)
-[1m[91merror[0m: could not compile `rust_gauntlet` (bin "gauntlet_native") due to 1 previous error; 6 warnings emitted
-[1m[33mwarning[0m: build failed, waiting for other jobs to finish...
-[1m[33mwarning[0m: `rust_gauntlet` (bin "rust_full") generated 17 warnings (15 duplicates) (run `cargo fix --bin "rust_full" -p rust_gauntlet` to apply 2 suggestions)
+[1m[33mwarning[0m[1m: field `init_done` is never read[0m
+  [1m[94m--> [0msrc/bin/policy_rollout.rs:44:5
+   [1m[94m|[0m
+[1m[94m41[0m [1m[94m|[0m struct Engine {
+   [1m[94m|[0m        [1m[94m------[0m [1m[94mfield in this struct[0m
+[1m[94m...[0m
+[1m[94m44[0m [1m[94m|[0m     init_done: bool,
+   [1m[94m|[0m     [1m[33m^^^^^^^^^[0m
+   [1m[94m|[0m
+   [1m[94m= [0m[1mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
 [1m[33mwarning[0m: `rust_gauntlet` (bin "analyze_playstyle_rust") generated 3 warnings (run `cargo fix --bin "analyze_playstyle_rust" -p rust_gauntlet` to apply 1 suggestion)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "policy_rollout") generated 1 warning
 [1m[33mwarning[0m: `rust_gauntlet` (bin "evolve_tempo") generated 1 warning (run `cargo fix --bin "evolve_tempo" -p rust_gauntlet` to apply 1 suggestion)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "gauntlet_rust") generated 17 warnings (16 duplicates) (run `cargo fix --bin "gauntlet_rust" -p rust_gauntlet` to apply 1 suggestion)
+[1m[33mwarning[0m: `rust_gauntlet` (bin "search_deck_rust") generated 16 warnings (16 duplicates)
+[1m[92m    Finished[0m `release` profile [optimized] target(s) in 59.76s
+total 23M
+-rwxr-xr-x 1 runner runner 1.2M Oct 21 08:28 analyze_playstyle_rust.exe
+-rwxr-xr-x 1 runner runner 2.9M Oct 21 08:28 evolve_tempo.exe
+-rwxr-xr-x 1 runner runner 2.8M Oct 21 08:28 gauntlet_native.exe
+-rwxr-xr-x 1 runner runner 2.8M Oct 21 08:28 gauntlet_rust.exe
+-rwxr-xr-x 1 runner runner 2.8M Oct 21 08:28 gen_bc_data_rust.exe
+-rwxr-xr-x 1 runner runner 2.9M Oct 21 08:28 gen_bc_data_rust_mt.exe
+-rwxr-xr-x 1 runner runner 1.4M Oct 21 08:28 policy_rollout.exe
+-rwxr-xr-x 1 runner runner 2.6M Oct 21 08:28 rust_full.exe
+-rwxr-xr-x 1 runner runner 1.2M Oct 21 08:28 rust_gauntlet.exe
+-rwxr-xr-x 1 runner runner 2.8M Oct 21 08:28 search_deck_rust.exe
