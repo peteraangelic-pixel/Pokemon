@@ -1,1 +1,1 @@
-games=400 valid=400 main_wr=0.502 elapsed=7.2s games_per_sec=55.2 err[start=0 select=0 nosel=0 steps=0 panic=0 emptyopt=0]
+games=400 valid=399 main_wr=0.486 elapsed=8.6s games_per_sec=46.6 err[start=0 select=0 nosel=0 steps=1 panic=0 emptyopt=0]
