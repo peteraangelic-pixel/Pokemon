@@ -2,27 +2,22 @@ name: transformer-train
 on:
   push:
     paths: ['pokemon-agent/transformer_train.trigger']
-  workflow_dispatch:
-    inputs:
-      bc_games:
-        description: "BC games"
-        default: "2400"
-        required: false
-      epochs:
-        description: "BC epochs"
-        default: "10"
-        required: false
+  workflow_dispatch: {}
 
 jobs:
   train:
     runs-on: ubuntu-latest
     timeout-minutes: 330
-    permissions: { contents: write }
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-        with: { ref: ${{ github.ref_name }}, fetch-depth: 0 }
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
-        with: { python-version: '3.11' }
+        with:
+          python-version: '3.11'
       - name: Install deps
         run: |
           pip install --quiet kaggle-environments jax[cpu] flax optax numpy tqdm
@@ -30,16 +25,12 @@ jobs:
       - name: Gen BC data
         working-directory: pokemon-agent
         run: |
-          GAMES=${{ github.event.inputs.bc_games || 2400 }}
-          echo "Generating $GAMES games"
-          python tools/gen_bc_data.py --games $GAMES --out /tmp/bc_data.npz --workers 4 2>&1 | tee /tmp/bc_gen.log
+          python tools/gen_bc_data.py --games 2400 --out /tmp/bc_data.npz --workers 4 2>&1 | tee /tmp/bc_gen.log
           ls -lh /tmp/bc_data.npz
       - name: Train transformer BC
         working-directory: pokemon-agent
         run: |
-          EPOCHS=${{ github.event.inputs.epochs || 10 }}
-          echo "Training $EPOCHS epochs"
-          python tools/train_transformer.py --data /tmp/bc_data.npz --out /tmp/transformer_bc.npz --epochs $EPOCHS --bs 64 --lr 1e-4 2>&1 | tee /tmp/transformer_train.log
+          python tools/train_transformer.py --data /tmp/bc_data.npz --out /tmp/transformer_bc.npz --epochs 10 --bs 64 --lr 1e-4 2>&1 | tee /tmp/transformer_train.log
           ls -lh /tmp/transformer_bc.npz
       - name: Commit weights
         run: |
