@@ -1,18 +1,27 @@
 {
-  "fetched_utc": "2026-10-21T02:51:20+00:00",
+  "fetched_utc": "2026-10-21T02:55:34+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "(unknown - pass --team to filter)",
   "leaderboard_rows": 459,
-  "submission_rows": 47,
+  "submission_rows": 48,
   "our_leaderboard": [],
   "latest_submissions": [
+    {
+      "ref": "57462611",
+      "fileName": "v83_final.tar.gz",
+      "date": "2026-10-21 02:53:32.583000",
+      "description": "submit v83_final.tar.gz via bundles/*.trigger push",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "600.0",
+      "privateScore": ""
+    },
     {
       "ref": "57462418",
       "fileName": "v82_final.tar.gz",
       "date": "2026-10-21 02:46:09.087000",
       "description": "submit v82_final.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "600.0",
+      "publicScore": "469.2",
       "privateScore": ""
     },
     {
@@ -85,15 +94,6 @@
       "description": "submit v77_rl.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.ERROR",
       "publicScore": "",
-      "privateScore": ""
-    },
-    {
-      "ref": "57370290",
-      "fileName": "ptcg_v70_meta_a450.tar.gz",
-      "date": "2026-10-18 22:01:13.700000",
-      "description": "",
-      "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "415.9",
       "privateScore": ""
     }
   ],
