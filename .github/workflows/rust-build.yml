@@ -71,9 +71,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
-          sparse-checkout: |
-            pokemon-agent/rust
-          sparse-checkout-cone-mode: false
+          sparse-checkout: pokemon-agent/rust
       - uses: dtolnay/rust-toolchain@stable
       - name: Build rust binaries (Windows)
         shell: pwsh
