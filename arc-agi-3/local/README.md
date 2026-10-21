@@ -54,10 +54,68 @@ sp80  1/6  [[4],[4],[4],[5]]            -> replay OK: level 1, 4 kroki
 Po podłączeniu biblioteki (`--policy solution`) te gry wchodzą na **1.00 poziomu
 w 100% epizodów** (vs 0.00 dla czystej heurystyki), a potem gra dalej heurystyką.
 
+### `rust_bridge.py` + `segment-batch` / `clicks` — **Rust w pętli**
+
+To jest odpowiedź na „po co mi Rust". Silnik gier jest w Pythonie i tego nie zmienimy
+(stan gry to graf obiektów Pythona — Rust go nie dotknie). Ale **percepcja** (segmentacja
+klatki na obiekty) jest w Rust i to ona decyduje, czy w grach klikowych w ogóle
+trafiamy w cel.
+
+Protokół: JSONL na stdin → JSONL na stdout, Rayon rozrzuca linie po rdzeniach.
+Jeden proces na **całą partię**, nie na klatkę.
+
+```bash
+cd rust && cargo build --release      # raz
+cd .. && python local/bench_rust.py --scale 1000000   # zmierzone na Twoim PC
+```
+
+W Pythonie `rust_bridge.py` sam wykrywa binarkę (`rust/target/release/arc3`, `ARC3_BIN`
+albo `which arc3`) i **spada na czystego Pythona, gdy jej nie ma**. Dlatego solver
+działa niezależnie od toolchainu — tylko wolniej.
+
+Zmierzone w sandboxie (2 rdzenie, sam fallback Pythona):
+
+```
+python clicks : 5.677 ms/frame  ->  1e6 klatek = 1.58 h
+```
+
+Rust na tym samym zadaniu mierzy `bench_rust.py` u Ciebie — nie podaję liczby,
+której nie zmierzyłem. Uwaga na uczciwość porównania: `segment_layer` w Rust liczy
+**więcej** (kontury, zawieranie, hashe obiektów) niż mój fallback, więc różnica
+Rust/Python jest raczej niedoszacowana niż przeszacowana.
+
+### Skutek: klikowe gry dały się rozwiązać
+
+Przed mostkiem solver losował piksele nie-tła — w grach klikowych to loteria:
+
+| gra | strategia `naive` | strategia `objects` (segmentacja) |
+|---|---|---|
+| vc33 | ✗ 85 węzłów, 0 poziomów | ✓ **3 kliki**, poziom 1 |
+| lp85 | ✗ 17 węzłów, 0 poziomów | ✓ **5 klików**, poziom 1 |
+| ft09 | ✗ | ✗ (32/200 klików zmienia klatkę — potrzebny większy budżet, nie lepsze kandydaty) |
+| sc25 | ✗ | ✗ (0/81 kandydatów zmienia klatkę) |
+
+Czyli: 4 gry z gwarantowanym poziomem 1 zamiast 2. Na Twoich 16 rdzeniach ten sam
+przebieg idzie ~8x szybciej i z większym budżetem.
+
 ### `engine.py`, `policies.py` — silnik i polityki
 `random`, `anti-reverse`, `heuristic` (8 ewoluowalnych parametrów), `solution` (replay
 biblioteki + fallback). Polityki są LLM-free — to nie jest zamiennik Duck harnessu,
 tylko szybki sygnał fitness i warstwa "gwarantowanych" ruchów.
+
+## Czego Rust tu NIE zrobi (i dlaczego to nie jest wymówka)
+
+Rust przyspiesza **percepcję i analizę**: segmentację klatki, wykrywanie obiektów,
+przeszukiwanie nagrań. Nie przyspieszy **pętli epizodu**, bo:
+
+- `arcengine` to Python; `perform_action` mutuje graf obiektów Pythona,
+- `copy.deepcopy(game)` jest w C Pythona i kosztuje 3–14 ms,
+- żaden z tych kosztów nie da się przenieść do Rusta bez przepisania silnika.
+
+Kolejność kosztów w solverze jest jednoznaczna: **deepcopy (3–14 ms) ≫ krok gry
+(0.10 ms) ≫ segmentacja (0.005–0.04 ms)**. Dlatego Rust pomaga tam, gdzie
+przetwarzamy **dużo klatek naraz** (analiza nagrań, kandydaci do klików), a nie tam,
+gdzie chodzimy po drzewie stanów.
 
 ## Czego ten PC NIE zrobi
 
@@ -79,9 +137,10 @@ tylko szybki sygnał fitness i warstwa "gwarantowanych" ruchów.
    punkty niezależne od LLM-a i od wariancji modelu.
 3. **CEM nad parametrami** — 30 generacji × 64 osobników × 25 gier × 3 seedy
    ≈ 144k epizodów ≈ 8–10 min na 16 rdzeniach. Wcześniej nie było to w ogóle możliwe.
-4. **Analiza nagrań + segmentacja w Rust** — `arc-agi-3/rust/` (Rayon, 276× vs Python,
-   patrz `rust/BENCHMARK.md`). Realny use case: 1e6 klatek w Pythonie = 11 h,
-   w Rust na 16 rdzeniach ≈ 1.3 min. Budowa: `cd rust && cargo build --release`.
+4. **Segmentacja + analiza klatek w Rust** — podłączone przez `rust_bridge.py`.
+   `rust/BENCHMARK.md` podaje 276× (salt) i 121× (blobs) dla jądra `segment_layer`
+   na 4 wątkach, mierzone w GitHub Actions. Twoja liczba wyjdzie z
+   `python local/bench_rust.py --scale 1000000`.
 
 ## Instalacja na PC
 

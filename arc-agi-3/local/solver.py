@@ -29,12 +29,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import engine  # noqa: E402
+from rust_bridge import RustBridge  # noqa: E402
 
 _W: dict = {}
 
 
 def _init(games_dir: str) -> None:
     _W["games"] = engine.discover_games(Path(games_dir))
+    _W["bridge"] = RustBridge()  # resolved once per worker; falls back to python
 
 
 def _step(game, action_id: int, data=None):
@@ -46,9 +48,26 @@ def _step(game, action_id: int, data=None):
         ActionInput(id=engine.action_for(action_id), data=data or {}), raw=True)
 
 
-def _click_candidates(obs, rng: random.Random, limit: int = 12) -> list[tuple[int, int]]:
-    """Cheap 'interesting pixel' proposals without scipy: non-background cells."""
+def _click_candidates(obs, rng: random.Random, limit: int = 12,
+                      strategy: str = "objects",
+                      bridge: RustBridge | None = None) -> list[tuple[int, int]]:
+    """Proposals for ACTION6.
+
+    ``objects`` (default) asks the segmentation kernel for component bbox centres
+    and contour pixels — one click per object instead of a dart throw. That is
+    the difference between 4 dead nodes and a solved level on click-only games
+    (vc33). ``naive`` keeps the old random non-background sampling as a control.
+    """
     g = obs.grid
+    if strategy == "objects":
+        try:
+            b = bridge or RustBridge()
+            cands = b.click_candidates(g, limit=limit)
+            if cands:
+                return cands
+        except Exception:
+            pass  # fall through to naive
+
     bg = int(np.bincount(g.ravel()).argmax())
     mask = g != bg
     if not mask.any():
@@ -73,6 +92,8 @@ def solve_game(
     click_limit: int = 12,
     seed: int = 0,
     max_levels: int = 3,
+    clicks: str = "objects",
+    bridge: RustBridge | None = None,
 ) -> dict:
     """Search for level-clearing paths. Returns {'game', 'paths', 'nodes', 'ms'}.
 
@@ -103,7 +124,8 @@ def solve_game(
                     proposals: list[tuple[int, dict | None]] = [
                         (a, None) for a in cur.available if a != 6
                     ]
-                    for (cx, cy) in _click_candidates(cur, rng, click_limit):
+                    for (cx, cy) in _click_candidates(cur, rng, click_limit,
+                                                      clicks, bridge):
                         proposals.append((6, {"x": cx, "y": cy}))
                 else:
                     proposals = [(a, None) for a in cur.available]
@@ -142,6 +164,7 @@ def solve_game(
 
     return {
         "game": name,
+        "clicks": clicks,
         "win_levels": win_levels,
         "levels_found": len(paths),
         "paths": paths,
@@ -175,7 +198,8 @@ def _task(t: dict) -> dict:
     if info is None:
         return {"game": t["game"], "error": "unknown game"}
     return solve_game(info, t["game"], node_budget=t["budget"], max_depth=t["depth"],
-                      beam=t["beam"], click_limit=t["click_limit"], seed=t["seed"])
+                      beam=t["beam"], click_limit=t["click_limit"], seed=t["seed"],
+                      clicks=t["clicks"], bridge=_W.get("bridge"))
 
 
 def main() -> None:
@@ -186,6 +210,8 @@ def main() -> None:
     ap.add_argument("--beam", type=int, default=0, help="0 = keep all frontier nodes (BFS)")
     ap.add_argument("--click-limit", type=int, default=8)
     ap.add_argument("--max-levels", type=int, default=3)
+    ap.add_argument("--clicks", default="objects", choices=["objects", "naive"],
+                    help="ACTION6 proposal strategy (objects = segmentation kernel)")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--out", default="local/solutions.json")
     args = ap.parse_args()
@@ -194,7 +220,8 @@ def main() -> None:
              if args.games == "all" else [g.strip() for g in args.games.split(",")])
 
     tasks = [{"game": g, "budget": args.budget, "depth": args.depth,
-              "beam": args.beam, "click_limit": args.click_limit, "seed": i}
+              "beam": args.beam, "click_limit": args.click_limit, "seed": i,
+              "clicks": args.clicks}
              for i, g in enumerate(games)]
 
     t0 = time.perf_counter()

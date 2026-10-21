@@ -69,6 +69,27 @@ impl Grid {
         self.cells[r * self.w + c]
     }
 
+    /// Most frequent cell value, i.e. the background colour. Ties go to the
+    /// lowest value so the result is deterministic across platforms.
+    pub fn most_common_value(&self) -> u8 {
+        if self.cells.is_empty() {
+            return 0;
+        }
+        let mut counts = [0usize; 256];
+        for &v in &self.cells {
+            counts[v as usize] += 1;
+        }
+        let mut best = 0u8;
+        let mut best_n = 0usize;
+        for (v, &n) in counts.iter().enumerate() {
+            if n > best_n {
+                best_n = n;
+                best = v as u8;
+            }
+        }
+        best
+    }
+
     /// Letter-coded rendering, identical to `format_grid_ascii` in the Python harness.
     pub fn ascii(&self) -> String {
         if self.h == 0 {
@@ -125,6 +146,74 @@ impl Segmentation {
             "adjacency_list": self.adjacency_list.iter().map(|(a, b)| [a, b]).collect::<Vec<_>>(),
         })
     }
+}
+
+/// Object-aware ACTION6 proposals: bbox centre per component, then contour
+/// extremes. Returns `(row, col)` pairs.
+///
+/// The solver uses this instead of random non-background pixels: a click-only
+/// board reacts to *objects*, so one probe per object (~10-40) beats sampling
+/// 4096 cells. Component order is by pixel count, descending, ties broken by
+/// component id, so the output is deterministic.
+pub fn object_click_candidates(
+    grid: &Grid,
+    limit: usize,
+    min_pixels: usize,
+    include_background: bool,
+) -> Vec<(usize, usize)> {
+    let seg = segment_layer(grid);
+    let bg = ARC_COLOR_CHARS[(grid.most_common_value() as usize).min(15)] as char;
+
+    let mut nodes: Vec<&Node> = seg
+        .nodes
+        .iter()
+        .filter(|n| (include_background || n.color != bg) && n.pixels >= min_pixels)
+        .collect();
+    nodes.sort_by(|a, b| b.pixels.cmp(&a.pixels).then(a.id.cmp(&b.id)));
+
+    let mut out: Vec<(usize, usize)> = Vec::new();
+    let mut seen: HashSet<(usize, usize)> = HashSet::new();
+
+    // pass 1: bounding-box centre of each object
+    for n in nodes.iter() {
+        if out.len() >= limit {
+            return out;
+        }
+        if n.boundary.is_empty() {
+            continue;
+        }
+        let r0 = n.boundary.iter().map(|p| p.0).min().unwrap_or(0);
+        let c0 = n.boundary.iter().map(|p| p.1).min().unwrap_or(0);
+        let r1 = n.boundary.iter().map(|p| p.0).max().unwrap_or(0);
+        let c1 = n.boundary.iter().map(|p| p.1).max().unwrap_or(0);
+        let p = ((r0 + r1) / 2, (c0 + c1) / 2);
+        if seen.insert(p) {
+            out.push(p);
+        }
+    }
+
+    // pass 2: contour extremes, for objects whose centre is unclickable
+    for n in nodes.iter() {
+        if out.len() >= limit {
+            return out;
+        }
+        if n.boundary.is_empty() {
+            continue;
+        }
+        for p in [
+            n.boundary[0],
+            n.boundary[n.boundary.len() / 2],
+            n.boundary[n.boundary.len() - 1],
+        ] {
+            if out.len() >= limit {
+                return out;
+            }
+            if seen.insert(p) {
+                out.push(p);
+            }
+        }
+    }
+    out
 }
 
 fn trace_outer_contour(
@@ -389,6 +478,110 @@ pub fn segment_layer(grid: &Grid) -> Segmentation {
     Segmentation {
         nodes,
         adjacency_list,
+    }
+}
+
+#[cfg(test)]
+mod click_candidate_tests {
+    use super::*;
+
+    fn grid(rows: &[Vec<u8>]) -> Grid {
+        Grid::from_rows(rows).unwrap()
+    }
+
+    #[test]
+    fn one_candidate_per_object() {
+        // background 5, two separate 3x3 objects
+        let mut rows = vec![vec![5u8; 12]; 6];
+        for r in 1..4 {
+            for c in 1..4 {
+                rows[r][c] = 1;
+            }
+        }
+        for r in 1..3 {
+            for c in 7..10 {
+                rows[r][c] = 2;
+            }
+        }
+        let g = grid(&rows);
+        let cands = object_click_candidates(&g, 8, 1, false);
+        assert!(cands.len() >= 2, "expected two clicks, got {:?}", cands);
+        // the 3x3 object is bigger, so it must be proposed first
+        assert_eq!(cands[0], (2, 2));
+    }
+
+    #[test]
+    fn background_is_skipped_by_default() {
+        let rows = vec![vec![4u8; 8]; 8];
+        let g = grid(&rows);
+        assert!(object_click_candidates(&g, 8, 1, false).is_empty());
+        assert!(!object_click_candidates(&g, 8, 1, true).is_empty());
+    }
+
+    #[test]
+    fn limit_is_respected() {
+        let mut rows = vec![vec![0u8; 16]; 16];
+        for i in 0..8 {
+            rows[1 + i * 2][1] = 1;
+        }
+        let g = grid(&rows);
+        assert!(object_click_candidates(&g, 3, 1, false).len() <= 3);
+    }
+
+    #[test]
+    fn candidates_are_deterministic() {
+        let mut rows = vec![vec![0u8; 16]; 16];
+        rows[2][2] = 1;
+        rows[9][11] = 2;
+        rows[13][4] = 3;
+        let g = grid(&rows);
+        let a = object_click_candidates(&g, 8, 1, false);
+        let b = object_click_candidates(&g, 8, 1, false);
+        assert_eq!(a, b);
+    }
+
+    #[test]
+    fn min_pixels_filters_noise() {
+        let mut rows = vec![vec![0u8; 16]; 16];
+        rows[0][0] = 1; // single pixel
+        for r in 5..10 {
+            for c in 5..10 {
+                rows[r][c] = 2; // 5x5 block
+            }
+        }
+        let g = grid(&rows);
+        let cands = object_click_candidates(&g, 8, 4, false);
+        assert_eq!(cands.len(), 1, "single pixel should be filtered: {:?}", cands);
+        assert_eq!(cands[0], (7, 7));
+    }
+}
+
+#[cfg(test)]
+mod background_tests {
+    use super::*;
+
+    #[test]
+    fn most_common_value_picks_background() {
+        let rows = vec![
+            vec![3, 3, 3, 3],
+            vec![3, 1, 1, 3],
+            vec![3, 3, 3, 3],
+        ];
+        let g = Grid::from_rows(&rows).unwrap();
+        assert_eq!(g.most_common_value(), 3);
+    }
+
+    #[test]
+    fn most_common_value_is_deterministic_on_ties() {
+        let rows = vec![vec![7, 2, 7, 2]];
+        let g = Grid::from_rows(&rows).unwrap();
+        assert_eq!(g.most_common_value(), 2);
+    }
+
+    #[test]
+    fn most_common_value_on_empty_grid() {
+        let g = Grid::from_rows(&[]).unwrap();
+        assert_eq!(g.most_common_value(), 0);
     }
 }
 

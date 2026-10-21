@@ -1,5 +1,31 @@
 {
-  "note": "Guaranteed level paths found by local/solver.py. Budget 700 nodes/game, 2 cores. Verify with solver.replay() before trusting.",
+  "note": "Replay-verified level-1 paths for 4 of 25 public games. cd82+sp80 found by BFS with naive clicks; lp85+vc33 found only after switching to object-segmentation click candidates. Re-verify with solver.replay() before trusting.",
+  "verified": {
+    "cd82": {
+      "levels": 1,
+      "steps": 5,
+      "state": "NOT_FINISHED",
+      "win_levels": 6
+    },
+    "sp80": {
+      "levels": 1,
+      "steps": 4,
+      "state": "NOT_FINISHED",
+      "win_levels": 6
+    },
+    "lp85": {
+      "levels": 1,
+      "steps": 5,
+      "state": "NOT_FINISHED",
+      "win_levels": 8
+    },
+    "vc33": {
+      "levels": 1,
+      "steps": 3,
+      "state": "NOT_FINISHED",
+      "win_levels": 7
+    }
+  },
   "solutions": {
     "cd82": [
       [
@@ -33,6 +59,54 @@
         ],
         [
           5
+        ]
+      ]
+    ],
+    "lp85": [
+      [
+        [
+          6,
+          4,
+          32
+        ],
+        [
+          6,
+          4,
+          32
+        ],
+        [
+          6,
+          4,
+          32
+        ],
+        [
+          6,
+          4,
+          32
+        ],
+        [
+          6,
+          4,
+          32
+        ]
+      ]
+    ],
+    "vc33": [
+      [
+        [
+          6,
+          61,
+          33
+        ],
+        [
+          6,
+          61,
+          33
+        ],
+        [
+          6,
+          61,
+          33
         ]
       ]
     ]

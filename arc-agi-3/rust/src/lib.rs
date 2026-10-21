@@ -15,5 +15,5 @@ pub mod grid;
 pub mod replay;
 pub mod score;
 
-pub use grid::{segment_layer, Grid, Node, Segmentation};
+pub use grid::{object_click_candidates, segment_layer, Grid, Node, Segmentation, ARC_COLOR_CHARS};
 pub use score::{level_score, rhae, rhae_weighted};

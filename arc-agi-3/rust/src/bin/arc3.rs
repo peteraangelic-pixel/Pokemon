@@ -3,20 +3,32 @@
 //! ```text
 //! arc3 bench   [--size 64] [--frames 2000]   throughput of the segmentation kernel
 //! arc3 segment <grid.json>                   segment one grid, print JSON
+//! arc3 segment-batch [--threads N]           segment JSONL grids from stdin
+//! arc3 clicks  [--limit N]                   object-click candidates, JSONL from stdin
 //! arc3 score   <levels.json>                 RHAE for [[human, agent], ...]
 //! ```
+//!
+//! `segment-batch` and `clicks` are the Python bridge: one JSON array per line on
+//! stdin, one JSON object per line on stdout, in the same order. Rayon spreads
+//! the lines across cores, so the Python side pays one process spawn for a whole
+//! batch instead of one per frame.
 
 use arc3::{rhae, segment_layer, Grid};
 use rayon::prelude::*;
 use std::env;
 use std::fs;
+use std::io::{self, BufRead, Write};
 use std::process::ExitCode;
 use std::time::Instant;
 
 fn usage() -> ExitCode {
     eprintln!("usage:");
-    eprintln!("  arc3 bench   [--size N] [--frames N]");
+    eprintln!("  arc3 bench   [--size N] [--frames N] [--mode salt|blobs]");
     eprintln!("  arc3 segment <grid.json>");
+    eprintln!("  arc3 segment-batch [--limit N] [--min-pixels N] [--include-background]");
+    eprintln!("      JSONL grids on stdin -> JSONL segmentation on stdout (rayon)");
+    eprintln!("  arc3 clicks  [--limit N] [--min-pixels N] [--include-background]");
+    eprintln!("      JSONL grids on stdin -> {{\"clicks\":[[x,y],...]}} per line (rayon)");
     eprintln!("  arc3 score   <levels.json>");
     ExitCode::from(2)
 }
@@ -147,6 +159,73 @@ fn cmd_segment(path: &str) -> ExitCode {
     ExitCode::SUCCESS
 }
 
+/// Read JSONL grids from stdin and emit one JSON object per line on stdout.
+///
+/// `mode` picks the payload: `segment` returns the full segmentation,
+/// `clicks` returns object-click candidates (bbox centre per component, then
+/// contour extremes) which is what `local/solver.py` needs for click-only games.
+fn cmd_stream(mode: &str, args: &[String]) -> ExitCode {
+    let limit = flag(args, "--limit", 16);
+    let include_bg = args.iter().any(|a| a.as_str() == "--include-background");
+    let min_pixels = flag(args, "--min-pixels", 1);
+
+    let stdin = io::stdin();
+    let mut lines: Vec<String> = Vec::new();
+    for line in stdin.lock().lines() {
+        match line {
+            Ok(l) => {
+                let t = l.trim();
+                if !t.is_empty() {
+                    lines.push(t.to_string());
+                }
+            }
+            Err(e) => {
+                eprintln!("stdin error: {}", e);
+                return ExitCode::FAILURE;
+            }
+        }
+    }
+
+    let parsed: Vec<Option<Grid>> = lines
+        .par_iter()
+        .map(|l| {
+            serde_json::from_str::<Vec<Vec<u8>>>(l)
+                .ok()
+                .and_then(|raw| Grid::from_rows(&raw).ok())
+        })
+        .collect();
+
+    let out: Vec<String> = parsed
+        .into_par_iter()
+        .map(|g| match g {
+            None => "{\"error\":\"bad grid\"}".to_string(),
+            Some(grid) => {
+                if mode == "segment" {
+                    segment_layer(&grid).to_json().to_string()
+                } else {
+                    let cands = arc3::object_click_candidates(
+                        &grid, limit, min_pixels, include_bg);
+                    // emit as [x, y] (column, row) to match the Python bridge
+                    let arr: Vec<serde_json::Value> = cands
+                        .iter()
+                        .map(|(r, c)| serde_json::json!([c, r]))
+                        .collect();
+                    serde_json::json!({ "clicks": arr }).to_string()
+                }
+            }
+        })
+        .collect();
+
+    let stdout = io::stdout();
+    let mut lock = stdout.lock();
+    for line in out {
+        if writeln!(lock, "{}", line).is_err() {
+            return ExitCode::FAILURE;
+        }
+    }
+    ExitCode::SUCCESS
+}
+
 fn cmd_score(path: &str) -> ExitCode {
     let text = match fs::read_to_string(path) {
         Ok(t) => t,
@@ -179,6 +258,8 @@ fn main() -> ExitCode {
             Some(p) => cmd_segment(p),
             None => usage(),
         },
+        Some("segment-batch") => cmd_stream("segment", &args),
+        Some("clicks") => cmd_stream("clicks", &args),
         Some("score") => match args.get(1) {
             Some(p) => cmd_score(p),
             None => usage(),
