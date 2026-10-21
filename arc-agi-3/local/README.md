@@ -54,6 +54,33 @@ sp80  1/6  [[4],[4],[4],[5]]            -> replay OK: level 1, 4 kroki
 Po podłączeniu biblioteki (`--policy solution`) te gry wchodzą na **1.00 poziomu
 w 100% epizodów** (vs 0.00 dla czystej heurystyki), a potem gra dalej heurystyką.
 
+### `abtest.py` — czy zmiana naprawdę pomogła (parowane seedy + szum)
+
+Silnik jest deterministyczny przy tym samym seedzie, więc odpowiednikiem
+„seat swap" z benchmarku Pokemon jest uruchomienie obu wariantów na **tych samych
+seedach**. Seed noise znika, zostaje różnica, którą testujemy.
+
+```bash
+python local/abtest.py noise --seeds 60 --workers 14   # szum tego samego agenta
+python local/abtest.py ab --seeds 120 --workers 14     --params-a '{}' --params-b '{"epsilon": 0.4}'      # parowane A/B + CI95
+python local/abtest.py power --delta 0.10 --sd 0.35    # ile próbek potrzeba
+```
+
+Zmierzone (sandbox, 2 rdzenie):
+
+| pomiar | wynik |
+|---|---|
+| ten sam agent, n=60/gra, 25 gier | 0.63 vs 0.58 → **szum 0.05**, różne w 8/25 gier |
+| ten sam agent, n=20/gra, 6 gier | 0.55 vs 0.25 → **szum 0.30**, różne w 5/6 gier |
+| realne A/B (epsilon 0.45), 80 epizodów | delta −0.10, CI95 [−0.10, +0.05], **nieistotne** (p=0.53) |
+| ile trzeba na efekt 0.10 | **~1582 epizody** |
+
+Wniosek: `gauntlet.py` odpowiada „czy w ogóle coś działa", a `abtest.py` —
+„czy jest lepiej". Do decyzji o submisie potrzebne jest drugie.
+
+Szczegóły i mapowanie na benchmark v2.4 z gałęzi `c87f7a48`:
+[`../BENCHMARK-c87f7a48.md`](../BENCHMARK-c87f7a48.md).
+
 ### `rust_bridge.py` + `segment-batch` / `clicks` — **Rust w pętli**
 
 To jest odpowiedź na „po co mi Rust". Silnik gier jest w Pythonie i tego nie zmienimy
