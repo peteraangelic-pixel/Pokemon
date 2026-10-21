@@ -111,7 +111,7 @@ fn play_game(
             return Ok(0);
         }
         // decide() expects the full obs value (reads obs["current"] + obs["select"]).
-        let dec = heuristic::decide(&obs, index, knobs);
+        let dec = heuristic::decide_legacy(&obs, index, knobs);
         if dec.is_empty() {
             eng.battle_finish();
             return Ok(0);
