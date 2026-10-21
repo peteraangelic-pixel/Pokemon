@@ -68,15 +68,28 @@ jobs:
     needs: build
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-          sparse-checkout: pokemon-agent/rust
+      # Manual sparse clone: actions/checkout validates the whole tree and
+      # dies on NTFS-illegal deck filenames (e.g. '(...<).csv').
+      - name: Sparse clone (NTFS-safe)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git init src
+          cd src
+          git config core.protectNTFS false
+          git config core.longpaths true
+          git remote add origin https://github.com/${{ github.repository }}.git
+          $basic = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("x-access-token:${{ github.token }}"))
+          git -c http.extraheader="AUTHORIZATION: basic $basic" fetch --depth 1 origin "${{ github.ref_name }}"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git sparse-checkout init --cone
+          git sparse-checkout set pokemon-agent/rust
+          git checkout FETCH_HEAD
       - uses: dtolnay/rust-toolchain@stable
       - name: Build rust binaries (Windows)
         shell: pwsh
         run: |
-          cd pokemon-agent/rust
+          cd src/pokemon-agent/rust
           cargo build --release 2>&1 | Tee-Object -FilePath build-win.log
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           Get-ChildItem target/release/*.exe | Select-Object Name, Length
@@ -88,7 +101,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: win-bin
-          path: pokemon-agent/rust/bin-win/
+          path: src/pokemon-agent/rust/bin-win/
 
   commit-windows:
     needs: build-windows

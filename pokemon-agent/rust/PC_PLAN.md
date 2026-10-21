@@ -35,3 +35,10 @@
 - `rust_full` crashuje na ENERGY selectach (wyjątek C++ przez FFI) —
   do naprawy w etapie 2; gauntlety subprocessowe działają.
 - Heurystyka natywna gra słabo (nie jest portem championa) — etap 2.
+
+## Uwaga: klonowanie repo na Windows
+Pełny `git clone` na Windows pada na nazwach plików talii z niedozwolonymi
+znakami NTFS (np. `decks/meta1012/(...<).csv`). Na PC klonuj rzadko:
+`git clone --filter=blob:none --sparse ...` i
+`git sparse-checkout set pokemon-agent/rust pokemon-agent/decks`,
+albo po prostu pobierz same pliki .exe z katalogu `bin-win/`.
