@@ -1,5 +1,5 @@
 {
-  "fetched_utc": "2026-10-21T03:04:28+00:00",
+  "fetched_utc": "2026-10-21T03:06:45+00:00",
   "competition": "the-pokemon-company-ptcg-ai-battle-challenge-playground",
   "team": "(unknown - pass --team to filter)",
   "leaderboard_rows": 459,
@@ -11,8 +11,8 @@
       "fileName": "v85_final.tar.gz",
       "date": "2026-10-21 03:02:08.010000",
       "description": "submit v85_final.tar.gz via bundles/*.trigger push",
-      "status": "SubmissionStatus.PENDING",
-      "publicScore": "",
+      "status": "SubmissionStatus.COMPLETE",
+      "publicScore": "600.0",
       "privateScore": ""
     },
     {
@@ -21,7 +21,7 @@
       "date": "2026-10-21 02:57:47.653000",
       "description": "submit v84_final.tar.gz via bundles/*.trigger push",
       "status": "SubmissionStatus.COMPLETE",
-      "publicScore": "600.0",
+      "publicScore": "487.4",
       "privateScore": ""
     },
     {

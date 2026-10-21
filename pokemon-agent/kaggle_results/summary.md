@@ -1,6 +1,6 @@
 # Kaggle results — the-pokemon-company-ptcg-ai-battle-challenge-playground
 
-_fetched 2026-10-21T03:04:28+00:00_
+_fetched 2026-10-21T03:06:45+00:00_
 
 ## Our leaderboard row
 
@@ -10,8 +10,8 @@ _no row found (pass `--team`)_
 
 | file | status | score | date |
 |---|---|---|---|
-| `v85_final.tar.gz` | SubmissionStatus.PENDING |  | 2026-10-21 03:02:08.010000 |
-| `v84_final.tar.gz` | SubmissionStatus.COMPLETE | 600.0 | 2026-10-21 02:57:47.653000 |
+| `v85_final.tar.gz` | SubmissionStatus.COMPLETE | 600.0 | 2026-10-21 03:02:08.010000 |
+| `v84_final.tar.gz` | SubmissionStatus.COMPLETE | 487.4 | 2026-10-21 02:57:47.653000 |
 | `v83_final.tar.gz` | SubmissionStatus.COMPLETE | 572.5 | 2026-10-21 02:53:32.583000 |
 | `v82_final.tar.gz` | SubmissionStatus.COMPLETE | 548.5 | 2026-10-21 02:46:09.087000 |
 | `v79_final.tar.gz` | SubmissionStatus.COMPLETE | 410.6 | 2026-10-20 22:51:07.427000 |
@@ -28,12 +28,12 @@ _no row found (pass `--team`)_
 | target | score needed |
 |---|---|
 | top 1 % (place 4) | 1212.1 |
-| top 5 % (place 22) | 1092.8 |
-| top 10 % (place 45) | 1001.4 |
+| top 5 % (place 22) | 1088.8 |
+| top 10 % (place 45) | 1001.2 |
 | top 25 % (place 114) | 872.6 |
-| top 50 % (place 229) | 680.3 |
+| top 50 % (place 229) | 679.2 |
 
-- our latest submission: **600.0** ~ place 276/459 (top 60 %)
+- our latest submission: **600.0** ~ place 275/459 (top 60 %)
 
 ## Leaderboard top 10
 
