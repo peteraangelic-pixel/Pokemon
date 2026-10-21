@@ -33,6 +33,13 @@ jobs:
           ./target/release/gauntlet_rust --help 2>&1 | tee -a build.log
           ./target/release/search_deck_rust --help 2>&1 | tee -a build.log || true
           ./target/release/analyze_playstyle_rust --help 2>&1 | tee -a build.log || true
+          echo "=== windows-gnu cross build (.exe for user PC) ===" | tee -a build.log
+          rustup target add x86_64-pc-windows-gnu 2>&1 | tee -a build.log
+          sudo apt-get update -qq > /dev/null 2>&1; sudo apt-get install -y -qq gcc-mingw-w64-x86-64 > /dev/null 2>&1
+          RUSTFLAGS="-C link-arg=-static" cargo build --release --target x86_64-pc-windows-gnu 2>&1 | tee -a build.log
+          mkdir -p bin-win
+          cp target/x86_64-pc-windows-gnu/release/*.exe bin-win/ 2>/dev/null || true
+          ls -lh bin-win/ 2>&1 | tee -a build.log
           mkdir -p bin
           cp target/release/rust_gauntlet bin/rust_gauntlet || true
           cp target/release/rust_full bin/rust_full || true
@@ -53,7 +60,7 @@ jobs:
             cp pokemon-agent/rust/build.log pokemon-agent/rust/bin/build.log || true
             cp pokemon-agent/rust/build.log pokemon-agent/rust/build.log.txt || true
           fi
-          git add -f pokemon-agent/rust/bin/ || true
+          git add -f pokemon-agent/rust/bin/ pokemon-agent/rust/bin-win/ || true
           git add -f pokemon-agent/rust/build.log.txt || true
           git diff --cached --stat || true
           cat pokemon-agent/rust/build.log | tail -n 200 || true
@@ -64,70 +71,3 @@ jobs:
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
-  build-windows:
-    needs: build
-    runs-on: windows-latest
-    steps:
-      # Manual sparse clone: actions/checkout validates the whole tree and
-      # dies on NTFS-illegal deck filenames (e.g. '(...<).csv').
-      - name: Sparse clone (NTFS-safe)
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          git init src
-          cd src
-          git config core.protectNTFS false
-          git config core.longpaths true
-          git remote add origin https://github.com/${{ github.repository }}.git
-          $basic = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("x-access-token:${{ github.token }}"))
-          git -c http.extraheader="AUTHORIZATION: basic $basic" fetch --depth 1 origin "${{ github.ref_name }}"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          git sparse-checkout init --cone
-          git sparse-checkout set pokemon-agent/rust
-          git checkout FETCH_HEAD
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Build rust binaries (Windows)
-        shell: pwsh
-        run: |
-          cd src/pokemon-agent/rust
-          cargo build --release 2>&1 | Tee-Object -FilePath build-win.log
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          Get-ChildItem target/release/*.exe | Select-Object Name, Length
-          ./target/release/gauntlet_rust.exe --help | Out-Host
-          New-Item -ItemType Directory -Force -Path bin-win | Out-Null
-          Get-ChildItem target/release/*.exe | Copy-Item -Destination bin-win/
-          Get-ChildItem bin-win | Select-Object Name
-      - name: Upload windows binaries
-        uses: actions/upload-artifact@v4
-        with:
-          name: win-bin
-          path: src/pokemon-agent/rust/bin-win/
-
-  commit-windows:
-    needs: build-windows
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-          fetch-depth: 0
-      - name: Download windows binaries
-        uses: actions/download-artifact@v4
-        with:
-          name: win-bin
-          path: pokemon-agent/rust/bin-win
-      - name: Commit windows binaries
-        run: |
-          set -eo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
-          chmod +x pokemon-agent/rust/bin-win/* || true
-          git add -f pokemon-agent/rust/bin-win/
-          git diff --cached --stat || true
-          if git diff --cached --quiet; then
-            echo "No changes"
-          else
-            git commit -m "chore(rust): windows binaries (.exe) for user PC [skip ci]"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
