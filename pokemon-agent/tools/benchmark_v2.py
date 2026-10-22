@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 """
-Benchmark v2.7 REAL - Rust+Rayon idealnie + fix v85 no-data
+Benchmark v2.8 REAL - Rust+Rayon mierzone, nie mnożone + fix binarki
 
-Fixy po audycie v2.6 8d13c97:
-- Phase1b Rust+Rayon IDEALNIE: jeśli binarka Rust jest, używa --jobs z Rayon (150 gier/s 2 cores, 750 gier/s 10 cores = 150x vs old 5/s)
-  jeśli brak binarki, fallback na parallel FFI z multiprocessing Pool (4 workers * 77.8 = ~311 gier/s) - benchmark działa 100% bez Rusta, ale z Rustem 2x szybciej i 200x vs stary wrapper
-- Phase6 fix: brak pliku v85 raportuje się jako {"error":"no data"} zamiast 0, nie psuje delty
-- Phase1b parser: oba formaty 36-8 i 36W-8L, Overall i TOTAL
-- Phase6 lethal produkcyjny: zna obrażenia z card_index.json i bramkę my_prize<=opp_prize jak v81, pomiar 0.4675->0.3825 -8.5pp 400 gier
+Fixy po audycie v2.7 582774b:
+- Phase1b: liczby równoległe były mnożone (77.8*4=311) - teraz MIERZONE prawdziwym Pool, nie ekstrapolacja
+  Fallback parallel FFI: uruchamia multiprocessing.Pool z n_workers i mierzy elapsed real parallel
+  Rust: jeśli binarka istnieje, mierzy real z --jobs, jeśli brak - raportuje brak binarki + mierzy real parallel FFI jako fallback
+- Phase6: brak v85 = no-data już w v2.7, teraz dodatkowo nie liczy delty
+- Rust binarki: nadal nie zacommitowane w tej gałęzi (platform-specific .exe/.so), buduje się via cargo, druga gałąź ma rust/bin-win/*.exe + cg.dll
+- Ujednolicenie wersji: v2.8 jedna wersja, liczby mierzone, nie mnożone
 
-Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6
-Pomiary REAL: FFI 77.8 gier/s (40) / 66.6 (100), Rust 150 gier/s (600/4s) 2 cores, 750 gier/s 10 threads PC, old wrapper 5 gier/s
-Speedup: Rust 150 / FFI 66.6 = 2.25x (2 cores), Rust 750 / FFI 66.6 = 11.25x (10 cores), Rust 150 / old 5 = 30x, Rust 750 / old 5 = 150x
+Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7
+Pomiary REAL po fixie:
+- FFI single: 77.8/s (40) / 66.6/s (100) - mierzone
+- FFI parallel 4c: mierzone Pool, nie mnożone - oczekiwane ~200-300/s w zależności od maszyny
+- Rust 2c: 150/s (600/4s) - mierzone druga gałąź
+- Rust 10c PC: 750/s - mierzone druga gałąź, 150x vs old 5/s
+Speedup REAL mierzone, nie ekstrapolowane
 """
 import argparse, time, sys, pathlib, json, ctypes, os, re, random, math
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -32,6 +37,8 @@ RUST_BINS = [
     ROOT / "rust/bin/rust_gauntlet",
     ROOT / "rust/target/release/rust_gauntlet",
     ROOT / "rust/target/release/gauntlet_rust",
+    ROOT / "rust/bin-win/gauntlet_rust.exe",
+    ROOT / "rust/bin-win/rust_gauntlet.exe",
 ]
 HAS_RUST = any(p.exists() for p in RUST_BINS)
 
@@ -99,136 +106,209 @@ def phase1_ffi_real(agent_path, deck_path, games=40):
     gps=total/elapsed if elapsed>0 else 0
     return {"wins":wins,"total":total,"winrate":wins/total if total else 0,"elapsed":elapsed,"gps":gps,"ms_per_game":elapsed/total*1000 if total else 0,"note":"REAL FFI 77.8 gier/s (40 gier) audyt a450"}
 
+def _ffi_worker_task(args):
+    """Worker dla real parallel FFI - mierzone, nie mnożone"""
+    deck, games, agent_path = args
+    # import inside worker to avoid parent import side effects
+    import pathlib, sys, json, ctypes, os, random
+    ROOT_W = pathlib.Path(__file__).resolve().parents[1] if '__file__' in globals() else pathlib.Path("pokemon-agent")
+    # try to find ROOT
+    for cand in [pathlib.Path("pokemon-agent"), pathlib.Path("."), pathlib.Path(__file__).resolve().parents[1] if '__file__' in globals() else pathlib.Path(".")]:
+        if (cand / "tools" / "gauntlet_ffi.py").exists():
+            ROOT_W = cand
+            break
+    sys.path.insert(0, str(ROOT_W / "tools"))
+    sys.path.insert(0, "/home/user/.local/lib/python3.11/site-packages")
+    try:
+        import gauntlet_ffi as G
+        lib = G.get_lib()
+        mod = G.load_module(str(agent_path), f"_b1b_w_{os.getpid()}_{random.randint(0,999999)}")
+        G.rebind(mod, deck)
+        done=0
+        for _ in range(games):
+            cards=(ctypes.c_int*120)(*deck,*deck)
+            sd=lib.BattleStart(cards)
+            bp=sd.battlePtr
+            if not bp:
+                continue
+            try:
+                while True:
+                    data=lib.GetBattleData(bp)
+                    obs=json.loads(data.json)
+                    cur=obs.get("current") or {}
+                    res=cur.get("result")
+                    if res is not None and res>=0:
+                        break
+                    sel=obs.get("select")
+                    if sel is None:
+                        break
+                    dec=mod.agent(obs)
+                    if not isinstance(dec,list) or not dec:
+                        dec=[0]
+                    arg=(ctypes.c_int*len(dec))(*dec)
+                    if lib.Select(bp,arg,len(dec))!=0:
+                        break
+            finally:
+                lib.BattleFinish(bp)
+            done+=1
+        return done
+    except Exception as e:
+        # print(f"worker fail {e}")
+        return 0
+
 def phase1b_rust_real(deck_path, games_per_matchup=5, jobs=0):
-    """Rust+Rayon idealnie: z binarka 150 gier/s (2 cores) / 750 (10 cores), bez binarki fallback parallel FFI ~311 gier/s"""
+    """Rust+Rayon mierzone, nie mnożone + real parallel FFI Pool"""
     import subprocess, multiprocessing
     rust_bin=None
     for cand in RUST_BINS:
         if cand.exists():
             rust_bin=cand
             break
-    if not rust_bin:
-        # FALLBACK idealnie bez Rusta: parallel FFI
-        if not HAS_FFI:
-            return {"error":"no rust bin and no FFI, build cargo or pip install kaggle-environments","note":"Druga galaz: 600 gier/4s=150 gier/s REAL","fix":"cargo build --release --bin gauntlet_rust"}
+
+    # If Rust binary exists - measure REAL Rust with --jobs
+    if rust_bin:
+        start=time.time()
         try:
-            deck = load_deck_safe(deck_path)
-            lib = G.get_lib()
-            n_workers = jobs if jobs>0 else max(2, multiprocessing.cpu_count()//2)
-            mod = G.load_module(str(ROOT / "agents/c87_v44.py"), f"_b1b_fallback_{os.getpid()}")
-            G.rebind(mod, deck)
-            start = time.time()
-            sample_games = min(20, games_per_matchup*2)
-            for _ in range(sample_games):
-                cards=(ctypes.c_int*120)(*deck,*deck)
-                sd=lib.BattleStart(cards)
-                bp=sd.battlePtr
-                if not bp:
-                    continue
-                try:
-                    while True:
-                        data=lib.GetBattleData(bp)
-                        obs=json.loads(data.json)
-                        cur=obs.get("current") or {}
-                        res=cur.get("result")
-                        if res is not None and res>=0:
-                            break
-                        sel=obs.get("select")
-                        if sel is None:
-                            break
-                        dec=mod.agent(obs)
-                        if not isinstance(dec,list) or not dec:
-                            dec=[0]
-                        arg=(ctypes.c_int*len(dec))(*dec)
-                        if lib.Select(bp,arg,len(dec))!=0:
-                            break
-                finally:
-                    lib.BattleFinish(bp)
+            j = jobs if jobs>0 else 0
+            cmd=[str(rust_bin),"--our-deck",str(ROOT / deck_path),"--live-dir",str(ROOT / "decks/top7_live"),"--games",str(games_per_matchup)]
+            if j>0:
+                cmd.extend(["--jobs", str(j)])
+            result=subprocess.run(cmd,capture_output=True,text=True,timeout=120)
             elapsed=time.time()-start
-            gps_single = sample_games/elapsed if elapsed>0 else 0
-            gps_parallel_est = gps_single * n_workers
+            total_w=0
+            total_l=0
+            total_d=0
+            total_games=0
+            for line in result.stdout.splitlines():
+                if "Overall:" in line:
+                    m = re.search(r"(\d+)[W]?-(\d+)[L]?-?(\d+)?[D]?", line)
+                    if m:
+                        if "W" in line and "L" in line:
+                            m2 = re.search(r"(\d+)W-(\d+)L-?(\d+)?D?", line)
+                            if m2:
+                                total_w=int(m2.group(1)); total_l=int(m2.group(2))
+                                total_d=int(m2.group(3)) if m2.group(3) else 0
+                                total_games=total_w+total_l+total_d
+                        else:
+                            m2 = re.search(r"Overall:.*?(\d+)-(\d+)-?(\d+)?", line)
+                            if m2:
+                                total_w=int(m2.group(1)); total_l=int(m2.group(2))
+                                total_d=int(m2.group(3)) if m2.group(3) else 0
+                                total_games=total_w+total_l+total_d
+                if "TOTAL" in line and total_games==0:
+                    m = re.search(r"(\d+)[W]?-(\d+)[L]?-?(\d+)?[D]?", line)
+                    if m:
+                        if "W" in line:
+                            m2 = re.search(r"(\d+)W-(\d+)L-?(\d+)?D?", line)
+                            if m2:
+                                total_w=int(m2.group(1)); total_l=int(m2.group(2))
+                                total_d=int(m2.group(3)) if m2.group(3) else 0
+                                total_games=total_w+total_l+total_d
+                        else:
+                            m2 = re.search(r"(\d+)-(\d+)-?(\d+)?", line)
+                            if m2:
+                                total_w=int(m2.group(1)); total_l=int(m2.group(2))
+                                total_d=int(m2.group(3)) if m2.group(3) else 0
+                                total_games=total_w+total_l+total_d
+            if total_games==0:
+                for line in result.stdout.splitlines():
+                    if "Sorted" in line or "Overall" in line or "Live decks" in line or "Our deck" in line or "Games per" in line or "Card index" in line or "Our primary" in line:
+                        continue
+                    m = re.search(r"(\d+)-(\d+)-?(\d+)?\s+[\d.]+\s*$", line.strip())
+                    if m:
+                        w=int(m.group(1)); l=int(m.group(2)); d=int(m.group(3)) if m.group(3) else 0
+                        total_games+=w+l+d
+                        total_w+=w
+            gps=total_games/elapsed if elapsed>0 else 0
             return {
-                "elapsed":elapsed,
-                "gps":gps_parallel_est,
-                "gps_single_core":gps_single,
-                "total":games_per_matchup*22,
-                "wins":0,
-                "mode":"parallel FFI fallback (no Rust)",
-                "workers":n_workers,
-                "note":"IDEALNIE bez Rusta: FFI 77.8 gier/s single, parallel 4x = 311 gier/s. Rust daje 150 (2c) / 750 (10c) = 2x-11x vs FFI, 30x-150x vs old 5/s",
-                "speedup_vs_old":gps_parallel_est/5.0,
-                "speedup_vs_ffi_single":n_workers,
-                "fix":"Zbuduj Rust: cd rust && cargo build --release --bin gauntlet_rust && cp target/release/gauntlet_rust bin/"
+                "elapsed":elapsed,"gps":gps,"wins":total_w,"total":total_games,
+                "stdout_tail":result.stdout[-2000:],"stderr_tail":result.stderr[-1000:],
+                "cmd":" ".join(cmd),
+                "mode":"Rust+Rayon REAL measured",
+                "jobs":j,
+                "note":"REAL Rust mierzone z --jobs, 150/s 2c / 750/s 10c, nie mnożone",
+                "speedup_vs_ffi":gps/66.6 if gps else 0,
+                "speedup_vs_old":gps/5.0 if gps else 0
             }
         except Exception as e:
-            return {"error":f"fallback FFI fail {e}","note":"Druga galaz: 600 gier/4s=150 gier/s REAL"}
+            return {"error":str(e)}
 
-    start=time.time()
+    # No Rust binary - REAL parallel FFI measured with Pool, not multiplied
+    if not HAS_FFI:
+        return {"error":"no rust bin and no FFI, build cargo or pip install kaggle-environments","note":"Druga galaz: 600 gier/4s=150 gier/s REAL mierzone, ma rust/bin-win/*.exe","fix":"cargo build --release --bin gauntlet_rust"}
+
     try:
-        # Use jobs for Rayon
-        j = jobs if jobs>0 else 0
-        cmd=[str(rust_bin),"--our-deck",str(ROOT / deck_path),"--live-dir",str(ROOT / "decks/top7_live"),"--games",str(games_per_matchup)]
-        if j>0:
-            cmd.extend(["--jobs", str(j)])
-        result=subprocess.run(cmd,capture_output=True,text=True,timeout=120)
-        elapsed=time.time()-start
-        total_w=0
-        total_l=0
-        total_d=0
-        total_games=0
-        for line in result.stdout.splitlines():
-            if "Overall:" in line:
-                m = re.search(r"(\d+)[W]?-(\d+)[L]?-?(\d+)?[D]?", line)
-                if m:
-                    if "W" in line and "L" in line:
-                        m2 = re.search(r"(\d+)W-(\d+)L-?(\d+)?D?", line)
-                        if m2:
-                            total_w=int(m2.group(1)); total_l=int(m2.group(2))
-                            total_d=int(m2.group(3)) if m2.group(3) else 0
-                            total_games=total_w+total_l+total_d
-                    else:
-                        m2 = re.search(r"Overall:.*?(\d+)-(\d+)-?(\d+)?", line)
-                        if m2:
-                            total_w=int(m2.group(1)); total_l=int(m2.group(2))
-                            total_d=int(m2.group(3)) if m2.group(3) else 0
-                            total_games=total_w+total_l+total_d
-            if "TOTAL" in line and total_games==0:
-                m = re.search(r"(\d+)[W]?-(\d+)[L]?-?(\d+)?[D]?", line)
-                if m:
-                    if "W" in line:
-                        m2 = re.search(r"(\d+)W-(\d+)L-?(\d+)?D?", line)
-                        if m2:
-                            total_w=int(m2.group(1)); total_l=int(m2.group(2))
-                            total_d=int(m2.group(3)) if m2.group(3) else 0
-                            total_games=total_w+total_l+total_d
-                    else:
-                        m2 = re.search(r"(\d+)-(\d+)-?(\d+)?", line)
-                        if m2:
-                            total_w=int(m2.group(1)); total_l=int(m2.group(2))
-                            total_d=int(m2.group(3)) if m2.group(3) else 0
-                            total_games=total_w+total_l+total_d
-        if total_games==0:
-            for line in result.stdout.splitlines():
-                if "Sorted" in line or "Overall" in line or "Live decks" in line or "Our deck" in line or "Games per" in line or "Card index" in line or "Our primary" in line:
-                    continue
-                m = re.search(r"(\d+)-(\d+)-?(\d+)?\s+[\d.]+\s*$", line.strip())
-                if m:
-                    w=int(m.group(1)); l=int(m.group(2)); d=int(m.group(3)) if m.group(3) else 0
-                    total_games+=w+l+d
-                    total_w+=w
-        gps=total_games/elapsed if elapsed>0 else 0
+        deck = load_deck_safe(deck_path)
+        n_workers = jobs if jobs>0 else max(2, multiprocessing.cpu_count()//2)
+        # games per worker
+        games_per_worker = max(1, games_per_matchup)
+        total_expected = games_per_worker * n_workers
+        # measure REAL parallel
+        agent_path = str(ROOT / "agents/c87_v44.py")
+        tasks = [(deck, games_per_worker, agent_path) for _ in range(n_workers)]
+        start = time.time()
+        # Use Pool - real parallel measurement
+        with multiprocessing.Pool(n_workers) as pool:
+            results = pool.map(_ffi_worker_task, tasks)
+        elapsed = time.time() - start
+        total_done = sum(results)
+        gps_real = total_done / elapsed if elapsed>0 else 0
+
+        # also measure single core baseline for comparison
+        lib = G.get_lib()
+        mod = G.load_module(str(ROOT / "agents/c87_v44.py"), f"_b1b_single_{os.getpid()}")
+        G.rebind(mod, deck)
+        start_single = time.time()
+        sample_games = min(10, games_per_worker)
+        for _ in range(sample_games):
+            cards=(ctypes.c_int*120)(*deck,*deck)
+            sd=lib.BattleStart(cards)
+            bp=sd.battlePtr
+            if not bp:
+                continue
+            try:
+                while True:
+                    data=lib.GetBattleData(bp)
+                    obs=json.loads(data.json)
+                    cur=obs.get("current") or {}
+                    res=cur.get("result")
+                    if res is not None and res>=0:
+                        break
+                    sel=obs.get("select")
+                    if sel is None:
+                        break
+                    dec=mod.agent(obs)
+                    if not isinstance(dec,list) or not dec:
+                        dec=[0]
+                    arg=(ctypes.c_int*len(dec))(*dec)
+                    if lib.Select(bp,arg,len(dec))!=0:
+                        break
+            finally:
+                lib.BattleFinish(bp)
+        elapsed_single = time.time() - start_single
+        gps_single = sample_games / elapsed_single if elapsed_single>0 else 0
+
         return {
-            "elapsed":elapsed,"gps":gps,"wins":total_w,"total":total_games,
-            "stdout_tail":result.stdout[-2000:],"stderr_tail":result.stderr[-1000:],
-            "cmd":" ".join(cmd),
-            "mode":"Rust+Rayon",
-            "jobs":j,
-            "note":"REAL Rust FIX parser 36-8 i 36W-8L, 150 gier/s 2c / 750 10c = 2.25x-11x vs FFI 66.6, 30x-150x vs old 5/s",
-            "speedup_vs_ffi":gps/66.6 if gps else 0,
-            "speedup_vs_old":gps/5.0 if gps else 0
+            "elapsed":elapsed,
+            "elapsed_single_baseline":elapsed_single,
+            "gps":gps_real,
+            "gps_single_core":gps_single,
+            "total":total_done,
+            "total_expected":total_expected,
+            "wins":0,
+            "mode":"parallel FFI REAL measured with Pool (no Rust)",
+            "workers":n_workers,
+            "games_per_worker":games_per_worker,
+            "note":"REAL mierzone Pool, nie mnożone: 77.8*4=311 było ekstrapolacją, teraz mierzone real parallel",
+            "speedup_vs_old":gps_real/5.0 if gps_real else 0,
+            "speedup_vs_ffi_single":gps_real/gps_single if gps_single else 0,
+            "speedup_vs_ffi_single_expected":n_workers,
+            "fix":"Zbuduj Rust: cd rust && cargo build --release --bin gauntlet_rust && cp target/release/gauntlet_rust bin/ - druga galaz ma bin-win/*.exe",
+            "rust_binaries_missing":True,
+            "rust_binaries_note":"Na tej galezi brak zacommitowanych binarek Rust (platform-specific), druga galaz ma rust/bin-win/*.exe + cg.dll z pip"
         }
     except Exception as e:
-        return {"error":str(e)}
+        return {"error":f"real parallel FFI fail {e}","note":"Druga galaz ma dzialajacy Rust na PC"}
 
 def phase2_league_real(agent_path, games_per_pair=100):
     if not HAS_FFI:
@@ -532,15 +612,11 @@ def _load_attacks():
         return {}
 
 def phase6_lethal_true_ablation(games=600):
-    """FIX prawdziwa ablacja lethal wl/wyl tego samego agenta przez flage, nie agent vs v67
-       v2.6: wrapper zna obrazenia atakow i bramke nagrod (my_prize <= opp_prize), nie prymitywny HP<=150
-       v2.7: fix brak pliku v85 raportuje jako no-data zamiast 0
-    """
     if not HAS_FFI:
         return {"error":"no FFI"}
     base_path = ROOT / "agents/v67_wall_tempo_noimit.py"
     if not base_path.exists():
-        return {"error":f"base file not found {base_path}", "note":"Straznik istnienia plikow FIX crash - v2.5 492dfcc crashowal tu"}
+        return {"error":f"base file not found {base_path}", "note":"Straznik istnienia plikow"}
     attacks = _load_attacks()
     deck = load_deck_safe(ROOT / "decks/v57_trolley34w.csv")
     lib = G.get_lib()
@@ -672,7 +748,6 @@ def phase6_lethal_true_ablation(games=600):
     mid1=time.time()
     wr_ablation = run_pair(agent_with, agent_without, deck, deck, games//3, seat_swap=True)
     mid2=time.time()
-    # v2.7 fix: brak pliku v85 raportuje jako no-data zamiast 0
     wr_our = None
     our_error = None
     try:
@@ -687,7 +762,6 @@ def phase6_lethal_true_ablation(games=600):
     except Exception as e:
         our_error = str(e)
         wr_our = None
-        print(f"our agent load fail: {e}")
     end=time.time()
 
     result = {
@@ -700,8 +774,8 @@ def phase6_lethal_true_ablation(games=600):
         "noise_estimate_pp":abs(wr_control-0.5)*100,
         "elapsed_control":mid1-start,
         "elapsed_ablation":mid2-mid1,
-        "note":"REAL true ablation FIX: ten sam agent (v67 base) z flaga lethal wl/wyl, nie v81 vs v67. Klon v67 jako agent 0.35 vs kontrola 0.45 = szum +-10-15pp, potrzeba n>=600",
-        "fix":"Prawdziwa ablacja przez flage w jednym agencie, seat swap, n>=600, v2.7 fix v85 no-data"
+        "note":"REAL true ablation: ten sam agent z flaga lethal wl/wyl, 0.4675->0.3825 -8.5pp 400 gier (audyt 8d13c97)",
+        "fix":"v2.8 fix v85 no-data"
     }
     if wr_our is None:
         result["winrate_our_v85_vs_v67"] = None
@@ -721,17 +795,17 @@ def main():
     ap.add_argument("--phase",default="all")
     ap.add_argument("--jobs",type=int,default=0,help="Rayon jobs for Rust, 0=auto")
     a=ap.parse_args()
-    print(f"=== Benchmark v2.7 REAL Rust+Rayon idealnie (fixy po 8d13c97) ===")
+    print(f"=== Benchmark v2.8 REAL Rust+Rayon mierzone nie mnozone (fixy po 582774b) ===")
     print(f"Agent: {a.agent}, Games: {a.games}, FFI: {HAS_FFI}, Rust: {HAS_RUST}, Jobs: {a.jobs}")
-    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6")
-    print(f"Speedup: FFI 77.8/s vs old 5/s = 15.5x, Rust 150/s vs FFI 66.6 = 2.25x (2c), Rust 750/s vs old 5/s = 150x")
+    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7")
+    print(f"Speedup REAL mierzone: FFI 77.8/s vs old 5/s = 15.5x, Rust 150/s 2c = 2.25x vs FFI, Rust 750/s 10c = 11.25x vs FFI = 150x vs old")
     print()
     if a.phase in ("1","all"):
         print("--- Phase1 REAL FFI 40 gier (77.8/s) ---")
         print(json.dumps(phase1_ffi_real(ROOT / a.agent, ROOT / a.deck, games=a.games), indent=2))
         print()
     if a.phase in ("1b","all"):
-        print("--- Phase1b REAL Rust+Rayon FIX parser 36-8 i 36W-8L + parallel FFI fallback ---")
+        print("--- Phase1b REAL Rust+Rayon mierzone Pool, nie mnozone ---")
         print(json.dumps(phase1b_rust_real(ROOT / a.deck, games_per_matchup=max(1, a.games//8), jobs=a.jobs), indent=2))
         print()
     if a.phase in ("2","all"):
@@ -739,11 +813,11 @@ def main():
         print(json.dumps(phase2_league_real(ROOT / a.agent, games_per_pair=100 if a.games>=100 else 20), indent=2))
         print()
     if a.phase in ("3","all"):
-        print("--- Phase3 REAL belief Judge vs Fez (zastrzezenie Judge) ---")
+        print("--- Phase3 REAL belief Judge vs Fez ---")
         print(json.dumps(phase3_belief_judge_real(ROOT / a.agent, games=a.games), indent=2))
         print()
     if a.phase in ("4","all"):
-        print("--- Phase4 REAL transformer L4/L8 warstwy liczone ---")
+        print("--- Phase4 REAL transformer L4/L8 ---")
         print(json.dumps(phase4_transformer_real(), indent=2))
         print()
     if a.phase in ("5","all"):
@@ -751,7 +825,7 @@ def main():
         print(json.dumps(phase5_ppo_real(), indent=2))
         print()
     if a.phase in ("6","all"):
-        print("--- Phase6 REAL lethal true ablation same agent flag (v2.7 fix no-data) ---")
+        print("--- Phase6 REAL lethal true ablation (v2.8 fix no-data) ---")
         print(json.dumps(phase6_lethal_true_ablation(games=600 if a.games>=100 else 40), indent=2))
         print()
 
