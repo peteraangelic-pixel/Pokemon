@@ -30,16 +30,27 @@ ROOT = Path(__file__).resolve().parents[1]
 LIB = ROOT / ".venv/lib/python3.11/site-packages/kaggle_environments/envs/cabt/cg/libcg.so"
 # fallback for Actions / different venv layouts
 if not LIB.exists():
-    import sysconfig, importlib.util
-    # try purelib
-    for base in [Path(sysconfig.get_paths()["purelib"]), Path(sysconfig.get_paths()["platlib"])]:
+    import sysconfig, importlib.util, os
+    # try purelib + user site
+    candidates_bases = [Path(sysconfig.get_paths()["purelib"]), Path(sysconfig.get_paths()["platlib"])]
+    # add user site-packages (pip --user)
+    try:
+        import site
+        candidates_bases.extend([Path(p) for p in site.getsitepackages() + [site.getusersitepackages()]])
+    except Exception:
+        pass
+    # also explicit home/.local paths
+    candidates_bases.append(Path.home() / ".local/lib/python3.11/site-packages")
+    candidates_bases.append(Path.home() / ".local/lib/python3.10/site-packages")
+    for base in candidates_bases:
         cand = base / "kaggle_environments/envs/cabt/cg/libcg.so"
         if cand.exists():
             LIB = cand
             break
-    # try via importlib
+    # try via importlib (without importing kaggle_environments package which loads OpenSpiel and breaks FFI)
     if not LIB.exists():
         try:
+            # avoid importing kaggle_environments itself - use find_spec without importing
             spec = importlib.util.find_spec("kaggle_environments.envs.cabt.cg")
             if spec and spec.submodule_search_locations:
                 cand = Path(spec.submodule_search_locations[0]) / "libcg.so"
@@ -47,8 +58,9 @@ if not LIB.exists():
                     LIB = cand
         except Exception:
             pass
-    # try via kaggle_environments package file
-    if not LIB.exists():
+    # try via kaggle_environments package file - LAST RESORT because import breaks FFI buffer (capacity 7 panic)
+    # Only if env var ALLOW_KE_IMPORT is set
+    if not LIB.exists() and os.environ.get("ALLOW_KE_IMPORT")=="1":
         try:
             import kaggle_environments
             cand = Path(kaggle_environments.__file__).parent / "envs/cabt/cg/libcg.so"

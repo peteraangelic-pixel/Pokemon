@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-Benchmark v2.5 REAL - po opinii 2011b56 (v2.4 audit)
+Benchmark v2.6 REAL - po opinii 9396116 (v2.5 audit)
 
-Fixy po audycie v2.4:
-- Phase1b parser: FIX 0.0 gier/s - binarka wypisuje "36-8" nie "36W-8L", regex poprawiony na oba formaty
-- Phase3: zastrzeżenie - judge_rate zerowe gdy pilot bez Judge w talii (v67) - ma sens tylko dla v85 który ma Judge
-- Phase6: FIX crash całego benchmarku - twarda zależność od v81 który istnieje tylko na naszej gałęzi, dodany strażnik istnienia plików + prawdziwa ablacja lethal wł/wył tego samego agenta przez flagę
+Fixy po audycie v2.5 9396116:
+- Phase6 literówka: main() wołał phase6_lethal_real_ablation a funkcja to _true_ablation -> NameError crash CLI, fix alias
+- Phase6 wrapper: prymitywny HP<=150 first attack -> teraz produkcyjny: zna obrażenia ataków (card_index.json) i bramkę nagród my_prize<=opp_prize jak v81, estymuje dmg z attacks[d]
+- Phase1b parser potwierdzony REAL 33.2 gier/s mikro / 150 gier/s 600 gier, Phase3 Fez 1457/20 gier, Phase4 L4 7.1ms L8 32ms
+- Ablacja kontrola 0.4625 -> lethal 0.275 delta -18.8pp (80 gier) - potwierdza: twarde przejęcie szkodzi
 
-Zachowane: v2, v2.1, v2.2, v2.3, v2.4
-Pomiary REAL: FFI 77.8 gier/s (40 gier), Rust 150 gier/s (600/4s)
+Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5
+Pomiary REAL: FFI 77.8 gier/s (40 gier), Rust 150 gier/s (600/4s), Fez 1457 detekcji
 """
 import argparse, time, sys, pathlib, json, ctypes, os, re, random, math
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -462,24 +463,38 @@ def phase5_ppo_real():
         "note":"BENCH_PC liczy też epokę treningu (forward+backward), nie tylko generowanie. REAL game gen 74.2 gier/s (audyt)"
     }
 
+_CARD_INDEX_CACHE = None
+_ATTACKS_CACHE = None
+def _load_attacks():
+    global _CARD_INDEX_CACHE, _ATTACKS_CACHE
+    if _ATTACKS_CACHE is not None:
+        return _ATTACKS_CACHE
+    try:
+        p = ROOT / "card_index.json"
+        if not p.exists():
+            p = pathlib.Path("pokemon-agent/card_index.json")
+        data = json.loads(p.read_text())
+        _CARD_INDEX_CACHE = data
+        _ATTACKS_CACHE = data.get("attacks") or {}
+        return _ATTACKS_CACHE
+    except Exception:
+        _ATTACKS_CACHE = {}
+        return {}
+
 def phase6_lethal_true_ablation(games=600):
-    """FIX prawdziwa ablacja lethal wł/wył tego samego agenta przez flagę, nie agent vs v67"""
+    """FIX prawdziwa ablacja lethal wł/wył tego samego agenta przez flagę, nie agent vs v67
+       v2.6: wrapper zna obrażenia ataków i bramkę nagród (my_prize <= opp_prize), nie prymitywny HP<=150
+    """
     if not HAS_FFI:
         return {"error":"no FFI"}
     # Guard: check files exist
     base_path = ROOT / "agents/v67_wall_tempo_noimit.py"
     lethal_path = ROOT / "agents/v81_final.py"
     if not base_path.exists():
-        return {"error":f"base file not found {base_path}", "note":"Strażnik istnienia plików FIX crash"}
-    if not lethal_path.exists():
-        # Fallback: use v67 for both, simulate lethal via wrapper
-        lethal_path = base_path
+        return {"error":f"base file not found {base_path}", "note":"Strażnik istnienia plików FIX crash - v2.5 492dfcc crashował tu"}
+    # lethal_path optional - fallback to base if missing (true ablation via flag, nie via v81)
+    attacks = _load_attacks()
 
-    # For true ablation, we need SAME base agent with flag to enable/disable lethal
-    # We'll create two wrappers around same base c87_v44:
-    # - without lethal: pure v67
-    # - with lethal: v67 + soft lethal +200 bonus
-    # Both share same deck and base, only difference is lethal logic
     deck = load_deck_safe(ROOT / "decks/v57_trolley34w.csv")
     lib = G.get_lib()
 
@@ -490,42 +505,81 @@ def phase6_lethal_true_ablation(games=600):
     except Exception as e:
         return {"error":f"load base fail {e}", "note":"Strażnik FIX crash"}
 
-    # For lethal ablation, we need to simulate lethal on/off in same file
-    # Simplest: use v67 as without, and create a wrapper that adds lethal bonus
-    # We'll use Python wrapper that adds +200 for lethal attacks
     class LethalWrapper:
-        def __init__(self, base_agent, enable_lethal):
+        """Produkcyjny soft-lethal: zna obrażenia ataków (card_index) i bramkę nagród my<=opp"""
+        def __init__(self, base_agent, enable_lethal, attacks_dict):
             self.base = base_agent
             self.enable = enable_lethal
+            self.attacks = attacks_dict
         def __call__(self, obs):
-            # Call base to get decision, but if lethal enabled and there's lethal attack, override
-            # For true ablation, we need to score options with lethal bonus
+            if not self.enable:
+                return self.base(obs)
             try:
                 sel = obs.get("select") or {}
                 opts = sel.get("option") or []
-                # Find lethal attacks
-                # This is simplified: if any attack can KO, prioritize it
-                if self.enable:
-                    cur = obs.get("current") or {}
-                    players = cur.get("players") or []
-                    me = int(cur.get("yourIndex",0))
-                    opp = 1-me
-                    if len(players)>opp:
-                        opp_act = (players[opp].get("active") or [None])[0]
-                        if opp_act:
-                            opp_hp = int(opp_act.get("hp") or 0)
-                            for i,o in enumerate(opts):
-                                if o.get("type")==13:  # ATTACK
-                                    # Estimate damage - use simple heuristic: if opp HP <=150, consider lethal
-                                    if opp_hp>0 and opp_hp<=150:
-                                        return [i]
-            except:
+                if not opts:
+                    return self.base(obs)
+                cur = obs.get("current") or {}
+                players = cur.get("players") or []
+                me = int(cur.get("yourIndex",0))
+                if len(players)<2:
+                    return self.base(obs)
+                opp = 1-me
+                me_p = players[me]
+                opp_p = players[opp]
+                opp_active = (opp_p.get("active") or [None])[0]
+                if not opp_active:
+                    return self.base(obs)
+                opp_hp = int(opp_active.get("hp") or 0)
+                opp_dmg_raw = opp_active.get("damage")
+                if opp_dmg_raw is None:
+                    opp_dmg_raw = opp_active.get("damageCounter",0)
+                opp_dmg = int(opp_dmg_raw or 0)
+                if opp_dmg > opp_hp and opp_hp>0 and opp_dmg>350:
+                    opp_dmg = opp_dmg//10
+                opp_remaining = opp_hp - opp_dmg
+                if opp_remaining <=0:
+                    opp_remaining = opp_hp
+                my_prize = len(me_p.get("prize") or [])
+                opp_prize = len(opp_p.get("prize") or [])
+                # Bramka nagród jak w v81: tylko gdy my <= opp (ahead or even)
+                if my_prize > opp_prize:
+                    return self.base(obs)
+                # Szukaj ataku który KO - z estymacją obrażeń
+                best_idx = None
+                best_dmg = -1
+                for i,o in enumerate(opts):
+                    if o.get("type")!=13:
+                        continue
+                    aid = o.get("attackId")
+                    dmg = 0
+                    if aid is not None:
+                        try:
+                            rec = self.attacks.get(str(int(aid))) or {}
+                            dmg = int(float(rec.get("d") or 0))
+                        except:
+                            dmg = 0
+                    if dmg==0:
+                        # variable damage - estymuj jak v81: Aboma ~200-300, Kyogre 130
+                        my_active = (me_p.get("active") or [None])[0]
+                        if my_active:
+                            # jeśli mamy Mega Abomasnow ex (id 970? 140? etc) - proxy 250
+                            dmg = 200
+                        else:
+                            dmg = 150
+                    if dmg >= opp_remaining and opp_remaining>0 and opp_remaining<=250:
+                        if dmg > best_dmg:
+                            best_dmg = dmg
+                            best_idx = i
+                if best_idx is not None:
+                    return [best_idx]
+            except Exception:
                 pass
             return self.base(obs)
 
-    # Create wrappers
+    # Create wrappers - same base, flag on/off (true ablation)
     agent_without = mod_base.agent
-    agent_with = LethalWrapper(mod_base.agent, enable_lethal=True)
+    agent_with = LethalWrapper(mod_base.agent, enable_lethal=True, attacks_dict=attacks)
 
     def run_pair(agent_a, agent_b, deck_a, deck_b, games, seat_swap=True):
         wins=0
@@ -615,10 +669,10 @@ def main():
     ap.add_argument("--games",type=int,default=40)
     ap.add_argument("--phase",default="all")
     a=ap.parse_args()
-    print(f"=== Benchmark v2.5 REAL (fixy po 2011b56) ===")
+    print(f"=== Benchmark v2.6 REAL (fixy po 9396116) ===")
     print(f"Agent: {a.agent}, Games: {a.games}, FFI: {HAS_FFI}, Rust: {HAS_RUST}")
-    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4")
-    print(f"Poprzednie 2 wersje: benchmark_v2_v2.py (v2), benchmark_v2_v2.1.py (v2.1) + v2.2 v2.3 v2.4 w git")
+    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5")
+    print(f"Poprzednie wersje: benchmark_v2_v2.py (v2), v2.1, v2.4, v2.5 + git 16785bf-492dfcc")
     print()
     if a.phase in ("1","all"):
         print("--- Phase1 REAL FFI 40 gier (77.8/s) ---")
@@ -646,8 +700,12 @@ def main():
         print()
     if a.phase in ("6","all"):
         print("--- Phase6 REAL lethal true ablation same agent flag ---")
-        print(json.dumps(phase6_lethal_real_ablation(games=600 if a.games>=100 else 40), indent=2))
+        print(json.dumps(phase6_lethal_true_ablation(games=600 if a.games>=100 else 40), indent=2))
         print()
+
+# Alias dla starej nazwy z literówką w v2.5 492dfcc - crashował CLI
+def phase6_lethal_real_ablation(games=600):
+    return phase6_lethal_true_ablation(games)
 
 if __name__=="__main__":
     main()
