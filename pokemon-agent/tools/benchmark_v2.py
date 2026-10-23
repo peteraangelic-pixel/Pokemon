@@ -8,7 +8,7 @@ Fixy po audycie v2.5 9396116:
 - Phase1b parser potwierdzony REAL 33.2 gier/s mikro / 150 gier/s 600 gier, Phase3 Fez 1457/20 gier, Phase4 L4 7.1ms L8 32ms
 - Ablacja kontrola 0.4625 -> lethal 0.275 delta -18.8pp (80 gier) - potwierdza: twarde przejęcie szkodzi
 
-Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5
+Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7, v2.8
 Pomiary REAL: FFI 77.8 gier/s (40 gier), Rust 150 gier/s (600/4s), Fez 1457 detekcji
 """
 import argparse, time, sys, pathlib, json, ctypes, os, re, random, math
@@ -754,9 +754,9 @@ def main():
     ap.add_argument("--games",type=int,default=40)
     ap.add_argument("--phase",default="all")
     a=ap.parse_args()
-    print(f"=== Benchmark v2.6 REAL (fixy po 9396116) ===")
+    print(f"=== Benchmark v2.9 FINAL REAL Rust+Rayon mierzone Pool nie mnozone (merge a450+c87) ===")
     print(f"Agent: {a.agent}, Games: {a.games}, FFI: {HAS_FFI}, Rust: {HAS_RUST}")
-    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5")
+    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7, v2.8")
     print(f"Poprzednie wersje: benchmark_v2_v2.py (v2), v2.1, v2.4, v2.5 + git 16785bf-492dfcc")
     print()
     if a.phase in ("1","all"):
