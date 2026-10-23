@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Benchmark v2.7 - baza c87 v2.6 + patch a450: faza Rust dziala bez cargo (binarki z repo + jawna sciezka libcg + lagodne pominiecie)
+Benchmark v2.9 - merge a450 v2.7 + c87 v2.8: odkrywanie binarek z repo, jawna sciezka libcg, MIERZONY fallback Pool (nie mnozenie), phase6 no-data
 
 Fixy po audycie v2.5 9396116:
 - Phase6 literówka: main() wołał phase6_lethal_real_ablation a funkcja to _true_ablation -> NameError crash CLI, fix alias
@@ -121,6 +121,43 @@ def phase1_ffi_real(agent_path, deck_path, games=40):
     gps=total/elapsed if elapsed>0 else 0
     return {"wins":wins,"total":total,"winrate":wins/total if total else 0,"elapsed":elapsed,"gps":gps,"ms_per_game":elapsed/total*1000 if total else 0,"note":"REAL FFI 77.8 gier/s (40 gier) audyt a450"}
 
+def _ffi_worker_task(args):
+    """Worker Pool: gra `games` mirrorow championem, zwraca liczbe gier."""
+    deck, games, agent_path, root = args
+    import pathlib, sys, json, ctypes, os, random
+    ROOT_W = pathlib.Path(root)
+    sys.path.insert(0, str(ROOT_W / "tools"))
+    import gauntlet_ffi as G
+    lib = G.get_lib()
+    mod = G.load_module(str(agent_path), f"_b1bw_{os.getpid()}_{random.randint(0,999999)}")
+    G.rebind(mod, deck)
+    done = 0
+    for _ in range(games):
+        cards = (ctypes.c_int*120)(*deck, *deck)
+        sd = lib.BattleStart(cards)
+        bp = sd.battlePtr
+        if not bp:
+            continue
+        try:
+            while True:
+                data = lib.GetBattleData(bp)
+                obs = json.loads(data.json)
+                cur = obs.get("current") or {}
+                res = cur.get("result")
+                if res is not None and res >= 0:
+                    break
+                if obs.get("select") is None:
+                    break
+                dec = mod.agent(obs)
+                if not isinstance(dec, list) or not dec:
+                    dec = [0]
+                if lib.Select(bp, (ctypes.c_int*len(dec))(*dec), len(dec)) != 0:
+                    break
+        finally:
+            lib.BattleFinish(bp)
+        done += 1
+    return done
+
 def phase1b_rust_real(deck_path, games_per_matchup=5):
     """FIX parser 0.0 gier/s - binarka wypisuje 36-8 nie 36W-8L"""
     import subprocess
@@ -130,10 +167,28 @@ def phase1b_rust_real(deck_path, games_per_matchup=5):
             rust_bin=cand
             break
     if not rust_bin:
-        return {"skipped": True,
-                "reason": "brak binarki gauntlet_rust (rust/bin, rust/bin-win, rust/target/release)",
-                "hint": "zacommituj binarki z CI (rust-build) albo zbuduj: cargo build --release",
-                "note": "Faza Rust POMIJANA, nie blad; reszta benchmarku dziala bez niej"}
+        # v2.9: brak binarki -> REALNY pomiar rownoleglym FFI (Pool),
+        # nie ekstrapolacja; gdy brak tez FFI -> dopiero skip.
+        if not HAS_FFI:
+            return {"skipped": True,
+                    "reason": "brak binarki gauntlet_rust i brak FFI",
+                    "hint": "zacommituj binarki z CI (rust-build) albo zbuduj: cargo build --release",
+                    "note": "Faza Rust POMIJANA, nie blad; reszta benchmarku dziala bez niej"}
+        import multiprocessing
+        deck_fb = load_deck_safe(deck_path)
+        n_workers = max(2, (multiprocessing.cpu_count() or 2)//2)
+        per_worker = max(1, games_per_matchup)
+        agent_fb = str(ROOT / "agents/c87_v44.py")
+        tasks = [(deck_fb, per_worker, agent_fb, str(ROOT)) for _ in range(n_workers)]
+        t0 = time.time()
+        with multiprocessing.Pool(n_workers) as pool:
+            results = pool.map(_ffi_worker_task, tasks)
+        el = time.time() - t0
+        total_done = int(sum(results))
+        return {"elapsed": el, "gps": total_done/el if el > 0 else 0,
+                "total": total_done, "total_expected": per_worker*n_workers,
+                "workers": n_workers, "mode": "parallel FFI REAL measured (Pool, no Rust)",
+                "note": "fallback mierzony Pool.map (v2.9 merge a450+c87v2.8); Rust binarka nadal szybsza przy wiekszej liczbie rdzeni"}
     start=time.time()
     try:
         cmd=[str(rust_bin),"--our-deck",str(ROOT / deck_path),"--live-dir",str(ROOT / "decks/top7_live"),"--games",str(games_per_matchup)]
@@ -671,7 +726,7 @@ def phase6_lethal_true_ablation(games=600):
         G.rebind(mod_our, deck)
         wr_our = run_pair(mod_our.agent, agent_without, deck, deck, games//3, seat_swap=True)
     except Exception as e:
-        wr_our = 0
+        wr_our = None
         print(f"our agent load fail: {e}")
     end=time.time()
 
@@ -683,7 +738,7 @@ def phase6_lethal_true_ablation(games=600):
         "winrate_ablation_same_agent_lethal_on_vs_off":wr_ablation,
         "winrate_our_v85_vs_v67":wr_our,
         "delta_ablation_vs_control":wr_ablation-wr_control,
-        "delta_our_vs_control":wr_our-wr_control,
+        "delta_our_vs_control":(wr_our-wr_control) if wr_our is not None else None,
         "noise_estimate_pp":abs(wr_control-0.5)*100,
         "elapsed_control":mid1-start,
         "elapsed_ablation":mid2-mid1,
