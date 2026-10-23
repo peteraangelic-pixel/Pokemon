@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
 """
-Benchmark v2.9 FINAL - merge a450 v2.7 + c87 v2.8 + fix 582774b + bin-win
+Benchmark v2.9.1 FINAL FIX - merge a450 v2.7 + c87 v2.8 + fix 582774b + bin-win + fix c87_final_zip_verdict
 
-Fixy po audycie v2.7 582774b i v2.8:
+Fixy po audycie v2.7 582774b, v2.8 i c87_final_zip_verdict (3f8d8ae):
 - Phase1b: liczby równoległe były mnożone (77.8*4=311) - teraz MIERZONE prawdziwym Pool, nie ekstrapolacja
   RUST_BINS tylko gauntlet_rust (CLI zgodne --our-deck/--live-dir), rust_gauntlet ma inne CLI i dawał 0 - usunięty
   bin-win/*.exe z CI (Windows) + Linux bin/rust bin - platform-aware, .exe nie uruchamiane na Linuxie
   _find_cg_lib() jawna ścieżka cg.dll/.so/.dylib niezależnie od CWD
+  _find_card_index() jawna ścieżka card_index.json + --card-index przekazywane do binarki - fix zip bez assets/
   Fallback parallel FFI REAL measured Pool.map, nie mnożenie
 - Phase6: brak v85 = no-data zamiast 0, nie psuje delty (fix z 8d13c97)
 - Rust binarki: w tej gałęzi są bin-win/*.exe 23MB z CI a450, druga gałąź ma to samo + PC_PLAN.md
-- Ujednolicenie v2.7: dwie różne v2.7 -> jedna v2.9 FINAL
+- Zip fix: assets/card_index.json + card_index.json + agents/ wszystkie fazy - fix c87_final_zip_verdict
+- Ujednolicenie v2.7: dwie różne v2.7 -> jedna v2.9.1 FINAL
 
-Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7, v2.8
+Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7, v2.8, v2.9
 Pomiary REAL:
 - FFI single: 77.8/s (40) / 66.6/s (100) - mierzone
 - FFI parallel 4c REAL Pool: ~87/s mierzone (overhead), nie 311 mnożone
-- Rust 2c: 150/s (600/4s) - mierzone druga gałąź
-- Rust 10c PC: 750/s - mierzone, 150x vs old 5/s
-Speedup REAL mierzone
+- Rust 2c: 150/s (600/4s) - mierzone druga gałąź Linux CI
+- Rust 10c PC: ~750/s - EKSTRAPOLACJA liniowa z 2c*5, nie pomiar na 10c (Rayon skaluje ~liniowo, ale nie mierzone) - fix werdykt
+Speedup REAL mierzone, 750/s oznaczone jako szacunek
 """
 import argparse, time, sys, pathlib, json, ctypes, os, re, random, math, platform
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -73,6 +75,38 @@ def _find_cg_lib():
         cand = b / rel
         if cand.exists():
             return str(cand)
+    return None
+
+def _find_card_index():
+    """Znajdz card_index.json w wielu mozliwych lokalizacjach - fix zip bez assets/."""
+    candidates = [
+        ROOT / "assets/card_index.json",
+        ROOT / "card_index.json",
+        pathlib.Path("assets/card_index.json"),
+        pathlib.Path("pokemon-agent/assets/card_index.json"),
+        pathlib.Path("pokemon-agent/card_index.json"),
+        pathlib.Path("card_index.json"),
+        ROOT / ".." / "card_index.json",
+        ROOT / "benchmark" / "assets" / "card_index.json",
+        ROOT / "benchmark" / "card_index.json",
+        pathlib.Path(__file__).resolve().parents[2] / "card_index.json",
+        pathlib.Path(__file__).resolve().parents[2] / "assets" / "card_index.json",
+        pathlib.Path.cwd() / "assets" / "card_index.json",
+        pathlib.Path.cwd() / "card_index.json",
+    ]
+    # also search recursively up to 2 levels from CWD
+    cwd = pathlib.Path.cwd()
+    for up in [cwd, cwd.parent, cwd.parent.parent]:
+        candidates.append(up / "assets" / "card_index.json")
+        candidates.append(up / "card_index.json")
+        candidates.append(up / "benchmark" / "assets" / "card_index.json")
+        candidates.append(up / "benchmark" / "card_index.json")
+    for p in candidates:
+        try:
+            if p.exists() and p.stat().st_size > 1000:
+                return str(p.resolve())
+        except Exception:
+            continue
     return None
 
 def load_deck_safe(path):
@@ -192,7 +226,7 @@ def phase1b_rust_real(deck_path, games_per_matchup=5, jobs=0):
             rust_bin=cand
             break
 
-    # If Rust binary exists - measure REAL Rust with --jobs
+    # If Rust binary exists - measure REAL Rust with --jobs + explicit card-index (fix zip bez assets/)
     if rust_bin:
         start=time.time()
         try:
@@ -203,6 +237,9 @@ def phase1b_rust_real(deck_path, games_per_matchup=5, jobs=0):
             _lib = _find_cg_lib()
             if _lib:
                 cmd += ["--lib-path", _lib]
+            _ci = _find_card_index()
+            if _ci:
+                cmd += ["--card-index", _ci]
             result=subprocess.run(cmd,capture_output=True,text=True,timeout=120,cwd=str(ROOT))
             elapsed=time.time()-start
             total_w=0
@@ -257,7 +294,8 @@ def phase1b_rust_real(deck_path, games_per_matchup=5, jobs=0):
                 "mode":"Rust+Rayon REAL measured",
                 "jobs":j,
                 "lib_path":_lib,
-                "note":"REAL Rust mierzone z --jobs, 150/s 2c / 750/s 10c, nie mnożone",
+                "card_index":_ci,
+                "note":"REAL Rust mierzone z --jobs, 150/s 2c mierzone, 750/s 10c ekstrapolacja liniowa Rayon (nie mierzone na 10c PC) - fix c87_final_zip_verdict",
                 "speedup_vs_ffi":gps/66.6 if gps else 0,
                 "speedup_vs_old":gps/5.0 if gps else 0
             }
@@ -412,9 +450,34 @@ def phase3_belief_judge_real(agent_path, games=50):
         return {"error":f"agent file not found {agent_path}"}
     mod=G.load_module(str(agent_path),f"_b3_{os.getpid()}")
     deck_our=load_deck_safe(ROOT / "decks/v57_trolley34w.csv")
-    deck_opp=load_deck_safe(ROOT / "decks/top30_live/YumeNeko.csv")
-    if len(deck_opp)!=60:
-        deck_opp=load_deck_safe(ROOT / "decks/top30_live/ANMOL_GARG.csv")
+    # fix c87_final_zip_verdict: szukaj YumeNeko w wielu lokalizacjach (top30_live, top7_live, benchmark)
+    deck_opp = None
+    for cand in [
+        ROOT / "decks/top30_live/YumeNeko.csv",
+        ROOT / "decks/top7_live/YumeNeko.csv",
+        ROOT / "decks/top30_live/ANMOL_GARG.csv",
+        ROOT / "decks/top7_live/ANMOL_GARG.csv",
+        pathlib.Path("decks/top30_live/YumeNeko.csv"),
+        pathlib.Path("decks/top7_live/YumeNeko.csv"),
+        pathlib.Path("pokemon-agent/decks/top30_live/YumeNeko.csv"),
+        pathlib.Path("pokemon-agent/decks/top7_live/YumeNeko.csv"),
+    ]:
+        d = load_deck_safe(cand)
+        # load_deck_safe zwraca fallback deck z 33x 3 jesli plik nie istnieje - sprawdz czy plik istnieje
+        if cand.exists() if isinstance(cand, pathlib.Path) else False:
+            deck_opp = d
+            break
+        if d and len(d)==60 and d[0]!=3:  # heurystyka czy to prawdziwa talia
+            deck_opp = d
+            break
+    if deck_opp is None:
+        deck_opp=load_deck_safe(ROOT / "decks/top30_live/YumeNeko.csv")
+    if len(deck_opp)!=60 or deck_opp[0]==3:
+        for fallback in [ROOT / "decks/top30_live/ANMOL_GARG.csv", ROOT / "decks/top7_live/ANMOL_GARG.csv", ROOT / "decks/v57_trolley34w.csv"]:
+            tmp = load_deck_safe(fallback)
+            if len(tmp)==60:
+                deck_opp = tmp
+                break
     lib=G.get_lib()
     G.rebind(mod,deck_our)
     has_judge_in_deck = 1213 in deck_our
@@ -619,9 +682,17 @@ def _load_attacks():
     if _ATTACKS_CACHE is not None:
         return _ATTACKS_CACHE
     try:
-        p = ROOT / "card_index.json"
-        if not p.exists():
-            p = pathlib.Path("pokemon-agent/card_index.json")
+        ci_path = _find_card_index()
+        if ci_path:
+            p = pathlib.Path(ci_path)
+        else:
+            p = ROOT / "card_index.json"
+            if not p.exists():
+                p = ROOT / "assets/card_index.json"
+            if not p.exists():
+                p = pathlib.Path("pokemon-agent/card_index.json")
+            if not p.exists():
+                p = pathlib.Path("pokemon-agent/assets/card_index.json")
         data = json.loads(p.read_text())
         _CARD_INDEX_CACHE = data
         _ATTACKS_CACHE = data.get("attacks") or {}
@@ -806,12 +877,13 @@ def main():
     ap.add_argument("--phase",default="all")
     ap.add_argument("--jobs",type=int,default=0,help="Rayon jobs for Rust, 0=auto")
     a=ap.parse_args()
-    print(f"=== Benchmark v2.9 FINAL REAL Rust+Rayon mierzone Pool nie mnozone (merge a450+c87) ===")
+    print(f"=== Benchmark v2.9.1 FINAL FIX REAL Rust+Rayon mierzone Pool + fix assets/ + agents/ (c87_final_zip_verdict) ===")
     print(f"Agent: {a.agent}, Games: {a.games}, FFI: {HAS_FFI}, Rust: {HAS_RUST}, Jobs: {a.jobs}, Platform: {platform.system()}")
-    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7, v2.8")
-    print(f"Speedup REAL mierzone: FFI 77.8/s vs old 5/s = 15.5x, Rust 150/s 2c = 2.25x vs FFI, Rust 750/s 10c = 11.25x vs FFI = 150x vs old")
+    print(f"Zachowane: v2, v2.1, v2.2, v2.3, v2.4, v2.5, v2.6, v2.7, v2.8, v2.9")
+    print(f"Speedup REAL: FFI 77.8/s vs old 5/s=15.5x MIERZONE, Rust 150/s 2c=2.25x vs FFI MIERZONE, Rust 10c ~750/s=11.25x vs FFI EKSTRAPOLACJA liniowa (nie pomiar 10c)")
     print(f"Rust bins: {[str(p) for p in RUST_BINS if p.exists()]}")
     print(f"libcg: {_find_cg_lib()}")
+    print(f"card_index: {_find_card_index()}")
     print()
     if a.phase in ("1","all"):
         print("--- Phase1 REAL FFI 40 gier (77.8/s) ---")
