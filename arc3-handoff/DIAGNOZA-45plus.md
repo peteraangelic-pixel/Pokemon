@@ -309,7 +309,7 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 
 **25–27.10, lokalnie na CPU (Wasz 5950X, 16 rdzeni, zero kwoty Kaggle):**
 4. ~~Rozwinąć `arc3_search.py`: `deepcopy`-snapshoty + A* z heurystyką z segmentacji + `multiprocessing`. Cel: ≥1 poziom w ≥8 z 25 gier bez tokena LLM.~~
-   **WYKONANE i PRZEKROCZONE 24.10**: **10/25 gier, 15 poziomów, 3.08 pkt LB**, wszystko
+   **WYKONANE i PRZEKROCZONE 24.10**: **11/25 gier, 16 poziomów, 3.18 pkt LB**, wszystko
    replay-verified. Ale dwie części tego planu okazały się błędne i warto to wiedzieć:
    * **„heurystyka z segmentacji" była ślepa** — to segmentacja blobów blokowała ft09 (28
      martwych ruchów, frontier wysechł po 56 węzłach). Zastąpienie jej **kalibracją po
@@ -368,10 +368,10 @@ z tej diagnozy:
    `token_baseline` to kursor per krok, nie per gra; oraz guard `levels_completed > 0`
    chroniący dokładnie gry, które marnują najwięcej). Oczekiwane 31–34 pkt z FINDINGS 15.10
    nie ma podstaw — to punkt 6 tej diagnozy, potwierdzony testami.
-3. **Lever #2 (search) działa, ale jest wart 3.08 pkt, nie +14..37.** Zmierzone na trzech
+3. **Lever #2 (search) działa, ale jest wart 3.18 pkt, nie +14..37.** Zmierzone na trzech
    przebiegach (płytki 3 000 węzłów/grę, głęboki 12 000, i v2 z kalibracją ruchów po
-   efekcie): scalony wynik **10/25 gier, 15 poziomów, wszystko zweryfikowane replayem na
-   świeżej instancji = 3.08 pkt LB podłogi**.
+   efekcie): scalony wynik **11/25 gier, 16 poziomów, wszystko zweryfikowane replayem na
+   świeżej instancji = 3.18 pkt LB podłogi**.
    Powód rozjazdu z szacunkiem: jeden poziom w 7-poziomowej grze jest wart ~3.5 pkt, bo
    mianownik to ΣW **wszystkich** poziomów — wartość robi dopiero głębokość (tu93: 5 poziomów
    = 33.33 pkt w jednej grze, vc33: 2 poziomy = 10.71).
@@ -384,10 +384,18 @@ z tej diagnozy:
    reprezentant na różny efekt) dała **+3 gry od razu: ar25, cn04, ft09** (2.59 → 3.08 pkt),
    przy koszcie ~0.5 s kalibracji na grę. ft09: rozgałęzienie 8 zamiast 28 martwych ruchów,
    poziom 0 w 4 akcjach. Szczegóły i trzy patologie gier click-owych: FAKTY §1bis.
-   Czarne pozostają: tn36, ka59, dc22, r11l, s5i5, sc25, lf52, bp35, g50t, re86, sb26,
-   sk48, su15, tr87, wa30 (15 gier) — tam wąskim gardłem jest heurystyka nowości (kursor
-   zmienia 1-4 px, więc sygnał jest szumem) i gry z odroczonym efektem (sc25: 0 z 4096
-   klików zmienia ramkę od razu).
+   **Trzeci krok (też tani, i on rozstrzyga spór o budżet):** przebieg z capem **60 000**
+   węzłów (5×) i 600 s na grę, uruchomiony tylko na 8 grach uciętych wcześniej capem, dał
+   **+1 grę: s5i5** (1 poziom, 21 akcji, replay OK) → 3.08 → **3.18 pkt LB**. To dowód, że
+   dla części gier blokerem był faktycznie budżet, a nie heurystyka — ale TYLKO dla części.
+   Rozróżnienie jest w FAKTY §1bis(f)-(g): są **trzy** tryby porażki (`node_cap_cut` 2 gry,
+   `time_cut` 6, `frontier_exhausted` 6) i **przypisanie trybu zależy od budżetu** — dc22 i
+   sc25 przy capie 12 000 wyglądały na ucięte, a przy 60 000 okazały się wyczerpane.
+   Podnoszenie budżetu ma sens wyłącznie dla `node_cap_cut` (ka59, re86) i dla `time_cut`
+   z niskim kosztem węzła; wa30 robi 0.64 s/węzeł, więc przy 60 000 węzłów potrzebowałaby
+   10.7 godziny — jej nie pomoże żaden budżet.
+   Czarne pozostają: tn36, ka59, dc22, r11l, sc25, lf52, bp35, g50t, re86, sb26,
+   sk48, su15, tr87, wa30 (14 gier).
 
 Gotowe do wpięcia: `patches/0004-standalone-level-token-cap.patch`, `arc3_level_budget.py`,
 16 testów jednostkowych, `results/playbook.json`.

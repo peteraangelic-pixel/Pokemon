@@ -37,9 +37,10 @@ ich drzewa, bo piaskownica nie ma `git clone` do tego repo).
 | tokeny i akcje na poziomie, który **nigdy nie został ukończony** | **35%** (tn36 86%, ls20 91%) | j.w. |
 | realny budżet tokenów na grę | **~175k** = ~208 akcji, przy `ΣBas ≈ 685` potrzebnych | arytmetyka z `serve.log` |
 | cała wartość optymalizacji **efektywności** ruchu | **1.75 pkt** (29.0 − 27.21) | §2 FAKTY |
-| nasz playbook (search offline, **0 tokenów LLM**) | **10/25 gier, 15 poziomów = 3.08 pkt LB**, każdy replay-verified | `results/playbook.json` |
+| nasz playbook (search offline, **0 tokenów LLM**) | **11/25 gier, 16 poziomów = 3.18 pkt LB**, każdy replay-verified | `results/playbook.json` |
 | najgłębsze rozwiązanie | **tu93: 5 poziomów = 33.33 pkt** (dokładnie w capie) | j.w. |
 | postęp z samej kalibracji ruchów | **+3 gry** (ar25, cn04, ft09), 2.59 → **3.08 pkt LB** | `tools/sweep2.py`, §1bis FAKTY |
+| postęp z 5× większego capa | **+1 gra** (s5i5, 21 akcji), 3.08 → **3.18 pkt LB** — i dowód, że tylko tryb `cap_cut`/`time_cut` leczy się budżetem | `results/sweep3_bigcap.jsonl`, §1bis(g) FAKTY |
 
 **Najważniejszy wniosek strategiczny** (dowód w `FAKTY-I-POMIARY.md` §2): przy grze
 ≤1.07× baseline **cap punktacji zawsze wiąże**, więc
@@ -107,7 +108,7 @@ Katalog `notebook/` (osobny, z własnym README) zawiera GOTOWY naprawiony notebo
   build_playbook.py           budowa playbooka + WERYFIKACJA REPLAYEM na świeżej instancji
 
 results/
-  playbook.json               10 gier / 15 poziomów, sekwencje akcji, replay-verified, 3.08 pkt
+  playbook.json               11 gier / 16 poziomów, sekwencje akcji, replay-verified, 3.18 pkt
   game_metadata.json          25 gier: baseline, tagi, ΣBas, sufity głębokości, wynik searcha
   sweep_results.jsonl         przebieg płytki (3k węzłów/grę)
   sweep_deep.jsonl            przebieg głęboki v1 (12k węzłów/grę)
@@ -181,7 +182,7 @@ zamiast `0, 1, 2, 3, 4`. Objaw: `score_formula.py --playbook` dawał tu93 = **55
 `--game tu93 --actions 18,10,19,17,29` dawał **33.33** — bo pierwszy czytał pole `level`
 z playbooka, a drugi liczył od zera.
 
-`build_playbook.py` używa `enumerate`, więc **wartość playbooka (wtedy 2.59 pkt, dziś 3.08 pkt po kalibracji ruchów po efekcie) i `expected_game_score`
+`build_playbook.py` używa `enumerate`, więc **wartość playbooka (wtedy 2.59 pkt, dziś 3.18 pkt po kalibracji ruchów po efekcie i przebiegu z capem 60 000) i `expected_game_score`
 były poprawne cały czas** — błędne było tylko pole `level` w JSON-ie. Naprawione w `sweep.py`
 (`"level": base`), a istniejące artefakty w `results/` zreparowane renumeracją
 (`level = indeks kolejny`). Gdyby to zostało, harness kluczujący replay po polu `level`

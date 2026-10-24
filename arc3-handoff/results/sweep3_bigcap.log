@@ -1,0 +1,10 @@
+8 gier, workers=1, node_cap=60000, sec_cap=600.0s, bfs_branch<=8, calib_step=4px
+[1/8] dc22   tryb=beam  rozg= 18 sygnal=cursor_only  rozwiazane=0 akcje=[None] 272.7s 
+[2/8] ka59   tryb=beam  rozg= 18 sygnal=cursor_only  rozwiazane=0 akcje=[None] 132.4s 
+[3/8] re86   tryb=bfs   rozg=  5 sygnal=ok           rozwiazane=0 akcje=[None] 160.2s 
+[4/8] s5i5   tryb=beam  rozg= 14 sygnal=cursor_only  rozwiazane=1 akcje=[21, None] 211.3s 
+[5/8] sc25   tryb=beam  rozg= 18 sygnal=dead_clicks  rozwiazane=0 akcje=[None] 324.1s 
+[6/8] sk48   tryb=bfs   rozg=  3 sygnal=dead_clicks  rozwiazane=0 akcje=[None] 600.0s 
+[7/8] tr87   tryb=bfs   rozg=  4 sygnal=ok           rozwiazane=0 akcje=[None] 602.1s 
+[8/8] wa30   tryb=bfs   rozg=  4 sygnal=ok           rozwiazane=0 akcje=[None] 601.2s 
+ZAPISANO /home/user/arc3-scratch/sweep3_bigcap.jsonl

@@ -273,6 +273,11 @@ Wynik „0 poziomów" sam w sobie **nie mówi nic**. Dopiero zestawienie liczby 
 węzłów z capem i liczby różnych stanów rozdziela dwie przyczyny (pomiary z 4 przebiegów,
 kolumna `stany/węzeł` to wydajność deduplikacji):
 
+**UWAGA — ta taksonomia została UZUPEŁNIONA po przebiegu z capem 60 000 (punkt (g) niżej).**
+Poniższe dwa tryby są prawdziwe, ale niekompletne: okazało się, że trybów jest **TRZY**
+(doszło ucięcie **czasem**, a nie węzłami) i że przypisanie gry do trybu **zależy od budżetu**,
+więc nie jest stałą cechą gry. Czytaj razem z punktem (g).
+
 **Tryb 1 — UCIĘTE CAPEM** (frontier miał jeszcze stany, budżet przerwał). Te gry **mogą**
 zyskać na większym budżecie:
 
@@ -321,6 +326,61 @@ cap był realnym ograniczeniem, nie heurystyka. Poprawne sformułowanie: *cap ni
 grom z trybu 2 i grom, których minimalne rozwiązanie jest dłuższe niż `log_b(cap)`;
 pomaga wyłącznie grom z trybu 1, których rozwiązanie mieści się w zasięgu po zwiększeniu
 budżetu.*
+
+
+### (g) Przebieg z capem 60 000: hipoteza POTWIERDZONA, taksonomia ROZSZERZONA do trzech trybów
+
+Punkt (f) kończył się wnioskiem, że 8 gier zostało uciętych capem i dla nich większy budżet
+może coś dać. Uruchomiłem dokładnie ten test: cap **60 000** węzłów (5×), **600 s** na grę,
+1 worker, `--min-moves 3`, tylko na tej ósemce. Wynik: `results/sweep3_bigcap.jsonl`.
+
+**Hipoteza potwierdzona — s5i5 rozwiązana.** Ucięta przy 12 012 węzłach, rozwiązana przy
+**45 377** węzłach: 1 poziom w **21 akcjach**, replay OK. Czyli cap 12 000 był realnym
+blokerem, nie heurystyka. Playbook rośnie z 10 do **11 gier / 16 poziomów / 3.18 pkt LB**.
+
+Ale pełny obraz jest ciekawszy i **prostuje punkt (f)**:
+
+| gra | węzły | różne stany | sekundy | co przerwało | s/węzeł |
+|---|---|---|---|---|---|
+| s5i5 | 45 377 | 9 504 | 211.3 | **ROZWIĄZANA** | 0.005 |
+| ka59 | 60 012 | 5 983 | 132.4 | limit węzłów 60 000 | 0.002 |
+| re86 | 60 000 | 19 572 | 160.2 | limit węzłów 60 000 | 0.003 |
+| sk48 | 42 396 | 16 127 | 600.0 | **limit CZASU** 600 s | 0.01 |
+| tr87 | 22 112 | 10 398 | 602.1 | **limit CZASU** 600 s | 0.03 |
+| wa30 | **940** | 338 | 601.2 | **limit CZASU** 600 s | **0.64** |
+| dc22 | 37 548 | 4 278 | 272.7 | frontier wyczerpany | 0.007 |
+| sc25 | 29 952 | 3 168 | 324.1 | frontier wyczerpany | 0.011 |
+
+Trzy wnioski, z których dwa są korektą mojego własnego wpisu:
+
+**1. Trybów jest TRZY, nie dwa.** Doszło `time_cut` — gra przerywa na limicie czasu z
+nieprzerobionym frontierem. To nie jest to samo co `node_cap_cut`, bo leczy się inaczej:
+sk48 i tr87 robiły 0.01–0.03 s/węzeł, więc potrzebują **więcej czasu** (i wtedy automatycznie
+więcej węzłów), a wa30 robi **0.64 s/węzeł** — jej nie pomoże ani większy cap węzłów, ani
+nawet większy czas w rozsądnej skali, bo jeden węzeł kosztuje tyle, co w innych grach 200.
+Przy 60 000 węzłów wa30 potrzebowałaby **10.7 godziny**.
+
+**2. Przypisanie trybu ZALEŻY OD BUDŻETU — nie jest stałą cechą gry.** dc22 i sc25 przy capie
+12 000 wyglądały na „ucięte capem" (dokładnie 12 006 i 12 000 węzłów), a przy 60 000 okazały
+się **wyczerpane** (37 548 i 29 952 — frontier się skończył przed capem). Czyli podniesienie
+budżetu może grę **przeklasyfikować** z trybu 1 do trybu 2 i to jest właśnie wartość tego
+przebiegu: uczciwa odpowiedź „tu już nie ma czego szukać" zamiast „może kiedyś".
+
+**3. Kolejność sprawdzania warunków ma znaczenie.** Klasyfikacja musi iść: **najpierw czas,
+potem węzły, na końcu wyczerpanie**. Przy blokadzie na animacji (wa30, bp35, lf52) węzły nigdy
+nie dochodzą do capa, więc sprawdzanie najpierw węzłów oznaczyłoby je jako „wyczerpane",
+czyli dokładnie odwrotnie niż prawda. bp35: 357 węzłów w 300 s = 1.35 s/węzeł — to gra
+zablokowana na animacji, nie gra z małą przestrzenią stanów.
+
+Rozkład po wszystkich 25 grach (pole `failure_mode` w `results/game_metadata.json`):
+**`time_cut` 6, `frontier_exhausted` 6, `node_cap_cut` 2** (ka59, re86 — jedyne dwie, dla
+których dalsze podnoszenie capa węzłów ma jeszcze sens).
+
+**Wniosek operacyjny, zaktualizowany:** zanim podniesiesz jakikolwiek budżet, odczytaj
+`failure_mode` i `stopped_by` z `game_metadata.json`. Dla `frontier_exhausted` nie rób nic
+(zmieniaj generator ruchów, nie budżet). Dla `time_cut` sprawdź `s/węzeł`: poniżej ~0.05
+warto dać więcej czasu, powyżej ~0.5 gra jest zablokowana na animacji i żaden budżet nie
+pomoże. Dla `node_cap_cut` podnieś cap.
 
 
 ### Czego wciąż nie umiemy (uczciwie)
@@ -425,7 +485,7 @@ przy referencyjnej rozgrywce), `sufit L1` = max punktów za sam poziom 0.
 | lf52 | 10 | 1339 | click | 0 | — | 1.82 |
 | r11l | 6 | 233 | click | 0 | — | 4.76 |
 | re86 | 8 | 1255 | keyboard_click | 0 | — | 2.78 |
-| s5i5 | 8 | 638 | click | 0 | — | 2.78 |
+| s5i5 | 8 | 638 | click | **1** (sweep3, 21 akcji) | **2.52** | 2.78 |
 | sb26 | 8 | 213 | keyboard_click | 0 | — | 2.78 |
 | sc25 | 6 | 350 | keyboard_click | 0 | — | 4.76 |
 | sk48 | 8 | 1070 | keyboard_click | 0 | — | 2.78 |
@@ -438,13 +498,13 @@ Statystyki: średnio **7.32** poziomu/grę, średnia `ΣBas` **685.4**, mediana 
 min **171** (cd82), max **1843** (wa30). Tagi: 4 keyboard / 7 click / 13 keyboard_click / 1 brak.
 
 **Stan naszego przeszukiwania offline (0 tokenów LLM, 3 przebiegi scalone po najlepszym
-wyniku na grę): 10/25 gier, 15 poziomów, 3.08 pkt LB podłogi**, każda sekwencja
+wyniku na grę): 11/25 gier, 16 poziomów, 3.18 pkt LB podłogi**, każda sekwencja
 zweryfikowana replayem na świeżej instancji (2×). Rozbicie: tu93 5 poziomów (33.33 pkt),
 vc33 2 (10.71), a po 1 poziomie: cd82, cn04, ft09, m0r0, sp80 (po 4.76), ls20 (3.57),
 ar25, lp85 (po 2.78). Trzy gry (ar25, cn04, ft09) doszły dopiero po zmianie generatora
 ruchów na kalibrację po efekcie — §1bis.
 
-Nierozwiązane (15): bp35, dc22, g50t, ka59, lf52, r11l, re86, s5i5, sb26, sc25, sk48,
+Nierozwiązane (14): bp35, dc22, g50t, ka59, lf52, r11l, re86, sb26, sc25, sk48,
 su15, tn36, tr87, wa30. Wzorzec: `signal_quality=cursor_only` (klik zmienia 1-4 px = kursor,
 więc heurystyka nowości jest szumem) albo gry z odroczonym efektem (sc25: 0 z 4096 klików
 zmienia ramkę od razu). Osobny przypadek: **g50t ma efektywne rozgałęzienie 2 i search

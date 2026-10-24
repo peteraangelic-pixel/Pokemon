@@ -2,9 +2,9 @@
  "_comment": "ARC-AGI-3 playbook: sekwencje akcji znalezione offline przez przeszukiwanie (0 tokenow LLM), kazda zweryfikowana replayem na swiezej instancji gry. Score wyliczony dokladnie wg taaf/game.py:381-413.",
  "_scoring": "level: min(115,(baseline/actions)^2*100); waga k+1; gra: Sum(score*w)/Sum(w) z capem Sum(w rozwiazanych)/Sum(w)*100",
  "_verified_on": "r019 smoke: tn36 L=1 -> 3.57 (formua daje 3.57), ls20 L=1 -> 3.27 (daje 3.27)",
- "lb_points_floor": 3.079,
- "games_solved": 10,
- "levels_solved": 15,
+ "lb_points_floor": 3.18,
+ "games_solved": 11,
+ "levels_solved": 16,
  "games": {
   "ar25": {
    "game_id": "ar25-0c556536",
@@ -479,6 +479,139 @@
    "replay_verified": true,
    "tags": [
     "keyboard_click"
+   ]
+  },
+  "s5i5": {
+   "game_id": "s5i5-18d95033",
+   "n_levels": 8,
+   "baseline_actions": [
+    20,
+    89,
+    106,
+    54,
+    162,
+    38,
+    86,
+    83
+   ],
+   "levels": [
+    {
+     "level": 0,
+     "actions": 21,
+     "seq": [
+      {
+       "a": 6,
+       "x": 36,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 36,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 36,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 36,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 24,
+       "y": 44
+      },
+      {
+       "a": 6,
+       "x": 24,
+       "y": 44
+      },
+      {
+       "a": 6,
+       "x": 24,
+       "y": 44
+      },
+      {
+       "a": 6,
+       "x": 24,
+       "y": 44
+      },
+      {
+       "a": 6,
+       "x": 24,
+       "y": 44
+      },
+      {
+       "a": 6,
+       "x": 44,
+       "y": 20
+      },
+      {
+       "a": 6,
+       "x": 24,
+       "y": 44
+      }
+     ],
+     "expected_level_score": 90.7
+    }
+   ],
+   "expected_game_score": 2.52,
+   "replay_verified": true,
+   "tags": [
+    "click"
    ]
   },
   "sp80": {

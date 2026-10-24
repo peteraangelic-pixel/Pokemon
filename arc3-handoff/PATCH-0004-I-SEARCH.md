@@ -197,18 +197,29 @@ Przeszukiwanie offline na `arcengine` (BFS dla gier klawiaturowych, beam + segme
 4‑spójna dla klikanych), snapshoty przez `copy.deepcopy`, deduplikacja stanów po
 `blake2b(frame)+levels_completed`.
 
-**Dwa przebiegi, scalone po najlepszym wyniku na grę: 7/25 gier, 12 poziomów.**
+**Cztery przebiegi, scalone po najlepszym wyniku na grę: 11/25 gier, 16 poziomów.**
 
-| parametr | v1 płytki | v1 głęboki | **v2 kalibrowany** |
-|---|---|---|---|
-| generator ruchów | segmentacja blobów | segmentacja blobów | **kalibracja po efekcie** |
-| cap węzłów / grę | 3 000 | 12 000 | 10 000 |
-| limit czasu / grę | 200 s | 300 s | 240 s |
-| max poziomów | 4 | 6 | 6 |
-| tryb | po obecności ACTION6 | po obecności ACTION6 | **po efektywnym rozgałęzieniu** |
-| **gry z ≥1 poziomem** | 6/25 | 7/25 | **10/25** (z 8 przejechanych) |
-| **poziomy razem** | 9 | 12 | **15** |
-| **wartość LB** | 1.67 pkt | 2.59 pkt | **3.08 pkt** |
+| parametr | v1 płytki | v1 głęboki | v2 kalibrowany | **v3 duży cap** |
+|---|---|---|---|---|
+| generator ruchów | segmentacja blobów | segmentacja blobów | **kalibracja po efekcie** | jak v2 |
+| cap węzłów / grę | 3 000 | 12 000 | 10 000 | **60 000** |
+| limit czasu / grę | 200 s | 300 s | 240 s | **600 s** |
+| max poziomów | 4 | 6 | 6 | 6 |
+| tryb | po obecności ACTION6 | po obecności ACTION6 | **po efektywnym rozgałęzieniu** | jak v2 |
+| zasięg gier | 25 | 24 (lf52 urwany) | 20 (8 + 12) | **8** (tylko `cap_cut` z §1bis(f)) |
+| **gry z ≥1 poziomem** | 6/25 | 7/25 | 10/25 | **11/25** |
+| **poziomy razem** | 9 | 12 | 15 | **16** |
+| **wartość LB** | 1.67 pkt | 2.59 pkt | 3.08 pkt | **3.18 pkt** |
+
+v3 to przebieg **celowany**, nie pełny: poszedł wyłącznie na 8 gier zidentyfikowanych jako
+ucięte capem (tryb 1 w FAKTY §1bis(f)), bo dla gier z wyczerpanym frontierem większy budżet
+nie może pomóc z definicji. Dał **+1 grę: s5i5** (poziom 0 w 21 akcjach, replay OK) — czyli
+hipoteza, że tryb 1 leczy się budżetem, jest **potwierdzona empirycznie**, nie tylko
+sformułowana. Pozostałe 7 nie zyskały, a dwie z nich (dc22, sc25) **przeklasyfikowały się**
+na tryb 2: przy 60 000 węzłów frontier się skończył (37 548 i 29 952), więc odpowiedź „tu nie
+ma czego szukać" jest teraz zmierzona, a nie domniemana. Pełna analiza trzech trybów porażki
+i dlaczego klasyfikację trzeba sprawdzać w kolejności czas → węzły → wyczerpanie:
+FAKTY §1bis(g).
 
 **v2 jest już DOKOŃCZONY na wszystkich 25 grach** (dwa przebiegi: 8 gier z `--workers 2`,
 potem 12 gier z `--workers 1` po tym, jak pierwszy proces zabiła presja pamięci — `kswapd0`
@@ -249,7 +260,7 @@ Formułę score'u zweryfikowałem co do setnej na ich własnych danych z r019:
 tn36 L=1 → mój rachunek daje **3.57** (opublikowane 3.57), ls20 L=1 → **3.27** (3.27).
 Czyli te liczby są policzone tym samym wzorem, którym liczy Kaggle.
 
-**Wartość playbooka dziś: 3.08 pkt LB** (średnia po 25 grach, bo 110 runów to cykliczne
+**Wartość playbooka dziś: 3.18 pkt LB** (średnia po 25 grach, bo 110 runów to cykliczne
 repliki tych 25 gier). To **podłoga**, nie sufit: te poziomy są zaliczone zanim model wyda
 pierwszy token, a LLM startuje potem z poziomu L5 (tu93) zamiast L0 i z całym budżetem.
 
@@ -267,10 +278,13 @@ Trzy wnioski z pomiaru — w tym jeden, który obala moje własne wcześniejsze 
 > zadziałał; i zwrot jest malejący — 4× koszt dał +0.92 pkt LB. Do rozdzielenia osobnym
 > przebiegiem, ale kierunek jest jasny: **ciąć budżet było błędem**.
 
-> **3. Gry click-owe są nadal czarne.** tn36, ka59, dc22, ar25, cn04, r11l, s5i5, sc25 = 0
-> poziomów mimo 12 000 węzłów. Beam z heurystyką „liczba zmienionych pikseli" prowadzi w
-> ślepe uliczki, a kandydatów kliknięcia jest 20–28 na ramkę. To jest właściwe miejsce na
-> ich nieużywany port Rusta (`rust/src/grid.rs`, ~121×) do segmentacji obiektów.
+> **3. POPRAWKA: gry click-owe NIE są jednolicie czarne.** Ten akapit wymieniał
+> tn36, ka59, dc22, ar25, cn04, r11l, s5i5, sc25 jako „0 poziomów". Z tego ar25 i cn04 padły
+> po kalibracji ruchów po efekcie, a s5i5 po podniesieniu capa do 60 000 węzłów (21 akcji).
+> Czarne z tej listy zostają: tn36, ka59, dc22, r11l, sc25. Wniosek ogólniejszy: podział na
+> „keyboard" i „click" **nie przewiduje** rozwiązywalności — przewiduje ją dopiero tryb
+> porażki (`node_cap_cut` / `time_cut` / `frontier_exhausted`, FAKTY §1bis(f)-(g)) i długość
+> minimalnego rozwiązania, której z góry nie znamy.
 
 **ft09 — POPRAWKA i rozwiązanie.** W pierwszej wersji tego dokumentu napisałem, że
 `available_actions` jest „puste albo jednoelementowe". To nie był pomiar, tylko wnioskowanie
