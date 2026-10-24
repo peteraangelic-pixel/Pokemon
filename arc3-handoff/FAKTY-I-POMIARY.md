@@ -422,6 +422,53 @@ ograniczaczem jest RAM na stany gry, u nich VRAM na kontekst, ale struktura prob
 identyczna: **wąskim gardłem jest pamięć na stan, nie moc obliczeniowa**.
 
 
+### (i) Przebieg v4 z `--frontier-cap`: ka59 domknięta, re86 nadal otwarta
+
+Test rozstrzygający dla dwóch gier, które po v3 miały `failure_mode = node_cap_cut` — czyli
+jedynych, dla których dalsze podnoszenie budżetu miało w ogóle sens. Parametry: cap
+**200 000** węzłów (16× więcej niż v1), **900 s** na grę, `--frontier-cap 4000`, 1 worker.
+
+| gra | węzły | różne stany | sekundy | s/węzeł | werdykt |
+|---|---|---|---|---|---|
+| ka59 | 115 740 | 10 643 | 250.1 | 0.002 | **frontier WYCZERPANY** — nie doszła ani do capa węzłów (200 000), ani do limitu czasu (900 s) |
+| re86 | **200 000** | **94 405** | 678.7 | 0.003 | nadal `node_cap_cut` |
+
+Trzy wnioski:
+
+**1. ka59 jest domknięta — budżet jej nie pomoże, kropka.** W v3 wyglądała na uciętą capem
+(60 012 węzłów), ale przy 200 000 skończyła na 115 740 z wyczerpanym frontierem. To drugi
+przypadek (po dc22 i sc25) przeklasyfikowania z trybu 1 do trybu 2 po podniesieniu budżetu —
+i dokładnie dlatego warto było ten przebieg zrobić: zamienia „może kiedyś" w zmierzone „nie".
+
+**2. `--frontier-cap` działa i to on umożliwił ten przebieg.** re86 rozwinęła **94 405
+różnych stanów** (w v3: 19 572) przy szczycie RAM **1 066 MB z 3 939 MB**. Bez ograniczenia
+frontieru te 94 405 stanów × 0.190 MB = **17.9 GB** — czyli przebieg byłby fizycznie
+niemożliwy w tym sandboxie. Kluczowe rozróżnienie, które to umożliwia: zbiór `seen` trzyma
+tylko **hashe** ramek (~8 B każdy, 94 405 × 8 B ≈ 0.75 MB), a frontier trzyma **obiekty gry**
+(0.190 MB każdy). Tniemy więc to, co drogie, zostawiając to, co tanie — dzięki temu deduplikacja
+pozostaje pełna nawet przy ograniczonym frontierze.
+
+**3. re86 zostaje jedyną grą z `node_cap_cut`** i jedyną, dla której dalsze podnoszenie capa
+ma jeszcze jakikolwiek sens. Uczciwy rachunek kosztu: 200 000 węzłów = 679 s, więc podwojenie
+to ~23 min na jedną grę, a w runie konkursowym jest 110 gier i budżet 532 min/grę **łącznie
+z pracą modelu**. Czyli search tej głębokości nie zmieści się w runie jako fallback —
+nadaje się wyłącznie do przygotowania playbooka offline, co zresztą jest dokładnie tym,
+do czego go używamy.
+
+Rozkład `failure_mode` po 25 grach i 6 przebiegach: **`time_cut` 6, `frontier_exhausted` 7,
+`node_cap_cut` 1** (re86). Dane per gra: `results/game_metadata.json`, pola `failure_mode`
+i `stopped_by`; surowe przebiegi: `results/sweep4_memcap.jsonl` (ka59 + przerwany re86)
+i `results/sweep4_re86.jsonl` (re86 po naprawie buga).
+
+**Bug znaleziony przy tym przebiegu:** `--frontier-cap` w pierwszej wersji wołał
+`frontier.sort(...)`, ale w trybie `bfs` frontier jest typu `deque`, który **nie ma** `.sort()`
+→ `AttributeError` i cały przebieg re86 przepadł (ka59 przeszła, bo idzie `beam`, gdzie
+frontier jest listą). Naprawione przez `frontier = deque(sorted(frontier, ...)[:frontier_cap])`.
+Reguła: **ten sam kod ścieżki BFS i beam operuje na różnych typach kontenera** (`deque` vs
+`list`), więc każda nowa operacja na frontierze musi być sprawdzona w OBU trybach — test na
+jednej grze `beam` tego nie wykryje.
+
+
 ### Czego wciąż nie umiemy (uczciwie)
 
 - **sc25 i gry z odroczonym efektem**: legalne ruchy nie zmieniają ramki natychmiast, więc

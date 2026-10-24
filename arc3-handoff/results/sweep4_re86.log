@@ -1,0 +1,3 @@
+1 gier, workers=1, node_cap=200000, sec_cap=900.0s, bfs_branch<=8, calib_step=4px
+[1/1] re86   tryb=bfs   rozg=  5 sygnal=ok           rozwiazane=0 akcje=[None] 679.6s 
+ZAPISANO /home/user/arc3-scratch/sweep4_re86.jsonl

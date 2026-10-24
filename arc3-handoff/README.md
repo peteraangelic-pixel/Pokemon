@@ -41,6 +41,7 @@ ich drzewa, bo piaskownica nie ma `git clone` do tego repo).
 | najgłębsze rozwiązanie | **tu93: 5 poziomów = 33.33 pkt** (dokładnie w capie) | j.w. |
 | postęp z samej kalibracji ruchów | **+3 gry** (ar25, cn04, ft09), 2.59 → **3.08 pkt LB** | `tools/sweep2.py`, §1bis FAKTY |
 | postęp z 5× większego capa | **+1 gra** (s5i5, 21 akcji), 3.08 → **3.18 pkt LB** — i dowód, że tylko tryb `cap_cut`/`time_cut` leczy się budżetem | `results/sweep3_bigcap.jsonl`, §1bis(g) FAKTY |
+| przebieg z `--frontier-cap` | **ka59 domknięta** (frontier wyczerpany, budżet nie pomoże), re86: 94 405 stanów w 1 066 MB RAM | `results/sweep4_*.jsonl`, §1bis(i) FAKTY |
 
 **Najważniejszy wniosek strategiczny** (dowód w `FAKTY-I-POMIARY.md` §2): przy grze
 ≤1.07× baseline **cap punktacji zawsze wiąże**, więc
@@ -77,6 +78,10 @@ tools/
   sweep2.py                   PRZEGLĄDARKA v2: kalibracja ruchów po EFEKCIE (hash ramki),
                               pruning martwych ruchów, tryb po efektywnym rozgałęzieniu.
                               To ona rozwiązała ft09 (0 poziomów -> 1 poziom w 4 akcjach).
+                              + `--frontier-cap`: ograniczenie PAMIĘCI frontieru BFS.
+                              Bez niego frontier trzyma deepcopy każdego stanu (re86:
+                              0.190 MB/stan -> 94 405 stanów = 17.9 GB przy 3.9 GB RAM),
+                              więc duże capy węzłów były fizycznie niemożliwe. §1bis(h)-(i).
   fetch_repo_artifacts.sh     pobranie ich drzewa przez gh api (25 gier + metadata + 42 pliki
                               bundle + notebooki + migawka 492 blobów) — obejście limitu 1 MB
   extract_notebook_patches.py wydobycie patchy z komórek 4-7 notebooka (dwie różne postaci)
@@ -118,7 +123,13 @@ results/
                               lf52 zabity po 1783 s — blokada na animacji, patrz FAKTY
                               („Limit czasu jest NIEWYMUSZALNY z wnętrza pętli")
   sweep_merged.jsonl          scalone najlepsze z przebiegów v1
-  sweep_best.jsonl            scalone najlepsze ze WSZYSTKICH 4 przebiegów (źródło playbooka); przy remisie bierze przebieg z bogatszą diagnostyką (v2 > v1)
+  sweep_best.jsonl            scalone najlepsze ze WSZYSTKICH 6 przebiegów (źródło playbooka);
+                              przy remisie bierze przebieg z bogatszą diagnostyką (v4>v3>v2>v1)
+  sweep3_bigcap.jsonl         przebieg v3: cap 60 000 węzłów na 8 grach uciętych capem -> +s5i5
+  sweep4_memcap.jsonl         przebieg v4: cap 200 000 + --frontier-cap 4000 (ka59 OK, re86 padł
+                              na bugu deque.sort - zachowany jako dowód buga)
+  sweep4_re86.jsonl           re86 po naprawie buga: 200 000 węzłów, 94 405 stanów, 679 s
+  sweep3_bigcap.log, sweep4_memcap.log, sweep4_re86.log   surowe logi
   sweep_shallow.log, sweep_deep.log, sweep2.log, sweep2_rest.log   surowe logi
   their_tree_snapshot.tsv     migawka ich gałęzi: 492 bloby (SHA / rozmiar / ścieżka)
   verification_output.txt     zapisany output verify_patch_chains.sh (dowód run-killera)

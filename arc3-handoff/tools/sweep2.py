@@ -228,8 +228,12 @@ def search_level(game, base_levels, root, frame0, moves0, *, mode, cap, t_limit,
                 # Cięcie po nowości ramki zamienia BFS w best-first, ale za to mieści się
                 # w pamięci i może iść głębiej. frontier_cap=0 wyłącza limit (stare zachowanie).
                 if frontier_cap and len(frontier) > frontier_cap:
-                    frontier.sort(key=lambda e: -e[4])
-                    del frontier[frontier_cap:]
+                    # UWAGA: w trybie bfs frontier to deque, a deque NIE MA .sort()
+                    # (AttributeError w pierwszym przebiegu z --frontier-cap na re86).
+                    # Przycinamy więc przez sorted() i przypisujemy z powrotem deque -
+                    # kolejność FIFO wewnątrz zachowanej części i tak jest już nieważna,
+                    # bo cięcie po nowości zamienia BFS w best-first.
+                    frontier = deque(sorted(frontier, key=lambda e: -e[4])[:frontier_cap])
             else:
                 frontier.append(item)
                 if len(frontier) > beam_width:

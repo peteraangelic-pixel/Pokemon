@@ -6,7 +6,8 @@
   "v1-deep": "sweep.py, cap 12000, 300s/gr\u0119, beam 120 (24/25 gier - lf52 nie skonczyl)",
   "v2-calibrated": "sweep2.py, kalibracja ruchow PO EFEKCIE (hash ramki) + pruning martwych + tryb po efektywnym rozgalezieniu; cap 10000, 240s/gr\u0119; 8/25 gier (proces zabity przez presje pamieci przy 2 workerach z deepcopy)",
   "v2-rest": "sweep2.py, cap 12000/300s, beam 80, --min-moves 3, 1 WORKER; doko\u0144czenie na 12 grach; 11/12 zakonczonych - lf52 zabity po 1783 s (blokada na animacji: perform_action nie wraca, wiec sprawdzenie czasu miedzy wezlami nigdy nie odpala; cap 300 s jest NIEWYMUSZALNY z wnatrz petli)",
-  "v3-bigcap": "sweep2.py, cap 60000 wezlow (5x wiecej), 600s/gr\u0119, beam 80, --min-moves 3, 1 WORKER; uruchomiony WY\u0141\u0104CZNIE na 8 grach zidentyfikowanych jako TRYB 1 (uci\u0119te capem) w \u00a71bis(f). WYNIK: s5i5 rozwiazana (1 poziom, 21 akcji) - hipoteza, ze tryb 1 leczy sie budzetem, POTWIERDZONA empirycznie. Pozostale 7 (dc22, ka59, re86, sc25, sk48, tr87, wa30) nadal 0 poziomow przy 5x wiekszym capie."
+  "v3-bigcap": "sweep2.py, cap 60000 wezlow (5x wiecej), 600s/gr\u0119, beam 80, --min-moves 3, 1 WORKER; uruchomiony WY\u0141\u0104CZNIE na 8 grach zidentyfikowanych jako TRYB 1 (uci\u0119te capem) w \u00a71bis(f). WYNIK: s5i5 rozwiazana (1 poziom, 21 akcji) - hipoteza, ze tryb 1 leczy sie budzetem, POTWIERDZONA empirycznie. Pozostale 7 (dc22, ka59, re86, sc25, sk48, tr87, wa30) nadal 0 poziomow przy 5x wiekszym capie.",
+  "v4-memcap": "sweep2.py z --frontier-cap 4000 (NOWE: ograniczenie pami\u0119ci frontieru BFS), cap 200000 w\u0119z\u0142\u00f3w (16x wiecej niz v1), 900s/gr\u0119, 1 worker; uruchomiony na 2 grach z failure_mode=node_cap_cut. WYNIK: ka59 115740 w\u0119z\u0142\u00f3w / 10643 stany / 250 s -> FRONTIER WYCZERPANY (przeklasyfikowana, bud\u017cet nie pomo\u017ce); re86 200000 w\u0119z\u0142\u00f3w / 94405 stan\u00f3w / 679 s -> nadal node_cap_cut, ale RAM trzymany (szczyt 1066 MB vs 3939 MB). Przy okazji znaleziony i naprawiony bug: deque nie ma .sort(), wi\u0119c --frontier-cap pada\u0142 w trybie bfs (AttributeError) - naprawione przez sorted()+deque()."
  },
  "_signal_quality": "dead_clicks = gra wystawia ACTION6, ale \u017bADEN klik nie zmienia ramki (sc25: 0 z 4096) - legalne ruchy o efekcie odroczonym. cursor_only = klik zmienia 1-4 px (w tn36 to nie kursor a nak\u0142adane znaczniki: przemienne i addytywne, FAKTY \u00a71bis(c)). ok = wyra\u017ana zmiana stanu. UWAGA - POMIAR NA 25 GRACH OBA\u0141Y\u0141 U\u017bYCIE TEJ TAKSONOMII JAKO PREDYKTORA: cursor_only 3 rozwi\u0105zane / 7 nie, dead_clicks 2/2, ok 5/6 -> praktycznie brak korelacji. vc33 ma cursor_only (mediana 1 px!) a da\u0142a 2 poziomy = 10.71 pkt; sb26 ma ok i rozga\u0142\u0119zienie 5 a jest czarna. Pola s\u0142u\u017c\u0105 do DIAGNOZOWANIA dlaczego przebieg umar\u0142, NIE do selekcjonowania gier. Szczeg\u00f3\u0142y: klucz _diagnostics_predictivity i FAKTY \u00a71bis(e).",
  "games": {
@@ -247,7 +248,7 @@
    "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)",
    "search_states": 4278,
    "failure_mode": "frontier_exhausted",
-   "stopped_by": "frontier wyczerpany przy 37548 w\u0119z\u0142ach (cap 60000 nieosi\u0105gni\u0119ty)"
+   "stopped_by": "frontier wyczerpany przy 37548 w\u0119z\u0142ach / 4278 stanach (cap 60000 i limit 600s nieosi\u0105gni\u0119te)"
   },
   "ft09": {
    "game_id": "ft09-0d8bbf25",
@@ -334,7 +335,7 @@
    "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)",
    "search_states": 17,
    "failure_mode": "frontier_exhausted",
-   "stopped_by": "frontier wyczerpany przy 36 w\u0119z\u0142ach (cap 10000 nieosi\u0105gni\u0119ty)"
+   "stopped_by": "frontier wyczerpany przy 36 w\u0119z\u0142ach / 17 stanach (cap 10000 i limit 240s nieosi\u0105gni\u0119te)"
   },
   "ka59": {
    "game_id": "ka59-38d34dbb",
@@ -367,20 +368,20 @@
    "calib_distinct_effects": 2,
    "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v3-bigcap",
+   "search_run": "v4-memcap",
    "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 60012,
-   "search_seconds": 132.4,
+   "search_nodes": 115740,
+   "search_seconds": 250.3,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
    "error": null,
    "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)",
-   "search_states": 5983,
-   "failure_mode": "node_cap_cut",
-   "stopped_by": "limit 60000 w\u0119z\u0142\u00f3w"
+   "search_states": 10643,
+   "failure_mode": "frontier_exhausted",
+   "stopped_by": "frontier wyczerpany przy 115740 w\u0119z\u0142ach / 10643 stanach (cap 200000 i limit 900s nieosi\u0105gni\u0119te)"
   },
   "lf52": {
    "game_id": "lf52-271a04aa",
@@ -700,7 +701,7 @@
    "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)",
    "search_states": 770,
    "failure_mode": "frontier_exhausted",
-   "stopped_by": "frontier wyczerpany przy 2758 w\u0119z\u0142ach (cap 12000 nieosi\u0105gni\u0119ty)"
+   "stopped_by": "frontier wyczerpany przy 2758 w\u0119z\u0142ach / 770 stanach (cap 12000 i limit 300s nieosi\u0105gni\u0119te)"
   },
   "re86": {
    "game_id": "re86-8af5384d",
@@ -734,20 +735,20 @@
    "calib_distinct_effects": 0,
    "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v3-bigcap",
+   "search_run": "v4-memcap",
    "search_mode": "bfs",
    "search_actions_per_level": [],
-   "search_nodes": 60000,
-   "search_seconds": 160.2,
+   "search_nodes": 200000,
+   "search_seconds": 679.6,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
    "error": null,
    "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)",
-   "search_states": 19572,
+   "search_states": 94405,
    "failure_mode": "node_cap_cut",
-   "stopped_by": "limit 60000 w\u0119z\u0142\u00f3w"
+   "stopped_by": "limit 200000 w\u0119z\u0142\u00f3w (94405 r\u00f3\u017cnych stan\u00f3w)"
   },
   "s5i5": {
    "game_id": "s5i5-18d95033",
@@ -858,7 +859,7 @@
    "calibration_source": "tools/calib_probe.py (sonda bez searcha)",
    "search_states": 66,
    "failure_mode": "frontier_exhausted",
-   "stopped_by": "frontier wyczerpany przy 1982 w\u0119z\u0142ach (cap 12000 nieosi\u0105gni\u0119ty)"
+   "stopped_by": "frontier wyczerpany przy 1982 w\u0119z\u0142ach / 66 stanach (cap 12000 i limit 300s nieosi\u0105gni\u0119te)"
   },
   "sc25": {
    "game_id": "sc25-635fd71a",
@@ -926,7 +927,7 @@
    "calibration_source": "tools/calib_probe.py (sonda bez searcha)",
    "search_states": 3168,
    "failure_mode": "frontier_exhausted",
-   "stopped_by": "frontier wyczerpany przy 29952 w\u0119z\u0142ach (cap 60000 nieosi\u0105gni\u0119ty)"
+   "stopped_by": "frontier wyczerpany przy 29952 w\u0119z\u0142ach / 3168 stanach (cap 60000 i limit 600s nieosi\u0105gni\u0119te)"
   },
   "sk48": {
    "game_id": "sk48-d8078629",
@@ -1091,7 +1092,7 @@
    "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)",
    "search_states": 385,
    "failure_mode": "frontier_exhausted",
-   "stopped_by": "frontier wyczerpany przy 5404 w\u0119z\u0142ach (cap 12000 nieosi\u0105gni\u0119ty)"
+   "stopped_by": "frontier wyczerpany przy 5404 w\u0119z\u0142ach / 385 stanach (cap 12000 i limit 300s nieosi\u0105gni\u0119te)"
   },
   "tn36": {
    "game_id": "tn36-ef4dde99",
@@ -1377,7 +1378,8 @@
    "v1-deep": 7,
    "v2-calibrated": 5,
    "v2-rest": 4,
-   "v3-bigcap": 8
+   "v3-bigcap": 6,
+   "v4-memcap": 2
   },
   "new_from_v2_calibration": [
    "ar25",
@@ -1406,8 +1408,8 @@
   ],
   "failure_mode_histogram": {
    "time_cut": 6,
-   "frontier_exhausted": 6,
-   "node_cap_cut": 2
+   "frontier_exhausted": 7,
+   "node_cap_cut": 1
   },
   "signal_quality_histogram": {
    "dead_clicks": 4,

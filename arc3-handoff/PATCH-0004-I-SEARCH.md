@@ -197,19 +197,29 @@ Przeszukiwanie offline na `arcengine` (BFS dla gier klawiaturowych, beam + segme
 4‑spójna dla klikanych), snapshoty przez `copy.deepcopy`, deduplikacja stanów po
 `blake2b(frame)+levels_completed`.
 
-**Cztery przebiegi, scalone po najlepszym wyniku na grę: 11/25 gier, 16 poziomów.**
+**Sześć przebiegów, scalonych po najlepszym wyniku na grę: 11/25 gier, 16 poziomów.**
 
-| parametr | v1 płytki | v1 głęboki | v2 kalibrowany | **v3 duży cap** |
-|---|---|---|---|---|
-| generator ruchów | segmentacja blobów | segmentacja blobów | **kalibracja po efekcie** | jak v2 |
-| cap węzłów / grę | 3 000 | 12 000 | 10 000 | **60 000** |
-| limit czasu / grę | 200 s | 300 s | 240 s | **600 s** |
-| max poziomów | 4 | 6 | 6 | 6 |
-| tryb | po obecności ACTION6 | po obecności ACTION6 | **po efektywnym rozgałęzieniu** | jak v2 |
-| zasięg gier | 25 | 24 (lf52 urwany) | 20 (8 + 12) | **8** (tylko `cap_cut` z §1bis(f)) |
-| **gry z ≥1 poziomem** | 6/25 | 7/25 | 10/25 | **11/25** |
-| **poziomy razem** | 9 | 12 | 15 | **16** |
-| **wartość LB** | 1.67 pkt | 2.59 pkt | 3.08 pkt | **3.18 pkt** |
+| parametr | v1 płytki | v1 głęboki | v2 kalibrowany | v3 duży cap | **v4 memory-cap** |
+|---|---|---|---|---|---|
+| generator ruchów | segmentacja blobów | segmentacja blobów | **kalibracja po efekcie** | jak v2 | jak v2 |
+| cap węzłów / grę | 3 000 | 12 000 | 10 000 | 60 000 | **200 000** |
+| limit czasu / grę | 200 s | 300 s | 240 s | 600 s | **900 s** |
+| `--frontier-cap` | — | — | — | — (brak = OOM przy BFS) | **4 000** |
+| max poziomów | 4 | 6 | 6 | 6 | 6 |
+| tryb | po obecności ACTION6 | po obecności ACTION6 | **po efektywnym rozgałęzieniu** | jak v2 | jak v2 |
+| zasięg gier | 25 | 24 (lf52 urwany) | 20 (8 + 12) | 8 (`node_cap_cut` z §1bis(f)) | **2** (ka59, re86) |
+| **gry z ≥1 poziomem** | 6/25 | 7/25 | 10/25 | **11/25** | 11/25 |
+| **poziomy razem** | 9 | 12 | 15 | **16** | 16 |
+| **wartość LB** | 1.67 pkt | 2.59 pkt | 3.08 pkt | **3.18 pkt** | 3.18 pkt |
+
+v4 nie dołożył punktów i **nie miał** ich dołożyć — to przebieg rozstrzygający, zamykający
+ostatnią kategorię, dla której budżet mógł jeszcze coś zmienić. Wynik: **ka59 wyczerpała
+frontier** (115 740 węzłów / 10 643 stanów w 250 s, nie dochodząc ani do capa 200 000, ani do
+limitu 900 s) → przeklasyfikowana z `node_cap_cut` na `frontier_exhausted`, czyli budżet
+definitywnie jej nie pomoże. **re86** rozwinęła 200 000 węzłów i **94 405 różnych stanów**
+w 679 s przy szczycie RAM 1 066 MB z 3 939 MB i zostaje jedyną grą z `node_cap_cut`.
+Bez `--frontier-cap` ten przebieg byłby fizycznie niemożliwy: 94 405 stanów × 0.190 MB
+= **17.9 GB**. Szczegóły i bug `deque.sort()`: FAKTY §1bis(h)-(i).
 
 v3 to przebieg **celowany**, nie pełny: poszedł wyłącznie na 8 gier zidentyfikowanych jako
 ucięte capem (tryb 1 w FAKTY §1bis(f)), bo dla gier z wyczerpanym frontierem większy budżet

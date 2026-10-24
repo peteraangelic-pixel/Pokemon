@@ -1,0 +1,4 @@
+2 gier, workers=1, node_cap=200000, sec_cap=900.0s, bfs_branch<=8, calib_step=4px
+[1/2] ka59   tryb=beam  rozg= 18 sygnal=cursor_only  rozwiazane=0 akcje=[None] 250.3s 
+[2/2] re86   tryb=bfs   rozg=  5 sygnal=ok           rozwiazane=0 akcje=[] ?s ERR AttributeError: 'collections.deque' object has no attribute 'sort'
+ZAPISANO /home/user/arc3-scratch/sweep4_memcap.jsonl
