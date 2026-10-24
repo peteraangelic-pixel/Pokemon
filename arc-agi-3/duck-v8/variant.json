@@ -1,0 +1,33 @@
+{
+  "name": "v8-replay",
+  "description": "duck-v7 (brain v2-think-less + early-abandon) PLUS patch 0004: solved-level replay. Completed levels are recorded as verified action chains (start/step/end frame hashes) in a shared on-disk store; on re-entry (game-over restart, analyzer session reset, duplicate pass) the wiring replays them without model calls and hands control back at the first unsolved/diverged level. Kill-switch: unset ARC3_REPLAY -> stock v7 behaviour. n_passes stays 1 (official cross-pass aggregation unverified; replay already pays off within a run).",
+  "base": "duck-v7 (patches 0001-0003 from ../duck-v7) + 0004 from this directory",
+  "env": {
+    "ARC3_EXPERIMENT_HINT": "1",
+    "ARC3_LEVEL_NOTES": "1",
+    "ARC3_STUCK_AUDIT_TOKENS": "60000",
+    "ARC3_WORLD_MODEL": "0",
+    "ARC3_WORLD_MODEL_NUDGE": "0",
+    "ARC3_ABANDON_TOKENS": "60000",
+    "ARC3_ABANDON_MIN_LEVELS": "0",
+    "ARC3_REPLAY": "1",
+    "ARC3_REPLAY_DIR": "/kaggle/working/arc3_replay",
+    "ARC3_REPLAY_MAX_ACTIONS_PER_LEVEL": "2000"
+  },
+  "patches": [
+    "0001-level-notes-audit-experiment-hint.patch (from duck-v7)",
+    "0002-executable-world-model.patch (from duck-v7, inert: ARC3_WORLD_MODEL=0)",
+    "0003-early-abandon.patch (from duck-v7)",
+    "0004-solved-level-replay.patch (this directory)"
+  ],
+  "smoke": {
+    "games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"],
+    "minutes": 48,
+    "must_check": [
+      "log: replay store files appear under ARC3_REPLAY_DIR and grow during the run",
+      "at least one game re-enters a solved level (game_over) and replays instead of re-deriving",
+      "no tool_agent exceptions mentioning arc3 (wiring is fail-silent; silence + no store = wiring not hit)",
+      "RHAE smoke >= duck v3 smoke 29.02 before any submission slot is spent"
+    ]
+  }
+}
