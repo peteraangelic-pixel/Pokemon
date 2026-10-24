@@ -594,6 +594,52 @@ Ich `--include=ARC3-Inference/*` działa, bo cell 9 odpala apply z `$BUNDLE_DIR/
 korzeniem repo **nie jest** (repo to `src/ARC3-Inference`). Odtwarzając to lokalnie, trzeba
 albo zrobić `git init` w `src/`, albo odpalać `git apply` poza jakimkolwiek repo.
 
+### `git apply` mówi „corrupt patch", choć patch jest sprawny — brak końcowego newline
+
+Przy wydobywaniu patcha Franzena z komórki `%%writefile /kaggle/harness-changes.patch`
+zgubiłem końcowy znak nowej linii: **498 779 B zamiast 498 780 B**. Efekt:
+
+```
+error: corrupt patch at line 10086
+```
+
+Linia 10086 to ostatnia linia pliku (`"children": children[cid],`). `git apply` wymaga albo
+końcowego newline, albo jawnego znacznika jego braku — bez jednego z dwóch traktuje plik jak
+ucięty. **Diagnoza po rozmiarze, nie po treści**: `diff` dwóch wersji pokazał wyłącznie ten
+jeden znacznik. Reguła przy przepakowywaniu patcha przez notebook:
+`text if text.endswith("\n") else text + "\n"`.
+
+Druga pułapka w tym samym miejscu: komórki 5–8 trzymają treść patcha jako literal w
+`_P('/kaggle/duck-extra-00.patch').write_text("...")` — **ścieżka jest w APOSTROFACH, treść
+w cudzysłowach**. Regex wymagający cudzysłowów po obu stronach cicho pomija duck-extra-00
+i duck-extra-01 i wygląda, jakby notebook miał 3 patche zamiast 5. Przyjmuj oba rodzaje
+cudzysłowów i sprawdzaj LICZBĘ wydobytych patchy, nie tylko to, że coś się wydobyło.
+
+### Nasz 0004 NIE nakłada się PO 0003b — musi go ZASTĄPIĆ, nie iść za nim
+
+Zmierzone na pristine drzewie ARC3-Inference (dowód: `results/verification_notebook.txt`):
+
+| łańcuch | wynik |
+|---|---|
+| franzen → 0001 → 0002 → **0003b** → **0004-standalone** | **FAIL** `patch failed: solver.py:46` |
+| franzen → 0001 → 0002 → **0004-standalone** | **OK** 4/4, `py_compile` 3/3 OK, testy 16/16 OK |
+
+Oba patche wchodzą w ten sam rejon `solver.py`, więc kontekst hunka się rozjeżdża.
+Poprawne wpięcie do ich notebooka: **podmienić TREŚĆ `/kaggle/duck-extra-02.patch`** na
+0004-standalone, a NIE dokładać czwartego pliku do `patch_files`. To robi
+`tools/make_notebook_patch.py` i tak dokładnie został zweryfikowany: skróty SHA patchy
+wydobytych z wygenerowanego notebooka są IDENTYCZNE ze źródłowymi (`harness-changes`
+bit-w-bit = oryginał Franzena), `patch_files` bez zmian, a w `patches` nazwa
+`0003-early-abandon.patch` → `0004-level-token-cap.patch`.
+
+Skutek uboczny, o którym łatwo zapomnieć: po usunięciu 0003 zmienne `ARC3_ABANDON_TOKENS`
+i `ARC3_ABANDON_MIN_LEVELS` są **OSIEROCONE** — modułu `arc3_abandon` nie ma już w drzewie
+(sprawdzone: 0 referencji w `solver.py`, 8 referencji `arc3_level_budget`). Generator zeruje
+te zmienne celowo, żeby inna gałąź nie wyczytała z `ARC3_VARIANT`, że abandon działa na
+60 000 tokenów. W `env` zostają `ARC3_LEVEL_TOKEN_CAP=45000`, `ARC3_LEVEL_RESETS_MAX=1`,
+`ARC3_LEVEL_MIN_DONE=0` (kill-switch: cap 0 = zachowanie stockowe).
+
+
 ### `git checkout <commit> -- .` nadpisuje też INDEKS
 
 Potem zwykłe `git checkout .` przywraca z **indeksu** (czyli z tamtego starszego commitu),

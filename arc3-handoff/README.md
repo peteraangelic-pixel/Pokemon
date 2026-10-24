@@ -79,6 +79,11 @@ tools/
   fetch_repo_artifacts.sh     pobranie ich drzewa przez gh api (25 gier + metadata + 42 pliki
                               bundle + notebooki + migawka 492 blobów) — obejście limitu 1 MB
   extract_notebook_patches.py wydobycie patchy z komórek 4-7 notebooka (dwie różne postaci)
+  make_notebook_patch.py      GENERATOR NAPRAWIONEGO NOTEBOOKA: bierze ich arc3-duck.ipynb,
+                              podmienia treść komórki 7 (run-killer 0003) na nasz
+                              0004-standalone i aktualizuje ARC3_VARIANT (env + nazwy patchy).
+                              Struktura notebooka bez zmian (30 komórek przed i po).
+                              Wynik zweryfikowany end-to-end: results/verification_notebook.txt
   verify_patch_chains.sh      DOWÓD: łańcuchy A/B/B'/C + py_compile + testy (patrz niżej)
   score_formula.py            formuła punktacji + weryfikacja na r019 + wartość playbooka
   sweep.py                    przegląd v1 (BFS/beam + segmentacja blobów) — źródło wyników
@@ -87,7 +92,7 @@ tools/
   build_playbook.py           budowa playbooka + WERYFIKACJA REPLAYEM na świeżej instancji
 
 results/
-  playbook.json               7 gier / 12 poziomów, sekwencje akcji, replay-verified, 2.59 pkt
+  playbook.json               10 gier / 15 poziomów, sekwencje akcji, replay-verified, 3.08 pkt
   game_metadata.json          25 gier: baseline, tagi, ΣBas, sufity głębokości, wynik searcha
   sweep_results.jsonl         przebieg płytki (3k węzłów/grę)
   sweep_deep.jsonl            przebieg głęboki v1 (12k węzłów/grę)
@@ -98,6 +103,9 @@ results/
   sweep_shallow.log, sweep_deep.log, sweep2.log   surowe logi
   their_tree_snapshot.tsv     migawka ich gałęzi: 492 bloby (SHA / rozmiar / ścieżka)
   verification_output.txt     zapisany output verify_patch_chains.sh (dowód run-killera)
+  verification_notebook.txt   PRAWDZIWY przebieg weryfikacji WYGENEROWANEGO notebooka:
+                              skróty SHA wydobytych patchy, łańcuch z komórki 10 (4/4 OK),
+                              py_compile (3/3 OK), testy jednostkowe 16/16 OK
 ```
 
 ## Jak odtworzyć dowody (bez GPU, bez slota Kaggle, ~1 minuta)
@@ -155,7 +163,7 @@ zamiast `0, 1, 2, 3, 4`. Objaw: `score_formula.py --playbook` dawał tu93 = **55
 `--game tu93 --actions 18,10,19,17,29` dawał **33.33** — bo pierwszy czytał pole `level`
 z playbooka, a drugi liczył od zera.
 
-`build_playbook.py` używa `enumerate`, więc **wartość playbooka (2.59 pkt) i `expected_game_score`
+`build_playbook.py` używa `enumerate`, więc **wartość playbooka (wtedy 2.59 pkt, dziś 3.08 pkt po kalibracji ruchów po efekcie) i `expected_game_score`
 były poprawne cały czas** — błędne było tylko pole `level` w JSON-ie. Naprawione w `sweep.py`
 (`"level": base`), a istniejące artefakty w `results/` zreparowane renumeracją
 (`level = indeks kolejny`). Gdyby to zostało, harness kluczujący replay po polu `level`

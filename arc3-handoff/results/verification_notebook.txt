@@ -1,0 +1,41 @@
+=== WERYFIKACJA NOTEBOOKA WYGENEROWANEGO PRZEZ tools/make_notebook_patch.py ===
+data: 2026-10-24 18:44 UTC
+wejście : bundle/arc3-duck.ipynb       (ich duck-v7, 30 komórek)
+wyjście : bundle/arc3-duck-fixed.ipynb (30 komórek, struktura niezmieniona)
+Poniższy output jest PRAWDZIWYM przebiegiem, nie podsumowaniem - każda linia to wynik
+polecenia uruchomionego na świeżym drzewie ARC3-Inference (bundle r033, stan PRE-patch).
+
+--- 1. patche wydobyte Z WYGENEROWANEGO notebooka ---
+   11350 patches/duck-extra-00.patch
+   33412 patches/duck-extra-01.patch
+   10582 patches/duck-extra-02.patch
+  498780 patches/harness-changes.patch
+  554124 total
+--- 2. porównanie skrótów z patchami źródłowymi ---
+  harness-changes.patch    80aef535ee809706  vs 0000-franzen-harness-changes.patch         80aef535ee809706  -> IDENTYCZNE
+  duck-extra-02.patch      a808ca18d3da2414  vs 0004-standalone-level-token-cap.patch      a808ca18d3da2414  -> IDENTYCZNE
+  duck-extra-00.patch      9e06552aec9c6e68  vs duck-extra-00.patch                        9e06552aec9c6e68  -> IDENTYCZNE
+  duck-extra-01.patch      43d6b36f47e9f630  vs duck-extra-01.patch                        43d6b36f47e9f630  -> IDENTYCZNE
+
+--- 3. ARC3_VARIANT po zmianie ---
+  name       : v7-abandon
+  patch_files: ['/kaggle/duck-extra-00.patch', '/kaggle/duck-extra-01.patch', '/kaggle/duck-extra-02.patch']
+  patches    : ['0001-level-notes-audit-experiment-hint.patch', '0002-executable-world-model.patch', '0004-level-token-cap.patch']
+  env        : {"ARC3_ABANDON_MIN_LEVELS": "0", "ARC3_ABANDON_TOKENS": "0", "ARC3_EXPERIMENT_HINT": "1", "ARC3_LEVEL_MIN_DONE": "0", "ARC3_LEVEL_NOTES": "1", "ARC3_LEVEL_RESETS_MAX": "1", "ARC3_LEVEL_TOKEN_CAP": "45000", "ARC3_STUCK_AUDIT_TOKENS": "60000", "ARC3_WORLD_MODEL": "0", "ARC3_WORLD_MODEL_NUDGE": "0"}
+  smoke      : {"games": ["cn04", "dc22", "g50t", "ka59", "ls20", "m0r0", "s5i5", "sc25", "su15", "tn36"], "minutes": 48}
+
+--- 4. ŁAŃCUCH Z KOMÓRKI 10: git apply --include=ARC3-Inference/* (check=True) ---
+  OK    harness-changes.patch
+  OK    duck-extra-00.patch
+  OK    duck-extra-01.patch
+  OK    duck-extra-02.patch
+
+--- 5. py_compile / wpięcia / testy jednostkowe ---
+  OK py_compile framework/solver.py
+  OK py_compile agent/tool_agent.py
+  OK py_compile framework/arc3_level_budget.py
+  referencji arc3_level_budget w solver.py : 8
+  referencji arc3_abandon   (oczekiwane 0) : 0
+  Ran 16 tests in 0.001s
+  
+  OK (skipped=2)
