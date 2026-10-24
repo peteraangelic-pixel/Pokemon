@@ -49,7 +49,7 @@ Policzone na Waszych 10 grach z r019 (każda ma swoje własne N):
 
 **Wniosek 1:** efektywność ruchów jest już niemal darmowa (29.0 − 27.21 = 1.75 pkt do odzyskania w całej grze). Wszystkie siły w „ukończ jeden poziom więcej".
 
-**Wniosek 2:** próg nagrody (NVARC3 40.97, 5. miejsce) to dokładnie „+1 poziom na grę". Lider 62.96 to „+2 poziomy".
+**Wniosek 2 — SPROSTOWANY 24.10 wieczorem:** liczby 40.97 (próg) i 62.96 (lider) to snapshot z **10–11.10** i są **przedawnione**: lider to dziś **68.91** (Tufa, ich CHAT-LOG 14.10), Chen 67.49. Nagrody są **za MIEJSCA** ($75k/40k/15k/10k/5k/5k), nie za próg punktowy, więc 40.97 nigdy nie było stałą barierą — to było 5. miejsce w tamtym dniu, a cel przesuwa się z tabelą. **Arytmetyka „+1 poziom na grę" pozostaje ważna**, bo jest liczona z ich własnego r019 (27.21 → 44.8), a nie z pozycji w tabeli. Przy liderze 68.91 wynik 45+ to okolice miejsc 5–8. Szczegóły: `WERYFIKACJA-INNYCH-GALEZI.md` §7.
 
 ---
 

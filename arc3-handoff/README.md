@@ -24,13 +24,22 @@ ich drzewa, bo piaskownica nie ma `git clone` do tego repo).
 4. **`DIAGNOZA-45plus.md`** — dlaczego nie ma 45+ punktów: wypukłość punktacji w głębokości,
    arytmetyka budżetu tokenów, ranking dźwigni, plan na 9 dni, lista „czego nie robić".
    Na końcu sekcja *AKTUALIZACJA 24.10* z trzema poprawkami do tej diagnozy.
+5. **`WERYFIKACJA-INNYCH-GALEZI.md`** — CZWARTY dokument: sprawdzenie w **kodzie** ustaleń
+   czterech innych sesji (`a450b00f`, `5ed750ef`, dwie gałęzie Gemma). Trzy twierdzenia
+   **potwierdzone co do linii** (bug `-f` w `ops.py:459`, z pełnym łańcuchem wywołań
+   L459→L463→L136→L140 w ich blobie) i **trzy błędne**, które kosztowałyby slot, gdyby je
+   wdrożyć: limit historii to `150` a nie `30`; kompakcja/sumaryzacja **istnieje** i jest
+   wyłączona jedną zmienną `ARC3_MEMORY_SECTIONS=off`; klucz rozumowania jest już ustawiony
+   na `reasoning_content`. Plus niezależne potwierdzenie mojego twierdzenia o capie
+   (17/27 poziomów r019 na 115), kolizja numeracji patchy `0004-*` między gałęziami i
+   sprostowanie progu nagród (lider **68.91**, nie 62.96; nagrody są za miejsca, nie za próg).
 
 ## Najważniejsze liczby (skrót)
 
 | fakt | wartość | źródło |
 |---|---|---|
 | ich najlepszy wynik na LB | **26.25** (duck v3, 16.10) | `ops/results/r062-submissions` |
-| próg nagrody $40k (5. miejsce) | **40.97** (NVARC3) | `public_leaderboard.csv` 10.10 |
+| ~~próg nagrody $40k (5. miejsce)~~ **NIEAKTUALNE** | ~~40.97~~ — snapshot z 10.10; lider to dziś **68.91** (Tufa, 14.10), a nagrody są **za miejsca**, nie za próg | `WERYFIKACJA-INNYCH-GALEZI.md` §7 |
 | średni score smoke r019 | **27.21**, sufit z głębokości **29.0** | `r019/benchmark.json` |
 | +1 poziom w każdej grze | **44.8** · +2 poziomy → **64.5** | j.w., przeliczone ich formułą |
 | tokeny na akcję | **841** (1.74 M / 2065) | j.w. |

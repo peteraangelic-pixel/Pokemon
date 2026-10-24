@@ -732,6 +732,8 @@ z błędem. Brak submisyji 17–23.10 (wyczerpany GPU quota).
 mtg 45.00, Majkel1337 42.66, the last dance 42.55, **NVARC3 40.97 = 5. miejsce / próg
 nagrody**; mediana 38.17. Nagrody: **$75k za top-5** (40/15/10/5/5k USD), write-up niewymagany.
 
+
+> **SPROSTOWANIE (24.10 wieczorem, z ustaleń innych gałęzi):** ten snapshot ma dwa tygodnie i jest PRZEDAWNIONY. Ich własny CHAT-LOG z **14.10** zapisuje Tufa **68.91** i Chen **67.49** — lider >68, nie 62.96. Co ważniejsze: **nagrody są za MIEJSCA, nie za próg punktowy** ($75k/40k/15k/10k/5k/5k), więc 40.97 nigdy nie było stałą barierą — to było po prostu 5. miejsce w tamtym dniu, a cel przesuwa się razem z tabelą. Przy liderze 68.91 wynik „45+" to okolice **miejsc 5–8**, nie podium. Z oficjalnej strony konkursu: metryka to **RHAE**, a warunkiem eligibilności nagrody jest **open source kodu (CC0/MIT-0) przed otrzymaniem prywatnego wyniku** — ich kernele mają `"is_private": true`, więc to jest do zrobienia, ale trzeba o tym wiedzieć. Nie zmienia to arytmetyki „+1 poziom na grę" (liczonej z r019, nie z tabeli). Pełny zapis: `WERYFIKACJA-INNYCH-GALEZI.md` §7.
 Czyli próg nagrody 40.97 to dokładnie scenariusz „**+1 poziom w każdej grze**" (r019: 44.8).
 Z 26.25 brakuje ~14.7 pkt — to jest ~4 poziomy w tu93-podobnych grach albo +1 poziom
 w połowie stawki. Nie da się tego dokupić efektywnością (warta 1.75 pkt, §2).
