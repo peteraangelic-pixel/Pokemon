@@ -193,7 +193,7 @@ def build_moves(game, frame: np.ndarray, avail: list[int], args, calib_reps) -> 
 
 
 def search_level(game, base_levels, root, frame0, moves0, *, mode, cap, t_limit,
-                 beam_width, max_depth):
+                 beam_width, max_depth, frontier_cap=0):
     seen: set[bytes] = set()
     frontier = deque([(root, frame0, [], moves0, 0.0)]) if mode == "bfs" else [(root, frame0, [], moves0, 0.0)]
     t0 = time.time(); nodes = 0
@@ -220,6 +220,16 @@ def search_level(game, base_levels, root, frame0, moves0, *, mode, cap, t_limit,
             item = (child, cf, seq + [move], moves, nov)
             if mode == "bfs":
                 frontier.append(item)
+                # PAMIĘĆ: frontier BFS trzyma deepcopy obiektu gry, więc bez limitu rośnie
+                # nieograniczenie. Pomiar (resource.getrusage): re86 = 0.190 MB/stan, więc
+                # 19 572 stanów z przebiegu v3 = ~3.7 GB przy 3.9 GB RAM w sandboxie -
+                # przebieg był na samej krawędzi OOM. To jest też przyczyna wcześniejszej
+                # zapaści przy 2 workerach (kswapd0 100%, powłoka przestała odpowiadać).
+                # Cięcie po nowości ramki zamienia BFS w best-first, ale za to mieści się
+                # w pamięci i może iść głębiej. frontier_cap=0 wyłącza limit (stare zachowanie).
+                if frontier_cap and len(frontier) > frontier_cap:
+                    frontier.sort(key=lambda e: -e[4])
+                    del frontier[frontier_cap:]
             else:
                 frontier.append(item)
                 if len(frontier) > beam_width:
@@ -263,7 +273,8 @@ def play_game(a):
             left_s = max(5.0, args.sec_cap - (time.time() - t_start))
             seq, nodes, el, nseen = search_level(
                 state, base, state, frame, moves, mode=mode, cap=args.node_cap,
-                t_limit=left_s, beam_width=args.beam, max_depth=args.max_depth)
+                t_limit=left_s, beam_width=args.beam, max_depth=args.max_depth,
+                frontier_cap=args.frontier_cap)
             rec = {"level": base, "solved": seq is not None,
                    "actions": len(seq) if seq else None, "nodes": nodes,
                    "seconds": round(el, 1), "states": nseen, "mode": mode}
@@ -309,6 +320,9 @@ def main() -> None:
     ap.add_argument("--click-candidates", type=int, default=28)
     ap.add_argument("--max-clicks", type=int, default=40)
     ap.add_argument("--bfs-branch", type=int, default=8, help="efektywne rozgałęzienie <= tego -> BFS")
+    ap.add_argument("--frontier-cap", type=int, default=0,
+                    help="limit stanów w frontierze BFS (0=bez limitu). KONIECZNY przy dużych "
+                         "capach: frontier trzyma deepcopy gry, pomiar re86=0.190 MB/stan")
     ap.add_argument("--min-moves", type=int, default=3,
                     help="gdy pruning zostawi mniej ruchów, zachowaj pełny zestaw (efekt odroczony)")
     ap.add_argument("--calib-step", type=int, default=4, help="siatka prób kliku (px)")

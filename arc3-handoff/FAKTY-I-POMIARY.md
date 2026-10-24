@@ -383,6 +383,45 @@ warto dać więcej czasu, powyżej ~0.5 gra jest zablokowana na animacji i żade
 pomoże. Dla `node_cap_cut` podnieś cap.
 
 
+### (h) Prawdziwym ograniczeniem searcha jest PAMIĘĆ FRONTIERU, nie cap węzłów
+
+Zmierzone przez `resource.getrusage(RUSAGE_SELF).ru_maxrss` na 300 `deepcopy` stanu gry:
+
+| gra | MB / stan | 10 000 stanów | 60 000 stanów | tryb searcha |
+|---|---|---|---|---|
+| **re86** | **0.190** | 1.9 GB | **11.1 GB** | bfs (frontier nieograniczony) |
+| ka59 | ~0.000 | ~0 GB | ~0 GB | beam (frontier i tak ograniczony szerokością) |
+
+Dostępny RAM w sandboxie: **3 939 MB** (`free -m`).
+
+Konsekwencje — i to jest wyjaśnienie dwóch awarii, które wcześniej tylko opisałem jako
+„presja pamięci", nie znając przyczyny:
+
+1. **Przebieg v3 na re86 był na samej krawędzi OOM.** Zrobił 19 572 różne stany × 0.190 MB
+   = **~3.7 GB** przy 3.9 GB dostępnych. Przeżył, ale przypadkiem.
+2. **Zapaść przy 2 workerach** (kswapd0 100%, powłoka przestała odpowiadać, `bash` zwracał
+   puste timeouty) to nie była „ogólna presja" — to dwa procesy BFS z nieograniczonym
+   frontierem, każdy po kilkaset MB na stan w grach typu re86.
+3. **Frontier BFS rośnie nieograniczenie z definicji**, bo `search_level` w trybie `bfs`
+   dokłada każdego nowego potomka i nigdy niczego nie usuwa. Tryb `beam` ma ograniczenie
+   (`beam_width`), więc jest bezpieczny — dlatego ka59 kosztuje ~0 MB/stan.
+
+**Lekarstwo (wprowadzone):** `sweep2.py --frontier-cap N` — w trybie BFS, gdy frontier
+przekroczy N stanów, tnie po nowości ramki. To zamienia BFS w best-first (traci
+zupełność, ale BFS z capem węzłów i tak nie jest zupełny), za to pozwala podnieść cap węzłów
+o rząd wielkości bez OOM. `--frontier-cap 0` = stare zachowanie.
+
+**Reguła dla każdego, kto będzie to uruchamiał:** przy grach z trybem `bfs` i dużym capie
+węzłów ZAWSZE ustawiaj `--frontier-cap`. Orientacyjnie: `frontier_cap × MB_na_stan < 0.5 ×
+dostępny RAM`. Dla re86 (0.190 MB/stan) i 3.9 GB RAM daje to `frontier_cap ≤ 10 000`;
+użyłem 4 000 dla zapasu.
+
+Przy okazji: to jest ten sam mechanizm, który w ich harnessie ogranicza liczbę gier
+równoległych — `ARC3_MAX_ACTIVE_STREAMS=10` przy puli KV 1 011 264 tokenów. U nas
+ograniczaczem jest RAM na stany gry, u nich VRAM na kontekst, ale struktura problemu
+identyczna: **wąskim gardłem jest pamięć na stan, nie moc obliczeniowa**.
+
+
 ### Czego wciąż nie umiemy (uczciwie)
 
 - **sc25 i gry z odroczonym efektem**: legalne ruchy nie zmieniają ramki natychmiast, więc
