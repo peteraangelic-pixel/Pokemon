@@ -224,6 +224,49 @@ potrzebują głębszego przeszukiwania lub innej heurystyki, nie szerszego zesta
 Warto ją jednak mieć, bo bez niej gra znika z wyników w 0.2 s i wygląda na „pustą",
 a nie na „nieprzeszukaną" — dokładnie ten błąd interpretacji popełniłem przy ft09.
 
+### (e) Taksonomia `signal_quality` NIE przewiduje rozwiązywalności — obalone na 25 grach
+
+Wprowadziłem pole `signal_quality` ∈ {`dead_clicks`, `cursor_only`, `ok`} i używałem go jak
+wyjaśnienia „dlaczego ta gra jest czarna". Dokończyłem pomiar na wszystkich 25 grach nową
+sondą `tools/calib_probe.py` (kalibracja bez searcha, 0.5–8 s na grę, importuje te same
+funkcje co `sweep2.play_game`, więc metoda identyczna) i taksonomia się **nie broni**:
+
+| `signal_quality` | rozwiązane | nierozwiązane |
+|---|---|---|
+| `cursor_only` | **3** | 7 |
+| `dead_clicks` | **2** | 2 |
+| `ok` | **5** | 6 |
+
+Prawie idealny rozkład losowy. Kontrprzykłady, które to rozstrzygają:
+
+- **vc33** — `cursor_only`, mediana zmiany **1 px**, 3 różne efekty kliku — a dała **2 poziomy
+  = 10.71 pkt**, nasz drugi najlepszy wynik po tu93.
+- **sp80** — `cursor_only`, **1** różny efekt kliku, a rozwiązana (28 akcji).
+- **cd82** — `cursor_only`, rozwiązana w 5 akcjach.
+- **sb26** — `ok`, rozgałęzienie **5** (niskie, czyli teoretycznie łatwe dla BFS), a czarna.
+- **re86 / tr87 / wa30 / g50t** — wszystkie `ok` z rozgałęzieniem 2–5, wszystkie czarne.
+- **r11l** — **198** różnych efektów kliku (najwięcej z 25 gier), a 0 poziomów.
+
+Rozgałęzienie też nie przewiduje: przy 4 rozwiązane 3 / czarne 2, przy 19 — rozwiązane 2 /
+czarna 1, przy 18 — rozwiązane 0 / czarne 3.
+
+**Wniosek operacyjny (ważniejszy niż sama taksonomia):** tych pól wolno używać wyłącznie do
+**diagnozowania, dlaczego konkretny przebieg umarł** (`effective_branch=0` → brak ruchów;
+`dead_clicks` → kryterium „ramka się zmieniła" nie widzi legalnych ruchów). **Nie wolno**
+nimi selekcjonować gier do przeszukania ani prognozować wyniku. Kto tak zrobi, pominie vc33
+(10.71 pkt!) i zmarnuje czas na sb26.
+
+Jedyny wzorzec, który przeżył pomiar, to punkt (b): **nasze rozwiązania są krótkie**
+(mediana 13 akcji, max 29), a BFS przy capie 12 000 sięga `log_b(12000)` ruchów. Predyktorem
+jest długość minimalnego rozwiązania — której z góry nie znamy i której żadna mierzalna
+własność ramki nie ujawnia. Dlatego uczciwa odpowiedź na „które gry da się rozwiązać
+offline" brzmi: **trzeba po prostu przeszukać**, a nie triage'ować.
+
+Komplet diagnostyki per gra (25/25): `results/game_metadata.json`, klucze `signal_quality`,
+`effective_branch`, `calib_distinct_effects`, `calib_median_delta`, `calibration`,
+`calibration_source`, plus podsumowanie w `_diagnostics_predictivity`.
+
+
 ### Czego wciąż nie umiemy (uczciwie)
 
 - **sc25 i gry z odroczonym efektem**: legalne ruchy nie zmieniają ramki natychmiast, więc

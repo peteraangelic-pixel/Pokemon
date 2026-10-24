@@ -7,7 +7,7 @@
   "v2-calibrated": "sweep2.py, kalibracja ruchow PO EFEKCIE (hash ramki) + pruning martwych + tryb po efektywnym rozgalezieniu; cap 10000, 240s/gr\u0119; 8/25 gier (proces zabity przez presje pamieci przy 2 workerach z deepcopy)",
   "v2-rest": "sweep2.py, cap 12000/300s, beam 80, --min-moves 3, 1 WORKER; doko\u0144czenie na 12 grach; 11/12 zakonczonych - lf52 zabity po 1783 s (blokada na animacji: perform_action nie wraca, wiec sprawdzenie czasu miedzy wezlami nigdy nie odpala; cap 300 s jest NIEWYMUSZALNY z wnatrz petli)"
  },
- "_signal_quality": "dead_clicks = legalny klik nie zmienia ramki wcale (sc25: 0 z 4096); cursor_only = zmiana 1-4 px (w tn36 to NIE kursor a nak\u0142adane znaczniki - przemienne i addytywne, patrz FAKTY \u00a71bis); ok = wyra\u017ana zmiana stanu. Pole mierzone tylko w przebiegach v2.",
+ "_signal_quality": "dead_clicks = gra wystawia ACTION6, ale \u017bADEN klik nie zmienia ramki (sc25: 0 z 4096) - legalne ruchy o efekcie odroczonym. cursor_only = klik zmienia 1-4 px (w tn36 to nie kursor a nak\u0142adane znaczniki: przemienne i addytywne, FAKTY \u00a71bis(c)). ok = wyra\u017ana zmiana stanu. UWAGA - POMIAR NA 25 GRACH OBA\u0141Y\u0141 U\u017bYCIE TEJ TAKSONOMII JAKO PREDYKTORA: cursor_only 3 rozwi\u0105zane / 7 nie, dead_clicks 2/2, ok 5/6 -> praktycznie brak korelacji. vc33 ma cursor_only (mediana 1 px!) a da\u0142a 2 poziomy = 10.71 pkt; sb26 ma ok i rozga\u0142\u0119zienie 5 a jest czarna. Pola s\u0142u\u017c\u0105 do DIAGNOZOWANIA dlaczego przebieg umar\u0142, NIE do selekcjonowania gier. Szczeg\u00f3\u0142y: klucz _diagnostics_predictivity i FAKTY \u00a71bis(e).",
  "games": {
   "ar25": {
    "game_id": "ar25-0c556536",
@@ -54,7 +54,8 @@
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 2.78,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "bp35": {
    "game_id": "bp35-0a0ad940",
@@ -97,7 +98,8 @@
    "depth_ceiling_1_level": 2.22,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "cd82": {
    "game_id": "cd82-fb555c5d",
@@ -141,7 +143,8 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 4.76,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "cn04": {
    "game_id": "cn04-2fe56bfb",
@@ -185,7 +188,8 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 4.76,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "dc22": {
    "game_id": "dc22-fdcac232",
@@ -226,7 +230,8 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "ft09": {
    "game_id": "ft09-0d8bbf25",
@@ -263,7 +268,8 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 4.76,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "g50t": {
    "game_id": "g50t-5849a774",
@@ -305,7 +311,8 @@
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "ka59": {
    "game_id": "ka59-38d34dbb",
@@ -347,7 +354,8 @@
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "lf52": {
    "game_id": "lf52-271a04aa",
@@ -379,10 +387,10 @@
     6,
     7
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 19,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 3,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
    "search_run": "v1-shallow",
    "search_mode": "bfs",
@@ -393,7 +401,32 @@
    "depth_ceiling_1_level": 1.82,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 10,
+    "avail": [
+     1,
+     2,
+     3,
+     4,
+     6,
+     7
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 256,
+    "calib_distinct_effects": 3,
+    "calib_median_delta": 1.0,
+    "click_reps": 3,
+    "moves_raw": 19,
+    "effective_branch": 19,
+    "pruned_fell_back": true,
+    "mode": "beam",
+    "signal_quality": "cursor_only",
+    "seconds": 2.01
+   },
+   "calib_median_delta": 1.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "lp85": {
    "game_id": "lp85-305b61c3",
@@ -418,10 +451,10 @@
    "available_actions_at_L0": [
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 14,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 2,
+   "pruned_fell_back": true,
    "search_solved_levels": 1,
    "search_run": "v1-deep",
    "search_mode": "beam",
@@ -434,7 +467,27 @@
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 2.78,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 8,
+    "avail": [
+     6
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 6,
+    "calib_distinct_effects": 2,
+    "calib_median_delta": 293.0,
+    "click_reps": 2,
+    "moves_raw": 14,
+    "effective_branch": 14,
+    "pruned_fell_back": true,
+    "mode": "beam",
+    "signal_quality": "ok",
+    "seconds": 0.14
+   },
+   "calib_median_delta": 293.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "ls20": {
    "game_id": "ls20-9607627b",
@@ -461,10 +514,10 @@
     3,
     4
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 4,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": true,
    "search_solved_levels": 1,
    "search_run": "v1-deep",
    "search_mode": "bfs",
@@ -477,7 +530,30 @@
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 3.57,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 7,
+    "avail": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 0,
+    "calib_distinct_effects": 0,
+    "calib_median_delta": 0.0,
+    "click_reps": 0,
+    "moves_raw": 4,
+    "effective_branch": 4,
+    "pruned_fell_back": true,
+    "mode": "bfs",
+    "signal_quality": "ok",
+    "seconds": 0.03
+   },
+   "calib_median_delta": 0.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "m0r0": {
    "game_id": "m0r0-492f87ba",
@@ -505,10 +581,10 @@
     5,
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 4,
+   "signal_quality": "dead_clicks",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": false,
    "search_solved_levels": 1,
    "search_run": "v1-deep",
    "search_mode": "beam",
@@ -521,7 +597,32 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 4.76,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 6,
+    "avail": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 0,
+    "calib_distinct_effects": 0,
+    "calib_median_delta": 0.0,
+    "click_reps": 0,
+    "moves_raw": 19,
+    "effective_branch": 4,
+    "pruned_fell_back": false,
+    "mode": "bfs",
+    "signal_quality": "dead_clicks",
+    "seconds": 0.13
+   },
+   "calib_median_delta": 0.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "r11l": {
    "game_id": "r11l-495a7899",
@@ -558,7 +659,8 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "re86": {
    "game_id": "re86-8af5384d",
@@ -601,7 +703,8 @@
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "s5i5": {
    "game_id": "s5i5-18d95033",
@@ -640,7 +743,8 @@
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "sb26": {
    "game_id": "sb26-7fbdac44",
@@ -667,10 +771,10 @@
     6,
     7
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 5,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 4,
+   "pruned_fell_back": false,
    "search_solved_levels": 0,
    "search_run": "v1-deep",
    "search_mode": "bfs",
@@ -681,7 +785,29 @@
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 8,
+    "avail": [
+     5,
+     6,
+     7
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 8,
+    "calib_distinct_effects": 4,
+    "calib_median_delta": 20.0,
+    "click_reps": 4,
+    "moves_raw": 16,
+    "effective_branch": 5,
+    "pruned_fell_back": false,
+    "mode": "bfs",
+    "signal_quality": "ok",
+    "seconds": 0.29
+   },
+   "calib_median_delta": 20.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "sc25": {
    "game_id": "sc25-635fd71a",
@@ -708,10 +834,10 @@
     4,
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 18,
+   "signal_quality": "dead_clicks",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
    "search_run": "v1-deep",
    "search_mode": "beam",
@@ -722,7 +848,31 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 6,
+    "avail": [
+     1,
+     2,
+     3,
+     4,
+     6
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 0,
+    "calib_distinct_effects": 0,
+    "calib_median_delta": 0.0,
+    "click_reps": 0,
+    "moves_raw": 18,
+    "effective_branch": 18,
+    "pruned_fell_back": true,
+    "mode": "beam",
+    "signal_quality": "dead_clicks",
+    "seconds": 2.32
+   },
+   "calib_median_delta": 0.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "sk48": {
    "game_id": "sk48-d8078629",
@@ -766,7 +916,8 @@
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "sp80": {
    "game_id": "sp80-589a99af",
@@ -794,10 +945,10 @@
     5,
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 19,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 1,
+   "pruned_fell_back": true,
    "search_solved_levels": 1,
    "search_run": "v1-deep",
    "search_mode": "beam",
@@ -810,7 +961,32 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 4.76,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 6,
+    "avail": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 256,
+    "calib_distinct_effects": 1,
+    "calib_median_delta": 2.0,
+    "click_reps": 1,
+    "moves_raw": 19,
+    "effective_branch": 19,
+    "pruned_fell_back": true,
+    "mode": "beam",
+    "signal_quality": "cursor_only",
+    "seconds": 0.12
+   },
+   "calib_median_delta": 2.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "su15": {
    "game_id": "su15-1944f8ab",
@@ -851,7 +1027,8 @@
    "depth_ceiling_1_level": 2.22,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "tn36": {
    "game_id": "tn36-ef4dde99",
@@ -889,7 +1066,8 @@
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "tr87": {
    "game_id": "tr87-cd924810",
@@ -929,7 +1107,8 @@
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   },
   "tu93": {
    "game_id": "tu93-0768757b",
@@ -958,10 +1137,10 @@
     3,
     4
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 4,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": true,
    "search_solved_levels": 5,
    "search_run": "v1-deep",
    "search_mode": "bfs",
@@ -978,7 +1157,30 @@
    "depth_ceiling_1_level": 2.22,
    "depth_ceiling_at_solved_depth": 33.33,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 9,
+    "avail": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 0,
+    "calib_distinct_effects": 0,
+    "calib_median_delta": 0.0,
+    "click_reps": 0,
+    "moves_raw": 4,
+    "effective_branch": 4,
+    "pruned_fell_back": true,
+    "mode": "bfs",
+    "signal_quality": "ok",
+    "seconds": 0.01
+   },
+   "calib_median_delta": 0.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "vc33": {
    "game_id": "vc33-5430563c",
@@ -1002,10 +1204,10 @@
    "available_actions_at_L0": [
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
-   "pruned_fell_back": null,
+   "effective_branch": 14,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 3,
+   "pruned_fell_back": true,
    "search_solved_levels": 2,
    "search_run": "v1-deep",
    "search_mode": "beam",
@@ -1019,7 +1221,27 @@
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 10.71,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration": {
+    "error": null,
+    "win_levels": 7,
+    "avail": [
+     6
+    ],
+    "levels_completed": 0,
+    "calib_responsive": 256,
+    "calib_distinct_effects": 3,
+    "calib_median_delta": 1.0,
+    "click_reps": 3,
+    "moves_raw": 14,
+    "effective_branch": 14,
+    "pruned_fell_back": true,
+    "mode": "beam",
+    "signal_quality": "cursor_only",
+    "seconds": 0.18
+   },
+   "calib_median_delta": 1.0,
+   "calibration_source": "tools/calib_probe.py (sonda bez searcha)"
   },
   "wa30": {
    "game_id": "wa30-ee6fef47",
@@ -1063,7 +1285,8 @@
    "depth_ceiling_1_level": 2.22,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": null
+   "error": null,
+   "calibration_source": "sweep2.py (z pe\u0142nego przebiegu)"
   }
  },
  "summary": {
@@ -1144,5 +1367,74 @@
   },
   "_refuted": "Hipoteza 'd\u0142ugi baseline[0] = nie do rozwi\u0105zania' OBALONA: rozwiazane mediana 29.5 max 55, nierozwiazane mediana 32 MIN 18. Rozk\u0142ady si\u0119 pokrywaj\u0105, wi\u0119c NIE selekcjonowa\u0107 gier po d\u0142ugo\u015bci baseline.",
   "_real_predictor": "Nasze rozwi\u0105zania s\u0105 KR\u00d3TKIE (mediana 12 akcji, max 28). BFS przy capie 12000 si\u0119ga log_b(12000): b=8 -> 4.5 ruchu, b=5 -> 5.8, b=11 -> 3.9; wszystkie trzy nowe gry pad\u0142y w tym zasi\u0119gu. Zwi\u0119kszanie capa nie dok\u0142ada poziom\u00f3w przy du\u017cym rozga\u0142\u0119zieniu."
+ },
+ "_diagnostics_predictivity": {
+  "_wniosek": "OBA\u0141ONE: ani baseline_actions[0], ani signal_quality, ani effective_branch NIE przewiduj\u0105, czy search rozwi\u0105\u017ce gr\u0119. Te pola s\u0142u\u017c\u0105 do DIAGNOZOWANIA dlaczego konkretny przebieg umar\u0142 (np. effective_branch=0 -> brak ruch\u00f3w), NIE do selekcjonowania gier.",
+  "signal_quality_x_solved": {
+   "cursor_only": {
+    "rozwiazane": 3,
+    "nierozwiazane": 7
+   },
+   "dead_clicks": {
+    "rozwiazane": 2,
+    "nierozwiazane": 2
+   },
+   "ok": {
+    "rozwiazane": 5,
+    "nierozwiazane": 6
+   }
+  },
+  "effective_branch_x_solved": {
+   "2": {
+    "rozwiazane": 0,
+    "nierozwiazane": 1
+   },
+   "3": {
+    "rozwiazane": 0,
+    "nierozwiazane": 1
+   },
+   "4": {
+    "rozwiazane": 3,
+    "nierozwiazane": 2
+   },
+   "5": {
+    "rozwiazane": 1,
+    "nierozwiazane": 2
+   },
+   "8": {
+    "rozwiazane": 1,
+    "nierozwiazane": 0
+   },
+   "11": {
+    "rozwiazane": 1,
+    "nierozwiazane": 0
+   },
+   "14": {
+    "rozwiazane": 2,
+    "nierozwiazane": 4
+   },
+   "17": {
+    "rozwiazane": 0,
+    "nierozwiazane": 1
+   },
+   "18": {
+    "rozwiazane": 0,
+    "nierozwiazane": 3
+   },
+   "19": {
+    "rozwiazane": 2,
+    "nierozwiazane": 1
+   }
+  },
+  "dowody_przeciw_selekcji": [
+   "vc33: cursor_only (mediana 1 px!) a rozwiazana na 2 poziomy = 10.71 pkt (nasz 2. najlepszy wynik)",
+   "sp80: cursor_only, 1 ro\u017cny efekt, a rozwiazana (28 akcji)",
+   "cd82: cursor_only, a rozwiazana w 5 akcjach",
+   "sb26: signal_quality=ok, rozgalezenie 5 (niskie!) - a NIEROZWIAZANA",
+   "re86/tr87/wa30/g50t: ok, rozgalezenie 2-5 - wszystkie NIEROZWIAZANE",
+   "r11l: 198 roznych efektow kliku (najwiecej ze wszystkich 25) - a 0 poziomow"
+  ],
+  "_jedyny_prawdziwy_wzorzec": "Nasze rozwi\u0105zania sa KR\u00d3TKIE: mediana 13 akcji, max 29. BFS przy capie 12000 siega log_b(12000) ruchow, wiec pada tylko to, co jest w tym zasiegu. Predyktorem jest D\u0141UGO\u015a\u0106 minimalnego rozwi\u0105zania (nieznana z g\u00f3ry), nie \u017cadna mierzalna w\u0142asnosc ramki.",
+  "calibration_probe": "tools/calib_probe.py - sonda bez searcha (~0.5-8 s/gr\u0119), mierzy te same wielkosci co sweep2.play_game (importuje te same funkcje)"
  }
 }

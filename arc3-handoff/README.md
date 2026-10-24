@@ -79,6 +79,12 @@ tools/
   fetch_repo_artifacts.sh     pobranie ich drzewa przez gh api (25 gier + metadata + 42 pliki
                               bundle + notebooki + migawka 492 blobów) — obejście limitu 1 MB
   extract_notebook_patches.py wydobycie patchy z komórek 4-7 notebooka (dwie różne postaci)
+  calib_probe.py              SONDA diagnostyczna BEZ searcha (0.5-8 s/grę): mierzy
+                              available_actions, liczbę różnych efektów kliku, medianę
+                              zmiany px, efektywne rozgałęzienie i signal_quality.
+                              Importuje funkcje sweep2, więc metoda jest identyczna.
+                              UWAGA: pomiar na 25 grach obalił używanie signal_quality
+                              jako PREDYKTORA - patrz FAKTY §1bis(e)
   make_notebook_patch.py      GENERATOR NAPRAWIONEGO NOTEBOOKA: bierze ich arc3-duck.ipynb,
                               podmienia treść komórki 7 (run-killer 0003) na nasz
                               0004-standalone i aktualizuje ARC3_VARIANT (env + nazwy patchy).
