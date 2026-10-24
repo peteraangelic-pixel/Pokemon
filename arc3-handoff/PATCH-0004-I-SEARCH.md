@@ -106,6 +106,18 @@ niezależnie od awarii z punktu 1. Ich oczekiwana krzywa z FINDINGS 15.10 nie ma
 
 ## 3. Patch 0004 — co robi i dlaczego tak
 
+> **⚠ KOLIZJA NUMERACJI (24.10 wieczorem).** Gałąź `arena/a450b00f-pokemon` niezależnie
+> stworzyła patch o tej samej nazwie `0004-*` dla tego samego harnessa: ich
+> `arc-agi-3/duck-v8/0004-solved-level-replay.patch` vs mój `0004-level-token-cap`.
+> To **dwa różne patche pod jednym numerem** — jeśli obie gałęzie trafią do jednego
+> notebooka, cell 10 (`git apply ... check=True`) albo się wykolei, albo cicho nałoży nie to,
+> co trzeba. **Rekomendacja: ich `0004-solved-level-replay` → `0005`**, bo mój 0004 jest już
+> zweryfikowany w łańcuchach A/B′ i ma 16 testów jednostkowych. Merytorycznie i tak nie ma
+> konfliktu do rozstrzygania: z twierdzenia o capie (§2 i `FAKTY-I-POMIARY.md` §2) wynika, że
+> replay jest wart ~0 pkt, a niezależnie potwierdziła to gałąź Gemma `c4eeb067`
+> (17/27 ukończonych poziomów r019 na capie 115). Szczegóły:
+> `WERYFIKACJA-INNYCH-GALEZI.md` §4–§5.
+
 Jeden lever: **budżet tokenów na bieżący poziom**, liczony od postępu **marginalnego**
 (tokeny od ostatniego ukończenia poziomu, względem `game_token_baseline`).
 
