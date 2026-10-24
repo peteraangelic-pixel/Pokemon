@@ -334,3 +334,35 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 - `arc3-handoff/DIAGNOZA-45plus.md` — ten plik.
 
 **Do przeniesienia do Waszej gałęzi:** punkty 1–3 (arytmetyka wyniku i wycieku) powinny trafić do `FINDINGS`/`STATUS`, bo zmieniają cel: nie „więcej tokenów na grę", tylko **„+1 poziom na grę"**. Punkt 7 (bug v7-abandon) jest do naprawienia od ręki. Punkt 6 to jedyna dźwignia, która nie konsumuje ani GPU, ani slotu.
+
+---
+
+## AKTUALIZACJA 24.10.2026 ~16:30 UTC
+
+Ciąg dalszy w **`PATCH-0004-I-SEARCH.md`** (ten sam katalog). Trzy rzeczy zmieniają obraz
+z tej diagnozy:
+
+1. **Linia `duck-v7` nie może wystartować.** Ich patch 0003 (`duck-extra-02.patch`) był
+   wygenerowany względem oryginalnego `solver.py` (nagłówek `index 0b69d62..`), a cell 9
+   nakłada go **po** patchu Franzena z `check=True` → `patch does not apply` →
+   `CalledProcessError` → notebook umiera przed załadowaniem wag. Zweryfikowane przez
+   `git apply` na prawdziwym drzewie 42 plików z bundle r033. Kolejki, która wisi teraz (r065 →
+   kernel `arc3-duck-original`), to **nie** dotyczy — tam nie ma żadnych patchy.
+2. **`v7-abandon` jest no-opem z dwóch niezależnych powodów** (zły licznik tokenów:
+   `token_baseline` to kursor per krok, nie per gra; oraz guard `levels_completed > 0`
+   chroniący dokładnie gry, które marnują najwięcej). Oczekiwane 31–34 pkt z FINDINGS 15.10
+   nie ma podstaw — to punkt 6 tej diagnozy, potwierdzony testami.
+3. **Lever #2 (search) działa, ale jest wart 2.59 pkt, nie +14..37.** Zmierzone na dwóch
+   przebiegach (płytki 3 000 węzłów/grę, głęboki 12 000): scalony wynik **7/25 gier,
+   12 poziomów, wszystko zweryfikowane replayem na świeżej instancji = 2.59 pkt LB podłogi**.
+   Powód rozjazdu z szacunkiem: jeden poziom w 7-poziomowej grze jest wart ~3.5 pkt, bo
+   mianownik to ΣW **wszystkich** poziomów — wartość robi dopiero głębokość (tu93: 5 poziomów
+   = 33.33 pkt w jednej grze, vc33: 2 poziomy = 10.71).
+   **Poprawka do mojej własnej tezy:** głębszy przebieg DOŁOŻYŁ +3 poziomy i +2 gry
+   (tu93 4→5, vc33 1→2, sp80 0→1), więc „4× większy budżet nie pomaga" było błędem —
+   pomaga, tylko ze zwrotem malejącym (4× koszt → +0.92 pkt). Czarne pozostają gry click-owe
+   (tn36, ka59, dc22, ar25, cn04, r11l, s5i5, sc25 = 0 poziomów): tam wąskim gardłem jest
+   heurystyka (nowość ramki) i brak segmentacji obiektów.
+
+Gotowe do wpięcia: `patches/0004-standalone-level-token-cap.patch` (+ `0003b` jeśli chcą
+zachować 0003), `arc3_level_budget.py`, 16 testów jednostkowych, `results/playbook.json`.

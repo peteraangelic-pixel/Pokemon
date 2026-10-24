@@ -1,0 +1,27 @@
+25 gier, workers=2, node_cap=3000, sec_cap=200.0s
+[1/25] ar25   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3016 30.2s 
+[2/25] cd82   mode=beam  poziomy_rozwiazane=1 akcje=[5, None] wezel=3205 9.3s 
+[3/25] cn04   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3000 5.8s 
+[4/25] dc22   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3000 23.8s 
+[5/25] ft09   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=40 0.4s 
+[6/25] bp35   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=3013 77.4s 
+[7/25] ka59   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3000 8.0s 
+[8/25] g50t   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=3000 27.9s 
+[9/25] lp85   mode=beam  poziomy_rozwiazane=1 akcje=[5, None] wezel=3213 60.3s 
+[10/25] ls20   mode=bfs   poziomy_rozwiazane=1 akcje=[13, None] wezel=4777 163.9s 
+[11/25] lf52   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=2150 255.4s 
+[12/25] m0r0   mode=beam  poziomy_rozwiazane=1 akcje=[15, None] wezel=5863 31.2s 
+[13/25] r11l   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3000 14.6s 
+[14/25] re86   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=3000 7.6s 
+[15/25] s5i5   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3000 16.4s 
+[16/25] sb26   mode=bfs   poziomy_rozwiazane=0 akcje=[] wezel=0 ?s ERR ValueError: not enough values to unpack (expected 2, got 1)
+[17/25] sk48   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=3000 27.2s 
+[18/25] sc25   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3000 34.3s 
+[19/25] sp80   mode=beam  poziomy_rozwiazane=0 akcje=[None] wezel=3000 10.2s 
+[20/25] su15   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=3002 22.7s 
+[21/25] tn36   mode=beam  poziomy_rozwiazane=0 akcje=[] wezel=0 ?s ERR ValueError: not enough values to unpack (expected 2, got 1)
+[22/25] tr87   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=3000 46.4s 
+[23/25] tu93   mode=bfs   poziomy_rozwiazane=4 akcje=[18, 10, 19, 17] wezel=7698 27.8s 
+[24/25] vc33   mode=beam  poziomy_rozwiazane=1 akcje=[3, None] wezel=3115 16.8s 
+[25/25] wa30   mode=bfs   poziomy_rozwiazane=0 akcje=[None] wezel=3000 32.4s 
+ZAPISANO /home/user/arc3-scratch/sweep_results.jsonl

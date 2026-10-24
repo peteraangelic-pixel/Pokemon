@@ -1,0 +1,142 @@
+"""ARC3 Duck v8, patch 0004: per-level token budget with a free level reset.
+
+Problem (measured, r019 smoke: 10 games x 48 min, every game ended `gave_up`):
+35% of all generated tokens AND actions are spent on the one level a game never
+completes. tn36 burned 86% of its tokens on its unfinished level and scored
+3.57; ls20 burned 91% and scored 3.27. Scoring is convex in DEPTH - one extra
+completed level per game lifts the mean from 27.21 to 44.8 - so tokens spent on
+a level that never completes are the most expensive tokens in the run.
+
+Patch 0003 (`arc3_abandon`) cannot catch that population, for two independent
+reasons:
+  1. `if levels_completed > min_levels(): return False` with the shipped default
+     ARC3_ABANDON_MIN_LEVELS=0 protects every game that scored at least one
+     level - which is exactly where the leaks are (r019 had no L=0 games at all).
+  2. It measures `_analyzer_reported_tokens(analyzer) - self.token_baseline`, but
+     `token_baseline` is a per-step cursor dragged forward after every action
+     (see its own comment in solver.py). With LOCAL_ANALYZER_MAX_OUTPUT=12k a
+     single step can never reach ARC3_ABANDON_TOKENS=60000, so the check is a
+     no-op. The per-game baseline is `game_token_baseline`.
+
+This module keys the budget off MARGINAL progress - tokens generated since the
+last level completion, measured against `game_token_baseline` - and answers with
+one of three decisions:
+
+  KEEP_GOING   still inside this level's budget
+  RESET_LEVEL  budget exhausted and free resets remain: issue a RESET. It costs
+               zero LLM tokens (no analyzer call) and, with ONLY_RESET_LEVELS=true
+               already set by the notebook, it keeps the level - so the model
+               re-plans from a clean frame instead of grinding the hypothesis
+               that just failed for 45k tokens.
+  ABANDON      budget exhausted and no resets left: stop the game and hand its
+               SGLang slot (MAXREQ=10 concurrent generations) to a game that is
+               still making progress.
+
+Env switches (all optional; unset/0 = feature OFF = stock behaviour EXACTLY):
+  ARC3_LEVEL_TOKEN_CAP   tokens one level may consume before acting (0 = off)
+  ARC3_LEVEL_RESETS_MAX  free resets per level before abandoning (default 1)
+  ARC3_LEVEL_MIN_DONE    never ABANDON a game below this many completed levels
+                         (default 0). RESET_LEVEL is always allowed - it is free.
+
+Pure logic lives here so it is unit-testable with no harness, no GPU, no arcengine
+and no Kaggle slot: see tests/test_arc3_level_budget.py.
+"""
+from __future__ import annotations
+
+import os
+
+KEEP_GOING = "keep_going"
+RESET_LEVEL = "reset_level"
+ABANDON = "abandon"
+
+DEFAULT_RESETS_MAX = 1
+
+
+def _env_int(name: str, default: int) -> int:
+    raw = (os.environ.get(name) or "").strip()
+    if not raw:
+        return default
+    try:
+        return int(float(raw))
+    except (TypeError, ValueError):
+        return default
+
+
+class LevelBudget:
+    """Tracks one game's spend on the level it is currently playing.
+
+    `peek` is pure and `step` mutates. The split matters: the harness hands
+    `should_stop` to the analyzer as a callback, so it can run many times per
+    turn - a mutating check there would silently consume every free reset
+    without a single RESET ever being executed.
+    """
+
+    def __init__(
+        self,
+        level_token_cap: int = 0,
+        resets_max: int = DEFAULT_RESETS_MAX,
+        min_done_levels: int = 0,
+    ) -> None:
+        self.cap = max(0, int(level_token_cap))
+        self.max_resets = max(0, int(resets_max))
+        self.min_done = max(0, int(min_done_levels))
+        self.level_start_levels = 0
+        self.level_start_tokens = 0
+        self.resets_used = 0
+
+    @classmethod
+    def from_env(cls) -> "LevelBudget":
+        return cls(
+            level_token_cap=_env_int("ARC3_LEVEL_TOKEN_CAP", 0),
+            resets_max=_env_int("ARC3_LEVEL_RESETS_MAX", DEFAULT_RESETS_MAX),
+            min_done_levels=_env_int("ARC3_LEVEL_MIN_DONE", 0),
+        )
+
+    @property
+    def enabled(self) -> bool:
+        return self.cap > 0
+
+    def _spent_on_level(self, generated_tokens: int, levels_completed: int) -> int:
+        """Tokens spent on the CURRENT level since it started (or since its last
+        free reset). A level that just completed starts a fresh budget even if
+        `step` has not observed it yet, so `peek` can never abandon a game on the
+        turn it made progress."""
+        if int(levels_completed) > self.level_start_levels:
+            return 0
+        return max(0, int(generated_tokens) - self.level_start_tokens)
+
+    def peek(self, generated_tokens: int, levels_completed: int) -> str:
+        """Pure decision - safe to call from should_stop() as often as needed."""
+        if not self.enabled:
+            return KEEP_GOING
+        if self._spent_on_level(generated_tokens, levels_completed) < self.cap:
+            return KEEP_GOING
+        if self.resets_used < self.max_resets:
+            return RESET_LEVEL
+        # Out of budget and out of resets. Protect games that have not scored
+        # yet only when the operator asked for it (ARC3_LEVEL_MIN_DONE).
+        if int(levels_completed) < self.min_done:
+            return KEEP_GOING
+        return ABANDON
+
+    def step(self, generated_tokens: int, levels_completed: int) -> str:
+        """Decision + bookkeeping. Call once per turn, where the RESET happens."""
+        generated_tokens = int(generated_tokens)
+        levels_completed = int(levels_completed)
+        if levels_completed > self.level_start_levels:
+            # Progress: new level, fresh budget, resets replenished.
+            self.level_start_levels = levels_completed
+            self.level_start_tokens = generated_tokens
+            self.resets_used = 0
+            return KEEP_GOING
+        decision = self.peek(generated_tokens, levels_completed)
+        if decision == RESET_LEVEL:
+            self.resets_used += 1
+            self.level_start_tokens = generated_tokens
+        return decision
+
+    def describe(self) -> str:
+        return (
+            f"LevelBudget(cap={self.cap}, resets={self.resets_used}/{self.max_resets}, "
+            f"level={self.level_start_levels}, min_done={self.min_done})"
+        )

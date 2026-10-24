@@ -55,11 +55,14 @@ def load_game(path: str, cls: str):
 
 
 def frame_of(fd) -> np.ndarray:
-    """Ostatnia ramka (silnik potrafi zwrócić kilka klatek animacji: shape (k,64,64))."""
-    a = np.asarray(fd.frame, dtype=np.uint8)
+    """FrameData.frame bywa (64,64), (k,64,64) [animacja] albo plaski (4096,)."""
+    a = np.asarray(fd.frame)
     while a.ndim > 2:
         a = a[-1]
-    return a
+    if a.ndim == 1:
+        n = int(round(a.size ** 0.5))
+        a = a.reshape(n, n) if n * n == a.size else a.reshape(1, -1)
+    return a.astype(np.uint8)
 
 
 def key_of(fd) -> bytes:
