@@ -303,7 +303,7 @@ index 0000000..9b48c5f
 +        return True
 +    return str(expected_hash) == str(actual_hash)
 diff --git a/ARC3-Inference/inference/agent/tool_agent.py b/ARC3-Inference/inference/agent/tool_agent.py
-index 59655e9..46df88d 100644
+index 59655e9..e25e7a7 100644
 --- a/ARC3-Inference/inference/agent/tool_agent.py
 +++ b/ARC3-Inference/inference/agent/tool_agent.py
 @@ -31,6 +31,11 @@ from inference.agent.vision_context import (
@@ -318,7 +318,7 @@ index 59655e9..46df88d 100644
  from inference.utils.openai_compat import build_chat_payload, build_headers
  
  log = logging.getLogger(__name__)
-@@ -1450,8 +1455,148 @@ class ToolAgent:
+@@ -1450,8 +1455,159 @@ class ToolAgent:
              compact["error"] = payload.get("error")
          return compact
  
@@ -360,7 +360,7 @@ index 59655e9..46df88d 100644
 +            return None
 +        try:
 +            track = self._arc3_track(state_path)
-+            if not track["started"]:
++            if not track["started"] and not track["stream"] and not track["consumed"]:
 +                _frame, level, digest = self._arc3_frame_info(state_path)
 +                track["initial_level"] = level
 +                track["initial_hash"] = digest
@@ -376,14 +376,21 @@ index 59655e9..46df88d 100644
 +        try:
 +            _frame, history = load_runtime_state(state_path)
 +            entries = list(history or [])
-+            new_entries = entries[track["consumed"]:]
++            old_consumed = track["consumed"]
++            new_entries = entries[old_consumed:]
 +            track["consumed"] = len(entries)
 +            if len(new_entries) != len(actions):
 +                # Stream/history drift (e.g. replay-driven entries): stop
 +                # recording this session rather than persist a corrupt chain.
 +                track["stream"] = []
 +                return
-+            prev_level = track["initial_level"]
++            if old_consumed > 0 and len(entries) > 0:
++                _prev_frame = getattr(entries[old_consumed - 1], "frame", None)
++                prev_level = getattr(_prev_frame, "level", None)
++                if prev_level is None:
++                    prev_level = track["initial_level"]
++            else:
++                prev_level = track["initial_level"]
 +            for entry, action in zip(new_entries, actions):
 +                frame_after = getattr(entry, "frame", None)
 +                level_after = getattr(frame_after, "level", None) if frame_after is not None else prev_level
@@ -421,10 +428,10 @@ index 59655e9..46df88d 100644
 +        track["replay_attempted"] = True
 +        if self._step_env_callback is None:
 +            return
++        spent = 0
 +        try:
 +            store = _arc3_replay.SolutionStore(_arc3_replay.replay_dir())
 +            budget = _arc3_replay.max_actions_per_level() * 8
-+            spent = 0
 +            while spent < budget:
 +                _frame, level, digest = self._arc3_frame_info(state_path)
 +                if level is None:
@@ -454,12 +461,16 @@ index 59655e9..46df88d 100644
 +        except Exception:  # noqa: BLE001
 +            return
 +        finally:
-+            try:
-+                _f, hist = load_runtime_state(state_path)
-+                track["consumed"] = len(hist or [])
-+                track["started"] = False
-+            except Exception:  # noqa: BLE001
-+                pass
++            # If replay executed actions, mark their history entries consumed
++            # so the recorder does not attribute them to the model. Never
++            # reset "started": the initial frame must stay the session's
++            # first frame, or level segments shift by one batch.
++            if spent:
++                try:
++                    _f, hist = load_runtime_state(state_path)
++                    track["consumed"] = len(hist or [])
++                except Exception:  # noqa: BLE001
++                    pass
 +
      def _run_python_tool(self, state_path: Path, arguments: dict[str, Any]) -> _ToolDispatchResult:
          self._ensure_session(state_path)
@@ -467,7 +478,7 @@ index 59655e9..46df88d 100644
          code = str(arguments.get("code", "")).rstrip()
          if not code:
              return _ToolDispatchResult(json.dumps({"error": "python requires a non-empty `code` string."}, indent=2))
-@@ -1527,6 +1672,7 @@ class ToolAgent:
+@@ -1527,6 +1683,7 @@ class ToolAgent:
                      ),
                  }
              raw_payload = self._step_env_callback({"actions": normalized_actions})
