@@ -161,14 +161,77 @@ Dla sc25 żaden ruch nie zmienia ramki od razu, więc pruning zerował cały zes
 stawał w miejscu (`brak efektywnych ruchów po kalibracji`). Teraz przy braku trafień wracamy
 do pełnej listy i raportujemy `pruned_fell_back` — żadna gra nie zostaje z pustą ławką ruchów.
 
+### Co naprawdę blokuje pozostałe 15 gier (pomiary z 24.10, wieczór)
+
+**(a) Hipoteza „długi baseline = nie do rozwiązania" jest FAŁSZYWA — obalona pomiarem.**
+Podejrzewałem, że blind search radzi sobie tylko z poziomami o krótkim `baseline_actions[0]`.
+Zestawienie wszystkich 25 gier:
+
+| grupa | gier | mediana `base[0]` | skrajne `base[0]` |
+|---|---|---|---|
+| rozwiązane (≥1 poziom) | 10 | **30** | min 7 (vc33), **max 55 (cd82)** |
+| nierozwiązane | 15 | **32** | **min 18 (sb26)**, max 78 (g50t) |
+
+Rozkłady się pokrywają: sb26 z `base[0]=18` jest czarna, a cd82 z `base[0]=55` rozwiązana
+w 5 akcjach. **Nie planować selekcji gier po długości baseline.** (To już trzecia moja
+niezweryfikowana intuicja w tej sesji, która nie przeżyła kontaktu z pomiarem — stąd ta
+sekcja istnieje w tej formie.)
+
+**(b) Nasze rozwiązania są KRÓTKIE — i to jest prawdziwy predyktor.** 15 rozwiązanych
+poziomów: mediana **12 akcji**, max **28** (sp80). Przy capie 12 000 węzłów i rozgałęzieniu
+`b` BFS sięga głębokości ≈ `log_b(12000)`: dla `b=8` (ft09) to 4.5 ruchu, dla `b=5` (ar25)
+5.8, dla `b=11` (cn04) 3.9. Wszystkie trzy padły **dokładnie w tym zasięgu** (4, 15, 13 akcji
+— cn04 i ar25 beamem, który nie jest ograniczony capem tak sztywno). Wniosek operacyjny:
+**zwiększanie capa nie dokłada poziomów w grach o dużym rozgałęzieniu** — dokłada je dopiero
+lepsza heurystyka albo redukcja rozgałęzienia.
+
+**(c) tn36 to NIE gra kursorowa, tylko kombinatoryczna gra rysowania.** Poprawka do mojego
+własnego opisu niżej („zmiana 1–4 px to ruch kursora"). Trzy pomiary:
+
+1. *Struktura ramki* (render ASCII 64×64): duży pusty prostokąt `x∈[13,50], y∈[8,41]`
+   = **płótno**, a pod nim rząd 5 bloków w `y∈[42,46]` = **paleta**. Dokładnie pokrywa się
+   to ze zbiorem responsywnych współrzędnych ze skanu 4096 (`x∈[20,42], y∈[42,52]`).
+2. *Kliki są ADDYTYWNE, nie przesuwają kursora*: klik w `(20,42)` dwa razy z rzędu zmienia
+   ramkę o 4 px **za każdym razem** (zero powrotu do bazy), a „zaparkowanie" kursora
+   kliknięciem referencyjnym NIE odtwarza ramki bazowej — 0 z 8 sekwencji wróciło do bazy,
+   wszystkie dały dokładnie 8 px różnicy. Testowałem tę hipotezę, bo gdyby kursor był
+   odwracalny, dałoby się go wyłączyć z klucza stanu i deduplikacja zaczęłaby działać.
+   **Nie da się — parkowanie kursora jest ślepą uliczką.**
+3. *Kliki są PRZEMIANNE*: `A potem B` vs `B potem A` → **0 px różnicy**, a zbiory zmienionych
+   pikseli się **nie nakładają** (4 px + 4 px, część wspólna 0).
+
+Konsekwencja: stan tn36 to **zbiór nałożonych znaczników**, więc przestrzeń przeszukiwania
+jest kombinatoryczna `C(n,k)` w liczbie klików — deduplikacja po hashu ramki zwija
+permutacje (to już działa), ale nie zmniejsza przestrzeni. Przy `base[0]=32` i ~33 różnych
+efektach kliku potrzebna głębokość jest poza zasięgiem capu 12 000 węzłów. **Te gry wymagają
+heurystyki pochodzącej z treści ramki** (np. „wypełniaj płótno według wzoru"), nie większej
+mocy przeszukiwania. tn36 to przy okazji największy wyciek tokenów w ich r019 (86%).
+
+**(d) `--min-moves`: próg fallbacku pruningu (naprawione i zmierzone).** Fallback działał
+tylko gdy pruning zostawiał ZERO ruchów, więc gry z 1–2 ruchami po pruningu dostawały
+zdegenerowany search. g50t: efektywne rozgałęzienie **2** i search kończył się w **0.2 s**
+(cała osiągalna przestrzeń mieściła się w kilku węzłach — frontier wysychał natychmiast).
+Po wprowadzeniu progu (`--min-moves 3`, przy mniejszej liczbie zachowujemy pełny zestaw):
+
+| gra | rozgałęzienie | czas | poziomy |
+|---|---|---|---|
+| g50t | 2 → **5** | 0.2 s → **60.5 s** | 0 |
+| sb26 | **5** | 18.7 s | 0 |
+| sc25 | **32** (`dead_clicks`) | 90.5 s | 0 |
+
+Czyli poprawka **usuwa natychmiastową śmierć searcha**, ale tych gier nie rozwiązuje —
+potrzebują głębszego przeszukiwania lub innej heurystyki, nie szerszego zestawu ruchów.
+Warto ją jednak mieć, bo bez niej gra znika z wyników w 0.2 s i wygląda na „pustą",
+a nie na „nieprzeszukaną" — dokładnie ten błąd interpretacji popełniłem przy ft09.
+
 ### Czego wciąż nie umiemy (uczciwie)
 
 - **sc25 i gry z odroczonym efektem**: legalne ruchy nie zmieniają ramki natychmiast, więc
   ani kalibracja, ani heurystyka nowości ich nie widzą. Potrzebne porównywanie stanów po
   sekwencji 2–3 akcji (koszt ×branching² — dla 13 ruchów to 169 prób na stan, wciąż tanie).
-- **tn36 i gry „kursorowe"**: zmiana 1–4 px to ruch kursora, nie postęp. Bez innego sygnału
-  (np. porównanie regionu planszy z pominięciem ramki/HUD) beam idzie w ślepe uliczki.
-  tn36 to przy okazji największy wyciek tokenów w ich r019 (86% na niedokończonym poziomie).
+- **tn36 i gry addytywne**: POPRAWKA — to nie kursor, tylko nakładane znaczniki (punkt (c)
+  wyżej: przemienne, addytywne, nieodwracalne). Bez heurystyki czytającej treść ramki beam
+  idzie w ślepe uliczki, a przestrzeń jest kombinatoryczna w liczbie klików.
 
 ---
 
