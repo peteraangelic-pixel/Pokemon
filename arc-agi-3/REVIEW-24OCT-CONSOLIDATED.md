@@ -72,7 +72,7 @@ v4 (r015) = 23,11 vs v3 (r013) = 29,02. Zgadza się z waszym wcześniejszym wnio
 | „45+ to dziś miejsca 5–8" (Smak, korekta) | **#10** (45,03 = Majkel1337) |
 | „Franzen 47,25" | jego wpis na LB: **38,85**; 47,25 to stary snapshot z 15.10 |
 | „próg nagród ~41" | nieaktualne — 10. miejsce to 45,03, 20. to 37,98 |
-| „planet committed duck-v8, commit 5f397df" | **nie istnieje w żadnym remote** — ani w Pokemon, ani w Gemma |
+| „commit duck-v8 5f397df" | ~~nie istnieje~~ **BŁĄD Z MOJEJ STRONY — istnieje** na `arena/a450b00f-pokemon`, 5 plików. Patrz `DUCK-V8-VERIFIED.md` |
 | „smoke 1 gry, potem submit" (Gemma) | **sprzeczne z naszym własnym ledgerem** — patrz §3 |
 
 ---
@@ -195,5 +195,18 @@ Kolejność z opisu „Smaka" była odwrotna — kod przed weryfikacją założe
 | RHAE = ważona, cap 1,15² | `rust/src/score.rs` + testy |
 | LB: 45,03 = #10, Tufa 68,91 | leaderboard Kaggle, 24.10 |
 | sufit publiczny 34,30 | `/code?sortBy=scoreDescending`, 24.10 |
-| duck-v8 nie istnieje | `git ls-tree` po wszystkich remote Pokemon i Gemma |
+| duck-v8 istnieje (5f397df) | poprawione w `DUCK-V8-VERIFIED.md` — mój wcześniejszy `git ls-tree` na niepobranych gałęziach dał fałszywy negatyw |
 | deadline entry 26.10 / finał 2.11 | `STATUS.md` |
+
+---
+
+## 8. Korekta (24.10, po dostarczeniu linków)
+
+Twierdzenie „duck-v8 nie istnieje w żadnym remote" było **błędne** — commit `5f397df`
+istnieje na `arena/a450b00f-pokemon` z 5 plikami. Przyczyna: `git ls-tree` na gałęzi
+niepobranej lokalnie kończy się błędem, który `2>/dev/null` ukrywał, więc „brak
+gałęzi" wyglądał jak „brak plików".
+
+Sprawdziłem pakiet i **przesłankę** na prawdziwym silniku: `GameAction.RESET` cofa
+licznik poziomów do zera, a replay odtwarza poziom bajt w bajt (4/4 gry).
+Szczegóły i pełna ocena: [`DUCK-V8-VERIFIED.md`](DUCK-V8-VERIFIED.md).

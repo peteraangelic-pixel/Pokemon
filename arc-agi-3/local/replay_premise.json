@@ -1,0 +1,70 @@
+{
+  "verdict": "POTWIERDZONA",
+  "results": [
+    {
+      "game": "cd82",
+      "ok": true,
+      "actions_in_solution": 5,
+      "levels_before": 0,
+      "levels_after_solve": 1,
+      "levels_after_reset": 1,
+      "q1_reset_restores_initial_frame": true,
+      "q2_reset_keeps_completed_levels": false,
+      "q3_replay_reclears_level": true,
+      "q4_model_decisions_saved": 5,
+      "mismatch_at_action": null,
+      "solved_hash": "0cb33036c88068d5",
+      "start_hash": "2824e5bf309deed2",
+      "reset_hash": "2824e5bf309deed2"
+    },
+    {
+      "game": "lp85",
+      "ok": true,
+      "actions_in_solution": 5,
+      "levels_before": 0,
+      "levels_after_solve": 1,
+      "levels_after_reset": 1,
+      "q1_reset_restores_initial_frame": true,
+      "q2_reset_keeps_completed_levels": false,
+      "q3_replay_reclears_level": true,
+      "q4_model_decisions_saved": 5,
+      "mismatch_at_action": null,
+      "solved_hash": "8c408cc4b831881e",
+      "start_hash": "72e4675f0c521921",
+      "reset_hash": "72e4675f0c521921"
+    },
+    {
+      "game": "sp80",
+      "ok": true,
+      "actions_in_solution": 4,
+      "levels_before": 0,
+      "levels_after_solve": 1,
+      "levels_after_reset": 1,
+      "q1_reset_restores_initial_frame": true,
+      "q2_reset_keeps_completed_levels": false,
+      "q3_replay_reclears_level": true,
+      "q4_model_decisions_saved": 4,
+      "mismatch_at_action": null,
+      "solved_hash": "488901df1a2f4fd2",
+      "start_hash": "55ac86f6c8a5c6d9",
+      "reset_hash": "55ac86f6c8a5c6d9"
+    },
+    {
+      "game": "vc33",
+      "ok": true,
+      "actions_in_solution": 3,
+      "levels_before": 0,
+      "levels_after_solve": 1,
+      "levels_after_reset": 1,
+      "q1_reset_restores_initial_frame": true,
+      "q2_reset_keeps_completed_levels": false,
+      "q3_replay_reclears_level": true,
+      "q4_model_decisions_saved": 3,
+      "mismatch_at_action": null,
+      "solved_hash": "c6a881a1326dd71f",
+      "start_hash": "4874e8bab858e91d",
+      "reset_hash": "4874e8bab858e91d"
+    }
+  ],
+  "engine": "arc-agi 0.9.9 / arcengine 0.9.3"
+}
