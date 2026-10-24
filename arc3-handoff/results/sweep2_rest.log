@@ -1,0 +1,12 @@
+12 gier, workers=1, node_cap=12000, sec_cap=300.0s, bfs_branch<=8, calib_step=4px
+[1/12] bp35   tryb=beam  rozg= 17 sygnal=cursor_only  rozwiazane=0 akcje=[None] 482.5s 
+[2/12] dc22   tryb=beam  rozg= 18 sygnal=cursor_only  rozwiazane=0 akcje=[None] 88.9s 
+[3/12] ka59   tryb=beam  rozg= 18 sygnal=cursor_only  rozwiazane=0 akcje=[None] 26.2s 
+[4/12] r11l   tryb=beam  rozg= 14 sygnal=ok           rozwiazane=0 akcje=[None] 15.3s 
+[5/12] re86   tryb=bfs   rozg=  5 sygnal=ok           rozwiazane=0 akcje=[None] 32.7s 
+[6/12] s5i5   tryb=beam  rozg= 14 sygnal=cursor_only  rozwiazane=0 akcje=[None] 53.5s 
+[7/12] sk48   tryb=bfs   rozg=  3 sygnal=dead_clicks  rozwiazane=0 akcje=[None] 147.9s 
+[8/12] su15   tryb=beam  rozg= 14 sygnal=cursor_only  rozwiazane=0 akcje=[None] 42.1s 
+[9/12] tn36   tryb=beam  rozg= 14 sygnal=cursor_only  rozwiazane=0 akcje=[None] 300.0s 
+[10/12] tr87   tryb=bfs   rozg=  4 sygnal=ok           rozwiazane=0 akcje=[None] 202.1s 
+[11/12] wa30   tryb=bfs   rozg=  4 sygnal=ok           rozwiazane=0 akcje=[None] 138.5s 

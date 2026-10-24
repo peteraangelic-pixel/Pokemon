@@ -210,11 +210,22 @@ Przeszukiwanie offline na `arcengine` (BFS dla gier klawiaturowych, beam + segme
 | **poziomy razem** | 9 | 12 | **15** |
 | **wartość LB** | 1.67 pkt | 2.59 pkt | **3.08 pkt** |
 
-v2 przejechał tylko 8 z 25 gier (proces został zatrzymany przez presję pamięci przy 2
-workerach z `deepcopy` — `kswapd0` na 100%, powłoka przestała odpowiadać). Nowe gry z samej
-kalibracji: **ar25** (15 akcji), **cn04** (13), **ft09** (4). Gdyby v2 przejechał wszystkie
-25 przy tym samym stosunku (3 nowe na 8 gier), playbook byłby wart wyraźnie więcej —
-to pierwszy rzecz do dokończenia, i to tania (45 min CPU, 0 tokenów).
+**v2 jest już DOKOŃCZONY na wszystkich 25 grach** (dwa przebiegi: 8 gier z `--workers 2`,
+potem 12 gier z `--workers 1` po tym, jak pierwszy proces zabiła presja pamięci — `kswapd0`
+na 100%, powłoka przestała odpowiadać; lf52 zabity ręcznie po 1783 s przy capie 300 s).
+Nowe gry z samej kalibracji: **ar25** (15 akcji), **cn04** (13), **ft09** (4).
+
+Drugi przebieg **nie dołożył żadnej gry** — i to jest wynik, nie porażka: wszystkie 12
+pozostałych gier ma `signal_quality` ∈ {`cursor_only`, `dead_clicks`} albo efektywne
+rozgałęzienie zbyt małe, by cokolwiek osiągnąć bez heurystyki czytającej treść ramki
+(tr87 i wa30: rozgałęzienie 4, 202 s i 138 s, 0 poziomów). Czyli **kalibracja po efekcie
+wyczerpała to, co da się zrobić samym porządkowaniem ruchów**; dalszy postęp wymaga
+heurystyki wizualnej, nie większego capa (uzasadnienie liczbowe: FAKTY §1bis punkt (b)).
+
+Komplet diagnostyki per gra — `signal_quality`, `effective_branch`,
+`calib_distinct_effects`, `pruned_fell_back`, liczba węzłów i sekund:
+**`results/game_metadata.json`**. Histogram jakości sygnału po 25 grach:
+`ok` 7, `cursor_only` 7, `dead_clicks` 2, niezmierzone (przebieg v1) 9.
 
 Scalony playbook (kolumna „poziomy" = z którego przebiegu):
 

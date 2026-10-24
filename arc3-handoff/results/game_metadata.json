@@ -1,11 +1,13 @@
 {
- "_comment": "25 oficjalnych gier ARC-AGI-3: baseline z ich metadata.json + wynik przeszukiwania offline (0 tokenow LLM) z TRZECH przebiegow. Score wg taaf/game.py:381-413, formua zweryfikowana na r019 (tn36->3.57, ls20->3.27). Kazde rozwi\u0105zanie zweryfikowane replayem na swiezej instancji gry (2x) - silnik deterministyczny.",
+ "_comment": "25 oficjalnych gier ARC-AGI-3: baseline z ich metadata.json + wynik przeszukiwania offline (0 tokenow LLM) z CZTERECH przebiegow. Scalenie: najwiecej rozwi\u0105zanych poziomow, a przy remisie przebieg z BOGATSZA diagnostyka (v2 > v1), zeby pola signal_quality / effective_branch / calib_distinct_effects nie gin\u0119\u0142y. Score wg taaf/game.py:381-413, formua zweryfikowana na r019 (tn36->3.57, ls20->3.27). Kazde rozwi\u0105zanie zweryfikowane replayem na swiezej instancji gry (2x) - silnik deterministyczny.",
  "_scoring": "level=min(115,(baseline/actions)^2*100); w=k+1; game=Sum(s*w)/Sum(w) z capem Sum(w ukonczonych)/Sum(w)*100. TWIERDZENIE: przy <=1.0724x baseline cap zawsze wiaze, wiec score=100*Sum(w ukonczonych)/Sum(w) - liczy sie WY\u0141\u0104CZNIE kt\u00f3re poziomy pad\u0142y, nie iloma akcjami.",
  "_search_runs": {
   "v1-shallow": "sweep.py, cap 3000 wezlow, 200s/gr\u0119, beam 60, segmentacja blobow",
-  "v1-deep": "sweep.py, cap 12000, 300s/gr\u0119, beam 120 (24/25 gier - lf52 nie skonczyl, blokada na animacji)",
-  "v2-calibrated": "sweep2.py, kalibracja ruchow PO EFEKCIE (hash ramki) + pruning martwych + tryb po efektywnym rozgalezieniu; cap 10000, 240s/gr\u0119 (8/25 gier - reszta nie doko\u0144czona, presja pami\u0119ci przy 2 workerach)"
+  "v1-deep": "sweep.py, cap 12000, 300s/gr\u0119, beam 120 (24/25 gier - lf52 nie skonczyl)",
+  "v2-calibrated": "sweep2.py, kalibracja ruchow PO EFEKCIE (hash ramki) + pruning martwych + tryb po efektywnym rozgalezieniu; cap 10000, 240s/gr\u0119; 8/25 gier (proces zabity przez presje pamieci przy 2 workerach z deepcopy)",
+  "v2-rest": "sweep2.py, cap 12000/300s, beam 80, --min-moves 3, 1 WORKER; doko\u0144czenie na 12 grach; 11/12 zakonczonych - lf52 zabity po 1783 s (blokada na animacji: perform_action nie wraca, wiec sprawdzenie czasu miedzy wezlami nigdy nie odpala; cap 300 s jest NIEWYMUSZALNY z wnatrz petli)"
  },
+ "_signal_quality": "dead_clicks = legalny klik nie zmienia ramki wcale (sc25: 0 z 4096); cursor_only = zmiana 1-4 px (w tn36 to NIE kursor a nak\u0142adane znaczniki - przemienne i addytywne, patrz FAKTY \u00a71bis); ok = wyra\u017ana zmiana stanu. Pole mierzone tylko w przebiegach v2.",
  "games": {
   "ar25": {
    "game_id": "ar25-0c556536",
@@ -25,6 +27,7 @@
     73
    ],
    "sum_baseline": 748,
+   "baseline_level0": 32,
    "win_levels": 8,
    "available_actions_at_L0": [
     1,
@@ -38,6 +41,7 @@
    "effective_branch": 5,
    "signal_quality": "dead_clicks",
    "calib_distinct_effects": 0,
+   "pruned_fell_back": false,
    "search_solved_levels": 1,
    "search_run": "v2-calibrated",
    "search_mode": "bfs",
@@ -71,6 +75,7 @@
     163
    ],
    "sum_baseline": 651,
+   "baseline_level0": 21,
    "win_levels": 9,
    "available_actions_at_L0": [
     3,
@@ -78,15 +83,16 @@
     6,
     7
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 17,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 8,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
-   "search_mode": "bfs",
+   "search_run": "v2-rest",
+   "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 3013,
-   "search_seconds": 77.4,
+   "search_nodes": 357,
+   "search_seconds": 482.5,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.22,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -109,6 +115,7 @@
     23
    ],
    "sum_baseline": 171,
+   "baseline_level0": 55,
    "win_levels": 6,
    "available_actions_at_L0": [
     1,
@@ -118,17 +125,18 @@
     5,
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 19,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 2,
+   "pruned_fell_back": false,
    "search_solved_levels": 1,
-   "search_run": "v1-shallow",
+   "search_run": "v2-calibrated",
    "search_mode": "beam",
    "search_actions_per_level": [
     5
    ],
-   "search_nodes": 3205,
-   "search_seconds": 9.3,
+   "search_nodes": 10184,
+   "search_seconds": 28.3,
    "playbook_game_score": 4.762,
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 4.76,
@@ -151,6 +159,7 @@
     113
    ],
    "sum_baseline": 789,
+   "baseline_level0": 29,
    "win_levels": 6,
    "available_actions_at_L0": [
     1,
@@ -163,6 +172,7 @@
    "effective_branch": 11,
    "signal_quality": "ok",
    "calib_distinct_effects": 2,
+   "pruned_fell_back": false,
    "search_solved_levels": 1,
    "search_run": "v2-calibrated",
    "search_mode": "beam",
@@ -193,6 +203,7 @@
     578
    ],
    "sum_baseline": 1228,
+   "baseline_level0": 59,
    "win_levels": 6,
    "available_actions_at_L0": [
     1,
@@ -201,15 +212,16 @@
     4,
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 18,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 3,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 23.8,
+   "search_nodes": 12006,
+   "search_seconds": 88.9,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -230,6 +242,7 @@
     37
    ],
    "sum_baseline": 208,
+   "baseline_level0": 43,
    "win_levels": 6,
    "available_actions_at_L0": [
     6
@@ -237,6 +250,7 @@
    "effective_branch": 8,
    "signal_quality": "ok",
    "calib_distinct_effects": 8,
+   "pruned_fell_back": false,
    "search_solved_levels": 1,
    "search_run": "v2-calibrated",
    "search_mode": "bfs",
@@ -268,6 +282,7 @@
     67
    ],
    "sum_baseline": 879,
+   "baseline_level0": 78,
    "win_levels": 7,
    "available_actions_at_L0": [
     1,
@@ -276,15 +291,16 @@
     4,
     5
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 2,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": false,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-calibrated",
    "search_mode": "bfs",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 27.9,
+   "search_nodes": 36,
+   "search_seconds": 0.2,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -308,6 +324,7 @@
     326
    ],
    "sum_baseline": 730,
+   "baseline_level0": 28,
    "win_levels": 7,
    "available_actions_at_L0": [
     1,
@@ -316,15 +333,16 @@
     4,
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 18,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 2,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 8.0,
+   "search_nodes": 12006,
+   "search_seconds": 26.2,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -351,6 +369,7 @@
     225
    ],
    "sum_baseline": 1339,
+   "baseline_level0": 32,
    "win_levels": 10,
    "available_actions_at_L0": [
     1,
@@ -363,6 +382,7 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 0,
    "search_run": "v1-shallow",
    "search_mode": "bfs",
@@ -393,6 +413,7 @@
     159
    ],
    "sum_baseline": 388,
+   "baseline_level0": 17,
    "win_levels": 8,
    "available_actions_at_L0": [
     6
@@ -400,14 +421,15 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 1,
-   "search_run": "v1-shallow",
+   "search_run": "v1-deep",
    "search_mode": "beam",
    "search_actions_per_level": [
     5
    ],
-   "search_nodes": 3213,
-   "search_seconds": 60.3,
+   "search_nodes": 12305,
+   "search_seconds": 296.9,
    "playbook_game_score": 2.778,
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 2.78,
@@ -431,6 +453,7 @@
     186
    ],
    "sum_baseline": 776,
+   "baseline_level0": 22,
    "win_levels": 7,
    "available_actions_at_L0": [
     1,
@@ -441,14 +464,15 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 1,
-   "search_run": "v1-shallow",
+   "search_run": "v1-deep",
    "search_mode": "bfs",
    "search_actions_per_level": [
     13
    ],
-   "search_nodes": 4777,
-   "search_seconds": 163.9,
+   "search_nodes": 7173,
+   "search_seconds": 300.2,
    "playbook_game_score": 3.571,
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 3.57,
@@ -471,6 +495,7 @@
     237
    ],
    "sum_baseline": 1107,
+   "baseline_level0": 30,
    "win_levels": 6,
    "available_actions_at_L0": [
     1,
@@ -483,14 +508,15 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 1,
-   "search_run": "v1-shallow",
+   "search_run": "v1-deep",
    "search_mode": "beam",
    "search_actions_per_level": [
     15
    ],
-   "search_nodes": 5863,
-   "search_seconds": 31.2,
+   "search_nodes": 14956,
+   "search_seconds": 95.8,
    "playbook_game_score": 4.762,
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 4.76,
@@ -513,19 +539,21 @@
     49
    ],
    "sum_baseline": 233,
+   "baseline_level0": 22,
    "win_levels": 6,
    "available_actions_at_L0": [
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 14,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 198,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 14.6,
+   "search_nodes": 2758,
+   "search_seconds": 15.3,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -550,6 +578,7 @@
     241
    ],
    "sum_baseline": 1255,
+   "baseline_level0": 26,
    "win_levels": 8,
    "available_actions_at_L0": [
     1,
@@ -558,15 +587,16 @@
     4,
     5
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 5,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "bfs",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 7.6,
+   "search_nodes": 12000,
+   "search_seconds": 32.7,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -591,19 +621,21 @@
     83
    ],
    "sum_baseline": 638,
+   "baseline_level0": 20,
    "win_levels": 8,
    "available_actions_at_L0": [
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 14,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 5,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 16.4,
+   "search_nodes": 12012,
+   "search_seconds": 53.5,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -628,6 +660,7 @@
     18
    ],
    "sum_baseline": 213,
+   "baseline_level0": 18,
    "win_levels": 8,
    "available_actions_at_L0": [
     5,
@@ -637,17 +670,18 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v1-deep",
    "search_mode": "bfs",
    "search_actions_per_level": [],
-   "search_nodes": 0,
-   "search_seconds": null,
+   "search_nodes": 1982,
+   "search_seconds": 20.7,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": "ValueError: not enough values to unpack (expected 2, got 1)"
+   "error": null
   },
   "sc25": {
    "game_id": "sc25-635fd71a",
@@ -665,6 +699,7 @@
     50
    ],
    "sum_baseline": 350,
+   "baseline_level0": 36,
    "win_levels": 6,
    "available_actions_at_L0": [
     1,
@@ -676,12 +711,13 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v1-deep",
    "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 34.3,
+   "search_nodes": 12000,
+   "search_seconds": 164.6,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -706,6 +742,7 @@
     92
    ],
    "sum_baseline": 1070,
+   "baseline_level0": 61,
    "win_levels": 8,
    "available_actions_at_L0": [
     1,
@@ -715,15 +752,16 @@
     6,
     7
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 3,
+   "signal_quality": "dead_clicks",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": false,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "bfs",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 27.2,
+   "search_nodes": 12000,
+   "search_seconds": 147.9,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.78,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -746,6 +784,7 @@
     152
    ],
    "sum_baseline": 518,
+   "baseline_level0": 39,
    "win_levels": 6,
    "available_actions_at_L0": [
     1,
@@ -758,6 +797,7 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 1,
    "search_run": "v1-deep",
    "search_mode": "beam",
@@ -791,20 +831,22 @@
     41
    ],
    "sum_baseline": 361,
+   "baseline_level0": 22,
    "win_levels": 9,
    "available_actions_at_L0": [
     6,
     7
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 14,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 12,
+   "pruned_fell_back": false,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
-   "search_mode": "bfs",
+   "search_run": "v2-rest",
+   "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 3002,
-   "search_seconds": 22.7,
+   "search_nodes": 5404,
+   "search_seconds": 42.1,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.22,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -828,24 +870,26 @@
     62
    ],
    "sum_baseline": 317,
+   "baseline_level0": 32,
    "win_levels": 7,
    "available_actions_at_L0": [
     6
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 14,
+   "signal_quality": "cursor_only",
+   "calib_distinct_effects": 6,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "beam",
    "search_actions_per_level": [],
-   "search_nodes": 0,
-   "search_seconds": null,
+   "search_nodes": 10780,
+   "search_seconds": 300.0,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 3.57,
    "depth_ceiling_at_solved_depth": 0.0,
    "depth_ceiling_all_levels": 100.0,
-   "error": "ValueError: not enough values to unpack (expected 2, got 1)"
+   "error": null
   },
   "tr87": {
    "game_id": "tr87-cd924810",
@@ -863,6 +907,7 @@
     146
    ],
    "sum_baseline": 414,
+   "baseline_level0": 54,
    "win_levels": 6,
    "available_actions_at_L0": [
     1,
@@ -870,15 +915,16 @@
     3,
     4
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 4,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": true,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "bfs",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 46.4,
+   "search_nodes": 12000,
+   "search_seconds": 202.1,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 4.76,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -904,6 +950,7 @@
     111
    ],
    "sum_baseline": 462,
+   "baseline_level0": 19,
    "win_levels": 9,
    "available_actions_at_L0": [
     1,
@@ -914,6 +961,7 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 5,
    "search_run": "v1-deep",
    "search_mode": "bfs",
@@ -949,6 +997,7 @@
     152
    ],
    "sum_baseline": 447,
+   "baseline_level0": 7,
    "win_levels": 7,
    "available_actions_at_L0": [
     6
@@ -956,6 +1005,7 @@
    "effective_branch": null,
    "signal_quality": null,
    "calib_distinct_effects": null,
+   "pruned_fell_back": null,
    "search_solved_levels": 2,
    "search_run": "v1-deep",
    "search_mode": "beam",
@@ -990,6 +1040,7 @@
     415
    ],
    "sum_baseline": 1843,
+   "baseline_level0": 71,
    "win_levels": 9,
    "available_actions_at_L0": [
     1,
@@ -998,15 +1049,16 @@
     4,
     5
    ],
-   "effective_branch": null,
-   "signal_quality": null,
-   "calib_distinct_effects": null,
+   "effective_branch": 4,
+   "signal_quality": "ok",
+   "calib_distinct_effects": 0,
+   "pruned_fell_back": false,
    "search_solved_levels": 0,
-   "search_run": "v1-shallow",
+   "search_run": "v2-rest",
    "search_mode": "bfs",
    "search_actions_per_level": [],
-   "search_nodes": 3000,
-   "search_seconds": 32.4,
+   "search_nodes": 12000,
+   "search_seconds": 138.5,
    "playbook_game_score": 0.0,
    "depth_ceiling_1_level": 2.22,
    "depth_ceiling_at_solved_depth": 0.0,
@@ -1019,8 +1071,15 @@
   "games_with_any_level_solved": 10,
   "levels_solved_total": 15,
   "playbook_lb_points": 3.079,
+  "run_used_histogram": {
+   "v1-shallow": 1,
+   "v1-deep": 8,
+   "v2-calibrated": 5,
+   "v2-rest": 11
+  },
   "new_from_v2_calibration": [
    "ar25",
+   "cd82",
    "cn04",
    "ft09"
   ],
@@ -1041,6 +1100,49 @@
    "tr87",
    "wa30"
   ],
-  "mean_levels_per_game": 7.32
+  "signal_quality_histogram": {
+   "dead_clicks": 2,
+   "cursor_only": 7,
+   "ok": 7,
+   "niezmierzone(v1)": 9
+  },
+  "mean_levels_per_game": 7.32,
+  "base0_solved": [
+   7,
+   17,
+   19,
+   22,
+   29,
+   30,
+   32,
+   39,
+   43,
+   55
+  ],
+  "base0_unsolved": [
+   18,
+   20,
+   21,
+   22,
+   22,
+   26,
+   28,
+   32,
+   32,
+   36,
+   54,
+   59,
+   61,
+   71,
+   78
+  ],
+  "base0_median_solved": 29.5,
+  "base0_median_unsolved": 32,
+  "solved_actions": {
+   "median": 13,
+   "max": 29
+  },
+  "_refuted": "Hipoteza 'd\u0142ugi baseline[0] = nie do rozwi\u0105zania' OBALONA: rozwiazane mediana 29.5 max 55, nierozwiazane mediana 32 MIN 18. Rozk\u0142ady si\u0119 pokrywaj\u0105, wi\u0119c NIE selekcjonowa\u0107 gier po d\u0142ugo\u015bci baseline.",
+  "_real_predictor": "Nasze rozwi\u0105zania s\u0105 KR\u00d3TKIE (mediana 12 akcji, max 28). BFS przy capie 12000 si\u0119ga log_b(12000): b=8 -> 4.5 ruchu, b=5 -> 5.8, b=11 -> 3.9; wszystkie trzy nowe gry pad\u0142y w tym zasi\u0119gu. Zwi\u0119kszanie capa nie dok\u0142ada poziom\u00f3w przy du\u017cym rozga\u0142\u0119zieniu."
  }
 }

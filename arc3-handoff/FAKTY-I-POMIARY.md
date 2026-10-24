@@ -594,6 +594,23 @@ Ich `--include=ARC3-Inference/*` działa, bo cell 9 odpala apply z `$BUNDLE_DIR/
 korzeniem repo **nie jest** (repo to `src/ARC3-Inference`). Odtwarzając to lokalnie, trzeba
 albo zrobić `git init` w `src/`, albo odpalać `git apply` poza jakimkolwiek repo.
 
+### Limit czasu jest NIEWYMUSZALNY z wnętrza pętli, gdy `perform_action` blokuje
+
+lf52: `--sec-cap 300`, a proces mielił **1783 s** (52% CPU) i został zabity ręcznie.
+Powód: sprawdzenie `time.monotonic() > sec_cap` wykonuje się **między** węzłami, więc jeśli
+pojedyncze `perform_action` nie wraca (gra czeka na animację), pętla nigdy nie dochodzi do
+sprawdzenia. To nie jest teoria — wcześniejszy przebieg v1 też nie dokończył lf52, a bp35
+przekroczył cap 240 s i zameldował 358.6 s (potem 482.5 s przy capie 300 s).
+
+Reguła dla każdego searcha w harnessie: **budżet czasu musi być egzekwowany Z ZEWNĄTRZ**
+(osobny proces / `signal.alarm` / wątek z twardym kill), nie przez porównanie znacznika czasu
+w pętli. Dotyczy to też ich `max_runtime_s_per_game=532*60` w komórce 21 — jeśli gra zablokuje
+się w `perform_action`, budżet harnessa również nie odpowie w przewidywalnym momencie.
+Przepustowość akcji jest przy tym bardzo nierówna: 115/s (sc25) do 568/s (ft09, tn36),
+czyli **5×** różnicy między grami — planowanie „N akcji na grę" bez pomiaru konkretnej gry
+jest nieuzasadnione.
+
+
 ### `git apply` mówi „corrupt patch", choć patch jest sprawny — brak końcowego newline
 
 Przy wydobywaniu patcha Franzena z komórki `%%writefile /kaggle/harness-changes.patch`

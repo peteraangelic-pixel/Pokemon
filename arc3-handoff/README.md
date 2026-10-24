@@ -96,11 +96,14 @@ results/
   game_metadata.json          25 gier: baseline, tagi, ΣBas, sufity głębokości, wynik searcha
   sweep_results.jsonl         przebieg płytki (3k węzłów/grę)
   sweep_deep.jsonl            przebieg głęboki v1 (12k węzłów/grę)
-  sweep2_results.jsonl        przebieg v2 z kalibracją po efekcie (8/25 gier — reszta
-                              niedokończona: presja pamięci przy 2 workerach z deepcopy)
-  sweep_merged.jsonl          scalone najlepsze v1
-  sweep_best.jsonl            scalone najlepsze ze WSZYSTKICH 3 przebiegów (źródło playbooka)
-  sweep_shallow.log, sweep_deep.log, sweep2.log   surowe logi
+  sweep2_results.jsonl        przebieg v2 z kalibracją po efekcie (8/25 gier — proces
+                              zabity przez presję pamięci przy 2 workerach z deepcopy)
+  sweep2_rest.jsonl           dokończenie v2 na 12 grach (1 worker): 11/12 zapisanych,
+                              lf52 zabity po 1783 s — blokada na animacji, patrz FAKTY
+                              („Limit czasu jest NIEWYMUSZALNY z wnętrza pętli")
+  sweep_merged.jsonl          scalone najlepsze z przebiegów v1
+  sweep_best.jsonl            scalone najlepsze ze WSZYSTKICH 4 przebiegów (źródło playbooka); przy remisie bierze przebieg z bogatszą diagnostyką (v2 > v1)
+  sweep_shallow.log, sweep_deep.log, sweep2.log, sweep2_rest.log   surowe logi
   their_tree_snapshot.tsv     migawka ich gałęzi: 492 bloby (SHA / rozmiar / ścieżka)
   verification_output.txt     zapisany output verify_patch_chains.sh (dowód run-killera)
   verification_notebook.txt   PRAWDZIWY przebieg weryfikacji WYGENEROWANEGO notebooka:
