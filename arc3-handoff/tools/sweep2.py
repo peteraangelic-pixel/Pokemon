@@ -150,7 +150,7 @@ def calibrate_clicks(game, base_frame: np.ndarray, step: int, t_limit: float, ma
 
 
 def prune_moves(game, base_frame: np.ndarray, moves: list[ActionInput],
-                allow_noop_moves: bool = True) -> list[ActionInput]:
+                min_moves: int = 3) -> list[ActionInput]:
     """Wyrzuca ruchy, które nie zmieniają ramki (mierzone, nie zgadywane).
 
     UWAGA - dwie pułapki pomiarowe:
@@ -167,7 +167,12 @@ def prune_moves(game, base_frame: np.ndarray, moves: list[ActionInput],
         if int((frame_of(fd) != base_frame).sum()) > 0:
             out.append(m)
     game.level_reset()
-    if out or not allow_noop_moves:
+    # Próg min_moves, nie tylko "czy pusto": g50t po pruningu zostaje z 2 ruchami i search
+    # wysycha w 0.2 s, bo cała osiągalna przestrzeń stanów mieści się w kilku węzłach -
+    # a gra ma w available_actions więcej akcji, które po prostu nie zmieniają ramki OD RAZU
+    # (efekt odroczony: sc25 ma 0 z 4096 klików zmieniających ramkę natychmiast). W takiej
+    # sytuacji wolimy zachować pełny zestaw i pozwolić deduplikacji stanów zrobić porządek.
+    if len(out) >= min_moves:
         return out
     return list(moves)
 
@@ -238,9 +243,9 @@ def play_game(a):
             game, frame, args.calib_step, args.calib_time, args.max_clicks) \
             if MOUSE_ID in avail else ([], 0, 0.0, 0)
         moves_raw = build_moves(game, frame, avail, args, reps)
-        moves = prune_moves(game, frame, moves_raw)
+        moves = prune_moves(game, frame, moves_raw, args.min_moves)
         branch = len(moves)
-        pruned_all = bool(moves_raw) and len(moves) == len(moves_raw) and n_resp == 0
+        pruned_all = len(moves_raw) > 0 and len(moves) == len(moves_raw)
         mode = "bfs" if branch <= args.bfs_branch else "beam"
         # jakość sygnału: czy nowość ramki w ogóle coś rozróżnia (tn36: mediana 1 px = kursor)
         out.update({"calib_responsive": n_resp, "calib_distinct_effects": n_eff,
@@ -275,7 +280,8 @@ def play_game(a):
                 reps, n_resp, med, n_eff = calibrate_clicks(
                     state, frame, args.calib_step, args.calib_time, args.max_clicks) \
                     if MOUSE_ID in avail else ([], 0, 0.0, 0)
-                moves = prune_moves(state, frame, build_moves(state, frame, avail, args, reps))
+                moves = prune_moves(state, frame,
+                                    build_moves(state, frame, avail, args, reps), args.min_moves)
                 if not moves:
                     out["levels"].append(rec); break
             out["levels"].append(rec)
@@ -303,6 +309,8 @@ def main() -> None:
     ap.add_argument("--click-candidates", type=int, default=28)
     ap.add_argument("--max-clicks", type=int, default=40)
     ap.add_argument("--bfs-branch", type=int, default=8, help="efektywne rozgałęzienie <= tego -> BFS")
+    ap.add_argument("--min-moves", type=int, default=3,
+                    help="gdy pruning zostawi mniej ruchów, zachowaj pełny zestaw (efekt odroczony)")
     ap.add_argument("--calib-step", type=int, default=4, help="siatka prób kliku (px)")
     ap.add_argument("--calib-time", type=float, default=8.0, help="limit czasu kalibracji (s)")
     ap.add_argument("--workers", type=int, default=2)
