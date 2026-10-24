@@ -300,11 +300,27 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 
 **Dziś (24.10), bez GPU:**
 1. Niech run V8 dojedzie (14:02 → ~17:30). Jeśli API znowu da 400 → klik w UI. To jest slot dzisiejszy.
-2. Równolegle, **offline**: napisać patch `0004-level-token-cap` (punkt 7) + testy jednostkowe na czystej logice (wzorzec już macie: `arc3_abandon.py` jest osobnym modułem właśnie po to). Zero GPU, zero slotów.
+2. ~~Równolegle, **offline**: napisać patch `0004-level-token-cap` (punkt 7) + testy jednostkowe na czystej logicy.~~
+   **WYKONANE 24.10**: `patches/0004-standalone-level-token-cap.patch` + `arc3_level_budget.py`
+   + 16 testów (16/16 OK, 2 skipped). Łańcuch zweryfikowany `git apply` na prawdziwym drzewie,
+   a wpięcie do ich notebooka zautomatyzowane (`tools/make_notebook_patch.py`,
+   dowód: `results/verification_notebook.txt`). Zero GPU, zero slotów — jak planowano.
 3. Zalogować w patchu sygnatury pierwszej ramki (hash segmentacji) per run → przy następnym przebiegu rozstrzygnie się pytanie o cykliczność rosteru (punkt 8).
 
 **25–27.10, lokalnie na CPU (Wasz 5950X, 16 rdzeni, zero kwoty Kaggle):**
-4. Rozwinąć `arc3_search.py`: `deepcopy`-snapshoty + A* z heurystyką z segmentacji + `multiprocessing`. Cel: **udokumentowane rozwiązanie ≥1 poziomu w ≥8 z 25 gier bez ani jednego tokena LLM** (dla 4 gier `keyboard` to powinna być formalność; dla `click` — kandydaci z segmentacji).
+4. ~~Rozwinąć `arc3_search.py`: `deepcopy`-snapshoty + A* z heurystyką z segmentacji + `multiprocessing`. Cel: ≥1 poziom w ≥8 z 25 gier bez tokena LLM.~~
+   **WYKONANE i PRZEKROCZONE 24.10**: **10/25 gier, 15 poziomów, 3.08 pkt LB**, wszystko
+   replay-verified. Ale dwie części tego planu okazały się błędne i warto to wiedzieć:
+   * **„heurystyka z segmentacji" była ślepa** — to segmentacja blobów blokowała ft09 (28
+     martwych ruchów, frontier wysechł po 56 węzłach). Zastąpienie jej **kalibracją po
+     EFEKCIE** (hash ramki po kliku) dało +3 gry od razu: ar25, cn04, ft09.
+   * **„dla gier `click` kandydaci z segmentacji" nie działa** — patrz FAKTY §1bis(e):
+     `signal_quality` NIE przewiduje rozwiązywalności (cursor_only 3 rozwiązane/7 nie,
+     ok 5/6). vc33 ma medianę zmiany **1 px** (czyli „sam szum") a dała 2 poziomy = 10.71 pkt;
+     sb26 ma `ok` i rozgałęzienie 5 a jest czarna. **Nie triage'ować gier po tych polach.**
+   * A* się nie przydał: nie ma admissable heurystyki z publicznego API (brak sygnału postępu
+     wewnątrz poziomu), więc został BFS + beam. Predyktorem jest długość minimalnego
+     rozwiązania, której z góry nie znamy.
 5. Z tego zrobić dwie rzeczy: (a) **playbook** (statyczny asset w notebooku: per gra/per sygnatura ramki → sekwencja lub heurystyka), (b) **runtime search** w harnessie jako fallback przed eskalacją do LLM.
 
 **28–30.10 (po resecie kwoty GPU):**
@@ -373,5 +389,15 @@ z tej diagnozy:
    zmienia 1-4 px, więc sygnał jest szumem) i gry z odroczonym efektem (sc25: 0 z 4096
    klików zmienia ramkę od razu).
 
-Gotowe do wpięcia: `patches/0004-standalone-level-token-cap.patch` (+ `0003b` jeśli chcą
-zachować 0003), `arc3_level_budget.py`, 16 testów jednostkowych, `results/playbook.json`.
+Gotowe do wpięcia: `patches/0004-standalone-level-token-cap.patch`, `arc3_level_budget.py`,
+16 testów jednostkowych, `results/playbook.json`.
+
+**SPROSTOWANIE tej samej sekcji (pomiar z wieczora 24.10):** napisałem wyżej „+ `0003b` jeśli
+chcą zachować 0003". To ZŁA RADA i została zmierzona jako błędna: łańcuch
+`franzen → 0001 → 0002 → 0003b → 0004-standalone` **nie nakłada się**
+(`error: patch failed: solver.py:46`) — oba patche wchodzą w ten sam rejon `solver.py`.
+Poprawne wpięcie to **ZASTĄPIĆ** ich 0003 naszym 0004 w tym samym slocie
+(`/kaggle/duck-extra-02.patch`), a nie dokładać czwarty plik. Łańcuch
+`franzen → 0001 → 0002 → 0004-standalone` = 4/4 OK, `py_compile` 3/3 OK, testy 16/16 OK.
+Robi to automatycznie `tools/make_notebook_patch.py`, a dowód jest w
+`results/verification_notebook.txt`.

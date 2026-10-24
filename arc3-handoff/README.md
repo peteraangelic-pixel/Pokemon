@@ -79,6 +79,15 @@ tools/
   fetch_repo_artifacts.sh     pobranie ich drzewa przez gh api (25 gier + metadata + 42 pliki
                               bundle + notebooki + migawka 492 blobów) — obejście limitu 1 MB
   extract_notebook_patches.py wydobycie patchy z komórek 4-7 notebooka (dwie różne postaci)
+
+Katalog `notebook/` (osobny, z własnym README) zawiera GOTOWY naprawiony notebook:
+  notebook/arc3-duck-fixed.ipynb  ich duck-v7 po naprawie run-killera i z patchem 0004.
+                                  Wygenerowany przez tools/make_notebook_patch.py,
+                                  zweryfikowany end-to-end (łańcuch z komórki 10: 4/4 OK,
+                                  py_compile 3/3 OK, testy 16/16 OK). W README obok są
+                                  SHA-256 źródła i wyniku, więc zestarzenie się wykrywalne.
+  notebook/README.md              proweniencja, co dokładnie zmieniono (2 rzeczy), czego
+                                  NIE ruszono, kill-switch i lista „czego nie robić".
   calib_probe.py              SONDA diagnostyczna BEZ searcha (0.5-8 s/grę): mierzy
                               available_actions, liczbę różnych efektów kliku, medianę
                               zmiany px, efektywne rozgałęzienie i signal_quality.
