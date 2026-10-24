@@ -288,12 +288,67 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 
 ---
 
+> ### ⚠ KOREKTA RANKINGU DŹWIGNI — 24.10 późny wieczór (po recenzji zewnętrznej DeepSeek 4.1)
+>
+> Recenzja słusznie wyłapała, że **wiersz 1 obiecywał liczby, których mechanizm nie dowiezie**.
+> Poziomy w grze są **sekwencyjne**, a stan `ABANDON` w moim kodzie oznacza **„stop the game”**
+> (`arc3_level_budget.py:31`). Ucięcie budżetu na poziomie 3 **nie przenosi go na poziom 4** —
+> kończy grę. Więc cap nie „odzyskuje 0.5–1.7 poziomu w tej samej grze”. Wycofuję tamten szacunek
+> **(+7 do +17 pkt)** jako niepoparty mechanizmem.
+>
+> Co z tego zostaje, uczciwie:
+> - **`ABANDON` = efekt flotowy, nie per-gra.** Uwalnia slot SGLang (`MAXREQ=10`) grze, która jeszcze
+>   robi postęp. Realny, ale **niezmierzony** — i to jest poprawna krytyka: zmierzyć, nie zakładać.
+> - **`RESET_LEVEL` = jedyny per-gra kandydat na +poziom.** Jest darmowy (0 tokenów LLM) i przy
+>   `ONLY_RESET_LEVELS=true` **zachowuje poziom**, więc model planuje od czystej klatki zamiast mielć
+>   hipotezę, która nie działała od 45k tokenów. To jest ten sam mechanizm, który recenzja niezależnie
+>   wskazała jako „kompakcję kontekstu" (841 tok/akcję i 35% wycieku to ta sama choroba). **Też
+>   niezmierzony** — ale to inna dźwignia niż ta, którą recenzja skrytykowała, i jej nie opisano.
+> - **Wiersz 2 też był przeszacowany**: obiecywał „+14 do +37 pkt", a zmierzony wynik playbooka to
+>   **3.18 pkt**. Poprawione w tabeli poniżej.
+>
+> ### 🎯 Triage budżetowy: gdzie głębokość jest FIZYCZNIE możliwa (nowe, policzone 24.10)
+>
+> Recenzja zaproponowała „szukać głębokości tam, gdzie budżet 208 akcji wystarcza (cn04, su15),
+> a nie w ogonie (ls20, tn36)". **Sprawdziłem to na własnych metadanych i wskazane gry są błędne.**
+> `sum_baseline` (akcje człowieka na ukończenie WSZYSTKICH poziomów) wobec budżetu ~208 akcji
+> (175k tokenów / 841 tok na akcję):
+>
+> | gra | sum_baseline | ×budżet | werdykt |
+> |---|---|---|---|
+> | **cd82** | 171 | **0.82×** | ✓ wystarcza na wszystkie 6 poziomów — **już w playbooku (4.76)** |
+> | **ft09** | 208 | **1.00×** | ✓ wystarcza na wszystkie 6 — **już w playbooku (4.76)** |
+> | sb26 | 213 | 1.02× | ~ na styk (8 poziomów) |
+> | r11l | 233 | 1.12× | ~ blisko (6 poziomów) |
+> | tn36 | 317 | 1.52× | ✗ (recenzja wskazała jako „ogon" — i tak lepsze niż cn04) |
+> | **su15** | 361 | **1.74×** | ✗ **wskazana przez recenzję jako wykonalna — nie jest** |
+> | vc33 | 447 | 2.15× | ✗ (a mam w playbooku 10.71) |
+> | tu93 | 462 | 2.22× | ✗ (a mam w playbooku 33.33 — najwięcej) |
+> | **ls20** | 776 | 3.73× | ✗ |
+> | **cn04** | 789 | **3.79×** | ✗ **wskazana przez recenzję jako wykonalna — jest jedną z NAJGORSZYCH** |
+> | sk48 | 1070 | 5.14× | ✗ |
+> | dc22 | 1228 | 5.90× | ✗ |
+> | re86 | 1255 | 6.03× | ✗ |
+> | lf52 | 1339 | 6.44× | ✗ |
+> | wa30 | 1843 | 8.86× | ✗ |
+>
+> **Wniosek, który zmienia targetowanie:** tylko **2 z 25 gier** (cd82, ft09) mają budżet
+> wystarczający na ukończenie wszystkich poziomów — i **obie już rozwiązałem**. Dwie kolejne
+> (sb26 1.02×, r11l 1.12×) są na styk i to są **najlepsze niezmierzone cele**. Cała reszta
+> wymaga albo więcej tokenów na akcję (dźwignia 5), albo większej puli (dźwignia 3) — nie
+> „skupienia głębokości", bo głębokości tam fizycznie nie ma za co kupić.
+>
+> **To też tłumaczy, dlaczego „+1 poziom w każdej grze" (44.8) jest sufitem, nie planem:**
+> przy 21 z 25 gier poza budżetem, +1 poziom trzeba brać z gier o niskim `sum_baseline`,
+> a nie równomiernie ze wszystkich.
+
+
 ## 9. Ranking dźwigni
 
 | # | dźwignia | oczekiwany zysk | koszt | ryzyko | dowód |
 |---|---|---|---|---|---|
-| 1 | **cap per poziom + marginalny abandon** (punkt 7) | odzyskanie ~½ z 35% puli → **+0.5–1.7 poziomu → +7 do +17 pkt** | ~30 linii patcha, testy jednostkowe offline, **0 GPU na napisanie** | niskie (kill-switch env) | pomiar r019: 35% w czarnej dziurze |
-| 2 | **token-free search w harnessie** (punkt 6) | 1–2 poziomy bankowane za darmo → **+14 do +37 pkt**; na starcie choćby „zwiadowca" podający tabelę akcji | 1–3 dni pracy CPU-lokalnie, **0 GPU quota na development** | średnie (trzeba nie zepsuć akcji na poziomach, które search kończy — ale cap 115 i tak jest osiągany) | ls20 L0: 13 akcji, baseline 22, 0 tokenów |
+| 1 | **cap per poziom: RESET_LEVEL** (darmowy reset poziomu, 0 tokenów LLM) | **NIEZMIERZONE** — kandydat na +poziom w tej samej grze, bo reset przy `ONLY_RESET_LEVELS=true` **zachowuje poziom** i pozwala modelowi planować od czystej klatki zamiast mielć hipotezę, która właśnie nie działała od 45k tokenów | ~30 linii patcha, 16 testów offline, **0 GPU na napisanie** | niskie (kill-switch env) | `arc3_level_budget.py:25-34`; założenie o re-planningu **nie było testowane na harnessie** |
+| 2 | **token-free search / playbook offline** (punkt 6) | **ZMIERZONE: 3.18 pkt LB** (11 z 25 gier, 16 poziomów, każda sekwencja zweryfikowana replayem). To jest **podłoga**, nie +14–37 pkt — tamten szacunek wycofuję | 1–3 dni CPU-lokalnie, **0 GPU, 0 slotów** | zerowe (wynik już zweryfikowany) | `results/playbook.json`, `results/game_metadata.json` |
 | 3 | `MAXREQ` 10→16–20 + mniejsze okno kontekstu + `MAMBA_CACHE`↑ | **+45% puli** → ~300 akcji/grę | 1 smoke (2.5 h GPU) | średnie (krótsza pamięć agenta) | serve.log: full token usage 0.71/0.99, ms/krok 27→33 |
 | 4 | `PERSISTENT_FUNCTIONS_SCOPE=run` + lessons-between-games | ×4–5 na raz rozwiązanej mechanice (jeśli roster cykliczny) | 1 zmienna env + port z llm-agent | niskie | `competition_arcade.official_110()` |
 | 5 | cięcie tok/akcję (841 → ~600): `MAX_OUTPUT` 12k→4k, `MEMORY_SECTIONS=slim`, mniej Pythona eksploracyjnego po stronie modelu (bo search robi to za darmo) | +40% akcji | 1 smoke | **wysokie** — Wasza historia: v6 „dokładaliśmy koszt-decyzję na stałej puli → LB spadł" (23.94 vs 24.66) | FINDINGS 15.10 |

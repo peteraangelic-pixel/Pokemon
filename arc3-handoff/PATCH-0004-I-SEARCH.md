@@ -172,6 +172,24 @@ Efekt ma dwie składowe i nie sumuję ich (wasza zasada):
   ΣW=28) przejście L=1 → L=2 to 3.57 → ~10.7 pkt w tej grze.
 - **pośrednia**: odzyskana przepustowość podnosi tempo tokenów u pozostałych gier.
 
+**Rozróżnienie, które trzeba trzymać w głowie przed poświęceniem slota** (dopisane 24.10 po
+recenzji zewnętrznej — `DIAGNOZA-45plus.md` §9 miał tu przeszacowanie, już poprawione):
+
+| stan | co robi | czy może dać +poziom w TEJ grze | zmierzone? |
+|---|---|---|---|
+| `RESET_LEVEL` | darmowy reset (0 tokenów LLM); przy `ONLY_RESET_LEVELS=true` **zachowuje poziom**, więc model planuje od czystej klatki zamiast mielć hipotezę, która nie działała od 45k tokenów | **tak — to jedyny taki kandydat** | **NIE** |
+| `ABANDON` | `stop the game` i oddanie slotu SGLang (`MAXREQ=10`) grze, która jeszcze robi postęp | **NIE** — poziomy są sekwencyjne, więc porzucenie poziomu 3 forfeituje 4–7 | **NIE** (efekt flotowy) |
+
+Czyli: **`ABANDON` nie jest mechanizmem odzyskiwania poziomów** i nie wolno go tak przedstawiać.
+Jego wartość jest wyłącznie flotowa i niezmierzona. Cała hipoteza o dodatkowym poziomie spoczywa na
+`RESET_LEVEL`, którego założenie (że reset przerwie mielenie nieskutecznej hipotezy) **nie było
+testowane na harnessie**. To jest dokładnie to, co trzeba zmierzyć smoke'iem — i dlatego bez
+`ARC3_SMOKE_OK` nie submitować.
+
+Warto zauważyć, że `RESET_LEVEL` i „kompakcja kontekstu" to ta sama choroba z dwóch stron:
+841 tokenów na akcję i 35% puli w poziomie nigdy nieukończonym oznaczają, że model traci wątek
+i od nowa opisuje planszę. Reset poziomu jest darmowym, brutalnym odpowiednikiem kompakcji.
+
 Do zmierzenia smoke'iem (10 gier × 48 min) i porównania z r019: **27.21** średnia,
 29.0 sufit z głębokości, 2065 akcji, 1.74M tokenów. Bez `ARC3_SMOKE_OK` nie submitować.
 

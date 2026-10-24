@@ -1,0 +1,30 @@
+# Triage budżetowy: czy ~208 akcji/grę wystarcza na ukończenie WSZYSTKICH poziomów
+# Budżet: 175k tokenów na grę / 841 tokenów na akcję = ~208 akcji (arytmetyka z r019)
+# Źródło: results/game_metadata.json (sum_baseline, n_levels, playbook_game_score)
+# fits_all <=1.0x | marginal 1.0-1.5x | infeasible >1.5x
+game_id	sum_baseline	n_levels	x_budget	verdict	playbook_game_score
+cd82	171	6	0.82	fits_all	4.762
+ft09	208	6	1.00	fits_all	4.762
+sb26	213	8	1.02	marginal	
+r11l	233	6	1.12	marginal	
+tn36	317	7	1.52	infeasible	
+sc25	350	6	1.68	infeasible	
+su15	361	9	1.74	infeasible	
+lp85	388	8	1.87	infeasible	2.778
+tr87	414	6	1.99	infeasible	
+vc33	447	7	2.15	infeasible	10.714
+tu93	462	9	2.22	infeasible	33.333
+sp80	518	6	2.49	infeasible	4.762
+s5i5	638	8	3.07	infeasible	2.52
+bp35	651	9	3.13	infeasible	
+ka59	730	7	3.51	infeasible	
+ar25	748	8	3.60	infeasible	2.778
+ls20	776	7	3.73	infeasible	3.571
+cn04	789	6	3.79	infeasible	4.762
+g50t	879	7	4.23	infeasible	
+sk48	1070	8	5.14	infeasible	
+m0r0	1107	6	5.32	infeasible	4.762
+dc22	1228	6	5.90	infeasible	
+re86	1255	8	6.03	infeasible	
+lf52	1339	10	6.44	infeasible	
+wa30	1843	9	8.86	infeasible	
