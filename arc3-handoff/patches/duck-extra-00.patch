@@ -1,0 +1,234 @@
+diff --git a/ARC3-Inference/inference/agent/tool_agent.py b/ARC3-Inference/inference/agent/tool_agent.py
+index 84a9cdd..84de5fc 100644
+--- a/ARC3-Inference/inference/agent/tool_agent.py
++++ b/ARC3-Inference/inference/agent/tool_agent.py
+@@ -1956,6 +1956,94 @@ def _priority_action_count(summary: dict[str, Any]) -> int:
+     return int(summary.get("end_action_num") or 0)
+ 
+ 
++# --- ARC3 Duck (petersharps): solved-level notes and stuck audit -------------
++# All default off. ARC3_LEVEL_NOTES: after a level is solved the model is asked
++# for a short "LEVEL k NOTES:" paragraph; whenever old history is evicted the
++# collected notes are restated at the end of the system prompt. An eviction
++# already invalidates the cached prefix right after the system prompt, so this
++# costs almost nothing, and the notes survive the 118k -> 59k drains that
++# otherwise erase what earlier levels taught.
++# ARC3_STUCK_AUDIT_TOKENS: once this many tokens were generated on the current
++# level (and at every further multiple), the next opener asks for a short
++# strategy audit before more actions are spent.
++_LEVEL_NOTES_RE = re.compile(
++    r"LEVEL[ \t]*(\d+)[ \t]*NOTES?[ \t]*:[ \t]*(.+?)(?=\n[ \t]*\n|LEVEL[ \t]*\d+[ \t]*NOTES?[ \t]*:|\Z)",
++    re.S | re.I,
++)
++_LEVEL_NOTES_ECHO_MARKERS = ("at most 4 short sentences", "the harness keeps these notes")
++
++
++def _level_notes_enabled() -> bool:
++    return _get_env_bool("ARC3_LEVEL_NOTES", False)
++
++
++def _level_notes_max_chars() -> int:
++    return max(120, _get_env_int("ARC3_LEVEL_NOTES_MAX_CHARS", 600))
++
++
++def _stuck_audit_tokens() -> int:
++    return max(0, _get_env_int("ARC3_STUCK_AUDIT_TOKENS", 0))
++
++
++def _level_notes_message_texts(message: dict[str, Any]) -> list[str]:
++    """Reasoning first, visible content last, so content wins on duplicates."""
++    out: list[str] = []
++    for key in ("reasoning", "reasoning_content", "content"):
++        value = message.get(key)
++        if isinstance(value, str):
++            out.append(value)
++        elif isinstance(value, list):
++            for part in value:
++                if isinstance(part, dict) and isinstance(part.get("text"), str):
++                    out.append(part["text"])
++    return out
++
++
++def _extract_level_notes(messages: list[dict[str, Any]]) -> dict[int, str]:
++    found: dict[int, str] = {}
++    limit = _level_notes_max_chars()
++    for message in messages:
++        if str(message.get("role", "")).strip() != "assistant":
++            continue
++        for text in _level_notes_message_texts(message):
++            if "NOTE" not in text.upper():
++                continue
++            for match in _LEVEL_NOTES_RE.finditer(text):
++                note = " ".join(match.group(2).replace("`", " ").split())
++                lowered = note.lower()
++                if len(note) < 20 or any(m in lowered for m in _LEVEL_NOTES_ECHO_MARKERS):
++                    continue
++                try:
++                    level = int(match.group(1))
++                except ValueError:
++                    continue
++                if 0 < level < 100:
++                    found[level] = note[:limit]
++    return found
++
++
++def _level_notes_request(completed_level: int) -> str:
++    return (
++        f"Level {completed_level} is solved. In your next reply, write one short paragraph "
++        f"that starts with `LEVEL {completed_level} NOTES:` and states the mechanics you "
++        "verified, the win condition, and the action pattern that solved it (at most 4 short "
++        "sentences). The harness keeps these notes for the rest of the game, even after "
++        "older history is trimmed."
++    )
++
++
++def _stuck_audit_prompt(level: int, spent_tokens: int) -> str:
++    return (
++        f"STRATEGY AUDIT: about {spent_tokens // 1000}k tokens have been spent on level "
++        f"{level} without solving it. Before spending more actions, step back in at most "
++        "6 short lines: (1) which hypotheses about the goal and mechanics you have tested "
++        "and which were falsified, (2) which board elements, colors or actions you have NOT "
++        "yet interacted with, (3) whether the goal might be different from what you assumed. "
++        "Then run the single cheapest experiment that best distinguishes the remaining "
++        "hypotheses."
++    )
++
++
+ @lru_cache(maxsize=8)
+ def _load_pace_reference(path: str) -> dict[str, Any]:
+     data = json.loads(Path(path).read_text())
+@@ -2659,7 +2747,20 @@ def _build_system_prompt(*, tool_output_tokens: int) -> str:
+     _prefix = os.environ.get("ARC3_SYSTEM_PROMPT_PREFIX", "").strip()
+     if _prefix:
+         prompt = f"{_prefix}\n\n{prompt}"
+-    prompt += GAME_OVERVIEW_ADDENDUM
++    overview = GAME_OVERVIEW_ADDENDUM
++    if _get_env_bool("ARC3_EXPERIMENT_HINT", False):
++        # Franzen's 4x25 demo run: solved levels used a median 0.64x the human
++        # action count, while 67% of runs ended out of budget. Thinking tokens,
++        # not actions, are the scarce resource, so stop asking for minimal actions.
++        overview = overview.replace(
++            "- Optimize for as few in-game actions as possible while still being reliable.\n",
++            "- Your thinking time is scarcer than in-game actions. Solved levels usually take "
++            "far fewer actions than a human needs, so cheap in-game experiments are affordable: "
++            "when competing hypotheses remain, run the single action or short sequence that "
++            "distinguishes them instead of deliberating at length. Keep reasoning concise, and "
++            "once the mechanics and goal are supported by evidence, execute efficiently.\n",
++        )
++    prompt += overview
+     prompt += STRUCTURED_RUNTIME_STATE_ADDENDUM
+     if _explain_gameplay_changed():
+         prompt += GAMEPLAY_CHANGED_ADDENDUM.format(
+@@ -3516,6 +3617,10 @@ class ToolAgent:
+         self._has_evicted = False
+         self._actions_at_level_start = 0
+         self._tokens_at_level_start = 0
++        self._arc3_base_system_prompt = self._system_prompt
++        self._arc3_level_notes: dict[int, str] = {}
++        self._arc3_level_actions: dict[int, int] = {}
++        self._arc3_audits_on_level = 0
+         self._progress_pace = ProgressPace()
+         self._pace_last_completed_level = 0
+         # queue position spreads the untrimmed band so games do not tie
+@@ -3613,6 +3718,11 @@ class ToolAgent:
+             self._history_messages = []
+             self._session_total_tokens = 0
+             self._session_generated_tokens = 0
++            self._arc3_level_notes = {}
++            self._arc3_level_actions = {}
++            self._arc3_audits_on_level = 0
++            if getattr(self, "_arc3_base_system_prompt", None):
++                self._system_prompt = self._arc3_base_system_prompt
+             self._summary_context_tokens_since_attempt = 0
+             self._last_step_summary = None
+             self._last_action_call_result = None
+@@ -3850,6 +3960,15 @@ class ToolAgent:
+             return
+         wipe_reason = ""
+         revise_reason = ""
++        if summary.get("level_transition"):
++            try:
++                completed = max(1, int(summary.get("level") or 2) - 1)
++                spent_actions = _priority_action_count(summary) - int(self._actions_at_level_start or 0)
++                if spent_actions > 0:
++                    self._arc3_level_actions.setdefault(completed, spent_actions)
++            except (TypeError, ValueError, AttributeError):
++                pass
++            self._arc3_audits_on_level = 0
+         if summary.get("level_transition"):
+             # the priority estimate is per level, so both counts restart here
+             if _get_env_bool("ARC3_PRIORITY_PACE", False):
+@@ -4960,6 +5079,8 @@ class ToolAgent:
+                     if _level_transfer_guidance_enabled()
+                     else "You have progressed to a new level!"
+                 )
++                if _level_notes_enabled():
++                    lines.append(_level_notes_request(max(1, int(current_level or 2) - 1)))
+             else:
+                 lines.append(
+                     self._manual_reset_context_line(previous_step_summary)
+@@ -5171,6 +5292,12 @@ class ToolAgent:
+                 "need to distinguish two possibilities; otherwise batch the route you "
+                 "have."
+             )
++        audit_every = _stuck_audit_tokens()
++        if audit_every:
++            spent = max(0, int(self._session_generated_tokens) - int(self._tokens_at_level_start or 0))
++            if spent >= audit_every * (self._arc3_audits_on_level + 1):
++                self._arc3_audits_on_level = spent // audit_every
++                lines.append(_stuck_audit_prompt(int(current_level or 1), spent))
+         return "\n".join(lines)
+ 
+     def _tools(self, state_path: Path) -> list[dict[str, Any]]:
+@@ -6543,8 +6670,51 @@ class ToolAgent:
+         # yielding the slot to another game costs nothing.
+         if len(history) != len(messages) - 1:
+             self._note_history_evicted()
++            if _level_notes_enabled():
++                system_message = self._arc3_refresh_level_notes(messages[1:], system_message)
+         return [system_message, *history]
+ 
++    def _arc3_level_notes_block(self) -> str:
++        notes = getattr(self, "_arc3_level_notes", {}) or {}
++        if not notes:
++            return ""
++        actions = getattr(self, "_arc3_level_actions", {}) or {}
++        rows = []
++        for level in sorted(notes)[-8:]:
++            spent = actions.get(level)
++            label = f"Level {level}" + (f" (solved in about {spent} actions)" if spent else "")
++            rows.append(f"- {label}: {notes[level]}")
++        return (
++            "## Notes from levels you already solved\n"
++            "Older conversation history was trimmed to fit the context window. You wrote these "
++            "notes right after solving each level; they are kept for the whole game. Treat them "
++            "as mechanics that held on earlier levels and verify them on the current board.\n"
++            + "\n".join(rows)
++        )
++
++    def _arc3_refresh_level_notes(
++        self, old_history: list[dict[str, Any]], system_message: dict[str, Any]
++    ) -> dict[str, Any]:
++        """Collect notes from the pre-eviction history and restate them in the
++        system prompt. Never raises: a failure here must not cost a turn."""
++        try:
++            self._arc3_level_notes.update(_extract_level_notes(old_history))
++            base = getattr(self, "_arc3_base_system_prompt", "") or ""
++            content = system_message.get("content")
++            if not base or not isinstance(content, str) or not content.startswith(base):
++                return system_message
++            block = self._arc3_level_notes_block()
++            new_prompt = base + ("\n\n" + block if block else "")
++            self._system_prompt = new_prompt
++            if content == new_prompt:
++                return system_message
++            updated = dict(system_message)
++            updated["content"] = new_prompt
++            return updated
++        except Exception as exc:  # noqa: BLE001
++            log.warning("ARC3 level notes refresh failed: %s", exc)
++            return system_message
++
+     def _force_reduce_messages(
+         self,
+         messages: list[dict[str, Any]],

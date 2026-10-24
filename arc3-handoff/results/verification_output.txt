@@ -1,0 +1,51 @@
+pristine: 42 plików
+solver.py md5 (PRE): 7c2840743245
+
+=== A: franzen -> 0001 -> 0002 -> 0003b -> 0004  (OCZEKIWANE: OK) ===
+  OK   0000-franzen-harness-changes
+  OK   duck-extra-00
+  OK   duck-extra-01
+  OK   0003b-early-abandon-rebased
+  OK   0004-level-token-cap
+  py_compile solver.py OK
+  hooki 0004 w solver.py: 8
+  [testy A] Ran 16 tests in 0.001s
+  [testy A] 
+  [testy A] OK
+
+=== B: franzen -> 0001 -> 0002 -> 0004  (OCZEKIWANE: FAIL na solver.py:47) ===
+  OK   0000-franzen-harness-changes
+  OK   duck-extra-00
+  OK   duck-extra-01
+  FAIL 0004-level-token-cap
+       error: patch failed: ARC3-Inference/inference/framework/solver.py:47
+       error: ARC3-Inference/inference/framework/solver.py: patch does not apply
+
+=== B': franzen -> 0001 -> 0002 -> 0004-standalone  (OCZEKIWANE: OK) ===
+  OK   0000-franzen-harness-changes
+  OK   duck-extra-00
+  OK   duck-extra-01
+  OK   0004-standalone-level-token-cap
+  py_compile solver.py OK
+  hooki 0004 w solver.py: 8
+  [testy B'] Ran 16 tests in 0.001s
+  [testy B'] 
+  [testy B'] OK (skipped=2)
+
+=== C: franzen -> 0001 -> 0002 -> ich stary 0003  (OCZEKIWANE: FAIL => run umiera w cell 9) ===
+  OK   0000-franzen-harness-changes
+  OK   duck-extra-00
+  OK   duck-extra-01
+  FAIL duck-extra-02
+       error: patch failed: ARC3-Inference/inference/framework/solver.py:35
+       error: ARC3-Inference/inference/framework/solver.py: patch does not apply
+
+==================== WERDYKT ====================
+  A  (0003b + 0004)          : OK      [oczekiwane OK]
+  B  (0004 bez 0003b)        : FAIL    [oczekiwane FAIL]
+  B' (0004-standalone)       : OK      [oczekiwane OK]
+  C  (ich stary 0003)        : FAIL    [oczekiwane FAIL = run-killer]
+
+WSZYSTKIE CZTERY ŁAŃCUCHY ZGODNE Z OCZEKIWANIEM.
+Wniosek: cell 9 z duck-extra-02 w patch_files => CalledProcessError => run umiera
+         przed pobraniem wag. Lekarstwo: 0004-standalone (albo 0003b + 0004).

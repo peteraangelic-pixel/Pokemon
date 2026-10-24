@@ -160,7 +160,10 @@ def play_game(args):
             seq, nodes, el, nseen = search_level(
                 G, base, state, frame, avail, mode=mode, cap=node_cap, t_limit=left_s,
                 beam_width=beam_width, click_limit=click_limit, max_depth=80)
-            rec = {"level": base + lvl, "solved": seq is not None, "actions": len(seq) if seq else None,
+            # `base` = liczba ukonczonych poziomow PRZED ta proba, czyli numer poziomu,
+            # ktory wlasnie gramy (0-based). Wczesniej bylo `base + lvl` - ale `base` samo
+            # rosnie po kazdym rozwiazanym poziomie, wiec indeksy wychodzily 0,2,4,6,8...
+            rec = {"level": base, "solved": seq is not None, "actions": len(seq) if seq else None,
                    "nodes": nodes, "seconds": round(el, 1), "states": nseen, "mode": mode}
             if seq:
                 probe = copy.deepcopy(state)

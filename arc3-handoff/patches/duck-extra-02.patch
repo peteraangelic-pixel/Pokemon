@@ -1,0 +1,82 @@
+diff --git a/ARC3-Inference/inference/framework/arc3_abandon.py b/ARC3-Inference/inference/framework/arc3_abandon.py
+new file mode 100644
+index 0000000..a0d413d
+--- /dev/null
++++ b/ARC3-Inference/inference/framework/arc3_abandon.py
+@@ -0,0 +1,50 @@
++"""ARC3 Duck v7: early-abandon zero-progress games to free server capacity.
++
++Rationale (see Smak-Domu-Konkurs FINDINGS 15.10): the SGLang server serves at
++most MAXREQ=10 concurrent generations, so with ~110 games running in parallel
++each game receives only ~160-175k generated tokens in the 9h window. Games that
++solved 0 levels after tens of thousands of tokens are the cheapest source of
++reallocation: stopping them raises the per-game token rate of every survivor.
++
++Env switches (all optional; defaults keep the stock behaviour EXACTLY):
++  ARC3_ABANDON_TOKENS    - abandon a game once this many tokens were generated
++                           AND it solved fewer than ARC3_ABANDON_MIN_LEVELS
++                           levels. 0/unset = feature OFF (default).
++  ARC3_ABANDON_MIN_LEVELS- progress threshold (default 0: only fully stuck
++                           games are abandoned).
++
++Pure logic lives here so it can be unit-tested without the harness.
++"""
++from __future__ import annotations
++
++import os
++
++
++def _env_int(name: str, default: int) -> int:
++    raw = (os.environ.get(name) or "").strip()
++    if not raw:
++        return default
++    try:
++        return int(float(raw))
++    except (TypeError, ValueError):
++        return default
++
++
++def abandon_budget() -> int:
++    """Token cap for abandonment; <=0 disables the feature (default)."""
++    return _env_int("ARC3_ABANDON_TOKENS", 0)
++
++
++def min_levels() -> int:
++    """Games with more levels solved than this are never abandoned."""
++    return max(0, _env_int("ARC3_ABANDON_MIN_LEVELS", 0))
++
++
++def should_abandon(generated_tokens: int, levels_completed: int) -> bool:
++    """True when a zero-progress game exhausted its early budget."""
++    cap = abandon_budget()
++    if cap <= 0:
++        return False
++    if levels_completed > min_levels():
++        return False
++    return int(generated_tokens) >= cap
+diff --git a/ARC3-Inference/inference/framework/solver.py b/ARC3-Inference/inference/framework/solver.py
+index 0b69d62..65f1b60 100644
+--- a/ARC3-Inference/inference/framework/solver.py
++++ b/ARC3-Inference/inference/framework/solver.py
+@@ -35,6 +35,7 @@ from inference.agent.runtime_state import (
+     write_runtime_state,
+ )
+ from inference.agent.tool_agent import ToolAgent
++from inference.framework import arc3_abandon
+ from inference.framework.kaggle import (
+     DEFAULT_QWEN_MODEL_DATASET_SOURCE,
+     DEFAULT_SERVED_MODEL_NAME,
+@@ -258,6 +259,13 @@ class _HarnessGameSession:
+             and self.action_count >= self.solver.max_actions_per_game
+         ):
+             return True
++        # ARC3 v7: early-abandon zero-progress games (env-gated, default OFF).
++        if arc3_abandon.should_abandon(
++            _analyzer_reported_tokens(self.analyzer)
++            - int(getattr(self, "token_baseline", 0) or 0),
++            int(getattr(getattr(self.game, "current_state", None), "levels_completed", 0) or 0),
++        ):
++            return True
+         return False
+ 
+     def play(self) -> None:

@@ -503,7 +503,7 @@
      "expected_level_score": 111.42
     },
     {
-     "level": 2,
+     "level": 1,
      "actions": 10,
      "seq": [
       {
@@ -550,7 +550,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 4,
+     "level": 2,
      "actions": 19,
      "seq": [
       {
@@ -633,7 +633,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 6,
+     "level": 3,
      "actions": 17,
      "seq": [
       {
@@ -708,7 +708,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 8,
+     "level": 4,
      "actions": 29,
      "seq": [
       {
@@ -873,7 +873,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 2,
+     "level": 1,
      "actions": 11,
      "seq": [
       {

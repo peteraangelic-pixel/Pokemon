@@ -1,0 +1,949 @@
+{
+ "_comment": "25 oficjalnych gier ARC-AGI-3: baseline_actions z ich metadata.json + wynik naszego przeszukiwania offline (0 tokenow LLM). Score liczony dokladnie wg taaf/game.py:381-413, formula zweryfikowana na r019 (tn36 -> 3.57, ls20 -> 3.27).",
+ "_scoring": "level=min(115,(baseline/actions)^2*100); w=k+1; game=Sum(s*w)/Sum(w) z capem Sum(w ukonczonych)/Sum(w)*100; LB=srednia po 110 runach = srednia po tych 25 grach (official_110() to cykliczne klony)",
+ "_search_config": {
+  "shallow": "cap 3000 wezlow, 200 s/gr\u0119, max 4 poziomy, beam 60, 20 kandydatow click",
+  "deep": "cap 12000 wezlow, 300 s/gr\u0119, max 6 poziomow, beam 120, 28 kandydatow click",
+  "engine": "arcengine 0.9.3, python 3.11, 2 rdzenie, snapshoty copy.deepcopy",
+  "replay": "kazde rozwi\u0105zanie odtworzone 2x na swiezej instancji -> silnik deterministyczny"
+ },
+ "games": {
+  "ar25": {
+   "game_id": "ar25-0c556536",
+   "title": "AR25",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 6,
+   "n_levels": 8,
+   "baseline_actions": [
+    32,
+    50,
+    75,
+    37,
+    89,
+    159,
+    233,
+    73
+   ],
+   "sum_baseline": 748,
+   "win_levels": 8,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 3016,
+   "search_seconds": 30.2,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.78,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "bp35": {
+   "game_id": "bp35-0a0ad940",
+   "title": "BP35",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 20,
+   "n_levels": 9,
+   "baseline_actions": [
+    21,
+    48,
+    44,
+    38,
+    33,
+    87,
+    86,
+    131,
+    163
+   ],
+   "sum_baseline": 651,
+   "win_levels": 9,
+   "available_actions_at_L0": [
+    3,
+    4,
+    6,
+    7
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 3013,
+   "search_seconds": 77.4,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.22,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "cd82": {
+   "game_id": "cd82-fb555c5d",
+   "title": "CD82",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 30,
+   "n_levels": 6,
+   "baseline_actions": [
+    55,
+    8,
+    41,
+    21,
+    23,
+    23
+   ],
+   "sum_baseline": 171,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "search_solved_levels": 1,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [
+    5
+   ],
+   "search_nodes": 3205,
+   "search_seconds": 9.3,
+   "playbook_game_score": 4.762,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "cn04": {
+   "game_id": "cn04-2fe56bfb",
+   "title": "CN04",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 5,
+   "n_levels": 6,
+   "baseline_actions": [
+    29,
+    54,
+    85,
+    300,
+    208,
+    113
+   ],
+   "sum_baseline": 789,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 5.8,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "dc22": {
+   "game_id": "dc22-fdcac232",
+   "title": "DC22",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 15,
+   "n_levels": 6,
+   "baseline_actions": [
+    59,
+    102,
+    67,
+    98,
+    324,
+    578
+   ],
+   "sum_baseline": 1228,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 23.8,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "ft09": {
+   "game_id": "ft09-0d8bbf25",
+   "title": "FT09",
+   "tags": [],
+   "default_fps": 8,
+   "n_levels": 6,
+   "baseline_actions": [
+    43,
+    12,
+    23,
+    28,
+    65,
+    37
+   ],
+   "sum_baseline": 208,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 40,
+   "search_seconds": 0.4,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "g50t": {
+   "game_id": "g50t-5849a774",
+   "title": "G50T",
+   "tags": [
+    "keyboard"
+   ],
+   "default_fps": 30,
+   "n_levels": 7,
+   "baseline_actions": [
+    78,
+    175,
+    179,
+    230,
+    96,
+    54,
+    67
+   ],
+   "sum_baseline": 879,
+   "win_levels": 7,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 27.9,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 3.57,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "ka59": {
+   "game_id": "ka59-38d34dbb",
+   "title": "KA59",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 10,
+   "n_levels": 7,
+   "baseline_actions": [
+    28,
+    109,
+    51,
+    51,
+    33,
+    132,
+    326
+   ],
+   "sum_baseline": 730,
+   "win_levels": 7,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 8.0,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 3.57,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "lf52": {
+   "game_id": "lf52-271a04aa",
+   "title": "LF52",
+   "tags": [
+    "click"
+   ],
+   "default_fps": 30,
+   "n_levels": 10,
+   "baseline_actions": [
+    32,
+    81,
+    60,
+    71,
+    205,
+    148,
+    244,
+    109,
+    164,
+    225
+   ],
+   "sum_baseline": 1339,
+   "win_levels": 10,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 2150,
+   "search_seconds": 255.4,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 1.82,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "lp85": {
+   "game_id": "lp85-305b61c3",
+   "title": "LP85",
+   "tags": [
+    "click"
+   ],
+   "default_fps": 20,
+   "n_levels": 8,
+   "baseline_actions": [
+    17,
+    38,
+    31,
+    16,
+    41,
+    60,
+    26,
+    159
+   ],
+   "sum_baseline": 388,
+   "win_levels": 8,
+   "available_actions_at_L0": [
+    6
+   ],
+   "search_solved_levels": 1,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [
+    5
+   ],
+   "search_nodes": 3213,
+   "search_seconds": 60.3,
+   "playbook_game_score": 2.778,
+   "depth_ceiling_1_level": 2.78,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "ls20": {
+   "game_id": "ls20-9607627b",
+   "title": "LS20",
+   "tags": [
+    "keyboard"
+   ],
+   "default_fps": 30,
+   "n_levels": 7,
+   "baseline_actions": [
+    22,
+    123,
+    73,
+    84,
+    96,
+    192,
+    186
+   ],
+   "sum_baseline": 776,
+   "win_levels": 7,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "search_solved_levels": 1,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [
+    13
+   ],
+   "search_nodes": 4777,
+   "search_seconds": 163.9,
+   "playbook_game_score": 3.571,
+   "depth_ceiling_1_level": 3.57,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "m0r0": {
+   "game_id": "m0r0-492f87ba",
+   "title": "M0R0",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 7,
+   "n_levels": 6,
+   "baseline_actions": [
+    30,
+    111,
+    203,
+    26,
+    500,
+    237
+   ],
+   "sum_baseline": 1107,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "search_solved_levels": 1,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [
+    15
+   ],
+   "search_nodes": 5863,
+   "search_seconds": 31.2,
+   "playbook_game_score": 4.762,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "r11l": {
+   "game_id": "r11l-495a7899",
+   "title": "R11L",
+   "tags": [
+    "click"
+   ],
+   "default_fps": 30,
+   "n_levels": 6,
+   "baseline_actions": [
+    22,
+    33,
+    51,
+    26,
+    52,
+    49
+   ],
+   "sum_baseline": 233,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 14.6,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "re86": {
+   "game_id": "re86-8af5384d",
+   "title": "RE86",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 25,
+   "n_levels": 8,
+   "baseline_actions": [
+    26,
+    42,
+    86,
+    108,
+    189,
+    139,
+    424,
+    241
+   ],
+   "sum_baseline": 1255,
+   "win_levels": 8,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 7.6,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.78,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "s5i5": {
+   "game_id": "s5i5-18d95033",
+   "title": "S5I5",
+   "tags": [
+    "click"
+   ],
+   "default_fps": 15,
+   "n_levels": 8,
+   "baseline_actions": [
+    20,
+    89,
+    106,
+    54,
+    162,
+    38,
+    86,
+    83
+   ],
+   "sum_baseline": 638,
+   "win_levels": 8,
+   "available_actions_at_L0": [
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 16.4,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.78,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "sb26": {
+   "game_id": "sb26-7fbdac44",
+   "title": "SB26",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 30,
+   "n_levels": 8,
+   "baseline_actions": [
+    18,
+    28,
+    18,
+    19,
+    31,
+    23,
+    58,
+    18
+   ],
+   "sum_baseline": 213,
+   "win_levels": 8,
+   "available_actions_at_L0": [
+    5,
+    6,
+    7
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 0,
+   "search_seconds": null,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.78,
+   "depth_ceiling_all": 100.0,
+   "error": "ValueError: not enough values to unpack (expected 2, got 1)"
+  },
+  "sc25": {
+   "game_id": "sc25-635fd71a",
+   "title": "SC25",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 20,
+   "n_levels": 6,
+   "baseline_actions": [
+    36,
+    6,
+    32,
+    83,
+    143,
+    50
+   ],
+   "sum_baseline": 350,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 34.3,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "sk48": {
+   "game_id": "sk48-d8078629",
+   "title": "SK48",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 30,
+   "n_levels": 8,
+   "baseline_actions": [
+    61,
+    177,
+    101,
+    103,
+    230,
+    181,
+    125,
+    92
+   ],
+   "sum_baseline": 1070,
+   "win_levels": 8,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    7
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 27.2,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.78,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "sp80": {
+   "game_id": "sp80-589a99af",
+   "title": "SP80",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 10,
+   "n_levels": 6,
+   "baseline_actions": [
+    39,
+    58,
+    25,
+    148,
+    96,
+    152
+   ],
+   "sum_baseline": 518,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "search_solved_levels": 1,
+   "search_run": "deep-12k",
+   "search_mode": "beam",
+   "search_actions_per_level": [
+    28
+   ],
+   "search_nodes": 21037,
+   "search_seconds": 76.9,
+   "playbook_game_score": 4.762,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "su15": {
+   "game_id": "su15-1944f8ab",
+   "title": "SU15",
+   "tags": [
+    "click"
+   ],
+   "default_fps": 20,
+   "n_levels": 9,
+   "baseline_actions": [
+    22,
+    42,
+    26,
+    115,
+    36,
+    31,
+    8,
+    40,
+    41
+   ],
+   "sum_baseline": 361,
+   "win_levels": 9,
+   "available_actions_at_L0": [
+    6,
+    7
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 3002,
+   "search_seconds": 22.7,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.22,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "tn36": {
+   "game_id": "tn36-ef4dde99",
+   "title": "TN36",
+   "tags": [
+    "click"
+   ],
+   "default_fps": 3,
+   "n_levels": 7,
+   "baseline_actions": [
+    32,
+    72,
+    26,
+    40,
+    30,
+    55,
+    62
+   ],
+   "sum_baseline": 317,
+   "win_levels": 7,
+   "available_actions_at_L0": [
+    6
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "beam",
+   "search_actions_per_level": [],
+   "search_nodes": 0,
+   "search_seconds": null,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 3.57,
+   "depth_ceiling_all": 100.0,
+   "error": "ValueError: not enough values to unpack (expected 2, got 1)"
+  },
+  "tr87": {
+   "game_id": "tr87-cd924810",
+   "title": "TR87",
+   "tags": [
+    "keyboard"
+   ],
+   "default_fps": 10,
+   "n_levels": 6,
+   "baseline_actions": [
+    54,
+    58,
+    40,
+    45,
+    71,
+    146
+   ],
+   "sum_baseline": 414,
+   "win_levels": 6,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 46.4,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 4.76,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "tu93": {
+   "game_id": "tu93-0768757b",
+   "title": "TU93",
+   "tags": [
+    "keyboard_click"
+   ],
+   "default_fps": 30,
+   "n_levels": 9,
+   "baseline_actions": [
+    19,
+    16,
+    34,
+    42,
+    123,
+    80,
+    14,
+    23,
+    111
+   ],
+   "sum_baseline": 462,
+   "win_levels": 9,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "search_solved_levels": 5,
+   "search_run": "deep-12k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [
+    18,
+    10,
+    19,
+    17,
+    29
+   ],
+   "search_nodes": 31505,
+   "search_seconds": 172.1,
+   "playbook_game_score": 33.333,
+   "depth_ceiling_1_level": 2.22,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "vc33": {
+   "game_id": "vc33-5430563c",
+   "title": "VC33",
+   "tags": [
+    "click"
+   ],
+   "default_fps": 20,
+   "n_levels": 7,
+   "baseline_actions": [
+    7,
+    18,
+    44,
+    61,
+    131,
+    34,
+    152
+   ],
+   "sum_baseline": 447,
+   "win_levels": 7,
+   "available_actions_at_L0": [
+    6
+   ],
+   "search_solved_levels": 2,
+   "search_run": "deep-12k",
+   "search_mode": "beam",
+   "search_actions_per_level": [
+    3,
+    11
+   ],
+   "search_nodes": 6641,
+   "search_seconds": 34.3,
+   "playbook_game_score": 10.714,
+   "depth_ceiling_1_level": 3.57,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  },
+  "wa30": {
+   "game_id": "wa30-ee6fef47",
+   "title": "WA30",
+   "tags": [
+    "keyboard"
+   ],
+   "default_fps": 5,
+   "n_levels": 9,
+   "baseline_actions": [
+    71,
+    119,
+    183,
+    98,
+    368,
+    68,
+    79,
+    442,
+    415
+   ],
+   "sum_baseline": 1843,
+   "win_levels": 9,
+   "available_actions_at_L0": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "search_solved_levels": 0,
+   "search_run": "shallow-3k",
+   "search_mode": "bfs",
+   "search_actions_per_level": [],
+   "search_nodes": 3000,
+   "search_seconds": 32.4,
+   "playbook_game_score": 0.0,
+   "depth_ceiling_1_level": 2.22,
+   "depth_ceiling_all": 100.0,
+   "error": null
+  }
+ },
+ "summary": {
+  "games": 25,
+  "games_with_any_level_solved": 7,
+  "levels_solved_total": 12,
+  "playbook_lb_points": 2.587,
+  "mean_levels_per_game": 7.32,
+  "mean_sum_baseline": 685.4,
+  "median_sum_baseline": 638,
+  "min_sum_baseline": 171,
+  "max_sum_baseline": 1843,
+  "if_every_game_got_1_more_level_lb_points": 7.67
+ }
+}

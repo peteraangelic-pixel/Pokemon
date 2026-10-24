@@ -1,0 +1,713 @@
+diff --git a/ARC3-Inference/inference/agent/prompts.py b/ARC3-Inference/inference/agent/prompts.py
+index 52351db..40bd8ba 100644
+--- a/ARC3-Inference/inference/agent/prompts.py
++++ b/ARC3-Inference/inference/agent/prompts.py
+@@ -237,6 +237,32 @@ FRAME_DIFF_HINT_ADDENDUM = (
+     "- Examples: `frame_diff()` compares the latest action’s before/after frames; `frame_diff(history[-3].frame, history[-2].frame)` compares two explicitly selected historical frames, when available.\n"
+ )
+ 
++WORLD_MODEL_TOOL_ADDENDUM = (
++    "- Executable world model. Write your understanding of the game as three top-level "
++    "functions (they are retained across calls; keep constants inside them): "
++    "`model_state(frame)` returns a compact description of the board - a dict/tuple/list/set "
++    "of positions, colors, counters - never the raw grid; `model_step(state, action)` returns "
++    "the state you predict after `action` (a string such as 'UP', or "
++    "{'action': 'MOUSE', 'row': r, 'col': c}), or None if the action changes nothing; "
++    "`model_goal(state)` returns True when you believe the level is won. If `model_state` "
++    "returns a dict, keys starting with '_' (step counters, budget bars, other HUD) are kept "
++    "for your own use but never compared, so the check measures game mechanics only.\n"
++    "- `check_model(scope='level', limit=3)` replays `model_step(model_state(before), action)` "
++    "on every recorded transition of the current level (`scope='all'` for all levels) and "
++    "returns the accuracy, per-action accuracy, the first mismatches with only the differing "
++    "fields, and whether `model_goal` fired exactly on level-completing actions. After every "
++    "snippet that acts, a one-line `[world model check]` of its transitions is appended "
++    "automatically.\n"
++    "- `plan(actions=None, max_nodes=100000, heuristic=None, max_depth=None)` searches your "
++    "model from `model_state(current_frame)` until `model_goal` holds (BFS, or best-first with "
++    "`heuristic(state)` -> number) and returns `found`, `actions` (ready for `action(...)`), "
++    "`length` and `expanded`. MOUSE clicks are searched only when you list them in `actions`.\n"
++    "- A plan is only as good as the model. When a level is new or a plan fails: extend the "
++    "model, run `check_model()` until it explains what you observed, test the action whose "
++    "outcome your model is least sure about, then `plan()` and execute. A mismatch in the "
++    "automatic check is the most useful evidence you get: fix `model_step` before acting on.\n"
++)
++
+ STEP_VERIFICATION_ADDENDUM = (
+     "- During a multi-action plan, verify important effects by comparing the actual game "
+     "state with your predictions—for example, changed cells, object properties, positions, "
+diff --git a/ARC3-Inference/inference/agent/python_tool_sandbox.py b/ARC3-Inference/inference/agent/python_tool_sandbox.py
+index 58a94b3..7227b08 100644
+--- a/ARC3-Inference/inference/agent/python_tool_sandbox.py
++++ b/ARC3-Inference/inference/agent/python_tool_sandbox.py
+@@ -16,6 +16,7 @@ import time
+ from typing import Any, Callable
+ 
+ from inference.utils import frame_diff as _frame_diff_module
++from inference.utils import world_model as _world_model_module
+ from inference.utils import segmentation as _segmentation
+ from inference.utils import retained_functions as _retained_functions
+ from inference.utils.grid_utils import ARC_COLOR_CHARS
+@@ -43,6 +44,8 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+ 
+     __FRAME_DIFF_SOURCE__
+ 
++    __WORLD_MODEL_SOURCE__
++
+     __RETAINED_FUNCTIONS_SOURCE__
+ 
+     HOST_STDOUT = sys.stdout
+@@ -639,7 +642,99 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+             _animation_views.extend((runtime_globals["last_animation_frames"],
+                                      runtime_globals["last_animation_timeline"]))
+ 
++        _wm_enabled = bool(initial.get("world_model_enabled"))
++        _wm_t0 = time.monotonic()
++
++        def _wm_budget(fraction):
++            remaining = timeout_seconds - 3.0 - (time.monotonic() - _wm_t0)
++            return max(0.5, min(fraction * timeout_seconds, remaining))
++
++        def _wm_fn(explicit, name, required=True):
++            if explicit is not None:
++                return explicit
++            fn = runtime_globals.get(name)
++            if callable(fn):
++                return fn
++            if required:
++                raise NameError(
++                    f"define {name}(...) first (keep it a top-level function so it is retained), "
++                    "or pass the function explicitly")
++            return None
++
++        def check_model(state_fn=None, step_fn=None, goal_fn=None, scope="level", limit=3):
++            # Replays model_step(model_state(before), action) on recorded transitions.
++            state_fn = _wm_fn(state_fn, WM_STATE_FN)
++            step_fn = _wm_fn(step_fn, WM_STEP_FN)
++            goal_fn = _wm_fn(goal_fn, WM_GOAL_FN, required=False)
++            current = runtime_globals.get("current_frame")
++            level = None if str(scope) == "all" else getattr(current, "level", None)
++            report = wm_check(runtime_globals.get("transitions") or [], state_fn, step_fn, goal_fn,
++                              level=level, limit=max(1, min(int(limit), 10)),
++                              budget_s=_wm_budget(0.35), newest_first=True)
++            report["scope"] = "all levels" if level is None else f"level {level}"
++            return report
++
++        def plan(start=None, actions=None, goal_fn=None, step_fn=None, max_nodes=100000,
++                 heuristic=None, max_depth=None):
++            # Searches the model from model_state(current_frame); returns actions for action(...).
++            step_fn = _wm_fn(step_fn, WM_STEP_FN)
++            goal_fn = _wm_fn(goal_fn, WM_GOAL_FN)
++            if start is None:
++                start = _wm_fn(None, WM_STATE_FN)(runtime_globals.get("current_frame"))
++            valid = runtime_globals.get("valid_actions") or []
++            searched = list(actions) if actions is not None else wm_default_actions(valid)
++            report = wm_plan(start, step_fn, goal_fn, searched, max_nodes=int(max_nodes),
++                             heuristic=heuristic, max_depth=max_depth, budget_s=_wm_budget(0.5))
++            if actions is None and any(str(a).upper() == "MOUSE" for a in valid):
++                report["note"] = "MOUSE clicks were not searched; pass actions=[...] to include them"
++            return report
++
++        if _wm_enabled:
++            runtime_globals["check_model"] = check_model
++            runtime_globals["plan"] = plan
++
++        def _wm_auto_report():
++            # One line per acting snippet: did model_step predict what just happened?
++            if not _wm_enabled:
++                return
++            try:
++                transitions = runtime_globals.get("transitions") or []
++                if len(transitions) <= _wm_start_n:
++                    return
++                state_fn = _wm_fn(None, WM_STATE_FN, required=False)
++                step_fn = _wm_fn(None, WM_STEP_FN, required=False)
++                if state_fn is None or step_fn is None:
++                    return
++                goal_fn = _wm_fn(None, WM_GOAL_FN, required=False)
++                report = wm_check(transitions, state_fn, step_fn, goal_fn, start=_wm_start_n,
++                                  limit=1, budget_s=min(3.0, _wm_budget(0.1)))
++                parts = [f"[world model check] {report['correct']}/{report['checked']} of this "
++                         "snippet's transitions matched model_step(model_state(before), action)"]
++                wrong_fields = []
++                for field, frac in (report.get("by_field") or {}).items():
++                    ok, total = (int(x) for x in frac.split("/"))
++                    if ok < total:
++                        wrong_fields.append(f"{field} {total - ok}/{total}")
++                if wrong_fields:
++                    parts.append("fields mispredicted: " + ", ".join(wrong_fields[:6]))
++                if report["mismatches"]:
++                    miss = report["mismatches"][0]
++                    parts.append(f"first miss t={miss['t']} {wm_short(miss['action'], 50)}: "
++                                 f"{wm_short(miss['diff'], 300)}")
++                if report.get("errors"):
++                    parts.append(f"{report['errors']} model errors, first: {wm_short(report['first_error'], 200)}")
++                goal = report.get("goal")
++                if goal and (goal["level_wins_seen"] or goal["false_wins"]):
++                    parts.append(f"model_goal: {goal['wins_predicted']}/{goal['level_wins_seen']} level wins "
++                                 f"predicted, {goal['false_wins']} false wins")
++                if report.get("partial"):
++                    parts.append("partial")
++                stdout.write("; ".join(parts) + "\n")
++            except Exception:  # noqa: BLE001 - a diagnostic must never break the snippet
++                return
++
+         _refresh_state(initial.get("state") or {})
++        _wm_start_n = len(runtime_globals.get("transitions") or [])
+ 
+         _persistence_enabled = bool(initial.get("persistence_enabled"))
+         _retention_options = {
+@@ -696,6 +791,7 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+                         print(repr(_value))
+                         if runtime_globals.get("result") is None:
+                             runtime_globals["result"] = _value
++            _wm_auto_report()
+             _send(
+                 {
+                     "type": "final",
+@@ -720,6 +816,7 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+             # action name, that nothing was spent, how to override - were built
+             # and then never delivered. They stop the snippet either way; the
+             # point is that the model is told why.
++            _wm_auto_report()
+             _send(
+                 {
+                     "type": "error",
+@@ -738,6 +835,8 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+     "__SEGMENTATION_SOURCE__\n", inspect.getsource(_segmentation)
+ ).replace(
+     "__FRAME_DIFF_SOURCE__\n", inspect.getsource(_frame_diff_module)
++).replace(
++    "__WORLD_MODEL_SOURCE__\n", inspect.getsource(_world_model_module)
+ )
+ 
+ 
+@@ -762,6 +861,11 @@ def _sanitize_host_error_text(text: str) -> str:
+     return "Sandbox process exited unexpectedly."
+ 
+ 
++def _world_model_enabled() -> bool:
++    """ARC3_WORLD_MODEL: expose check_model()/plan() and the per-snippet model check."""
++    return str(os.environ.get("ARC3_WORLD_MODEL", "")).strip().lower() in {"1", "true", "yes", "on"}
++
++
+ def _sandbox_env() -> dict[str, str]:
+     return {
+         "PYTHONUNBUFFERED": "1",
+@@ -856,6 +960,7 @@ def run_sandboxed_python(
+                 "retain_imports": retain_imports,
+                 "repair_hints": repair_hints,
+                 "animation_enabled": animation_handler is not None,
++                "world_model_enabled": _world_model_enabled(),
+                 "timeout_seconds": timeout_seconds,
+                 "sandbox_cwd": sandbox_dir,
+                 "state": initial_state,
+diff --git a/ARC3-Inference/inference/agent/tool_agent.py b/ARC3-Inference/inference/agent/tool_agent.py
+index 84de5fc..88b9fcf 100644
+--- a/ARC3-Inference/inference/agent/tool_agent.py
++++ b/ARC3-Inference/inference/agent/tool_agent.py
+@@ -42,6 +42,7 @@ from inference.agent.prompts import (
+     WORLD_MODEL_ADDENDUM,
+     WORLD_MODEL_FREE_ADDENDUM,
+     FRAME_DIFF_HINT_ADDENDUM,
++    WORLD_MODEL_TOOL_ADDENDUM,
+     STEP_VERIFICATION_ADDENDUM,
+     PYTHON_ADDENDUM_HEAD,
+     PYTHON_ADDENDUM_TAIL,
+@@ -114,6 +115,14 @@ def _get_env_bool(name: str, default: bool) -> bool:
+     return default
+ 
+ 
++def _world_model_nudge() -> bool:
++    """ARC3_WORLD_MODEL_NUDGE (needs ARC3_WORLD_MODEL): a world-model status line in every turn."""
++    return _get_env_bool("ARC3_WORLD_MODEL", False) and _get_env_bool("ARC3_WORLD_MODEL_NUDGE", False)
++
++
++_WM_CHECK_RE = re.compile(r"\[world model check\] (\d+)/(\d+)(?:[^\n]*?; (\d+) model errors)?")
++
++
+ def _level_transfer_guidance_enabled() -> bool:
+     """Opt-in level-transfer prompts; set before constructing the agent.
+ 
+@@ -2815,6 +2824,10 @@ def _build_system_prompt(*, tool_output_tokens: int) -> str:
+         # either way - this only controls whether the model is told about it,
+         # so the arm measures whether knowing costs more than it returns.
+         prompt += FRAME_DIFF_HINT_ADDENDUM
++    if _get_env_bool("ARC3_WORLD_MODEL", False):
++        # check_model()/plan() and the automatic per-snippet model check live in
++        # the sandbox (inference/utils/world_model.py); this documents them.
++        prompt += WORLD_MODEL_TOOL_ADDENDUM
+     if _get_env_bool("ARC3_STEP_VERIFICATION_HINT", False):
+         # General checks during action sequences and targeted probes when search fails.
+         prompt += STEP_VERIFICATION_ADDENDUM
+@@ -3969,6 +3982,12 @@ class ToolAgent:
+             except (TypeError, ValueError, AttributeError):
+                 pass
+             self._arc3_audits_on_level = 0
++        if summary.get("level_transition"):
++            # world-model nudge: per-level check totals restart; remember which
++            # model the level started with so "not updated yet" can be detected
++            kept_now = getattr(self, "_kept_functions", None) or {}
++            self._arc3_wm_carried = (kept_now.get("model_state"), kept_now.get("model_step"))
++            self._arc3_wm_level_totals = [0, 0, 0]
+         if summary.get("level_transition"):
+             # the priority estimate is per level, so both counts restart here
+             if _get_env_bool("ARC3_PRIORITY_PACE", False):
+@@ -4776,8 +4795,67 @@ class ToolAgent:
+             self._kept_functions = {}
+             payload["function_retention"] = "Your retained functions were cleared after a retention error; redefine any you need."
+ 
++    def _arc3_wm_record(self, sandbox_result) -> None:
++        if not _world_model_nudge():
++            return
++        try:
++            matches = _WM_CHECK_RE.findall(str(sandbox_result.get("stdout", "") or ""))
++            totals = list(getattr(self, "_arc3_wm_level_totals", None) or [0, 0]) + [0]
++            totals = totals[:3]
++            for correct, checked, errors in matches:
++                totals[0] += int(correct)
++                totals[1] += int(checked)
++                totals[2] += int(errors or 0)
++            self._arc3_wm_level_totals = totals
++        except Exception:
++            pass
++
++    def _arc3_world_model_status(self) -> str:
++        """One line per turn about the executable world model (ARC3_WORLD_MODEL_NUDGE)."""
++        if not _world_model_nudge():
++            return ""
++        try:
++            # ARC3_WORLD_MODEL_NUDGE_TOKENS: stay silent until this many tokens were
++            # generated on the current level (easy levels are solved without it)
++            gate = _get_env_int("ARC3_WORLD_MODEL_NUDGE_TOKENS", 0)
++            if gate > 0:
++                spent = int(getattr(self, "_session_generated_tokens", 0) or 0) - int(
++                    getattr(self, "_tokens_at_level_start", 0) or 0)
++                if spent < gate:
++                    return ""
++            kept = getattr(self, "_kept_functions", None) or {}
++            if "model_state" not in kept or "model_step" not in kept:
++                return (
++                    "\n\nWorld model status: no `model_state`/`model_step` retained yet. Write them "
++                    "(and `model_goal`) now, run `check_model()` on the transitions you already have, "
++                    "and let `plan()` produce your next action batch. One-off searches are never "
++                    "checked against the game; this model is checked after every action."
++                )
++            carried = getattr(self, "_arc3_wm_carried", None)
++            if carried and carried == (kept.get("model_state"), kept.get("model_step")):
++                msg = ("World model status: `model_state`/`model_step` are unchanged since the previous "
++                       "level. Check them with `check_model()` after your first actions here and extend "
++                       "them for anything new on this board.")
++            else:
++                msg = "World model status: `model_state`/`model_step` retained."
++            totals = (list(getattr(self, "_arc3_wm_level_totals", None) or []) + [0, 0, 0])[:3]
++            if totals[2]:
++                msg += (f" Your model raised {totals[2]} errors in automatic checks on this level; "
++                        "make `model_state`/`model_step` handle this board.")
++            if totals[1]:
++                msg += (f" Automatic checks on this level so far: {totals[0]}/{totals[1]} "
++                        "transitions predicted.")
++                if totals[0] < totals[1]:
++                    msg += " Fix the mispredicted mechanics before relying on `plan()`."
++            if "model_goal" not in kept:
++                msg += " `model_goal` is missing, so `plan()` cannot run."
++            return "\n\n" + msg
++        except Exception:
++            return ""
++
+     def _build_user_message(self, user_prompt: str, current_frame: Frame | None) -> dict[str, Any]:
+         user_prompt += self._retained_function_context()
++        user_prompt += self._arc3_world_model_status()
+         image_part = current_grid_image_part(current_frame)
+         diff_part = self._pending_diff_image
+         diff_label = self._pending_diff_image_label
+@@ -6038,6 +6116,7 @@ class ToolAgent:
+         ]
+         payload: dict[str, Any] = {"tool": "python"}
+         self._record_retained_functions(sandbox_result, payload)
++        self._arc3_wm_record(sandbox_result)
+         rendered_stdout = str(sandbox_result.get("stdout", "") or "")
+         rendered_error = str(sandbox_result.get("error", "") or "")
+         if rendered_error:
+diff --git a/ARC3-Inference/inference/utils/world_model.py b/ARC3-Inference/inference/utils/world_model.py
+new file mode 100644
+index 0000000..8c4e710
+--- /dev/null
++++ b/ARC3-Inference/inference/utils/world_model.py
+@@ -0,0 +1,377 @@
++"""Executable world-model helpers for the analyzer Python tool.
++
++The model writes three ordinary (retained) functions:
++    model_state(frame)          -> compact description of the board (dict/tuple/list/set/...)
++    model_step(state, action)   -> predicted next state, or None if the action is impossible
++    model_goal(state)           -> True when the level is believed to be won (optional)
++
++`wm_check` replays model_step(model_state(before), action) against recorded
++transitions and reports where the model is wrong; `wm_plan` searches the model.
++
++Stdlib-only and free of package imports: this source is also embedded verbatim
++into the isolated Python runner (see python_tool_sandbox.py).
++"""
++import heapq
++import re
++import time
++from collections import deque
++
++WM_STATE_FN = "model_state"
++WM_STEP_FN = "model_step"
++WM_GOAL_FN = "model_goal"
++
++_WM_MOUSE_RE = re.compile(
++    r"^\s*MOUSE\s*\(\s*row\s*=\s*(-?\d+)\s*,\s*col\s*=\s*(-?\d+)\s*\)\s*$", re.I)
++_WM_SKIP_ACTIONS = {"RESET"}
++
++
++def wm_parse_action(display):
++    """History action text -> the form the model passes to action():
++    'UP' stays 'UP'; 'MOUSE(row=3, col=5)' -> {'action': 'MOUSE', 'row': 3, 'col': 5}."""
++    if isinstance(display, dict):
++        return dict(display)
++    text = str(display or "").strip()
++    match = _WM_MOUSE_RE.match(text)
++    if match:
++        return {"action": "MOUSE", "row": int(match.group(1)), "col": int(match.group(2))}
++    return text
++
++
++def wm_action_name(action):
++    if isinstance(action, dict):
++        return str(action.get("action", "")).upper()
++    return str(action or "").strip().upper()
++
++
++def wm_freeze(value):
++    """Hashable, order-insensitive-for-sets canonical form of a state."""
++    if isinstance(value, dict):
++        items = [(wm_freeze(k), wm_freeze(v)) for k, v in value.items()]
++        try:
++            items.sort()
++        except TypeError:
++            items.sort(key=repr)
++        return ("__dict__", tuple(items))
++    if isinstance(value, (list, tuple)):
++        return tuple(wm_freeze(v) for v in value)
++    if isinstance(value, (set, frozenset)):
++        return frozenset(wm_freeze(v) for v in value)
++    try:
++        hash(value)
++        return value
++    except TypeError:
++        return repr(value)
++
++
++def wm_strip(value):
++    """Dict keys starting with '_' are volatile (HUD, counters): never compared."""
++    if isinstance(value, dict):
++        return {k: v for k, v in value.items() if not (isinstance(k, str) and k.startswith("_"))}
++    return value
++
++
++def wm_short(value, limit=120):
++    text = repr(value)
++    return text if len(text) <= limit else text[: limit - 3] + "..."
++
++
++def wm_state_diff(predicted, actual, limit=6):
++    """Compact description of how a predicted state differs from the observed one."""
++    if isinstance(predicted, dict) and isinstance(actual, dict):
++        out = {}
++        for key in list(predicted) + [k for k in actual if k not in predicted]:
++            if key not in actual:
++                out[str(key)] = {"predicted": wm_short(predicted[key], 80), "actual": "<missing>"}
++            elif key not in predicted:
++                out[str(key)] = {"predicted": "<missing>", "actual": wm_short(actual[key], 80)}
++            elif wm_freeze(predicted[key]) != wm_freeze(actual[key]):
++                sub = wm_state_diff(predicted[key], actual[key], limit=3)
++                out[str(key)] = sub
++            if len(out) >= limit:
++                out["..."] = "more fields differ"
++                break
++        return out
++    if isinstance(predicted, (set, frozenset)) and isinstance(actual, (set, frozenset)):
++        fp = {wm_freeze(v): v for v in predicted}
++        fa = {wm_freeze(v): v for v in actual}
++        return {
++            "only_predicted": wm_short(sorted((fp[k] for k in fp.keys() - fa.keys()), key=repr)[:limit], 100),
++            "only_actual": wm_short(sorted((fa[k] for k in fa.keys() - fp.keys()), key=repr)[:limit], 100),
++        }
++    if (isinstance(predicted, (list, tuple)) and isinstance(actual, (list, tuple))
++            and len(predicted) == len(actual) and len(predicted) > 1):
++        out = {}
++        for index, (p, a) in enumerate(zip(predicted, actual)):
++            if wm_freeze(p) != wm_freeze(a):
++                out["[%d]" % index] = {"predicted": wm_short(p, 80), "actual": wm_short(a, 80)}
++                if len(out) >= limit:
++                    out["..."] = "more items differ"
++                    break
++        return out
++    return {"predicted": wm_short(predicted), "actual": wm_short(actual)}
++
++
++def _wm_exc(exc):
++    return "%s: %s" % (exc.__class__.__name__, str(exc)[:160])
++
++
++def wm_check(transitions, state_fn, step_fn, goal_fn=None, *, level=None, start=0,
++             limit=3, budget_s=8.0, newest_first=False):
++    """Replay the model on recorded transitions.
++
++    transitions: objects with .action, .before_frame, .after_frame, .result.
++    level: only transitions that START on this level (None = all levels).
++    start: ignore transitions before this index.
++    newest_first: walk backwards, so a time-budget cut keeps the most recent evidence.
++    """
++    t0 = time.monotonic()
++    cache = {}
++
++    def state_of(frame):
++        key = id(frame)
++        if key not in cache:
++            cache[key] = (frame, state_fn(frame))  # keep frame alive so id() stays unique
++        return cache[key][1]
++
++    checked = correct = 0
++    wins = wins_hit = false_wins = 0
++    skipped = {"reset": 0, "game_over": 0, "other_level": 0, "no_frame": 0}
++    errors = 0
++    first_error = None
++    mismatches = []
++    by_action = {}
++    by_field = {}
++    partial = False
++    order = range(max(0, int(start)), len(transitions))
++    if newest_first:
++        order = reversed(order)
++    index = None
++    for index in order:
++        if time.monotonic() - t0 > budget_s:
++            partial = True
++            break
++        tr = transitions[index]
++        before, after = getattr(tr, "before_frame", None), getattr(tr, "after_frame", None)
++        if before is None or after is None:
++            skipped["no_frame"] += 1
++            continue
++        action = wm_parse_action(getattr(tr, "action", ""))
++        name = wm_action_name(action)
++        if name in _WM_SKIP_ACTIONS:
++            skipped["reset"] += 1
++            continue
++        if level is not None and getattr(before, "level", None) != level:
++            skipped["other_level"] += 1
++            continue
++        result = getattr(tr, "result", None) or {}
++        won = bool(result.get("level_completed") or result.get("done") or result.get("run_complete")
++                   or getattr(after, "level", 0) > getattr(before, "level", 0))
++        if result.get("game_over") and not won:
++            skipped["game_over"] += 1
++            continue
++        try:
++            predicted = step_fn(state_of(before), action)
++        except Exception as exc:  # noqa: BLE001 - model code
++            errors += 1
++            first_error = first_error or {"t": index, "action": wm_short(action, 60), "error": _wm_exc(exc)}
++            continue
++        if won:
++            wins += 1
++            if goal_fn is not None and predicted is not None:
++                try:
++                    if goal_fn(predicted):
++                        wins_hit += 1
++                except Exception as exc:  # noqa: BLE001
++                    errors += 1
++                    first_error = first_error or {"t": index, "action": wm_short(action, 60), "error": _wm_exc(exc)}
++            continue
++        try:
++            actual = state_of(after)
++        except Exception as exc:  # noqa: BLE001
++            errors += 1
++            first_error = first_error or {"t": index, "action": wm_short(action, 60), "error": _wm_exc(exc)}
++            continue
++        actual = wm_strip(actual)
++        if predicted is not None:
++            predicted = wm_strip(predicted)
++        checked += 1
++        if isinstance(predicted, dict) and isinstance(actual, dict):
++            for key in set(predicted) | set(actual):
++                fs = by_field.setdefault(str(key), [0, 0])
++                fs[1] += 1
++                if key in predicted and key in actual and wm_freeze(predicted[key]) == wm_freeze(actual[key]):
++                    fs[0] += 1
++        stats = by_action.setdefault(name, [0, 0])
++        stats[1] += 1
++        if predicted is None:
++            # None = "impossible / no effect": counts as correct when nothing changed
++            ok = wm_freeze(actual) == wm_freeze(wm_strip(state_of(before)))
++            shown_pred = "<None: no change>"
++        else:
++            ok = wm_freeze(predicted) == wm_freeze(actual)
++            shown_pred = predicted
++        if ok:
++            correct += 1
++            stats[0] += 1
++        elif len(mismatches) < limit:
++            mismatches.append({
++                "t": index,
++                "action": action,
++                "diff": (wm_state_diff(shown_pred, actual) if predicted is not None
++                         else {"predicted": shown_pred, "changed": wm_state_diff(wm_strip(state_of(before)), actual)}),
++            })
++        if goal_fn is not None:
++            try:
++                if goal_fn(actual):
++                    false_wins += 1
++            except Exception as exc:  # noqa: BLE001
++                errors += 1
++                first_error = first_error or {"t": index, "action": wm_short(action, 60), "error": _wm_exc(exc)}
++    report = {
++        "checked": checked,
++        "correct": correct,
++        "accuracy": round(correct / checked, 3) if checked else None,
++        "by_action": {k: "%d/%d" % (v[0], v[1]) for k, v in sorted(by_action.items())},
++        "by_field": {k: "%d/%d" % (v[0], v[1]) for k, v in sorted(by_field.items())},
++        "mismatches": mismatches,
++    }
++    if errors:
++        report["errors"] = errors
++        report["first_error"] = first_error
++    if goal_fn is not None:
++        report["goal"] = {
++            "level_wins_seen": wins,
++            "wins_predicted": wins_hit,
++            "false_wins": false_wins,
++        }
++    report["skipped"] = {k: v for k, v in skipped.items() if v}
++    if partial:
++        report["partial"] = "time budget reached at transition %s (%s)" % (
++            index, "older ones unchecked" if newest_first else "newer ones unchecked")
++    return report
++
++
++def wm_default_actions(valid_actions):
++    out = []
++    for item in valid_actions or []:
++        name = str(item).strip()
++        if name.upper() in {"RESET", "UNDO", "MOUSE", "CLICK"} or not name:
++            continue
++        out.append(name)
++    return out
++
++
++def wm_plan(start, step_fn, goal_fn, actions, *, max_nodes=100000, heuristic=None,
++            max_depth=None, budget_s=10.0):
++    """BFS (or best-first on g + heuristic) over the model. Returns a dict with
++    `found`, `actions` (ready for action(...)), `length`, `expanded`."""
++    t0 = time.monotonic()
++    actions = list(actions or [])
++    if not actions:
++        return {"found": False, "reason": "no actions to search (pass actions=[...])"}
++    errors = 0
++    first_error = None
++    start_key = wm_freeze(wm_strip(start))
++    try:
++        if goal_fn(start):
++            return {"found": True, "actions": [], "length": 0, "expanded": 0,
++                    "note": "goal already true in the start state"}
++    except Exception as exc:  # noqa: BLE001
++        return {"found": False, "reason": "model_goal raised " + _wm_exc(exc)}
++    parents = {start_key: None}
++    counter = 0
++    best = None
++    if heuristic is None:
++        frontier = deque([(start, start_key, 0)])
++        pop = frontier.popleft
++        push = frontier.append
++    else:
++        frontier = []
++        try:
++            h0 = float(heuristic(start))
++        except Exception as exc:  # noqa: BLE001
++            return {"found": False, "reason": "heuristic raised " + _wm_exc(exc)}
++        heap_push = heapq.heappush
++        heap_pop = heapq.heappop
++        heap_push(frontier, (h0, 0, 0, start, start_key))
++        best = (h0, start_key)
++
++        def pop():
++            _, _, depth, state, key = heap_pop(frontier)
++            return state, key, depth
++
++        def push(item):
++            nonlocal counter
++            state, key, depth, h = item
++            counter += 1
++            heap_push(frontier, (depth + h, counter, depth, state, key))
++    expanded = 0
++    reason = "exhausted"
++    while frontier:
++        if expanded >= max_nodes:
++            reason = "max_nodes"
++            break
++        if (expanded & 255) == 0 and time.monotonic() - t0 > budget_s:
++            reason = "time_budget"
++            break
++        state, key, depth = pop()
++        expanded += 1
++        if max_depth is not None and depth >= max_depth:
++            continue
++        for action in actions:
++            try:
++                nxt = step_fn(state, action)
++            except Exception as exc:  # noqa: BLE001
++                errors += 1
++                first_error = first_error or {"action": wm_short(action, 60), "error": _wm_exc(exc)}
++                continue
++            if nxt is None:
++                continue
++            nkey = wm_freeze(wm_strip(nxt))
++            if nkey in parents:
++                continue
++            parents[nkey] = (key, action)
++            try:
++                done = goal_fn(nxt)
++            except Exception as exc:  # noqa: BLE001
++                errors += 1
++                first_error = first_error or {"action": wm_short(action, 60), "error": _wm_exc(exc)}
++                done = False
++            if done:
++                path = _wm_path(parents, nkey)
++                out = {"found": True, "actions": path, "length": len(path), "expanded": expanded,
++                       "seconds": round(time.monotonic() - t0, 2)}
++                if errors:
++                    out["errors"] = errors
++                    out["first_error"] = first_error
++                return out
++            if heuristic is None:
++                push((nxt, nkey, depth + 1))
++            else:
++                try:
++                    h = float(heuristic(nxt))
++                except Exception as exc:  # noqa: BLE001
++                    errors += 1
++                    first_error = first_error or {"action": wm_short(action, 60), "error": _wm_exc(exc)}
++                    continue
++                if h < best[0]:
++                    best = (h, nkey)
++                push((nxt, nkey, depth + 1, h))
++    out = {"found": False, "reason": reason, "expanded": expanded, "distinct_states": len(parents),
++           "seconds": round(time.monotonic() - t0, 2)}
++    if best is not None and best[1] != start_key:
++        partial = _wm_path(parents, best[1])
++        out["best_partial"] = {"heuristic": best[0], "actions": partial, "length": len(partial)}
++    if errors:
++        out["errors"] = errors
++        out["first_error"] = first_error
++    return out
++
++
++def _wm_path(parents, key):
++    path = []
++    while parents.get(key) is not None:
++        key, action = parents[key]
++        path.append(action)
++    path.reverse()
++    return path
