@@ -267,6 +267,62 @@ Komplet diagnostyki per gra (25/25): `results/game_metadata.json`, klucze `signa
 `calibration_source`, plus podsumowanie w `_diagnostics_predictivity`.
 
 
+### (f) DWA różne tryby porażki — i tylko jeden z nich leczy się budżetem
+
+Wynik „0 poziomów" sam w sobie **nie mówi nic**. Dopiero zestawienie liczby rozwiniętych
+węzłów z capem i liczby różnych stanów rozdziela dwie przyczyny (pomiary z 4 przebiegów,
+kolumna `stany/węzeł` to wydajność deduplikacji):
+
+**Tryb 1 — UCIĘTE CAPEM** (frontier miał jeszcze stany, budżet przerwał). Te gry **mogą**
+zyskać na większym budżecie:
+
+| gra | rozg. | węzły | różne stany | stany/węzeł | cap |
+|---|---|---|---|---|---|
+| s5i5 | 14 | 12 012 | 1 941 | 0.16 | 12 000 |
+| dc22 | 18 | 12 006 | 2 031 | 0.17 | 12 000 |
+| ka59 | 18 | 12 006 | 1 273 | 0.11 | 12 000 |
+| re86 | 5 | 12 000 | 4 611 | 0.38 | 12 000 |
+| sc25 | 18 | 12 000 | 1 814 | 0.15 | 12 000 |
+| sk48 | 3 | 12 000 | 4 866 | 0.41 | 12 000 |
+| tr87 | 4 | 12 000 | 6 792 | 0.57 | 12 000 |
+| wa30 | 4 | 12 000 | 3 271 | 0.27 | 12 000 |
+
+**Tryb 2 — WYCZERPANY FRONTIER** (przestrzeń stanów się zawaliła przez deduplikację).
+Tu **większy budżet nie może pomóc z definicji** — nie zostało nic do rozwinięcia:
+
+| gra | rozg. | węzły | różne stany | stany/węzeł |
+|---|---|---|---|---|
+| g50t | 2 | **36** | 17 | 0.47 |
+| bp35 | 17 | **357** | 139 | 0.39 |
+| sb26 | 5 | 1 982 | 66 | 0.03 |
+| lf52 | 19 | 2 150 | 94 | 0.04 |
+| r11l | 14 | 2 758 | 770 | 0.28 |
+| su15 | 14 | 5 404 | 385 | 0.07 |
+
+g50t jest skrajnym przypadkiem: **36 węzłów w 0.2 s** — cała osiągalna przestrzeń stanów
+tej gry mieści się w 17 różnych ramkach. Żaden cap tego nie zmieni; zmienia to dopiero inny
+zestaw ruchów (dlatego `--min-moves` podniósł ją z 2 do 5 rozgałęzień i z 0.2 s do 60.5 s —
+ale poziomów nadal 0, patrz punkt (d)).
+
+**Kolumna `stany/węzeł` jest tu najlepszym pojedynczym wskaźnikiem.** Niska (0.03–0.11:
+sb26, lf52, su15, vc33, m0r0) oznacza, że deduplikacja zjada prawie wszystko, co generuje
+search — czyli ruchy są w dużej mierze odwracalne albo prowadzą do tych samych stanów.
+Wysoka (0.38–0.57: re86, sk48, tr87, g50t) oznacza realnie rosnącą przestrzeń.
+
+Wniosek operacyjny: **zanim ktokolwiek podniesie cap, ma sprawdzić, w którym trybie jest
+gra.** Podnoszenie capa grze z trybu 2 to czyste marnowanie CPU; z kolei tryb 1 to jedyna
+kategoria, w której „więcej mocy" cokolwiek da — i dokładnie te 8 gier poszło do przebiegu
+z capem 60 000 (wynik: `results/sweep3_bigcap.jsonl`).
+
+Przy okazji prostuje to moją własną tezę z punktu (b), która była **niepełna**: napisałem
+„zwiększanie capa nie dokłada poziomów przy dużym rozgałęzieniu". To prawda dla gier, które
+wyczerpały frontier, ale 8 z 15 czarnych gier zostało uciętych **w połowie** — dla nich
+cap był realnym ograniczeniem, nie heurystyka. Poprawne sformułowanie: *cap nie pomaga
+grom z trybu 2 i grom, których minimalne rozwiązanie jest dłuższe niż `log_b(cap)`;
+pomaga wyłącznie grom z trybu 1, których rozwiązanie mieści się w zasięgu po zwiększeniu
+budżetu.*
+
+
 ### Czego wciąż nie umiemy (uczciwie)
 
 - **sc25 i gry z odroczonym efektem**: legalne ruchy nie zmieniają ramki natychmiast, więc
