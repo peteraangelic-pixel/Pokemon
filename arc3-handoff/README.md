@@ -9,6 +9,77 @@ Ten katalog jest **samowystarczalny dla innej gałęzi / innej sesji**: są tu w
 kod, testy i narzędzia do odtworzenia wszystkiego od zera (łącznie z instrukcją pobrania
 ich drzewa, bo piaskownica nie ma `git clone` do tego repo).
 
+---
+
+## ⏱ STAN ZWERYFIKOWANY NA ŻYWO — 24.10.2026 wieczorem (źródło: oficjalna strona Kaggle)
+
+Pobrane dziś bezpośrednio z `kaggle.com/competitions/arc-prize-2026-arc-agi-3/overview`
+i `/leaderboard`. **To nadpisuje wszystkie daty i wyniki z ich notatek (10–16.10) oraz moje
+wcześniejsze szacunki w tym katalogu.**
+
+### 1. Deadline: są DWIE różne daty i łatwo je pomylić
+
+| data | co to jest | za ile dni (od 24.10) |
+|---|---|---|
+| **26 X 2026** | **Entry Deadline** (akceptacja regulaminu, żeby w ogóle móc grać) **+ Team Merger Deadline** (ostatni dzień na łączenie zespołów) | **2 dni** |
+| **2 XI 2026** ← właściwy | **Final Submission Deadline** — termin wysłania ostatecznej wersji | **9 dni** |
+| 4 XII 2026 | ogłoszenie wyników | — |
+
+**To jest źródło pomyłki „zostały 2 dni”.** Licznik na samej stronie Kaggle pokazuje dziś
+„Close — 9 days to go”, a w timeline 26 X jest opisany wyłącznie jako *Entry Deadline* /
+*Team Merger Deadline*, nie jako termin submisji. Wszystkie deadline'y to 11:59 PM UTC.
+
+Konsekwencje praktyczne:
+- **Entry Deadline nas nie dotyczy** — mamy już 6 punktowanych submisji, więc regulamin jest
+  zaakceptowany i warunek spełniony. Do 26 X nie trzeba nic robić.
+- **Team Merger Deadline 26 X dotyczy nas TYLKO, jeśli chcemy połączyć siły z innym zespołem.**
+  To jedyna rzecz realnie pilna w ciągu 2 dni — decyzja organizacyjna, nie techniczna.
+- **Na pracę techniczną jest 9 dni, nie 2.** To zmienia plan: mieści się kilka iteracji
+  „jeden lever na submisję”, a nie jedna.
+
+### 2. Live leaderboard (24.10) — i dlaczego „45+” to za mało na nagrodę
+
+| # | zespół | score | submisje |
+|---|---|---|---|
+| 1 | Tufa Labs | **68.91** | 17 |
+| 2 | Yi-Chia Chen | **68.21** | 40 |
+| 3 | Team Turducken | 56.02 | 208 |
+| 4 | mtg | 50.37 | 78 |
+| **5** | **the last dance** | **49.85** ← ostatnie miejsce z pieniędzmi | 90 |
+| 6 | Grigoriy Zatravkin | 47.19 | 74 |
+| 7 | 復活の混テキスト | 46.82 | 94 |
+| 8 | NVARC3 | 45.90 | 45 |
+| 9 | artificialagencylab.com | 45.41 | 61 |
+| 10 | Majkel1337 | 45.03 | 26 |
+| 11 | Vineeth Sai Varikuntla | 40.98 | 72 |
+| 15 | **Daniel Franzen (autor Ducka)** | **38.85** | 104 |
+
+**Nagrody pieniężne są TYLKO za top-5** ($75 000: 40k / 15k / 10k / 5k / 5k). Próg to dziś
+**49.85**, nie 45 i nie 40.97. Dodatkowo $700 000 bonusu wyłącznie za **100 %** score.
+
+Trzy wnioski, które bolą:
+1. **„45+” daje miejsca 8–11 = zero pieniędzy.** Cel trzeba przesunąć na **~50**, czyli między
+   moje „+1 poziom na grę” (44.8) a „+2 poziomy” (64.5) — realnie **+1.2 poziomu na grę**.
+2. **Ich najlepszy wynik 26.25 → do 5. miejsca brakuje ~23.6 pkt.** To nie jest luka do
+   zasypania tuningiem env; to luka klasy „inny harness / inny model”.
+3. **Sam autor Ducka (Franzen, 104 submisje) ma 38.85 = 15. miejsce, bez nagrody.** Stockowy
+   Duck nie dochodzi do strefy płatnej. Kopiowanie Ducka to sufit ~39, nie ~50.
+
+### 3. Trzy ograniczenia z oficjalnej strony, o których trzeba wiedzieć
+
+- **Publiczny LB liczy ~50 % danych testowych; wynik końcowy jest z DRUGICH 50 %**, więc końcowa
+  kolejność może się różnić. Gonienie konkretnej liczby z publicznego LB jest częściowo daremne —
+  liczy się odporność na nieznane gry, nie dopasowanie do widocznych.
+- **„Uczestnicy uprawnieni do nagrody zostaną USUNIĘCI z konkursu, jeśli nie open-source'ują
+  swoich rozwiązań.”** Ich kernele mają `is_private: true`. Żeby nagroda była realna, notebook musi
+  być publiczny na permisywnej licencji (CC0 / MIT-0). Wejście do top-5 z prywatnym kernelem
+  = utrata nagrody.
+- Limit notebooka: **9 h** (CPU i GPU), **internet wyłączony**, zewnętrzne dane i wytrenowane
+  modele dozwolone jeśli darmowe i publiczne. Dostępne też **RTX 6000** (`g4-standard-48`),
+  wyłącznie dla notebooków tego konkursu.
+
+---
+
 ## Od czego zacząć (3 minuty)
 
 1. **`PATCH-0004-I-SEARCH.md`** — najważniejsze: **run-killer** w ich linii `duck-v7`
@@ -219,7 +290,12 @@ ukończonych**, bo poziomy padały po kolei. Nie licz go z `levels_completed + l
 - Kolejka r065 idzie na kernel **`arc3-duck-original`**, którego notebook ma **zero patchy** →
   run-killer go nie dotyczy. Dotyczy każdej następnej próby linii **`duck-v7`** (ich 26.25).
 - GPU quota 30 h/tydz. wyczerpana 16.10; API submit daje `400 CreateCodeSubmission` → klik w UI.
-- **Final submission deadline 2 XI 2026** (~9 dni, ~8 slotów przy 1/dzień), wyniki 4 XII.
+- **Final submission deadline 2 XI 2026** (**9 dni** od 24.10, zweryfikowane dziś na stronie Kaggle: licznik „9 days to go”), wyniki 4 XII. **26 X to Entry + Team Merger Deadline, NIE termin submisji** — entry mamy spełnione (6 punktowanych submisji).
+- Liczba dostępnych slotów: **niezweryfikowana na oficjalnej stronie**, którą pobrałem. Reguły
+  Kaggle dla tego konkursu podają limit **5 submisji/dzień**, ale realnym ograniczeniem jest
+  **9-godzinny rerun** każdego notebooka oraz (u nich) tygodniowy limit GPU, wyczerpany 16.10 —
+  który po 8 dniach powinien już być zresetowany. Mój wcześniejszy szacunek „~8 slotów przy
+  1/dzień” był zgadywanką i niniejszym go wycofuję.
   26 X to był deadline **zgłoszenia** (spełniony, 6 zaliczonych submisyji).
 - Ich własne zasady, których nie łamać: jedna dźwignia na submisję, nie prowadzić dwóch torów
   naraz, nie submitować bez `ARC3_SMOKE_OK`, nie planować na niezweryfikowanych krzywych,

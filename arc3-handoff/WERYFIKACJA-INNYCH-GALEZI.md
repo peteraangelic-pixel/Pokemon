@@ -235,7 +235,7 @@ lider Yi-Chia Chen 62.96, Tufa Labs 56.52. To snapshot z **10–11.10** i jest *
 - nagrody są **za miejsca**, nie za próg punktowy ($75k/40k/15k/10k/5k/5k), więc „40.97"
   nie jest żadną stałą barierą — to było po prostu 5. miejsce w tamtym snapshocie,
   a cel przesuwa się razem z tabelą;
-- przy liderze 68.91 wynik „45+" to dziś okolice **miejsc 5–8**, nie podium.
+- przy liderze 68.91 wynik „45+" to ~~okolice miejsc 5–8~~ **miejsca 8–11** (nadpisane przez live dane — patrz §7bis niżej: płatne jest dopiero top-5 = **49.85**, więc cel to ~50, nie 45). **[NADPISANE PRZEZ §7bis]**
 
 Co z tego **nie** wynika: arytmetyka „+1 poziom na grę" pozostaje ważna, bo jest liczona
 z ich własnego r019 (27.21 → 44.8 przy +1 poziomie), a nie z pozycji w tabeli. Zmienia się
@@ -243,6 +243,58 @@ tylko to, **ile** poziomów trzeba, żeby wejść w nagrody — a tego bez aktua
 nie policzę. Wszystkie trzy dokumenty mają tę korektę dopisaną w miejscu.
 
 ---
+
+### 7bis. ZWERYFIKOWANE NA ŻYWO 24.10 wieczorem (oficjalna strona Kaggle) — ważniejsze niż powyższe
+
+Powyższe sprostowanie oparłem na ich CHAT-LOG z 14.10. Pobrałem dziś dane **bezpośrednio ze strony
+konkursu** (`kaggle.com/competitions/arc-prize-2026-arc-agi-3/overview` i `/leaderboard`), więc to
+jest już pomiar, nie wnioskowanie z cudzych notatek.
+
+**Deadline — są dwie daty i to jest źródło pomyłki „zostały 2 dni”:**
+
+| data | co to jest | za ile dni |
+|---|---|---|
+| **26 X 2026** | **Entry Deadline** (akceptacja regulaminu) **+ Team Merger Deadline** | **2 dni** |
+| **2 XI 2026** | **Final Submission Deadline** — wysłanie ostatecznej wersji | **9 dni** |
+
+Licznik na stronie Kaggle pokazuje dziś „Close — **9 days to go**”. Czyli 2 dni to termin
+*entry/team merger*, a nie termin submisji. Wszystkie deadline'y: 11:59 PM UTC.
+
+Konsekwencja: **entry deadline mamy spełniony** (6 punktowanych submisji = regulamin zaakceptowany),
+więc do 26 X nie trzeba nic robić technicznie. Pilne w 2 dni jest wyłącznie ewentualne **łączenie
+zespołu**. Na pracę jest **9 dni**.
+
+**Próg nagród — ostatecznie rozstrzygnięty.** Nagrody pieniężne są **tylko za top-5**
+($75 000 = 40k / 15k / 10k / 5k / 5k). Live leaderboard z dziś:
+
+| # | zespół | score |
+|---|---|---|
+| 1 | Tufa Labs | **68.91** |
+| 2 | Yi-Chia Chen | **68.21** |
+| 3 | Team Turducken | 56.02 |
+| 4 | mtg | 50.37 |
+| **5** | **the last dance** | **49.85** ← ostatnie płatne miejsce |
+| 6 | Grigoriy Zatravkin | 47.19 |
+| 8 | NVARC3 | 45.90 |
+| 10 | Majkel1337 | 45.03 |
+| 11 | Vineeth Sai Varikuntla | 40.98 |
+| **15** | **Daniel Franzen (autor Ducka, 104 submisje)** | **38.85** |
+
+Z tego wynikają trzy rzeczy, które unieważniają część mojej DIAGNOZY:
+
+1. **Cel „45+” daje miejsca 8–11 = ZERO pieniędzy.** Próg to dziś **49.85**. Moja arytmetyka
+   „+1 poziom na grę → 44.8” jest poprawna, ale **nie wystarcza na nagrodę** — trzeba ~50,
+   czyli między +1 a +2 poziomami (realnie **+1.2 poziomu na grę**).
+2. **Autor Ducka ma 38.85 i jest 15., bez nagrody.** Stockowy Duck ma sufit ~39, nie ~50.
+   To najmocniejszy pojedynczy argument, że „dokręcenie env w Duku” nie jest drogą do top-5.
+3. **Publiczny LB liczy ~50 % danych testowych, wynik końcowy z drugich 50 %.** Kolejność może się
+   przestawić, więc gonienie konkretnej liczby z publicznego LB jest częściowo daremne.
+
+**Dodatkowy wymóg, który może odebrać nagrodę:** strona mówi wprost, że uczestnicy uprawnieni do
+nagrody **zostaną usunięci**, jeśli nie open-source'ują rozwiązań. Ich kernele mają
+`is_private: true`. Wejście do top-5 z prywatnym kernelem = utrata nagrody. Limit notebooka:
+**9 h**, internet wyłączony, dostępne RTX 6000 (`g4-standard-48`).
+
 
 ## 8. Czego NIE zweryfikowałem (uczciwie)
 

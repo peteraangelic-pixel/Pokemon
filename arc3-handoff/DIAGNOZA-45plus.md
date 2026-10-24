@@ -6,6 +6,30 @@
 
 ---
 
+> ## ⚠ REKALIBRACJA CELU — 24.10 wieczorem, po pobraniu live danych ze strony Kaggle
+>
+> Tytuł tego dokumentu („dlaczego nie ma 45+”) opierał się na przekonaniu, że **45+ daje nagrodę**.
+> **Nie daje.** Zweryfikowane dziś na oficjalnej stronie:
+>
+> - Nagrody pieniężne są **tylko za top-5** ($75k = 40k/15k/10k/5k/5k). Live leaderboard:
+>   1. Tufa **68.91**, 2. Chen **68.21**, 3. Turducken 56.02, 4. mtg 50.37,
+>   **5. the last dance 49.85** ← ostatnie płatne miejsce.
+> - Czyli **„45+” to dziś miejsca 8–11 = zero pieniędzy**. Cel musi być **~50**.
+> - Moja arytmetyka „+1 poziom na grę → 44.8” **jest poprawna, ale niewystarczająca**;
+>   „+2 poziomy → 64.5” daje miejsca 2–3. Potrzeba realnie **+1.2 poziomu na grę**.
+> - **Daniel Franzen, autor Ducka, ma 38.85 przy 104 submisjach = 15. miejsce, bez nagrody.**
+>   Stockowy Duck ma sufit ~39. To jest najmocniejszy argument, że tuning env w Duku
+>   nie prowadzi do top-5 — poniżej ta diagnoza dotyczy właśnie tego tuningu.
+> - **Deadline to 2 XI (9 dni), nie 26 X (2 dni).** 26 X to *Entry Deadline* + *Team Merger
+>   Deadline*; licznik na stronie Kaggle pokazuje dziś „9 days to go”. Entry mamy spełnione
+>   (6 punktowanych submisji).
+> - Publiczny LB liczy **~50 % danych testowych**, końcowy wynik z drugich 50 % — kolejność
+>   może się przestawić.
+>
+> Szczegóły i źródła: `README.md` (blok „STAN ZWERYFIKOWANY NA ŻYWO”) oraz
+> `WERYFIKACJA-INNYCH-GALEZI.md` §7bis.
+
+
 ## 0. TL;DR
 
 1. **Wynik jest wypukłą funkcją GŁĘBOKOŚCI (liczby ukończonych poziomów), nie efektywności.** Na Waszym własnym przebiegu 10 gier: sufit z samej głębokości = 29.0, zmierzone 27.21 → **strata na „nieoptymalnych ruchach" to tylko 1.75 pkt (6%)**. Niemal każdy ukończony poziom już teraz dostaje 115 (cap), bo agent jest szybszy niż baseline.
@@ -49,7 +73,7 @@ Policzone na Waszych 10 grach z r019 (każda ma swoje własne N):
 
 **Wniosek 1:** efektywność ruchów jest już niemal darmowa (29.0 − 27.21 = 1.75 pkt do odzyskania w całej grze). Wszystkie siły w „ukończ jeden poziom więcej".
 
-**Wniosek 2 — SPROSTOWANY 24.10 wieczorem:** liczby 40.97 (próg) i 62.96 (lider) to snapshot z **10–11.10** i są **przedawnione**: lider to dziś **68.91** (Tufa, ich CHAT-LOG 14.10), Chen 67.49. Nagrody są **za MIEJSCA** ($75k/40k/15k/10k/5k/5k), nie za próg punktowy, więc 40.97 nigdy nie było stałą barierą — to było 5. miejsce w tamtym dniu, a cel przesuwa się z tabelą. **Arytmetyka „+1 poziom na grę" pozostaje ważna**, bo jest liczona z ich własnego r019 (27.21 → 44.8), a nie z pozycji w tabeli. Przy liderze 68.91 wynik 45+ to okolice miejsc 5–8. Szczegóły: `WERYFIKACJA-INNYCH-GALEZI.md` §7.
+**Wniosek 2 — SPROSTOWANY 24.10 wieczorem:** liczby 40.97 (próg) i 62.96 (lider) to snapshot z **10–11.10** i są **przedawnione**: lider to dziś **68.91** (Tufa, ich CHAT-LOG 14.10), Chen 67.49. Nagrody są **za MIEJSCA** ($75k/40k/15k/10k/5k/5k), nie za próg punktowy, więc 40.97 nigdy nie było stałą barierą — to było 5. miejsce w tamtym dniu, a cel przesuwa się z tabelą. **Arytmetyka „+1 poziom na grę" pozostaje ważna**, bo jest liczona z ich własnego r019 (27.21 → 44.8), a nie z pozycji w tabeli. **LIVE 24.10: 45+ to miejsca 8–11, a płatne jest dopiero top-5 = 49.85** (Tufa 68.91, Chen 68.21, 5. the last dance 49.85; 8. NVARC3 45.90, 10. Majkel1337 45.03). **Ten wniosek jest więc częściowo nieaktualny — patrz rekalibracja na górze dokumentu i §7bis w `WERYFIKACJA-INNYCH-GALEZI.md`.** Szczegóły: `WERYFIKACJA-INNYCH-GALEZI.md` §7.
 
 ---
 
