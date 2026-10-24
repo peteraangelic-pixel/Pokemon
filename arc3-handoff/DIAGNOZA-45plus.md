@@ -352,17 +352,26 @@ z tej diagnozy:
    `token_baseline` to kursor per krok, nie per gra; oraz guard `levels_completed > 0`
    chroniący dokładnie gry, które marnują najwięcej). Oczekiwane 31–34 pkt z FINDINGS 15.10
    nie ma podstaw — to punkt 6 tej diagnozy, potwierdzony testami.
-3. **Lever #2 (search) działa, ale jest wart 2.59 pkt, nie +14..37.** Zmierzone na dwóch
-   przebiegach (płytki 3 000 węzłów/grę, głęboki 12 000): scalony wynik **7/25 gier,
-   12 poziomów, wszystko zweryfikowane replayem na świeżej instancji = 2.59 pkt LB podłogi**.
+3. **Lever #2 (search) działa, ale jest wart 3.08 pkt, nie +14..37.** Zmierzone na trzech
+   przebiegach (płytki 3 000 węzłów/grę, głęboki 12 000, i v2 z kalibracją ruchów po
+   efekcie): scalony wynik **10/25 gier, 15 poziomów, wszystko zweryfikowane replayem na
+   świeżej instancji = 3.08 pkt LB podłogi**.
    Powód rozjazdu z szacunkiem: jeden poziom w 7-poziomowej grze jest wart ~3.5 pkt, bo
    mianownik to ΣW **wszystkich** poziomów — wartość robi dopiero głębokość (tu93: 5 poziomów
    = 33.33 pkt w jednej grze, vc33: 2 poziomy = 10.71).
    **Poprawka do mojej własnej tezy:** głębszy przebieg DOŁOŻYŁ +3 poziomy i +2 gry
    (tu93 4→5, vc33 1→2, sp80 0→1), więc „4× większy budżet nie pomaga" było błędem —
-   pomaga, tylko ze zwrotem malejącym (4× koszt → +0.92 pkt). Czarne pozostają gry click-owe
-   (tn36, ka59, dc22, ar25, cn04, r11l, s5i5, sc25 = 0 poziomów): tam wąskim gardłem jest
-   heurystyka (nowość ramki) i brak segmentacji obiektów.
+   pomaga, tylko ze zwrotem malejącym (4× koszt → +0.92 pkt).
+   **Drugi przełom (większy niż budżet):** generator kandydatów kliknięcia oparty na
+   segmentacji blobów był dla części gier ŚLEPY. Zmiana na kalibrację po **efekcie**
+   (sonda siatki co 4 px przez `level_reset()`, grupowanie po hashu ramki, jeden
+   reprezentant na różny efekt) dała **+3 gry od razu: ar25, cn04, ft09** (2.59 → 3.08 pkt),
+   przy koszcie ~0.5 s kalibracji na grę. ft09: rozgałęzienie 8 zamiast 28 martwych ruchów,
+   poziom 0 w 4 akcjach. Szczegóły i trzy patologie gier click-owych: FAKTY §1bis.
+   Czarne pozostają: tn36, ka59, dc22, r11l, s5i5, sc25, lf52, bp35, g50t, re86, sb26,
+   sk48, su15, tr87, wa30 (15 gier) — tam wąskim gardłem jest heurystyka nowości (kursor
+   zmienia 1-4 px, więc sygnał jest szumem) i gry z odroczonym efektem (sc25: 0 z 4096
+   klików zmienia ramkę od razu).
 
 Gotowe do wpięcia: `patches/0004-standalone-level-token-cap.patch` (+ `0003b` jeśli chcą
 zachować 0003), `arc3_level_budget.py`, 16 testów jednostkowych, `results/playbook.json`.

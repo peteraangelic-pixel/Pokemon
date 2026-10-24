@@ -17,7 +17,11 @@ ich drzewa, bo piaskownica nie ma `git clone` do tego repo).
    w zamian. Tam jest też gotowe wpięcie do notebooka i rekomendowane env.
 2. **`FAKTY-I-POMIARY.md`** — kompendium: silnik, **punktacja z dowodem**, 25 gier, ich
    konfiguracja, serwer, pomiary runów, stan Kaggle, kolejka ops, pułapki narzędziowe, mapa repo.
-3. **`DIAGNOZA-45plus.md`** — dlaczego nie ma 45+ punktów: wypukłość punktacji w głębokości,
+3. **`FAKTY-I-POMIARY.md` §1bis** — jak naprawdę wyglądają gry click-owe (skan 4096
+   współrzędnych), odkrycie wewnętrznego API silnika `_get_valid_actions()` wraz z
+   **ostrzeżeniem, że nie wolno go używać w submisji**, i legalny zamiennik na publicznym
+   API (kalibracja po efekcie), który odblokował ft09.
+4. **`DIAGNOZA-45plus.md`** — dlaczego nie ma 45+ punktów: wypukłość punktacji w głębokości,
    arytmetyka budżetu tokenów, ranking dźwigni, plan na 9 dni, lista „czego nie robić".
    Na końcu sekcja *AKTUALIZACJA 24.10* z trzema poprawkami do tej diagnozy.
 
@@ -33,8 +37,9 @@ ich drzewa, bo piaskownica nie ma `git clone` do tego repo).
 | tokeny i akcje na poziomie, który **nigdy nie został ukończony** | **35%** (tn36 86%, ls20 91%) | j.w. |
 | realny budżet tokenów na grę | **~175k** = ~208 akcji, przy `ΣBas ≈ 685` potrzebnych | arytmetyka z `serve.log` |
 | cała wartość optymalizacji **efektywności** ruchu | **1.75 pkt** (29.0 − 27.21) | §2 FAKTY |
-| nasz playbook (search offline, **0 tokenów LLM**) | **7/25 gier, 12 poziomów = 2.59 pkt LB**, każdy replay-verified | `results/playbook.json` |
+| nasz playbook (search offline, **0 tokenów LLM**) | **10/25 gier, 15 poziomów = 3.08 pkt LB**, każdy replay-verified | `results/playbook.json` |
 | najgłębsze rozwiązanie | **tu93: 5 poziomów = 33.33 pkt** (dokładnie w capie) | j.w. |
+| postęp z samej kalibracji ruchów | **+3 gry** (ar25, cn04, ft09), 2.59 → **3.08 pkt LB** | `tools/sweep2.py`, §1bis FAKTY |
 
 **Najważniejszy wniosek strategiczny** (dowód w `FAKTY-I-POMIARY.md` §2): przy grze
 ≤1.07× baseline **cap punktacji zawsze wiąże**, więc
@@ -68,21 +73,29 @@ tests/
   test_arc3_level_budget.py   16 testów; OK na drzewie z 0003b, OK (skipped=2) na standalone
 
 tools/
+  sweep2.py                   PRZEGLĄDARKA v2: kalibracja ruchów po EFEKCIE (hash ramki),
+                              pruning martwych ruchów, tryb po efektywnym rozgałęzieniu.
+                              To ona rozwiązała ft09 (0 poziomów -> 1 poziom w 4 akcjach).
   fetch_repo_artifacts.sh     pobranie ich drzewa przez gh api (25 gier + metadata + 42 pliki
                               bundle + notebooki + migawka 492 blobów) — obejście limitu 1 MB
   extract_notebook_patches.py wydobycie patchy z komórek 4-7 notebooka (dwie różne postaci)
   verify_patch_chains.sh      DOWÓD: łańcuchy A/B/B'/C + py_compile + testy (patrz niżej)
   score_formula.py            formuła punktacji + weryfikacja na r019 + wartość playbooka
-  sweep.py                    przegląd 25 gier (BFS/beam, multiprocessing, cap węzłów/czasu)
+  sweep.py                    przegląd v1 (BFS/beam + segmentacja blobów) — źródło wyników
+                              w results/sweep_*.jsonl; zachowany dla odtwarzalności,
+                              ale ma ślepy generator klików (patrz §1bis FAKTY)
   build_playbook.py           budowa playbooka + WERYFIKACJA REPLAYEM na świeżej instancji
 
 results/
   playbook.json               7 gier / 12 poziomów, sekwencje akcji, replay-verified, 2.59 pkt
   game_metadata.json          25 gier: baseline, tagi, ΣBas, sufity głębokości, wynik searcha
   sweep_results.jsonl         przebieg płytki (3k węzłów/grę)
-  sweep_deep.jsonl            przebieg głęboki (12k węzłów/grę)
-  sweep_merged.jsonl          scalone najlepsze na grę (to jest źródło playbooka)
-  sweep_shallow.log, sweep_deep.log   surowe logi
+  sweep_deep.jsonl            przebieg głęboki v1 (12k węzłów/grę)
+  sweep2_results.jsonl        przebieg v2 z kalibracją po efekcie (8/25 gier — reszta
+                              niedokończona: presja pamięci przy 2 workerach z deepcopy)
+  sweep_merged.jsonl          scalone najlepsze v1
+  sweep_best.jsonl            scalone najlepsze ze WSZYSTKICH 3 przebiegów (źródło playbooka)
+  sweep_shallow.log, sweep_deep.log, sweep2.log   surowe logi
   their_tree_snapshot.tsv     migawka ich gałęzi: 492 bloby (SHA / rozmiar / ścieżka)
   verification_output.txt     zapisany output verify_patch_chains.sh (dowód run-killera)
 ```

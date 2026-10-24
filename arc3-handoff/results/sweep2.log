@@ -1,0 +1,9 @@
+25 gier, workers=2, node_cap=10000, sec_cap=240.0s, bfs_branch<=9, calib_step=4px
+[1/25] ar25   tryb=bfs   rozg=  5 sygnal=dead_clicks  rozwiazane=1 akcje=[15, None] 227.6s 
+[2/25] cd82   tryb=beam  rozg= 19 sygnal=cursor_only  rozwiazane=1 akcje=[5, None] 28.3s 
+[3/25] cn04   tryb=beam  rozg= 11 sygnal=ok           rozwiazane=1 akcje=[13, None] 24.1s 
+[4/25] dc22   tryb=beam  rozg= 18 sygnal=cursor_only  rozwiazane=0 akcje=[None] 76.1s 
+[5/25] bp35   tryb=beam  rozg= 17 sygnal=cursor_only  rozwiazane=0 akcje=[None] 358.6s 
+[6/25] g50t   tryb=bfs   rozg=  2 sygnal=ok           rozwiazane=0 akcje=[None] 0.2s 
+[7/25] ka59   tryb=beam  rozg= 18 sygnal=cursor_only  rozwiazane=0 akcje=[None] 21.8s 
+[8/25] ft09   tryb=bfs   rozg=  8 sygnal=ok           rozwiazane=1 akcje=[4, None] 62.0s 

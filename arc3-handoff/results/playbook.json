@@ -2,10 +2,98 @@
  "_comment": "ARC-AGI-3 playbook: sekwencje akcji znalezione offline przez przeszukiwanie (0 tokenow LLM), kazda zweryfikowana replayem na swiezej instancji gry. Score wyliczony dokladnie wg taaf/game.py:381-413.",
  "_scoring": "level: min(115,(baseline/actions)^2*100); waga k+1; gra: Sum(score*w)/Sum(w) z capem Sum(w rozwiazanych)/Sum(w)*100",
  "_verified_on": "r019 smoke: tn36 L=1 -> 3.57 (formua daje 3.57), ls20 L=1 -> 3.27 (daje 3.27)",
- "lb_points_floor": 2.587,
- "games_solved": 7,
- "levels_solved": 12,
+ "lb_points_floor": 3.079,
+ "games_solved": 10,
+ "levels_solved": 15,
  "games": {
+  "ar25": {
+   "game_id": "ar25-0c556536",
+   "n_levels": 8,
+   "baseline_actions": [
+    32,
+    50,
+    75,
+    37,
+    89,
+    159,
+    233,
+    73
+   ],
+   "levels": [
+    {
+     "level": 0,
+     "actions": 15,
+     "seq": [
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 2,
+       "name": "ACTION2"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      }
+     ],
+     "expected_level_score": 115.0
+    }
+   ],
+   "expected_game_score": 2.778,
+   "replay_verified": true,
+   "tags": [
+    "keyboard_click"
+   ]
+  },
   "cd82": {
    "game_id": "cd82-fb555c5d",
    "n_levels": 6,
@@ -51,6 +139,129 @@
    "tags": [
     "keyboard_click"
    ]
+  },
+  "cn04": {
+   "game_id": "cn04-2fe56bfb",
+   "n_levels": 6,
+   "baseline_actions": [
+    29,
+    54,
+    85,
+    300,
+    208,
+    113
+   ],
+   "levels": [
+    {
+     "level": 0,
+     "actions": 13,
+     "seq": [
+      {
+       "a": 6,
+       "x": 48,
+       "y": 32
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 3,
+       "name": "ACTION3"
+      },
+      {
+       "a": 5,
+       "name": "ACTION5"
+      },
+      {
+       "a": 1,
+       "name": "ACTION1"
+      }
+     ],
+     "expected_level_score": 115.0
+    }
+   ],
+   "expected_game_score": 4.762,
+   "replay_verified": true,
+   "tags": [
+    "keyboard_click"
+   ]
+  },
+  "ft09": {
+   "game_id": "ft09-0d8bbf25",
+   "n_levels": 6,
+   "baseline_actions": [
+    43,
+    12,
+    23,
+    28,
+    65,
+    37
+   ],
+   "levels": [
+    {
+     "level": 0,
+     "actions": 4,
+     "seq": [
+      {
+       "a": 6,
+       "x": 36,
+       "y": 36
+      },
+      {
+       "a": 6,
+       "x": 36,
+       "y": 44
+      },
+      {
+       "a": 6,
+       "x": 52,
+       "y": 44
+      },
+      {
+       "a": 6,
+       "x": 36,
+       "y": 52
+      }
+     ],
+     "expected_level_score": 115.0
+    }
+   ],
+   "expected_game_score": 4.762,
+   "replay_verified": true,
+   "tags": []
   },
   "lp85": {
    "game_id": "lp85-305b61c3",
@@ -503,7 +714,7 @@
      "expected_level_score": 111.42
     },
     {
-     "level": 1,
+     "level": 2,
      "actions": 10,
      "seq": [
       {
@@ -550,7 +761,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 2,
+     "level": 4,
      "actions": 19,
      "seq": [
       {
@@ -633,7 +844,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 3,
+     "level": 6,
      "actions": 17,
      "seq": [
       {
@@ -708,7 +919,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 4,
+     "level": 8,
      "actions": 29,
      "seq": [
       {
@@ -873,7 +1084,7 @@
      "expected_level_score": 115.0
     },
     {
-     "level": 1,
+     "level": 2,
      "actions": 11,
      "seq": [
       {

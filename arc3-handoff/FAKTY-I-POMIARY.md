@@ -74,11 +74,101 @@ Silnik jest deterministyczny → playbook da się odtworzyć w harnessie co do a
 |---|---|---|
 | tn36 | `[6]` | tylko klik — 4096 współrzędnych do przeszukania |
 | sb26 | `[5, 6, 7]` | występuje `ACTION7` (nie ma go w mojej liście ruchów klawiaturowych) |
-| ft09 | puste / 1 element | **search kończy się po 56 węzłach w 0.7 s** — gra wymaga akcji, której nie wystawia; do zdiagnozowania ręcznie, to 1/25 budżetu leżąca na ulicy |
+| ft09 | `[6]` | **POPRAWKA do mojego własnego wpisu**: wcześniej zapisałem tu „puste / 1 element" — to nie był pomiar, tylko wnioskowanie z faktu, że search umarł po 56 węzłach w 0.7 s. Pomiar (skan 4096 współrzędnych) daje: 288 responsywnych (7%), wszystkie w x,y ∈ [36,57], wszystkie zmieniają **dokładnie 38 px** → 8 przycisków na siatce co 8 px. Search umierał, bo segmentacja blobów nie trafiała w żaden z nich. Rozwiązane w §1bis |
 
 Model **nie może** sam krokować silnika: `inference/agent/python_tool_sandbox.py` wystawia
 mu tylko `current_frame` (`.ascii/.step/.level/.shape/.segmentation`) i `history`. Dlatego
 każdy search musi żyć w harnessie, nie w piaskownicy modelu.
+
+---
+
+## 1bis. Jak naprawdę wyglądają gry click-owe (skan 4096 współrzędnych) i dlaczego to ważne
+
+Pierwsza wersja searcha (`tools/sweep.py`) generowała kandydatów kliknięcia z segmentacji
+blobów 4-spójnych (centroidy + skraje obiektów). Pomiar pokazał, że dla części gier ten
+generator jest **ślepy**. Przeskanowałem wszystkie 4096 współrzędnych na trzech grach,
+izolując każdy test przez `level_reset()` (1.82 ms — 9× taniej niż `deepcopy` 16.9 ms):
+
+| gra | `available_actions` | responsywne współrzędne | zmiana pikseli | interpretacja |
+|---|---|---|---|---|
+| **ft09** | `[6]` | **288 / 4096 (7%)**, wszystkie w `x,y ∈ [36,57]` | **dokładnie 38** (min=mediana=max) | 8 przycisków na siatce co 8 px; klik w dowolny punkt przycisku daje ten sam efekt |
+| **sc25** | `[1,2,3,4,6]` | **0 / 4096** | — | żaden klik nie zmienia ramki *od razu* — efekt odroczony/niewidoczny w ramce |
+| **tn36** | `[6]` | **4096 / 4096 (100%)** | **1–4** (mediana 1) | to kursor podążający za klikiem, nie zmiana stanu → heurystyka „liczba zmienionych pikseli" jest tu bezużyteczna |
+
+Trzy różne patologie, trzy różne wnioski:
+1. **ft09** — segmentacja blobów nie trafiła w ŻADEN z 288 punktów, więc search miał 28
+   martwych ruchów, frontier wysechł po 56 węzłach w 0.7 s. (Wcześniej zapisałem, że ft09 ma
+   „puste `available_actions`" — to było wnioskowanie, nie pomiar; sprostowane wyżej.)
+2. **sc25** — kryterium „ramka się zmieniła" w ogóle nie wykrywa legalnych ruchów. Grupa gier
+   z odroczonym efektem; wymaga porównywania stanów po 2–3 akcjach (niezrobione, patrz niżej).
+3. **tn36** — sygnał nowości jest czystym szumem (kursor). Tu potrzebna inna heurystyka.
+
+### Odkrycie: silnik ma wewnętrzne API z gotową listą ruchów — i NIE WOLNO go używać
+
+Przy okazji diagnostyki wyszło, że obiekt gry wystawia dużo więcej niż `perform_action`:
+
+```
+_get_valid_actions()            -> DOKŁADNA lista legalnych ActionInput ZE WSPÓŁRZĘDNYMI klików
+_get_valid_clickable_actions()  -> same klikalne
+_get_valid_placeble_actions()   -> miejsca do umieszczenia sprite'u
+_score, _win_score              -> postęp i próg wygranej (np. ft09: 0 / 6)
+_current_level_index, _action_count, _seed
+get_pixels(x, y, width, height) -> fragment ramki bez wykonywania akcji
+full_reset(), handle_reset(), is_last_level(), complete_action()
+```
+
+Dla ft09 `_get_valid_actions()` zwraca **8** klików: `(36,36), (44,36), (52,36), (36,44),
+(52,44), (36,52), …` — dokładnie ten obszar, który znalazłem skanem. Dla sc25: 4 klawisze
++ 9 klików w siatce 3×3 od `(24,49)`. Dla tn36: 11 klików od `(20,42)`.
+
+**Ale docstring tej metody mówi wprost:**
+
+> `Note: This method is for internal use only, the data here is never exposed via the API
+> or to Users/Agents.`
+
+Czyli to informacja, którą silnik **celowo ukrywa przed agentem** (`FrameData.available_actions`
+dostaje tylko numery akcji — dla ft09 `[6]`, bez współrzędnych; agent ma je wywnioskować
+z ramki, i o to chodzi w tym benchmarku). Rekomendacja jest jednoznaczna:
+
+> **NIE używać `_get_valid_actions()` / `_score` / `_win_score` w niczym, co idzie do submisji.**
+> Przy $75k nagród i top-5 to ryzyko dyskwalifikacji, a nie przewaga. Używać wyłącznie
+> OFFLINE jako wyroczni do sprawdzania, czy heurystyki na publicznym API działają.
+
+### Zamiennik na publicznym API: kalibracja po EFEKCIE (działa, zmierzone)
+
+Ta sama informacja jest dostępna legalnie — przez `perform_action` i porównywanie ramek.
+Kluczowa zmiana względem pierwszej wersji: **grupować próby po efekcie (hash ramki po kliku),
+nie po położeniu**.
+
+```
+dla każdej współrzędnej z siatki co 4 px (256 prób):
+    level_reset()                      # 1.82 ms, przywraca poziom (ONLY_RESET_LEVELS)
+    fd = perform_action(klik(x,y))
+    jeśli ramka się zmieniła: effects[hash(frame)].setdefault((x,y))
+reprezentanci = po jednej współrzędnej na RÓŻNY efekt
+```
+
+Wynik na ft09: **8 różnych efektów → rozgałęzienie 8** — dokładnie tyle, ile mówi ukryte
+`_get_valid_actions()`, ale uzyskane wyłącznie publicznym API. I search natychmiast rozwiązał
+poziom 0 w **4 akcjach** (przedtem: 0 poziomów, 56 węzłów, ślepy generator).
+
+Koszt: 256 prób ≈ 0.5 s (pomierzone 544 próby/s dla ft09 i tn36, ale **115/s dla sc25** —
+`perform_action` potrafi blokować na animacji, więc koszt akcji różni się między grami ~5×;
+to samo wyjaśnia, dlaczego lf52 w głębokim przebiegu nie skończył się w `sec_cap=300`).
+
+Druga poprawka z tego samego pomiaru: **pruning ruchów nigdy nie może zwrócić pustej listy**.
+Dla sc25 żaden ruch nie zmienia ramki od razu, więc pruning zerował cały zestaw i search
+stawał w miejscu (`brak efektywnych ruchów po kalibracji`). Teraz przy braku trafień wracamy
+do pełnej listy i raportujemy `pruned_fell_back` — żadna gra nie zostaje z pustą ławką ruchów.
+
+### Czego wciąż nie umiemy (uczciwie)
+
+- **sc25 i gry z odroczonym efektem**: legalne ruchy nie zmieniają ramki natychmiast, więc
+  ani kalibracja, ani heurystyka nowości ich nie widzą. Potrzebne porównywanie stanów po
+  sekwencji 2–3 akcji (koszt ×branching² — dla 13 ruchów to 169 prób na stan, wciąż tanie).
+- **tn36 i gry „kursorowe"**: zmiana 1–4 px to ruch kursora, nie postęp. Bez innego sygnału
+  (np. porównanie regionu planszy z pominięciem ramki/HUD) beam idzie w ślepe uliczki.
+  tn36 to przy okazji największy wyciek tokenów w ich r019 (86% na niedokończonym poziomie).
 
 ---
 
@@ -163,11 +253,11 @@ przy referencyjnej rozgrywce), `sufit L1` = max punktów za sam poziom 0.
 | sp80 | 6 | 518 | keyboard_click | 1 | 4.76 | 4.76 |
 | ls20 | 7 | 776 | keyboard | 1 | 3.57 | 3.57 |
 | lp85 | 8 | 388 | click | 1 | 2.78 | 2.78 |
-| ar25 | 8 | 748 | keyboard_click | 0 | — | 2.78 |
+| ar25 | 8 | 748 | keyboard_click | **1 (15 akcji)** | **2.78** | 2.78 |
 | bp35 | 9 | 651 | keyboard_click | 0 | — | 2.22 |
-| cn04 | 6 | 789 | keyboard_click | 0 | — | 4.76 |
+| cn04 | 6 | 789 | keyboard_click | **1 (13 akcji)** | **4.76** | 4.76 |
 | dc22 | 6 | 1228 | keyboard_click | 0 | — | 4.76 |
-| ft09 | 6 | 208 | *(brak tagu)* | 0 | — | 4.76 |
+| ft09 | 6 | 208 | *(brak tagu)* | **1** (sweep2, 4 akcje) | 4.76 | 4.76 |
 | g50t | 7 | 879 | keyboard | 0 | — | 3.57 |
 | ka59 | 7 | 730 | keyboard_click | 0 | — | 3.57 |
 | lf52 | 10 | 1339 | click | 0 | — | 1.82 |
@@ -184,6 +274,23 @@ przy referencyjnej rozgrywce), `sufit L1` = max punktów za sam poziom 0.
 
 Statystyki: średnio **7.32** poziomu/grę, średnia `ΣBas` **685.4**, mediana **638**,
 min **171** (cd82), max **1843** (wa30). Tagi: 4 keyboard / 7 click / 13 keyboard_click / 1 brak.
+
+**Stan naszego przeszukiwania offline (0 tokenów LLM, 3 przebiegi scalone po najlepszym
+wyniku na grę): 10/25 gier, 15 poziomów, 3.08 pkt LB podłogi**, każda sekwencja
+zweryfikowana replayem na świeżej instancji (2×). Rozbicie: tu93 5 poziomów (33.33 pkt),
+vc33 2 (10.71), a po 1 poziomie: cd82, cn04, ft09, m0r0, sp80 (po 4.76), ls20 (3.57),
+ar25, lp85 (po 2.78). Trzy gry (ar25, cn04, ft09) doszły dopiero po zmianie generatora
+ruchów na kalibrację po efekcie — §1bis.
+
+Nierozwiązane (15): bp35, dc22, g50t, ka59, lf52, r11l, re86, s5i5, sb26, sc25, sk48,
+su15, tn36, tr87, wa30. Wzorzec: `signal_quality=cursor_only` (klik zmienia 1-4 px = kursor,
+więc heurystyka nowości jest szumem) albo gry z odroczonym efektem (sc25: 0 z 4096 klików
+zmienia ramkę od razu). Osobny przypadek: **g50t ma efektywne rozgałęzienie 2 i search
+kończy się w 0.2 s** — frontier wysycha natychmiast, więc tam brakuje nie mocy, a ruchu,
+który zmienia stan w widoczny sposób.
+
+Komplet danych per gra (baseline, `available_actions`, efektywne rozgałęzienie, jakość
+sygnału, liczba różnych efektów kliku, wynik, sufity głębokości): **`results/game_metadata.json`**.
 
 Wniosek operacyjny: `ΣBas ≈ 685` akcji na grę, a realny budżet to ~208 akcji/grę (§6) =
 **30% tego, co potrzeba na całą grę**. Nikt nie przechodzi gier w całości — wygrywa ten,

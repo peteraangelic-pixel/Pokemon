@@ -199,27 +199,37 @@ Przeszukiwanie offline na `arcengine` (BFS dla gier klawiaturowych, beam + segme
 
 **Dwa przebiegi, scalone po najlepszym wyniku na grę: 7/25 gier, 12 poziomów.**
 
-| parametr | płytki | głęboki |
-|---|---|---|
-| cap węzłów / grę | 3 000 | 12 000 |
-| limit czasu / grę | 200 s | 300 s |
-| max poziomów | 4 | 6 |
-| szerokość beam / kandydatów click | 60 / 20 | 120 / 28 |
-| **gry z ≥1 poziomem** | **6/25** | **7/25** |
-| **poziomy razem** | **9** | **12** |
-| **wartość LB** | **1.67 pkt** | **2.59 pkt** |
+| parametr | v1 płytki | v1 głęboki | **v2 kalibrowany** |
+|---|---|---|---|
+| generator ruchów | segmentacja blobów | segmentacja blobów | **kalibracja po efekcie** |
+| cap węzłów / grę | 3 000 | 12 000 | 10 000 |
+| limit czasu / grę | 200 s | 300 s | 240 s |
+| max poziomów | 4 | 6 | 6 |
+| tryb | po obecności ACTION6 | po obecności ACTION6 | **po efektywnym rozgałęzieniu** |
+| **gry z ≥1 poziomem** | 6/25 | 7/25 | **10/25** (z 8 przejechanych) |
+| **poziomy razem** | 9 | 12 | **15** |
+| **wartość LB** | 1.67 pkt | 2.59 pkt | **3.08 pkt** |
+
+v2 przejechał tylko 8 z 25 gier (proces został zatrzymany przez presję pamięci przy 2
+workerach z `deepcopy` — `kswapd0` na 100%, powłoka przestała odpowiadać). Nowe gry z samej
+kalibracji: **ar25** (15 akcji), **cn04** (13), **ft09** (4). Gdyby v2 przejechał wszystkie
+25 przy tym samym stosunku (3 nowe na 8 gier), playbook byłby wart wyraźnie więcej —
+to pierwszy rzecz do dokończenia, i to tania (45 min CPU, 0 tokenów).
 
 Scalony playbook (kolumna „poziomy" = z którego przebiegu):
 
 | gra | tryb | poziomy | akcje vs baseline | score gry | z |
 |---|---|---|---|---|---|
-| **tu93** | bfs | **5** (L0–L4) | 18/19, 10/16, 19/34, 17/42, 29/123 | **33.33** | głęboki |
-| **vc33** | beam | **2** (L0–L1) | 3/7, 11/18 | **10.71** | głęboki |
-| cd82 | beam | 1 | 5/55 | 4.76 | płytki |
-| m0r0 | beam | 1 | 15/30 | 4.76 | płytki |
-| sp80 | beam | 1 | 28/39 | 4.76 | głęboki |
-| ls20 | bfs | 1 | 13/22 | 3.57 | płytki |
-| lp85 | beam | 1 | 5/17 | 2.78 | płytki |
+| **tu93** | bfs | **5** (L0–L4) | 18/19, 10/16, 19/34, 17/42, 29/123 | **33.33** | v1 głęboki |
+| **vc33** | beam | **2** (L0–L1) | 3/7, 11/18 | **10.71** | v1 głęboki |
+| cd82 | beam | 1 | 5/55 | 4.76 | v1 płytki |
+| cn04 | beam | 1 | 13/29 | 4.76 | **v2** |
+| ft09 | bfs | 1 | 4/43 | 4.76 | **v2** |
+| m0r0 | beam | 1 | 15/30 | 4.76 | v1 płytki |
+| sp80 | beam | 1 | 28/39 | 4.76 | v1 głęboki |
+| ls20 | bfs | 1 | 13/22 | 3.57 | v1 płytki |
+| ar25 | bfs | 1 | 15/32 | 2.78 | **v2** |
+| lp85 | bfs | 1 | 5/17 | 2.78 | v1 płytki |
 
 Każde rozwiązanie **zweryfikowane replayem na świeżej instancji gry, 2× powtórzone** —
 silnik jest deterministyczny, więc playbook da się odtworzyć w harnessie co do akcji.
@@ -228,7 +238,7 @@ Formułę score'u zweryfikowałem co do setnej na ich własnych danych z r019:
 tn36 L=1 → mój rachunek daje **3.57** (opublikowane 3.57), ls20 L=1 → **3.27** (3.27).
 Czyli te liczby są policzone tym samym wzorem, którym liczy Kaggle.
 
-**Wartość playbooka dziś: 2.59 pkt LB** (średnia po 25 grach, bo 110 runów to cykliczne
+**Wartość playbooka dziś: 3.08 pkt LB** (średnia po 25 grach, bo 110 runów to cykliczne
 repliki tych 25 gier). To **podłoga**, nie sufit: te poziomy są zaliczone zanim model wyda
 pierwszy token, a LLM startuje potem z poziomu L5 (tu93) zamiast L0 i z całym budżetem.
 
@@ -251,10 +261,15 @@ Trzy wnioski z pomiaru — w tym jeden, który obala moje własne wcześniejsze 
 > ślepe uliczki, a kandydatów kliknięcia jest 20–28 na ramkę. To jest właściwe miejsce na
 > ich nieużywany port Rusta (`rust/src/grid.rs`, ~121×) do segmentacji obiektów.
 
-**ft09 to osobny przypadek**: search kończy się po 56 węzłach w 0.7 s, bo
-`available_actions` jest puste albo jednoelementowe — gra wymaga akcji, której nie wystawia
-(`ACTION7`? przytrzymanie? klik w specyficzny piksel?). Do obejrzenia ręcznie: to 1/25
-budżetu leżąca na ulicy.
+**ft09 — POPRAWKA i rozwiązanie.** W pierwszej wersji tego dokumentu napisałem, że
+`available_actions` jest „puste albo jednoelementowe". To nie był pomiar, tylko wnioskowanie
+z tego, że search umarł po 56 węzłach w 0.7 s — i było błędne. Pomiar: ft09 ma
+`available_actions=[6]`, a skan wszystkich 4096 współrzędnych pokazał 288 responsywnych
+(7%), wszystkie w `x,y ∈ [36,57]` i wszystkie zmieniające **dokładnie 38 pikseli**.
+Search umierał, bo segmentacja blobów (centroidy obiektów 4-spójnych) nie trafiała w żaden
+z tych punktów, a klik w puste miejsce daje 0 px → wszystkie stany identyczne → frontier
+wysycha. Po zmianie kalibracji na grupowanie **po efekcie** ft09 ma rozgałęzienie 8 i poziom 0
+pada w **4 akcjach** (`tools/sweep2.py`, §1bis FAKTY).
 
 Co z tego wynika na następne kroki searcha (w tej kolejności):
 1. **Makro-akcje + iterative widening** dla gier klawiaturowych: baseline to 30–230 akcji,
@@ -262,7 +277,7 @@ Co z tego wynika na następne kroki searcha (w tej kolejności):
    + deduplikacja stanów powinny wejść na 20–30.
 2. **Heurystyka celu dla click-gier** zamiast nowości ramki: postęp w wykrytym regionie
    (HUD/licznik/pasek) + segmentacja obiektów z ich portu Rusta.
-3. **ft09** — zdiagnozować brak akcji.
+3. ~~**ft09** — zdiagnozować brak akcji.~~ **ZROBIONE**: patrz wyżej — ft09 rozwiązany (4 akcje).
 4. **Równoległość**: 25 gier × 300 s na 2 rdzeniach to ~45 min. Na maszynie z 16 rdzeniami
    (albo w offline jobie na Kaggle CPU) ten sam budżet na grę można dać 8× więcej grom,
    albo 8× pogłębić każdą.
