@@ -1,0 +1,102 @@
+# === v11 metering: the six numbers a slot is supposed to buy ================
+# Read-only over bm.game_runs. No GPU, no tokens, runs in smoke and in a real
+# submission alike. Device: every number below is measured, not estimated.
+#
+#   actions/call      depth bought per model call; r019 = 4.4
+#   tok/action        generated tokens per engine action; r019 = 841
+#   actions           engine actions in the whole game; r019 = 206
+#   actions_need      human baseline sum = actions needed to finish every level
+#   weight_pct        completed level weight (the score's real numerator)
+#   score             the game score, r019 mean 27.21
+import json as _v11_json
+
+
+def _v11_int(x):
+    try:
+        return int(x or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _v11_row(run):
+    hist = list(getattr(run, "history", []) or [])
+    gen = [_v11_int(getattr(h, "generated_tokens", 0)) for h in hist]
+    calls = sum(1 for t in gen if t > 0)
+    tok = sum(gen) + _v11_int(getattr(run, "final_generated_tokens", 0))
+    acts = sum(_v11_int(x) for x in (getattr(run, "actions_per_level", []) or []))
+    levels = _v11_int(getattr(run, "levels_completed", 0))
+    total = _v11_int(getattr(run, "number_of_levels", 0))
+    weights = sum(range(1, total + 1)) or 1
+    done_w = sum(range(1, levels + 1))
+    need = sum(_v11_int(x) for x in (getattr(run, "base_actions_per_level", []) or []))
+    score = getattr(run, "final_score", None)
+    if score is None:
+        try:
+            score = run._compute_final_score()
+        except Exception:
+            score = 0.0
+    return {
+        "game_id": str(getattr(run, "game_id", "?")),
+        "state": str(getattr(run, "state", "?")),
+        "levels": f"{levels}/{total}",
+        "weight_pct": round(100.0 * done_w / weights, 1),
+        "score": round(float(score or 0.0), 2),
+        "actions": acts,
+        "actions_need": need,
+        "calls": calls,
+        "tok": tok,
+        "tok_per_action": round(tok / acts, 1) if acts else 0.0,
+        "actions_per_call": round(acts / calls, 2) if calls else 0.0,
+        "tok_per_call": round(tok / calls, 1) if calls else 0.0,
+        "wall_min": round(float(getattr(run, "final_wallclock_seconds", 0.0) or 0.0) / 60.0, 1),
+    }
+
+
+try:
+    _v11_rows = [_v11_row(r) for r in (getattr(bm, "game_runs", None) or [])]
+except Exception as _v11_exc:  # never let reporting break a finished run
+    print(f"v11 metering skipped: {_v11_exc!r}", flush=True)
+    _v11_rows = []
+
+if _v11_rows:
+    _v11_header = (f"{'game':22}{'levels':>8}{'w%':>6}{'score':>7}{'actions':>8}"
+                  f"{'need':>6}{'calls':>6}{'a/call':>7}{'tok/act':>8}{'tok/call':>9}{'min':>6}")
+    print("\n=== v11 metering " + "=" * (len(_v11_header) - 16), flush=True)
+    print(_v11_header, flush=True)
+    for r in _v11_rows:
+        print(f"{r['game_id'][:21]:22}{r['levels']:>8}{r['weight_pct']:6.1f}{r['score']:7.2f}"
+              f"{r['actions']:8d}{r['actions_need']:6d}{r['calls']:6d}"
+              f"{r['actions_per_call']:7.2f}{r['tok_per_action']:8.0f}"
+              f"{r['tok_per_call']:9.0f}{r['wall_min']:6.0f}", flush=True)
+
+    _n = len(_v11_rows)
+    _mean = lambda key: sum(r[key] for r in _v11_rows) / _n  # noqa: E731
+    _summary = {
+        "profile": V11_PROFILE,
+        "games": _n,
+        "mean_score": round(_mean("score"), 2),
+        "mean_weight_pct": round(_mean("weight_pct"), 1),
+        "mean_actions": round(_mean("actions"), 0),
+        "mean_actions_need": round(_mean("actions_need"), 0),
+        "mean_actions_per_call": round(_mean("actions_per_call"), 2),
+        "mean_tok_per_action": round(_mean("tok_per_action"), 0),
+        "mean_tok_per_call": round(_mean("tok_per_call"), 0),
+        "depth_budget_used_pct": round(100.0 * _mean("actions") / max(1.0, _mean("actions_need")), 1),
+    }
+    print("-" * len(_v11_header), flush=True)
+    print(f"MEAN game: score={_summary['mean_score']} weight={_summary['mean_weight_pct']}% "
+          f"actions={_summary['mean_actions']:.0f}/{_summary['mean_actions_need']:.0f} "
+          f"({_summary['depth_budget_used_pct']}% of a full clear) "
+          f"a/call={_summary['mean_actions_per_call']} tok/act={_summary['mean_tok_per_action']:.0f}",
+          flush=True)
+
+    # Gates. v3 smoke was 29.02 and its LB 26.25; calibration is -2.8..-6.7.
+    _gate = "NO-GO (below v3 smoke 29.02)" if _summary["mean_score"] <= 29.02 else "GO (above v3 smoke)"
+    print(f"v11 gate: {_gate}", flush=True)
+    try:
+        (WORKING_DIR / "v11_metrics.json").write_text(
+            _v11_json.dumps({"summary": _summary, "profile": V11_PROFILE, "games": _v11_rows}, indent=1)
+        )
+        print("v11 metrics -> /kaggle/working/v11_metrics.json", flush=True)
+    except Exception as _v11_exc:
+        print(f"v11 metrics not written: {_v11_exc!r}", flush=True)

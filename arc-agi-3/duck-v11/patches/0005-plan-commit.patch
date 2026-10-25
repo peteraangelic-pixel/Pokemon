@@ -1,0 +1,444 @@
+diff --git a/ARC3-Inference/inference/agent/prompts.py b/ARC3-Inference/inference/agent/prompts.py
+index 40bd8ba..7a6e835 100644
+--- a/ARC3-Inference/inference/agent/prompts.py
++++ b/ARC3-Inference/inference/agent/prompts.py
+@@ -263,6 +263,33 @@ WORLD_MODEL_TOOL_ADDENDUM = (
+     "automatic check is the most useful evidence you get: fix `model_step` before acting on.\n"
+ )
+ 
++PLAN_COMMIT_TOOL_ADDENDUM = (
++    "- `commit(plan)` plays a plan and checks it as it goes. A plan is a list of steps; each step "
++    "is an action (`'UP'`, `{'action': 'MOUSE', 'row': r, 'col': c}`) or `{'action': ..., "
++    "'expect': {...}}`. After every step the expectation is compared with the frame that actually "
++    "came back, and the plan stops at the first disagreement with `mismatch` naming the field that "
++    "failed. Expectations: `level` (int), `board_changed` (bool), `step` (int, absolute), `digest` "
++    "(from `frame_digest()`), and `cells` ({'row,col': symbol} or [[row, col, symbol], ...]). It also "
++    "stops on level completion, game over, run completion, or `max_actions` (default 40). "
++    "Example: `commit(['LEFT', {'action': 'UP', 'expect': {'level': 2}}])`.\n"
++    "- A step you claim to understand should carry an expectation computed before it runs. A wrong "
++    "rule then costs one action and hands back a diff, instead of spending the rest of the plan on a "
++    "board that no longer matches the reasoning.\n"
++)
++
++
++def plan_escalation_prompt(level: int, actions_spent: int) -> str:
++    return (
++        f"ESCALATION: {actions_spent} actions on level {level} without completing it. Stop probing "
++        "by hand. In this turn: (1) state what the recorded transitions leave unexplained; (2) write "
++        "the rule you believe as `model_state(frame)` and `model_step(state, action)`; (3) run "
++        "`check_model()` and report the accuracy - below ~0.9 on this level it is not yet a model; "
++        "(4) only then `plan()` inside it and `commit()` the result with an expectation on every "
++        "step. If the level still resists, search the model for the nearest unseen board and test the "
++        "single action that reaches it."
++    )
++
++
+ STEP_VERIFICATION_ADDENDUM = (
+     "- During a multi-action plan, verify important effects by comparing the actual game "
+     "state with your predictions—for example, changed cells, object properties, positions, "
+diff --git a/ARC3-Inference/inference/agent/python_tool_sandbox.py b/ARC3-Inference/inference/agent/python_tool_sandbox.py
+index 7227b08..2646a47 100644
+--- a/ARC3-Inference/inference/agent/python_tool_sandbox.py
++++ b/ARC3-Inference/inference/agent/python_tool_sandbox.py
+@@ -16,6 +16,7 @@ import time
+ from typing import Any, Callable
+ 
+ from inference.utils import frame_diff as _frame_diff_module
++from inference.utils import plan_commit as _plan_commit_module
+ from inference.utils import world_model as _world_model_module
+ from inference.utils import segmentation as _segmentation
+ from inference.utils import retained_functions as _retained_functions
+@@ -46,6 +47,8 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+ 
+     __WORLD_MODEL_SOURCE__
+ 
++    __PLAN_COMMIT_SOURCE__
++
+     __RETAINED_FUNCTIONS_SOURCE__
+ 
+     HOST_STDOUT = sys.stdout
+@@ -592,6 +595,26 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+             ]
+ 
+         runtime_globals["action"] = action
++
++        def commit(plan, stop_on_terminal=True, max_actions=40):
++            # Plays a plan step by step, halting on the first failed expectation.
++            return pc_play(
++                plan,
++                action,
++                lambda: runtime_globals.get("current_frame"),
++                max_actions=max_actions,
++                stop_on_terminal=bool(stop_on_terminal),
++            )
++
++        def frame_digest(frame=None):
++            # Stable across processes, so a digest can be written down and reused.
++            target = frame if frame is not None else runtime_globals.get("current_frame")
++            return pc_digest(str(getattr(target, "ascii", "") or ""))
++
++        if bool(initial.get("plan_commit_enabled")):
++            runtime_globals["commit"] = commit
++            runtime_globals["frame_digest"] = frame_digest
++
+         if initial.get("animation_enabled"):
+             # Globals rather than attributes on last_transition: after a death
+             # the harness appends a RESET entry, so last_transition is the
+@@ -642,7 +665,11 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+             _animation_views.extend((runtime_globals["last_animation_frames"],
+                                      runtime_globals["last_animation_timeline"]))
+ 
+-        _wm_enabled = bool(initial.get("world_model_enabled"))
++        # ARC3_PLAN_COMMIT also needs check_model()/plan() - but only the escalation
++        # directive asks for them, so the addendum and the per-snippet report stay
++        # tied to ARC3_WORLD_MODEL (v6 measured the always-on variant as a regression).
++        _wm_auto = bool(initial.get("world_model_enabled"))
++        _wm_enabled = _wm_auto or bool(initial.get("plan_commit_enabled"))
+         _wm_t0 = time.monotonic()
+ 
+         def _wm_budget(fraction):
+@@ -695,7 +722,7 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+ 
+         def _wm_auto_report():
+             # One line per acting snippet: did model_step predict what just happened?
+-            if not _wm_enabled:
++            if not _wm_auto:
+                 return
+             try:
+                 transitions = runtime_globals.get("transitions") or []
+@@ -837,6 +864,8 @@ _SANDBOX_BOOTSTRAP = textwrap.dedent(
+     "__FRAME_DIFF_SOURCE__\n", inspect.getsource(_frame_diff_module)
+ ).replace(
+     "__WORLD_MODEL_SOURCE__\n", inspect.getsource(_world_model_module)
++).replace(
++    "__PLAN_COMMIT_SOURCE__\n", inspect.getsource(_plan_commit_module)
+ )
+ 
+ 
+@@ -866,6 +895,11 @@ def _world_model_enabled() -> bool:
+     return str(os.environ.get("ARC3_WORLD_MODEL", "")).strip().lower() in {"1", "true", "yes", "on"}
+ 
+ 
++def _plan_commit_enabled() -> bool:
++    """ARC3_PLAN_COMMIT: expose commit()/frame_digest() to the model."""
++    return str(os.environ.get("ARC3_PLAN_COMMIT", "")).strip().lower() in {"1", "true", "yes", "on"}
++
++
+ def _sandbox_env() -> dict[str, str]:
+     return {
+         "PYTHONUNBUFFERED": "1",
+@@ -961,6 +995,7 @@ def run_sandboxed_python(
+                 "repair_hints": repair_hints,
+                 "animation_enabled": animation_handler is not None,
+                 "world_model_enabled": _world_model_enabled(),
++                "plan_commit_enabled": _plan_commit_enabled(),
+                 "timeout_seconds": timeout_seconds,
+                 "sandbox_cwd": sandbox_dir,
+                 "state": initial_state,
+diff --git a/ARC3-Inference/inference/agent/tool_agent.py b/ARC3-Inference/inference/agent/tool_agent.py
+index 88b9fcf..39bec69 100644
+--- a/ARC3-Inference/inference/agent/tool_agent.py
++++ b/ARC3-Inference/inference/agent/tool_agent.py
+@@ -43,6 +43,8 @@ from inference.agent.prompts import (
+     WORLD_MODEL_FREE_ADDENDUM,
+     FRAME_DIFF_HINT_ADDENDUM,
+     WORLD_MODEL_TOOL_ADDENDUM,
++    PLAN_COMMIT_TOOL_ADDENDUM,
++    plan_escalation_prompt,
+     STEP_VERIFICATION_ADDENDUM,
+     PYTHON_ADDENDUM_HEAD,
+     PYTHON_ADDENDUM_TAIL,
+@@ -120,6 +122,16 @@ def _world_model_nudge() -> bool:
+     return _get_env_bool("ARC3_WORLD_MODEL", False) and _get_env_bool("ARC3_WORLD_MODEL_NUDGE", False)
+ 
+ 
++def _plan_commit_enabled() -> bool:
++    """ARC3_PLAN_COMMIT: expose commit()/frame_digest() and document them."""
++    return _get_env_bool("ARC3_PLAN_COMMIT", False)
++
++
++def _escalate_actions() -> int:
++    """ARC3_ESCALATE_ACTIONS: actions on one level before the escalation directive."""
++    return max(0, _get_env_int("ARC3_ESCALATE_ACTIONS", 0))
++
++
+ _WM_CHECK_RE = re.compile(r"\[world model check\] (\d+)/(\d+)(?:[^\n]*?; (\d+) model errors)?")
+ 
+ 
+@@ -316,6 +328,13 @@ _PYTHON_TOOL_DESCRIPTION = (
+     "Use `print(...)` for compact output or assign final data to `result`."
+ )
+ 
++if _plan_commit_enabled():
++    _PYTHON_TOOL_DESCRIPTION += (
++        " Also available: `commit(plan)` plays a list of actions one step at a time and stops at "
++        "the first failed `expect={...}` (level, board_changed, step, digest, cells), returning "
++        "`mismatch` with the field that differed; `frame_digest()` returns the stable digest of a frame."
++    )
++
+ def _normalize_valid_actions(valid_actions: list[str] | None) -> list[str]:
+     names: list[str] = []
+     for value in valid_actions or []:
+@@ -2828,6 +2847,9 @@ def _build_system_prompt(*, tool_output_tokens: int) -> str:
+         # check_model()/plan() and the automatic per-snippet model check live in
+         # the sandbox (inference/utils/world_model.py); this documents them.
+         prompt += WORLD_MODEL_TOOL_ADDENDUM
++    if _plan_commit_enabled():
++        # commit()/frame_digest() live in the sandbox (inference/utils/plan_commit.py).
++        prompt += PLAN_COMMIT_TOOL_ADDENDUM
+     if _get_env_bool("ARC3_STEP_VERIFICATION_HINT", False):
+         # General checks during action sequences and targeted probes when search fails.
+         prompt += STEP_VERIFICATION_ADDENDUM
+@@ -3629,6 +3651,7 @@ class ToolAgent:
+         self._context_was_trimmed = False
+         self._has_evicted = False
+         self._actions_at_level_start = 0
++        self._arc3_escalations_on_level = 0
+         self._tokens_at_level_start = 0
+         self._arc3_base_system_prompt = self._system_prompt
+         self._arc3_level_notes: dict[int, str] = {}
+@@ -4000,6 +4023,7 @@ class ToolAgent:
+                     self._pace_last_completed_level = completed_level
+             self._actions_at_level_start = _priority_action_count(summary)
+             self._tokens_at_level_start = self._session_generated_tokens
++            self._arc3_escalations_on_level = 0
+         if summary.get("level_transition") and _persistent_functions_scope() == "levelup":
+             # a helper can encode the old layout in its code even when it holds
+             # no stale data, so the level boundary is where it stops being safe
+@@ -5376,6 +5400,12 @@ class ToolAgent:
+             if spent >= audit_every * (self._arc3_audits_on_level + 1):
+                 self._arc3_audits_on_level = spent // audit_every
+                 lines.append(_stuck_audit_prompt(int(current_level or 1), spent))
++        escalate_every = _escalate_actions()
++        if escalate_every and _plan_commit_enabled():
++            on_level = max(0, int(action_num or 0) - int(self._actions_at_level_start or 0))
++            if on_level >= escalate_every * (self._arc3_escalations_on_level + 1):
++                self._arc3_escalations_on_level = on_level // escalate_every
++                lines.append(plan_escalation_prompt(int(current_level or 1), on_level))
+         return "\n".join(lines)
+ 
+     def _tools(self, state_path: Path) -> list[dict[str, Any]]:
+diff --git a/ARC3-Inference/inference/utils/plan_commit.py b/ARC3-Inference/inference/utils/plan_commit.py
+new file mode 100644
+index 0000000..9986adc
+--- /dev/null
++++ b/ARC3-Inference/inference/utils/plan_commit.py
+@@ -0,0 +1,218 @@
++"""Expectation-carrying plan execution for the analyzer Python tool.
++
++The model commits a *plan*, not an action: a list of actions where each step may
++carry what it expects the board to show afterwards. ``pc_play`` issues the steps
++one at a time, verifies each expectation against the frame that actually came
++back, and halts the plan at the first disagreement. A wrong world model then
++costs one action and returns a diff, instead of spending the rest of the plan on
++a board that no longer matches the reasoning behind it.
++
++Stdlib-free and dependency-free: this source is embedded verbatim into the
++isolated Python runner (see python_tool_sandbox.py), so it may not import
++anything and may only use builtins the sandbox exposes.
++"""
++
++PLAN_TERMINAL_KEYS = ("run_complete", "game_over", "level_completed", "done")
++
++
++def pc_digest(text):
++    """Process-independent 64-bit FNV-1a digest of a frame's ASCII text."""
++    value = 0xCBF29CE484222325
++    for char in str(text or ""):
++        value ^= ord(char)
++        value = (value * 0x100000001B3) & 0xFFFFFFFFFFFFFFFF
++    return "%016x" % value
++
++
++def pc_cell(frame_ascii, row, col):
++    """One color symbol at (row, col), or None when the coordinates miss."""
++    lines = str(frame_ascii or "").split("\n")
++    try:
++        row = int(row)
++        col = int(col)
++    except (TypeError, ValueError):
++        return None
++    if row < 0 or col < 0 or row >= len(lines):
++        return None
++    line = lines[row]
++    if col >= len(line):
++        return None
++    return line[col]
++
++
++def pc_observe(frame, result=None):
++    """The facts a plan step is allowed to predict."""
++    payload = result if isinstance(result, dict) else {}
++    frame_ascii = str(getattr(frame, "ascii", "") or "")
++    level = payload.get("level")
++    if level is None:
++        level = getattr(frame, "level", None)
++    return {
++        "level": level,
++        "step": getattr(frame, "step", None),
++        "board_changed": bool(payload.get("board_changed")),
++        "digest": pc_digest(frame_ascii),
++    }
++
++
++def pc_normalize_step(item):
++    """Plan item -> (action dict, expectation dict).
++
++    Accepted forms: ``"UP"``, ``{"action": "MOUSE", "row": 3, "col": 4}`` and
++    either of those plus ``expect={...}``.
++    """
++    if isinstance(item, str):
++        name = item.strip()
++        if not name:
++            raise ValueError("plan step is an empty action name")
++        return {"action": name}, {}
++    if isinstance(item, dict):
++        step = dict(item)
++        expect = step.pop("expect", None) or {}
++        if not isinstance(expect, dict):
++            raise TypeError("expect must be a dict, e.g. expect={'level': 2}")
++        action = {}
++        if "action" in step:
++            action["action"] = str(step.get("action")).strip()
++        if not action.get("action"):
++            raise ValueError("plan step is missing an `action` field")
++        name = action["action"].upper()
++        if name == "MOUSE" and ("x" in step or "y" in step):
++            raise ValueError("MOUSE takes integer row and col fields, not x/y")
++        if "row" in step:
++            action["row"] = step.get("row")
++        if "col" in step:
++            action["col"] = step.get("col")
++        return action, expect
++    raise TypeError("plan steps must be strings or dicts")
++
++
++def pc_check(expect, observed, frame_ascii=""):
++    """Every way ``observed`` fails ``expect``; empty list means it held."""
++    if not expect:
++        return []
++    bad = []
++    for key in ("level", "step", "digest"):
++        if key in expect:
++            want = expect.get(key)
++            got = observed.get(key) if isinstance(observed, dict) else None
++            if str(want) != str(got):
++                bad.append({"field": key, "want": want, "got": got})
++    if "board_changed" in expect:
++        want = bool(expect.get("board_changed"))
++        got = bool((observed or {}).get("board_changed"))
++        if want != got:
++            bad.append({"field": "board_changed", "want": want, "got": got})
++    cells = expect.get("cells")
++    if cells:
++        label = [("cells", "want a {'row,col': symbol} map or [[row, col, symbol], ...]")]
++        if isinstance(cells, dict):
++            pairs = list(cells.items())
++        elif isinstance(cells, (list, tuple)):
++            pairs = list(cells)
++        else:
++            pairs = []
++            bad.append({"field": "cells", "want": label[0][1], "got": type(cells).__name__})
++        for item in pairs:
++            if isinstance(item, (list, tuple)) and len(item) == 3:
++                row, col, want = item
++            elif isinstance(item, (list, tuple)) and len(item) == 2:
++                where, want = item
++                if not isinstance(where, str) or "," not in where:
++                    continue
++                row, col = where.split(",", 1)
++            else:
++                continue
++            got = pc_cell(frame_ascii, row, col)
++            if str(got) != str(want):
++                bad.append({"field": "cell(%s,%s)" % (str(row).strip(), str(col).strip()),
++                            "want": want, "got": got})
++    return bad
++
++
++def pc_play(plan, action_fn, frame_fn, max_actions=40, stop_on_terminal=True,
++            steps_shown=12):
++    """Play ``plan`` one step at a time, checking expectations as they come back.
++
++    ``action_fn`` takes one normalized action dict and returns the engine's
++    action result; ``frame_fn`` returns the frame after it. Execution stops on
++    the first failed expectation, on a terminal action result, when the plan
++    ends, or at ``max_actions`` - so a runaway plan cannot decide the level on
++    its own.
++    """
++    try:
++        steps = list(plan or [])
++    except TypeError:
++        raise TypeError("commit(plan) expects a list of steps")
++    limit = max(1, int(max_actions))
++    executed = 0
++    checked = 0
++    trace = []
++    mismatch = None
++    terminal = None
++    stop_reason = "complete"
++    level = None
++    board_changed = False
++    digest = None
++
++    for index, item in enumerate(steps, start=1):
++        if executed >= limit:
++            stop_reason = "max_actions"
++            break
++        if len(steps) > limit:
++            steps = steps[:limit]
++        action, expect = pc_normalize_step(item)
++        result = action_fn(action)
++        executed += 1
++        try:
++            frame = frame_fn()
++        except Exception:  # noqa: BLE001 - a stale frame must not lose the step
++            frame = None
++        observed = pc_observe(frame, result)
++        level = observed["level"]
++        board_changed = observed["board_changed"]
++        digest = observed["digest"]
++        if len(trace) < steps_shown:
++            trace.append({
++                "i": index,
++                "action": str(action.get("action", "")),
++                "level": level,
++                "changed": board_changed,
++                "digest": digest[:8],
++            })
++        if expect:
++            checked += 1
++            failed = pc_check(expect, observed, str(getattr(frame, "ascii", "") or ""))
++            if failed:
++                mismatch = {"step": index, "action": action, "failed": failed[:6],
++                            "level": level, "digest": digest[:8]}
++                stop_reason = "mismatch"
++                break
++        if stop_on_terminal and isinstance(result, dict):
++            for key in PLAN_TERMINAL_KEYS:
++                if result.get(key):
++                    terminal = {"reason": key, "step": index, "level": level}
++                    stop_reason = key
++                    break
++            if terminal is not None:
++                break
++
++    report = {
++        "executed": executed,
++        "requested": len(steps),
++        "stop_reason": stop_reason,
++        "level": level,
++        "board_changed": board_changed,
++        "digest": digest[:8] if isinstance(digest, str) else digest,
++        "expectations_checked": checked,
++        "steps": trace,
++    }
++    if len(steps) > len(trace) or executed > len(trace):
++        report["steps_omitted"] = max(0, executed - len(trace))
++    if mismatch is not None:
++        report["mismatch"] = mismatch
++        report["advice"] = ("the model of this level is wrong at this step: read the "
++                            "failed fields, fix the rule, and re-commit")
++    if terminal is not None:
++        report["terminal"] = terminal
++    return report
