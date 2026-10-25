@@ -518,13 +518,13 @@ num/tot = Sum_{k in S} min(115, (b_k/a_k)^2*100) * w_k / Sum(w)
 cap     = 100 * Sum_{k in S} w_k / Sum(w)
 ```
 
-Jeśli każdy ukończony poziom zagrano w `a_k <= b_k * sqrt(115/100) = 1.0724 * b_k` akcji,
+Jeśli każdy ukończony poziom zagrano w `a_k <= b_k / sqrt(115/100) = 0.9325 * b_k` akcji,
 to `score_k = 115` i `num/tot = 115 * Sum(w_S)/Sum(w) > cap`, więc `min(...) = cap`:
 
 > **score_gry = 100 · Sum(w ukończonych poziomów) / Sum(w wszystkich poziomów)**
 
 Czyli: **przy dostatecznie dobrej efektywności wynik zależy WYŁĄCZNIE od tego, KTÓRE poziomy
-się ukończyło — a nie od tego, iloma akcjami.** Wszystko poniżej progu 1.07× baseline jest
+się ukończyło — a nie od tego, iloma akcjami.** Wszystko poniżej progu 0.93× baseline jest
 warte dokładnie zero.
 
 Potwierdzenie z moich pomiarów: tu93 z 5 poziomami (18/19, 10/16, 19/34, 17/42, 29/123 akcji

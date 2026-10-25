@@ -300,7 +300,37 @@ Formułę score'u zweryfikowałem co do setnej na ich własnych danych z r019:
 tn36 L=1 → mój rachunek daje **3.57** (opublikowane 3.57), ls20 L=1 → **3.27** (3.27).
 Czyli te liczby są policzone tym samym wzorem, którym liczy Kaggle.
 
-**Wartość playbooka dziś: 3.18 pkt LB** (średnia po 25 grach, bo 110 runów to cykliczne
+**Wartość playbooka dziś: 3.18 pkt W SYMULATORZE LOKALNYM — nie na prawdziwym LB** (średnia po 25 grach, bo `official_110()` buduje cykliczne klony tych 25 gier).
+
+> **⚠ KRYTYCZNA POPRAWKA (25.10, po lekturze `taaf/competition_arcade.py` i oficjalnej
+> metodologii).** Zdanie powyżej mówiło „3.18 pkt **LB**” i to było **za mocne**. Klony
+> `k000`–`k109` są artefaktem **lokalnego symulatora**, nie prawdziwej oceny:
+>
+> - docstring `competition_arcade.py:1-6`: prawdziwa ścieżka submisji idzie do Arcade
+>   za gatewayem z ograniczeniami „one scorecard, **hidden baselines**, and **no repeated
+>   game IDs within that scorecard**”, a ten moduł „starts the same `arc_agi` REST app
+>   **on localhost against the bundled offline games** so those failures can be reproduced
+>   **before submission**”;
+> - docstring `clone_game_ids`: „Repeating a 25-game list to 110 entries **therefore needs
+>   cloned IDs on the simulator side**” — czyli klonowanie istnieje *dlatego*, że prawdziwy
+>   scorecard nie powtarza ID;
+> - oficjalnie: eval to **110 prywatnych gier, których agent nie widział** (55 public LB +
+>   55 private LB), a 25 publicznych gier jest **do lokalnego developmentu**.
+>
+> **Konsekwencja:** gotowe sekwencje akcji dla `cd82`/`ft09`/`tu93`/… **nie odpalą się na
+> grach, których nie ma w zbiorze publicznym**. Literalny playbook jest wart na prawdziwym
+> LB prawdopodobnie **0**, nie 3.18. To jest ten sam argument, który zabija replay
+> (`WERYFIKACJA-INNYCH-GALEZI.md` §5) — i dotyczy mojego artefaktu tak samo jak ich.
+>
+> **Co PRZEŻYWA** (bo nie jest kluczowane nazwą gry): `arc3_search.py` jako search
+> **uruchamiany w harnessie w czasie rzeczywistym**, kalibracja ruchów po efekcie
+> (`calib_probe.py`), twierdzenie o capie, arytmetyka budżetu i model ekonomii tokenowej.
+> **Co UMIERA**: wstrzykiwanie precomputed sekwencji per gra.
+>
+> Playbook pozostaje wartościowy jako **dowód metody i fixture testowy** (11/25 gier,
+> 16 poziomów, każda sekwencja zweryfikowana replayem na świeżej instancji) — ale nie jako
+> podłoga punktowa na LB.
+
 repliki tych 25 gier). To **podłoga**, nie sufit: te poziomy są zaliczone zanim model wyda
 pierwszy token, a LLM startuje potem z poziomu L5 (tu93) zamiast L0 i z całym budżetem.
 

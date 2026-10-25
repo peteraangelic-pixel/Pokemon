@@ -112,6 +112,15 @@ Trzy wnioski, które bolą:
    w ich cell 9 (więc 12 % puli jest już wydane), potwierdzenie fixa `-f` w produkcji
    (r069, `rc=0`, ref 57607527), i triage które gry opłaca się atakować przy powiększonym
    budżecie akcji (sb26, r11l, tn36, sc25, su15, lp85).
+7. **`OCENA-DEEPSEEK-V9.md`** — weryfikacja pakietu v9 i analizy „LEPSZA DROGA" w **ich
+   kodzie i logach**. Najpilniejsze: submisja **57607527 wróciła jako ERROR** (r071), więc
+   fix `-f` odblokował *wysłanie*, ale kernel padł — **nowego pomiaru nie ma od 16.10**, a linia
+   szybka nigdy nie dojechała do COMPLETE. Plus: run-killer c45 był prawdziwy, ale naprawiony
+   25.10 10:45 i źle zaadresowany (lista `jeroencottaar/driessmit1` należy do `duck-original` v5);
+   **sprzeczność 1.13 vs 5.2 akcji/wywołanie** w ich własnej analizie (rozstrzyga ją komórka
+   pomiarowa v9); oficjalna metodologia RHAE potwierdza moją formułę **i wykrywa mój błąd** —
+   warunek capu to `a ≤ 0.9325·b`, nie `1.0724·b`; oraz argument o replayu, który **obala mój
+   własny playbook** (3.18 to wynik symulatora lokalnego, nie LB).
 
 ## Najważniejsze liczby (skrót)
 
