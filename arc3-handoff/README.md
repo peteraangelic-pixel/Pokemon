@@ -132,6 +132,20 @@ Trzy wnioski, które bolą:
    z weryfikacją `expect` per krok (najlepsza odpowiedź na odwrotną korelację `a/call`↔score),
    `ARC3_ESCALATE_ACTIONS` (mocniejsze niż mój `RESET_LEVEL`) i chunkowanie patcha z sha256.
    Niezależne potwierdzenie mojej korekty o rosterze: „playbook i triage budżetu warte zero".
+9. **`POROWNANIE-V11.md`** — v11 (`arc3-duck-v11-plan-safe`, Codex + certyfikacja Arena)
+   kontra moja wersja agenta. **Zweryfikowana w źródle przyczyna 0.00**: c45 cell 21 ma
+   `concurrency = 120` na ścieżce `TRUE_SUBMISSION` przy `MAXREQ=10` (cell 17) i
+   `ARC3_MAX_ACTIVE_STREAMS: 10` (cell 9), podczas gdy ścieżka SMOKE ma `concurrency = 10` —
+   dlatego smoke przechodził, a rerun dał **0.00** (ref 57629847). Bramka `ARC3_SMOKE_OK` jest
+   **strukturalnie ślepa** na tę klasę buga; podaję 3-liniowy preflight spójności warstw.
+   **Mój własny błąd:** `FAKTY` L629/L636/L638 mają wszystkie trzy liczby osiem linii od siebie
+   i nigdy ich nie porównałem, a mój `notebook/arc3-duck-fixed.ipynb` ma ten sam `concurrency=120`
+   — więc też dałby 0.00. Do tego `FAKTY` L677 proponował podniesienie `MAXREQ` jako lever #3,
+   czyli dźwignię **odwrotną** do właściwej. Tabela co v11 ma a ja nie, co ja mam a v11 nie,
+   i co moje już w v11 jest (`level-token-cap 45k`, roster probe). Rekomendacja slotu:
+   **`PROFILE="c45"`**, nie `plan` — bo nigdy nie było czystego pomiaru szybkiej linii,
+   kalibracja smoke→LB była mierzona na innej konfiguracji, a nowa warstwa potrafi kosztować
+   (ich własne v6 23.94 < v2 24.66).
 
 ## Najważniejsze liczby (skrót)
 
