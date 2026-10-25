@@ -16,6 +16,13 @@ Przy okazji ich argument o replayu **obalił mój własny playbook** (§4).
 
 ## 1. NAJPILNIEJSZE: submisja #57607527 wróciła jako ERROR — nie ma nowego wyniku od 16.10
 
+> **UPDATE 25.10 12:28 UTC — patrz §9; ten punkt został nadpisany przez wydarzenia.**
+> Kernel `arc3-duck-c45` (linia szybka) uzyskał `KernelWorkerStatus.COMPLETE` i poszła nowa
+> submisja **ref 57629847** (PENDING), z `level-token-cap 45k` i `roster probe` w opisie.
+> Analiza ERROR-a #57607527 poniżej pozostaje prawdziwa jako opis **tamtej** awarii (linia
+> wolna, vLLM + 27B), ale priorytet „doprowadzić jeden kernel szybkiej linii do COMPLETE"
+> jest **wykonany**. Wynik LB spodziewany ~21:30 UTC dziś.
+
 Wczoraj zameldowałem, że fix `-f` „zdjął blokadę". **To było prawdziwe, ale niekompletne**
 i muszę to doprecyzować, bo wpływa na plan.
 
@@ -73,7 +80,8 @@ log kernela z rerunu, a nie 32 linie z fazy ładowania.
 
 Przy 8 dniach **najcenniejszą rzeczą nie jest nowy lever, tylko doprowadzenie JEDNEGO kernela
 do stanu COMPLETE**. Każdy dzień bez nowego pomiaru to dzień, w którym wszystkie spory
-(44.8 vs 42.2, 1.13 vs 5.2 akcji/wywołanie, T1 vs T2 vs T3) pozostają nierozstrzygalne.
+(44.8 vs 42.2, T1 vs T2 vs T3) pozostają nierozstrzygalne. Spór o `a/call` został
+rozstrzygnięty 25.10 12:45 UTC — patrz §3.
 
 ---
 
@@ -127,7 +135,7 @@ Czyli, oddając sprawiedliwość obu stronom:
 
 ---
 
-## 3. Komórka pomiarowa v9 jest najcenniejszą częścią tego pakietu — bo rozstrzyga spór, którego DeepSeek nie rozstrzygnął
+## 3. Komórka pomiarowa v9 — spór ROZSTRZYGNIĘTY, i to NIE po mojej myśli (korekta mojego wniosku)
 
 ### Sprzeczność wewnątrz własnej analizy
 
@@ -137,11 +145,18 @@ Czyli, oddając sprawiedliwość obu stronom:
 | `LEPSZA-DROGA` §2 | `ls20` 180 wywołań / 250 akcji = **1,39**; `su15` 213/157 = **0,74**; 8 gier razem 1417/1595 = **1,13** |
 
 **Te same wielkości różnią się ~10×.** Tabela z `LEPSZA-DROGA` jest wewnętrznie spójna
-(250/180 = 1.39 ✓, 1595/1417 = 1.13 ✓), więc to liczby „13,9 / 5,2" są podejrzane.
+(250/180 = 1.39 ✓, 1595/1417 = 1.13 ✓), więc na pierwszy rzut oka to liczby „13,9 / 5,2"
+wyglądają na podejrzane.
 
-Sprawdziłem spójność tabeli z moimi własnymi pomiarami r019: 1.74 M tokenów / 2065 akcji = 841.
-Jeśli wywołań było ~1417–1800, to tok/wywołanie ≈ 950–1230, a akcji/wywołanie ≈ **1.15–1.45**.
-**To zgadza się z tabelą 1.13, a NIE z 5.2.**
+> **⚠ TEN WNIOSK BYŁ MÓJ I BYŁ BŁĘDNY — zachowuję go, żeby było widać mechanizm pomyłki.**
+> Rozumowałem tak: skoro r019 ma 1.74 M tokenów / 2065 akcji = 841 tok/akcję, a wywołań było
+> ~1417–1800, to tok/wywołanie ≈ 950–1230 i akcji/wywołanie ≈ 1.15–1.45 — czyli „zgadza się
+> z 1.13, a nie z 5.2". **Błąd siedział w mianowniku:** przyjąłem, że liczba **linii** w
+> `*_requests.jsonl` równa się liczbie wywołań modelu produkujących akcje. Nie równa się —
+> w tym pliku są też wywołania analizatora. Prawdziwa liczba wywołań to **474**, nie 1417
+> (1417 / 474 ≈ 3.0 linii na wywołanie). Poprawna wartość: **4.36** akcji/wywołanie ważone
+> akcjami, **5.2** średnia z gier, **3665** tok/wywołanie. Dowód i rekoncyliacja z Gemmą
+> w sekcji „ROZSTRZYGNIĘCIE" poniżej.
 
 ### Dlaczego to jest najważniejsza liczba w projekcie
 
@@ -155,20 +170,61 @@ z warunkami stopu zamiast jednej akcji) ma w ogóle zapas:
 
 Oba zdania padły w tej samej analizie. **Nie da się jednocześnie uzasadniać T2 i go odrzucać.**
 
-Do tego dochodzi rozjazd z Gemmą: ich 3665 tok/decyzję przy 841 tok/akcję implikuje
-**4.36 akcji/decyzję**, co jest bliższe „5.2" niż „1.13". Czyli dwie sesje zmierzyły tę samą
-wielkość i wyszło im 1.13 oraz 4.36. **Ktoś się myli i nikt tego nie zauważył.**
+### ROZSTRZYGNIĘCIE (25.10 12:45 UTC, `duck-v9/OCENA-ARENA-V9.md`)
 
-> **Komórka pomiarowa v9 wypisuje `calls`, `actions`, `actions/call`, `tok/action`, `tok/call`
-> per gra. To jest dokładnie ten przyrząd, który rozstrzyga spór — i dlatego warto ją wziąć
-> z pakietu v9 niezależnie od tego, czy weźmie się resztę.** Koszt: zero tokenów, zero GPU.
+DeepSeek zrobił **samo-korektę** i to on miał rację, a **mój wniosek powyżej był błędny**:
 
-Uwaga metodologiczna: rozjazd może wynikać z definicji „wywołania". Jeśli Gemma liczyła tylko
-wywołania analizatora z rozumowaniem, a DeepSeek wszystkie żądania HTTP (w tym retry i krótkie
-zapytania), obie liczby mogą być „poprawne" przy różnych mianownikach. **Dlatego potrzebna jest
-jedna definicja w jednym miejscu** — komórka v9 ją narzuca.
+> „**Samo-korekta Arena**: a/call = **5.2** (analizator liczy wywołania produkujące akcje;
+> moje 1.13 = **artefakt liczenia LINII w `requests.jsonl`**, tam też są wywołania analizatora)."
 
----
+Policzyłem to z ich pełnej tabeli (`OCENA-I-PLAN.md` §2.2) i **trzy niezależne sesje domykają
+się co do jednostki**:
+
+| wielkość | z tabeli DeepSeek | moje pomiar/analiza | Gemma c4eeb067 |
+|---|---|---|---|
+| suma wywołań (10 gier) | **474** | — | — |
+| suma akcji | **2065** | **2065** (r019) ✓ | — |
+| a/call ważone akcjami | **4.357** | — | **4.36** (z 3665/841) ✓ |
+| a/call średnia z gier | **5.204** | — | — |
+| tok/wywołanie | **3664.6** | — | **3665** ✓ |
+| tok/akcję | **841.2** | **841** ✓ | 841 ✓ |
+| pula tokenów/grę | **173 700** | szacowałem **175 000** ✓ | — |
+
+**Dlaczego się pomyliłem:** założyłem, że liczba linii w `*_requests.jsonl` = liczba wywołań
+modelu. Nie jest — ten plik zawiera także wywołania analizatora, które **nie produkują akcji**.
+1417 linii / 474 wywołań ≈ 3.0 linii na wywołanie. Moja arytmetyka „1.13 jest spójne z r019"
+była więc spójna z **błędnym mianownikiem**. Poprawiam: **a/call = 4.36 (ważone) / 5.2 (średnia)**.
+
+**Konsekwencja strategiczna — większa niż sam błąd.** Skoro model już batchuje **4.36–5.2 akcji
+na wywołanie**, to tor **T2 („podnieś akcje/wywołanie") NIE ma 4× zapasu**, a jego własna bramka
+„akcji/call ≥ 3" jest **już spełniona**. DeepSeek słusznie przestawił T2 z „napraw bottleneck"
+na „przetestuj głębszy batching profilem `deep` (dyrektywa 8–15/call)".
+
+### Ryzyko tego slotu, które widać w ich własnych danych
+
+Posortowane po `a/call` z ich tabeli:
+
+| gra | a/call | score | poziomy |
+|---|---|---|---|
+| **ls20** | **13.89** ← najwięcej | **3.27** ← najgorzej | 1/7 |
+| ka59 | 5.29 | 17.85 | 3/7 |
+| m0r0 | 5.00 | 28.57 | 3/6 |
+| dc22 | 4.68 | 44.77 | 4/6 |
+| sc25 | 3.85 | 42.62 | 4/6 |
+| cn04 | 3.46 | 47.62 | 4/6 |
+| **su15** | **1.85** ← najmniej | **56.42** ← najlepiej | 7/9 |
+
+Korelacja jest **odwrotna**: gra z największym batchingiem ma najgorszy wynik, gra
+z najmniejszym — najlepszy. DeepSeek uczciwie zaznacza „to korelacja, nie dowód".
+
+Dokładam interpretację, która matters dla slotu 26.10: **`a/call` może być OBJAWEM, nie
+przyczyną.** Agent, który nie rozumie gry, batchuje ślepo (ls20: 250 akcji w 18 wywołaniach,
+1 poziom); agent, który rozumie, wydaje akcje deliberate (su15: 157 akcji w 85 wywołaniach,
+7 poziomów). Jeśli tak jest, **wymuszenie dyrektywą 8–15 akcji/wywołanie nie stworzy
+zrozumienia** — tylko przyspieszy mielenie. Slot jest tani i mierzalny, więc warto go wydać,
+ale **oczekiwanie „+10 pkt z batchingu" nie ma oparcia w tych danych**; przeciwnie, mają
+one znak ujemny. Bramka powinna brzmieć: *czy `deep` podnosi LICZBĘ POZIOMÓW*, nie czy
+podnosi `a/call` (bo `a/call` podniesie na pewno — to jest dyrektywa).
 
 ## 4. Argument DeepSeek o replayu jest poprawny — i obala MÓJ playbook, czego DeepSeek nie zauważył
 
@@ -328,8 +384,8 @@ i warto to traktować jako sygnał, nie szum.
 | `game_weights` nic nie realokują | ✅ zgodne z moim ustaleniem |
 | c45 nie uruchomi się przez metadanę | ⚠️ **było prawdziwe, już naprawione 25.10 10:45** („wg a450-review"); lista `jeroencottaar/driessmit1` należy do `arc3-duck-original` v5, nie do c45 (§2) |
 | `SCOPE='game'` jest poprawne, walidator `("turn","levelup","game")` | ⚠️ **niezweryfikowane przeze mnie** — ale jeśli tak, to **moja dźwignia nr 4 (`SCOPE=run`) używa wartości spoza walidatora** i jest martwa. Do sprawdzenia przed jakimkolwiek slotem |
-| akcji/wywołanie = 1.13 | ⚠️ **spójne z moimi pomiarami r019**, ale sprzeczne z ich własnym „5.2" i z Gemmy „4.36" (§3). Rozstrzyga komórka pomiarowa v9 |
-| T2 plan-then-execute | ✅ kierunek poprawny (oficjalnie retry/rozumowanie nie są akcjami), ⚠️ **zapas zależy od nierozstrzygniętej liczby** |
+| akcji/wywołanie = 1.13 | ❌ **OBALONE przez nich samych** (samo-korekta 12:45 UTC): to artefakt liczenia **linii** w `requests.jsonl`, które zawierają też wywołania analizatora. Prawda: **4.36** (ważone akcjami) / **5.2** (średnia z gier). **Mój §3 początkowo poparł złą liczbę — poprawione.** Trzy sesje domykają się co do jednostki: 474 wywołań → 3664.6 tok/wywołanie = Gemmy 3665 |
+| T2 plan-then-execute | ⚠️ **bramka „≥3 akcji/call" jest JUŻ spełniona** (5.2), więc T2 nie naprawia bottlenecku, tylko testuje głębszy batching (dyrektywa 8–15/call). W ich własnych danych korelacja `a/call`↔score jest **odwrotna** (ls20 13.89 → 3.27 pkt; su15 1.85 → 56.42 pkt) — patrz §3 |
 | T3 scaffold paper01 | ✅ jedyny tor z dowodem na 45+, ⚠️ trzy zapory: budżet 7–50× mniejszy, brak pomiaru na lokalnym modelu, tylko public set |
 | T1 c45/v9 = 35–39 | ⚠️ **nie do oszacowania, dopóki żaden kernel szybkiej linii nie dojedzie do COMPLETE** (§1) |
 | „realistycznie 35–45, pieniądze: nie" | ✅ **zgadzam się** i to jest uczciwe postawienie sprawy |
@@ -345,8 +401,11 @@ wybór levera.**
    nie lever — po prostu żeby rerun przeszedł. Bez tego każdy następny punkt jest gdybaniem.
    Potrzebny pełny log kernela z rerunu (32 linie z fazy ładowania wag to za mało, §1).
 2. **Wziąć z v9 komórkę pomiarową** (`calls`, `actions`, `actions/call`, `tok/action`,
-   `tok/call` per gra + `v9_metrics.json`). Zero tokenów, zero GPU, a rozstrzyga spór
-   1.13 vs 4.36 vs 5.2 — czyli czy T2 ma ~4× zapasu, czy zero (§3).
+   `tok/call` per gra + `v9_metrics.json`). Zero tokenów, zero GPU. Spór 1.13 vs 4.36 vs 5.2
+   jest **już rozstrzygnięty** (5.2 / 4.36 — §3), więc komórka nie służy do jego rozstrzygania,
+   tylko do **pilnowania definicji**: to ona liczy „wywołania produkujące akcje", a pomyłka
+   w mianowniku kosztowała całą gałąź wnioskowania o T2. Warto ją mieć jako trwałą metrykę
+   każdego runu, nie jako jednorazowy pomiar.
 3. **Przełącznik `PROFILE`** jako mechanizm „jedna zmienna na slot" — zgodne z ich własną
    zasadą i z moją rekomendacją z `EKONOMIA-TOKENOW.md` §9.
 4. **Sprawdzić walidator `ARC3_PERSISTENT_FUNCTIONS_SCOPE`** zanim ktokolwiek wyda slot na
@@ -362,3 +421,81 @@ wybór levera.**
 Czego nie robić: replay w jakiejkolwiek formie kluczowanej grą lub ramką, `game_weights`,
 sama zmiana modelu, więcej niż jedna zmienna na slot, oraz — moje własne, świeżo poprawione —
 nie powoływać się na „3.18 pkt LB" i na warunek capu „1.0724×".
+
+---
+
+## 9. UPDATE 25.10 12:28 UTC — szybka linia wreszcie COMPLETE, i to z MOIM patchem
+
+`ops/results/r075-auto-submit` (STATUS=OK, 12:28:04):
+
+```
+status[0] rc=0  petersharps/arc3-duck-c45  has status "KernelWorkerStatus.COMPLETE"
+competitions submit -c arc-prize-2026-arc-agi-3 -k petersharps/arc3-duck-c45 -v 1
+                    -f submission.parquet
+  -m "arc3-duck-c45: fast-line (SGLang + Qwen3.8-Flash-Next W4a16 + drafter, Franzen-lineage)
+      + level-token-cap 45k + roster probe; harness by Tufa Labs (MIT), Franzen datasets/models;
+      variant by DeepSeek-4.1 package, ops by petersharps"
+rc=0
+Submission ref: 57629847        -> SubmissionStatus.PENDING
+0 submissions remaining today.
+```
+
+Trzy rzeczy, które to zmienia:
+
+1. **Punkt 1 z §8 („doprowadzić JEDEN kernel szybkiej linii do COMPLETE") jest WYKONANY.**
+   `KernelWorkerStatus.COMPLETE` dla `arc3-duck-c45`. Linia z najszybszym silnikiem pierwszy raz
+   przeszła rerun. Wynik LB spodziewany ~21:30 dziś (plan z `OCENA-ARENA-V9.md`).
+2. **W opisie submisji jest `level-token-cap 45k`** — czyli **mój patch 0004**
+   (`ARC3_LEVEL_TOKEN_CAP=45000`, `arc3-handoff/arc3_level_budget.py`) **jest w tym kernelu**.
+   Zgodnie z `PATCH-0004-I-SEARCH.md` §3: wszedł jako **zastępstwo** ich patcha 0003 w slocie
+   `/kaggle/duck-extra-02.patch`, a nie jako czwarty patch — dokładnie tak, jak rekomendowałem
+   po tym, gdy łańcuch C padł na `solver.py:35`.
+3. **Jest też `roster probe`** — czyli moja rekomendacja z `DIAGNOZA-45plus.md` (pkt 8 /
+   „Zalogować w patchu sygnatury pierwszej ramki per run → rozstrzygnie się pytanie
+   o cykliczność rosteru"). **To jest pomiar, który ostatecznie rozstrzygnie §4**: czy prywatny
+   scorecard naprawdę nie powtarza gier. Dopóki nie wróci, mój wniosek „playbook = 0 na LB"
+   jest **wnioskiem z kodu i dokumentacji**, a nie z pomiaru — i tak go należy traktować.
+
+Uczciwie: to nie znaczy, że cap 45k da punkty. Per `PATCH-0004-I-SEARCH.md` jego wartość jest
+**niezmierzona**, a per §5 `EKONOMIA-TOKENOW.md` `ABANDON` nie odzyskuje poziomów. Znaczy tyle,
+że mechanizm jest w środku i ten run go zmierzy.
+
+### Plan, który z tego wynika (ich, z `OCENA-ARENA-V9.md`)
+
+| data | slot |
+|---|---|
+| 25.10 ~21:30 | wynik LB c45 (ref 57629847) — pierwszy pomiar szybkiej linii |
+| 26.10 | v9 **profile deep** (jeśli c45 smoke/LB OK) |
+| 27.10 | **wide** albo T2-pełne |
+| 28.10+ | **T3** (port paper01: symulator + weryfikator + BFS planer) |
+
+To jest sensowna sekwencja i **zgadza się z moim §8** z jedną różnicą: ja bym najpierw
+rozstrzygnął `a/call` komórką pomiarową, a oni już je rozstrzygnęli (5.2), więc `deep`
+jest logicznym następnym krokiem. Zastrzeżenie z tabeli powyżej zostaje: bramką dla `deep`
+musi być **liczba poziomów**, nie `a/call`.
+
+---
+
+## 10. Co wartościowego jest w `arc-agi-3/new/` (13 plików)
+
+| plik | rozmiar | wartość dla innych gałęzi |
+|---|---|---|
+| **`examples/r019-benchmark.json`** | 520 015 B | **NAJCENNIEJSZE.** Surowy `benchmark.json` z r019 — tego **nie miałem**: operowałem na streszczeniach w `ops/results`. Pozwala offline przeliczyć wszystko (formułę, cap, a/call, % wagi) bez GPU i bez zgadywania kluczy. Na nim ich analizator odtwarza 27.21 i `final_score` co do 0.0000. |
+| **`tools/v9_metrics.py`** | 10 647 B | Analizator sześciu liczb decyzyjnych (`actions`, `actions_need`, `calls`, `a/call`, `tok/action`, `w%`, `score`) + bramka GO/NO-GO vs 29.02. **Definiuje „wywołanie" jako wywołanie produkujące akcje** — to jest ta definicja, której brakowało i przez którą powstał błąd 1.13. |
+| `tools/test_v9_metrics.py` | 5 574 B | 7 testów analizatora, bez GPU. |
+| **`tools/verify_offline.py`** | 13 094 B | **43 sprawdzenia offline** — w tym aplikację czterech patchy na czysty bundle r033 i kompilację spatchowanego drzewa. To **nadzbiór** mojego `verify_patch_chains.sh`; warto używać ich wersji, bo łapie też brak końcowego znaku nowej linii w patchu 498 KB (`corrupt patch at line 10086`) — pułapkę, którą sam opisałem, ale nie zautomatyzowałem. |
+| `tools/build_v9.py` | 13 459 B | Odtwarza notebook z `src/base-c45.ipynb` (cztery edycje, jeden plik). Odpowiednik mojego `make_notebook_patch.py`, ale z jawnym plikiem bazowym w repo — lepsza prowieniencja. |
+| `src/base-c45.ipynb` | 648 078 B | Punkt odniesienia do builda. Rozmiar **identyczny** z pobranym przeze mnie `duck-c45/arc3-duck-c45.ipynb` (648 078 B) — więc kopia wierna. |
+| `arc3-duck-v9.ipynb` | 661 357 B | Notebook do wypchnięcia (32 komórki vs 30 w c45 — dwie dodane: `V9` i pomiarowa). |
+| `kernel-metadata.json` | 821 B | Źródła z `duck-v7` (linia szybka). Zgodna z notebookiem — ale patrz §2: c45 ma już to naprawione. |
+| `OCENA-I-PLAN.md` | 12 556 B | Pełna tabela §2.2 (10 gier × poziomy/%wagi/score/akcje/wywołania/tok) + arytmetyka luki + plan slotów do 2.11. **To jest źródło wszystkich liczb zweryfikowanych w §3.** |
+| `LEPSZA-DROGA.md` | 8 179 B | Analiza paper01 z tabelą per gra. **Uwaga: nadal zawiera obaloną liczbę 1.13** (§2) — samo-korekta jest tylko w `OCENA-I-PLAN.md` i `OCENA-ARENA-V9.md`. Kto przeczyta sam `LEPSZA-DROGA.md`, weźmie złą liczbę. |
+| `verify.sh` | 585 B | Jedno polecenie spinające całość. |
+| `duck-v9/OCENA-ARENA-V9.md` | — | Werdykt 43/43 + samo-korekta a/call + plan slotów. **Najważniejszy plik decyzyjny.** |
+
+**Drobiazg higieniczny:** w `new/tools/__pycache__/` został zacommitowany
+`v9_metrics.cpython-312.pyc` (15 862 B). Bytecode nie powinien być w repo — warto dodać
+`__pycache__/` do `.gitignore` przy okazji następnego commita (nie ruszam ich gałęzi).
+
+**Czego NIE brać:** `LEPSZA-DROGA.md` §2 jako źródła `a/call` (obalone), oraz „naprawionej
+metadany" jako uzasadnienia v9 (już naprawione w c45, §2).

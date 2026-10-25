@@ -38,6 +38,44 @@ dokładnie jak recenzja sama mówi — i to jest jej uczciwe zastrzeżenie, nie 
 
 ---
 
+## 1bis. ZAPORA FIZYCZNA: linia wolna nie jest w stanie dostarczyć puli 175k na grę
+
+Najważniejsze zastrzeżenie do całej tabeli powyżej i **łatwo je przeoczyć**, bo 444 tok/akcję
+brzmi jak czysty zysk.
+
+Pula 175k tokenów na grę **nie jest stałą konkursową — jest własnością linii szybkiej**:
+
+| linia | pomiar | przepustowość | tokenów/grę przy 110 grach w 9 h | akcji/grę |
+|---|---|---|---|---|
+| **szybka** (r019) | 1.737 M tok / 48 min / 10 gier | **603 tok/s** | **177 648** | 211 przy 841 |
+| **wolna** (r050) | 231 k tok / 2 h 12 min / **1 gra** | **29.2 tok/s** | **8 591** | **10** przy 841, **19** przy 444 |
+
+Stosunek przepustowości: **20.7×**.
+
+Linia wolna w r050 miała 231k tokenów **dlatego, że grała jedną grę przez 2h12m**. Przy 110
+grach i budżecie 9 h jej 29.2 tok/s daje **0.94 M tokenów łącznie**, czyli **~8.6k na grę** —
+około **19 akcji**. To nie jest tania ekonomia, to jest zapaść puli.
+
+> **Wniosek: 444 tok/akcję i ~394 akcji ma sens WYŁĄCZNIE jako hipoteza o linii SZYBKIEJ.**
+> Przełączenie się na linię wolną po tanie tokeny zawaliłoby pulę ~20× i dało ~19 akcji na grę.
+> Gemma miała rację, że kombinacja szybki silnik plus zwięzły mózg jest **niezmierzona** —
+> i nie wolno jej mylić z twierdzeniem, że linia wolna ma lepszą ekonomię.
+
+**Niezależna walidacja mojego szacunku puli:** z przepustowości 603 tok/s × 9 h / 110 gier
+= **177 648** tokenów/grę wobec **173 700** zmierzonych w r019 (`OCENA-I-PLAN.md` §2.2, ich
+paczka `arc-agi-3/new/`). Różnica **2.3 %**. Mój szacunek ~175k (755 tok/s × 0.80) był trafny,
+choć wyprowadzony inną drogą — z `serve.log`, nie z `benchmark.json`.
+
+**Druga walidacja i zarazem korekta interpretacji:** tok/akcję per gra w r019 to po prostu
+173 700 / liczba_akcji, bo wszystkie 10 gier leciało 48 min i wszystkie skończyły `gave_up`.
+Czyli w tym runie `tok/akcję` **nie jest niezależną zmienną** — pula na grę była stała, a rozrzut
+565–1591 to różnice w **tempie konsumowania budżetu**, nie w zwięzłości modelu. dc22 (571) i
+sc25 (609) są najtańsze i punktują dobrze (44.77, 42.62); s5i5 (1497) i tn36 (1198) najdroższe
+i punktują źle (16.67, 3.57). Wniosek do eksperymentu: obniżanie tok/akcję ma wartość tylko
+wtedy, gdy **nie** odbywa się kosztem tempa — a to rozdziela dopiero pomiar per gra z komórki v9.
+
+---
+
 ## 2. `LOCAL_ANALYZER_MAX_OUTPUT` — ta dźwignia jest JUŻ WYDANA
 
 Recenzja proponuje: „`LOCAL_ANALYZER_MAX_OUTPUT` domyślnie **0 = bez limitu** (p90 = 8046 tokenów
