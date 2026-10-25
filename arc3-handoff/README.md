@@ -104,6 +104,14 @@ Trzy wnioski, które bolą:
    na `reasoning_content`. Plus niezależne potwierdzenie mojego twierdzenia o capie
    (17/27 poziomów r019 na 115), kolizja numeracji patchy `0004-*` między gałęziami i
    sprostowanie progu nagród (lider **68.91**, nie 62.96; nagrody są za miejsca, nie za próg).
+6. **`EKONOMIA-TOKENOW.md`** — PIĄTY dokument i najważniejszy nowy kierunek: ile kosztuje
+   jedna akcja na obu liniach (**841** tok/akcję na szybkiej r019 vs **444** na wolnej r050),
+   model wyniku LB jako funkcji ekonomii tokenów (`tools/token_economy_model.py`), kalibracja
+   sufitu wobec zmierzonego 26.25, oraz odpowiedź na pytanie **ile tok/akcję trzeba, żeby dojść
+   do progu nagród 49.85**. Zawiera: dowód, że cap `LOCAL_ANALYZER_MAX_OUTPUT=12k` jest JUŻ
+   w ich cell 9 (więc 12 % puli jest już wydane), potwierdzenie fixa `-f` w produkcji
+   (r069, `rc=0`, ref 57607527), i triage które gry opłaca się atakować przy powiększonym
+   budżecie akcji (sb26, r11l, tn36, sc25, su15, lp85).
 
 ## Najważniejsze liczby (skrót)
 
