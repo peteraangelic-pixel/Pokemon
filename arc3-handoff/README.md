@@ -121,6 +121,17 @@ Trzy wnioski, które bolą:
    pomiarowa v9); oficjalna metodologia RHAE potwierdza moją formułę **i wykrywa mój błąd** —
    warunek capu to `a ≤ 0.9325·b`, nie `1.0724·b`; oraz argument o replayu, który **obala mój
    własny playbook** (3.18 to wynik symulatora lokalnego, nie LB).
+8. **`OCENA-V10.md`** — weryfikacja pakietu `arc-v10` z sesji `e499c604` (17 plików, 2.26 MB).
+   Ich główne znalezisko („v9 i v7 w ogóle by nie ruszyły, patch urwany w środku hunka") jest
+   **OBALONE dowodem produkcyjnym**: c45 ma `KernelWorkerStatus.COMPLETE` (r075) i zostawił
+   `.per_game_cards.pkl` + logi **10 gier** (r076). Mechanizm zmierzony na IPython 9.17.1:
+   `%%writefile` w pełnym potoku **dopisuje** końcową nową linię, a `git apply --check` na surowym
+   `source` z JSON-a jej nie ma — cały błąd to jedna nowa linia, nie urwany hunk. Do tego w patchu
+   jest **0 plików spoza `ARC3-Inference/`**, a cell 9 aplikuje z `--include=ARC3-Inference/*`,
+   więc „brakujące `viewer/*`" jest bez znaczenia przez konstrukcję. **Do wzięcia:** `commit(plan)`
+   z weryfikacją `expect` per krok (najlepsza odpowiedź na odwrotną korelację `a/call`↔score),
+   `ARC3_ESCALATE_ACTIONS` (mocniejsze niż mój `RESET_LEVEL`) i chunkowanie patcha z sha256.
+   Niezależne potwierdzenie mojej korekty o rosterze: „playbook i triage budżetu warte zero".
 
 ## Najważniejsze liczby (skrót)
 
