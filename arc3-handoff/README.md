@@ -148,25 +148,44 @@ Trzy wnioski, które bolą:
    (ich własne v6 23.94 < v2 24.66).
 
 10. **`EKONOMIA-TOKENOW.md` §11** — **CZYTAJ PRZED OTWARCIEM LEADERBOARDA.** Oczekiwany wynik
-   `PROFILE=c45` po naprawie `concurrency`: **26 – 31 pkt, główny szacunek 31.18**. Wyprowadzone
+   `PROFILE=c45` po naprawie `concurrency`: ~~26 – 31 pkt, główny szacunek 31.18~~ ❌ **OBALONE
+   przez pomiar — aktualna liczba to 24–29, punktowo ~26.8, patrz wpis 11 niżej**. Wyprowadzone
    z trzech kotwic (r019 27.21 / ich LB 26.25 / sufit modelu 31.70) i **zmierzonego** wycieku
    tokenów (`FAKTY` L697-699: agregat 35 %, tn36 86 %, ls20 91 %). Naprawa usuwa strukturalne
    zero, nie dodaje zdolności ⇒ ścieżka submisji = ścieżka smoke = zmierzona. Dwa twierdzenia
    do sprawdzenia zamiast zgadywania: **kap 45k nie robi nic poniżej 25.7 % puli na skazany
-   poziom**, i **sam kap jest wart ~+4.9 pkt** (26.25 → 31.18) — pierwsza liczba przy patchu 0004.
-   **Werdykt: naprawa warta slota, ale luka do progu 50.37 zostaje ~19 pkt.**
+   poziom**, i ~~sam kap jest wart ~+4.9 pkt~~ ❌ **kap jest zmierzony UJEMNIE: −0.43 wobec r019
+   i −2.24 wobec v3** (wpis 11). **Werdykt: naprawa warta slota, ale ona ODZYSKUJE ~26.8, nie
+   podnosi wynik; luka do progu 50.37 zostaje ~21–24 pkt.**
    Plus §12: dwie domknięte niewiadome — walidator `ARC3_PERSISTENT_FUNCTIONS_SCOPE` (moja
    dźwignia 4 **martwa w połowie**, `run` nie istnieje i degraduje **cicho**) oraz leaderboard
    chunk 1/2 (miejsca 29–49, 4912 wpisów, pole ~0.075 pkt/miejsce).
+
+11. **`OCENA-CODEX-7Z.md`** — **NAJNOWSZE I NAJWAŻNIEJSZE (27.10).** Ocena archiwum
+   `arc-agi-3.7z` (522 pliki, 46 MB) z osiągnięciami Codex, i **czwarta korekta mojego własnego
+   błędu**: surowy smoke c45 (`r085/output-pick/benchmark.json`) daje **MEAN 26.78 / 32 poziomy**,
+   czyli **mój kap 45k jest zmierzony UJEMNIE** (−0.43 wobec r019, −2.24 wobec v3), a nie +4.93
+   jak oszacowałem w §11.2. Błąd: statystyka `w` o poziomach **skazanych** zastosowana do
+   **wszystkich** poziomów; `su15` stracił −43.1 pkt na poziomie, który inaczej by się ukończył.
+   **ALL-CLEAR:** `ARC3_LEVEL_TOKEN_CAP=0` znaczy *wyłączone*, nie „zero tokenów" — ale ponieważ
+   `enabled = cap > 0`, wyłączenie capa **wyłącza cały patch 0004** wraz z `RESET_LEVEL`.
+   Plus: ich `sweep2.py` na PC (16 workerów, cap 90 s) = 14 poziomów vs moje 16, **unia 17**,
+   jedyna nowa gra `m0r0`; cap 90 s kosztował `ar25`/`s5i5`/`tu93` — **maszyna nie była
+   ograniczeniem, był nim cap**. Roster probe **NIE** rozstrzygnął rostru (odpalił się w smoke
+   na 10 grach publicznych, nie na gatewayu). Sprzęt potwierdzony: **5950X 16C/32T + 64 GB RAM**
+   ⇒ mój bloker `re86` (17.9 GB) mieści się z 3.5× zapasem.
+   **Trzy wnioski w §8: (1) wyłączyć kap, (2) naprawa concurrency odzyskuje ~26.8 a nie podnosi,
+   (3) podnieść cap w `sweep2.py` do 300–600 s i powtórzyć — 0 GPU, 0 tokenów, 0 slotów.**
 
 ## Najważniejsze liczby (skrót)
 
 | fakt | wartość | źródło |
 |---|---|---|
-| ich najlepszy wynik na LB | **26.25** (duck v3, 16.10) | `ops/results/r062-submissions` |
-| **OCZEKIWANY wynik c45 po naprawie `concurrency`** | **26 – 31, główny szacunek 31.18** | `EKONOMIA-TOKENOW.md` §11 |
-| **wartość samego kapa `ARC3_LEVEL_TOKEN_CAP=45000`** | **+4.93 pkt** (26.25 → 31.18) | j.w. §11.2 |
-| próg, poniżej którego kap 45k **nie robi nic** | skazany poziom < **25.7 %** puli | j.w. §11.2 |
+| ich najlepszy wynik na LB | **26.25** (duck v3, 16.10) — **nadal aktualny na 27.10 19:39 UTC**, od 25.10 nie wysłano nic | `ops/results/r086-submissions` |
+| smoke c45 (10 gier, 48 min, concurrency 10) | **MEAN 26.78**, **32 poziomy**, **2126 akcji = 212.6/grę** | `r085-kernel_output_pick/output-pick/benchmark.json` |
+| **OCZEKIWANY wynik c45 po naprawie `concurrency`** | **24 – 29, punktowo ~26.8** (kotwica: zmierzony smoke c45 **26.78**). ~~31.18~~ obalone | `OCENA-CODEX-7Z.md` §4 |
+| **wartość kapa `ARC3_LEVEL_TOKEN_CAP=45000`** | ❌ **−0.43** wobec r019 (27.21→26.78) i **−2.24** wobec v3 (29.02). ~~+4.93~~ **OBALONE pomiarem**. Wyłączenie (`=0`) warte **+0.4 do +2.2** | `OCENA-CODEX-7Z.md` §3 |
+| ~~próg 25.7 % puli~~ | ⚠️ **modelowy, niepotwierdzony** — kap strzela do **wszystkich** poziomów, nie tylko skazanych; `su15` stracił **−43.1** pkt na poziomie, który inaczej by się ukończył | `OCENA-CODEX-7Z.md` §3.3 |
 | współczynnik kalibracji modelu (para **jednorodna**) | **×0.828** (26.25 / 31.70); ~~×0.718~~ wycofany | j.w. §3 |
 | `ARC3_PERSISTENT_FUNCTIONS_SCOPE` — dozwolone wartości | **`turn \| levelup \| game`** tylko; `run` **nie istnieje** i degraduje cicho do `levelup` | `patches/0000-franzen-harness-changes.patch` L3559-3560 |
 | leaderboard 25.10 — 5. miejsce (próg nagród) | **50.37** (24.10: 49.85), rośnie ~0.5/dzień | `EKONOMIA-TOKENOW.md` §12.2 |

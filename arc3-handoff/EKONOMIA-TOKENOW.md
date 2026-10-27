@@ -393,6 +393,18 @@ gra**:
 
 ### 11.2 Ile dokłada `ARC3_LEVEL_TOKEN_CAP=45000` (mój patch 0004, jest w c45)
 
+> ❌ **CAŁA TA SEKCJA JEST OBALONA PRZEZ POMIAR (27.10). Czytać jako zapis błędu, nie jako
+> wynik.** Surowy smoke c45 (`r085-kernel_output_pick/output-pick/benchmark.json`, 10 gier,
+> start 11:34:10 / end 12:22:16) daje **MEAN `final_score` = 26.78** i **32 ukończone poziomy**
+> — podczas gdy smoke **bez** mojego capa dał **27.21** (v6/r019) i **29.02** (v3).
+> **Kap jest wart −0.43 wobec r019 i −2.24 wobec v3, nie +4.93.**
+>
+> Mój błąd: `w` mierzy frakcję puli na poziomach **nigdy nieukończonych**, a kap strzela do
+> **wszystkich** poziomów powyżej 45k — także takich, które właśnie miały zostać ukończone.
+> `su15` stracił **−43.1** pkt (56.4 → 13.3), `sc25` −25.5, `dc22` −17.1; zyski `ka59` +32.0,
+> `cn04` +23.8, `m0r0` +17.7 ich nie pokrywają. **Poprawna arytmetyka na źle dobranej
+> populacji.** Pełny wywód, tabela per gra i czwarta korekta: `OCENA-CODEX-7Z.md` §3.
+
 Kap odzyskuje tokeny z poziomu skazanego. Nie jest stałym bonusem — **wiąże dopiero powyżej
 progu**. Przy puli 175 000 i kapie 45 000:
 
@@ -425,6 +437,8 @@ do bazowych 208; potem `tools/token_economy_model.py` przelicza poziomy i sufit 
 | s5i5 | 8 | 638 | 0.35 | 16 250 | 19.3 | 2 | **3** | 8.33 | 16.67 | +8.33 |
 
 Razem: **sufit 31.70 → 37.66 (Δ +5.96)**, po kalibracji ×0.828: **26.25 → 31.18**.
+❌ **Ta linia jest obalona pomiarem — patrz banner na początku §11.2 i `OCENA-CODEX-7Z.md` §3.**
+Zostawiam ją widoczną, bo pokazuje kształt błędu: arytmetyka jest poprawna, populacja zła.
 
 ⚠️ **Uczciwe zastrzeżenia do tej tabeli — trzy, i wszystkie obniżają liczbę:**
 
@@ -438,34 +452,50 @@ Razem: **sufit 31.70 → 37.66 (Δ +5.96)**, po kalibracji ×0.828: **26.25 → 
 
 ### 11.3 Werdykt — oczekiwany wynik c45
 
-> **OCZEKIWANIE: 26 – 31 pkt, punktowo ~29–31.**
+> ### ❌ POPRAWIONE 27.10 — poprzedni werdykt (26–31, punktowo 31.18) jest OBALONY
 >
-> * **26.25** = dolna granica: kap nie wiąże w żadnej grze (`w ≤ 0.26` wszędzie), czyli c45
->   odtwarza dokładnie to, co linia szybka już mierzyła. Mało prawdopodobne, bo tn36 i ls20
->   mają `w` **zmierzone** na 86 % i 91 % — kap w nich na pewno wiąże.
-> * **31.18** = szacunek główny: kap wiąże tak, jak zmierzono w r019 (agregat 35 %, tn36/ls20
->   indywidualnie). Sufit 37.66 × 0.828.
-> * Powyżej 31 nie idę: trzy zastrzeżenia z §11.2 wszystkie działają w dół.
+> Stał na oszacowanym +4.93 z capa, a kap jest **zmierzony ujemnie** (§11.2, `OCENA-CODEX-7Z.md` §3).
+> Kotwica jest teraz **pomiar tej samej konfiguracji**, nie model:
+>
+> | kotwica | wartość | status |
+> |---|---|---|
+> | **c45 smoke — ta sama konfiguracja, która idzie do submisji** | **26.78** | ✅ zmierzone (r085) |
+> | v6/r019 smoke, bez capa | 27.21 | ✅ zmierzone |
+> | v3 smoke, bez capa | 29.02 | ✅ zmierzone |
+> | ich najlepszy LB | 26.25 | ✅ zmierzone |
+> | ~~mój model z capem~~ | ~~31.18~~ | ❌ obalone |
+>
+> **POPRAWIONE OCZEKIWANIE: 24 – 29 pkt, punktowo ~26.8 dla c45 Z capem** — czyli praktycznie
+> tyle samo co ich obecny najlepszy wynik 26.25. **Z `ARC3_LEVEL_TOKEN_CAP=0`: ~27.2 – 29.0.**
+> Przedział, nie punkt, bo dwa efekty smoke→rerun są przeciwstawne i oba niezmierzone: rerun daje
+> **2.2 h na grę** zamiast 48 min (w górę), a kalibracja Gemmy mówi **smoke→LB −2.8 do −5.9 pp**
+> (w dół).
+>
+> **Co z tego wynika inaczej niż poprzednio:** naprawa `concurrency` jest konieczna, ale ona
+> **PRZYWRACA** ~26.8, nie podnosi wyniku. Natomiast **wyłączenie mojego capa jest warte
+> +0.4 do +2.2 pkt za jedną zmienną env** i jest teraz **najtańszą znaną zmierzoną dźwignią
+> dodatnią**. Luka do progu 50.37 zostaje ~21–24 pkt.
 
 **Co z tego wynika operacyjnie — trzy rzeczy:**
 
-1. **Naprawa jest warta slota.** 0.00 → ~31 to największy pojedynczy dostępny skok, większy niż
-   jakakolwiek dźwignia merytoryczna w `DIAGNOZA-45plus.md`. Żadna inna zmiana nie ma takiego
-   stosunku zysku do ryzyka. Osobno: **kap 45k sam w sobie jest wart ~+4.9 pkt** (26.25 → 31.18)
-   — czyli moja dźwignia z patcha 0004, dotąd **niezmierzona**, ma teraz oszacowaną wielkość.
-   To pierwszy raz, kiedy ten patch ma liczbę przy sobie.
+1. **Naprawa jest warta slota, ale to ODZYSKANIE straty, nie zysk.** 0.00 → ~26.8 to największy
+   pojedynczy dostępny skok i żaden inny nie ma takiego stosunku zysku do ryzyka. ~~kap 45k sam
+   w sobie jest wart ~+4.9 pkt~~ — ❌ **obalone**: kap jest zmierzony na **−0.43** wobec r019
+   i **−2.24** wobec v3 (`OCENA-CODEX-7Z.md` §3). Mój patch 0004 ma teraz liczbę przy sobie
+   i ta liczba jest **ujemna**.
 2. **Naprawa NIE zmienia werdyktu strategicznego.** Próg nagród to **50.37** (25.10, 5. miejsce)
-   i rośnie ~0.5/dzień. Przy ~31 luka wynosi **~19 pkt**. c45 to nowy rekord ich linii
-   (26.25 → ~31), nie wejście do strefy płatnej. Żeby domknąć 19 pkt, trzeba **~500 tok/akcję**
-   (§3) — a to jest inna dźwignia niż concurrency i inna niż kap.
+   i rośnie ~0.5/dzień. Przy ~26.8 luka wynosi **~21–24 pkt**, a c45 **nie jest** nowym rekordem
+   ich linii — jest nim nadal **26.25**. Żeby domknąć lukę, trzeba **~500 tok/akcję** (§3),
+   czyli innej dźwigni niż concurrency i innej niż kap.
 3. **To oczekiwanie jest strukturalne, nie predykcyjne.** Sufit liczę na **25 publicznych grach**,
    a realna karta to **110 gier nieznanych z ukrytymi baseline'ami** (`taaf/competition_arcade.py`
    docstring). Dlatego **roster probe** — który też jest w c45 — jest najważniejszą częścią tej
    submisji: on zamienia ten szacunek na dane. Gdyby wynik wyszedł istotnie inny niż 26–31,
    to roster probe powie **dlaczego**, zamiast zostawiać drugą taką diagnozę jak przy 0.00.
-   Konkretnie: jeśli wyjdzie **~26**, znaczy że `w` w grach spoza tn36/ls20 jest niższe niż
-   agregat 35 % i kap nie wiąże — wtedy zastrzeżenie 1 z §11.2 jest prawdziwe i należy je
-   zmierzyć z `.per_game_cards.pkl`, nie poprawiać model.
+   **I tak się stało**: smoke c45 wyszedł 26.78, a `.per_game_cards.pkl` / `benchmark.json`
+   z r085 pokazały dlaczego — kap **tnie** poziomy, które inaczej by się ukończyły (su15 −43.1).
+   Zastrzeżenie 1 z §11.2 było trafne, ale niedoszacowane: problemem nie była wartość `w`,
+   tylko zastosowanie statystyki o poziomach skazanych do **wszystkich** poziomów.
 
 ### 11.4 Odtworzenie liczb
 
