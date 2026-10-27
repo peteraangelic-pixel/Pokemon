@@ -374,7 +374,7 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 | # | dźwignia | oczekiwany zysk | koszt | ryzyko | dowód |
 |---|---|---|---|---|---|
 | 1 | **cap per poziom: RESET_LEVEL** (darmowy reset poziomu, 0 tokenów LLM) | **NIEZMIERZONE** — kandydat na +poziom w tej samej grze, bo reset przy `ONLY_RESET_LEVELS=true` **zachowuje poziom** i pozwala modelowi planować od czystej klatki zamiast mielć hipotezę, która właśnie nie działała od 45k tokenów | ~30 linii patcha, 16 testów offline, **0 GPU na napisanie** | niskie (kill-switch env) | `arc3_level_budget.py:25-34`; założenie o re-planningu **nie było testowane na harnessie** |
-| 2 | **token-free search / playbook offline** (punkt 6) | **ZMIERZONE: 3.18 pkt LB** (11 z 25 gier, 16 poziomów, każda sekwencja zweryfikowana replayem). To jest **podłoga**, nie +14–37 pkt — tamten szacunek wycofuję | 1–3 dni CPU-lokalnie, **0 GPU, 0 slotów** | zerowe (wynik już zweryfikowany) | `results/playbook.json`, `results/game_metadata.json` |
+| 2 | **token-free search / playbook offline** (punkt 6) | **ZMIERZONE: 3.18 pkt — W SYMULATORZE LOKALNYM, nie na LB** (11 z 25 gier, 16 poziomów, każda sekwencja zweryfikowana replayem). To jest **podłoga**, nie +14–37 pkt — tamten szacunek wycofuję. **Na realnym LB prawdopodobnie 0**: gry ewaluacyjne są nieznane i bez powtórzonych ID, więc dosłowne sekwencje nie odpalą — patrz `PATCH-0004-I-SEARCH.md`. Wartość, która PRZENOSI się na LB, to `arc3_search.py` jako search **runtime** | 1–3 dni CPU-lokalnie, **0 GPU, 0 slotów** | zerowe (wynik już zweryfikowany) | `results/playbook.json`, `results/game_metadata.json` |
 | 3 | `MAXREQ` 10→16–20 + mniejsze okno kontekstu + `MAMBA_CACHE`↑ | **+45% puli** → ~300 akcji/grę | 1 smoke (2.5 h GPU) | średnie (krótsza pamięć agenta) | serve.log: full token usage 0.71/0.99, ms/krok 27→33 |
 | 4 | ~~`PERSISTENT_FUNCTIONS_SCOPE=run`~~ **MARTWE** (walidator dopuszcza tylko `turn\|levelup\|game`, patrz korekta w §5) + **lessons-between-games** (ta połowa żywa, przy `scope='game'`) | ×4–5 na raz rozwiązanej mechanice (jeśli roster cykliczny) | ~~1 zmienna env~~ + port z llm-agent | niskie | `competition_arcade.official_110()` |
 | 5 | cięcie tok/akcję (841 → ~600): `MAX_OUTPUT` 12k→4k, `MEMORY_SECTIONS=slim`, mniej Pythona eksploracyjnego po stronie modelu (bo search robi to za darmo) | +40% akcji | 1 smoke | **wysokie** — Wasza historia: v6 „dokładaliśmy koszt-decyzję na stałej puli → LB spadł" (23.94 vs 24.66) | FINDINGS 15.10 |
@@ -414,7 +414,7 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 
 **25–27.10, lokalnie na CPU (Wasz 5950X, 16 rdzeni, zero kwoty Kaggle):**
 4. ~~Rozwinąć `arc3_search.py`: `deepcopy`-snapshoty + A* z heurystyką z segmentacji + `multiprocessing`. Cel: ≥1 poziom w ≥8 z 25 gier bez tokena LLM.~~
-   **WYKONANE i PRZEKROCZONE 24.10**: **11/25 gier, 16 poziomów, 3.18 pkt LB**, wszystko
+   **WYKONANE i PRZEKROCZONE 24.10**: **11/25 gier, 16 poziomów, 3.18 pkt (symulator lokalny, nie LB)**, wszystko
    replay-verified. Ale dwie części tego planu okazały się błędne i warto to wiedzieć:
    * **„heurystyka z segmentacji" była ślepa** — to segmentacja blobów blokowała ft09 (28
      martwych ruchów, frontier wysechł po 56 węzłach). Zastąpienie jej **kalibracją po
@@ -476,7 +476,7 @@ z tej diagnozy:
 3. **Lever #2 (search) działa, ale jest wart 3.18 pkt, nie +14..37.** Zmierzone na trzech
    przebiegach (płytki 3 000 węzłów/grę, głęboki 12 000, i v2 z kalibracją ruchów po
    efekcie): scalony wynik **11/25 gier, 16 poziomów, wszystko zweryfikowane replayem na
-   świeżej instancji = 3.18 pkt LB podłogi**.
+   świeżej instancji = 3.18 pkt podłogi W SYMULATORZE LOKALNYM** (na realnym LB prawdopodobnie 0).
    Powód rozjazdu z szacunkiem: jeden poziom w 7-poziomowej grze jest wart ~3.5 pkt, bo
    mianownik to ΣW **wszystkich** poziomów — wartość robi dopiero głębokość (tu93: 5 poziomów
    = 33.33 pkt w jednej grze, vc33: 2 poziomy = 10.71).
@@ -491,7 +491,7 @@ z tej diagnozy:
    poziom 0 w 4 akcjach. Szczegóły i trzy patologie gier click-owych: FAKTY §1bis.
    **Trzeci krok (też tani, i on rozstrzyga spór o budżet):** przebieg z capem **60 000**
    węzłów (5×) i 600 s na grę, uruchomiony tylko na 8 grach uciętych wcześniej capem, dał
-   **+1 grę: s5i5** (1 poziom, 21 akcji, replay OK) → 3.08 → **3.18 pkt LB**. To dowód, że
+   **+1 grę: s5i5** (1 poziom, 21 akcji, replay OK) → 3.08 → **3.18 pkt (symulator lokalny)**. To dowód, że
    dla części gier blokerem był faktycznie budżet, a nie heurystyka — ale TYLKO dla części.
    Rozróżnienie jest w FAKTY §1bis(f)-(g): są **trzy** tryby porażki (`node_cap_cut` 2 gry,
    `time_cut` 6, `frontier_exhausted` 6) i **przypisanie trybu zależy od budżetu** — dc22 i

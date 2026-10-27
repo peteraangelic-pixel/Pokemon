@@ -336,7 +336,7 @@ może coś dać. Uruchomiłem dokładnie ten test: cap **60 000** węzłów (5×
 
 **Hipoteza potwierdzona — s5i5 rozwiązana.** Ucięta przy 12 012 węzłach, rozwiązana przy
 **45 377** węzłach: 1 poziom w **21 akcjach**, replay OK. Czyli cap 12 000 był realnym
-blokerem, nie heurystyka. Playbook rośnie z 10 do **11 gier / 16 poziomów / 3.18 pkt LB**.
+blokerem, nie heurystyka. Playbook rośnie z 10 do **11 gier / 16 poziomów / 3.18 pkt — w SYMULATORZE LOKALNYM** (`official_110()` klonuje 25 gier; na realnej karcie wyników gry są nieznane i bez powtórzonych ID, więc ta liczba raczej nie przenosi się na LB — patrz wycofanie w `PATCH-0004-I-SEARCH.md`).
 
 Ale pełny obraz jest ciekawszy i **prostuje punkt (f)**:
 
@@ -509,7 +509,15 @@ opisuje to jako „110 independent cyclic replicas of the 20 public games, 1800 
 `tools/score_formula.py --verify` robi dokładnie ten rachunek. Skoro formuła odtwarza ich
 wyniki, można nią liczyć wartość czegokolwiek przed wydaniem tokena.
 
-### TWIERDZENIE: cap zawsze wiąże przy grze ≤1.07× baseline
+### TWIERDZENIE: cap zawsze wiąże przy `a_k ≤ 0.9325 · b_k`
+
+> ⚠️ **Nagłówek poprawiony 27.10.** Brzmiał „cap zawsze wiąże przy grze ≤1.07× baseline" —
+> czyli **odwrotnie**. Treść poniżej była już poprawna (`a_k <= b_k / sqrt(115/100) = 0.9325·b_k`),
+> ale nagłówek i `README.md` L188 oraz `WERYFIKACJA-INNYCH-GALEZI.md` §5 powtarzały błąd.
+> `1.0724 = sqrt(115/100)` jest poprawną liczbą w złym miejscu: z `(b/a)²·100 ≥ 115` wynika
+> `b/a ≥ 1.0724`, czyli `a ≤ 0.9325·b`. Przy `a = 1.0724·b` score wynosi **86.95**, nie 115.
+> Warunek jest **surowszy**, niż pisałem: agent musi być ~6.75 % **szybszy** od baseline.
+> Poprawione we wszystkich trzech miejscach naraz.
 
 Niech gra ma poziomy o wagach `w_k`, ukończono zbiór `S`. Wtedy
 
@@ -584,7 +592,7 @@ Statystyki: średnio **7.32** poziomu/grę, średnia `ΣBas` **685.4**, mediana 
 min **171** (cd82), max **1843** (wa30). Tagi: 4 keyboard / 7 click / 13 keyboard_click / 1 brak.
 
 **Stan naszego przeszukiwania offline (0 tokenów LLM, 3 przebiegi scalone po najlepszym
-wyniku na grę): 11/25 gier, 16 poziomów, 3.18 pkt LB podłogi**, każda sekwencja
+wyniku na grę): 11/25 gier, 16 poziomów, 3.18 pkt podłogi W SYMULATORZE LOKALNYM** (nie na LB — patrz wycofanie w `PATCH-0004-I-SEARCH.md`), każda sekwencja
 zweryfikowana replayem na świeżej instancji (2×). Rozbicie: tu93 5 poziomów (33.33 pkt),
 vc33 2 (10.71), a po 1 poziomie: cd82, cn04, ft09, m0r0, sp80 (po 4.76), ls20 (3.57),
 ar25, lp85 (po 2.78). Trzy gry (ar25, cn04, ft09) doszły dopiero po zmianie generatora

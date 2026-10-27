@@ -162,7 +162,7 @@ wyprowadzony dwiema niezależnymi drogami**:
 
 | | ich sformułowanie | moje sformułowanie |
 |---|---|---|
-| obserwacja | 17 z 27 ukończonych poziomów siedzi na capie 115; efektywność 0.83–1.00 (średnio ~0.95) | przy `akcje ≤ 1.0724·baseline` każdy ukończony poziom dostaje 115, więc cap **zawsze** wiąże |
+| obserwacja | 17 z 27 ukończonych poziomów siedzi na capie 115; efektywność 0.83–1.00 (średnio ~0.95) | przy `akcje ≤ 0.9325·baseline` każdy ukończony poziom dostaje 115, więc cap **zawsze** wiąże ⚠️ **poprawione 27.10 — wcześniej stało tu `≤ 1.0724·baseline`, czyli nierówność ODWRÓCONA; przy `1.0724·b` score wynosi 86.95, nie 115. Wniosek z wiersza się nie zmienia, warunek jest surowszy: agent musi być ~6.75 % SZYBSZY od człowieka** |
 | wniosek | „nie ma czego poprawiać w efektywności — maks. +1.4 pkt" | „cała praca nad efektywnością ruchów jest warta **1.75 pkt** łącznie" |
 | co rządzi wynikiem | procent ukończonej **wagi** | `score_game = 100 · Σ(w ukończonych) / Σ(w wszystkich)` |
 

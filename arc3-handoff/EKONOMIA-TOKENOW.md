@@ -289,15 +289,33 @@ Recenzja proponuje kluczować replay **sygnaturą ramki zamiast `game_id`**, bo 
 ~4.4 cykliczne klony każdej mechaniki: raz rozwiązany poziom przejeżdża za darmo w klonach,
 a weryfikacja hashami odrzuca fałszywe trafienia.
 
-**To jest ulepszenie mojej dźwigni nr 4** (`PERSISTENT_FUNCTIONS_SCOPE=run` + lekcje między
-grami), i to ulepszenie sensowne: dopasowanie po ramce jest odporniejsze niż po `game_id`,
-a weryfikacja hashem daje bezpieczeństwo przed fałszywym trafieniem. Zgadza się też z moim
-pomiarem, że silnik jest **deterministyczny** (replay zweryfikowany 2×, szum 0 px) — więc hash
-ramki jest stabilnym kluczem.
+**To jest ulepszenie mojej dźwigni nr 4** (~~`PERSISTENT_FUNCTIONS_SCOPE=run`~~ — **MARTWE,
+patrz §12.1** — + lekcje między grami), i to ulepszenie sensowne: dopasowanie po ramce jest
+odporniejsze niż po `game_id`, a weryfikacja hashem daje bezpieczeństwo przed fałszywym
+trafieniem. Zgadza się też z moim pomiarem, że silnik jest **deterministyczny** (replay
+zweryfikowany 2×, szum 0 px) — więc hash ramki jest stabilnym kluczem.
 
 **Warunek, bez którego to nie działa:** wiedza musi **przetrwać między grami w obrębie runa**.
-Przy `PERSISTENT_FUNCTIONS_SCOPE=run` nie przetrwa. To jest dokładnie ta sama niewiadoma, którą
-mam w `WERYFIKACJA-INNYCH-GALEZI.md` §5 przy `game_weights` — i **nie została zmierzona**.
+
+> ✅ **TA NIEWIADOMA JEST DOMKNIĘTA (27.10) — i domknęła się PRZECIWKO temu pomysłowi.**
+> Walidator z patcha (`patches/0000-franzen-harness-changes.patch` L3559-3560) brzmi
+> `scope if scope in ("turn","levelup","game") else "levelup"`, więc **najszersza dozwolona
+> wartość to `game`**. Zakresu „cały run" **nie ma**: tą drogą wiedza nie może przetrwać między
+> grami — nie „nie została zmierzona", tylko **jest to wykluczone przez kod**. Docstring patcha
+> (L3612-3613) dodaje: „State and variables are never serialized", więc przetrwają co najwyżej
+> **definicje funkcji**, nie dane.
+>
+> Co z tego zostaje: replay kluczowany ramką działa **wyłącznie wewnątrz jednej gry** — a tam,
+> jak niżej sam piszę, jest wart ~0 pkt (twierdzenie o capie). **Pomysł recenzji jest poprawnie
+> zbudowany i martwy z powodu ZAKRESU, nie z powodu wykonania.**
+>
+> Jedyna droga między grami, której ten walidator **nie** obejmuje, to stan poza harnessowym
+> mechanizmem funkcji trwałych — np. zapis do `/kaggle/working` w trakcie runa albo port
+> `lessons-between-games` z `llm-agent/llm_policy.py`. To jest **osobny mechanizm i nadal
+> niezmierzony**; nie wolno go mylić ze `SCOPE`. Rozróżnienie, którego wcześniej nie robiłem:
+> `game_weights` (§5 `WERYFIKACJA-INNYCH-GALEZI.md`) to pytanie o **realokację budżetu** i
+> **pozostaje otwarte**; pytanie o przetrwanie wiedzy między grami przez `SCOPE` jest
+> **zamknięte na nie**.
 
 Warto też pamiętać o moim ograniczeniu, którego ten pomysł **nie** unieważnia: replay
 **wewnątrz jednej gry** jest wart ~0 pkt (twierdzenie o capie + pin `ONLY_RESET_LEVELS` +

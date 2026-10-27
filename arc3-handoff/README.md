@@ -178,15 +178,24 @@ Trzy wnioski, które bolą:
 | tokeny i akcje na poziomie, który **nigdy nie został ukończony** | **35%** (tn36 86%, ls20 91%) | j.w. |
 | realny budżet tokenów na grę | **~175k** = ~208 akcji, przy `ΣBas ≈ 685` potrzebnych | arytmetyka z `serve.log` |
 | cała wartość optymalizacji **efektywności** ruchu | **1.75 pkt** (29.0 − 27.21) | §2 FAKTY |
-| nasz playbook (search offline, **0 tokenów LLM**) | **11/25 gier, 16 poziomów = 3.18 pkt LB**, każdy replay-verified | `results/playbook.json` |
+| nasz playbook (search offline, **0 tokenów LLM**) | **11/25 gier, 16 poziomów = 3.18 pkt — W SYMULATORZE LOKALNYM, nie na LB**, każdy replay-verified. Na realnym LB prawdopodobnie **0**: gry ewaluacyjne są nieznane i nie mają powtórzonych ID (`taaf/competition_arcade.py` docstring), więc dosłowne sekwencje nie odpalą. Patrz wycofanie w `PATCH-0004-I-SEARCH.md` | `results/playbook.json` |
 | najgłębsze rozwiązanie | **tu93: 5 poziomów = 33.33 pkt** (dokładnie w capie) | j.w. |
 | postęp z samej kalibracji ruchów | **+3 gry** (ar25, cn04, ft09), 2.59 → **3.08 pkt LB** | `tools/sweep2.py`, §1bis FAKTY |
-| postęp z 5× większego capa | **+1 gra** (s5i5, 21 akcji), 3.08 → **3.18 pkt LB** — i dowód, że tylko tryb `cap_cut`/`time_cut` leczy się budżetem | `results/sweep3_bigcap.jsonl`, §1bis(g) FAKTY |
+| postęp z 5× większego capa | **+1 gra** (s5i5, 21 akcji), 3.08 → **3.18 pkt (symulator lokalny, NIE LB)** — i dowód, że tylko tryb `cap_cut`/`time_cut` leczy się budżetem | `results/sweep3_bigcap.jsonl`, §1bis(g) FAKTY |
 | przebieg z `--frontier-cap` | **ka59 domknięta** (frontier wyczerpany, budżet nie pomoże), re86: 94 405 stanów w 1 066 MB RAM | `results/sweep4_*.jsonl`, §1bis(i) FAKTY |
 
-**Najważniejszy wniosek strategiczny** (dowód w `FAKTY-I-POMIARY.md` §2): przy grze
-≤1.07× baseline **cap punktacji zawsze wiąże**, więc
+**Najważniejszy wniosek strategiczny** (dowód w `FAKTY-I-POMIARY.md` §2, potwierdzony
+oficjalnie na `docs.arcprize.org/methodology`): przy **`akcje ≤ 0.9325 · baseline`**
+**cap punktacji zawsze wiąże**, więc
 `score_gry = 100 · Σ(wag ukończonych poziomów) / Σ(wag wszystkich)`.
+
+> ⚠️ **Poprawione 27.10 — tu stało `≤1.07× baseline`, czyli nierówność ODWRÓCONA.**
+> `1.0724 = √(115/100)` jest **poprawną liczbą, w złym miejscu**: warunek `(b/a)²·100 ≥ 115`
+> daje `b/a ≥ 1.0724`, czyli **`a ≤ b/1.0724 = 0.9325·b`**. Przy `a = 1.0724·b` score wynosi
+> **86.95**, nie 115. Wniosek strategiczny się nie zmienia, ale warunek jest **surowszy niż
+> pisałem**: żeby cap wiązał, agent musi być ~**6.75 % SZYBSZY** od ludzkiego baseline, a nie
+> „do 7 % wolniejszy". Ta sama pomyłka siedziała w `FAKTY` L521 i w `WERYFIKACJA-INNYCH-GALEZI.md`
+> §5 — poprawiona we wszystkich trzech miejscach.
 Czyli wynik zależy **wyłącznie od tego, KTÓRE poziomy się ukończyło** — liczba akcji ponad
 ten próg jest warta dokładnie zero. Jeden poziom w 7-poziomowej grze to maksymalnie 3.57 pkt;
 pięć poziomów w 9-poziomowej to 33.33. **Głębokość jest jedyną dźwignią.**
