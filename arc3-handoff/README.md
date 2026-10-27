@@ -147,11 +147,30 @@ Trzy wnioski, które bolą:
    kalibracja smoke→LB była mierzona na innej konfiguracji, a nowa warstwa potrafi kosztować
    (ich własne v6 23.94 < v2 24.66).
 
+10. **`EKONOMIA-TOKENOW.md` §11** — **CZYTAJ PRZED OTWARCIEM LEADERBOARDA.** Oczekiwany wynik
+   `PROFILE=c45` po naprawie `concurrency`: **26 – 31 pkt, główny szacunek 31.18**. Wyprowadzone
+   z trzech kotwic (r019 27.21 / ich LB 26.25 / sufit modelu 31.70) i **zmierzonego** wycieku
+   tokenów (`FAKTY` L697-699: agregat 35 %, tn36 86 %, ls20 91 %). Naprawa usuwa strukturalne
+   zero, nie dodaje zdolności ⇒ ścieżka submisji = ścieżka smoke = zmierzona. Dwa twierdzenia
+   do sprawdzenia zamiast zgadywania: **kap 45k nie robi nic poniżej 25.7 % puli na skazany
+   poziom**, i **sam kap jest wart ~+4.9 pkt** (26.25 → 31.18) — pierwsza liczba przy patchu 0004.
+   **Werdykt: naprawa warta slota, ale luka do progu 50.37 zostaje ~19 pkt.**
+   Plus §12: dwie domknięte niewiadome — walidator `ARC3_PERSISTENT_FUNCTIONS_SCOPE` (moja
+   dźwignia 4 **martwa w połowie**, `run` nie istnieje i degraduje **cicho**) oraz leaderboard
+   chunk 1/2 (miejsca 29–49, 4912 wpisów, pole ~0.075 pkt/miejsce).
+
 ## Najważniejsze liczby (skrót)
 
 | fakt | wartość | źródło |
 |---|---|---|
 | ich najlepszy wynik na LB | **26.25** (duck v3, 16.10) | `ops/results/r062-submissions` |
+| **OCZEKIWANY wynik c45 po naprawie `concurrency`** | **26 – 31, główny szacunek 31.18** | `EKONOMIA-TOKENOW.md` §11 |
+| **wartość samego kapa `ARC3_LEVEL_TOKEN_CAP=45000`** | **+4.93 pkt** (26.25 → 31.18) | j.w. §11.2 |
+| próg, poniżej którego kap 45k **nie robi nic** | skazany poziom < **25.7 %** puli | j.w. §11.2 |
+| współczynnik kalibracji modelu (para **jednorodna**) | **×0.828** (26.25 / 31.70); ~~×0.718~~ wycofany | j.w. §3 |
+| `ARC3_PERSISTENT_FUNCTIONS_SCOPE` — dozwolone wartości | **`turn \| levelup \| game`** tylko; `run` **nie istnieje** i degraduje cicho do `levelup` | `patches/0000-franzen-harness-changes.patch` L3559-3560 |
+| leaderboard 25.10 — 5. miejsce (próg nagród) | **50.37** (24.10: 49.85), rośnie ~0.5/dzień | `EKONOMIA-TOKENOW.md` §12.2 |
+| leaderboard — pole | **4912 wpisów**, miejsce 49 = 35.68, ~0.075 pkt/miejsce w strefie 29–49 | j.w. §12.2 |
 | ~~próg nagrody $40k (5. miejsce)~~ **NIEAKTUALNE** | ~~40.97~~ — snapshot z 10.10; lider to dziś **68.91** (Tufa, 14.10), a nagrody są **za miejsca**, nie za próg | `WERYFIKACJA-INNYCH-GALEZI.md` §7 |
 | średni score smoke r019 | **27.21**, sufit z głębokości **29.0** | `r019/benchmark.json` |
 | +1 poziom w każdej grze | **44.8** · +2 poziomy → **64.5** | j.w., przeliczone ich formułą |

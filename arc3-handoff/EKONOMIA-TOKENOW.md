@@ -379,45 +379,75 @@ Kap odzyskuje tokeny z poziomu skazanego. Nie jest stałym bonusem — **wiąże
 progu**. Przy puli 175 000 i kapie 45 000:
 
 > **Kap 45k nie robi NIC, dopóki skazany poziom nie zje > 25.7 % puli (45 000 / 175 000).**
-> Poniżej tego nigdy nie zostaje osiągnięty. To jest twierdzenie **falsyfikowalne** i sprawdzalne
-> z `.per_game_cards.pkl` (r076 ma je dla 10 gier) — nie trzeba zgadywać.
+> To jest twierdzenie **falsyfikowalne** i sprawdzalne z `.per_game_cards.pkl` (r076 ma je dla
+> 10 gier) — nie trzeba zgadywać.
 
-| `w` = frakcja puli na poziom skazany | odzysk tok | dod. akcji | efektywne tok/akcję | SUFIT | **po kalibracji ×0.828** | gier całk. wykonalnych |
-|---|---|---|---|---|---|---|
-| 15 % | 0 | 0.0 | 841.0 | 31.70 | **26.25** | 1 (cd82) |
-| 20 % | 0 | 0.0 | 841.0 | 31.70 | **26.25** | 1 (cd82) |
-| 26 % | 500 | 0.6 | 838.6 | 31.70 | **26.25** | 1 (cd82) |
-| **35 %** ← środek mojej noty kalibracyjnej | 16 250 | 19.3 | 769.5 | 35.80 | **29.65** | 3 (cd82, ft09, sb26) |
-| 50 % | 42 500 | 50.5 | 676.7 | 40.69 | **33.70** | 4 (+ r11l) |
-| 65 % | 68 750 | 81.7 | 603.8 | 46.93 | **38.87** | 4 |
+**`w` nie jest tu założeniem — jest ZMIERZONE w r019** (`FAKTY-I-POMIARY.md` L697-699):
+
+| pomiar | wartość |
+|---|---|
+| udział tokenów i akcji na poziomie, który **nigdy nie został ukończony** — agregat | **35 %** |
+| **tn36** — największy wyciek (L=1, score 3.57) | **86 %** |
+| **ls20** (L=1, score 3.27) | **91 %** |
 
 Metoda: odzysk = `max(0, w·175 000 − 45 000)`, przeliczony na akcje po 841 tok/akcję i dodany
-do bazowych 208; potem `tools/token_economy_model.py` przelicza sufit. Skrypt: sekcja 11.4.
+do bazowych 208; potem `tools/token_economy_model.py` przelicza poziomy i sufit per gra.
+`w` zmierzone indywidualnie dla tn36/ls20, dla pozostałych 23 gier — agregat 35 %.
+
+**Gry, w których kap realnie przesuwa wynik** (reszta z 25 ma Δ = 0.00):
+
+| gra | `n_levels` | `sum_baseline` | `w` | odzysk tok | dod. akcji | poz. bez kapa | poz. z kapem | score bez | score z | **Δ** |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **tn36** | 7 | 317 | **0.86** (mierz.) | 105 500 | 125.4 | 4 | **6** | 35.71 | 75.00 | **+39.29** |
+| **ls20** | 7 | 776 | **0.91** (mierz.) | 114 250 | 135.9 | 2 | **4** | 10.71 | 35.71 | **+25.00** |
+| ft09 | 6 | 208 | 0.35 | 16 250 | 19.3 | 5 | **6** | 71.43 | 100.00 | **+28.57** |
+| sb26 | 8 | 213 | 0.35 | 16 250 | 19.3 | 7 | **8** | 77.78 | 100.00 | **+22.22** |
+| lp85 | 8 | 388 | 0.35 | 16 250 | 19.3 | 5 | **6** | 41.67 | 58.33 | +16.67 |
+| su15 | 9 | 361 | 0.35 | 16 250 | 19.3 | 3 | **4** | 13.33 | 22.22 | +8.89 |
+| s5i5 | 8 | 638 | 0.35 | 16 250 | 19.3 | 2 | **3** | 8.33 | 16.67 | +8.33 |
+
+Razem: **sufit 31.70 → 37.66 (Δ +5.96)**, po kalibracji ×0.828: **26.25 → 31.18**.
+
+⚠️ **Uczciwe zastrzeżenia do tej tabeli — trzy, i wszystkie obniżają liczbę:**
+
+1. **`w = 0.35` dla 23 gier to agregat, nie pomiar per gra.** W grach, gdzie rzeczywisty wyciek
+   jest poniżej 25.7 %, kap nie robi nic. Tylko tn36 i ls20 mają `w` zmierzone indywidualnie —
+   i to właśnie one dają największe Δ. Reszta jest ekstrapolacją średniej.
+2. **Model zakłada, że odzyskane akcje kupują ukończone poziomy przy EFF = 0.95.** To ten sam
+   optymizm, który kalibracja ×0.828 koryguje — i został skorygowany, ale korekta jest
+   globalna, nie per gra.
+3. **Sufit liczę na 25 grach publicznych**, a karta to 110 gier nieznanych (§11.3, pkt 3).
 
 ### 11.3 Werdykt — oczekiwany wynik c45
 
-> **OCZEKIWANIE: 26 – 30 pkt, punktowo ~28.**
+> **OCZEKIWANIE: 26 – 31 pkt, punktowo ~29–31.**
 >
-> * **26.25** = dolna granica: kap nie wiąże (`w ≤ 0.26`), czyli c45 odtwarza dokładnie to, co
->   linia szybka już mierzyła. To jest **najbardziej prawdopodobny** wynik, bo `w = 0.65`
->   wymagałoby, by agent prawie nic nie kończył — a r019 skończył **32 z 69 poziomów**.
-> * **29.65** = środek: kap wiąże tak, jak zakłada moja własna nota kalibracyjna (35 %).
-> * **38.87** = górna granica przy `w = 0.65`. **Nie traktować jako prognozy** — to granica
->   przedziału, nie szacunek.
+> * **26.25** = dolna granica: kap nie wiąże w żadnej grze (`w ≤ 0.26` wszędzie), czyli c45
+>   odtwarza dokładnie to, co linia szybka już mierzyła. Mało prawdopodobne, bo tn36 i ls20
+>   mają `w` **zmierzone** na 86 % i 91 % — kap w nich na pewno wiąże.
+> * **31.18** = szacunek główny: kap wiąże tak, jak zmierzono w r019 (agregat 35 %, tn36/ls20
+>   indywidualnie). Sufit 37.66 × 0.828.
+> * Powyżej 31 nie idę: trzy zastrzeżenia z §11.2 wszystkie działają w dół.
 
 **Co z tego wynika operacyjnie — trzy rzeczy:**
 
-1. **Naprawa jest warta slota.** 0.00 → ~28 to największy pojedynczy dostępny skok, większy niż
+1. **Naprawa jest warta slota.** 0.00 → ~31 to największy pojedynczy dostępny skok, większy niż
    jakakolwiek dźwignia merytoryczna w `DIAGNOZA-45plus.md`. Żadna inna zmiana nie ma takiego
-   stosunku zysku do ryzyka.
+   stosunku zysku do ryzyka. Osobno: **kap 45k sam w sobie jest wart ~+4.9 pkt** (26.25 → 31.18)
+   — czyli moja dźwignia z patcha 0004, dotąd **niezmierzona**, ma teraz oszacowaną wielkość.
+   To pierwszy raz, kiedy ten patch ma liczbę przy sobie.
 2. **Naprawa NIE zmienia werdyktu strategicznego.** Próg nagród to **50.37** (25.10, 5. miejsce)
-   i rośnie ~0.5/dzień. Przy ~28 luka wynosi **~22 pkt**. c45 to nowy rekord ich linii
-   (26.25 → ~28), nie wejście do strefy płatnej.
+   i rośnie ~0.5/dzień. Przy ~31 luka wynosi **~19 pkt**. c45 to nowy rekord ich linii
+   (26.25 → ~31), nie wejście do strefy płatnej. Żeby domknąć 19 pkt, trzeba **~500 tok/akcję**
+   (§3) — a to jest inna dźwignia niż concurrency i inna niż kap.
 3. **To oczekiwanie jest strukturalne, nie predykcyjne.** Sufit liczę na **25 publicznych grach**,
    a realna karta to **110 gier nieznanych z ukrytymi baseline'ami** (`taaf/competition_arcade.py`
    docstring). Dlatego **roster probe** — który też jest w c45 — jest najważniejszą częścią tej
-   submisji: on zamienia ten szacunek na dane. Gdyby wynik wyszedł istotnie inny niż 26–30,
+   submisji: on zamienia ten szacunek na dane. Gdyby wynik wyszedł istotnie inny niż 26–31,
    to roster probe powie **dlaczego**, zamiast zostawiać drugą taką diagnozę jak przy 0.00.
+   Konkretnie: jeśli wyjdzie **~26**, znaczy że `w` w grach spoza tn36/ls20 jest niższe niż
+   agregat 35 % i kap nie wiąże — wtedy zastrzeżenie 1 z §11.2 jest prawdziwe i należy je
+   zmierzyć z `.per_game_cards.pkl`, nie poprawiać model.
 
 ### 11.4 Odtworzenie liczb
 
@@ -426,9 +456,11 @@ cd arc3-handoff
 python3 tools/token_economy_model.py            # tabela tok/akcję -> sufit (bez i z PB)
 ```
 
-Tabela z §11.2 powstaje przez bezpośrednie wywołanie `evaluate()` z budżetem
-`208 + max(0, w·175000 − 45000)/841` akcji i `use_playbook=False`; kalibracja to
-`26.25 / 31.70 = 0.828`. Bez GPU, bez arcengine, bez tokenów LLM.
+Tabela per gra z §11.2 powstaje przez bezpośrednie wywołanie `levels_affordable()` i `score()`
+z budżetem `208 + max(0, w·175000 − 45000)/841` akcji i bez playbooka, przy `w` z
+`FAKTY-I-POMIARY.md` L697-699 (tn36 = 0.86, ls20 = 0.91, reszta = 0.35). Kalibracja to
+`26.25 / 31.70 = 0.828` — **para jednorodna, oba człony bez playbooka** (§3). Bez GPU, bez
+arcengine, bez tokenów LLM.
 
 ---
 
@@ -485,6 +517,9 @@ Dwie rzeczy z tego wynikają:
   miejsc**. To potwierdza moją wcześniejszą korektę „+0.5 pkt z live LB = +1.2 poziomu" i
   wyjaśnia, dlaczego małe dźwignie **mają** znaczenie rankingowe nawet gdy nie przekraczają progu.
 * **Próg nagród jest daleko od mediany pola.** 5. miejsce = 50.37, a 49. = 35.68. Rozstrzał
-  **14.7 pkt** wewnątrz pierwszych 50 pozycji. Czyli nie „wszyscy są blisko" — czołówka odjechała,
-  a ~28 pkt (nasz oczekiwany wynik z §11.3) plasuje się **w okolicach miejsca 60–70**, nie w
-  strefie płatnej. To jest ta sama konkluzja co w `DIAGNOZA-45plus.md`, teraz z pełnym rozkładem.
+  **14.7 pkt** wewnątrz pierwszych 50 pozycji. Czyli nie „wszyscy są blisko" — czołówka odjechała.
+* Nasz oczekiwany wynik z §11.3 (**~31 pkt**) jest **poniżej miejsca 49** (35.68), czyli **poza
+  pierwszą pięćdziesiątką** i daleko poza strefą płatną. **Dokładnego miejsca nie podaję** —
+  Kaggle pokazuje tylko 50 wierszy („See 4863 More"), więc rozkład poniżej 49. pozycji jest
+  nieznany. Wcześniejszy zapis „miejsca 60–70" był zgadywaniem i go wycofuję.
+* To jest ta sama konkluzja co w `DIAGNOZA-45plus.md`, teraz z pełnym rozkładem górnej połowy.
