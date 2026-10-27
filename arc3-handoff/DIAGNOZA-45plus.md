@@ -282,7 +282,33 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 - **Konsekwencja:** ta sama mechanika trafia się w runie ~4–5 razy. Rozwiązanie jej raz powinno płacić 4–5 razy.
 - Tymczasem w Waszym configu (`duck-v7.ipynb` cell 9): `ARC3_PERSISTENT_FUNCTIONS_SCOPE = 'game'` i `ARC3_MEMORY_SECTIONS = 'off'`.
 
-**Lever:** `scope='run'` (patch już czyta tę zmienną z env — `ARC3_PERSISTENT_FUNCTIONS_SCOPE` jest obsłużony w `harness-changes.patch`), plus `lessons-between-games` (macie to zaimplementowane i przetestowane w `llm-agent/llm_policy.py` v6.2, 43/43 testy — **nigdy nie przeniesione do linii duck**, która jako jedyna produkuje wyniki).
+**Lever:** ~~`scope='run'`~~ — **MARTWE, patrz korekta niżej** — plus `lessons-between-games` (macie to zaimplementowane i przetestowane w `llm-agent/llm_policy.py` v6.2, 43/43 testy — **nigdy nie przeniesione do linii duck**, która jako jedyna produkuje wyniki). **Ta połowa dźwigni zostaje żywa**; połowa `scope` nie.
+
+> ### ❌ KOREKTA — POŁOWA `scope` TEJ DŹWIGNI NIE ISTNIEJE (27.10, mój własny błąd)
+>
+> Napisałem wyżej „`scope='run'` (patch już czyta tę zmienną z env)". Patch **czyta** zmienną,
+> ale ją **waliduje**. `patches/0000-franzen-harness-changes.patch` L3559-3560:
+>
+> ```python
+> scope = os.environ.get("ARC3_PERSISTENT_FUNCTIONS_SCOPE", "").strip().lower()
+> return scope if scope in ("turn", "levelup", "game") else "levelup"
+> ```
+>
+> Dozwolone są **wyłącznie `turn | levelup | game`**, domyślne `levelup`. **`run` nie istnieje.**
+>
+> Najgorsze jest to, że degradacja jest **cicha**: nieznana wartość nie rzuca błędu, tylko wraca
+> do `levelup`. Ustawienie `SCOPE=run` wyglądałoby w logu jak włączona zmiana, a harness
+> zachowałby się **jak przy wartości domyślnej**. Slot spalony, a wniosek „dźwignia
+> lessons-between-games nie działa" byłby **fałszywy** — bo testowano by ją w parze z martwą
+> zmienną. To dokładnie ta sama klasa pułapki co `concurrency=120` (patrz `POROWNANIE-V11.md` §1):
+> **konfiguracja, która przechodzi walidację składni, ale nie robi tego, co deklaruje**.
+>
+> Wniosek dla eksperymentu: `lessons-between-games` trzeba testować przy **`scope='game'`**
+> (najszersza dozwolona wartość, i taka już jest w ich cell 9), nigdy przy `run`.
+>
+> Reguła, którą stąd wyciągam: **przed zaproponowaniem wartości zmiennej env należy wyciągnąć
+> jej walidator z patcha.** Nazwa `SCOPE` sugeruje „cały run"; kod mówi co innego. Transkrypcja
+> nazwy zmiennej do dokumentu to nie jest jej zrozumienie — ta sama lekcja co przy `MAXREQ`.
 
 ⚠️ Uczciwie: nie wiemy, czy prywatny roster to te same gry (jest „hidden"). Ale (a) walidacja publiczna jest cykliczna, (b) gry są tagowane `official` i pochodzą z `re-arc-3` train+eval, (c) koszt zmiany to jedna zmienna env z kill-switchem. Warto sprawdzić w jednym smoke'u, czy w runie powtarzają się sygnatury plansz (hash segmentacji pierwszej ramki) — to da się zlogować w 5 liniach patcha i rozstrzygnąć pytanie przy okazji następnego przebiegu.
 
@@ -350,7 +376,7 @@ Uwaga na prawdziwym runie: przy 110 grach i 10 slotach (`ARC3_MAX_ACTIVE_STREAMS
 | 1 | **cap per poziom: RESET_LEVEL** (darmowy reset poziomu, 0 tokenów LLM) | **NIEZMIERZONE** — kandydat na +poziom w tej samej grze, bo reset przy `ONLY_RESET_LEVELS=true` **zachowuje poziom** i pozwala modelowi planować od czystej klatki zamiast mielć hipotezę, która właśnie nie działała od 45k tokenów | ~30 linii patcha, 16 testów offline, **0 GPU na napisanie** | niskie (kill-switch env) | `arc3_level_budget.py:25-34`; założenie o re-planningu **nie było testowane na harnessie** |
 | 2 | **token-free search / playbook offline** (punkt 6) | **ZMIERZONE: 3.18 pkt LB** (11 z 25 gier, 16 poziomów, każda sekwencja zweryfikowana replayem). To jest **podłoga**, nie +14–37 pkt — tamten szacunek wycofuję | 1–3 dni CPU-lokalnie, **0 GPU, 0 slotów** | zerowe (wynik już zweryfikowany) | `results/playbook.json`, `results/game_metadata.json` |
 | 3 | `MAXREQ` 10→16–20 + mniejsze okno kontekstu + `MAMBA_CACHE`↑ | **+45% puli** → ~300 akcji/grę | 1 smoke (2.5 h GPU) | średnie (krótsza pamięć agenta) | serve.log: full token usage 0.71/0.99, ms/krok 27→33 |
-| 4 | `PERSISTENT_FUNCTIONS_SCOPE=run` + lessons-between-games | ×4–5 na raz rozwiązanej mechanice (jeśli roster cykliczny) | 1 zmienna env + port z llm-agent | niskie | `competition_arcade.official_110()` |
+| 4 | ~~`PERSISTENT_FUNCTIONS_SCOPE=run`~~ **MARTWE** (walidator dopuszcza tylko `turn\|levelup\|game`, patrz korekta w §5) + **lessons-between-games** (ta połowa żywa, przy `scope='game'`) | ×4–5 na raz rozwiązanej mechanice (jeśli roster cykliczny) | ~~1 zmienna env~~ + port z llm-agent | niskie | `competition_arcade.official_110()` |
 | 5 | cięcie tok/akcję (841 → ~600): `MAX_OUTPUT` 12k→4k, `MEMORY_SECTIONS=slim`, mniej Pythona eksploracyjnego po stronie modelu (bo search robi to za darmo) | +40% akcji | 1 smoke | **wysokie** — Wasza historia: v6 „dokładaliśmy koszt-decyzję na stałej puli → LB spadł" (23.94 vs 24.66) | FINDINGS 15.10 |
 
 **Kolejność: 1 → 2 → 4 → 3 → 5.** Punkt 1 i 2 nie zużywają ani jednego slotu zgłoszenia ani godziny GPU na etap developmentu — a to jest dzisiaj Wasze prawdziwe ograniczenie (quota 30 h/tydz., 1 zgłoszenie/dzień).

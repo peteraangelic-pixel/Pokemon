@@ -125,15 +125,39 @@ co do setnej na r019). Playbook dokłada **prefiks poziomów za zero tokenów**.
 
 ### Kalibracja — to jest SUFIT, nie prognoza
 
+> ⚠️ **KOREKTA WŁASNEGO BŁĘDU (trzecia w tej sesji, 27.10).** Pierwsza wersja tej tabeli
+> dzieliła zmierzony wynik **bez playbooka** przez sufit **z playbookiem**:
+> `26.25 / 36.58 = 0.718`. To porównanie **niejednorodne** — karze model dwa razy za ten sam
+> brak playbooka. Poprawna para jest jednorodna:
+
 | | wartość |
 |---|---|
-| sufit modelu przy obecnych 841 tok/akcję (z playbookiem) | **36.58** |
-| **zmierzony** LB ich najlepszej submisji (duck v3, ref 57247568) | **26.25** |
-| => model optymistyczny o | **10.33 pp** (×0.718) |
+| sufit modelu przy 841 tok/akcję **BEZ playbooka** | **31.70** |
+| **zmierzony** LB ich najlepszej submisji (duck v3, ref 57247568, **też bez playbooka**) | **26.25** |
+| => **poprawny** współczynnik kalibracji | **×0.828** (model optymistyczny o 5.45 pp) |
+| ~~stary współczynnik~~ | ~~×0.718~~ — **wycofany**, porównywał 36.58 (z PB) do 26.25 (bez PB) |
 
-Ta różnica to **eksploracja**: agent nie zna rozwiązania, więc część budżetu idzie w hipotezy,
-które nie działają (35 % puli w poziom nigdy nieukończony — mój własny pomiar z r019). Model
-zakłada, że każda akcja kupuje postęp; rzeczywistość kupuje go taniej.
+Dlaczego to musi być para **bez playbooka** w obu członach: playbook jest artefaktem
+**lokalnego symulatora** (`official_110()` klonuje 25 gier), a prawdziwa karta wyników ma
+gry **nieznane i bez powtórzonych ID** — patrz wycofanie w `PATCH-0004-I-SEARCH.md`.
+Na realnym LB playbook jest wart ~0, więc sufit „z playbookiem" nie jest osiągalny i nie
+wolno go używać jako mianownika. Wskaźnik **0.828** jest tym, co zostaje po odjęciu
+efektu eksploracji od uczciwego sufitu.
+
+Ta różnica (5.45 pp) to **eksploracja**: agent nie zna rozwiązania, więc część budżetu idzie
+w hipotezy, które nie działają. Model zakłada, że każda akcja kupuje postęp; rzeczywistość
+kupuje go taniej. **Wielkość tego marnotrawstwa jest niezmierzona** — i to właśnie jest
+przedział `w` w sekcji 11.
+
+Krzyżowe potwierdzenie, że 0.828 jest sensowne: r019 (linia szybka, 10 gier, te same warunki
+co smoke) zmierzył **średnio 27.21**, a ich najlepszy LB to **26.25**. Te dwie liczby zgadzają
+się do ~1 pkt, czyli sufit 31.70 × 0.828 = 26.25 leży dokładnie tam, gdzie dwa **niezależne**
+pomiary.
+
+> **Wszystkie liczby „po kalibracji" poniżej i w §5/§7/§10 trzeba czytać z ×0.828, nie ×0.718.**
+> Tabele zostawiłem z dwoma wariantami (addytywny/multiplikatywny), bo ten dokument nie
+> rozstrzyga, czy błąd modelu jest stały czy proporcjonalny — przy ×0.828 rozstrzał jest
+> mniejszy (np. 444 tok/akcję: 51.3 addytywnie / 51.3 multiplikatywnie dla sufitu 61.97×0.828).
 
 ### Ile trzeba, żeby dojść do progu nagród 49.85
 
@@ -322,3 +346,145 @@ raz 12 % z capu, który już jest ustawiony (§2).
 | fix `-f` potwierdzony działaniem (r069, rc=0, ref 57607527) | ✅ **zweryfikowałem w ich logu** — patrz §6 |
 | pułapka 3: moja kopia patcha replay jest przestarzała | ❌ **nie dotyczy mnie** — nie mam ich patcha replay (§7) |
 | replay kluczowany ramką | ✅ dobry pomysł, ⚠️ **martwy bez stanu między grami** (§8) |
+
+---
+
+## 11. OCZEKIWANY WYNIK `PROFILE=c45` PO NAPRAWIE `concurrency` — liczba przed otwarciem LB
+
+To jest odpowiedź na pytanie, którego ten dokument dotąd nie zadawał: **z czym porównać wynik
+submisji, zanim się ją otworzy.** Bez tej liczby każdy rezultat jest interpretowalny na korzyść
+tezy — a 0.00 z ref 57629847 właśnie dlatego kosztował diagnozę zamiast pomiaru.
+
+### 11.1 Co naprawa zmienia, a czego nie
+
+Naprawa v11 (`bm.solver.concurrency` i `ARC3_MAX_ACTIVE_STREAMS` oba = 10 na ścieżce submisji)
+**nie dodaje żadnej zdolności**. Ona usuwa strukturalne zero: rozgałęzienie 120-strumieniowe na
+10 slotów serwera głodziło sloty, więc nie powstał **żaden** poziom i `parquet` był stubem.
+Po naprawie ścieżka submisji staje się **strukturalnie identyczna ze ścieżką smoke** — a ta jest
+zmierzona.
+
+Zatem jedynym uczciwym punktem odniesienia jest to, co linia szybka osiąga, **gdy faktycznie
+gra**:
+
+| kotwica | wartość | źródło |
+|---|---|---|
+| r019, linia szybka, 10 gier, `gave_up` wszystkie | **27.21** średnio | `FAKTY-I-POMIARY.md` |
+| ich najlepszy LB (duck v3, ref 57247568) | **26.25** | `FAKTY-I-POMIARY.md` |
+| sufit modelu bez playbooka przy 841 tok/akcję | **31.70** | §3, ten plik |
+| współczynnik kalibracji (jednorodny, §3) | **×0.828** | korekta wyżej |
+
+### 11.2 Ile dokłada `ARC3_LEVEL_TOKEN_CAP=45000` (mój patch 0004, jest w c45)
+
+Kap odzyskuje tokeny z poziomu skazanego. Nie jest stałym bonusem — **wiąże dopiero powyżej
+progu**. Przy puli 175 000 i kapie 45 000:
+
+> **Kap 45k nie robi NIC, dopóki skazany poziom nie zje > 25.7 % puli (45 000 / 175 000).**
+> Poniżej tego nigdy nie zostaje osiągnięty. To jest twierdzenie **falsyfikowalne** i sprawdzalne
+> z `.per_game_cards.pkl` (r076 ma je dla 10 gier) — nie trzeba zgadywać.
+
+| `w` = frakcja puli na poziom skazany | odzysk tok | dod. akcji | efektywne tok/akcję | SUFIT | **po kalibracji ×0.828** | gier całk. wykonalnych |
+|---|---|---|---|---|---|---|
+| 15 % | 0 | 0.0 | 841.0 | 31.70 | **26.25** | 1 (cd82) |
+| 20 % | 0 | 0.0 | 841.0 | 31.70 | **26.25** | 1 (cd82) |
+| 26 % | 500 | 0.6 | 838.6 | 31.70 | **26.25** | 1 (cd82) |
+| **35 %** ← środek mojej noty kalibracyjnej | 16 250 | 19.3 | 769.5 | 35.80 | **29.65** | 3 (cd82, ft09, sb26) |
+| 50 % | 42 500 | 50.5 | 676.7 | 40.69 | **33.70** | 4 (+ r11l) |
+| 65 % | 68 750 | 81.7 | 603.8 | 46.93 | **38.87** | 4 |
+
+Metoda: odzysk = `max(0, w·175 000 − 45 000)`, przeliczony na akcje po 841 tok/akcję i dodany
+do bazowych 208; potem `tools/token_economy_model.py` przelicza sufit. Skrypt: sekcja 11.4.
+
+### 11.3 Werdykt — oczekiwany wynik c45
+
+> **OCZEKIWANIE: 26 – 30 pkt, punktowo ~28.**
+>
+> * **26.25** = dolna granica: kap nie wiąże (`w ≤ 0.26`), czyli c45 odtwarza dokładnie to, co
+>   linia szybka już mierzyła. To jest **najbardziej prawdopodobny** wynik, bo `w = 0.65`
+>   wymagałoby, by agent prawie nic nie kończył — a r019 skończył **32 z 69 poziomów**.
+> * **29.65** = środek: kap wiąże tak, jak zakłada moja własna nota kalibracyjna (35 %).
+> * **38.87** = górna granica przy `w = 0.65`. **Nie traktować jako prognozy** — to granica
+>   przedziału, nie szacunek.
+
+**Co z tego wynika operacyjnie — trzy rzeczy:**
+
+1. **Naprawa jest warta slota.** 0.00 → ~28 to największy pojedynczy dostępny skok, większy niż
+   jakakolwiek dźwignia merytoryczna w `DIAGNOZA-45plus.md`. Żadna inna zmiana nie ma takiego
+   stosunku zysku do ryzyka.
+2. **Naprawa NIE zmienia werdyktu strategicznego.** Próg nagród to **50.37** (25.10, 5. miejsce)
+   i rośnie ~0.5/dzień. Przy ~28 luka wynosi **~22 pkt**. c45 to nowy rekord ich linii
+   (26.25 → ~28), nie wejście do strefy płatnej.
+3. **To oczekiwanie jest strukturalne, nie predykcyjne.** Sufit liczę na **25 publicznych grach**,
+   a realna karta to **110 gier nieznanych z ukrytymi baseline'ami** (`taaf/competition_arcade.py`
+   docstring). Dlatego **roster probe** — który też jest w c45 — jest najważniejszą częścią tej
+   submisji: on zamienia ten szacunek na dane. Gdyby wynik wyszedł istotnie inny niż 26–30,
+   to roster probe powie **dlaczego**, zamiast zostawiać drugą taką diagnozę jak przy 0.00.
+
+### 11.4 Odtworzenie liczb
+
+```bash
+cd arc3-handoff
+python3 tools/token_economy_model.py            # tabela tok/akcję -> sufit (bez i z PB)
+```
+
+Tabela z §11.2 powstaje przez bezpośrednie wywołanie `evaluate()` z budżetem
+`208 + max(0, w·175000 − 45000)/841` akcji i `use_playbook=False`; kalibracja to
+`26.25 / 31.70 = 0.828`. Bez GPU, bez arcengine, bez tokenów LLM.
+
+---
+
+## 12. Dwie domknięte niewiadome (27.10)
+
+### 12.1 `ARC3_PERSISTENT_FUNCTIONS_SCOPE` — moja dźwignia 4 jest MARTWA
+
+W `patches/0000-franzen-harness-changes.patch` L3559-3560 walidator brzmi:
+
+```python
+scope = os.environ.get("ARC3_PERSISTENT_FUNCTIONS_SCOPE", "").strip().lower()
+return scope if scope in ("turn", "levelup", "game") else "levelup"
+```
+
+> **Dozwolone są WYŁĄCZNIE `turn | levelup | game`; domyślne `levelup`.**
+> Wartość `run` — czyli moja dźwignia 4 z `DIAGNOZA-45plus.md` — **nie istnieje**.
+
+Co gorsza, to jest **degradacja cicha**: nieznana wartość nie rzuca błędu, tylko wraca do
+`levelup`. Ustawienie `SCOPE=run` wyglądałoby w logu jak zastosowana zmiana, a zachowanie
+harnessu byłoby **identyczne z domyślnym**. Slot spalony, wniosek „dźwignia nie działa"
+— fałszywy. To ta sama klasa pułapki co `concurrency=120`: **konfiguracja, która przechodzi,
+ale nie robi tego, co deklaruje**.
+
+Zapis do reguł: **przed zaproponowaniem jakiejkolwiek wartości env należy wyciągnąć jej
+walidator z patcha, nie zgadywać po nazwie.** Nazwa `SCOPE` sugeruje zakres „cały run";
+kod mówi co innego.
+
+Stan faktyczny ich notebooka jest poprawny: cell 9 ma `'ARC3_PERSISTENT_FUNCTIONS_SCOPE': 'game'`
+— wartość dozwolona. Do poprawki jest **mój dokument**, nie ich konfiguracja.
+
+### 12.2 Leaderboard — chunk 1/2 (pozycje 29–49), pierwszy raz pobrany
+
+Dotąd miałem tylko chunk 0 (miejsca 1–28). Uzupełnienie z 27.10:
+
+| miejsce | wynik | | miejsce | wynik |
+|---|---|---|---|---|
+| 29 | 37.18 | | 40 | 36.16 |
+| 30 | 37.12 | | 45 | 36.00 |
+| 31 | 37.07 | | 46 | 35.96 |
+| 32 | 36.92 | | 47 | 35.91 |
+| 33 | 36.87 | | 48 | 35.79 |
+| 34 | 36.86 | | 49 | 35.68 |
+| 36 | 36.54 | | | |
+| 37 | 36.46 | | | |
+| 38 | 36.25 | | | |
+| 39 | 36.22 | | | |
+
+Strona pokazuje **„50 – 4912"** i „See 4863 More", czyli **4912 wpisów łącznie**.
+
+Dwie rzeczy z tego wynikają:
+
+* **Pole jest gęste i płaskie.** Między miejscem 29 a 49 jest **1.50 pkt** na 20 pozycji, czyli
+  ~0.075 pkt/miejsce. Franzen (38.85, 15.) siedzi w strefie, gdzie **+0.5 pkt przesuwa o ~7
+  miejsc**. To potwierdza moją wcześniejszą korektę „+0.5 pkt z live LB = +1.2 poziomu" i
+  wyjaśnia, dlaczego małe dźwignie **mają** znaczenie rankingowe nawet gdy nie przekraczają progu.
+* **Próg nagród jest daleko od mediany pola.** 5. miejsce = 50.37, a 49. = 35.68. Rozstrzał
+  **14.7 pkt** wewnątrz pierwszych 50 pozycji. Czyli nie „wszyscy są blisko" — czołówka odjechała,
+  a ~28 pkt (nasz oczekiwany wynik z §11.3) plasuje się **w okolicach miejsca 60–70**, nie w
+  strefie płatnej. To jest ta sama konkluzja co w `DIAGNOZA-45plus.md`, teraz z pełnym rozkładem.
