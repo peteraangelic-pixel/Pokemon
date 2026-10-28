@@ -177,6 +177,31 @@ Trzy wnioski, które bolą:
    **Trzy wnioski w §8: (1) wyłączyć kap, (2) naprawa concurrency odzyskuje ~26.8 a nie podnosi,
    (3) podnieść cap w `sweep2.py` do 300–600 s i powtórzyć — 0 GPU, 0 tokenów, 0 slotów.**
 
+12. **`DIAGNOZA-23-89-I-PLAN.md`** — ❗**NAJNOWSZE (28.10 ~23:10 UTC), NAJWAŻNIEJSZE DECYZYJNIE.**
+   Submisja **ref 57737623** (`arc3-duck-v11` v1, slot A) = COMPLETE, **publicScore 23.89**.
+   Naprawa `concurrency` **zadziałała** (0.00 → 23.89), ale wynik jest poniżej ich 26.25.
+   Trzy przyczyny w kolejności pewności:
+   **(1) SZUM** — nasza baza (Franzen M2) ma udokumentowany rozkład **μ=25.77, σ=3.93** z drawami
+   **21.01** i **35.35**, więc 23.89 mieści się w ±1 SD i **nie dowodzi**, że v11 jest gorszy.
+   Zmiana musi dać **~+5 pkt**, żeby jeden draw cokolwiek mówił; wyświetlany wynik notebooka to
+   **najszczęśliwszy draw, nie średnia**. **(2) Mój kap 45k + `min_done=0` porzuca gry wcześnie** —
+   `g50t` skończył **0/7 poziomów przy 1499 s i 91 902 tokenach**, czyli 23 minuty i 83 k tokenów
+   zapasu wyrzucone; trzy gry łącznie oddały **3840 s i ~243 600 tokenów**. Błąd projektowy:
+   przy `min_done=0` warunek `levels_completed < 0` nigdy nie jest prawdziwy, więc `ABANDON`
+   odpala **na grze z zerem punktów** — dokładnie tej, która najwięcej zyskuje kontynuując.
+   **(3) Gramy równym przydziałem czasu**, co ich lista błędów śmiertelnych wymienia jako
+   **zakazane** (#6: „Never use uniform time allocation. Priority scheduling (D′) is essential").
+   **Wycofuję dwie własne rzeczy:** przypisanie spadku smoke patchowi `0005` (przy rozstrzale
+   ~14 pkt/grę jedno porównanie tego nie rozstrzyga; `cn04` 71→4 to swing udokumentowany przez
+   inny zespół na IDENTYCZNYM kodzie) oraz **całą linię searchu offline** — zmierzone **0.20**
+   (ich ref 57272788, „Game sources don't exist in the rerun") plus **0/113 poziomów na held-out**.
+   **50+ jest nieosiągalne: próg top-5 to 51.04, a to +25.3 pkt = +6.4 σ od średniej bazy.**
+   Cel realny: **średnia 29–30**, brąz ≈31.04, **srebro ≈32.33** (linie z 27.10, 4904 zespoły).
+   Plan na 4 dni w §8: jedna hipoteza na slot, najpierw usunięcie zera z rozkładu (4 safety fixes:
+   gateway check, **startup keepalive — gateway kończy bieg po 15 min bez akcji**, start retry,
+   30-min gateway wait), potem D′ scheduler. **Rust+rayon i 64 GB NIE dają punktów** (§6) —
+   dają ochronę slotów przez lokalny weryfikator i analizę logów.
+
 ## Najważniejsze liczby (skrót)
 
 | fakt | wartość | źródło |
@@ -184,6 +209,13 @@ Trzy wnioski, które bolą:
 | ich najlepszy wynik na LB | **26.25** (duck v3, 16.10) — **nadal aktualny na 27.10 19:39 UTC**, od 25.10 nie wysłano nic | `ops/results/r086-submissions` |
 | smoke c45 (10 gier, 48 min, concurrency 10) | **MEAN 26.78**, **32 poziomy**, **2126 akcji = 212.6/grę** | `r085-kernel_output_pick/output-pick/benchmark.json` |
 | **OCZEKIWANY wynik c45 po naprawie `concurrency`** | **24 – 29, punktowo ~26.8** (kotwica: zmierzony smoke c45 **26.78**). ~~31.18~~ obalone | `OCENA-CODEX-7Z.md` §4 |
+| **ZMIERZONY wynik v11 slot A (ref 57737623, 28.10)** | **23.89** COMPLETE, smoke **18.55** — naprawa `concurrency` **zadziałała** (0.00→23.89) | `DIAGNOZA-23-89-I-PLAN.md` §1 |
+| **SZUM wyniku — NAJWAŻNIEJSZA LICZBA** | Franzen M2: **μ=25.77, σ=3.93**, drawy 21.01…35.35; próg istotności **+5 pkt**; wyświetlany wynik = **najlepszy draw** | j.w. §2.1 |
+| jedyna zmierzona **dodatnia** dźwignia na naszej bazie | **D′ slot-priority scheduler: 25.77 → ~29.0** | j.w. §3 |
+| progi medali (27.10, 4904 zespoły) | złoto ≈**38.2** · srebro ≈**32.33** · brąz ≈**31.04** | j.w. §5.1 |
+| offline source-introspection BFS (`find_game_source`) | **0.20** — „Game sources don't exist in the rerun" | j.w. §4 |
+| search strojony na 25 publicznych → test na held-out | **7/70 poziomów → 0/113** | j.w. §4 |
+| zmiany parametrów serwingu (strumienie/MEMFRAC/kontekst/temp) | **−7 do −8** na zbiorze ukrytym | j.w. §3.1 |
 | **wartość kapa `ARC3_LEVEL_TOKEN_CAP=45000`** | ❌ **−0.43** wobec r019 (27.21→26.78) i **−2.24** wobec v3 (29.02). ~~+4.93~~ **OBALONE pomiarem**. Wyłączenie (`=0`) warte **+0.4 do +2.2** | `OCENA-CODEX-7Z.md` §3 |
 | ~~próg 25.7 % puli~~ | ⚠️ **modelowy, niepotwierdzony** — kap strzela do **wszystkich** poziomów, nie tylko skazanych; `su15` stracił **−43.1** pkt na poziomie, który inaczej by się ukończył | `OCENA-CODEX-7Z.md` §3.3 |
 | współczynnik kalibracji modelu (para **jednorodna**) | **×0.828** (26.25 / 31.70); ~~×0.718~~ wycofany | j.w. §3 |
