@@ -10,10 +10,13 @@
 //!                 Duck harness' Python kernel, byte-identical output)
 //! * [`score`]   — RHAE, the competition metric
 //! * [`replay`]  — find wasted actions in recorded runs, sweep directories in parallel
+//! * [`plan`]    — macro-action planner: turn one LLM decision into several actions
 
 pub mod grid;
+pub mod plan;
 pub mod replay;
 pub mod score;
 
 pub use grid::{object_click_candidates, segment_layer, Grid, Node, Segmentation, ARC_COLOR_CHARS};
 pub use score::{level_score, rhae, rhae_weighted};
+pub use plan::{marginal_value, plan_to_goal, safe_prefix, Action, Batch, StateId, TransitionModel};

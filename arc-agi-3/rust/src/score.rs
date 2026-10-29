@@ -1,15 +1,28 @@
 //! RHAE — Relative Human Action Efficiency, the ARC-AGI-3 metric.
 //!
+//! The competition data page states the official rule as:
+//!
 //! ```text
-//! RHAE = (1/|L|) · Σ_l  w_l · min( H_l / A_l , 1.15 )²
+//! per-level score = min(human_actions / agent_actions, 1.0)²
+//! per-game score  = weighted mean of level scores (weight = level index, 1-based)
+//! total score     = mean of per-game scores, reported as 0–100
 //! ```
 //!
-//! `H_l` = median human action count for level `l`, `A_l` = the agent's action count.
-//! The cap means beating the human pays up to 1.15² ≈ 1.3225 per level; the square
-//! means wasting actions is punished far harder than intuition suggests.
+//! Note the cap is **1.0**: matching the human earns the full level, and there is
+//! nothing to gain by going faster than human. An earlier revision of this file
+//! used 1.15, which overstates any run where the agent beats the human baseline
+//! (up to +32% on those levels) and therefore overstates our own smoke estimates.
+//! `OFFICIAL_CAP` is the one to use; `SCALED_CAP` is kept only so old numbers can
+//! be reproduced and compared.
 
-/// Per-level cap on the human/agent action ratio.
-pub const RHAE_CAP: f64 = 1.15;
+/// Official per-level cap from the competition data page.
+pub const OFFICIAL_CAP: f64 = 1.0;
+
+/// Legacy cap used before 2026-10-29. Kept for reproducing old benchmarks only.
+pub const SCALED_CAP: f64 = 1.15;
+
+/// Per-level cap currently used by [`level_score`]. Official value.
+pub const RHAE_CAP: f64 = OFFICIAL_CAP;
 
 /// Score for one level. `human` and `agent` are action counts.
 ///
@@ -52,10 +65,19 @@ pub fn ceiling() -> f64 {
     RHAE_CAP.powi(2)
 }
 
-/// Actions the agent may spend on a level before the 1.15 cap stops paying out.
-/// Levels are also hard-capped at 5× the human count in the real benchmark.
+/// Actions the agent may spend on a level before the cap stops paying out.
+/// With the official cap of 1.0 this is simply the human action count: any faster
+/// than a human earns no extra credit, only slower costs points.
 pub fn actions_at_cap(human: u32) -> f64 {
     human as f64 / RHAE_CAP
+}
+
+/// Same per-level score but with the legacy 1.15 cap, for backwards comparison.
+pub fn level_score_legacy(human: u32, agent: u32) -> f64 {
+    if agent == 0 {
+        return 0.0;
+    }
+    (human as f64 / agent as f64).min(SCALED_CAP).powi(2)
 }
 
 #[cfg(test)]
@@ -67,8 +89,23 @@ mod tests {
     }
 
     #[test]
-    fn cap_is_1_15_squared() {
-        assert!(approx(ceiling(), 1.3225));
+    fn official_ceiling_is_one() {
+        // Matching the human is the maximum; going faster pays nothing extra.
+        assert!(approx(ceiling(), 1.0));
+        assert!(approx(level_score(10, 10), 1.0));
+        assert!(approx(level_score(10, 2), 1.0)); // five times faster still 1.0
+    }
+
+    #[test]
+    fn legacy_cap_still_reproducible() {
+        assert!(approx(level_score_legacy(10, 10), 1.0));
+        assert!(approx(level_score_legacy(10, 2), 1.3225));
+    }
+
+    #[test]
+    fn half_efficiency_is_a_quarter() {
+        // The square is the whole point: 50% efficiency scores 25%.
+        assert!(approx(level_score(10, 20), 0.25));
     }
 
     #[test]
