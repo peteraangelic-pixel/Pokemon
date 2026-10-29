@@ -202,6 +202,46 @@ Trzy wnioski, które bolą:
    30-min gateway wait), potem D′ scheduler. **Rust+rayon i 64 GB NIE dają punktów** (§6) —
    dają ochronę slotów przez lokalny weryfikator i analizę logów.
 
+13. **`RESEARCH-LIDERZY-50PLUS.md`** — ❗**ODPOWIEDŹ NA PYTANIE „JAK LIDER ZROBIŁ 75?" (28.10 ~23:40).**
+   **User miał rację, mój argument „+6.4 σ" był wadliwy**: dowodził, że 50 nie da się WYLOSOWAĆ
+   na obecnej bazie, **nie** że jest nieosiągalne — liczba wpisów mówi o liczbie losowań, nie o średniej.
+   **NAJWAŻNIEJSZA LICZBA: opublikowana czołówka ma 22.53–27.89.** Trzej zwycięzcy Milestone 2
+   (wszyscy Duck harness + TAAF + Qwen3.8-Flash-Next) — `discussion/744792`, Tong Hui Kang (26.):
+   **dfranzen 27.89 · lordhansolo 23.84 · sirikilohit 22.53**. **MY jesteśmy W TYM PAŚMIE**
+   (26.25 / 23.89), a nasz KV pool **1 011 264** jest **identyczny** z dfranzenem. Dostrajanie
+   harnessa rozstrzyga o **~5 pkt**, nie o ~50.
+   **Chen: 28.34 (28.09) → 59.17 (09.10) → 67.49 → 71.48 → 75.56.** Skok +30.8 w 11 dni jest
+   **5.7× większy niż cała opublikowana rozpiętość** (5.4 pkt). **Ona wprost odmówiła
+   open-source'u**: *„Given the complexity of the process, I've decided not to open-source"*.
+   `mayankraj4728` §7.2b: *„Top ARC-AGI-3 teams (Tufa, Yi-Chia Chen, Turducken, NVARC3) have
+   **published nothing**; they release after the deadline."* **Więc: NIE WIEMY i nie ma źródła.**
+   ❌ **SZYBKOŚĆ NIE JEST RÓŻNICUJĄCA — zależność ODWROTNA:** dfranzen **946 tok/s** (najwolniejszy)
+   → **27.89** (najlepszy); sirikilohit **1 159** (najszybszy) → **22.53** (najgorszy). To
+   **zewnętrzne potwierdzenie**, że Rust+rayon nie da punktów. Różnicuje **kontekst ↔ współbieżność**:
+   rellik13 *„I thought decode throughput was the bottleneck, so I kept concurrency high. The logs
+   showed the **kv pool sat 91-97% full and requests queued for cache space** — **memory was the
+   actual limit**"* = **ta sama klasa błędu co nasze `concurrency=120`**.
+   ✅ **ZMIERZONA DŹWIGNIA +8 pkt** (rellik13: fp8 KV → trimy 37k→27k zamienione na 57k→45k,
+   *„this alone took the score from 14.5 to 22.5"*) — **ale wszyscy trzej i MY mamy już `fp8_e4m3`.
+   Dźwignia zużyta.** nvfp4 KV (xz, 4. miejsce) = 4× zamiast 2×, ale xz **sam nie wie**, czy to nie
+   psuje efektywności akcji, i nie zwalidujemy tego w 4 dni.
+   ✅ **JEDNA DARMOWA RZECZ, KTÓRĄ ZNALAZŁEM:** rellik13 *„harness changes that helped were simply
+   to **not mislead the agent**: UNDO instead of ACTION7, 'level restarted' instead of 'game over',
+   removing lines that tell the agent to ignore the budget bar"*. Sprawdziłem w naszym patchu:
+   **`EXPOSE_UNDO` domyślnie `"tufa"` = „advertise ACTION7 verbatim but REJECT execution (legacy)"**,
+   a `to_engine_action` zwraca `None` dla ACTION7/UNDO gdy tryb ≠ `on`. **Nasz dump env (10 zmiennych)
+   NIE zawiera `EXPOSE_UNDO` → agent widzi akcję, której harness nie wykona.** Poprawka:
+   **`EXPOSE_UNDO="on"`** = jedna zmienna env, zero ryzyka po stronie serwingu. „ignore the budget
+   bar" → **0 wystąpień, już czyste** (dfranzen uczy agenta CZYTAĆ pasek: „BAR RULE"). „game over"
+   → częściowo zaadresowane (L5653-5655 już wyjaśnia „the current level restarted").
+   **To TRZECIA instancja tej samej klasy buga** po `SCOPE=run` i `concurrency=120`: zmienna, której
+   **domyślna wartość po cichu zachowuje legacy zachowanie**.
+   ⚠️ **SZÓSTA KOREKTA MOJEGO DOKUMENTU:** wycofuję §2.3 diagnozy („gramy równym przydziałem") —
+   nasz patch **MA** `priority_scheduler.py` (L261/346/1391/3192), a „10 × 2880 s" to SMOKE, nie
+   rerun. Otwarte: czym D′ różni się od dfranzenowskiego schedulera.
+   **PLAN POPRAWIONY (§7): slot 1 = c45 − 0005 + `CAP=0` + `EXPOSE_UNDO="on"` + 4 safety fixes.**
+   Cel pozostaje **29–30 / srebro ≈32.33**, nie 50+.
+
 ## Najważniejsze liczby (skrót)
 
 | fakt | wartość | źródło |

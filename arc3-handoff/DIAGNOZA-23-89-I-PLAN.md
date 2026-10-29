@@ -137,7 +137,29 @@ To jest **piąta** korekta mojego własnego błędu w tej sesji i **druga** w ty
 wczoraj pomiar pokazał, że kap jest warty −0.43 wobec r019 (`OCENA-CODEX-7Z.md` §3); dziś log
 pokazuje **dlaczego** — nie „kap tnie długie poziomy", tylko **`ABANDON` wyrzuca gry z budżetem**.
 
-### 2.3 Gramy równym przydziałem czasu — a to jest błąd śmiertelny #6 (pewność: wysoka)
+### 2.3 ⚠️ WYCOFANE 28.10 ~23:40 — „gramy równym przydziałem czasu"
+
+> ❌ **TO TWIERDZENIE BYŁO ZA MOCNE I PRAWDOPODOBNIE BŁĘDNE DLA ŚCIEŻKI RERUN.**
+> Napisałem: *„Nasza konfiguracja (c45 i v11) daje każdej grze równy czas: 10 gier × 2880 s"*.
+> Sprawdziłem patch — `0000-franzen-harness-changes.patch` **zawiera** `priority_scheduler.py`
+> (L261), funkcję `priority_value()` (L346), import (L1391-1392) i `_priority_refresh_enabled()`
+> (L3192). Tabela Tong Hui Kanga (`discussion/744792`) potwierdza, że u dfranzena gra *„keeps its
+> slot until its next history trim (~59k tokens of new context), then is **re-queued by priority**
+> (level, levels left, actions and tokens spent on the level, tail fade)"*.
+>
+> **Czyli „10 gier × 2880 s" to konfiguracja SMOKE, nie rerun.** W rerunie 110 gier idzie przez
+> scheduler priorytetowy, **który już tam jest**. To **szósta** korekta mojego własnego dokumentu
+> w tej sesji. Pełny wywód: `RESEARCH-LIDERZY-50PLUS.md` §5.
+>
+> **Co zostaje prawdziwe i niezależne od tego:** mój `ABANDON` (§2.2) jest **nieodwracalny** i
+> wyrzuca grę z budżetem, podczas gdy scheduler dfranzena grę **kolejkuje ponownie**. To jest
+> powód, żeby kap wyłączyć — i ten wniosek się nie zmienia.
+>
+> **Co zostaje OTWARTE:** czym jest „D′" u mayankraj4728, skoro dfranzen **już ma** scheduler
+> priorytetowy? Ich zmierzone +2 do +3 (26 → 29) musi być czymś innym niż samo włączenie
+> priorytetu. **Nie wiem i nie zgaduję.**
+
+Poniżej oryginalna treść sekcji — zachowana jako zapis błędu, z kontekstem ich reguły.
 
 Ich lista „Fatal mistakes and anti-patterns (NEVER repeat)", punkt **6**:
 
