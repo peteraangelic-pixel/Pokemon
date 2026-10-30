@@ -582,6 +582,107 @@ Trzy wnioski, które bolą:
    w komórce ustawiającej `bm.solver.*`.
    **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
    powiedzieć dziesiąty raz, niż obiecać jedenaście.**
+
+19. **`V14-V15-I-WARSTWA-WERYFIKACJI.md`** + **`tools/verify_config_liveness.py`** (515 linii) —
+   ❗**NAJNOWSZE (30.10 ~08:45 UTC). ZBUDOWAŁEM BRAKUJĄCĄ WARSTWĘ WERYFIKACJI i znalazłem w v14/v15
+   MARTWY INSTRUMENT, którego nikt w czterech gałęziach nie znalazł.**
+   ❌ **ALARM `mean_actions_per_call < 1.5` NIE MOŻE NIGDY ODPALIĆ** — v15 komórka 36 i v14 komórka 35
+   (sprawdzone w KODZIE, nie w README). Zmierzona baza to **4,357 akcji/wywołanie** (r019: 474
+   wywołania / 2065 akcji), więc próg jest **3× poniżej** wartości, którą już mamy. **To ÓSMA
+   instancja klasy „martwy kod przy zielonych testach" i NAJGROŹNIEJSZA: to nie dźwignia, tylko
+   INSTRUMENT, który miał powiedzieć, czy dźwignia zadziałała.** Sonda rosteru v15 odpowiada na dwa
+   pytania — czy roster się powtarza (wartość `WINPATH`) i **czy batching zadziałał** (wartość
+   `OPENER_COMMIT_HINT` + `ESCALATE=20`). **Pierwsza część działa, druga jest martwa.** Czyli po
+   submisji dowiemy się o rosterze, ale **NIE dowiemy się, czy jedyna dźwignia o właściwej skali
+   zadziałała** — a od tego zależy decyzja na 1.11. **Poprawka: jedna linia, `< 1.5` → `< 4.357`.**
+   Próg 1,5 wygląda na przeniesiony ze **starej linii** (7911 mierzy 1,00 akcji/decyzję dla
+   r013/r015/r018) — czyli **przeniesienie progu z cudzej konfiguracji bez przeliczenia**.
+   **NOWA WARSTWA W TAKSONOMII: INSTRUMENT.** Martwa dźwignia daje wynik neutralny; **martwy miernik
+   daje fałszywe poczucie, że wiemy.**
+   ✅ **NIEZALEŻNA REPLIKACJA POMIARU GEMMY na innym runie** (r093, surowy `benchmark.json`, blob
+   `90173adb`) — Gemma liczyła na r085/32 ukończonych, ja na r093/69 i 27 ukończonych:
+   · **`base_actions_per_level` n=69: min 6 · p10 26 · p25 36 · MEDIANA 72 · p75 115 · p90 208 · max 578**
+   · przedwczesna eskalacja przy progu **10**: Gemma **31/32 = 96,9 %** vs mój **26/27 = 96,3 %** —
+     **ZGODNE CO DO 0,6 pp**. Przy 20: Gemma ~78 % vs moje 92,6 %; przy 60: 22 % vs 37 % — **rozjazd,
+     oznaczam go, nie uśredniam** (inne runy, inne podzbiory, Gemma warunkuje dodatkowo na „agent był
+     na tempie").
+   · **LICZBA WSTRZYKNIĘĆ** (wskaźnik OPERATYWNY, `Σ floor(a_k/próg)`, suma akcji agenta 2315):
+     **10 → 211 (9,1 %) · 20 → 96 (4,1 %) · 30 → 58 (2,5 %) · 60 → 21 (0,9 %)**; Gemma (r085):
+     154 / 60 / 12 / względny 8. **Stosunki ZGODNE**: Gemma 2,57 i 5,0 vs moje 2,20 i 4,57.
+     ⇒ **próg 20 walidowany, próg 10 KRYTYCZNY, optimum jest WZGLĘDNE** (`max(20, 1.2×baseline)`).
+   · **Nasze akcje na UKOŃCZONYCH poziomach: n=27, mediana 54** vs mediana baseline dla nich **42**
+     ⇒ na ukończonych jesteśmy **wolniejsi** od człowieka. **Suma akcji 2315 vs baseline 7175 = 32 %**
+     ⇒ **CZWARTE niezależne potwierdzenie, że problemem jest POKRYCIE, nie efektywność.**
+   ✅ **ZBUDOWAŁEM `tools/verify_config_liveness.py`** (515 linii, czysty Python 3, **0 GPU / 0 slotów /
+   0 bundla / 0 silnika** — działa na TEKŚCIE, więc uruchamiam go w swoim sandboxie na prawdziwych
+   plikach z `gh api`). **Cztery kontrole, każda na jedną instancję z taksonomii:** **L1 ŻYWOTNOŚĆ
+   INSTRUMENTU** (czy próg może się wykonać przy zmierzonej bazie → łapie #8) · **L2 DOMYŚLNA
+   WARTOŚĆ ENV** (default + walidator każdej zmiennej → #1 #3 #4) · **L3 OSIĄGALNOŚĆ** (warunki
+   sięgające po zmienne STAŁE w rerunie: `pass_index=0`, `n_passes=1` → #6) · **L4 SPÓJNOŚĆ
+   MIĘDZYWARSTWOWA** (concurrency ≤ MAXREQ · cap vs uczciwy udział · `ESCALATE` vs **zmierzony**
+   rozkład baseline i **zmierzona** liczba wstrzyknięć → #2 #5). **Wynik na prawdziwych notebookach:
+   v13.2 → 4 ustaleń, 1 KRYTYCZNE (`ESCALATE=10` → 211 wstrzyknięć = 9,1 %); v14 → 4, 1 KRYTYCZNE
+   (martwy alarm); v15 → 4, 1 KRYTYCZNE (ten sam).** **Narzędzie NIE krytykuje decyzji Gemmy
+   (próg 20 przechodzi: 4,1 % < 6 %) i ŁAPIE to, czego Gemma nie złapała.**
+   ⚠️ **UCZCIWIE O NARZĘDZIU:** pierwsze uruchomienie dało FAŁSZYWY POZYTYW (`concurrency=10,
+   MAXREQ=0` jako KRYTYCZNE) — bo `MAXREQ=10` występuje w notebookach **TYLKO W KOMENTARZACH**, a
+   `ARC3_MAX_ACTIVE_STREAMS` złapałem jako **default** z `_get_env_int(..., 0)`. **Naprawione**
+   (odrzuca komentarze, bierze tylko JAWNE ustawienia, a gdy backendu nie da się ustalić statycznie
+   raportuje **INFO „nie da się zweryfikować"** z gotową asercją — zamiast zmyślać KRYTYCZNE).
+   **Narzędzie, które daje fałszywe pozytywy, jest gorsze niż brak narzędzia.** Granice: mój
+   wskaźnik „przedwczesności" jest grubszym sitem niż kryterium Gemmy; `KNOWN_LEGACY_DEFAULTS` jest
+   **ręczna** (nowa zmienna z legacy defaultem przejdzie niezauważona); L3 zna tylko dwie zmienne
+   stałe; **nie zastępuje `verify_v13.py`** — uzupełnia je o warstwę, której tam brakuje.
+   **v13.3-arena zlokalizowany** (`Smak-Domu-Konkurs@5ed750ef`, `arc-agi-3/duck-v13-3-arena/`, m.in.
+   `0007-arena-replay-log.patch`, `build_v133_arena.py`, `OCENA-ARENA-V13-3-ARENA.md`). Z komórki 6
+   v15: `ARC3_OPENER_COMMIT_HINT` ma **default `False`** (`_get_env_bool(..., False)`) ⇒ **bez
+   jawnego `"1"` hint jest MARTWY** (instancja #3, L2 to łapie). **I znalazłem TRZECIĄ dźwignię na
+   `tok/akcję`, o której nie wiedziałem: komórka 6 egzekwuje kompaktowość wyjścia narzędzi
+   MECHANICZNIE** (`board_print_suppressed_rows`, „Never print or echo full board frames") — czyli
+   atakuje `tok/akcję` od strony **wyjścia narzędzi**, nie wyjścia modelu.
+   ❗**KOREKTA MOJEGO STANOWISKA O 50+ — z „nieosiągalne" na „nieweryfikowalne w 3 slotach".**
+   Arytmetyka: `tok/akcję = tok/wywołanie ÷ akcje/wywołanie = 3664,6 ÷ 4,357 = 841,2` (zgadza się z
+   pomiarem). Przy 17,2 ms/tok: **cel 300 akcji/grę wymaga tok/akcję ≤ 571, cel 400 wymaga ≤ 428.**
+   Żeby zejść z 647 do 428 przy niezmienionym tok/wywołanie, trzeba **akcje/wywołanie 4,357 → 6,57
+   (1,51×)**; do 370 — **→ 9,90 (2,27×)**. `commit(plan)` ma `max_actions=40`, więc **sufit jest
+   daleko**. ⇒ **50+ wymaga, żeby model batchował 1,5–2,3× więcej akcji na wywołanie. Pytanie nie
+   brzmi „czy się da", tylko „czy model posłucha" — I JEDYNYM INSTRUMENTEM, KTÓRY MIAŁ TO ZMIERZYĆ,
+   JEST MARTWY ALARM Z §1.**
+   | twierdzenie | stan |
+   |---|---|
+   | „50+ wymaga +6,4 σ od średniej bazy" | ✅ prawdziwe — **nie da się WYLOSOWAĆ** |
+   | „50+ jest nieosiągalne" | ❌ **ZBYT MOCNE, KORYGUJĘ** — arytmetycznie wystarczy batching 1,5–2,3× |
+   | „50+ jest osiągalne" | ❌ też nie — **nieweryfikowalne w 3 slotach** przy σ≈2,5–3,9 i progu +5 |
+   | **stan właściwy** | ⚠️ **„ARYTMETYCZNIE W ZASIĘGU, ale NIEWERYFIKOWALNE w 3 slotach; obstawianie tego to hazard, nie plan"** |
+   Jeśli batching zadziała (a/call 4,36 → 6,6): akcje/grę 228 → 325, projekcja Gemmy ~59,5, a przy jej
+   własnym przeszacowaniu ~25 % (przy 228 akcjach projekcja 35,6 vs zmierzone 26,78 = **8,8 pkt /
+   25 %**) dostajemy **~45**. **Czyli ~45–50 jest w zasięgu JEDNEGO udanego wdrożenia batchingu.**
+   Dlaczego NIE obiecuję: przeszacowanie 25 % to **JEDEN punkt danych**, nie prawo; posłuszeństwo
+   modelu **niezmierzone, a instrument martwy**; `ESCALATE` i hint **mogą się znosić**; 3 sloty przy
+   σ≈3 nie zweryfikują efektu mniejszego niż +5.
+   ❌ **CZY ZBUDUJĘ WŁASNY NOTEBOOK: NIE** (trzy twarde powody: nie mam bundla r033 / `arcengine` /
+   GPU / `cargo`; nie przetestuję przed spaleniem slotu, a zostały 3; v15 już dziedziczy certyfikację
+   7/7 i ma diff 5 komórek). ✅ **CO MAM LEPSZEGO — trzy rzeczy, wszystkie zweryfikowalne przeze
+   mnie:** (1) **poprawka martwego alarmu** — jedna linia, **nikt tego nie znalazł**; (2)
+   **`verify_config_liveness.py`** jako bramka przed każdą submisją — łapie **klasę 8 instancji**,
+   w tym instrumenty; (3) **zmierzone bazy** (rozkład `base_actions_per_level` n=69 i liczby
+   wstrzyknięć 211/96/58/21) — surowe liczby pozwalające ustawić próg **względny** bez zgadywania.
+   **PAKIET NA SLOT 31.10 (§6.3): v15 + DWIE poprawki jednowierszowe** (żadna nie wymaga bundla ani
+   GPU): alarm `< 1.5` → `< 4.357` + bezwarunkowy druk `a/call` z odniesieniem, oraz
+   `assert ARC3_VARIANT["env"].get("ARC3_OPENER_COMMIT_HINT") == "1"` (bo default to `False`).
+   Reszta bez zmian: `ESCALATE=20` · `CAP=0` · `WINPATH=1` · `DEAD_SKIP=1` · `EXPOSE_UNDO="on"` ·
+   concurrency 10 · obie sondy ON. **Bramka przed pushem: `verify_config_liveness.py --strict` →
+   0 KRYTYCZNYCH.**
+   **NIE BUDUJĘ, choć rekomenduję** (nie mogę zweryfikować bez bundla r033): próg **względny**
+   `max(20, 1.2 × baseline[poziom])` → 8 wstrzyknięć, 0,8 % puli, **0/32 przedwczesnych**
+   (Gemma `PROPOZYCJA-0007.md`).
+   **RANKING: 1** naprawić martwy alarm · **2** wysłać v15 + 2 poprawki na 31.10 · **3** bramka
+   `verify_config_liveness.py --strict` przed każdym pushem · **4** przeczytać z logu
+   `roster_probe.jsonl` + `budget_probe.json` + **`mean_actions_per_call`** · **5**
+   `parse_serve_log.py` na `serve.log` każdego nowego runu · **6** 1.11 rozgałęzienie, 2.11 select best.
+   **Oczekiwanie ~28–31 · cel srebro ≈32,33 · ~45–50 arytmetycznie w zasięgu JEDNEGO udanego
+   wdrożenia batchingu — ale tego NIE obiecuję, bo instrument, który miał to potwierdzić, jest martwy.**
+
    ❌ **NOWE „NIE ROBIĆ": podnoszenie `max_runtime_s_per_game` (cap nigdy nie wiąże) oraz
    oszczędzanie tokenów/akcję jako GŁÓWNA dźwignia (r110: 572 vs 647 tok/akcję i 2,8× mniej akcji).**
 
