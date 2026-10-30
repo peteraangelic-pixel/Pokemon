@@ -208,3 +208,56 @@ Ale v14 jest **jedyną** wersją, która (a) atakuje właściwe wąskie gardło,
 
 **Czego nie zrobię bez Twojej zgody:** nie wypchnę niczego na `a450b00f`, nie
 wyślę submitu, nie dotknę `request.json` ani łańcucha nocnego.
+
+---
+
+## 9. Zbieżność z c87 (`980deff`, 30.10 ~08:00) — i jeden niepokojący fakt
+
+Niezależnie, w tym samym czasie, c87 opublikował `980deff`. Zbieżność jest
+niemal pełna:
+
+| rzecz | ja (`v14`, `token_budget.py`) | c87 (`980deff`) |
+|---|---|---|
+| formuła | `akcje/grę = budżet_tokenów / tok_na_akcję` | **identyczna**: `2945×1000/(ms/token × tok/akcję)` |
+| akcji na wywołanie LLM | **4,61** (6034/1308, r013+r015+r018) | **4,357** (474 wywołań / 2065 akcji, r019) |
+| wniosek | tokeny/akcję to jedyna dźwignia o skali | **to samo** |
+| ocena `PLAN_COMMIT` | „tylko dopisuje narzędzie do opisu, bez wymuszenia" | **cytuje mnie dosłownie** |
+
+Dwie sesje, różne runy, ta sama liczba w granicach 6%. To najsilniejsze
+potwierdzenie, jakie mamy, że **batchowanie już działa** i nie jest wąskim gardłem.
+
+### 9.1 Mój błąd rozprzestrzenił się na cudzą decyzję
+
+README v13.2 uzasadnia `ESCALATE 60→10` liczbą **„dziś 1,0 akcji/decyzję → sufit
+~19–31; 2,0 → ~51"**. To **moja** liczba z pierwszej wersji `MEGA-DIAGNOSIS` §4 —
+tej, którą sam obaliłem w `1541d08`. Autorzy v13.2 zacytowali ją jako przesłankę
+swojej zmiany.
+
+**Wniosek: błąd w analizie nie zostaje w analizie — staje się uzasadnieniem
+zmiany w kodzie.** To najdroższa lekcja z tej sesji i powód, dla którego
+`local/token_budget.py` ma `assert` na 4,61: liczba ma się zepsuć, zanim zepsuje
+czyjąś decyzję.
+
+### 9.2 Luka, którą c87 widzi lepiej niż ja
+
+c87 ostrzega: przy `ESCALATE_ACTIONS = 10` i **4,357 akcji na wywołanie**,
+eskalacja odpala się **zanim model zdąży zbadać poziom** — a `commit(plan)` z
+`expect` per krok zatrzymuje się przy pierwszej niezgodności.
+
+Ja pisałem o tym jakościowo (`V13-AUDIT-30OCT` §1A.2). c87 ma to policzone
+i **jest to argument przeciw v13.2 w obecnej postaci**. Zgadzam się: `10` jest
+prawdopodobnie **za nisko**, a właściwa wartość to ~3× średniego kosztu
+ukończonego poziomu (w r018 mediana 26 → **~30–60**), nie 10.
+
+To zmienia moją wcześniejszą rekomendację „zejść z 60 na ~8–10": **8–10 było
+oparte na błędnej premii „1 akcja na turę".** Przy 4,6 akcji na wywołanie
+właściwy zakres to **30–60** (czyli mniej więcej to, co v13.1 miało, plus
+skrócenie samej dyrektywy z §2.1 cięcie B).
+
+### 9.3 Co z tego zostaje dla v14
+
+Bez zmian: **tokeny na akcję** to jedyna dźwignia ze właściwym znakiem.
+Zmienia się jedno: **nie ruszać `ESCALATE_ACTIONS` w dół poniżej ~30** — to był
+mój błąd wynikający z błędnej liczby, a c87 ma rację, że przy 10 model nie ma
+czasu zbadać poziomu. Zamiast tego skracać **treść** dyrektywy, nie zwiększać
+**częstotliwość**.
