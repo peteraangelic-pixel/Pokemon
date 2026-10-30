@@ -1,0 +1,115 @@
+diff --git a/ARC3-Inference/inference/agent/tool_agent.py b/ARC3-Inference/inference/agent/tool_agent.py
+index 39bec69..fb3f094 100644
+--- a/ARC3-Inference/inference/agent/tool_agent.py
++++ b/ARC3-Inference/inference/agent/tool_agent.py
+@@ -30,6 +30,7 @@ from inference.utils.animation import (
+ )
+ from inference.agent.action_names import reset_exposed, to_engine_action, to_model_action, undo_exposure_mode
+ from inference.utils.retained_functions import function_signature
++from inference.utils.plan_commit import pc_escalate_at
+ from inference.agent.prompts import (
+     apply_level_transfer_system_guidance,
+     LEVEL_START_USER_PROMPT,
+@@ -132,6 +133,20 @@ def _escalate_actions() -> int:
+     return max(0, _get_env_int("ARC3_ESCALATE_ACTIONS", 0))
+ 
+ 
++def _escalate_rate() -> float:
++    """ARC3_ESCALATE_RATE: baseline multiple for the relative trigger."""
++    raw = os.environ.get("ARC3_ESCALATE_RATE", "").strip()
++    try:
++        return float(raw) if raw else 1.2
++    except ValueError:
++        return 1.2
++
++
++def _escalate_max_per_level() -> int:
++    """ARC3_ESCALATE_MAX_PER_LEVEL: directive cap per level (0 = unlimited)."""
++    return max(0, _get_env_int("ARC3_ESCALATE_MAX_PER_LEVEL", 2))
++
++
+ _WM_CHECK_RE = re.compile(r"\[world model check\] (\d+)/(\d+)(?:[^\n]*?; (\d+) model errors)?")
+ 
+ 
+@@ -3606,6 +3621,7 @@ class ToolAgent:
+         api_key: str | None = None,
+         base_url: str | None = None,
+         provider: str | None = None,
++        base_actions_per_level: list[int] | None = None,
+     ) -> None:
+         resolved_model = _resolve_analyzer_model(model)
+         if base_url is not None or provider is not None:
+@@ -3652,6 +3668,7 @@ class ToolAgent:
+         self._has_evicted = False
+         self._actions_at_level_start = 0
+         self._arc3_escalations_on_level = 0
++        self._arc3_base_actions = [int(x) for x in (base_actions_per_level or [])]
+         self._tokens_at_level_start = 0
+         self._arc3_base_system_prompt = self._system_prompt
+         self._arc3_level_notes: dict[int, str] = {}
+@@ -5403,8 +5420,16 @@ class ToolAgent:
+         escalate_every = _escalate_actions()
+         if escalate_every and _plan_commit_enabled():
+             on_level = max(0, int(action_num or 0) - int(self._actions_at_level_start or 0))
+-            if on_level >= escalate_every * (self._arc3_escalations_on_level + 1):
+-                self._arc3_escalations_on_level = on_level // escalate_every
++            _arc3_at = pc_escalate_at(
++                escalate_every,
++                getattr(self, "_arc3_base_actions", None),
++                current_level,
++                self._arc3_escalations_on_level,
++                rate=_escalate_rate(),
++                max_per_level=_escalate_max_per_level(),
++            )
++            if _arc3_at and on_level >= _arc3_at:
++                self._arc3_escalations_on_level += 1
+                 lines.append(plan_escalation_prompt(int(current_level or 1), on_level))
+         return "\n".join(lines)
+ 
+diff --git a/ARC3-Inference/inference/framework/solver.py b/ARC3-Inference/inference/framework/solver.py
+index 669433a..7e501d7 100644
+--- a/ARC3-Inference/inference/framework/solver.py
++++ b/ARC3-Inference/inference/framework/solver.py
+@@ -1922,6 +1922,7 @@ class HarnessSolver(Solver):
+             # queue position, so the untrimmed priority band has a deterministic
+             # order instead of every game tying at the same value
+             dispatch_index=index,
++            base_actions_per_level=getattr(game, "base_actions_per_level", None),
+             api_key=(
+                 local_server.api_key
+                 if local_server is not None
+diff --git a/ARC3-Inference/inference/utils/plan_commit.py b/ARC3-Inference/inference/utils/plan_commit.py
+index 9986adc..230a15d 100644
+--- a/ARC3-Inference/inference/utils/plan_commit.py
++++ b/ARC3-Inference/inference/utils/plan_commit.py
+@@ -216,3 +216,30 @@ def pc_play(plan, action_fn, frame_fn, max_actions=40, stop_on_terminal=True,
+     if terminal is not None:
+         report["terminal"] = terminal
+     return report
++
++
++def pc_escalate_at(escalate_every, base_actions, level, fired, rate=1.2,
++                   max_per_level=2):
++    """Next on-level action count that earns an escalation directive.
++
++    Pure threshold logic for patch 0007 (relative escalation). Returns 0
++    for silence: feature off, or the per-level directive cap reached.
++    Without a human baseline for the level the absolute threshold rules;
++    with one, the directive waits until the agent is `rate`x past the
++    human action count - the point where the run actually loses points.
++    Measured motivation (r085, 32 completed levels): an absolute trigger
++    at 10 fires 154x, mostly on levels already at or better than the
++    human baseline; the relative trigger fires 8x, all on losing levels.
++    """
++    every = int(escalate_every or 0)
++    if every <= 0:
++        return 0
++    cap = int(max_per_level or 0)
++    if cap and int(fired or 0) >= cap:
++        return 0
++    at = every
++    if base_actions:
++        idx = int(level or 1) - 1
++        if 0 <= idx < len(base_actions) and base_actions[idx]:
++            at = max(at, int(float(base_actions[idx]) * float(rate)))
++    return at * (int(fired or 0) + 1)
