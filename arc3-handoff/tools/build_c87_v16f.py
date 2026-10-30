@@ -117,6 +117,9 @@ DBUP_NOWA = '''        # c87f FIX 5 (L6): actions_need = sum(base_actions_per_le
                                   if _mean("actions_need") else None),'''
 DRUK_STARA = '''          f"({_summary['depth_budget_used_pct']}% of a full clear) "'''
 DRUK_NOWA = '''          f"({(_summary['depth_budget_used_pct'] if _summary['depth_budget_used_pct'] is not None else 'n/a — baseline ukryty')}% of a full clear) "'''
+# DRUK_NOWA nie niesie komentarza-znacznika (to fragment f-stringa), więc idempotencja
+# potrzebuje osobnego podciągu rozpoznawczego — ASCII, bez myślników.
+DRUK_ZNACZNIK = "_summary['depth_budget_used_pct'] if _summary['depth_budget_used_pct'] is not None"
 
 # --- 6. docstring patcha 0009 i fixture: 27/16 -> 22/14 -----------------------
 # ⚠️ WZORCE MUSZĄ BYĆ JEDNOLINIOWE: w pliku .patch każda linia ma prefiks "+", więc wzorzec
@@ -124,6 +127,12 @@ DRUK_NOWA = '''          f"({(_summary['depth_budget_used_pct'] if _summary['dep
 # zastosowała się POŁOWICZNIE: patch dostał "22 times" i został przy "16 levels", czyli mówił
 # 22/16 — LICZBĘ, KTÓRA NIE ZGADZA SIĘ Z ŻADNĄ Z TRZECH. Poniżej: dwa niezależne podciągi
 # jedoliniowe + asercja, że OBA weszły (inaczej skrypt pada, nie wypuszcza pół-poprawki).
+# Detektor "już zastosowane" dla FIX 3 MUSI być kluczowany na WZORCU KODU, nie na gołym
+# podciągu "< 1.5": v13.7 ma w komórce 2 KOMENTARZ dokumentujący stary martwy alarm
+# ("a/call alarm `< 1.5` was dead ..."), więc test `"< 1.5" not in s` odrzucał komórkę
+# z już wstawioną poprawką. Feedback Smaka (SYNC §25D, 3945d727) — mieli rację.
+ALARM_KOD = 'if _acpc and _summary["mean_actions_per_call"] < 1.5'
+
 DOCSTRING = [
     ("fires 27 times instead of 42", "fires 22 times instead of 42"),
     ("16 levels instead of 26", "14 levels instead of 26"),
@@ -187,7 +196,7 @@ def main() -> int:
     nb_p = dst / meta["code_file"]
     nb = json.loads(nb_p.read_text(encoding="utf-8"))
     liczniki = {"alarm": 0, "bramka": 0, "dbup": 0, "druk": 0,
-                "alarm_juz": 0, "bramka_juz": 0, "dbup_juz": 0}
+                "alarm_juz": 0, "bramka_juz": 0, "dbup_juz": 0, "druk_juz": 0}
     for c in nb["cells"]:
         if c.get("cell_type") != "code":
             continue
@@ -197,36 +206,42 @@ def main() -> int:
             if stary in s:
                 s, _ = _podmien(s, stary, nowy, "FIX 3 alarm")
                 liczniki["alarm"] += 1
-            elif "4.357" in s and "< 1.5" not in s:
+            elif "4.357" in s and ALARM_KOD not in s:
                 # pakiet już zaadoptował poprawkę (v13.6-final wziął ją z mojej warstwy-8,
                 # własnym sformułowaniem: bezwarunkowy druk z bazą 4.357 i celami 5,7/7,6)
                 liczniki["alarm_juz"] = liczniki.get("alarm_juz", 0) + 1
-        if BRAMKA_STARA in s:
+        # ZNACZNIK-NJPIERW, nie wzorzec-najpierw: BRAMKA_STARA jest PODCIAGIEM BRAMKA_NOWA
+        # (stara linia zostaje w galezi else:), wiec test wzorca nigdy nie odróżni
+        # "jeszcze nie" od "juz tak" — przy wzorzec-najpierw poprawka ZAGNIEŻDŻAŁA się
+        # przy każdym kolejnym biegu. Znacznik w komentarzu jest jednoznaczny.
+        if "c87f FIX 4" in s:
+            liczniki["bramka_juz"] += 1
+        elif BRAMKA_STARA in s:
             s, _ = _podmien(s, BRAMKA_STARA, BRAMKA_NOWA, "FIX 4 bramka")
             liczniki["bramka"] += 1
-        elif "c87f FIX 4" in s:
-            liczniki["bramka_juz"] += 1
-        if DBUP_STARA in s:
+        if "c87f FIX 5" in s:
+            liczniki["dbup_juz"] += 1
+        elif DBUP_STARA in s:
             s, _ = _podmien(s, DBUP_STARA, DBUP_NOWA, "FIX 5 dbup")
             liczniki["dbup"] += 1
-        elif "c87f FIX 5" in s:
-            liczniki["dbup_juz"] += 1
         if DRUK_STARA in s:
             s, _ = _podmien(s, DRUK_STARA, DRUK_NOWA, "FIX 5 druk")
             liczniki["druk"] += 1
+        elif DRUK_ZNACZNIK in s:
+            liczniki["druk_juz"] += 1
         if s != o:
             c["source"] = s.splitlines(keepends=True)
     raport.append(f"FIX 3 (L1 alarm)     : poprawiono w {liczniki['alarm']} komórkach "
                   f"(v16: oczekiwane 2 — sonda pokrycia + sonda rosteru)")
     raport.append(f"FIX 4 (L6 bramka)    : poprawiono w {liczniki['bramka']} komórkach (oczekiwane 1)")
     raport.append(f"FIX 5 (L6 wskaźnik)  : definicja {liczniki['dbup']}x + druk {liczniki['druk']}x "
-                  f"(oczekiwane 1 i 1)")
+                  f"(oczekiwane 1 i 1; już zastosowane: {liczniki['dbup_juz']} i {liczniki['druk_juz']})")
     if (liczniki["alarm"] + liczniki["alarm_juz"] < 1 or
             liczniki["bramka"] + liczniki["bramka_juz"] < 1 or
             liczniki["dbup"] + liczniki["dbup_juz"] < 1 or
-            liczniki["druk"] < 1):
+            liczniki["druk"] + liczniki["druk_juz"] < 1):
         raise SystemExit("✗ nie wszystkie wzorce pasują — patrz liczniki wyżej. NIE wypuszczam pół-pakietu.")
-    for k in ("alarm", "bramka", "dbup"):
+    for k in ("alarm", "bramka", "dbup", "druk"):
         if liczniki.get(k + "_juz"):
             raport.append(f"       ({k}: {liczniki[k+'_juz']}x JUŻ ZASTOSOWANE w tym pakiecie — idempotentnie pomijam)")
     nb_p.write_text(json.dumps(nb, indent=1) + "\n", encoding="utf-8")
@@ -255,8 +270,48 @@ def main() -> int:
             raport.append(f"FIX 6 (docstring)    : {kandydat.name} — 27/16 -> 22/14 "
                           f"(oba podciągi: {len(trafione)}/2)")
     if ile == 0:
-        raport.append("FIX 6 (docstring)    : nie znaleziono 27/16 (patch/fixture poza pakietem?) — "
-                      "popraw ręcznie w patches/0009-arena-self-pace.patch i tests/fixtures/")
+        raport.append("FIX 6 (docstring)    : 'fires 27 times' nie występuje w *.patch/*.py "
+                      "(JUŻ POPRAWIONE albo patch/fixture poza pakietem)")
+
+    # ---- FIX 6b: ten sam docstring w patchu OSADZONYM W NOTEBOOKU --------------
+    # Znalezione na v13.7 (2026-10-30): FIX 6 iteruje *.patch i *.py, więc poprawia
+    # TYLKO kopię referencyjną. Kaggle aplikuje tekst z komórki notebooka
+    # (`_P("/kaggle/duck-extra-07.patch").write_text(...)`), a verify_v13.py
+    # ekstrahuje patche WŁAŚNIE z notebooka (`extract_patches(cells)`). Bez 6b pakiet
+    # jest niespójny: shipped 27/16 vs patches/+fixture 22/14 — i certyfikat tego NIE
+    # widzi, bo kontrola "extra-07 registered (byte-for-byte from Gemma duck-v16)"
+    # asertuje tylko obecność dwóch podciągów, nie porównuje ani jednego bajtu.
+    # Podmiana per-element listy `source` (nie resplit) — struktura JSON zostaje 1:1.
+    nb2 = json.loads(nb_p.read_text(encoding="utf-8"))
+    kom_6b = []
+    for idx, cell in enumerate(nb2["cells"]):
+        joined = "".join(cell.get("source", []))
+        if "duck-extra-07.patch" not in joined or "fires 27 times" not in joined:
+            continue
+        newsrc, ruszone = [], 0
+        for part in cell.get("source", []):
+            p2 = part
+            for stary, nowy_s in DOCSTRING:
+                p2 = p2.replace(stary, nowy_s)
+            ruszone += (p2 != part)
+            newsrc.append(p2)
+        po = "".join(newsrc)
+        if "fires 27 times" in po or "16 levels instead of 26" in po:
+            raise SystemExit(f"✗ FIX 6b w komórce {idx}: została stara liczba (27 lub 16).")
+        if "fires 22 times" not in po or "14 levels instead of 26" not in po:
+            raise SystemExit(f"✗ FIX 6b w komórce {idx}: nowy docstring nie wszedł w całości.")
+        if ruszone != 1:
+            raise SystemExit(f"✗ FIX 6b w komórce {idx}: docstring leży w {ruszone} elementach "
+                             f"source, oczekiwałem dokładnie 1 — nie zgaduję.")
+        cell["source"] = newsrc
+        kom_6b.append(idx)
+    if kom_6b:
+        nb_p.write_text(json.dumps(nb2, indent=1) + "\n", encoding="utf-8")
+        raport.append(f"FIX 6b (OSADZONY 0009): komórki {kom_6b} — 27/16 -> 22/14. To jest "
+                      f"artefakt, który Kaggle NAPRAWDĘ aplikuje; bez tego FIX 6 był dekoracyjny.")
+    else:
+        raport.append("FIX 6b (OSADZONY 0009): 'fires 27 times' nie występuje w notebooku "
+                      "(już poprawione albo pakiet osadza 0009 inaczej) — bez zmian.")
 
     print()
     for r in raport:
@@ -264,9 +319,12 @@ def main() -> int:
     print(f"\n✅ gotowe: {dst}/{meta['code_file']}")
     print("   następny krok (BRAMKA, musi dać 0 KRYTYCZNYCH):")
     print(f"   python3 verify_config_liveness.py {dst}/{meta['code_file']} --package {dst} --strict")
-    print("   UWAGA: to NIE jest certyfikacja. Certyfikacja wymaga verify_v13.py --bundle r033")
-    print("   (9/9 patchy git apply + kompilacja drzewa + testy na spatchowanym drzewie),")
-    print("   a tego NIE MAM: brak bundla r033, arcengine, GPU i cargo.")
+    print("   UWAGA: bramka to NIE certyfikacja. Certyfikacja = verify_v13.py --bundle r033 --tests.")
+    print("   STAN NA 2026-10-30: bundel r033 JEST w repo Smak-Domu-Konkurs")
+    print("   (arc-agi-3/kaggle/ops/results/r033-recon-bundle/, 74 pliki) — certyfikację DA SIĘ")
+    print("   uruchomić offline. Wymaga: requests, numpy, pillow (pip --break-system-packages).")
+    print("   Testy winpath (11) wymagają arcengine, który potrzebuje Pythona >= 3.12 —")
+    print("   na 3.11 to JEDYNA kontrola nie do odtworzenia (8 błędów = ModuleNotFoundError).")
     return 0
 
 

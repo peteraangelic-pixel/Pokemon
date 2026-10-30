@@ -583,7 +583,141 @@ Trzy wnioski, które bolą:
    **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
    powiedzieć dziesiąty raz, niż obiecać jedenaście.**
 
-21. **`AUDYT-V17-AE-I-V13-6-FINAL.md`** — ❗**NAJNOWSZE (30.10 ~10:05 UTC). Fala 09:14–09:25:
+22. **`AUDYT-V13-7-I-CZTERY-OPINIE.md`** (644 ln) — ❗**NAJNOWSZE (30.10 ~14:40 UTC). Fala
+   13:40–14:19: `duck-v13-7-final` Smak rev1 `402b3475` + rev2 `72761737`, 7 komitów a450
+   (`f7a08aa8`…`c4dc99c9`), audyt Gemmy c4eeb067 `4ac0a5c9` i opinia Gemmy 6d081d52 (wypchnięta
+   w trakcie tury jako `8799b6c4`/`9f2b4e63`). Cztery sesje zeszły się w 39 minut na tym samym
+   wniosku operacyjnym.**
+   ✅ **BUNDEL r033 JEST W REPO** (`arc-agi-3/kaggle/ops/results/r033-recon-bundle/`, 74 pliki,
+   1,7 MB) ⇒ **uruchomiłem pełny certyfikat SAM**: `51 OK / 1 FAIL`, a jedyny FAIL to winpath
+   (8 × `ModuleNotFoundError: arcengine`, które wymaga Pythona ≥ 3.12; sandbox ma 3.11.2) —
+   **limit środowiska, nie wada pakietu**. Wymaga `requests`+`numpy`+`pillow`. **To obala moje
+   własne twierdzenie z dwóch tur, że zgodność moich poprawek z certyfikatem potwierdzi tylko
+   posiadacz bundla.**
+   ✅ **PYTANIE NIESIONE PRZEZ DWIE TURY ROZSTRZYGNIĘTE: moje FIX 4/5/6 NIE łamią certyfikatu.**
+   `duck-v13-7-final-c87f` daje **identyczny zestaw kontrol** (diff etykiet różni się tylko nazwą
+   katalogu tymczasowego), bramka **4 ustalenia / 0 KRYTYCZNYCH** (z 5/1 na surowym v13.7),
+   `--strict` **EXIT=0 bez potoku** (pierwszy raz — wcześniej każdy bieg był przez `grep`),
+   różnią się **tylko komórki [14, 39]** z 41, a build ×3 jest **bajt w bajt** (punkt stały).
+   ✅ **Tożsamość łańcucha udowodniona z MOJEGO patcha**: `0004-level-token-cap.patch` (142 ln)
+   + `git apply 0010` → **bajt w bajt** ich `src/arc3_level_budget_v13_2.py` (md5 `9c184195`),
+   `-R --check` przechodzi. **Patch 0010 to upgrade MOJEGO modułu 0004.** md5 `7194ab32` (a450)
+   **i** sha256 `736b09cf64ec` (6d081d52) — obie gałęzie miały rację.
+   ✅ **rev2 to zmiana WYŁĄCZNIE KOMENTARZA**: diff rev1→rev2 = komórka **[2]**, a `ARC3_VARIANT`
+   nadal ma `"ARC3_LEVEL_TOKEN_CAP": "0"`. Komunikat „arming 20000 (nie 60000)" opisuje
+   rekomendację, nie konfigurację — **dla slotu 30.10 to dobra wiadomość**.
+   ✅ **Cytat 6d081d52: 12 potwierdzonych, 3 z zastrzeżeniem, 1 nie do odtworzenia, 0 obalonych**
+   — najdokładniejsza zewnętrzna opinia tej kampanii. Odtworzyłem: 41 komórek / 758 240 B / md5
+   `0be69523` · cell-diff **{1,2,12,14,15,33,40} DOKŁADNIE** · `>45k: 14` i `>60k: 13` · **@60000
+   aktywny w 16/40, 15 luźniej / 0 ciaśniej** · marnotrawstwo pool **64,5 % / max 100 %** ·
+   ls20 na r085 **10,69 %** · drabina po clampie → **225 000 > cap_max** · 16/16 testów dyn.
+   ⚠️ Rozbieżności: **max kosztu = 91 043** (a450 i ja), nie 88 114 (cytat); mediana capa
+   **129 372** vs 128 612 (0,6 %) — ta sama różnica segmentacji. **„39 kontroli" nie zgadza się
+   z 42 (rev1) / 43 (rev2) wywołaniami `check()`**. **0010 to `duck-extra-08`, nie `-07`.**
+   ❌ **OBALONE: Gemma c4eeb067 „v13.7 = mój duck-v16, zachowuje się dokładnie jak v16, zero zmian
+   w logice poza 0010, diff = 5 pozycji".** Tabela plików prawdziwa (`0009` md5 `9cdc3c74` oba ✓),
+   zdanie nie: **diff v16→v13.7 = 7 komórek**, a **komórka 40 różni się 38 liniami** — v16 niesie
+   **mój instancja-#8 CICHO-MARTWY alarm `< 1.5`**, v13.7 ma bezwarunkowy druk z bazą 4,357
+   (z dopiskiem „c87 warstwa-8") **oraz sondę baseline + ważonego pokrycia z regułą 30/30**.
+   **v16 → v13.6-final = {1,2,12,14,32,39} ⇒ v16 to RODZEŃSTWO, nie rodzic** (rodzicem v13.6-final,
+   jak pisze Smak). Ich własny audyt to przyznaje („Nie naniesione bez GO").
+   ❗ **NOWA INSTANCJA W TAKSONOMII: „CICHO-SKIPUJĄCY CERTYFIKAT".** SPROSTOWANIE rev2 dodaje
+   kontrolę `R085_BENCH points at a real benchmark.json` + `"skipped" not in out` — **czyli przy
+   złej ścieżce test 8-nudge SKIPP-ował się cicho, a certyfikat i tak drukował ALL CHECKS PASSED.**
+   Konsekwencja wstecz: **„ALL CHECKS PASSED" z rev1, na którym polegali 6d081d52 i a450 (13:51),
+   miało w sobie cichy skip.** Plus **trzy etykiety obiecujące więcej niż asercje**: „extra-07/08
+   registered (**byte-for-byte**…)" asertuje tylko obecność dwóch podciągów — **ani jednego bajtu**;
+   „self-pace tests pass (**22/14** … 1:1)" asertuje `returncode == 0` + string „wszystkie testy
+   0009 przeszly", **nie parę** — test nadal ma słabe `assert pace[0] < floor[0]`, spełnione przez
+   14/9, 22/14 **i** 27/16. **Para 22/14 jest prawdziwa (widziałem ją w druku: `rel+baseline=8/0
+   floor20=42/26 self-pace=22/14`), ale NIE JEST CHRONIONA.**
+   ❗ **MOJE I NICZYJE INNE: RESET JEST AKCJĄ W SENSIE RHAE.** `solver.py:663 _execute_auto_reset`
+   → `_execute_action(..., generated_tokens=0)` → `game.execute_action(...)`; `taaf/game.py:184`
+   „Legal action ids, with **RESET (0) always present**", `execute_action` **nie ma wyjątku dla
+   RESET**, L571 `actions_per_level[level_before] += 1`. **Zero tokenów, dokładnie jedna akcja,
+   a `ONLY_RESET_LEVELS=true` (`game_api.py:221`) zachowuje poziom ⇒ akcje próby-1 NIE są
+   zwracane.** Mój patch 0004 loguje „issuing a **free** RESET" — **zdanie o tokenach prawdziwe,
+   słowo „free" fałszywe w RHAE**, gdzie `poziom = min((baseline/akcje)², 1.15)`.
+   **Ale raz zmierzone, obraca się NA KORZYŚĆ 20 000:** mediana akcji zbankowanych na poziomie
+   w chwili cięcia = **24 przy 20k / 62 przy 45k / 64 przy 60k** (suma 1 291 / 1 997 / 1 754) —
+   **niższe uzbrojenie tnie WCZEŚNIEJ, więc każdy RESET osieroca mniej akcji w mianowniku**, mimo
+   że resetów jest 45 zamiast 24. **⇒ log z 1.11 trzeba czytać przez `completed/game`
+   I `actions/game` jednocześnie**; sama metryka ochronna Smaka tego nie złapie.
+   ✅ **Kolano ≤20k: PRIORYTET MAJĄ a450 (`c4dc99c9` 14:14:14Z) i Smak (`3945d727` 14:18:57Z) —
+   nie ja.** Mój symulator jest **niezależną replikacją** z systematycznie niższymi wielkościami
+   (RESET 45 vs 48, AB gier 18 vs 20, utracone 9 vs 15, uwolnione 517 067 vs 667 937), kierunek
+   i kształt identyczne: **ABANDON = 0 przy 45k i 60k, żywy przy ≤20k**. a450 podał mechanizm
+   („ich symulacja poziomowa niedoszacowuje; solver woła `step()` co akcję"), **ale nie
+   opublikował narzędzia** — rozbieżność zostaje nierozstrzygnięta, wniosek odporny.
+   ➕ **Moja arytmetyka progu:** ABANDON wymaga `spent ≥ 1.5 × cap` przy wyczerpanych resetach,
+   cap po resecie = `V × 1.5` ⇒ **próg ~2.25·V na próbę, ~3.25·V łącznie**. 20k → 65 000 (≪ pule
+   141 718 / 152 196) ⇒ żywy; 47k → 152 750 (> każda pula) ⇒ **niemożliwy**; 60k → 195 000.
+   Zmierzone mediany tokenów przy ABANDON: 67 397 / 73 193 / 89 663 ✓. **To OGRANICZENIE, nie
+   prawo**: przy 30k/40k wzór mówi „możliwe", pomiar daje 0 — bo podłoga `mediana×4` (mediana
+   kosztu ukończonego poziomu **27 613**) podnosi cap u gier z historią.
+   ✅ **`cap ≥ static_cap` ZAWSZE — z kodu, nie z danych:** `cap_min = static_cap or DEFAULT_CAP_MIN`
+   i `cap_max = max(cap_min, 150k) ≥ cap_min` ⇒ `_current_cap() ∈ [static_cap, cap_max]`,
+   `× ladder^resets ≥ 1`. **Reguła NIE MOŻE ciąć ciaśniej niż arming.** Dwa skutki:
+   **`DEFAULT_CAP_MIN = 45_000` jest MARTWE** (podstawia się `static_cap`; przy 20k podłoga = 20k)
+   oraz **jedyną tnącą gałką w 0010 jest arming z patcha 0004** — dlatego „wybór wartości nie ma
+   dziś znaczenia" (c4eeb067, zmierzone na 0/45k/60k) **nie przenosi się na 20k**.
+   ✅ **Marnotrawstwo — pool 64,5 % odtworzony, ale to statystyka ZŁYCH runów.** Per-run:
+   **r085 19,7 % · r093 33,7 % · r110 100 % (6/10 gier z 0 ukończeń) · r118 100 % (8/10)**.
+   **Smak §25C potwierdza to MOIMI liczbami i domyka interpretację: „0010 ma dwie motywacje żyjące
+   w różnych reżimach".** Godzę trzy krążące liczby — wszystkie poprawne, to różne statystyki:
+   **25 %** = ważone tokenami na r085 (c4eeb067) · **27,3 %** = nieważona średnia udziałów (ja) ·
+   **64,5 %** = mediana per gra po 4 runach (6d081d52/a450).
+   ✅ **MIN_DONE=1 — pełna zbieżność ze Smakiem:** zbija ABANDON 18/40 → 6/40, **ale utracone
+   poziomy zostają te same**, bo tłumione są te porzucenia, które nic nie kosztują. Ich sformułowanie
+   jest lepsze: „blokuje 13/20 bezstratnych, zostawia 7 kosztownych — zostaje 0".
+   ⚠️ **FIX 6/6b — REZYGNUJĘ na rzecz ich proweniencji.** Odkryłem, że **FIX 6 był dekoracyjny**:
+   iterował `*.patch`/`*.py`, a **Kaggle aplikuje tekst osadzony w komórce 14 notebooka** i
+   `verify_v13.py` ekstrahuje patche **z notebooka** ⇒ pakiet był niespójny trójstronnie
+   (shipped `27 times` vs patches+fixture `22 times`), **czego certyfikat nie widzi**. Dodałem
+   **FIX 6b** (podmiana per-element `source`, asercja `ruszone == 1`) — ale Smak **celowo** trzyma
+   `0009` bajt w bajt z kopią Gemmy v16 dla łańcucha `cmp`, a moja poprawka jest **wyłącznie
+   docstring**. **Ich powód jest zasadny, więc nie forsuję.** Hashe do przepięcia, gdyby zmienili
+   zdanie: `0009` po FIX 6 md5 **`51fe48f3`** / sha256 **`7c9b2b653e4b`** (przed `9cdc3c74` /
+   `94619210820c`), fixture **`a0378c70`** (przed `b63cf569`), notebook 760 794 B md5 `b3c8421e`.
+   **Do tego czasu docstring „fires 27 times … on 16 levels" PŁYNIE DO KAGGLE i jest błędny.**
+   🔧 **Cztery bugi mojego builda, wszystkie znalezione przez uruchomienie:** (e) **build NIE był
+   idempotentny** — `BRAMKA_STARA` **jest podciągiem `BRAMKA_NOWA`** (stara linia zostaje w `else:`),
+   więc FIX 4 **zagnieżdżał się** przy każdym biegu, a `DRUK_NOWA` nie miał znacznika i brakowało
+   `druk_juz` przy bezwarunkowej straży `druk >= 1` ⇒ build na poprawionym pakiecie **padał**.
+   Naprawa: **ZNACZNIK-NJPIERW** + `DRUK_ZNACZNIK` (ASCII) + `druk_juz`; **udowodnione do punktu
+   stałego (BUILD 1 = 2 = 3, bajt w bajt)**. **Reguła: podmiana, której NOWY tekst zawiera STARY,
+   nie jest idempotentna przy detekcji wzorcem.** (f) detektor FIX 3 kluczowany na gołym `"< 1.5"`
+   odrzucał komórkę 2, bo ta ma **komentarz** o starym alarmie — **feedback Smaka trafny**;
+   naprawa: kluczowanie na `ALARM_KOD` (wzorzec kodu). Efekt: raport „4× już zastosowane" zamiast
+   „2×", **artefakt bez zmian** ⇒ detektor źle raportował, nie źle budował.
+   ➕ **Pięć self-korekt tej tury (14–18):** „utracone poziomy = 3" → **9** (pomijałem gry
+   porzucone przy `lv=0`, których track kończył poziomy później) · „2 FAIL to nie arcengine" →
+   **to arcengine** (grep po wyjściu obciętym do 300 znaków) · **naiwny pozycyjny diff komórek**
+   (30 zamiast 7, bo 40 vs 41 komórek — **wymaga wyrównania**) · SHA `494f4854` → **`94f48547`**
+   (przestawione cyfry; własne 422 wziąłem za przepisany komit) · **„tylko posiadacz bundla r033
+   może to potwierdzić" → bundel jest w repo**, powtarzałem to dwie tury bez sprawdzenia drzewa.
+   ➕ **NOWE „NIE ROBIĆ":** grep po obciętym wyjściu · pozycyjny diff list o różnych długościach ·
+   ufanie etykiecie kontroli zamiast jej asercji · **wnioskowanie o „X jest niemożliwe" z braku
+   wystąpień w obciętym logu** · deklarowanie „idempotentny" bez uruchomienia buildu na własnym
+   wyjściu.
+   **RANKING PO TEJ TURZE:** **1** slot 30.10 = **`duck-v13-7-final` rev2** (ZGODA bezwarunkowa:
+   dormancja z kodu i z traktu, rev2 = komentarz, certyfikat odtworzony przeze mnie, własny slug,
+   obie sondy + instrument a/call) · **2** flip 1.11 = **uzbrojenie 20 000** (ZGODA ze Smakiem,
+   a450 i 6d081d52; trzy podpory: ich asymetria, mój dowód z kodu że dyn tylko poluzowuje,
+   **mój pomiar że 20k jest tańsze w akcjach RHAE**) · **3 NIE uzbrajać 15 000** przed zmierzeniem
+   konwersji (ich tabela: 23 utracone poziomy przy 15k vs 15 przy 20k = 53 % więcej pewnej straty) ·
+   **4** log 1.11 czytać przez `completed/game` **I** `actions/game` · **5** moja nakładka
+   `-c87f` istnieje i jest certyfikatowo obojętna, ale **przyjmuję ich politykę churnu i FIX 6
+   odpuszczam** — koszt: log 30.10 wydrukuje fałszywe `NO-GO (below v3 smoke 29.02)` i
+   `21200.0% of a full clear` (mój #10 **jedzie**).
+   **Bramka a/call ≥ 6,0 = 50 pkt ma CZWARTE niezależne potwierdzenie** (c4eeb067: 5,9 z
+   481/2136; 7911: 6,0; moje A/B: **6,73 / 7,13**) — rozstrzał 17–25 % między modelami zostaje
+   większy niż efekt mierzalny w pozostałych slotach. **Oczekiwanie ~28–31 · cel srebro ≈32.33.**
+   **Uwaga na etykiety slotów:** Smak i a450 planują teraz **30.10 / 1.11 / 2.11**; nie restatuuję
+   terminu ani liczby dni bez ponownego sprawdzenia strony (stojąca korekta usera).
+   **BEZPIECZNIK: nic nie wypchnięte na Kaggle, nic nie zgłoszone, żadna inna gałąź nietknięta.**
+
+21. **`AUDYT-V17-AE-I-V13-6-FINAL.md`** — (30.10 ~10:05 UTC). Fala 09:14–09:25:
    paczka sesji Arena BEZ poświadczeń GitHuba (`duck-v17-action-efficiency`, zip 44 762 B, blob
    `e17214ae`, 21 plików, wgrany ręcznie na Smak `283a36b8`) + recenzja a450 `2e2337c9` + audyt
    Gemmy `79f066dc` z `local-lab/leverage.py` + `duck-v13-6-final` Smak `3bf4d3e0`. 7911: nic nowego
