@@ -177,6 +177,61 @@ Trzy wnioski, które bolą:
    **Trzy wnioski w §8: (1) wyłączyć kap, (2) naprawa concurrency odzyskuje ~26.8 a nie podnosi,
    (3) podnieść cap w `sweep2.py` do 300–600 s i powtórzyć — 0 GPU, 0 tokenów, 0 slotów.**
 
+14. **`OPINIE-3-GALEZI-O-V13.md`** — ❗**NAJNOWSZE (30.10 ~07:20 UTC). TRZY GAŁĘZIE, JEDEN WNIOSEK.**
+   Przeczytane read-only: `Gemma-konkurs@arena/c4eeb067` (HEAD `cded50d0`, 30.10 07:09),
+   `Smak-Domu-Konkurs@arena/5ed750ef` (HEAD `9e59a473`, 30.10 07:05), `Pokemon@arena/7911f950`
+   (HEAD `3269393d`, 29.10 17:04).
+   **KONWERGENCJA: 50+ jest funkcją PRZEPUSTOWOŚCI (akcji na grę), nie „mądrzejszego modelu"
+   i nie playbooka.** Trzy niezależne modele dają **ten sam próg ~300 akcji/grę** (obecnie 212,6):
+   7911f950 „podwojenie akcji na decyzję → sufit **51,3**" · Gemma „**300 akcji → 59,5**" ·
+   mój `token_economy_model.py` „500 tok/akcję → 350 akcji → **54,12**".
+   ✅ **Gemma NIEZALEŻNIE ode mnie**: *„dwie z trzech dźwigni patcha 0006 są w konfiguracji
+   submisyjnej **martwe**"* (trzecia konwergencja tej sesji po `EXPOSE_UNDO` i `CAP=0`).
+   ✅ **Gemma policzyła wartość playbooka — liczba, której brakowało**: 14/14 poziomów i
+   **184/184 hashy** odtworzone na prawdziwym silniku (także seed 1/2/7/42) = **72,61 pkt
+   sumarycznie = średnio 2,90 na 25 grach publicznych**. *„Na rosterze prywatnym, jeśli nie ma
+   w nim gier publicznych — **0**. Widełki „35–50+" z README **nie mają pokrycia w artefaktach**."*
+   **Nawet w najkorzystniejszym wariancie (110 klonów) średnia po 110 wpisach jest TA SAMA 2,90.**
+   ❌ **OBALONE: twierdzenie Smaka „roster = 110 round-robin klonów 25 gier, POTWIERDZONE W KODZIE
+   FRAMEWORKU (nie hipoteza!)"**. Sprawdziłem cytowane źródło: `taaf/competition_arcade.py`
+   (blob `1293db68`), docstring L1-8 dosłownie: *„**Local** competition-mode ARC-AGI Arcade
+   **simulator** … The **real Kaggle submission path** talks to a **gateway-backed Arcade** …
+   hidden baselines, and no repeated game IDs … This module starts the same REST app **on localhost
+   against the bundled offline games** so those failures can be reproduced **before submission**."*
+   `official_110()` klonuje 25 gier, żeby **lokalny symulator** miał **kształt** prawdziwej karty
+   (L151: *„submission-**shaped** benchmark"*, L67: klony „on the **simulator side**").
+   **To ta sama klasa błędu co `SCOPE=run` i `concurrency=120`: czytanie NAZWY zamiast docstringu.**
+   ⇒ **GO#1 Smaka (v13-MEGA na slot 30.10, „sufit 45-55") ma przesłankę, która nie istnieje.**
+   ✅ **ROZSTRZYGNIĘCIE SPORU O ROSTER JEST DARMOWE**: `roster_probe` w logu **rerunu ref 57737623**
+   (v11 już leciał i dał 23.89). W `r085` probe odpalił się w **smoke** na bundlu offline, więc
+   pokazał gry publiczne. **Log rerunu jest tylko w przeglądarce właściciela konta** → do pobrania
+   przez usera: Kaggle → Submissions → 57737623 → Output. Zero kosztu, zero slotu.
+   ❌ **OBALONE: cap per-poziom = 1.0** (7911f950). Poprawnie **1.15/115** — `docs.arcprize.org/
+   methodology`, `taaf/game.py::_compute_final_score` (mirror `EnvironmentScoreCalculator` v0.9.8)
+   i regresja Gemmy **32/32** na prawdziwych `final_score`. **Ich walidacja nie rozróżnia 1.0 od
+   1.15**: we wszystkich czterech wierszach ich tabeli wiąże **cap UKOŃCZENIA** (`100·Σw_uK/Σw_all`)
+   — su15 6/45=13,33 · ka59 6/28=21,43 · g50t 3/28=10,71 · s5i5 6/36=**16,67** (ich formuła dała
+   15,67, harness 16,67). Zweryfikowali formułę na danych, które nie rozróżniają kandydatów.
+   **Ich WNIOSEK („nie ma sensu być szybszym niż człowiek") jest prawdziwy, ale z INNEGO powodu**:
+   nie cap 1.0, tylko **cap ukończenia** wiąże niemal zawsze. Gemma mierzy tę resztkę jako **+3,0 pkt**.
+   ⚠️ **TO ODWRACA CZĘŚĆ MOJEJ REKOMENDACJI**: w `OCENA-V13-MEGA.md` §7 dałem `PLAN_COMMIT="0"` na
+   najbliższy slot. Skoro bottleneck to akcje/decyzję, **`commit(plan)` jest JEDYNĄ dźwignią, która
+   w niego celuje** (plan 20 akcji ≈ 3 s wobec ~14,4 s na pojedynczy ruch = ~5× tańsza akcja;
+   12/12 testów na spatchowanym drzewie). Przeciw: niezmierzone na Kaggle, ich v6 23.94 < v2 24.66,
+   jeden slot nie rozstrzygnie przy σ≈2,5–3,9 → **dlatego DWA sloty na tę samą konfigurację**.
+   ⚠️ **1,00 akcji/decyzję dotyczy STAREJ linii** (r013/r015/r018). Nasza szybka linia (r019):
+   **4,357** ważone / 5,204 średnia, 841,2 tok/akcję. Kierunek i wniosek zostają.
+   ❌ **27B zmierzone i SKREŚLONE**: slot B = **1,18**, v14-27b-long smoke = **0,27**; mediana
+   116 akcji przy **47,0 s/akcję** (8B: 12,9 s/akcję), 8/10 gier z zerem poziomów. *„Większy model
+   nie był za głupi — **był za wolny**."* Sygnał zapętlania: cn04 130 ruchów z **6 różnymi** akcjami.
+   **PLAN NA 4 SLOTY (§6): 30.10 `PLAN_COMMIT="1"` + `CAP=0` + `WINPATH="0"` + `DEAD_SKIP="0"` +
+   `EXPOSE_UNDO="on"` + conc 10 · 31.10 TO SAMO ponownie (drugi draw) · 1.11 lepsza z dwóch albo
+   kontrola `PLAN_COMMIT="0"` · 2.11 select best.** Przed 30.10 trzy rzeczy darmowe: log rerunu
+   (roster), `analyze_run.py` na `benchmark.json` rerunu (bramka: mediana akcji <300 → przepustowość),
+   PC sweep 600 s **tylko jeśli roster wyjdzie na klonach**.
+   **Cel pozostaje ~29–30, srebro ≈32.33. `PLAN_COMMIT="1"` to jedyna dźwignia z realną szansą
+   na ~35+.**
+
 12. **`DIAGNOZA-23-89-I-PLAN.md`** — ❗**NAJNOWSZE (28.10 ~23:10 UTC), NAJWAŻNIEJSZE DECYZYJNIE.**
    Submisja **ref 57737623** (`arc3-duck-v11` v1, slot A) = COMPLETE, **publicScore 23.89**.
    Naprawa `concurrency` **zadziałała** (0.00 → 23.89), ale wynik jest poniżej ich 26.25.
@@ -252,6 +307,12 @@ Trzy wnioski, które bolą:
 | **ZMIERZONY wynik v11 slot A (ref 57737623, 28.10)** | **23.89** COMPLETE, smoke **18.55** — naprawa `concurrency` **zadziałała** (0.00→23.89) | `DIAGNOZA-23-89-I-PLAN.md` §1 |
 | **SZUM wyniku — NAJWAŻNIEJSZA LICZBA** | Franzen M2: **μ=25.77, σ=3.93**, drawy 21.01…35.35; próg istotności **+5 pkt**; wyświetlany wynik = **najlepszy draw** | j.w. §2.1 |
 | jedyna zmierzona **dodatnia** dźwignia na naszej bazie | **D′ slot-priority scheduler: 25.77 → ~29.0** | j.w. §3 |
+| **PRÓG 50+ — trzy niezależne modele** | **~300 akcji/grę** (obecnie **212,6**): 7911f950 „podwojenie → 51,3" · Gemma „300 → **59,5**" · mój model „500 tok/akcję → 350 → **54,12**" | `OPINIE-3-GALEZI-O-V13.md` §3.3 |
+| **wartość playbooka v13** | **2,90 pkt średnio** na 25 grach (72,61 sumarycznie, 14 poziomów); **0** jeśli roster prywatny | j.w. §1.3 |
+| `official_110()` / 110 klonów 25 gier | ❌ **LOKALNY SYMULATOR**, nie roster submisji — *„reproduced **before submission**"* | j.w. §2 |
+| cap per-poziom | **1.15** (nie 1.0) — `taaf/game.py` + regresja **32/32**; ale wiąże **cap UKOŃCZENIA** | j.w. §3.2 |
+| 27B na tej samej bazie | ❌ **1,18** (slot B) i **0,27** (smoke); **47,0 s/akcję** vs 8B **12,9 s/akcję** | j.w. §1.4 |
+| szum między runami (drugi, niezależny pomiar) | **sd 2,47 pkt**, pojedyncza gra skacze **11,7 pkt**; 26,25→23 = **−1,3 sd** | j.w. §3.1 |
 | progi medali (27.10, 4904 zespoły) | złoto ≈**38.2** · srebro ≈**32.33** · brąz ≈**31.04** | j.w. §5.1 |
 | offline source-introspection BFS (`find_game_source`) | **0.20** — „Game sources don't exist in the rerun" | j.w. §4 |
 | search strojony na 25 publicznych → test na held-out | **7/70 poziomów → 0/113** | j.w. §4 |
