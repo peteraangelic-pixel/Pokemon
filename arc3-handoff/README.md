@@ -232,6 +232,74 @@ Trzy wnioski, które bolą:
    **Cel pozostaje ~29–30, srebro ≈32.33. `PLAN_COMMIT="1"` to jedyna dźwignia z realną szansą
    na ~35+.**
 
+15. **`OCENA-V13-1-TRZY-RECENZJE.md`** — ❗**NAJNOWSZE (30.10 ~07:35 UTC). v13.1 powstał ~9 minut
+   po mojej recenzji i uwzględnia ją wprost** (commit `cbefdd4e`: *„korekty po 3 recenzjach
+   (Gemma/**c87**/Smak)"*; README v13.1: *„`SERVER_STARTUP_TIMEOUT` (12 min) **celowo bez zmian —
+   recenzja c87 domknęła, że nie przerywa biegu**"*). Widełki oczekiwań zmienione **35–50+ → 28–38**.
+   **FAKT 1 — gałąź Smak ZAPRZECZA SAMEJ SOBIE o roster, 5 dni apart, na tym samym pliku.**
+   Ich `duck-c45/OCENA-V9-LEPSZA-DROGA.md` (25.10 12:25), tabela „wszystko potwierdzone":
+   *„Replay/×4.4 pamięć = **0** w prawdziwym scorecardzie (brak powtórzonych game_id;
+   **`official_110` = lokalny symulator**) · **zgodne z `competition_arcade.py`** · ✅
+   (**sonda rosteru w c45 i tak dowozi dane za darmo — koszt 0**)"*. A 30.10 ta sama gałąź:
+   *„roster **POTWIERDZONY W KODZIE (nie hipoteza!)**"* i w `OCENA-ARENA-V13-1.md` pkt 4 nadal
+   *„~4.4 klony … mnożnik replay zrobiony właściwie"*. **Czytali ten sam plik co ja i 25.10
+   wyciągnęli TEN SAM wniosek co ja.** Gemma znalazła ten cytat niezależnie (wiersz 12) i pisze:
+   *„v13.1 naprawia dźwignię, o której **sami piszą, że prawdopodobnie nie zadziała**"*.
+   **FAKT 2 — `PLAN_COMMIT="1"` jest TYLKO OFEROWANE MODELOWI, NIE WYMUSZANE** (7911f950,
+   `V13-1-VERIFICATION.md` §3): patch **tylko dopisuje narzędzie do opisu**
+   (`_PYTHON_TOOL_DESCRIPTION += " Also available: commit(plan)…"`, `prompt += PLAN_COMMIT_TOOL_ADDENDUM`),
+   *„Nie ma żadnego wymuszenia. Model prawdopodobnie będzie wykonywać jedną akcję na turę.
+   Eskalacja włącza się dopiero po `ESCALATE_ACTIONS = 60` … czyli **po 60 zmarnowanych decyzjach**"*.
+   ❌ **ÓSMA KOREKTA MOJEGO WNIOSKU, pierwsza dotycząca rekomendacji wydanej wczoraj**: policzyłem
+   wartość z MOŻLIWOŚCI mechanizmu, nie z tego czy cokolwiek zmusza model do użycia go. To ten sam
+   błąd co `SCOPE=run`, `EXPOSE_UNDO`, `official_110` — reguła „**narzędzie zareklamowane w prompt
+   ≠ narzędzie użyte**". Bez wymuszenia rozkład to najczęściej ~0, czasem **ujemne** (dodatkowa rada
+   w prompt = −2.3/−3.4 zmierzone). **Poprawka tania: `ARC3_ESCALATE_ACTIONS` 60 → 8–12**
+   (⚠️ najpierw sprawdzić, czy to env — nie zgaduję).
+   ✅ **Naprawa v13.1 jest PRAWDZIWA — trzy recenzje zgodnie.** Gemma **end-to-end na prawdziwym
+   silniku** (`winpath_sim.py`, 198 ln, importuje ich moduł bez zmian): poziom z wpisu 1 odtworzony
+   we wpisie 2 **za 0 tokenów** (18/18, 3/3, 15/15, 13/13 na tu93/vc33/m0r0/cn04); `DEAD_SKIP`
+   odpala od 4. wpisu. 7911f950: `test_winpath` **7/7** ze stubem, `grid_key` **identyczny** w obu
+   plikach, przełączniki **naprawdę eksportowane**. Smak: diff **chirurgiczny** (kom. 2+11),
+   `playbook.json` **bajt-identyczny** ⇒ 14/14 na silniku dalej ważne.
+   **WARTOŚĆ JEST WARUNKOWA — i warunek jest nierozstrzygnięty.** Gemma: **+5…+15 pkt JEŚLI roster
+   cykliczny, 0 jeśli nie** (okno 2 945 s/wpis, ~226 akcji; kopia odtwarza poziomy 1..d za 0 tokenów
+   i **cały budżet zostawia na poziom d+1**; z r085 `ls20`: 414 z 427 akcji na poziomy 1–3 ⇒
+   przejście 3→4 na grze 7-poziomowej = **+16,4 pkt na grze**). 7911f950: **+2,3 na 10 grach,
+   ~+0,6 na rosterze 110**. **Uzgodnienie: oba poprawne przy różnych rosterach** — 72,61/25 = 2,90
+   (cykliczny) vs 72,61/110 = **0,66** (prywatny). Gemma znalazła mechanizm: `competition_arcade.py:100`
+   → **`source_infos[i % 25]`**. Jej epistemika jest wzorem: *„to cytat z dokumentacji gałęzi, nie
+   mój pomiar — dlatego nazywam to **warunkiem, nie faktem**"*.
+   **7911f950 znalazł realną stratę:** `sp80` — ich niezależny solver ma **4 akcje**, playbook v13.1
+   **28** (7× dłuższa, przy kwadratowej karze RHAE to strata); `vc33` różnica 1 piksela;
+   `cd82`/`lp85` **identyczne**. Rekomendacja: przegenerować playbook biorąc **najkrótszą** ścieżkę
+   ze wszystkich źródeł. ⚠️ Ale przy capie ukończenia to **kosmetyka** (~3 pkt łącznie), nie dźwignia.
+   **DROGA DO 50+ ISTNIEJE I JEST PRZYJĘTA przez gałąź Smak** (`OCENA-V9-LEPSZA-DROGA.md`, „Strategiczny
+   PIVOT"): **T3 = world-model + planer (paper01, MIT)** — agent-koder pisze wykonywalny model gry,
+   weryfikacja na przejściach, **BFS szuka ciągu akcji W MODELU**, wykonanie + porównanie klatek.
+   *„**Jedna decyzja LLM kupuje dziesiątki–setki akcji**."* Zamyka dokładnie nasz ogon: **ls20
+   1/7→7/7, tn36 1/7→7/7, g50t 2/7→7/7, ka59 3/7→7/7**; routing per gra: WM wygrywa 7/10, nasza
+   pętla 3/10, **unia = 69.69**. Ich weryfikacja paper01 co do 0,01: **WM GPT-5.5 = 56.81** na
+   naszych 10 grach, pełny set 58.12%, 15/25 gier 100%. **T2 (tanie ~T3) = plan-then-execute** —
+   ta sama metryka (akcje/decyzję) za 1 slot.
+   ⚠️ **ALE POMIAR PRZECIWKO: WM GPT-5.4 = 24.67 < nasze 27,21.** Czyli w tym samym scaffoldzie
+   słabszy model dał mniej niż nasza pętla ⇒ **56.81 to w dużej części zasługa GPT-5.5, nie
+   architektury**. Qwen3.8-Flash-Next W4A16 jest znacznie słabszy niż GPT-5.4. Ich własne
+   *„NIEZMIERZONE na open-weights"* jest uczciwe — i nie do zweryfikowania w 4 slotach przy σ≈2,5–3,9.
+   **PLAN POPRAWIONY (§5): 30.10 = v13.1 z `PLAN_COMMIT="0"` · `CAP=0` · `WINPATH="1"` ·
+   `DEAD_SKIP="1"` · `EXPOSE_UNDO="on"` · conc 10 · `roster_probe` ODZYSKANY — jedno zadanie:
+   ROZSTRZYGNĄĆ ROSTER.** 31.10 = rozgałęzienie **pomiarem**: cykliczny → to samo ponownie
+   (pamięć warta +5…15); prywatny → `WINPATH="0"` + `ESCALATE_ACTIONS` 8–12. 1.11 = najlepsza lub
+   kontrola. 2.11 = select best. **Trzy recenzje zbiegają na to samo co ja** — Gemma: *„jedyna
+   sensowna rekomendacja na slot 30.10 to **zabrać ze sobą sondę rosteru (koszt 0)** — jedna lista
+   110 `game_id` rozstrzyga, czy pamięć między wpisami jest warta 0 czy +15"*.
+   ❗**NAJTAŃSZA RZECZ DOSTĘPNA, DO ZROBIENIA PRZEZ USERA DZIŚ:** log rerunu **ref 57737623**
+   (Kaggle → Submissions → v11 → Output) zawiera **prawdziwe 110 `game_id`** — v11 już leciał
+   i dał 23.89. Zero kosztu, zero slotu, zero GPU. Ich własna notatka z 25.10: *„sonda rosteru
+   dowozi dane za darmo — koszt 0"*.
+   **Oczekiwanie: 26–31 (Gemma) / ~27–29 (mój) / 28–38 (ich README) — trzy przedziały zachodzą
+   na siebie wokół ~28–30.** Cel: srebro ≈32.33.
+
 12. **`DIAGNOZA-23-89-I-PLAN.md`** — ❗**NAJNOWSZE (28.10 ~23:10 UTC), NAJWAŻNIEJSZE DECYZYJNIE.**
    Submisja **ref 57737623** (`arc3-duck-v11` v1, slot A) = COMPLETE, **publicScore 23.89**.
    Naprawa `concurrency` **zadziałała** (0.00 → 23.89), ale wynik jest poniżej ich 26.25.
