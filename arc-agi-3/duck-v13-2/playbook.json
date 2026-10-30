@@ -1,0 +1,1159 @@
+{
+ "version": 1,
+ "games": {
+  "cd82": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION5",
+       "data": {}
+      }
+     ],
+     "init": "ba3f36b424073ae5",
+     "hashes": [
+      "2ddf9b1e4da76a80",
+      "9970f73dbfcbaf7d",
+      "7be751fab028afe6",
+      "2a9980ca31c6c8b6",
+      "0b11767e0219d58d"
+     ],
+     "n": 5,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "cn04": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 48,
+        "y": 32
+       }
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION5",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      }
+     ],
+     "init": "317691c3fcb040a7",
+     "hashes": [
+      "44e63b085fd29765",
+      "6c1222d6bfa9f71d",
+      "f17ee0c9d6e78b38",
+      "8cf97840e687cf61",
+      "83cbe94819c4d5ff",
+      "8a09f6c433b0de3b",
+      "40429fbd70bda525",
+      "8510ff4da923a8e1",
+      "6541727700f4bfbb",
+      "533360f9977543ad",
+      "b9e4230e2b71b206",
+      "1f994e3518691e83",
+      "e73f5b5bbb34a774"
+     ],
+     "n": 13,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "ft09": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 36,
+        "y": 36
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 36,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 52,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 36,
+        "y": 52
+       }
+      }
+     ],
+     "init": "4cbcde312086a880",
+     "hashes": [
+      "92c5607d0d18e836",
+      "fec43dc7cfdc3d03",
+      "ab2247013b3207c5",
+      "f4588c22cceeed3d"
+     ],
+     "n": 4,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "lp85": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 4,
+        "y": 32
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 4,
+        "y": 32
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 4,
+        "y": 32
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 4,
+        "y": 32
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 4,
+        "y": 32
+       }
+      }
+     ],
+     "init": "4997fa890beb0f98",
+     "hashes": [
+      "2251f060e0f1c096",
+      "7f3c07ef25e48ee7",
+      "476f81ff9349dd65",
+      "414eca0604527853",
+      "7e80b68da5401d94"
+     ],
+     "n": 5,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "ls20": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      }
+     ],
+     "init": "65ebc0a75978ff99",
+     "hashes": [
+      "6c48119604027ac9",
+      "b316e9a3f3171bcf",
+      "9198426dbce71bfd",
+      "075942cd2c94d34d",
+      "56dde165df01714e",
+      "451bdd2ea05e2efa",
+      "b84947debde780f8",
+      "f81632f85fcf85aa",
+      "ae664c130e6735f6",
+      "a9737278d69dd7ce",
+      "f78fa7e22b3da084",
+      "15683d55e8418c9e",
+      "db0fe4313d4b4848"
+     ],
+     "n": 13,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "m0r0": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      }
+     ],
+     "init": "c3e67dcc1e70b93f",
+     "hashes": [
+      "3f1a7400eb1711a9",
+      "50bd482eb2ceb248",
+      "5829690d9c2ceebf",
+      "69092cbcf96ae6b9",
+      "a8d4be620b5bf05a",
+      "257d556b5bdacb03",
+      "26687399db617c15",
+      "44e5624f14b23fda",
+      "d6c90a7f6ecdc905",
+      "266523a510d9b861",
+      "d29826d4e623f0b2",
+      "bdba13c5e0683be4",
+      "78dfaf93828d38ee",
+      "8b98214942ee14f4",
+      "d683faf85e805c6a"
+     ],
+     "n": 15,
+     "src": "offline-sweep"
+    },
+    "1": {
+     "actions": [
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      }
+     ],
+     "init": "d683faf85e805c6a",
+     "hashes": [
+      "9dd4ae637d5c5191",
+      "76c187ce7aa8ac24",
+      "b2bd32c05817a0dc",
+      "c87b2c6b9cb91d86",
+      "8a2019cc95bf8270",
+      "e10080bebb2aa533",
+      "4a783bada0ee5f84",
+      "3f18a621b0eda845",
+      "ea7bc7ae314e277c",
+      "af85110174af05bb",
+      "47a792ab4fdf2378",
+      "d5ba486cbac96c2d",
+      "1766dd75cca8771d",
+      "a291cf8b385629db",
+      "fe0bb2abbd04c0fe",
+      "5bc9cb73a31a63d6",
+      "0b0490336dd65525",
+      "e58564ffe4dd917c",
+      "bcc28bccd6f00717",
+      "a7418992dfc07dc1",
+      "4064d591e659c6d8",
+      "c1a64aaf573c43e3",
+      "2bdcbf2617852bed"
+     ],
+     "n": 23,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "sp80": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION5",
+       "data": {}
+      }
+     ],
+     "init": "9ca51bd7fa1778da",
+     "hashes": [
+      "0cd6c08e3c45cbc2",
+      "d7e3acaf9a8f0c42",
+      "c422c21d2b5f6e57",
+      "cdcd13ec68c4aa1d",
+      "f5869706c271e7e7",
+      "9df49d1b082fdf6c",
+      "7fe6160a80cc745b",
+      "462bf48d48ae1c24",
+      "733f854207f9b9d0",
+      "9da94efdf6e724b0",
+      "50a75dd9b32a2496",
+      "a5ef1a4e2d1f6128",
+      "9b05b072ad5460ab",
+      "ac9b019c6a7b3b5e",
+      "db4bdb80440c72c9",
+      "416c34dad88ba070",
+      "54e803353e12a9c1",
+      "5d80adcf8df7b300",
+      "f115f66d708c0421",
+      "49f6d37c82dd0c85",
+      "0c73445c866d9e9e",
+      "ba90b30f9e464560",
+      "c69355359b6d9812",
+      "6f2395b0fac0fc81",
+      "274a2b9805a43c54",
+      "5403c1ed9d6235c9",
+      "e696b08bfa66a26b",
+      "6cfe788e6a6b5776"
+     ],
+     "n": 28,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "tu93": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      }
+     ],
+     "init": "eaf98e4e110ca5c7",
+     "hashes": [
+      "bf710473806b7056",
+      "9f2206a2cda2fc39",
+      "02599e9f8048fca3",
+      "8a8d30126d1d5caf",
+      "459d135c93f2e3b1",
+      "b4cf20be24859aba",
+      "7eccea0f8faf3b21",
+      "47e64b3558f50031",
+      "7b047bfa887d7a39",
+      "ef9be9d7520caf5a",
+      "e2b597ab9fc0ce5e",
+      "5dc5b30c7d0acac4",
+      "dac5471de0538370",
+      "24e1fa045040f8de",
+      "2fff315df0e3dadd",
+      "2204229c8168cec4",
+      "04fbd2312e6e217f",
+      "1e9adb178a60c998"
+     ],
+     "n": 18,
+     "src": "offline-sweep"
+    },
+    "1": {
+     "actions": [
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      }
+     ],
+     "init": "1e9adb178a60c998",
+     "hashes": [
+      "801ca56bf504933d",
+      "e46933d1ee17282d",
+      "850a4e8152be1ee0",
+      "60fe198170dfd0e3",
+      "e06604eba9b7b9aa",
+      "a580f552dd43061f",
+      "6a41218feab565df",
+      "d35127e688b836c1",
+      "7a0967ac85583bc9",
+      "1e8c23417ab495ce"
+     ],
+     "n": 10,
+     "src": "offline-sweep"
+    },
+    "2": {
+     "actions": [
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      }
+     ],
+     "init": "1e8c23417ab495ce",
+     "hashes": [
+      "d5c401fa190389ba",
+      "d3fb53edac15a5b6",
+      "99240529ba2a82bc",
+      "cb63181f95075ce3",
+      "fcbba207fbde670b",
+      "973fad13cc7968aa",
+      "31eba73a6ccc751e",
+      "bde53ce3ab40ab54",
+      "669c76f63aefb9e5",
+      "e4f2f9b3e5dd5310",
+      "e9ea28fe9439528f",
+      "ecb03d8e2ccd77d1",
+      "aba03dd440cc5454",
+      "5a93e8fab735ffa2",
+      "bb00d267296c6882",
+      "0d8ad6fb842f6e22",
+      "0ea1816401d33c2c",
+      "cbf6b01f1785a73c",
+      "256ce7eef9d7e21c"
+     ],
+     "n": 19,
+     "src": "offline-sweep"
+    },
+    "3": {
+     "actions": [
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION4",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION1",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      },
+      {
+       "name": "ACTION2",
+       "data": {}
+      },
+      {
+       "name": "ACTION3",
+       "data": {}
+      }
+     ],
+     "init": "256ce7eef9d7e21c",
+     "hashes": [
+      "8fb7c889606e5ad4",
+      "2985984ed5d28489",
+      "6942f9ffd1bd5b67",
+      "e725e626d2b41772",
+      "30a2d126cb3fd029",
+      "9dfce1e66416c0cb",
+      "900d6a51a59db6fd",
+      "236c9d173ee8d886",
+      "555d3fbe1016875d",
+      "5f7444f2a3593753",
+      "04872d42b53887e7",
+      "f3bc55feb2197a2d",
+      "c29847c2fcc87357",
+      "a289dac7aacafe4a",
+      "5e7fcc3de3d43ec2",
+      "2ba2292acce9d97d",
+      "4b9c558abaee8ba1"
+     ],
+     "n": 17,
+     "src": "offline-sweep"
+    }
+   }
+  },
+  "vc33": {
+   "levels": {
+    "0": {
+     "actions": [
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 60,
+        "y": 32
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 60,
+        "y": 32
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 60,
+        "y": 32
+       }
+      }
+     ],
+     "init": "8bd0509b25a4f7f0",
+     "hashes": [
+      "405ee0327aca1f4b",
+      "c090cb00f4bac170",
+      "31ab28398f4c451a"
+     ],
+     "n": 3,
+     "src": "offline-sweep"
+    },
+    "1": {
+     "actions": [
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 36
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 36
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 24
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 24
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 44
+       }
+      },
+      {
+       "name": "ACTION6",
+       "data": {
+        "x": 0,
+        "y": 44
+       }
+      }
+     ],
+     "init": "31ab28398f4c451a",
+     "hashes": [
+      "1389a75f1ca30158",
+      "a06ae9091ca571cb",
+      "e2cd3ee9512a32fc",
+      "da17e07041f5e802",
+      "7252d63b214c1ff2",
+      "660801615b51914f",
+      "82ff562761fe13de",
+      "e923b39f1c716d59",
+      "03e3e4f42ac56684",
+      "159e89d28651e763",
+      "264084e74053dfc3"
+     ],
+     "n": 11,
+     "src": "offline-sweep"
+    }
+   }
+  }
+ }
+}
