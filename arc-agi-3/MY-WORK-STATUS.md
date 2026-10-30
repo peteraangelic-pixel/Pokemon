@@ -1,5 +1,25 @@
 # Status mojej pracy (arena/7911f950-pokemon)
 
+> **AKTUALIZACJA 2026-10-30 — czytaj TO najpierw.** Sekcje poniżej pochodzą
+> z 13.10 i są historyczne (dotyczą wcześniejszego agenta LLM, nie Ducka).
+> Aktualny stan tej gałęzi:
+>
+> | dokument | co zawiera |
+> |---|---|
+> | **`EVAL-BUDGET-MODEL.md`** | ile czasu i akcji dostaje gra w ewaluacji; dlaczego roster ~110 gier daje ~49 min/grę i ~205 decyzji; ile akcji potrzeba na 50/60/75 |
+> | **`MEGA-DIAGNOSIS.md`** | pełna diagnoza wyniku 23→25: pokrycie 29% × efektywność 90%, błąd capu RHAE 1,15→1,0, **1,00 akcji na decyzję** jako wąskie gardło |
+> | **`V13-1-VERIFICATION.md`** | weryfikacja `duck-v13-1` (gałąź `arena/a450b00f-pokemon`): 7/7 testów winpath, 9/12 plan-commit, co jest warte +2,3 pkt, wada projektowa `commit(plan)` |
+> | `local/scheduler.py` + `test_scheduler.py` | scheduler wartości akcji, 9/9 testów, odtwarza opublikowane tabele |
+> | `local/benchmarks/` | `benchmark.json` z r013/r015/r018 — surowe dane, na których stoją wszystkie liczby |
+> | `rust/src/plan.rs`, `rust/src/bin/lab.rs` | planner macro-akcji + lokalne środowisko (rayon). **NIESKOMPILOWANE** — brak cargo w sandboxie |
+>
+> **Wniosek w jednym zdaniu:** przy ~205 akcjach na grę sufit wynosi ~19–31 pkt;
+> jesteśmy na 79–100% tego sufitu. Jedyna dźwignia o właściwej skali to
+> **liczba akcji na decyzję LLM** (2 → sufit ~53, 4 → ~80). Playbook, scheduler
+> i cap tokenów razem są warte 0–3 pkt.
+
+---
+
 **Data:** 2026-10-13 15:30 UTC
 
 ## Najnowsze osiągnięcia

@@ -120,6 +120,17 @@ Przykład (tn36, r013): 234 akcje, 234 decyzje, 170 400 wygenerowanych tokenów.
 
 Model myśli długo, a potem wykonuje **jeden** ruch. To jest cała struktura kosztu.
 
+> **Uzupełnienie 30.10** (po przeczytaniu konfiguracji submisji v13.1):
+> te 48 minut nie jest przypadkiem smoke'a — **w prawdziwej ewaluacji wychodzi
+> praktycznie tyle samo**. Submisja ustawia `max_runtime_s_per_game = 532 min`
+> przy `concurrency = 10` i budżecie notebooka 9 h, ale gry są rotowane przez
+> priority gate, więc realny przydział to `9 h × 10 / liczba_gier`. Dla rosteru
+> ~110 gier daje to **~49 min na grę**. Dowód pośredni: nasz realny LB (26,25)
+> jest praktycznie równy wynikowi smoke'a (27–29), co znaczyłoby niemożliwe,
+> gdyby każda gra dostała 4× więcej czasu. Pełne wyprowadzenie, tabela
+> roster → akcje → sufit i wymagana liczba akcji dla 50/60/75:
+> **`EVAL-BUDGET-MODEL.md`**. Wniosek się nie zmienia, ale zyskuje mechanizm.
+
 ### Co to znaczy dla sufitów
 
 | akcji / decyzję | akcji / grę | sufit @ eff=90% |

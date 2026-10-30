@@ -151,3 +151,52 @@ v13.1 z „+0,6 pkt" na wersję, która **mierzy** swoją główną dźwignię.
 
 Jeśli mimo wszystko wysyłać teraz — to jako pomiar kontrolny, nie jako kandydata
 na 50.
+
+---
+
+## 7. Uzupełnienie: co jest w `duck-v13-1/` a czego nie sprawdziłem wyżej
+
+> Ta sekcja dopisana 30.10, po pytaniu „czy to wszystko jest zacommitowane".
+
+### 7.1 `ANALIZA-23.md` — diagnoza z tamtej gałęzi
+
+W katalogu `duck-v13-1/` leży `ANALIZA-23.md` (28.10) — niezależna diagnoza tego
+samego wyniku 23, którego dotyczy mój `MEGA-DIAGNOSIS.md`. Jej tezy, w kolejności
+prawdopodobieństwa wg autora:
+
+| # | teza | zgodność z moją analizą |
+|---|---|---|
+| 1 | **Rozcieńczenie rosteru**: smoke 10 gier × 48 min nie jest estymatorem pełnego rosteru, bo budżet na grę jest dzielony przez wszystkie gry | **Rozszerzam to w `EVAL-BUDGET-MODEL.md` §3** — i dochodzę do odwrotnego wniosku: przy rosterze ~110 gier budżet na grę **wychodzi ~49 min, czyli tyle samo co smoke**. Dlatego realny LB ≈ smoke, i dlatego smoke jednak jest estymatorem |
+| 2 | Wysłano wariant z `PLAN_COMMIT="0"` (kontrola c45fix z capem 45k), a nie „plan" | Zgodne z moim ustaleniem, że `commit()` i tak jest tylko oferowany — więc nawet `PLAN_COMMIT=1` grałby jak kontrola |
+| 3 | Cap 45k sam w sobie kosztuje (26,78 < 27,21 < 29,02) | Nie weryfikowałem; pomiar między-buildowy, autor sam go nazywa słabym |
+| 4 | Zero pamięci między wpisami (`n_passes=1`) — **korekta 30.10** | Potwierdzam w kodzie: komórka 25 ustawia `bm.n_passes = 1` pod `TRUE_SUBMISSION` |
+| 5 | Wariancja ±2–3 pkt to norma | **Zgodne z moim pomiarem**: sd między runami 2,47; pojedyncza gra skacze o 11,7 pkt |
+
+Punkt 5 zgadza się u nas niezależnie (ja liczyłem z `benchmark.json`, oni z historii
+runów). Punkt 1 to jedyne miejsce, gdzie się różnimy — i mam na to dowód pośredni,
+opisany w `EVAL-BUDGET-MODEL.md` §3.
+
+### 7.2 v13 vs v13.1 — czego nie da się rozdzielić
+
+**Na gałęzi jest tylko JEDEN commit** (`cbefdd4`) zawierający v13.1. Nie ma
+wcześniejszego commita z v13. Więc **diffu v13 → v13.1 nie da się odtworzyć z historii.**
+
+Z README v13.1 wynika, że korekty dotyczyły trzech rzeczy:
+
+1. magazyn winpath kluczowany bazowym kodem gry (pamięć między wpisami rosteru),
+2. dead-skip oparty o liczniki magazynu zamiast `pass_index` (bo przy `n_passes=1`
+   `pass_index` był martwy),
+3. korekta `ANALIZA-23.md` pkt 4 i oczekiwań w README.
+
+W kodzie, który czytałem, **wszystkie trzy są już zastosowane** (np. `base_key()`
+i docstring `dead_skip` wprost mówią o `n_passes=1`). Czyli czytałem wersję 13.1,
+nie 13. Ale **nie mogę potwierdzić, że v13 miało te błędy** — nie mam jego kodu.
+
+### 7.3 Czego nadal nie wiem
+
+- Czy `init`-hashe playbooka zgadzają się z klatkami prawdziwego silnika
+  (wymaga uruchomienia gry — patrz §4).
+- Czy vc33 wymaga `(61,33)` czy `(60,32)` — różnica 1 piksela, nierozstrzygnięta.
+- Czy moja 4-akcyjna ścieżka dla sp80 kończy poziom (playbook ma 28).
+- Czy `commit()` faktycznie podnosi akcje na decyzję w realnym biegu — **nikt tego
+  nie zmierzył**, ani autorzy v13.1, ani ja.
