@@ -245,16 +245,43 @@ over 30 min**"*, i *„Without this, a slow load means 0.00. **It held through a
 our smoke test"*. Ich safety fix 4 to *„waits up to **30 min** for the gateway instead of 10.
 Another team lost a ~33.7 run (it scored 8.61) to a gateway outage longer than 10 min."*
 
-> **`SERVER_STARTUP_TIMEOUT = 12 * 60` = 720 s jest krótszy niż zaobserwowane ładowania
-> 25 min (1500 s) i 30+ min (1800+ s).** Jeśli dysk modelu będzie wolny, harness może
-> przerwać start **zanim** serwer wstanie.
+> ✅ **DOMKNIĘTE 30.10 — i to OSŁABIA moją własną rekomendację.** Powyżej zostawiłem to jako
+> otwartą niewiadomą; przeczytałem komórkę, która tej stałej używa. **`SERVER_STARTUP_TIMEOUT`
+> NIE przerywa biegu.** `arc3-duck-v13.ipynb` komórka 21, linie 333-349:
 >
-> **Rekomendacja: `SERVER_STARTUP_TIMEOUT = 30 * 60`.** Jedna liczba, zero wpływu na granie,
-> poparte cudzym pomiarem (25-minutowe ładowanie przetrwane) i cudzą stratą (~33.7 → 8.61).
-> **To jest najtańsza dostępna ochrona przed 0.00 i nie koliduje z żadną dźwignią.**
+> ```python
+> url, t0 = f"http://127.0.0.1:{SERVED_MODEL_PORT}/health", time.time()
+> while time.time() - NOTEBOOK_START_TIME < SERVER_STARTUP_TIMEOUT:
+>     if proc.poll() is not None: show_log_tail(); break
+>     try:
+>         with urllib.request.urlopen(url, timeout=5) as r: ...
+>         time.sleep(3)
+>     else:
+>         print(f"\nDEADLINE at {int(time.time()-NOTEBOOK_START_TIME)}s from notebook start; "
+>               f"releasing the benchmark with the server still loading")
+> ```
 >
-> ⚠️ Nie domknąłem: czy `SERVER_STARTUP_TIMEOUT` faktycznie przerywa bieg, czy tylko przechodzi
-> do kolejnego etapu. To trzeba przeczytać w komórce, która go używa — **nie zgaduję**.
+> **„releasing the benchmark with the server still loading"** — czyli timeout jest **punktem
+> przekazania**, nie awarią: benchmark startuje, `ARC3_WARMUP_ACTION_GAMES='1'` utrzymuje
+> gateway przy życiu darmowymi RESET-ami, a `ARC3_HTTP_RETRY_INITIAL_SECONDS='900'` daje
+> **15 min** retry-ów HTTP na doczekanie się modelu. **Projekt jest przemyślany i mój zarzut
+> „harness może przerwać start" był nietrafny.**
+>
+> ⚠️ **Co zostaje jako realne, ale WĄSKIE ryzyko: łączny budżet czekania.**
+> 12 min (startup) + 15 min (HTTP retry) ≈ **27 min**, wobec zaobserwowanych ładowań
+> **25 min i „ponad 30 min"** (`mayankraj4728` §6.2). Czyli margines istnieje, ale jest
+> **wąski**, a nie wyraźnie przekroczony. Ich własny v10 czekał **do 5 h** i dał **23.49** —
+> czyli dłuższe czekanie **samo w sobie nie jest gwarancją**.
+>
+> **Rekomendacja obniżona z „konieczne" do „tanie, ale opcjonalne":** podniesienie
+> `SERVER_STARTUP_TIMEOUT` z `12*60` na `30*60` wydłuża łączny budżet do ~45 min i pokrywa
+> najgorszy zaobserwowany przypadek. **Jedna liczba, zero wpływu na granie.** Ale ponieważ
+> timeout **nie** przerywa biegu, to nie jest ochrona przed pewną awarią — to jest margines.
+> **Nie warto na to wydawać slotu ani ryzykować interpretowalności wyniku.**
+>
+> To jest **siódma** korekta mojego własnego dokumentu w tej sesji i pierwsza, w której
+> domknięcie niewiadomej **osłabiło** moją rekomendację zamiast ją wzmocnić. Zostawienie jej
+> oznaczonej jako „nie domknąłem, nie zgaduję" było właściwe — i właśnie dlatego ją domknąłem.
 
 ---
 
@@ -275,11 +302,12 @@ naraz daje wynik **nieinterpretowalny** (§4).
 | `ARC3_WINPATH` | **`"0"`** | ❌ martwe przy `n_passes=1`; playbook nie trafi w roster (§2, §3) |
 | `ARC3_DEAD_SKIP` | **`"0"`** | ❌ wymaga passa ≥4 (§2.3) |
 | `PLAN_COMMIT` | **`"0"`** | ⚠️ niezmierzone; v11 pokazał, że 0005 nie jest obojętne nawet przy `"0"` |
-| `SERVER_STARTUP_TIMEOUT` | **`30 * 60`** (z 12) | ⚠️ §6 — ładowania 25–30 min |
+| `SERVER_STARTUP_TIMEOUT` | 12 min **zostaje** (opcjonalnie `30*60`) | ⚠️ §6 **SKORYGOWANE**: timeout NIE przerywa biegu, tylko przekazuje do retry/warmup; łączny budżet ~27 min vs ładowania 25–30 min = wąski margines, nie awaria |
 | parametry serwingu | **BEZ ZMIAN** | ❌ −7 do −8 na zbiorze ukrytym (`RESEARCH-LIDERZY-50PLUS.md` §3.3) |
 
-**Delta wobec v11 = dokładnie dwie zmiany: `CAP` 45000→0 i `SERVER_STARTUP_TIMEOUT` 12→30 min**
-(`EXPOSE_UNDO` i concurrency v11 już miał). **To jest mierzalne.** Oczekiwanie: **~27–29**,
+**Delta wobec v11 = DOKŁADNIE JEDNA ZMIANA: `ARC3_LEVEL_TOKEN_CAP` 45000→0**
+(`EXPOSE_UNDO` i concurrency v11 już miał; `SERVER_STARTUP_TIMEOUT` zostaje — §6 skorygowane).
+**Jedna zmienna = jedna hipoteza = wynik interpretowalny.** Oczekiwanie: **~27–29**,
 czyli odzyskanie `CAP=0` (+0.4…+2.2) bez ryzyka nowych warstw.
 
 **Jeśli zostaną sloty po 31.10** — wtedy, i tylko wtedy, warto przetestować `PLAN_COMMIT="1"`
@@ -300,7 +328,7 @@ po płytko mogą być gorsze niż jeden głęboki** — i to jest pytanie, któr
 
 | dokument | korekta |
 |---|---|
-| `DIAGNOZA-23-89-I-PLAN.md` §8 | postulat „dodaj startup keepalive" był **częściowo nadmiarowy** — baza dfranzen ma `ARC3_WARMUP_ACTION_GAMES='1'` + `ARC3_HTTP_RETRY_INITIAL_SECONDS='900'` (§6). Zostaje realna luka: `SERVER_STARTUP_TIMEOUT` 12 min < 25–30 min |
+| `DIAGNOZA-23-89-I-PLAN.md` §8 | postulat „dodaj startup keepalive" był **NADMIAROWY** — baza dfranzen **ma** `ARC3_WARMUP_ACTION_GAMES='1'` + `ARC3_HTTP_RETRY_INITIAL_SECONDS='900'`, a `SERVER_STARTUP_TIMEOUT` **nie przerywa** biegu (§6 DOMKNIĘTE). Zostaje tylko **wąski margines** ~27 min vs ładowania 25–30 min |
 | `RESEARCH-LIDERZY-50PLUS.md` §4.1 | `EXPOSE_UNDO='on'` znalezione **niezależnie** przez gałąź a450b00f o **23:08:29 UTC**, ~30 min przed moją publikacją. Konwergencja, nie przejęcie |
 | `RESEARCH-LIDERZY-50PLUS.md` §7 pkt 1 | test logiki `action_names.py` **jest już zrobiony** w v13: `tests/` + weryfikacja przełącznika **w obie strony** na spatchowanym drzewie |
 | `OCENA-CODEX-7Z.md` §5 | `roster_probe.jsonl` potwierdza: probe widział **gry publiczne**, bo odpalił się w smoke na bundlu offline. Pytanie o roster **nadal otwarte** i v13 na nim polega |
