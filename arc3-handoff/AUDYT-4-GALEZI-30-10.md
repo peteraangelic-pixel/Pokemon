@@ -369,6 +369,20 @@ u mnie spowodował `concurrency=120`.** Reguła: **porównywać liczby osiem lin
 
 ### 6.2 Kolejność działań po przeliczeniu wartości — zmieniona przez §2
 
+> ⚠️ **CZĘŚCIOWO NIEAKTUALNE (30.10 ~08:00) — patrz `OCENA-V13-2.md` §7.**
+> * **pkt 3 WYKONANY**: `ARC3_ESCALATE_ACTIONS` **JEST** zmienną env (zweryfikowałem w komórce 2
+>   notebooka v13.2), a **v13.2 już ma wartość 10** + guard GAME_OVER od Gemmy.
+> * **pkt 4 ZMIENIONY**: kandydatem na slot 30.10 jest teraz **v13.2** (nie v13.1), ale **decyzja
+>   zależy od pkt 1** — `akcje/grę = 2945×1000/(ms/token × tok/akcję)`, więc przy 62,6 ms/token
+>   nawet `tok/akcję=400` daje **118 akcji < 228 z r085**. **pkt 1 jest WARUNKIEM KONIECZNYM
+>   dla pkt 4**, nie zadaniem równoległym.
+> * **pkt 1 i 2 BEZ ZMIAN i nadal pierwsze** — 3,6× luka silnika i spór o roster.
+> * ➕ **NOWE (z v13.2)**: `DEAD_SKIP` jest **prawdopodobnie znowu martwy** — licznik
+>   `passes_completed` per `base_key` nigdy nie dojdzie do 3, jeśli każda gra występuje w rosterze
+>   **raz**. Gemma testowała dead-skip na **5 powtarzanych wpisach** `ar25`, czyli w scenariuszu
+>   **wykluczonym przez retrakcję Smaka §15**. Patrz `OCENA-V13-2.md` §3.1 i §5 (lekcja
+>   „testy 6/6 zielone przy martwej funkcji").
+
 | # | działanie | koszt | wartość |
 |---|---|---|---|
 | **1** | ❗**Sparsować `serve.log` z r085 (17,2 ms/tok), r110 (62,6) i r093** pod kątem obłożenia puli KV, kolejek i trafialności prefix-cache (§3.3) | **0 GPU, 0 slotów**, PC usera, ~godzina | **potencjalnie 82 → 228 akcji/grę = ~18,7 → ~35,6.** Największa znana dźwignia |

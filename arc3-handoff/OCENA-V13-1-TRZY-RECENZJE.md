@@ -69,6 +69,10 @@ Oraz jej precyzyjne ustalenie mechanizmu (§3): *„Lokalny symulator
 
 ## 2. ❗FAKT 2: `PLAN_COMMIT="1"` jest **tylko oferowane modelowi, nie wymuszane** — i to obala MOJĄ wczorajszą rekomendację
 
+> ⚠️ **POPRAWNE DLA v13 i v13.1; NIEAKTUALNE DLA v13.2** (commit `6b108534`, 30.10 07:45),
+> który obniża `ARC3_ESCALATE_ACTIONS` z **60 na 10** i tym samym **dodaje wymuszenie**.
+> Patrz §2.1 (domknięcie) i **`OCENA-V13-2.md` §2–§3**.
+
 `Pokemon@7911f950`, `arc-agi-3/V13-1-VERIFICATION.md` §3, „Wada projektowa, która decyduje o wyniku":
 
 > *„`commit(plan)` z patcha 0005 wykonuje **do 40 akcji na jedną decyzję** — czyli dokładnie tę
@@ -114,10 +118,24 @@ kilka** zamienia `commit(plan)` z „zareklamowanego" w „wymuszone po N akcjac
 | **8–12** | po ~1 decyzji na akcję model dostaje wymuszenie batchingu | ✅ **celuje w zmierzony bottleneck** |
 | 1–2 | eskalacja natychmiast | ⚠️ może odebrać modelowi eksplorację, której `commit(plan)` nie zastąpi |
 
-⚠️ **Nie domknąłem:** czy `ARC3_ESCALATE_ACTIONS` jest czytany z env w patchu 0005, czy jest stałą
-w kodzie. **To trzeba sprawdzić przed slotem** — i to jest **ten sam test, który 7911f950 już
-częściowo zrobił** (9/12 testów `test_plan_commit.py` na module wyciągniętym z patcha).
-**Nie zgaduję.**
+> ✅ **DOMKNIĘTE 30.10 ~08:00 — i odpowiedź ZMIENIA mój werdykt.** Zweryfikowałem SAM w
+> `duck-v13-2/arc3-duck-v13.ipynb` (714 156 B), komórka 2:
+> ```python
+> #                       escalation directive every ESCALATE_ACTIONS actions
+> ESCALATE_ACTIONS = 10
+> _v11_os.environ["ARC3_ESCALATE_ACTIONS"] = str(ESCALATE_ACTIONS)
+> ```
+> oraz w treści patcha 0005: `ESCALATE_ACTIONS: actions on one level before the escalation
+> directive.` **Czyli: (a) próg JEST czytany z env, (b) v13.2 ma wartość 10, (c) dyrektywa
+> POWTARZA SIĘ CO N AKCJI (nie jednorazowo — lepiej niż zakładałem), (d) wartość jest LOGOWANA**
+> (`escalate={ESCALATE_ACTIONS} true_concurrency={TRUE_CONCURRENCY}`), więc da się ją potwierdzić
+> z logu rerunu, nie z deklaracji.
+>
+> ❗**KONSEKWENCJA — DZIEWIĄTA KOREKTA MOJEGO WNIOSKU, PIERWSZA NA KORZYŚĆ DŹWIGNI:**
+> **cały ten §2 jest POPRAWNY DLA v13/v13.1, A NIEAKTUALNY DLA v13.2.** Przy `ESCALATE_ACTIONS=60`
+> i ~24–35 akcjach na poziom (2126 akcji/10 gier ÷ 6–9 poziomów) dyrektywa **nie odpalała się
+> nigdy** — więc `commit(plan)` był faktycznie „zareklamowany, niewymuszony". **v13.2 dodaje
+> wymuszenie.** Pełny wywód, arytmetyka i tabela czterech stanów dźwigni: **`OCENA-V13-2.md` §2–§3**.
 
 ---
 
@@ -220,6 +238,13 @@ Oraz: *„model = współczynnik"* — WM GPT-5.4 = **24.67** < nasze 27.21.
 ---
 
 ## 5. Plan — poprawiony po v13.1
+
+> ⚠️ **TEN PLAN JEST NIEAKTUALNY (30.10 ~08:00).** Powstał przed v13.2 i przed
+> `AUDYT-4-GALEZI-30-10.md`. **Aktualny plan: `OCENA-V13-2.md` §7.2**, gdzie parsowanie
+> `serve.log` awansowało na **WARUNEK KONIECZNY** decyzji o slocie: arytmetyka
+> `akcje/grę = 2945 × 1000 / (ms/token × tok/akcję)` pokazuje, że przy **62,6 ms/token**
+> (stan r110) nawet `tok/akcję = 400` daje **118 akcji**, czyli **mniej niż r085 bez batchingu
+> (228)**. **Multiplikator razy zero daje zero** — najpierw silnik, potem slot.
 
 **Trzy rzeczy się zmieniły względem `OPINIE-3-GALEZI-O-V13.md` §6:**
 

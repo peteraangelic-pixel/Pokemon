@@ -379,6 +379,94 @@ Trzy wnioski, które bolą:
    **3,6× w ms/token** warte **82 → 228 akcji/grę**. Nikt jej nie zbadał, bo **nikt nie sparsował
    `serve.log`**. Ta sama lekcja co `concurrency=120` i `EXPOSE_UNDO`: **liczby leżą obok siebie
    w artefaktach i czekają, aż ktoś je porówna.**
+
+17. **`OCENA-V13-2.md`** — ❗**NAJNOWSZE (30.10 ~08:00 UTC) I UNIEWAŻNIA CZĘŚĆ WPISÓW 15–16.**
+   **v13.2 ISTNIEJE**: `Pokemon@a450b00f` commit **`6b108534`** (07:45:14), `arc-agi-3/duck-v13-2/`.
+   Dwie zmiany, obie z audytów innych gałęzi: **`ESCALATE_ACTIONS` 60 → 10** (audyt 7911: commit
+   tylko oferowany, eskalacja to jedyne wymuszenie) + **guard `GAME_OVER` w replayu** (drobiazg
+   Gemmy) + korekta liczby testów (**7+1=8** dopiero od v13.2; opis v13.1 „12+8" był o jeden za duży).
+   ✅ **DOMKNĄŁEM SWOJĄ LUKĘ SAM, nie na deklaracji**: `duck-v13-2/arc3-duck-v13.ipynb` (714 156 B),
+   komórka 2 → `ESCALATE_ACTIONS = 10` i **`_v11_os.environ["ARC3_ESCALATE_ACTIONS"] = str(...)`**,
+   a patch 0005: *„ESCALATE_ACTIONS: actions on one level before the escalation directive"* oraz
+   *„escalation directive **every** ESCALATE_ACTIONS actions"*. **Cztery potwierdzenia: próg JEST
+   z env · wartość 10 · dyrektywa POWTARZA SIĘ co N akcji (lepiej niż zakładałem) · wartość jest
+   LOGOWANA** (`escalate={ESCALATE_ACTIONS} true_concurrency={TRUE_CONCURRENCY}`) ⇒ weryfikowalna
+   z logu rerunu. **Pierwszy raz w tym konkursie dźwignia spełnia wszystkie trzy warunki reguły
+   `SCOPE=run`: czytana z env, ma ścieżkę wymuszenia, loguje wartość.**
+   ❗**DZIEWIĄTA KOREKTA MOJEGO WNIOSKU — PIERWSZA NA KORZYŚĆ DŹWIGNI.** Moje trzy stanowiska
+   wobec `PLAN_COMMIT`: `OCENA-V13-MEGA.md` §7 → **`"0"`** (niezmierzone) · `OPINIE-3-GALEZI` §5 →
+   **ODWRÓCONE na `"1"`** (bottleneck = akcje/decyzję) · `OCENA-V13-1` §2 → **ODWRÓCONE Z POWROTEM
+   na `"0"`** (7911: tylko dopis do promptu, *„nie ma żadnego wymuszenia"*, eskalacja po 60) ·
+   **teraz → `"1"` + `ESCALATE=10` jest spójną konfiguracją testującą bottleneck.**
+   **To nie flip-flopping, tylko konwergencja: każde odwrócenie wymusił NOWY FAKT Z KODU.**
+   Stanowisko (3) było **poprawne dla v13/v13.1** (tam próg 60 > długość poziomu ~24–35 akcji,
+   więc **nie odpalał się nigdy**); (4) jest poprawne **dla v13.2**. **Reguła do `FAKTY`:
+   „dźwignia niezmierzona", „niewymuszona" i „wymuszona" to TRZY RÓŻNE STANY — nie wolno
+   przenosić werdyktu między wersjami bez przeczytania diffu.**
+   ❌ **AUDYT 7911f950 MÓWI „v13.2 NIE ISTNIEJE" — NIEAKTUALNE O 10 MINUT.** Ich `V13-AUDIT-30OCT.md`
+   §1 (commit `57d04aa0`, **07:55:27**): *„git grep na wszystkich gałęziach — brak; najnowszy commit
+   `a450b00f` = `cbefdd4`, brak nowszego"*. **Fakt: v13.2 = `6b108534`, 07:45:14, katalog
+   `duck-v13-2/` (14 plików).** Ich `git fetch` był przed 07:45. **To nie zarzut nieuwagi, tylko
+   race condition — ale w PRZEDMOWIE TEGO SAMEGO DOKUMENTU wytknęli sobie DOKŁADNIE ten błąd:**
+   *„Napisałem, że diffu v13→v13.1 nie da się odtworzyć. **To było nieprawdziwe** … klon był
+   single-branch i pierwszy `git fetch` nie pobrał historii … **twierdzić „nie ma", nie
+   sprawdziwszy, czy ref jest w ogóle pobrany**"* — **czyli zdiagnozowali klasę błędu i 20 linii
+   niżej popełnili ją ponownie.** Konsekwencja merytoryczna: **ich audyt wykluczył z zakresu wersję,
+   która naprawia wadę, którą sami znaleźli.**
+   ✅ **Reszta ich audytu wartościowa — diff v13→v13.1 to DOKŁADNIE DWIE zmiany w kodzie**
+   (`_sanitize(game_id)` → `base_key(game_id)`; usunięcie bramki `pass_index < 4` w `dead_skip`),
+   co jest **kodowym potwierdzeniem mojego §2.3**: w v13 `dead_skip` przy `pass_index` **zawsze 0**
+   ⇒ `0 < 4` ⇒ `return False` ⇒ **nie odpalał nigdy**.
+   ❗**NAJWAŻNIEJSZA NOWA LEKCJA (7911): „TESTY 6/6 ZIELONE PRZY MARTWEJ FUNKCJI".** v13 miał
+   `ALL CHECKS PASSED`, 6/6 patchy, 12/12+6/6 testów **na spatchowanym drzewie**, przełącznik w obie
+   strony — **a dwie z trzech dźwigni były martwe w konfiguracji submisyjnej**. Powód:
+   `test_winpath.py` używa **mocka solvera**, w którym `pass_index` przyjmuje 1,2,3,4 — **wartości,
+   których rerun nigdy nie produkuje** (`n_passes=1` ⇒ zawsze 0). **W `OCENA-V13-MEGA.md` §5.2
+   pochwaliłem tę dyscyplinę jako lepszą od mojej — i słusznie, ale ona NIE WYSTARCZYŁA.**
+   **PEŁNA TAKSONOMIA KLASY BŁĘDU (6 instancji, §5):** `SCOPE=run` (walidator, cicha degradacja) ·
+   `concurrency=120` (spójność międzywarstwowa) · `EXPOSE_UNDO` (domyślne legacy) · `official_110`
+   (nazwa vs docstring) · `commit(plan)` (prompt vs zachowanie) · **`dead_skip` (MOCK TESTU vs
+   KONFIGURACJA SUBMISJI)**. **REGUŁA NAJWYŻSZEGO RZĘDU: ZIELONE TESTY MODUŁU NIE DOWODZĄ, ŻE
+   FUNKCJA WYKONUJE SIĘ W KONFIGURACJI SUBMISYJNEJ.** Brakująca warstwa to **test OSIĄGALNOŚCI**,
+   nie poprawności: *„przy `TRUE_SUBMISSION=1` i `n_passes=1`, czy ten kod w ogóle zostanie
+   osiągnięty?"* — **nikt w czterech gałęziach go nie ma.** Propozycja (§5): krok w `verify_v13.py`
+   wypisujący **ścieżkę warunków** od `TRUE_SUBMISSION` do efektu każdej dźwigni i flagujący
+   zmienne **stałe w rerunie**. Złapałby `dead_skip` w v13 **automatycznie, bez trzech recenzji**.
+   ⚠️ **NOWE PODEJRZENIE, KTÓREGO NIKT NIE SPRAWDZIŁ: `DEAD_SKIP` W v13.1/v13.2 PRAWDOPODOBNIE
+   ZNOWU JEST MARTWY** — licznik `passes_completed` per `base_key` nigdy nie dojdzie do 3, jeśli
+   każda gra występuje w rosterze **RAZ**. Gemma testowała dead-skip na **5 powtarzanych wpisach
+   `ar25`**, czyli **w scenariuszu wykluczonym przez retrakcję Smaka §15**. **Czwarta instancja
+   testowania na założeniu, które odpadło.**
+   ❗**ARYTMETYKA, KTÓRA ZMIENIA KOLEJNOŚĆ (§6).** Wzór Gemmy `akcje/grę = 2945 s / (s na akcję)`,
+   a `s/akcja` liniowe w ms/token (r=0,99–1,00) ⇒ **`akcje/grę = 2945 × 1000 / (ms/token × tok/akcję)`**:
+   · r085: 17,2 × 647 = 11 128 → **265** (Gemma mierzy 228, rząd zgodny) · r110: 62,6 × 572 = 35 807
+   → **82** ✓ dokładnie jej pomiar · **CEL 400 akcji wymaga `ms/token × tok/akcję ≤ 7 362`**, czyli
+   przy 17,2 ms/tok → tok/akcję ≤ **428**, albo przy tok/akcję 400 → ms/tok ≤ **18,4**.
+   **SAM BATCHING PRZY 62,6 ms/TOKEN DAJE 2945×1000/(62,6×400) = 118 AKCJI — NADAL PONIŻEJ 228
+   Z r085 BEZ BATCHINGU.** ⇒ **`ESCALATE_ACTIONS=10` bez naprawy silnika NIE DAJE 400 akcji, a może
+   być GORSZY od r085.** **Dwie dźwignie są MULTIPLIKATYWNE: `commit(plan)` mnoży akcje/wywołanie,
+   luka silnika mnoży wywołania/sekundę. MULTIPLIKATOR RAZY ZERO DAJE ZERO.**
+   ⚠️ **Ich uzasadnienie liczbowe używa STAREJ linii**: README v13.2 *„dziś **1,0 akcji/decyzję** →
+   sufit ~19–31; 2,0 → ~51"* to liczby 7911 z **r013/r015/r018**. **Nasza szybka linia (r019) ma
+   4,357 akcji na wywołanie** — czyli **nie startujemy z 1,0**. Zmiana jest słuszna i darmowa, ale
+   **projekcja „sufit ~51" nie jest naszą podstawą decyzji.** Rozróżnienie trzech metryk (§6):
+   **akcje/grę 212,6** (budżet czasu) · **akcje/wywołanie 4,357** (batching) · **„akcje/decyzję"
+   1,00** (stara linia) — **nie są zamienne.**
+   **PLAN AKTUALNY (§7.2) — pkt 1 AWANSOWAŁ NA WARUNEK KONIECZNY:**
+   **1** ❗sparsować `serve.log` (r085 986 600 B = 17,2 ms/tok · r110 = 62,6 · r093 1 143 523 B):
+   obłożenie puli KV w czasie, kolejki po cache, prefix-cache (r085: 93,2%), ms/tok **per gra** —
+   **0 GPU, 0 slotów, PC usera** · **2** pobrać log rerunu **57737623** → 110 `game_id` ·
+   **3** test OSIĄGALNOŚCI w `verify_v13.py` (§5) · **4** slot 30.10 **decyzja PO pkt 1**: silnik
+   ~17 ms/tok → **v13.2 + probe ON**; silnik ~60 ms/tok → **v13.2 z `ESCALATE_ACTIONS` 20–25** albo
+   **v11 + `CAP=0`** (nie dokładać batchingu do zduszonego silnika) · **5** slot 31.10 = drugi draw ·
+   **6** 1.11/2.11 = najlepsza + select best.
+   **Wysyłanie v13.2 przed zmierzeniem silnika to powtórzenie błędu v11: zmiana bez pomiaru zasobu,
+   który ją ogranicza.**
+   ❌ **NOWE „NIE ROBIĆ":** `PLAN_COMMIT="1"` **przy `ESCALATE_ACTIONS=60`** (nie odpala nigdy) ·
+   **wysyłanie v13.2 przed sparsowaniem `serve.log`** · traktowanie **zielonych testów modułu** jako
+   dowodu, że dźwignia wykonuje się w submisji.
+   **Oczekiwanie ~28–30 · cel srebro ≈32.33 · ścieżka do 40+ JEDNA i niezmieniona: odzyskać
+   17,2 ms/token.** v13.2 dokłada do tego **multiplikator**, ale multiplikator razy zero daje zero.
    ❌ **NOWE „NIE ROBIĆ": podnoszenie `max_runtime_s_per_game` (cap nigdy nie wiąże) oraz
    oszczędzanie tokenów/akcję jako GŁÓWNA dźwignia (r110: 572 vs 647 tok/akcję i 2,8× mniej akcji).**
 
