@@ -431,12 +431,19 @@ def check_cross_layer(cells, patch_texts, baselines):
                 })
 
         # (c) próg niższy niż ludzki baseline -> dyrektywa odpala PRZEDWCZEŚNIE (wskaźnik pomocniczy)
+        # ⚠️ SELF-PACE NADPISUJE FLOOR: gdy ARC3_ESCALATE_SELF_PACE=1, próg w rerunie to NIE jest
+        # `e`, tylko clamp(1.5 x mediana(własnych akcji), e, 120). Flagowanie "próg 20 przedwczesny"
+        # jako WYSOKIE byłoby więc FAŁSZYWYM POZYTYWEM na pakiecie, który problem już rozwiązał
+        # (trzecia taka poprawka w tym narzędziu). Zostaje INFO z wyjaśnieniem.
+        _selfpace = bool(re.search(r"ARC3_ESCALATE_SELF_PACE|_escalate_self_pace", joined))
         if rate >= 0.75:
             f.append({
                 "kontrola": "L4 SPÓJNOŚĆ MIĘDZYWARSTWOWA",
-                "ważność": "WYSOKA",
+                "ważność": "INFO" if _selfpace else "WYSOKA",
                 "komórka": "-", "linia": "-",
-                "kod": f"ESCALATE_ACTIONS={e} vs base_actions_per_level (n={n}, mediana 72, min 6, max 578)",
+                "kod": f"ESCALATE_ACTIONS={e} vs base_actions_per_level (n={n}, mediana 72, min 6, max 578)"
+                       + ("  [self-pace AKTYWNY: w rerunie próg = clamp(1.5x mediana, "
+                          f"{e}, 120), więc {e} jest tylko DOLNĄ GRANICĄ]" if _selfpace else ""),
                 "problem": f"przy progu {e} dyrektywa eskalacyjna (tekst: przestań próbować ręcznie, "
                            f"zbuduj model) odpala PRZED ludzkim "
                            f"baseline'em na **{k}/{n} = {100*rate:.1f} %** zmierzonych poziomów",

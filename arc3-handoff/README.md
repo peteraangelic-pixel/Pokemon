@@ -583,6 +583,177 @@ Trzy wnioski, które bolą:
    **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
    powiedzieć dziesiąty raz, niż obiecać jedenaście.**
 
+21. **`AUDYT-V17-AE-I-V13-6-FINAL.md`** — ❗**NAJNOWSZE (30.10 ~10:05 UTC). Fala 09:14–09:25:
+   paczka sesji Arena BEZ poświadczeń GitHuba (`duck-v17-action-efficiency`, zip 44 762 B, blob
+   `e17214ae`, 21 plików, wgrany ręcznie na Smak `283a36b8`) + recenzja a450 `2e2337c9` + audyt
+   Gemmy `79f066dc` z `local-lab/leverage.py` + `duck-v13-6-final` Smak `3bf4d3e0`. 7911: nic nowego
+   od 08:22.** **Paczkę URUCHOMIŁEM** (7/7, `run_eval.py 12` → 3,80 / 40,06 / +36,26), metrykę
+   przeliczyłem z oficjalną regułą, a jeden defekt **udowodniłem wykonawczo**.
+   ✅ **PACZKA JEST RZETELNA: wszystkie liczby odtwarzają się CO DO JEDNEJ w ~21 s** (czysty Python),
+   a autor sam deklaruje „NIEZWERYFIKOWANE NA GPU", „2 z 4 gier przegrywa" (colorclicks 5,89 → **0,00**
+   = REGRESJA), „RHAE 40,06 nie oznacza 40 % na leaderboardze" i **rekomenduje duck-v16 oraz „nie
+   twórzcie v18"** — zbieżnie z Gemmą i a450 (trzy niezależne sesje, ten sam wniosek).
+   ❌ **ALE NAGŁÓWEK JEST PRZESZACOWANY O 9,4 %: 40,06 → 36,31.** `run_eval.py::game_score` ma cap
+   per-POZIOM (1,15 — poprawny), ale **BRAKUJE capu per-GRĘ** z `taaf/game.py` L385-414
+   (`max_score = max_weights/total_weights*100; return min(score, max_score)`). Ponieważ ukończony
+   poziom daje do **1,15 > 1,0**, średnia ważona może przekroczyć `100 × pokrycie` — oficjalnie nie
+   może. **Policzyłem, uruchamiając ICH WŁASNY `run_level` z dwiema wersjami `game_score`:**
+   keydoor **115,00 → 100,00** (−15,00), pushblock/switchorder/colorclicks bez zmian,
+   **TOTAL 40,06 → 36,31 (−3,75)**, różnica planner−reactive **+36,26 → +32,51**. REACTIVE nietknięty
+   (3,80 w obu — żaden poziom nie dochodzi do 1,0). **Błąd NIE JEST LOSOWY, JEST SKIEROWANY W STRONĘ
+   TEZY**: metryka bez capu systematycznie nagradza dokładnie to, co paczka optymalizuje (schodzenie
+   poniżej baseline, gdzie `min(·,1.15)` już wiąże). Ta sama klasa co 7911 „cap per-level = 1.0" —
+   tyle że tu brakuje capu per-GRĘ.
+   ❌ **40,06 MIERZY PLANISTĘ, NIE WARSTWĘ — potwierdzam Gemmę z grafu importów:**
+   `grep -rln action_efficiency_layer .` → **tylko README/RAPORT/STATUS/test_layer.py**;
+   `run_eval.py` importuje wyłącznie `sim.GAMES` i `agent.{ReactiveAgent,PlannerAgent}`, a
+   `agent.py` (12 832 B) i `sim.py` **nie mają ANI JEDNEGO** odwołania do `PlanCache` /
+   `ConvergedGuard` / `BudgetLedger` / `HarnessHook`. Warstwę sprawdza **tylko** 7 testów na ręcznie
+   spreparowanych wejściach, **żaden nie dotyka gry, agenta ani licznika RHAE**. `STATUS.md` §5 mówi
+   „nie ma modelu w pętli", ale **NIE mówi „warstwa nie jest w pomiarze"**.
+   ❌ **„12 SEEDÓW" TO n = 1 — potwierdzam Gemmę i dowodzę empirycznie:** `sim.py` L26 zapisuje
+   `random.Random(seed*1000+level)`, ale **L135 `random.Random(level*77+5)` i L223 `level*31+11`**
+   losują poziom **LOKALNYM rng kluczowanym TYLKO na `level`**. Wykonawczo: **5 seedów → 1 unikalna
+   konfiguracja świata** dla każdej z 4 gier, `human_actions()` identyczne (18/39/3/35), stąd
+   `stdev = 0,00`. Zarzut o BRAK POKRYCIA, nie o fałsz.
+   ❌ **INSTANCJA #11 — GUARD, KTÓRY ROZSYPIE SIĘ NA PIERWSZEJ AKCJI MYSZOWEJ.** a450 to wypatrzył,
+   **ja udowodniłem wykonawczo**: `ConvergedGuard().commit({"id":"CLICK","x":3,"y":4})` ×3 →
+   **`TypeError: unhashable type: 'dict'`**. Że to realne, a nie teoretyczne: `taaf/game.py` L512-521
+   **WYMAGA** dicta dla akcji złożonych (`if action.id.is_complex(): x = action.data["x"];
+   y = action.data["y"]` — CLICK/ACTION6). **A 7/7 testów przechodzi, bo testy karmią guard
+   wartościami, których harness NIGDY nie produkuje**: `g.commit(("act", b"A"))` (krotka),
+   `("act", lvl, step)` (krotka intów), `"bad"` / `["bad","good"]` (stringi) — **ani razu dict**.
+   `filter()` robi `c not in self.banned`, a `in` na dict wymaga hashowalnego klucza.
+   **TO DOKŁADNIE TA SAMA FORMA CO #6 (mock karmił pass_index 1,2,3,4) I #7 (mock bez atrybutu `raw`).**
+   Ironia: ta sama sesja wytknęła innym „testy 6/6 zielone przy martwej funkcji" — **jej wersja jest
+   twardsza**: zielone testy + kod, który pada na prawdziwym wejściu. **Naprawa (a450 podał dobrą):**
+   kluczować po `repr(action)` — wzorzec **już jest w tym samym pliku** (L27
+   `blake2b(repr(obs).encode())`). Drugi defekt a450 potwierdzony: `agent.py:161`
+   `if False and ...` — reguła cofnięcia bana świata **WYŁĄCZONA NA STAŁE**.
+   ❌ **JEDNO WNIOSKOWANIE W `STATUS.md` PRZECZY ICH WŁASNEJ POPULACJI:** „próg 10 → 154 wstrzyknięcia,
+   31/32 przedwczesnych. Czyli **2/3 nudge'y idzie w poziomy, których i tak nie ukończycie**".
+   Pierwsza część poprawna (154 i 31/32 odtworzyłem co do jednej). **Druga FAŁSZYWA i sprawdzalnie:**
+   populacja tych 32 poziomów to poziomy **UKOŃCZONE** ⇒ **100 % nudge'y poszło w poziomy, które
+   ZOSTAŁY ukończone.** „Przedwczesny" = próg odpalił, gdy agent miał MNIEJ akcji niż ludzki baseline,
+   czyli **wygrywał poziom szybciej niż człowiek**. **Marnotrawstwo jest dokładnie ODWROTNE niż
+   twierdzą**: nie „płacicie za poziomy, których nie ukończycie", tylko **„przerywacie poziomy, które
+   właśnie wygrywacie"**. A to zdanie uzasadnia `BudgetLedger` — jeśli diagnoza jest odwrócona, lek
+   jest na inną chorobę (Gemma niezależnie: `pick_game` **nie mapuje się na równoległy solver**,
+   abandonment już robi `dead_skip`).
+   ✅ **`duck-v13-6-final` (Smak `3bf4d3e0`) ZAADOPTOWAŁ MOJĄ POPRAWKĘ** — message commita wprost:
+   *„fix martwego alarmu a/call<1.5 (**c87 warstwa-8**: bezwarunkowy druk z baza r019=**4.357**,
+   celami **5.7/7.6** i bramka 7911>=6.0)"* + *„self-pace **22/14 1:1**"* + *„**r085 22/14 przez
+   3 strony**"* (= Gemma tabela + a450 uruchomiony test + **moja replikacja na r085 i r093**).
+   Komórka 39 drukuje bezwarunkowo z moją bazą i moimi celami; komórka 2 dokumentuje *„a/call alarm
+   `< 1.5` was dead"*. **CERTYFIKAT: `verify_v13.py --bundle r033 --tests` → ALL CHECKS PASSED**
+   (9/9 patchy na czystym r033, drzewo kompiluje, 12 plan-commit + 6 escalate + 11 winpath na
+   spatchowanym drzewie, fixtures == shipped, playbook bajt-w-bajt). **40 komórek, 743 616 B,
+   slug własny `petersharps/arc3-duck-v13-6-final`, `code_file` istnieje. CZEKA NA GO.**
+   | moja poprawka | v13.6-final |
+   |---|---|
+   | 1 `code_file` | ✅ niepotrzebna |
+   | 2 slug | ✅ niepotrzebna (własny) |
+   | 3 martwy alarm | ✅ **ZAADOPTOWANA** (moja baza + moje cele + bramka 7911) |
+   | **4 bramka `NO-GO 29.02`** | ❌ **NADAL** (kom. 38 ln 94) |
+   | **5 `depth_budget_used_pct`** | ❌ **NADAL** (kom. 38 ln 84) |
+   | **6 docstring 0009 27/16** | ❌ **NADAL** (patch „bajt w bajt" z Gemmy = z błędnym docstringiem) |
+   **Bramka na v13.6-final: 5 ustaleń, 1 KRYTYCZNE — i to KRYTYCZNE to mój #10, którego nikt poza mną
+   nie znalazł.** Zbudowałem **`duck-v13-6-final-c87f`** (`build_c87_v16f.py`, teraz **IDEMPOTENTNY**:
+   FIX 1/2 „już poprawne", FIX 3 „2x JUŻ ZASTOSOWANE — pomijam", FIX 4/5/6 zastosowane) →
+   **40 → 40 komórek, różni się DOKŁADNIE JEDNA (38)**, kom. 6 (`%%writefile harness-changes.patch`,
+   tekst diff) bajt w bajt identyczna, metadata bez zmian ⇒ **BRAMKA: 4 ustalenia, 0 KRYTYCZNYCH** ✅
+   ⚠️ **MÓJ BŁĄD W FIX 6, ZŁAPANY I NAPRAWIONY:** pierwsze uruchomienie dało w patchu *„fires **22**
+   times … on **16** levels"* = **22/16, LICZBĘ ZGADZAJĄCĄ SIĘ Z ŻADNĄ Z TRZECH**. Przyczyna: wzorzec
+   obejmował `\n    16 levels`, a **w pliku `.patch` każda linia ma prefiks `+`** ⇒ pasował do fixture
+   (`.py`), nie do patcha. **Poprawka: dwa niezależne podciągi JEDNOLINIOWE + asercja, że OBA weszły.**
+   **Lekcja: w pliku diff wzorzec wieloliniowy jest pułapką — prefiksy `+`/`-`/spacja łamią dopasowanie.**
+   ⚠️ **TRZECI FAŁSZYWY POZYTYW MOJEGO WERYFIKATORA, też złapany:** L4(c) flagowało „`ESCALATE_ACTIONS=20`
+   przedwczesny na 66/69 = 95,7 %" jako WYSOKIE — **ale przy `SELF_PACE=1` próg w rerunie to NIE 20**,
+   tylko `clamp(1.5×mediana, 20, 120)`; flagowałem problem, który pakiet **już rozwiązał**. → INFO
+   z dopiskiem „`{e}` jest tylko DOLNĄ GRANICĄ". (Poprzednie dwa: `MAXREQ=0` z komentarzy/env-default
+   oraz L6 bez rozpoznawania strażnika.)
+   ❗**NAJWAŻNIEJSZA LICZBA FALI: KRAŃCOWY KOSZT +1 POZIOMU = 87 AKCJI — TA SAMA Z DWÓCH NIEZALEŻNYCH
+   RUNÓW.** ✅ **Gemma odtwarza się CO DO JEDNEJ** (policzyłem z surowego r085): „213 akcji/grę" →
+   moje **212,6**; „**166 (78 %)** na ukończonych" → **165,6 (77,9 %)**; „cięcie 30 % oddaje ~50 akcji"
+   → **49,7**; „+11 min" → **10,7 min**; ich tabela per-gra (tn36 3,6 · m0r0 46,3 · cn04 71,4 · dc22
+   27,7 · ka59 49,9 · sc25 17,1 · s5i5 8,3 · ls20 8,8 · su15 13,3 · g50t 21,4, średnia **26,78**) =
+   **identyczna z moim niezależnym pomiarem**. ❌ **ALE „~1,2 poziomu/grę" z 50 akcji POPRAWIAM:**
+   Gemma przelicza CZAS na poziomy (implikuje ~42 akcje/poziom), a ja zmierzyłem koszt **KRAŃCOWY**:
+   | | r085 | r093 |
+   |---|---|---|
+   | baseline **pierwszego NIEukończonego** poziomu | mediana **110** (śr. 153, max 500) | mediana **95** (śr. 123, max 324) |
+   | nasz stosunek akcji/baseline na **ukończonych** | **0,790** | **0,915** |
+   | ⇒ **KRAŃCOWY KOSZT +1 POZIOMU** | **87 akcji** | **87 akcji** |
+   | akcje na PIERWSZY vs OSTATNI ukończony | 21 → 39 (**1,86×**) | 27 → 50 (**1,85×**) |
+   | 50 odzyskanych ÷ 87 | **0,57 poziomu** | 0,59 |
+   **87 z DWÓCH runów mimo różnych baseline'ów (110 vs 95) i współczynników (0,790 vs 0,915) ⇒
+   szacunek ODPORNY.** Poziomy drożeją **1,86×**, więc krańcowy jest DROŻSZY od przeciętnego
+   (66,4/85,7) — a Gemma wzięła liczbę **PONIŻEJ** nawet przeciętnej (42).
+   | ścieżka | odzyskane akcje/grę | poziomy (÷87) | punkty (×16,42) |
+   |---|---|---|---|
+   | **cięcie 30 % na ukończonych** (warstwa action-efficiency) | **50** | **0,57** | **+9,4** |
+   | **hint openerowy** (a/call 4,514 → 6,73, pomiar upstream) | **+104** (212,6→317) | **1,20** | **+19,7** |
+   ⇒ **Gemma podaje DOBRĄ liczbę (+1,2 poziomu / +19 pkt), ale przypisuje ją ZŁEMU MECHANIZMOWI.**
+   Ich wniosek jakościowy (**„akcje są warte nie jako mnożnik, tylko jako PALIWO do przekierowania
+   na poziomy nieukończone"**) jest **słuszny i najważniejszy w tej fali**; liczba przy nim wymaga
+   tej korekty. **Rekomendacji to NIE zmienia — wzmacnia ją:** obie ścieżki to „więcej akcji/grę",
+   ale hint jest **zmierzony upstream i kosztuje ZERO tokenów**, a warstwa jest **niezmierzona
+   (0 pomiarów), ma bug hashowalności i wymaga integracji w 9-patchowym łańcuchu**.
+   ⚠️ **13. SELF-KOREKTA — MOJE WŁASNE TWIERDZENIE BYŁO BŁĘDNE.** Napisałem: *„na ukończonych
+   jesteśmy WOLNIEJSI od człowieka (mediana 54 vs baseline 42)"*. **Porównałem MEDIANY DWÓCH RÓŻNYCH
+   ROZKŁADÓW zamiast mediany STOSUNKÓW per poziom.** Poprawnie: **mediana stosunku akcje/baseline na
+   ukończonych = 0,790 (r085) / 0,915 (r093) ⇒ JESTEŚMY SZYBSI od człowieka na poziomach, które
+   kończymy.** **Niezależne potwierdzenie z zewnątrz:** Tong Hui Kang (26. m., dyskusja 744792) o
+   zwycięzcach M2: *„cleared levels median **0,8× baseline**, 64 % at/under baseline"* — **moje
+   0,790/0,915 trafia dokładnie w ich 0,8.** Konsekwencja idzie W TYM SAMYM KIERUNKU: skoro jesteśmy
+   przy 0,8× baseline, a saturacja capu 1,15 następuje przy **0,93× baseline**, to **zostało ~17 %
+   luzu na poziomach już wygranych, a +1 poziom = +16,42 pkt. EFEKTYWNOŚĆ JEST PRAWIE WYCZERPANA;
+   POKRYCIE NIE JEST RUSZONE.**
+   **SKONSOLIDOWANA ARYTMETYKA 50 PKT — TRZY MODELE:** **A** mój sufit × wykorzystanie → +1,57
+   poziomu → ~317 akcji/grę → **a/call 6,73 (1,49×)** · **B** krzywa Gemmy + mój koszt krańcowy 87 →
+   +1,41 poziomu → +123 akcje → ~336 akcji/grę → **a/call 7,13 (1,58×)** · **C** Gemma/7911
+   (dopasowanie akcje→wynik) → 253 akcji/grę → ~5,6–6,0. **A i B — dwie zupełnie różne drogi —
+   ZGADZAJĄ SIĘ CO DO 6 %.** C jest o **17–25 % niżej**; nie twierdzę, że zły (może łapać wzrost
+   *wykorzystania* sufitu, który my trzymamy stały), twierdzę, że **rozstrzał między modelami jest
+   WIĘKSZY niż efekt do zmierzenia w 3 slotach.** Spójny zapis: **+1 poziom/grę kosztuje ~87 akcji
+   krańcowo i jest wart +16,42 pkt ⇒ 1 pkt ≈ 5,3 krańcowej akcji/grę ⇒ 50 pkt ≈ 336 akcji/grę ≈
+   tok/akcję ≤ 422 ⇒ a/call ≥ 7,13** (przy tok/wywołanie 3008,9). **Plus ograniczenie, którego żaden
+   z trzech modeli nie obejmuje: wykorzystanie sufitu waha się 79,1–89,9 % między naszymi własnymi
+   runami = ±10 pkt przy tej samej liczbie poziomów.**
+   **CO WARTO ZACHOWAĆ Z v17 (zgodnie z Gemmą i a450, niezależnie):** **`ConvergedGuard` łapiący
+   pętle DŁUŻSZE NIŻ OKNO** — jedyny realnie nowy mechanizm, ale **NIE jako nowa warstwa**: win-path
+   (0006) **już haszuje klatki**, więc to ~20 linii włącznika **po naprawieniu klucza na
+   `repr(action)`**. `PlanCache` ≈ nasz playbook (mamy własny pomiar NEGATYWNY: sweep **0/3** na
+   nowych grach — cache planów nie generalizuje). `BudgetLedger.pick_game` **nie mapuje się na
+   równoległy solver**. `AVX512/` ortogonalne (a450 skompilował: maski +104 % na AVX2, FMA ~0 %),
+   **nic z tego nie wchodzi do paczki**.
+   **KANDYDAT NA SLOT: 1. `duck-v13-6-final-c87f`** = v13.6-final + moje **FIX 4/5/6** (bramka
+   **0 KRYTYCZNYCH**) — jedyny pakiet łączący certyfikat **9/9 na czystym r033**, **self-pace żywy
+   w rerunie** (22/14/2,27 % zamiast 42/26/4,33 %), **hint openerowy**, **sondę baseline + ważone
+   pokrycie**, **naprawiony instrument a/call** i **instrumenty, które NIE KŁAMIĄ w submisji**.
+   **Moje 3 poprawki nie dotykają ANI JEDNEGO patcha harnessu** (tylko komórka 38 + 2 docstringi),
+   więc nie powinny naruszyć certyfikatu — **ale potwierdzić może to tylko ten, kto ma bundla r033.**
+   **2. `duck-v13-6-final` bez poprawek** — jeśli nikt ich nie zweryfikuje; koszt: log wydrukuje
+   **fałszywe `NO-GO`** i **`21200.0% of a full clear`**, a decyzja na 1.11 idzie z logu, który kłamie
+   (**koszt realny, ale NIE punktowy**). **NIE: v16/v15 Gemmy** (code_file nie istnieje + slug nadpisuje
+   cudzy kernel) · **v13.4/v13.5** (brak self-pace i instrumentu a/call) · **v15-a450** (brak hinta) ·
+   **v17-action-efficiency jako WERSJA** (to nie duck: brak modelu, harnessu i bramki; 40,06
+   nieporównywalne z 26,78).
+   **CZYTAĆ Z LOGU W TEJ KOLEJNOŚCI: 1** `baseline=yes|no` (**pierwszy pomiar**, który potwierdzi albo
+   obali „silnik ukrywa baseline" — 0 z 5 runów nigdy nie pokazało `null`) · **2** `mean_coverage`
+   (SUFIT; wynik nigdy go nie przekroczy) · **3** `v13.6 batch: a/call` (drabinka 4,357 / 5,7 / 6,0 /
+   **7,13**) · **4** `duplicate_bases` (wartość `WINPATH`) · **5** `budget_probe`.
+   **Prognoza bez zmian: ~28–31 · srebro ≈32,33 · 50 pkt wymaga a/call ≈ 6,7–7,1 (1,5–1,6× batchingu)
+   ORAZ przekierowania odzyskanych akcji w poziomy nieukończone po koszcie krańcowym 87.**
+   Stanowisko: **„arytmetycznie w zasięgu, ale NIEWERYFIKOWALNE w 3 slotach"** — i mam na to **TRZECI**
+   powód poza σ i progiem +5: **wykorzystanie sufitu 79,1–89,9 % = ±10 pkt przy tej samej liczbie
+   poziomów.** NIC nie wysłane, NIC nie wypchnięte; BEZPIECZNIK obowiązuje (v13.6-final też „CZEKA NA GO").
+   **Reset workspace #13** w tej turze (LOCAL cofnięty do `ca72e320` przy REMOTE `bf38e37`) — odzyskany.
+   **NIE zweryfikowałem** `ARC3/REVIEWS/2026-10-30-audyt-galezi-i-duck-v17.md` (audyt nowej sesji
+   o NASZYCH gałęziach), `PUSH_INSTRUCTIONS.md`, `RAPORT.html` ani `AVX512/` — jeśli ktoś będzie je
+   cytował, trzeba to zrobić osobno.
+
+
 20. **`POROWNANIE-V15-V16-V13-4-V13-5.md`** + **`tools/build_c87_v16f.py`** (247 ln)
    ❗**NAJNOWSZE (30.10 ~09:40 UTC). Fala 08:00–08:50: powstało PIĘĆ pakietów (dwa różne `duck-v15`,
    `v13.4-unified`, `v13.5-consensus`, `duck-v16`) + `V17-COMPARE` 7911. Porównałem wszystkie,

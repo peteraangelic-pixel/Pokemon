@@ -119,11 +119,21 @@ DRUK_STARA = '''          f"({_summary['depth_budget_used_pct']}% of a full clea
 DRUK_NOWA = '''          f"({(_summary['depth_budget_used_pct'] if _summary['depth_budget_used_pct'] is not None else 'n/a — baseline ukryty')}% of a full clear) "'''
 
 # --- 6. docstring patcha 0009 i fixture: 27/16 -> 22/14 -----------------------
+# ⚠️ WZORCE MUSZĄ BYĆ JEDNOLINIOWE: w pliku .patch każda linia ma prefiks "+", więc wzorzec
+# obejmujący "\n    16 levels" pasuje do fixture (.py), ale NIE do patcha. Pierwsza wersja
+# zastosowała się POŁOWICZNIE: patch dostał "22 times" i został przy "16 levels", czyli mówił
+# 22/16 — LICZBĘ, KTÓRA NIE ZGADZA SIĘ Z ŻADNĄ Z TRZECH. Poniżej: dwa niezależne podciągi
+# jedoliniowe + asercja, że OBA weszły (inaczej skrypt pada, nie wypuszcza pół-poprawki).
 DOCSTRING = [
     ("fires 27 times instead of 42", "fires 22 times instead of 42"),
-    ("before the human baseline on\n    16 levels instead of 26", "before the human baseline on\n    14 levels instead of 26"),
-    ("on\n    16 levels instead of 26", "on\n    14 levels instead of 26"),
+    ("16 levels instead of 26", "14 levels instead of 26"),
 ]
+
+
+# Znaczniki już zastosowanych poprawek — build jest IDEMPOTENTNY: pakiet, który część z nich
+# już ma (np. v13.6-final ma FIX 3 wzięty z mojej warstwy-8), dostaje "już zastosowane", nie błąd.
+ZNACZNIKI = {"c87f FIX 3": "FIX 3", "c87f FIX 4": "FIX 4", "c87f FIX 5": "FIX 5",
+             "4.357": "FIX 3", "mean_actions_need\'] == 0": "FIX 4"}
 
 
 def _podmien(text: str, stary: str, nowy: str, etykieta: str) -> tuple[str, int]:
@@ -162,15 +172,22 @@ def main() -> int:
     else:
         raport.append(f"FIX 1 (L7 code_file) : {stary_cf!r} — już poprawny, bez zmian")
     stary_id = meta.get("id", "")
-    meta["id"] = f"{stary_id.split('/')[0]}/{NOWY_SLUG}" if "/" in stary_id else NOWY_SLUG
-    meta["title"] = NOWY_SLUG
-    raport.append(f"FIX 2 (L7 slug)      : {stary_id!r} -> {meta['id']!r}")
+    slug = stary_id.split("/")[-1] if stary_id else ""
+    slug_n = slug.replace(".", "").replace("-", "")
+    wersje = set(re.findall(r"v\d+(?:[\.-]\d+)?", meta["code_file"].lower()))
+    if slug and wersje and any(v.replace(".", "").replace("-", "") in slug_n for v in wersje):
+        raport.append(f"FIX 2 (L7 slug)      : {stary_id!r} — JUŻ WŁASNY (zgadza się z {meta['code_file']}), bez zmian")
+    else:
+        meta["id"] = f"{stary_id.split('/')[0]}/{NOWY_SLUG}" if "/" in stary_id else NOWY_SLUG
+        meta["title"] = NOWY_SLUG
+        raport.append(f"FIX 2 (L7 slug)      : {stary_id!r} -> {meta['id']!r}  [poprzedni był CUDZY]")
     meta_p.write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
 
     # ---- FIX 3 + 4 + 5: notebook --------------------------------------------
     nb_p = dst / meta["code_file"]
     nb = json.loads(nb_p.read_text(encoding="utf-8"))
-    liczniki = {"alarm": 0, "bramka": 0, "dbup": 0, "druk": 0}
+    liczniki = {"alarm": 0, "bramka": 0, "dbup": 0, "druk": 0,
+                "alarm_juz": 0, "bramka_juz": 0, "dbup_juz": 0}
     for c in nb["cells"]:
         if c.get("cell_type") != "code":
             continue
@@ -180,38 +197,63 @@ def main() -> int:
             if stary in s:
                 s, _ = _podmien(s, stary, nowy, "FIX 3 alarm")
                 liczniki["alarm"] += 1
+            elif "4.357" in s and "< 1.5" not in s:
+                # pakiet już zaadoptował poprawkę (v13.6-final wziął ją z mojej warstwy-8,
+                # własnym sformułowaniem: bezwarunkowy druk z bazą 4.357 i celami 5,7/7,6)
+                liczniki["alarm_juz"] = liczniki.get("alarm_juz", 0) + 1
         if BRAMKA_STARA in s:
             s, _ = _podmien(s, BRAMKA_STARA, BRAMKA_NOWA, "FIX 4 bramka")
             liczniki["bramka"] += 1
+        elif "c87f FIX 4" in s:
+            liczniki["bramka_juz"] += 1
         if DBUP_STARA in s:
             s, _ = _podmien(s, DBUP_STARA, DBUP_NOWA, "FIX 5 dbup")
             liczniki["dbup"] += 1
+        elif "c87f FIX 5" in s:
+            liczniki["dbup_juz"] += 1
         if DRUK_STARA in s:
             s, _ = _podmien(s, DRUK_STARA, DRUK_NOWA, "FIX 5 druk")
             liczniki["druk"] += 1
         if s != o:
             c["source"] = s.splitlines(keepends=True)
     raport.append(f"FIX 3 (L1 alarm)     : poprawiono w {liczniki['alarm']} komórkach "
-                  f"(oczekiwane 2: sonda pokrycia + sonda rosteru)")
+                  f"(v16: oczekiwane 2 — sonda pokrycia + sonda rosteru)")
     raport.append(f"FIX 4 (L6 bramka)    : poprawiono w {liczniki['bramka']} komórkach (oczekiwane 1)")
     raport.append(f"FIX 5 (L6 wskaźnik)  : definicja {liczniki['dbup']}x + druk {liczniki['druk']}x "
                   f"(oczekiwane 1 i 1)")
-    if liczniki["alarm"] < 2 or liczniki["bramka"] < 1 or liczniki["dbup"] < 1 or liczniki["druk"] < 1:
+    if (liczniki["alarm"] + liczniki["alarm_juz"] < 1 or
+            liczniki["bramka"] + liczniki["bramka_juz"] < 1 or
+            liczniki["dbup"] + liczniki["dbup_juz"] < 1 or
+            liczniki["druk"] < 1):
         raise SystemExit("✗ nie wszystkie wzorce pasują — patrz liczniki wyżej. NIE wypuszczam pół-pakietu.")
+    for k in ("alarm", "bramka", "dbup"):
+        if liczniki.get(k + "_juz"):
+            raport.append(f"       ({k}: {liczniki[k+'_juz']}x JUŻ ZASTOSOWANE w tym pakiecie — idempotentnie pomijam)")
     nb_p.write_text(json.dumps(nb, indent=1) + "\n", encoding="utf-8")
 
     # ---- FIX 6: docstring patcha 0009 + fixture -----------------------------
     ile = 0
     for kandydat in sorted(dst.rglob("*.patch")) + sorted(dst.rglob("*.py")):
-        t = kandydat.read_text(encoding="utf-8", errors="replace")
-        o = t
+        txt = kandydat.read_text(encoding="utf-8", errors="replace")
+        if "fires 27 times" not in txt and "16 levels instead of 26" not in txt:
+            continue
+        o = txt
+        trafione = []
         for stary, nowy in DOCSTRING:
-            if stary in t:
-                t = t.replace(stary, nowy)
-        if t != o:
-            kandydat.write_text(t, encoding="utf-8")
+            if stary in txt:
+                txt = txt.replace(stary, nowy)
+                trafione.append(stary[:22])
+        # ASERCJA: jeśli plik miał którąkolwiek z liczb, musi mieć OBIE poprawione.
+        if "fires 22 times" in txt and "14 levels instead of 26" not in txt:
+            raise SystemExit(f"✗ FIX 6 w {kandydat.name}: '22 times' weszło, ale '14 levels' NIE "
+                             f"— wzorce nie są jednoliniowe? NIE wypuszczam pół-poprawki.")
+        if "fires 27 times" in txt or "16 levels instead of 26" in txt:
+            raise SystemExit(f"✗ FIX 6 w {kandydat.name}: została stara liczba (27 lub 16).")
+        if txt != o:
+            kandydat.write_text(txt, encoding="utf-8")
             ile += 1
-            raport.append(f"FIX 6 (docstring)    : {kandydat.name} — 27/16 -> 22/14")
+            raport.append(f"FIX 6 (docstring)    : {kandydat.name} — 27/16 -> 22/14 "
+                          f"(oba podciągi: {len(trafione)}/2)")
     if ile == 0:
         raport.append("FIX 6 (docstring)    : nie znaleziono 27/16 (patch/fixture poza pakietem?) — "
                       "popraw ręcznie w patches/0009-arena-self-pace.patch i tests/fixtures/")
