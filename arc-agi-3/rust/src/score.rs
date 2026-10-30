@@ -15,14 +15,16 @@
 //! `OFFICIAL_CAP` is the one to use; `SCALED_CAP` is kept only so old numbers can
 //! be reproduced and compared.
 
-/// Official per-level cap from the competition data page.
+/// Per-level points ceiling. NOT a ratio: the rule scores each completed level as
+/// `min(115, (baseline/actions)^2 * 100)`, so the ratio cap is sqrt(1.15) ~ 1.072.
+pub const LEVEL_CEILING: f64 = 115.0;
+
+/// Legacy ratio caps, kept only to reproduce superseded benchmarks.
+pub const SCALED_CAP: f64 = 1.15;
 pub const OFFICIAL_CAP: f64 = 1.0;
 
-/// Legacy cap used before 2026-10-29. Kept for reproducing old benchmarks only.
-pub const SCALED_CAP: f64 = 1.15;
-
-/// Per-level cap currently used by [`level_score`]. Official value.
-pub const RHAE_CAP: f64 = OFFICIAL_CAP;
+/// Ratio cap implied by [`LEVEL_CEILING`].
+pub const RHAE_CAP: f64 = 1.0723805294763597; // sqrt(1.15)
 
 /// Score for one level. `human` and `agent` are action counts.
 ///
@@ -162,5 +164,108 @@ mod tests {
         let human = 10u32;
         let a = actions_at_cap(human);
         assert!(approx(level_score(human, a as u32), ceiling()));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Authoritative scoring (added 2026-10-30)
+//
+// The functions above implement an older model that was wrong in two ways:
+// it capped the RATIO at 1.15 and it had no completion cap. Verified against the
+// 30 `final_score` values stored in `local/benchmarks/*.json`: the older model
+// reproduces 2/30 (ratio cap 1.15) or 9/30 (cap 1.0), while the functions below
+// reproduce **30/30** exactly. Reference implementation and tests:
+// `local/metric.py`, `local/test_metric.py`.
+//
+//     for k = 1..n:  w_k = k
+//                    s_k = min(115, (baseline_k / actions_k)^2 * 100)  if k <= completed
+//                    s_k = 0 otherwise
+//     raw   = sum(s_k * w_k) / sum(w_k)
+//     cap   = 100 * sum(w_k where s_k > 0) / sum(w_k)
+//     score = min(raw, cap)
+//
+// The consequence that matters: score <= 100 * coverage, always. Beating the
+// human cannot lift you above the fraction of the game you finished, which is
+// why depth dominates and why a level you never complete is worth exactly zero.
+// ---------------------------------------------------------------------------
+
+/// Points for one completed level, 0..115.
+pub fn level_points(baseline: u32, actions: u32) -> f64 {
+    if actions == 0 || baseline == 0 {
+        return 0.0;
+    }
+    let ratio = baseline as f64 / actions as f64;
+    (ratio * ratio * 100.0).min(LEVEL_CEILING)
+}
+
+/// Score of one game, 0..100, under the authoritative rule.
+///
+/// `actions` is one entry per level; entries for unfinished levels are ignored.
+pub fn game_score(baselines: &[u32], actions: &[u32], completed: u32) -> f64 {
+    let levels = baselines.len();
+    if levels == 0 {
+        return 0.0;
+    }
+    let denom: f64 = (1..=levels).map(|l| l as f64).sum();
+    let mut weighted = 0.0;
+    let mut done_weight = 0.0;
+    for i in 0..levels {
+        if (i as u32) >= completed {
+            break;
+        }
+        let acts = actions.get(i).copied().unwrap_or(0);
+        if acts == 0 {
+            continue;
+        }
+        let w = (i + 1) as f64;
+        weighted += level_points(baselines[i], acts) * w;
+        done_weight += w;
+    }
+    let raw = weighted / denom;
+    let completion_cap = 100.0 * done_weight / denom;
+    raw.min(completion_cap)
+}
+
+#[cfg(test)]
+mod authoritative_tests {
+    use super::*;
+
+    fn approx(a: f64, b: f64) -> bool {
+        (a - b).abs() < 1e-9
+    }
+
+    #[test]
+    fn perfect_match_scores_100() {
+        assert!(approx(game_score(&[50, 50, 50], &[50, 50, 50], 3), 100.0));
+    }
+
+    #[test]
+    fn beating_human_cannot_exceed_coverage() {
+        // 3 of 4 levels, ten times faster than human: held at the completion cap.
+        assert!(approx(game_score(&[50; 4], &[5, 5, 5, 0], 3), 60.0));
+    }
+
+    #[test]
+    fn completing_three_of_four_is_sixty() {
+        assert!(approx(game_score(&[50; 4], &[50, 50, 50, 0], 3), 60.0));
+        assert!(approx(game_score(&[50; 4], &[50, 50, 0, 0], 2), 30.0));
+        assert!(approx(game_score(&[50; 4], &[50, 0, 0, 0], 1), 10.0));
+    }
+
+    #[test]
+    fn double_the_human_cost_is_a_quarter() {
+        assert!(approx(game_score(&[50; 4], &[100; 4], 4), 25.0));
+    }
+
+    #[test]
+    fn unfinished_level_scores_nothing() {
+        assert!(approx(game_score(&[50; 4], &[50, 999, 0, 0], 1), 10.0));
+    }
+
+    #[test]
+    fn level_points_ceiling() {
+        assert!(approx(level_points(100, 10), 115.0));
+        assert!(approx(level_points(100, 100), 100.0));
+        assert!(approx(level_points(100, 200), 25.0));
     }
 }
