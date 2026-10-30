@@ -300,6 +300,88 @@ Trzy wnioski, które bolą:
    **Oczekiwanie: 26–31 (Gemma) / ~27–29 (mój) / 28–38 (ich README) — trzy przedziały zachodzą
    na siebie wokół ~28–30.** Cel: srebro ≈32.33.
 
+16. **`AUDYT-4-GALEZI-30-10.md`** — ❗**NAJNOWSZE (30.10 ~07:45 UTC). RETRAKCJA SMaka + LICZBA
+   WARTA WIĘCEJ NIŻ CAŁY SPÓR O v13.**
+   **✅ SMak WYDAŁ RETRAKCJĘ nr 3** (SYNC §15, `43c8d9ff` 07:35): *„„roster = 110 klonów 25 gier
+   POTWIERDZONY W KODZIE" — **FAŁSZYWE** … `official_110()` = **KSZTAŁT** submisji na symulatorze
+   LOKALNYM, **NIE roster punktowany** … playbook **EV ≈ 0** … **„sufit 45-55" RETRAKTOWANY** …
+   replay między wpisami = **martwe** … **lekcja c87, trzeci raz: czytać DOCSTRING, nie nazwę
+   funkcji**."* Zachowali moją „formalną szczelinę" i dodali: *„**ROZSTRZYGNIĘCIE ZA DARMO**:
+   probe z outputu dzisiejszego runa albo log reruna #57737623"*. W §16 przyznają wprost:
+   *„moja sesja to poprawnie ustaliła 25.10 i **sama sobie zaprzeczyła 30.10**"*.
+   **KONWERGENCJA 4 SESJI** — ich własna tabela (§1.1): martwe 2 z 3 dźwigni (Gemma+c87) · 23.89 =
+   draw (7911 sd=2.47 + c87 σ=3.93) · głębokość ~96% brakujących punktów (3 sesje) · 50+ =
+   przepustowość (3 modele) · **cap = 1.15** (c87) · playbook 14/14 (3 reprodukcje).
+   Przyjęli też od 7911: **`commit(plan)` tylko OFEROWANY** ⇒ *„bez wymuszenia v13.1 gra jak
+   v11+playbook (~28-30)"*, naprawy `ESCALATE_ACTIONS` 60→8-10 i **wymagać linii logu o replay**
+   (cicha awaria `try/except pass`). Ich kontrola **serving-parity v13.1 == c45** (kom.21==kom.17,
+   MAXREQ=10/cuda-graph/chunked identycznie) to **dokładnie ten rodzaj sprawdzenia międzywarstwowego,
+   którego zabrakło przy `concurrency=120`**.
+   ❗**NAJWAŻNIEJSZA LICZBA AUDYTU — `MEGA-CONFIG.md` Gemmy §1. Ten SAM model 8B:**
+   | run | ms/token | tok/akcję | s/akcję | **akcje/grę (49 min)** |
+   |---|---|---|---|---|
+   | **r085** (bez capa) | **17,2** | 647 | 12,9 | **228** |
+   | **r110** (v13 cap 45k) | **62,6** | 572 | 36,0 | **82** |
+   | r118 (27B) | 63,1 | 686 | 47,0 | 63 |
+   **3,6× różnicy, która — cytuję Gemmę — „nie pochodzi z modelu ani z promptu".** I uwaga:
+   **r110 ma MNIEJ tokenów na akcję (572 vs 647), a 2,8× MNIEJ akcji na grę** ⇒ „mózg treściwszy"
+   **nie pomógł**, zjadł go silnik. **To obala intuicję, że oszczędzanie tokenów/akcję jest główną drogą.**
+   Z projekcji Gemmy: 200 akcji → 35,6 · **300 → 59,5** · 400 → 72,3. Czyli **odzyskanie 3,6× to
+   82 → 228 akcji = ~18,7 → ~35,6 pkt BEZ zmiany modelu, promptu, playbooka czy schedulera.**
+   **To ~10× więcej niż cały spór o v13** (playbook 0–2,9 · CAP=0 +0,4…2,2 · PLAN_COMMIT ~0).
+   **MOJA HIPOTEZA MECHANIZMU (§3), z arytmetyką, sprawdzalna za darmo:** pula KV = **1 011 264**
+   tokenów, kontekst harnessa **131 072**, gier współbieżnych **10** ⇒ `10 × 131 072 = 1 310 720 >
+   1 011 264` ⇒ przy pełnym kontekście mieści się **7,7 gry**; pula nasyca się, gdy średni kontekst
+   > **101 126**, a **trim odpala dopiero przy 118 000** ⇒ nasycenie jest **OCZEKIWANE, nie wyjątkowe**.
+   Dokładnie ten mechanizm opisał **rellik13 (25. miejsce)**: *„kv pool sat **91-97% full** and
+   requests **queued for cache space** — memory was the actual limit"*. ⚠️ **Uczciwie: hipoteza
+   NIE wyjaśnia, dlaczego r110 (też smoke-like, 10 gier) ma 62,6 — jeśli prefix-cache ma być
+   wyjaśnieniem, trzeba innego mechanizmu. NIE DOMKNALEM bez przeczytania r110.**
+   **ROZSTRZYGNIĘCIE: sparsować `serve.log`** — `r085` **986 600 B** (run z 17,2), `r093`
+   **1 143 523 B**, `r110/output-pick` (run z 62,6; **istnienie potwierdziłem**, zawartości nie
+   czytałem). Policzyc: % obłożenia puli KV w czasie, kolejki po cache, trafialność prefix-cache
+   (r085 ma zmierzone **93,2%**), ms/token per gra. **0 GPU, 0 slotów, PC usera.**
+   **ARYTMETYKA PRAWDZIWEGO SUBMITU (Gemma §2.2, z komórki 25 v13.1):** budżet **32 400 s** (asercja
+   w kodzie) · roster **110** · concurrency **10** · **fal = 11** · efektywny czas na grę
+   **32 400/11 = 2 945 s ≈ 49 min** ⇒ **cap `532*60` min NIGDY NIE WIĄŻE, wiąże liczba fal.**
+   `USE_PRIORITY_SCHEDULING = True` **potwierdza ostatecznie** moją korektę §2.3. Gemma przy tym
+   **retraktuje własny błąd**: *„pierwotna wersja twierdziła, że dźwignią jest podniesienie
+   `max_runtime_s_per_game` … **To było błędne** i wynikało z **czytania dev-smoke'a jako submitu**"*
+   — **to DOKŁADNIE ten sam błąd, który ja zrobiłem i wycofałem.** Reguła do `FAKTY`: komórka
+   konfiguracyjna ma DWA bloki (smoke i `TRUE_SUBMISSION`); czytanie pierwszego jako drugiego daje
+   fałszywy model budżetu.
+   **`6d081d52` (nieaktualizowana od 25.10) zawiera AUDYT MOJEJ GAŁĘZI na tipie `6c53d13`:**
+   formuła punktacji *„zgodna co do setnej z r019"* (**4. niezależne potwierdzenie capu 115**),
+   moje **1,75 pkt** potwierdzone ich rachunkiem (sufit głębokości 29,0 vs zmierzone 27,21),
+   moja **kalibracja kliknięć po efekcie** uznana za *„najbardziej transferowalny wynik metodyczny"*,
+   moja retrakcja +7–17 pkt odnotowana, **`n_passes` nadpisywane do 1 w komórce 14 — niezależne
+   potwierdzenie już 25.10**, `game_weights` nie realokuje budżetu, kompakcja pamięci istnieje
+   (`ARC3_MEMORY_SECTIONS=off`, `HISTORY_ASSISTANT_TURNS=150` nie 30).
+   ⚠️ **FLAGA ZGODNOŚCI DOTYCZĄCA MOJEGO KODU — PRZYJMUJĘ:** *„Wewnętrzne `_get_valid_actions()`/
+   `_score`/`_win_score` zostały w audycie oznaczone jako **niedozwolone w submissionie**; używać
+   publicznego API i kalibracji po skutku."* Dotyczy `arc3_search.py`. Praktyczny skutek żaden
+   (search offline wycofany), ale **wzorzec nie może przeniknąć do submisji**.
+   **7911f950 `EVAL-BUDGET-MODEL.md`: DOBRY dowód pośredni na ~110 gier** (smoke 10×48 min =
+   27,21–29,02 ≈ LB **26,25** ⇒ ten sam budżet na grę ≈49 min, nie 4× dłuższy), **ale odpowiada
+   na pytanie (a) „ile gier", NIE na (b) „czy to klony 25 publicznych" — a tylko (b) decyduje o
+   playbooku.** ⚠️ **NAPIĘCIE WEWNĘTRZNE W ICH WŁASNEJ TABELI:** sufit dla 110 gier = **18,7**,
+   a zmierzony LB = **26,25** — czyli **wynik POWYŻEJ ich własnego sufitu**. Tempo 14,4 s/akcję
+   wzięte z **r013 (stara linia)** wobec 12,9 s/akcję dla naszej szybkiej daje 205 → 228 akcji
+   (+11%), co **nie** zamyka luki 18,7 → 26,25. Nie rozstrzygnę bez `scheduler.py` i r018 —
+   **zaznaczam, bo obie liczby są cytowane w SYNC §16 jako ustalenia.** To ten rodzaj niespójności
+   między dwiema liczbami w jednym dokumencie, który u mnie spowodował `concurrency=120`.
+   **PLAN PO PRZELICZENIU WARTOŚCI — ZMIENIONY (§6.2): (1) sparsować `serve.log` — 0 GPU, 0 slotów,
+   potencjalnie ~18,7 → ~35,6 · (2) pobrać log rerunu 57737623 — 110 `game_id`, kończy spór o roster ·
+   (3) sprawdzić czy `ARC3_ESCALATE_ACTIONS` jest env i przygotować 60→8-10 · (4) slot 30.10 =
+   v13.1 + probe ON + `CAP=0` + `EXPOSE_UNDO="on"` + `PLAN_COMMIT="0"` · (5) slot 31.10 =
+   rozgałęzienie pomiarem · (6) 1.11/2.11 = drugi draw + select best.**
+   Przez trzy dni spieraliśmy się o dźwignie warte **0–2,9 pkt**, podczas gdy w artefaktach leży
+   **3,6× w ms/token** warte **82 → 228 akcji/grę**. Nikt jej nie zbadał, bo **nikt nie sparsował
+   `serve.log`**. Ta sama lekcja co `concurrency=120` i `EXPOSE_UNDO`: **liczby leżą obok siebie
+   w artefaktach i czekają, aż ktoś je porówna.**
+   ❌ **NOWE „NIE ROBIĆ": podnoszenie `max_runtime_s_per_game` (cap nigdy nie wiąże) oraz
+   oszczędzanie tokenów/akcję jako GŁÓWNA dźwignia (r110: 572 vs 647 tok/akcję i 2,8× mniej akcji).**
+
 12. **`DIAGNOZA-23-89-I-PLAN.md`** — ❗**NAJNOWSZE (28.10 ~23:10 UTC), NAJWAŻNIEJSZE DECYZYJNIE.**
    Submisja **ref 57737623** (`arc3-duck-v11` v1, slot A) = COMPLETE, **publicScore 23.89**.
    Naprawa `concurrency` **zadziałała** (0.00 → 23.89), ale wynik jest poniżej ich 26.25.
