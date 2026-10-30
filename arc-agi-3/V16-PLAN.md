@@ -1,7 +1,12 @@
-# v15 — +1 poziom na grę. Tyle brakuje do 50.
+# v16 — warstwa analityczna: +1 poziom na grę. Tyle brakuje do 50.
+
+> **Uwaga o nazwie.** `duck-v15` **już istnieje** na `arena/a450b00f-pokemon`
+> (commit `8d96c68`): to v14 Gemmy + patch 0007 (eskalacja względna), zweryfikowany
+> na r033. **To jest pakiet do wysłania.** Ten dokument nie konkuruje z nim —
+> jest **warstwą analityczną**, która mówi, co po nim zmienić i co zmierzyć.
 
 **Data:** 2026-10-30 · **Baza:** v13.2 (`6b10853`) + v14 z `Gemma-konkurs@c4eeb067` (`b38b82e`).
-**Kod:** `local/metric.py`, `local/v15_policy.py`, testy `local/test_metric.py` (8/8),
+**Kod:** `local/metric.py`, `local/v15_policy.py` (nazwy plików historyczne), testy `local/test_metric.py` (8/8),
 `local/test_v15.py` (12/12).
 
 ---
@@ -88,25 +93,38 @@ rozwiązaniem, nie żadna stała.
 Ich `PROPOZYCJA-0007` (próg względny `max(20, 1,2 × baseline[poziom])`) daje
 **8 wstrzyknięć, 0/32 przedwczesnych**. To jest cel.
 
-### 2.1 Domknięcie otwartej luki Gemmy
+### 2.1 ✅ LUKA DOMKNIĘTA — i odpowiedź jest NEGATYWNA
 
-Piszą: *„nazwę atrybutu z baseline'em trzeba potwierdzić w r033 — wiem, że w
-`GameRun` to `base_actions_per_level`, ale nie wiem, jak `ToolAgent` się do niego dostaje"*.
+Gemma pisała: *„nie wiem, jak `ToolAgent` się do baseline'u dostaje"*. `duck-v15`
+(`8d96c68`) to sprawdził na r033 i **domknął pytanie — negatywnie**:
 
-**Odpowiedź:** `base_actions_per_level` jest polem **każdego** `game_run` —
-30/30 gier w trzech zapisanych runach (`local/benchmarks/`). Ścieżka w harnessie
-to `self.game_run.base_actions_per_level`, tak samo jak `_HarnessGameSession`
-sięga po `self.game.levels_completed`.
+> *„**Submission-mode behaviour:** the engine hides baselines
+> (`base_actions_per_level is None`), so the relative rule degrades to v14's
+> absolute 20 + the per-level cap of 2 — the measurable win is local/smoke;
+> **the cap is the part that also applies on the rerun**."*
 
-**Czego nadal nie wiem:** czy jest **wypełnione** dla 110 prywatnych gier
-w rerunie. To nie jest kwestia kodu, a danych — i dlatego w v15 jest **sonda**,
-nie założenie (`baseline_available()`, `GameGovernor.probe_line()`).
+**Czyli: w rerunie baseline'u NIE MA.** Plomby w `game_run` istnieją (30/30
+w naszych zapisach), ale silnik je **zeruje w trybie submisji**.
+
+Konsekwencje, które przeformułowują ten dokument:
+
+| twierdzenie | status |
+|---|---|
+| „governor z baseline'em zamienia zakład w arytmetykę" (§3.1) | **prawdziwe tylko lokalnie/smoke**, nie w rerunie |
+| eskalacja względna `max(20, 1.2×baseline)` | **w rerunie degraduje do 20** |
+| **per-level cap 2 eskalacje** | **✅ działa w rerunie** — to jedyna część patcha 0007, która przeżywa |
+| sonda `baseline=yes/no` | **✅ nadal potrzebna** — potwierdza to na żywo i mierzy `coverage` |
+
+Nie usuwam `baseline_available()` ani `GameGovernor` — bo (a) działają lokalnie
+i w smoke, (b) **degradują bezpiecznie** do capa 120 i eskalacji 20, co jest
+przetestowane (`test_no_baseline_reproduces_floor_behaviour`). Ale **nie liczę
+na nie w rerunie.** Punkt ciężkości przesuwa się na §3.2 i §0.
 
 ---
 
-## 3. Co dokłada v15 — trzy rzeczy, każda tania
+## 3. Co dokłada ta warstwa — trzy rzeczy, każda tania
 
-### 3.1 Governor świadomy baseline'u (nowe, i to jest sedno)
+### 3.1 Governor świadomy baseline'u — **tylko lokalnie i w smoke** (patrz §2.1)
 
 Skoro `score ≤ 100 × pokrycie`, a znamy `baseline_k`, to decyzja „dalej czy
 porzucić" **przestaje być zakładem**:
@@ -120,14 +138,18 @@ eskalacja        = max(20, 1.2 × baseline_k)      # zamiast stałej
 Mój symulator z `V14-PLAN.md` §3 dawał widełki **−19,5 … +2,9** właśnie dlatego,
 że **nie używał baseline'u**. Z baseline'em to arytmetyka, nie widełki.
 
-Degradacja jest bezpieczna: bez baseline'u governor wraca do stałego capa 120
-i eskalacji 20 — czyli do zachowania v14. Test `test_no_baseline_reproduces_floor_behaviour`.
+**Ale w rerunie baseline'u nie ma** (§2.1), więc ta arytmetyka tyczy się tylko
+smoke'ów i lokalnego silnika — tam jest wciąż użyteczna, bo pozwala dobrać
+`level_cap_floor` na podstawie prawdziwych kosztów, zamiast zgadywać 120.
+
+Degradacja jest bezpieczna i przetestowana
+(`test_no_baseline_reproduces_floor_behaviour`).
 
 ### 3.2 Log, który rozstrzyga wszystko — cztery liczby na grę
 
 ```
-v15 probe: game=<id> levels=<L> completed=<k> coverage=<c> baseline=<yes|no>
-           budget=<n> escalate_at=<n> score=<s>
+duck-v16 probe: game=<id> levels=<L> completed=<k> coverage=<c> baseline=<yes|no>
+           budget=<n> escalate_at=<n> score=<s>   /* log, ktory chcemy zobaczyc */
 ```
 
 To jest jedyny sposób, by po jednym przebiegu wiedzieć:
@@ -151,9 +173,9 @@ a nie między grami bez wiedzy o kosztach.
 
 ---
 
-## 4. Uczciwa ocena: v15 vs v13.2 vs v14 (Gemma)
+## 4. Uczciwa ocena: v13.2 vs v14 (Gemma) vs duck-v15 vs ta warstwa
 
-| | v13.2 | v14 (Gemma) | **v15** |
+| | v13.2 | v14 (Gemma) | **ta warstwa** |
 |---|---|---|---|
 | reguła punktacji poprawna | nie (nasze narzędzia) | ✅ 30/30 | ✅ 30/30 + `metric.py` |
 | `ESCALATE_ACTIONS` | 10 (za nisko, zmierzone) | **20** (zmierzone) | **względny `max(20,1.2×baseline)`** z fallbackiem 20 |
@@ -162,9 +184,10 @@ a nie między grami bez wiedzy o kosztach.
 | sonda budżetu | brak | ✅ | ✅ (dziedziczona) |
 | sonda baseline'u | brak | brak | ✅ **nowa, rozstrzyga dokładność** |
 | log pokrycia | brak | brak | ✅ **nowa, wprost = wynik** |
-| prognoza | 28–38 | 26–31 | **29–34** (bez extra budżetu), **45–55** (jeśli baseline + "+1 poziom") |
+| baseline w rerunie | — | **None** (zmierzone) | **None** (potwierdzone sondą) |
+| prognoza | 28–38 | 26–31 | **28–33** (sam governor), **45–55** (z +22% budżetu, §0) |
 
-**v15 nie jest skokiem na 50 przy obecnym budżecie.** Jest wersją, która:
+**v16 nie jest skokiem na 50 przy obecnym budżecie.** Jest warstwą, która:
 (a) naprawia metrykę po naszym błędzie, (b) przyjmuje lepszy pomiar Gemmy,
 (c) dodaje jedyne narzędzie, które może zamienić zakład w decyzję,
 (d) mierzy dokładnie to, czego brakowało.
@@ -181,7 +204,8 @@ a nie między grami bez wiedzy o kosztach.
 | 1 | cap 1,15 → 1,0 to „poprawka" | **odwrotnie** — 1,15 było bliżej; właściwa reguła ma `min(115,…)` **i** cap ukończenia (30/30) |
 | 2 | „potrzeba ~400 akcji na 50" | **~253 akcji** (+22%), bo na ukończonych poziomach jesteśmy 1,7× szybsi od człowieka |
 | 3 | „eskalacja 60 → 8–10" | **20 ma lepsze uzasadnienie pomiarowe** (Gemma, 32 poziomy r085); docelowo próg względny |
-| 4 | „porzucanie = zakład −19,5…+2,9" | **tak, dopóki nie używa się baseline'u**; z baseline'em to arytmetyka |
+| 4 | „porzucanie = zakład −19,5…+2,9" | **tak — i tak zostaje w rerunie**, bo baseline jest tam `None` (§2.1) |
+| 5 | „baseline pozwoli policzyć decyzje dokładnie" | **nie w rerunie**; `duck-v15` zmierzył `base_actions_per_level is None` w trybie submisji |
 
 ---
 
@@ -190,9 +214,13 @@ a nie między grami bez wiedzy o kosztach.
 1. **Wysłać v13.2 albo v14 Gemmy z samą sondą** (1 slot) — żeby dostać
    `baseline=yes/no` i `coverage`. Bez tych dwóch liczb każda dalsza decyzja
    jest zgadywaniem.
-2. **v15 governor** — po sondzie, z baseline'em jeśli jest.
+2. **Governor** — po sondzie. W rerunie działa jako stały cap; w smoke z baseline'em.
 3. **Cięcie tokenów** (`V14-PLAN.md` §2.1 cięcie A: `expect` tylko na kluczowych
    krokach) — to jedyna droga do +22% budżetu, a więc do 50.
+
+**Co wysłać:** `duck-v15` z `a450b00f` (`8d96c68`) — jest zweryfikowany na r033
+i zawiera wszystko, co ma sens w rerunie (20 + cap 2 + sondy + guard GAME_OVER).
+Mój wkład to §0 (metryka i cel +1 poziom), §5 (rejestr) i §3.2 (log pokrycia).
 
 **Czego nie zrobiłem:** nie tknąłem `arena/a450b00f` ani `Gemma-konkurs`, nie
 wysłałem submitu, nie mam bundla r033, więc żadnego patcha nie mogę zweryfikować
