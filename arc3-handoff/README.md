@@ -583,6 +583,211 @@ Trzy wnioski, które bolą:
    **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
    powiedzieć dziesiąty raz, niż obiecać jedenaście.**
 
+20. **`POROWNANIE-V15-V16-V13-4-V13-5.md`** + **`tools/build_c87_v16f.py`** (247 ln)
+   ❗**NAJNOWSZE (30.10 ~09:40 UTC). Fala 08:00–08:50: powstało PIĘĆ pakietów (dwa różne `duck-v15`,
+   `v13.4-unified`, `v13.5-consensus`, `duck-v16`) + `V17-COMPARE` 7911. Porównałem wszystkie,
+   zbudowałem WŁASNĄ NAJLEPSZĄ WERSJĘ i przepuściłem ją przez własną bramkę: 4 KRYTYCZNE → 0.**
+   ❌ **FAKT CENTRALNY, potwierdzony ze ŹRÓDŁA PIERWOTNEGO (`taaf/game.py` z r033-recon-bundle,
+   688 ln, CZTERY miejsca: L254-255, L439-440, L448 `default=None, init=False`, L471-472):**
+   **w trybie SUBMISJI silnik UKRYWA baseline** (`base_actions_per_level is None`).
+   ⇒ **cała linia „eskalacja względna" (patch 0007 a450 / 0008 Smak+Gemma) JEST MARTWA W RERUNIE**:
+   `if b > 0` nie zachodzi i funkcja zwraca stały floor 20. Pomiar „8 wstrzyknięć, 0,8 % puli,
+   **0/32 przedwczesnych**", którym ją uzasadniano, dotyczy **SMOKE'A**. **To TA SAMA FORMA co
+   instancja #6 — smoke karmi wartości, których submisja nigdy nie produkuje.**
+   ⚠️ **STAN EMPIRYCZNY: 0 z 5 dostępnych `benchmark.json` (r085, r093, r108=ten sam blob `90173adb`,
+   r110, r118) pokazuje `null` — wszystkie mają baseline PRESENT 10/10, bo wszystkie to smoke'i.**
+   Czyli warunek jest **UDOKUMENTOWANY, ALE NIGDY NIE ZAOBSERWOWANY**. Rozstrzygnie go dopiero
+   pierwszy submit z sondą widoczności baseline — którą **mają v13.5 (kom. 38) i v16 (kom. 39),
+   a NIE mają v13.4 i v15-a450.**
+   ✅ **CO JEST ŻYWE w submisji (też `taaf/game.py`): L569 `actions_per_level[level_before] += 1`
+   — licznik rośnie PO KAŻDEJ AKCJI, W TRAKCIE BIEGU** (L571-572 `levels_completed`, L258-259
+   niezmiennik `sum(actions_per_level) == len(history)`). ⇒ **self-pace (patch 0009) ma prawdziwe
+   źródło danych i jest JEDYNĄ regułą eskalacji, która w rerunie robi coś innego niż floor.**
+   Potwierdziłem to **w kodzie silnika**, nie w README Gemmy.
+   **REPLIKACJA POMIARU ESKALACJI (r085 = ich populacja, r093 = mój niezależny run), pula r085
+   = 1 417 188 tok / 10 gier = 141 719 na grę, 1 nudge = 146 tok = 0,1030 % puli:**
+   | reguła | r085 nudge/przedwczesne | % puli | r093 | żywa w rerunie? |
+   |---|---|---|---|---|
+   | próg 10 (v13.2/v13.3) | **154 / 31-32** | 15,87 % | 157 / 26-27 | tak |
+   | próg 20 (v14) | **67 / 26** | 6,90 % | 72 / 23 | tak |
+   | 20 + cap 2 (**v13.4/v13.5/v15-a450 w rerunie**) | **42 / 26** | 4,33 % | 39 / 23 | tak |
+   | względna 1,2× (0007/0008) | **8 / 0** | 0,82 % | 10 / 0 | **NIE** |
+   | **self-pace (0009, v16)** | **22 / 14** | **2,27 %** | **22 / 13** | **TAK** |
+   **CZTERY Z PIĘCIU LICZB GEMMY ODTWARZAJĄ SIĘ CO DO JEDNEJ**, a ich arytmetyka tokenów też
+   (15,87 % vs ich 15,3 %; 0,82 % vs 0,8 %). **Ich tabela R085 w `test_self_pace.py` = 10/10 gier,
+   32 poziomy, 0 ROZBIEŻNOŚCI z `benchmark.json`.** To solidna robota pomiarowa i tak ją oceniam.
+   ❌ **ALE docstring patcha 0009 (i IDENTYCZNY docstring w `tests/fixtures/tool_agent_0009_post.py`)
+   mówi 27/16 — i NIE ODTWARZA SIĘ w 192 KOMBINACJACH** (2 populacje × 3 rate × 2 sufit × 4 cap ×
+   2 kryteria przedwczesności × 2 tryby). Liczba przedwczesnych w całej siatce przyjmuje tylko
+   12, 9 lub 6 — **nigdy 14 ani 16**. **a450b00f znalazł to pierwszy, potwierdzam niezależnie.**
+   **A asercja nie może rozstrzygnąć:** `assert pace[0] < floor[0] and pace[1] < floor[1]` przechodzi
+   dla 14/9, 22/14 **i** 27/16. **Naprawa: `assert pace[:2] == (22, 14)`.**
+   ⚠️ **MÓJ WŁASNY BŁĄD (11. self-korekta):** pierwszą replikację policzyłem jako **14/9** i ogłosiłem,
+   że żadna liczba Gemmy się nie odtwarza. **BŁĄD.** Pominąłem `return paced or floor` — na
+   **pierwszym poziomie każdej gry** brak historii daje `_escalate_self_pace` = 0, ale
+   `_escalate_threshold` zwraca **floor 20**, nie 0. W r085 to 10 poziomów różnicy.
+   **Jak znalazłem: URUCHOMIŁEM ICH TEST** (`python3 tests/test_self_pace.py`, offline, bez GPU) —
+   wydrukował `self-pace=22/14`. **NOWA REGUŁA: zanim ogłoszę, że cudza liczba się nie odtwarza,
+   URUCHOM ich kod, a nie tylko go reimplementuj.** Po korekcie **27/16 nadal się nie odtwarza**,
+   a asercja **nadal nie dyskryminuje** — te dwa ustalenia nie zależały od mojego błędu.
+   ❌ **DWIE NOWE INSTANCJE KLASY (razem 10):**
+   **#9 WEJŚCIE UKRYTE W SUBMISJI** (dźwignia): `RELATIVE=1` bez żywego zamiennika → w smoke'u piękny
+   pomiar, w rerunie cicha degradacja do 42/26/4,33 %. Występuje w **v13.4, v13.5, v15-a450**
+   (u a450 reguła jest **zawsze włączona, BEZ kill-switcha env** — `pc_escalate_at` +
+   `self._arc3_base_actions`; za to jest **None-safe**: `if base_actions:` ⇒ **nie crashuje**).
+   **#10 INSTRUMENT GŁOŚNO-MYLĄCY (NOWA PODKLASA)**: komórka „v11 metering" (v15-a450 kom. 35,
+   v13.4/v13.5 kom. 37, v16 kom. 38) liczy `need = sum(base_actions_per_level or [])` = **0** i
+   `score = _compute_final_score()` = **0.0** (taaf/game.py L391-392), po czym drukuje
+   `score=0.00 ... actions=212/0 (21200.0% of a full clear)` i
+   **`v11 gate: NO-GO (below v3 smoke 29.02)` — w KAŻDYM PRAWDZIWYM SUBMICIE**, bo
+   `max(1.0, actions_need)` zamienia dzielenie przez zero w dzielenie przez 1.
+   | | #8 cicho-martwy | **#10 głośno-mylący** |
+   |---|---|---|
+   | gałąź | nigdy się nie wykonuje | **wykonuje się ZAWSZE** |
+   | log | **MILCZY** | **KRZYCZY pewnym siebie werdyktem** |
+   | skutek | utracona informacja | **BŁĘDNA DECYZJA** |
+   | kolizja | — | `score=0.00` jest **nieodróżnialne od PRAWDZIWEJ porażki 0.00** (submisja **57629847**) |
+   **Martwy alarm kosztuje utraconą informację; głośno-mylący instrument kosztuje błędną decyzję —
+   a decyzja na 1.11 będzie podejmowana NA PODSTAWIE LOGU.**
+   ❌ **DEFEKTY WDROŻENIOWE (zmierzone, nie wyczytane):**
+   | pakiet | `code_file` | plik w katalogu | slug | werdykt |
+   |---|---|---|---|---|
+   | **v16 Gemma** | `arc3-duck-v13.ipynb` | **`arc3-duck-v16.ipynb`** | `…/arc3-duck-v13-4-unified` | ❌ **code_file NIE ISTNIEJE** + ❌ **slug = kernel v13.4 Smak** |
+   | **v15 Gemma** | `arc3-duck-v13.ipynb` | **`arc3-duck-v15.ipynb`** | `…/arc3-duck-v13-3-arena` | ❌ **code_file NIE ISTNIEJE** + ❌ **slug = kernel v13.3-arena Smak** |
+   | v13.4 / v13.5 Smak, v15 a450 | ✅ | ✅ | ✅ własne | ✅ |
+   **Kolizję sluga znalazł a450b00f — potwierdzam. Brakującego `code_file` NIE ZNALAZŁ NIKT.**
+   **Kolejność zagrożenia jest ODWROTNA niż intuicja:** `code_file` ❌ → `kaggle kernels push`
+   **pada głośno** (blokuje, ale nic nie niszczy); slug ❌ → push **PRZECHODZI I NADPISUJE CUDZY
+   KERNEL** (ciszej i groźniej; przy „ostatnich 2 aktywnych submisjach" może kosztować slot).
+   **To ta sama klasa, za którą użytkownik zganił nas 2026-10-16 („wrzuciles ten sam plik co w
+   nocy!!!") — zasada istnieje od dwóch tygodni i dwa najnowsze pakiety ją łamią.**
+   ❗**SUFIT WYNIKU policzony MECHANICZNIE** (reguła `taaf/game.py` L385-414: `score_gry =
+   min(Σs·w/Σw, 100 × pokrycie)`, wynik = **średnia po grach** ⇒ sufit = **średnia per-gra pokryć**,
+   `pokrycie = c(c+1)/(n(n+1))`). **⚠️ Mój pierwszy rachunek był ZŁY** — zpoolowałem `Σdone_w/Σw`
+   (26,71 %) zamiast uśredniać pokrycia per gra; po poprawce `score ≤ sufit` zachodzi w obu runach:
+   | | **r085** | **r093** |
+   |---|---|---|
+   | **SUFIT** | **29,79** | **23,45** |
+   | zmierzony wynik | 26,78 | 18,55 |
+   | **wykorzystanie sufitu** | **89,9 %** | **79,1 %** |
+   | poziomów/grę | 3,20 z 6,90 | 2,70 z 6,90 |
+   | **akcji na zdobyty poziom** | **66,4** | **85,7** |
+   **Piąte niezależne potwierdzenie reguły 30/30**, a wykorzystanie 89,9 % / 79,1 % potwierdza
+   zbieżność czterech sesji („efektywność na ukończonych poziomach 86–90 %").
+   ❌ **KOREKTA TWIERDZENIA „+1,1 POZIOMU/GRĘ ⇒ 50" (7911 `724189b2`, Gemma `STATUS.md`):
+   jest prawdziwe dla SUFITU (47,82), ale NIE dla WYNIKU** — przy zmierzonym wykorzystaniu 89,9 %
+   daje **~43,0**. **Żeby WYNIK = 50:** r085 → sufit 55,6 → **+1,57 poziomu/grę = 1,49× głębokości
+   = ~317 akcji/grę = a/call 4,514 → 6,73 (1,49× batchingu)**; r093 → **+2,70 = 2,00× = ~460 akcji/grę**.
+   ❌ **REFUTACJA MONOTONICZNOŚCI — `akcje/grę → wynik` NIE JEST FUNKCJĄ:** r085 **212,6 akcji →
+   26,78 pkt** vs r093 **231,5 akcji (+8,9 %) → 18,55 pkt (−30,7 %)**. Dwa nasze własne smoke'i,
+   te same 10 gier. **Drugie ogniwo też niestabilne: akcji na zdobyty poziom 66,4 vs 85,7 = 29 %
+   rozrzutu.** ⇒ łańcuch `batching → akcje → poziomy → pokrycie → wynik` ma **DWA ogniwa o zmierzonej
+   niestabilności**, więc każda projekcja niesie **≥ ±8 pkt błędu modelu** — ZANIM doliczymy
+   σ ≈ 2,5–3,9 i próg istotności +5 pkt. **Mój łańcuch mechaniczny wycenia 253 akcji/grę (7911) na
+   ~295–320; rozstrzał 17–25 %. Nie twierdzę, że 7911 się myli** (ich dopasowanie może łapać wzrost
+   *wykorzystania* sufitu, które ja trzymam stałe) — **twierdzę, że rozstrzał między dwoma
+   niezależnymi modelami jest WIĘKSZY niż efekt, który chcemy zmierzyć.**
+   ✅ **NOWE POMIARY PRZEPUSTOWOŚCI (z `history`/`actions_per_level`/`final_wallclock_seconds`):**
+   **a/call 4,514 (r085) · 4,936 (r093)** vs 4,357 (r019) vs **4,61 (7911)** — **KONWERGENCJA
+   CZTERECH SESJI, rozrzut ±6 % wokół 4,6** (7911 w `1541d082` sam skorygował swoje 1,00 na 4,61).
+   ⇒ **próg 1,5 (notebook) i bramka 1,8 (dokument GO/NO-GO Smak §19) leżą 2,4–2,9× PONIŻEJ
+   najniższej kiedykolwiek zmierzonej wartości — instancja #8 potwierdzona na CZTERECH runach.**
+   **tok/akcję 666,6 / 657,4** (nie 841,2 z r019 — **r019 to STARA LINIA**) ⇒ **12. self-korekta:
+   mój model przeszacowywał tok/akcję o 27 %.** tok/wywołanie 3008,9 / 3245,1 · ms/token 19,83 /
+   16,41 · tok/s na grę 50,4 / 61,0. **SPÓJNOŚĆ Z serve.log: 10 × 50,4–61,0 = 504–610 tok/s vs moje
+   `parse_serve_log.py` 584,2 / 663,0 po stronie serwera ⇒ concurrency 10 NAPRAWDĘ biegło 10 grami.**
+   ✅ **ZGADZAM SIĘ Z 7911 I UZNAJĘ ZA NAJWAŻNIEJSZY WKŁAD TURY: stosunek 24 : 1.** Cały spór o
+   eskalację jest wart 2 akcje/grę = 0,92 % budżetu; hint na openerze 48–50 akcji. **Moja replikacja
+   potwierdza z innej strony:** różnica między najdroższą a najtańszą **żywą w rerunie** regułą to
+   42 − 22 = 20 nudge'ów = 2 920 tok = **2,06 % puli jednej gry**. **Potwierdzam też ich krytykę
+   bramki `a/call ≥ 1,8`** (najgorszy zmierzony run 4,357 = 2,4× powyżej progu).
+   ❌ **KRYTYKUJĘ ICH WŁASNĄ BRAMKĘ `a/call ≥ 6,0`: jest SUROWSZA niż ich własny próg
+   wystarczalności** — w ich tabeli **5,62 (połowa efektu hinta) daje 266 akcji/grę ≥ 253, czyli
+   wg ich modelu WYSTARCZA na 50**, a bramka 6,0 powiedziałaby NO-GO. **Bramka binarna myli
+   „zadziałało" z „wystarczyło".** Wstawiłem **DRABINKĘ** (FIX 3): `< 4,357` REGRESJA ·
+   `[4,357; 5,7)` CZĘŚCIOWY (~250-300 akcji/grę) · `≥ 5,7` ZADZIAŁAŁ (≥ 300). Drabinka **zawsze coś
+   drukuje** (nie jest martwa) i **rozróżnia trzy stany** (nie jest binarna). 7911 słusznie żąda, by
+   bramka **mogła paść** — ale bramka, która **musi** paść przy połowicznym sukcesie, wyrzuca
+   informację wartą ~35 pkt.
+   ⚠️ **ROZBIEŻNOŚĆ MIANOWNIKA (oznaczona, NIE rozstrzygnięta):** 7911 liczy budżet **186 200 tok/grę**;
+   zmierzona **wydana** pula to **141 719 / 152 196**. Gemma używa ~146 000 ⇒ **Gemma i ja zgodni
+   co do 3 %, 7911 ma mianownik o 24–31 % większy**. Nie zmienia **rankingu** reguł, zmienia
+   **procenty** (154 nudge = 15,87 % u mnie i u Gemmy, 12,1 % u 7911).
+   ✅ **MOJA NAJLEPSZA WERSJA: `c87-v16f` = duck-v16 Gemmy + 6 POPRAWEK**, zbudowana skryptem
+   **`tools/build_c87_v16f.py`** (247 ln, każda poprawka **ASERTOWANA** — jeśli wzorzec nie pasuje,
+   skrypt PADA, nie produkuje cichego pół-pakietu): **1** `code_file` → `arc3-duck-v16.ipynb` ·
+   **2** slug → `petersharps/arc3-duck-v16-c87f` · **3** alarm `< 1.5` → **`< 4.357` + druk
+   bezwarunkowy z drabinką** (komórki **39 i 40**) · **4** bramka `NO-GO 29.02` → **świadoma
+   baseline** (`N/A` gdy `actions_need == 0`, kom. 38) · **5** `depth_budget_used_pct` → **`None`**
+   zamiast `max(1.0, …)` + zabezpieczony druk (kom. 38) · **6** docstring **27/16 → 22/14**
+   (patch 0009 + fixture).
+   **ZWERYFIKOWANA TRZEMA SPOSOBAMI:** (a) **bramka `--strict`: v16 oryginał 8 ustaleń / 4
+   KRYTYCZNE → `c87-v16f` 4 ustalenia / ✅ 0 KRYTYCZNYCH** (v13.5 → 3, v13.4 → 3, v15-a450 → 3);
+   (b) **ZERO REGRESJI SKŁADNI: 41 komórek przed i po, różnią się DOKŁADNIE 3 (38, 39, 40)** — te,
+   które chciałem; jedyna nieparsowalna (kom. 6) to `%%writefile harness-changes.patch` = tekst diff,
+   **bajt w bajt identyczna**; (c) metadata: slug własny, `code_file` **istnieje**.
+   ⚠️ **DWA FAŁSZYWE POZYTYWY MOJEGO WERYFIKATORA NA MOIM WŁASNYM BUILDZIE — znalezione i
+   naprawione:** L6 dopasowywał `_gate … <= 29.02` **bez sprawdzania strażnika** widoczności baseline,
+   więc oflagował linię, którą **sam właśnie poprawiłem**; L6b flagował każdą wzmiankę o
+   `depth_budget_used_pct`. Dodane: `GUARD_RX` (rozpoznaje `actions_need == 0` /
+   `base_actions_per_level is None` / `baselines_hidden` / `baseline_available` → degraduje do INFO)
+   i zawężenie do konstrukcji `max(1.0, _mean("actions_need"))`. **Poprawiłem też WŁASNĄ SPRZECZNĄ
+   REKOMENDACJĘ:** L4 radziło „próg WZGLĘDNY", czyli dźwignię, którą **L5 w tym samym przebiegu
+   flaguje jako martwą** — teraz L4 odsyła do self-pace z oboma pomiarami.
+   ✅ **WERYFIKATOR ROZBUDOWANY 515 → 778 LINII, 4 → 7 KONTROLI:** **L5 WEJŚCIE UKRYTE W SUBMISJI**
+   (→ #9), **L6 INSTRUMENT GŁOŚNO-MYLĄCY** (→ #10, **rozpoznaje strażnika**), **L7 WDROŻENIOWOŚĆ
+   PAKIETU** (`--package DIR`: `code_file` istnieje? slug należy do TEGO pakietu?).
+   **L5 celowo szuka WZORCA, nie nazwy zmiennej** — a450 nie używa `ARC3_ESCALATE_RELATIVE` w ogóle,
+   więc kluczowanie po nazwie env **przegapiało** ich pakiet (pierwsza wersja dawała v15-a450 tylko
+   2 KRYTYCZNE zamiast 3 — poprawione). **L7 celowo odnosi się do nazwy NOTEBOOKA, nie katalogu** —
+   katalog bywa scratchem audytora (`/tmp/pkg/duck-v15-a450` → regex wyciągnął `v15-a` i oflagował
+   POPRAWNY slug `arc3-duck-v15` jako kolizję; **fałszywy pozytyw z mojej własnej konwencji
+   nazewniczej**). Dodana **deduplikacja** po `(kontrola, komórka, problem)`.
+   **MACIERZ 5 PAKIETÓW (wszystko w kodzie):** `OPENER_COMMIT_HINT="1"` — ❌ v15-a450 (zmienna jest
+   TYLKO w kom. 6 jako `_get_env_bool(..., False)`, więc **hint MARTWY**; a450 sam to przyznaje:
+   „Moje duck-v15 przescigniête przez oba"), ✅ v13.4/v13.5/v16 · **self-pace** — ✅ TYLKO v16 ·
+   **sonda widoczności baseline + ważone pokrycie** — ✅ v13.5 (kom. 38) i v16 (kom. 39), ❌ v13.4,
+   ❌ v15-a450 · **martwy alarm `< 1.5`** — ❌ we WSZYSTKICH czterech (v16 w kom. **39 i 40**) ·
+   **bramka głośno-myląca** — ❌ we WSZYSTKICH czterech · **cap 2** — u a450 **default 2 w patchu**,
+   u Smak/Gemma **default 0** i ustawione jawnie w env (fragilne, ale ustawione).
+   **⚠️ PUŁAPKA DO ZAPAMIĘTANIA: SMOKE ĆWICZY INNĄ GAŁĄŹ NIŻ RERUN.** W smoke'u baseline widoczny ⇒
+   wykonuje się reguła WZGLĘDNA; w rerunie ukryty ⇒ wykonuje się SELF-PACE. **Zielony smoke v16 NIE
+   jest dowodem, że self-pace działa.** To nie błąd Gemmy (tak działa silnik), ale musi być zapisane.
+   ❌ **„v13.4 NIE ISTNIEJE" (7911 `cad326c5` §0) — NIEAKTUALNE O 6 MIN 11 S.** Smak wypchnął
+   `f04c3e73` o **08:15:58**, 7911 commitował o **08:22:09**. **Dokładnie ten sam błąd, który 7911
+   wypomniał sam sobie** („v13.2 nie istnieje" było nieaktualne o 10 min). Szukali czterema metodami
+   i wszystkie były poprawne — tylko wykonane przed publikacją. **Wniosek nie jest „7911 się myli",
+   tylko: przy czterech sesjach piszących równolegle w oknie 30 minut twierdzenie „X nie istnieje"
+   ma okres przydatności liczony w MINUTACH.**
+   **SĄ DWA RÓŻNE `duck-v15`** — oba mówią „v15", oba „7 patchy", oba mają patch **0007** o zupełnie
+   innej treści (a450: eskalacja względna → `tool_agent.py`+`solver.py`+`plan_commit.py`; Gemma: log
+   win-path → `arc3_winpath.py`). **7911 to złapał i miał rację.**
+   **REKOMENDACJA NA SLOT 31.10:** **`c87-v16f`**, pod warunkiem że **ktoś z bundlem r033** przepuści
+   go przez `verify_v13.py` (9/9 `git apply` + kompilacja + testy na spatchowanym drzewie).
+   **Ja tego zrobić NIE MOGĘ i nie udaję, że zrobiłem** — a450b00f zrobił to dla v16
+   (`52b709ee`: „9/9 patchy git apply na czystym r033, drzewo sie kompiluje"), a **moje 6 poprawek
+   nie dotyka ANI JEDNEGO patcha harnessu** — tylko `kernel-metadata.json`, 3 komórki notebooka i
+   2 docstringi. **Ryzyko utraty certyfikacji bliskie zeru, ale „bliskie zeru" ≠ „zweryfikowane".**
+   **Jeśli nikt nie zweryfikuje: `v13.5-consensus` jest najlepszym pakietem, który DA SIĘ wypchnąć
+   bez poprawek** (własny slug ✅, `code_file` ✅, sonda baseline ✅, pokrycie ✅), kosztem
+   **42/26/4,33 %** zamiast **22/14/2,27 %** w rerunie — czyli **2,06 pp puli jednej gry.
+   To MAŁA cena i NIE WARTO dla niej ryzykować nieskładanego pakietu.**
+   **NIE BRAĆ:** v15-a450 (brak hinta = brak jedynej dźwigni o skali ≥ celu) · v13.4 (brak sondy
+   baseline ⇒ po submisji nie dowiemy się, czy reguła względna była martwa) · **v16 i v15 Gemmy bez
+   poprawek 1 i 2** (push albo padnie, albo **nadpisze cudzy kernel**).
+   **RANKING: 1** wypchnąć `c87-v16f` (albo v13.5) na 31.10 — **po GO użytkownika, BEZPIECZNIK
+   obowiązuje** · **2** bramka `verify_config_liveness.py --package --strict` przed każdym pushem
+   (~10 s) · **3** naprawić asercję `pace[:2] == (22, 14)` · **4** z logu submisji czytać W TEJ
+   KOLEJNOŚCI: `baseline=yes|no` (rozstrzyga §1.1) → `mean_coverage` (sufit) → **`mean_a_per_call`
+   z drabinką** (rozstrzyga batching) → `duplicate_bases` (wartość `WINPATH`) → `budget_probe` ·
+   **5** 1.11 rozgałęzienie, 2.11 select best.
+   **Prognoza: oczekiwanie ~28–31 · cel srebro ≈32,33 · 50 pkt wymaga +1,57 poziomu/grę (1,49×
+   głębokości, ~317 akcji/grę, 1,49× batchingu) przy wykorzystaniu sufitu 89,9 % — albo +2,70
+   poziomu (2,00×) przy 79,1 %.** Stanowisko bez zmian: **„arytmetycznie w zasięgu, ale
+   NIEWERYFIKOWALNE w 3 slotach"** — i §7.2 dodał twardy powód: **błąd modelu (±8 pkt) jest
+   WIĘKSZY niż próg istotności (+5 pkt).**
+
+
 19. **`V14-V15-I-WARSTWA-WERYFIKACJI.md`** + **`tools/verify_config_liveness.py`** (515 linii) —
    ❗**NAJNOWSZE (30.10 ~08:45 UTC). ZBUDOWAŁEM BRAKUJĄCĄ WARSTWĘ WERYFIKACJI i znalazłem w v14/v15
    MARTWY INSTRUMENT, którego nikt w czterech gałęziach nie znalazł.**
