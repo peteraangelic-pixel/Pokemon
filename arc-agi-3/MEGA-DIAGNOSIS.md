@@ -211,13 +211,18 @@ Dlaczego czołówka ma 75,56 przy podobnym limicie czasu i podobnym modelu? Bo z
 
 Skoro wynik to średnia po grach, a waga poziomu `l` w grze o `L` poziomach to `l / (1+…+L)`, to **wartość krańcowa ukończenia poziomu jest różna o rząd wielkości między grami**:
 
-| gra | L | wartość ukończenia 1. poziomu | wartość ukończenia ostatniego |
-|---|---|---|---|
-| 4-poziomowa | 4 | 2/10 = 20,0% | 5/10 = 50,0% |
-| 7-poziomowa | 7 | 2/28 = 7,1% | 8/28 = 28,6% |
-| 9-poziomowa | 9 | 2/45 = 4,4% | 10/45 = 22,2% |
+| gra | L | waga 1. poziomu | wartość 1. poziomu | wartość ostatniego |
+|---|---|---|---|---|
+| 4-poziomowa | 4 | 1 z 10 | **1/10 = 10,0%** | 4/10 = 40,0% |
+| 7-poziomowa | 7 | 1 z 28 | **1/28 = 3,6%** | 7/28 = 25,0% |
+| 9-poziomowa | 9 | 1 z 45 | **1/45 = 2,2%** | 9/45 = 20,0% |
 
 **Ukończenie 1. poziomu gry 4-poziomowej jest warte 4,5× więcej niż 1. poziomu gry 9-poziomowej.**
+
+> Poprawka 30.10: poprzednia wersja tej tabeli miała off-by-one — podawała
+> 2/10 i 5/10, czyli wartość *drugiego* poziomu, nie pierwszego. Stosunek 4,5×
+> był przypadkiem poprawny (2/10 ÷ 2/45 = 4,5), więc wniosek się nie zmienia,
+> ale liczby bezwzględne były zawyżone. Odtworzenie: `local/test_v14.py`.
 
 My rozdzielamy czas **równo** — wszystkie 30 gier skończyło dokładnie na 2880 s (10/10 przy limicie). To jest dokładnie odwrotność tego, co optymalne.
 

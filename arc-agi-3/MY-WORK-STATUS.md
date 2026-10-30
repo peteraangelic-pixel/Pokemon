@@ -8,6 +8,9 @@
 > |---|---|
 > | **`EVAL-BUDGET-MODEL.md`** | ile czasu i akcji dostaje gra w ewaluacji; dlaczego roster ~110 gier daje ~49 min/grę i ~205 decyzji; ile akcji potrzeba na 50/60/75 |
 > | **`MEGA-DIAGNOSIS.md`** | pełna diagnoza wyniku 23→25: pokrycie 29% × efektywność 90%, błąd capu RHAE 1,15→1,0, **1,00 akcji na decyzję** jako wąskie gardło |
+> | **`V14-PLAN.md`** | plan wersji lepszej od 13.2: tylko **tokeny na akcję** (853→479) mają właściwy znak i skalę; porzucanie poziomów to zakład **−19,5…+2,9** (nie wysyłać); priorytet krótkich gier darmowy; §5 podaje pomiar, który rozstrzyga tezę |
+> | `local/v14_policy.py` + `test_v14.py` | polityka + symulator z dwoma wariantami (13/13 PASS) |
+> | `local/token_budget.py` | odtwarza 4,61 akcji/generację, 853 tok/akcję, 186 200 tok/grę |
 > | **`V13-AUDIT-30OCT.md`** | audyt v13→v13.1→**v13.2**; diff v13→v13.1 (2 zmiany w kodzie); dowód uruchomieniem, że w v13 dead-skip i pamięć między wpisami były martwe; testy 6/6 zielone przy martwej funkcji; zbieżność z recenzją c87 |
 > | **`V13-1-VERIFICATION.md`** | weryfikacja `duck-v13-1` (gałąź `arena/a450b00f-pokemon`): 7/7 testów winpath, 9/12 plan-commit, co jest warte +2,3 pkt, wada projektowa `commit(plan)` |
 > | `local/scheduler.py` + `test_scheduler.py` | scheduler wartości akcji, 9/9 testów, odtwarza opublikowane tabele |
