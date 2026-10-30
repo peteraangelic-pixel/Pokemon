@@ -1,7 +1,14 @@
 # Audyt v13 / v13.1 i poszukiwanie v13.2 — 30.10.2026
 
-**Zakres:** (1) czy istnieje v13.2, (2) audyt `duck-v13-1` z uwzględnieniem pełnej historii,
-(3) korekty do moich wcześniejszych twierdzeń, (4) porównanie z niezależną recenzją c87.
+**Zakres:** (1) v13.2 — **istnieje, commit `6b108534`** (§1, §1A), (2) audyt `duck-v13-1`
+z uwzględnieniem pełnej historii (§2–§4), (3) korekty do moich wcześniejszych twierdzeń,
+(4) porównanie z niezależną recenzją c87 (§5), (5) werdykt o v13.2 (§6).
+
+> **⚠️ TEN DOKUMENT ZAWIERA SPROSTOWANIE WŁASNEGO BŁĘDU.** Pierwotna wersja §1
+> twierdziła „v13.2 nie istnieje". To było nieprawdziwe — v13.2 zostało
+> opublikowane 30.10 o 07:45 UTC, a mój `git fetch --all` go nie pobrał, bo
+> RefSpec tego klonu nie śledzi cudzych gałęzi `arena/*`. Przyczyna i procedura
+> na przyszłość: **§1.1–§1.3**.
 
 > **Poprawka do `V13-1-VERIFICATION.md` §7.2.** Napisałem tam, że na gałęzi jest tylko
 > jeden commit i diffu v13 → v13.1 nie da się odtworzyć. **To było nieprawdziwe.**
@@ -13,22 +20,185 @@
 
 ---
 
-## 1. v13.2 nie istnieje
+## 1. ❌ BŁĄD WŁASNY: v13.2 ISTNIEJE — commit `6b108534`, 30.10 07:45 UTC
 
-Sprawdzone, nie założone:
+**Pierwotna wersja tej sekcji twierdziła „v13.2 nie istnieje" i była NIEPRAWDZIWA.**
 
-| gdzie szukałem | wynik |
+| | |
 |---|---|
-| `git grep -il "v13.2\|v13-2\|v132"` na **wszystkich** gałęziach zdalnych | brak trafień |
-| `git log --all --grep="v13.2"` | brak trafień |
-| katalogi `arc-agi-3/duck-v13*` na `a450b00f` | tylko `duck-v13-1` i `duck-v13-mega` |
-| najnowszy commit `a450b00f` | `cbefdd4` = v13.1, brak nowszego |
+| commit | `6b1085340a6fc6c7b5d584d1312d639c200fb1d5` |
+| data | **2026-10-30 07:45:14 UTC** |
+| gałąź | `arena/a450b00f-pokemon` (tip) |
+| katalog | `arc-agi-3/duck-v13-2/` |
 
-Dwa commity z „v13" w treści (`3d094e7`, `c78439e`) należą do **innego projektu** na
-gałęzi `8560a56a` (v14, gust, retrieval — nie ARC-AGI-3).
+### 1.1 Dlaczego mój check dał fałszywy negatyw — przyczyna systemowa
 
-**Wniosek: v13.2 nie zostało opublikowane na żadnej gałęzi.** Jeśli miało powstać,
-to nie powstało. Nie będę zgadywał, co miało zawierać.
+**RefSpec tego klonu obejmuje tylko dwie gałęzie:**
+
+```
++refs/heads/main:refs/remotes/origin/main
++refs/heads/arena/7911f950-pokemon*:refs/remotes/origin/arena/7911f950-pokemon*
+```
+
+`git fetch --all` **nie pobiera więc żadnej innej gałęzi `arena/*`**. Dowód:
+
+```
+$ git fetch --all -v
+ = [up to date]      main                   -> origin/main
+ = [up to date]      arena/7911f950-pokemon -> origin/arena/7911f950-pokemon
+```
+
+Zdalnie jest **8 gałęzi**, a `--all` śledzi **2**. Pozostałe `origin/arena/*`
+to zamrożone migawki z momentu, w którym pobrałem je **jawnie** — i `--all`
+nigdy ich nie odświeży.
+
+Konsekwencja: `git rev-parse origin/arena/a450b00f-pokemon` zwracał `cbefdd4`
+(v13.1), choć na GitHubie tipem było już `6b10853` (v13.2). Wszystkie moje
+`git grep` i `git ls-tree` szukały w **nieaktualnej migawce** i rzetelnie
+donosiły „brak".
+
+### 1.2 To ten sam błąd, trzeci raz
+
+| # | incydent | fałszywe twierdzenie | prawdziwa przyczyna |
+|---|---|---|---|
+| 1 | `DUCK-V8-VERIFIED.md` | „duck-v8 nie istnieje w żadnym remote" | `ls-tree` na niepobranym refie |
+| 2 | `V13-1-VERIFICATION.md` §7.2 | „diffu v13→v13.1 nie da się odtworzyć, jest jeden commit" | historia niepobrana (single-branch) |
+| 3 | `V13-AUDIT-30OCT.md` §1 | „v13.2 nie istnieje" | **RefSpec: `--all` nie śledzi cudzych gałęzi arena** |
+
+Trzy różne objawy, **jedna klasa**: twierdziłem „nie ma", nie sprawdziwszy, czy
+w ogóle patrzę na aktualne dane.
+
+### 1.3 Obowiązująca procedura (do stosowania zawsze)
+
+```bash
+# 1) NIGDY nie ufaj `git fetch --all` dla cudzych gałęzi w tym klonie.
+git fetch origin <gałąź>:refs/remotes/origin/<gałąź> --force
+
+# 2) Albo napraw RefSpec raz na zawsze:
+git config --add remote.origin.fetch '+refs/heads/arena/*:refs/remotes/origin/arena/*'
+
+# 3) Zanim napiszesz "nie istnieje", porównaj LOKALNY ref z API:
+gh api repos/peteraangelic-pixel/Pokemon/branches/<gałąź> --jq .commit.sha
+git rev-parse origin/<gałąź>
+```
+
+Reguła: **„nie znalazłem" ≠ „nie ma".** Zanim to napiszę, muszę pokazać, że
+lokalny ref == zdalny tip. W punktach 1–3 tego nie zrobiłem.
+
+### 1.4 Czego to nie unieważnia
+
+Poprawne pozostają: §2 (diff v13→v13.1), §3 (dowód uruchomieniem, że w v13
+`dead_skip` nie działał), §4 (lekcja o testach zielonych przy martwej funkcji)
+i §5 (zbieżność z c87). Wszystkie opierały się na danych, które **miałem**
+pobrane i zweryfikowane uruchomieniem, nie na ich braku.
+
+---
+
+## 1A. Co v13.2 faktycznie zmienia (zweryfikowane)
+
+Diff `cbefdd4` → `6b10853`. Nowy katalog `duck-v13-2/`; plik po pliku:
+
+| plik | zmiana |
+|---|---|
+| `README.md` | +20 linii: sekcja „v13.2 (30.10, po audytach 7911f950 i c87)" |
+| `arc3-duck-v13.ipynb` | **3 linie**: `ESCALATE_ACTIONS = 60` → **`10`**, etykieta `v13.1` → `v13.2` |
+| `src/arc3_winpath.py` | **+3 linie**: guard `GAME_OVER` w `_replay_once` |
+| `tests/test_winpath.py` | +13 linii: **8. test** `test_game_over_frame_does_not_burn_replay` |
+| `patches/0006-*.patch` | +5/−2: to samo, co w `src/` (patch jest generowany) |
+| `kernel-metadata.json`, `build_v13.py`, `verify_v13.py` | same etykiety wersji |
+| `playbook.json`, `base-v11.ipynb`, `test_plan_commit.py`, `build_playbook.py`, `make_patch_0006.py`, `ANALIZA-23.md` | **bez zmian, bajt w bajt** |
+
+### 1A.1 `ESCALATE_ACTIONS 60 → 10` — moja rekomendacja, wdrożona
+
+Commit message cytuje wprost: *„(audyt 7911: commit tylko oferowany, eskalacja
+to jedyne wymuszenie; env potwierdzone w patchu 0005)"*. README dodaje, że to
+*„jedyne wymuszenie w scaffoldzie"*.
+
+**Potwierdzam empirycznie, że env działa** (to była moja niedomknięta luka —
+pisałem „eskalacja włącza się po 60 akcjach", nie sprawdziwszy, czy próg jest
+konfigurowalny):
+
+```python
+ESCALATE_ACTIONS = 10
+_v11_os.environ["ARC3_ESCALATE_ACTIONS"] = str(ESCALATE_ACTIONS)   # komórka 2
+```
+a w patchu 0005:
+```python
+escalate_every = _escalate_actions()            # czyta ARC3_ESCALATE_ACTIONS
+if on_level >= escalate_every * (self._arc3_escalations_on_level + 1):
+    lines.append(plan_escalation_prompt(...))
+```
+
+**Skutek policzony na r018** (realne `actions_per_level`, 10 gier):
+
+| próg | eskalacji w biegu | na grę (mediana) | na grę (min) |
+|---|---|---|---|
+| N=60 (v13.1) | **16** | 2 | **0** |
+| N=10 (v13.2) | **189** | 20 | 10 |
+
+**12× więcej presji.** Twierdzenie README, że przy 60 *„często nie odpalała się
+nigdy"*, jest zgodne z danymi: minimum 0 na grę.
+
+**Odtworzenie:** `local/v13_verify/escalate_proof.py` (exit 0). Sprawdza trzy
+niezależne rzeczy: (A) notebook eksportuje `ARC3_ESCALATE_ACTIONS`, (B) patch 0005
+czyta tę zmienną i **tylko** robi `lines.append(...)` — bez `return`/`raise`/`continue`,
+czyli bez twardej bramki, (C) liczby 16 i 189 wynikają z realnych `actions_per_level`.
+
+### 1A.2 ⚠️ Ale to NADAL nie jest wymuszenie — i mam obawę co do kierunku
+
+Eskalacja to `lines.append(...)` — **dopisanie tekstu do promptu**. Model może ją
+zignorować dokładnie tak samo jak opis narzędzia. Z moich trzech rekomendacji
+(`V13-1-VERIFICATION.md` §3) v13.2 realizuje **jedną**:
+
+| # | moja rekomendacja | stan w v13.2 |
+|---|---|---|
+| 1 | wymusić batch przy pierwszej turze poziomu | ❌ nie |
+| 2 | zejść z eskalacji 60 → ~8–10 | ✅ **tak, dokładnie 10** |
+| 3 | odrzucać turę z 1 akcją bez uzasadnienia | ❌ nie |
+
+**Ryzyko, którego nikt nie podniósł:** treść dyrektywy (≈550 znaków, ~140 tokenów)
+żąda wykonania **czterech kroków analizy naraz**:
+
+> „In this turn: (1) state what the recorded transitions leave unexplained;
+> (2) write the rule you believe as `model_state(frame)` and `model_step(state, action)`;
+> (3) run `check_model()` and report the accuracy — below ~0.9 on this level it is
+> not yet a model; (4) only then `plan()` inside it and `commit()` the result…"
+
+Przy progu 10 ta dyrektywa trafia do promptu **~20 razy na grę**. Model, który
+wykonuje polecenie dosłownie, spędzi te tury na **pisaniu modelu świata**, a nie
+na batchowaniu akcji. To może **zmniejszyć** liczbę akcji na decyzję — czyli
+zadziałać **przeciwnie do celu**.
+
+Efekt jest więc dwustronnie nieokreślony:
+
+- model **ignoruje** dyrektywę → 189 eskalacji nie zmienia nic (jak przy 60);
+- model **wykonuje** dyrektywę → spala tury na meta-analizie zamiast na `commit()`.
+
+To nie znaczy, że zmiana jest zła — 60 było bez wątpienia zbyt wysoko. Znaczy, że
+**kierunek efektu da się ustalić tylko pomiarem `akcji/decyzję` w logu**, a nikt
+tego dotąd nie zmierzył — ani autorzy, ani c87, ani ja.
+
+### 1A.3 Guard `GAME_OVER` (Gemma) — poprawny
+
+```python
+raw_state = getattr(getattr(game_state, "raw", None), "state", None)
+if str(getattr(raw_state, "name", raw_state)).upper().endswith("GAME_OVER"):
+    return False  # dead frame: do not burn the level's replay on it
+```
+
+- Ścieżka `raw.state` **zgadza się** z tym, co widziałem w `base-v11.ipynb`
+  (`raw_state = new_state.raw.state`). Nie jest zgadywana.
+- Gdy `raw`/`state` brak → `str(None)` = `"NONE"`, nie kończy się na `GAME_OVER`,
+  więc guard przepuszcza. Bezpieczna degradacja.
+
+### 1A.4 Korekta liczby testów — i skąd się wzięła
+
+v13.1 ogłaszało „12+8 testów", a `test_winpath.py` miał **7 metod**. Mój
+`V13-1-VERIFICATION.md` §2 zapisał „7/7 PASS", co tę rozbieżność dokumentowało.
+v13.2 to koryguje („**7+1=8 dopiero od v13.2**") i przypisuje wykrycie recenzjom
+Smak i 7911f950.
+
+**Zweryfikowane:** `test_winpath.py` w v13.2 ma 8 metod, `unittest` → **8/8 OK**.
 
 ---
 
@@ -202,25 +372,75 @@ która osłabia moją rekomendację". Notuję jako zamknięte.
 
 ---
 
-## 6. Zaktualizowany werdykt o v13.1
+## 6. Werdykt o v13.2 (30.10, po audytach 7911f950 i c87)
 
 | pytanie | odpowiedź |
 |---|---|
-| Czy v13.1 naprawia realne błędy v13? | **Tak, dwa niezależne, dowiedzione uruchomieniem** (§3) |
-| Czy v13.1 da 50? | **Nie.** Playbook ≈ 0 (brak trafień w id), `commit()` opcjonalne, `n_passes=1` |
-| Czy v13.1 jest lepszy od v13? | **Tak, i to nie jest kosmetyka** — w v13 dead-skip i pamięć między wpisami nie działały wcale |
-| Czy warto go wysłać? | **Jako pomiar kontrolny — nie jako kandydata na 50.** I tylko z wyłączonymi kill-switchami, żeby wynik dało się zinterpretować (§5.4) |
-| Czego nikt nie zmierzył | czy `commit()` realnie podnosi akcje na decyzję — **to jedyna dźwignia o skali, i stoi niezmierzona** |
+| Czy v13.2 istnieje? | **Tak** — `6b108534`, tip `a450b00f`, 30.10 07:45 UTC |
+| Czy wdraża moją rekomendację? | **Tak, ale jedną z trzech**: `ESCALATE_ACTIONS` 60 → **10**, dokładnie jak postulowałem (§1A.1) |
+| Czy to wystarczy na 50? | **Nie.** Presja rośnie 12× (16 → 189 eskalacji w biegu), ale to nadal **tekst w promptcie**, nie bramka. Model może ją zignorować |
+| Czy efekt będzie dodatni? | **Nieokreślony w obie strony** (§1A.2): ignorowanie → brak zmiany; posłuszeństwo → tury spalone na `model_state`/`check_model` zamiast na `commit()` |
+| Co jest dobrego? | Guard `GAME_OVER` poprawny i na właściwej ścieżce `raw.state`; korekta liczby testów 7+1=8 — uczciwa i zweryfikowana (8/8 OK) |
+| Co pozostaje niezmierzone? | **akcje/decyzję w realnym biegu** — jedyna dźwignia o skali ×2,7 |
 
----
+### 6.1 Porównanie trzech wersji
+
+| | v13 (`3782f8c`) | v13.1 (`cbefdd4`) | v13.2 (`6b10853`) |
+|---|---|---|---|
+| magazyn per bazowy kod gry | ❌ pełne id | ✅ `base_key()` | ✅ |
+| `dead_skip` działa w rerunie | ❌ **nie** (2 błędy, §3) | ✅ | ✅ |
+| `ESCALATE_ACTIONS` | 60 | 60 | **10** |
+| guard `GAME_OVER` | ❌ | ❌ | ✅ |
+| testy winpath | 6/6 (przy martwej funkcji) | 7/7 | **8/8** |
+| `commit()` wymuszony | ❌ oferowany | ❌ oferowany | ❌ **nadal tylko presja** |
+| playbook | ≈0 (brak trafień w id) | ≈0 | ≈0 (**bez zmian, bajt w bajt**) |
+
+**v13.2 jest najlepszą z trzech wersji** — dwie realne naprawy plus wdrożona
+moja rekomendacja. Ale nadal nie dotyka tego, co faktycznie blokuje wynik:
+`commit()` pozostaje sugestią, a playbook nie trafi w gry przy prywatnym rosterze.
+
+### 6.2 Ryzyko wysłania v13.2 „na 50"
+
+Nie dowiemy się z niego nic diagnostycznego — stackuje 5 zmian (jak v13).
+Jeśli wyjdzie 29, nie rozstrzygniemy, czy to `ESCALATE=10`, `CAP=0`, guard, czy szum.
+To ten sam błąd co przy v11/23 (c87 §4 nazywa to „śmiertelnym #8").
+
+**Ale** jeden pomiar z v13.2 byłby naprawdę cenny i tani: **policzyć
+`akcje/decyzję` w logu**. To jedna liczba, którą można wyciągnąć z `history[]`
+tak samo, jak ja wyciągnąłem 1,00 z r013/r015/r018. Jeśli po v13.2 ta liczba
+wzrośnie — eskalacja działa i można ją zaostrzać. Jeśli spadnie — dyrektywa
+szkodzi i trzeba ją skrócić do jednego zdania („użyj `commit()` na ten poziom").
 
 ## 7. Co bym zrobił dalej (w kolejności)
 
-1. **Zmienić `commit()` z „oferowane" na „wymuszone"** — inaczej lewar o skali ×2,7
-   nigdy nie zagra. Zmiana w `tool_agent.py` + zejście z eskalacji 60 → ~8.
-2. **Zmniejszyć liczbę zmian w jednym submicie** — zostawić `CAP=0` + `EXPOSE_UNDO` +
-   `commit()` wymuszony, wyłączyć playbook i dead-skip (i tak ≈ 0).
-3. **Dodać log `v13 winpath: level=… match=…`** — bez niego nie wiemy, czy replay
-   się w ogóle uruchomił. Jedna linia, rozstrzyga całą klasę cichych awarii.
-4. Playbook przegenerować **najkrótszą** ścieżką spośród wszystkich źródeł
-   (sp80: 4 akcje vs 28), ale **nie liczyć na niego punktów** przy rosterze prywatnym.
+1. **Zmierzyć `akcje/decyzję` w logu v13.2.** Zero kosztu, rozstrzyga całą klasę
+   pytań. Procedura jest w `MEGA-DIAGNOSIS.md` §4 (rosnące `wallclock_seconds`
+   = nowa decyzja). **To jest teraz ważniejsze niż cokolwiek innego** — bez tej
+   liczby nie wiemy, czy `ESCALATE=10` pomaga, czy szkodzi.
+2. **Skrócić dyrektywę eskalacyjną do jednego zdania.** Obecna (4 kroki,
+   ~550 znaków) prosi model o napisanie modelu świata zamiast o batching.
+   „Ten poziom nie jest ukończony — zaplanuj i `commit()` co najmniej 3 akcje."
+3. **Twarda bramka zamiast presji** (moja rekomendacja #3, nadal niezrealizowana):
+   odrzucić turę, która wykonuje 1 akcję, gdy `model_step` już przewiduje wynik.
+4. **Zmniejszyć liczbę zmian w jednym submicie** — `CAP=0` + `EXPOSE_UNDO` +
+   wymuszony `commit()`, z wyłączonym playbookiem i `dead_skip` (i tak ≈ 0).
+5. Playbook przegenerować **najkrótszą** ścieżką (sp80: 4 akcje vs 28), ale
+   **nie liczyć na niego punktów** przy prywatnym rosterze.
+
+---
+
+## 8. Rejestr moich pomyłek w tej sesji
+
+Zapisuję je, bo wszystkie mają tę samą przyczynę i wszystkie kosztowały czas.
+
+| # | twierdzenie | prawda | przyczyna |
+|---|---|---|---|
+| 1 | „duck-v8 nie istnieje w żadnym remote" | istnieje, `5f397df` | `ls-tree` na niepobranym refie |
+| 2 | „diffu v13→v13.1 nie da się odtworzyć" | da się, `3782f8c`→`cbefdd4` | historia niepobrana |
+| 3 | „v13.2 nie istnieje" | istnieje, `6b108534` | **RefSpec: `--all` nie śledzi cudzych gałęzi `arena/*`** |
+| 4 | „cap 1,15 to reguła" | reguła to **1,0** | arcagibook ≠ strona konkursu |
+| 5 | symulator schedulera „+22 pkt" | +0…+8, przy 400 potrafi −5 | błąd w symulatorze (darmowe zaliczanie poziomów) |
+
+Wzór w #1–#3: **twierdziłem brak, patrząc na nieaktualne dane.** Procedura z §1.3
+jest odpowiedzią. W #4–#5: **brałem źródło wtórne za autorytatywne.** Odpowiedź:
+cytować stronę konkursu i liczyć z surowych artefaktów.

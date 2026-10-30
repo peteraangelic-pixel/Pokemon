@@ -8,11 +8,39 @@
 > |---|---|
 > | **`EVAL-BUDGET-MODEL.md`** | ile czasu i akcji dostaje gra w ewaluacji; dlaczego roster ~110 gier daje ~49 min/grę i ~205 decyzji; ile akcji potrzeba na 50/60/75 |
 > | **`MEGA-DIAGNOSIS.md`** | pełna diagnoza wyniku 23→25: pokrycie 29% × efektywność 90%, błąd capu RHAE 1,15→1,0, **1,00 akcji na decyzję** jako wąskie gardło |
-> | **`V13-AUDIT-30OCT.md`** | audyt v13→v13.1: **v13.2 nie istnieje**; diff v13→v13.1 (2 zmiany w kodzie); dowód uruchomieniem, że w v13 dead-skip i pamięć między wpisami były martwe; testy 6/6 zielone przy martwej funkcji; zbieżność z recenzją c87 |
+> | **`V13-AUDIT-30OCT.md`** | audyt v13→v13.1→**v13.2**; diff v13→v13.1 (2 zmiany w kodzie); dowód uruchomieniem, że w v13 dead-skip i pamięć między wpisami były martwe; testy 6/6 zielone przy martwej funkcji; zbieżność z recenzją c87 |
 > | **`V13-1-VERIFICATION.md`** | weryfikacja `duck-v13-1` (gałąź `arena/a450b00f-pokemon`): 7/7 testów winpath, 9/12 plan-commit, co jest warte +2,3 pkt, wada projektowa `commit(plan)` |
 > | `local/scheduler.py` + `test_scheduler.py` | scheduler wartości akcji, 9/9 testów, odtwarza opublikowane tabele |
 > | `local/benchmarks/` | `benchmark.json` z r013/r015/r018 — surowe dane, na których stoją wszystkie liczby |
 > | `rust/src/plan.rs`, `rust/src/bin/lab.rs` | planner macro-akcji + lokalne środowisko (rayon). **NIESKOMPILOWANE** — brak cargo w sandboxie |
+>
+> ### ⚠️ UWAGA DLA INNYCH SESJI: `git fetch --all` NIE odświeża cudzych gałęzi
+>
+> RefSpec tego klonu obejmuje tylko `main` i `arena/7911f950-pokemon`:
+> ```
+> +refs/heads/main:refs/remotes/origin/main
+> +refs/heads/arena/7911f950-pokemon*:refs/remotes/origin/arena/7911f950-pokemon*
+> ```
+> Zdalnie jest 8 gałęzi, `--all` śledzi 2. Pozostałe `origin/arena/*` to
+> **zamrożone migawki** z momentu jawnego `git fetch`. To już trzy razy dało
+> fałszywe „nie istnieje" (duck-v8, v13→v13.1, v13.2).
+>
+> ```bash
+> git fetch origin <gałąź>:refs/remotes/origin/<gałąź> --force
+> # albo raz na zawsze:
+> git config --add remote.origin.fetch '+refs/heads/arena/*:refs/remotes/origin/arena/*'
+> ```
+> Zanim napiszesz „nie ma", porównaj `git rev-parse origin/<gałąź>` z
+> `gh api repos/peteraangelic-pixel/Pokemon/branches/<gałąź> --jq .commit.sha`.
+> Szczegóły: `V13-AUDIT-30OCT.md` §1.1–§1.3.
+>
+> ### Stan wersji duck
+>
+> | wersja | commit | stan |
+> |---|---|---|
+> | v13 | `3782f8c` | `dead_skip` i pamięć między wpisami **martwe** (2 błędy, dowiedzione uruchomieniem) |
+> | v13.1 | `cbefdd4` | naprawia oba; `ESCALATE=60` |
+> | **v13.2** | **`6b10853`** | **`ESCALATE=10` (moja rekomendacja), guard GAME_OVER, 8/8 testów; `commit()` nadal tylko presją** |
 >
 > **Wniosek w jednym zdaniu:** przy ~205 akcjach na grę sufit wynosi ~19–31 pkt;
 > jesteśmy na 79–100% tego sufitu. Jedyna dźwignia o właściwej skali to
