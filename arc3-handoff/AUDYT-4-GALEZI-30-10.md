@@ -84,7 +84,21 @@ zakłada niezerowe prawdopodobieństwo wypłaty, a §15 właśnie to prawdopodob
 
 ---
 
-## 2. ❗NAJWAŻNIEJSZA LICZBA TEGO AUDYTU: 3,6× luka silnika, nie pochodząca z modelu ani z promptu
+## 2. ❗~~NAJWAŻNIEJSZA LICZBA TEGO AUDYTU: 3,6× luka silnika~~ — ❌ **OBALONE 30.10 ~08:20**
+
+> ❌ **CAŁY TEN §2 JEST NIEWAŻNY. „3,6× luka silnika" NIE ISTNIEJE.**
+> Wiersz tabeli `MEGA-CONFIG.md`, na którym stała teza, opisuje `r110` jako **„8B, v13 cap 45k"**.
+> **Sprawdziłem tożsamość artefaktu:** log nazywa się **`arc3-duck-v13-27b.log`**, serwer to
+> **`vllm-openai-server.log`** (nie SGLang-owy `serve.log`), a w treści jest **742 × „vllm"**,
+> **17 × „27b"** i **0 × „sglang"/„flash-next"**. **`r110` to run 27B/vLLM.**
+> Skoro `r110` (62,6) i `r118` (63,1) to **oba 27B**, są ze sobą zgodne — a różnica 17,2 → 62,6
+> to **8B vs 27B**, czyli **dokładnie różnica modelu**, o której Gemma napisała, że z niego
+> „nie pochodzi". **Nie ma żadnej regresji silnika do odzyskania.**
+> **Linia 8B już jest w dobrym stanie: 663 tok/s agregatowo, 60 % obłożenia puli KV, zerowe kolejki.**
+> ❗**To jest DZIESIĄTA korekta i najostrzejsza: zweryfikowałem ISTNIENIE artefaktu, nie jego
+> TOŻSAMOŚĆ** — a potem awansowałem na tej podstawie parsowanie `serve.log` na dźwignię nr 1
+> „wartą 20–40 punktów". **Awans wycofany.** Pełny wywód, dowody i nowa reguła:
+> **`POMIAR-SERVE-LOG-I-V15.md` §2.**
 
 `Gemma-konkurs@6d081d52`… nie — **`Gemma-konkurs@c4eeb067`, `ARC3/local-lab/MEGA-CONFIG.md` §1.**
 
@@ -177,7 +191,21 @@ Z projekcji Gemmy (`PLAN-50.md` §0 pkt 5, z zachowaną efektywnością runu):
 
 ---
 
-## 3. Moja hipoteza mechanizmu 3,6× — z arytmetyką, sprawdzalna za darmo
+## 3. ~~Moja hipoteza mechanizmu 3,6×~~ — ❌ **OBALONA MOIM WŁASNYM POMIAREM (30.10 ~08:20)**
+
+> ❌ **ZBUDOWAŁEM PARSER I URUCHOMIŁEM GO NA PRAWDZIWYCH LOGACH — HIPOTEZA JEST FAŁSZYWA.**
+> `tools/parse_serve_log.py` na `r085/output-pick/serve.log` (986 600 B) i `r093/output-pick/serve.log`
+> (1 143 523 B): obłożenie puli KV średnio **0,6042 / 0,5258**, próbek **≥0,91 tylko 3,53 % / 2,53 %**,
+> `#queue-req > 0` w **4,72 % / 3,33 %** próbek, **mediana kolejki 0,0 w KAŻDYM oknie czasu**,
+> a korelacja obłożenie↔throughput **DODATNIA** (+0,0921 / +0,3773) — przy TU≥0,91 throughput jest
+> **WYŻSZY** (752,1 vs 654,5 tok/s), „duszenie" = **0,87 / 0,787** (czyli < 1).
+> **Moja arytmetyka `10 × 131 072 = 1 310 720 > 1 011 264` mnożyła MAKSYMALNY kontekst przez liczbę
+> strumieni** — a kontekst jest przycinany (118k → ~59k), więc średnie obłożenie to ~60–100k na grę
+> i pula ma ~40 % zapasu. **To ten sam błąd co przy capie 45k: poprawna arytmetyka, zła populacja.**
+> **Mechanizm rellik13 jest prawdziwy, ale NIE dotyczy naszej konfiguracji** (on: 16 strumieni,
+> kontekst 69 632; my: 10 strumieni, 131 072, ta sama pula). Pełny pomiar: `POMIAR-SERVE-LOG-I-V15.md` §1.
+> ✅ **Produkt uboczny potwierdzający mój model:** `EKONOMIA-TOKENOW.md` §1bis używało „603 tok/s" —
+> zmierzone **663 (r085)** i **584 (r093)**, czyli 603 leży dokładnie między nimi, **co do 10 %**.
 
 **Nie twierdzę, że to prawda. Twierdzę, że to jest hipoteza z liczbami i że da się ją rozstrzygnąć
 bez GPU i bez slotu.**

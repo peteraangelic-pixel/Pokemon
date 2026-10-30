@@ -467,6 +467,121 @@ Trzy wnioski, które bolą:
    dowodu, że dźwignia wykonuje się w submisji.
    **Oczekiwanie ~28–30 · cel srebro ≈32.33 · ścieżka do 40+ JEDNA i niezmieniona: odzyskać
    17,2 ms/token.** v13.2 dokłada do tego **multiplikator**, ale multiplikator razy zero daje zero.
+
+18. **`POMIAR-SERVE-LOG-I-V15.md`** + **`tools/parse_serve_log.py`** — ❗**NAJNOWSZE (30.10 ~08:20 UTC).
+   DZIESIĄTA KOREKTA: „3,6× luka silnika" NIE ISTNIEJE, a moja hipoteza KV jest OBALONA moim własnym
+   pomiarem.** Napisałem parser i uruchomiłem go na **prawdziwych** `serve.log` (r085 986 600 B,
+   r093 1 143 523 B, pobrane przez `gh api`).
+   ❌ **HIPOTEZA NASYCENIA KV OBALONA:** obłożenie puli średnio **0,6042 / 0,5258**, próbek **≥0,91
+   tylko 3,53 % / 2,53 %** (nie „91-97% full"), `#queue-req>0` w **4,72 % / 3,33 %**, **mediana
+   kolejki 0,0 W KAŻDYM OKNIE CZASU**, korelacja obłożenie↔throughput **DODATNIA** (+0,0921/+0,3773),
+   throughput przy TU≥0,91 **WYŻSZY** (752,1 vs 654,5 tok/s). Moja arytmetyka `10 × 131 072 > 1 011 264`
+   mnożyła **MAKSYMALNY** kontekst — a kontekst jest przycinany (118k→~59k), więc pula ma ~40 %
+   zapasu. **To ten sam błąd co przy capie 45k: poprawna arytmetyka, zła populacja.** Mechanizm
+   rellik13 jest prawdziwy, ale **nie dotyczy naszej konfiguracji** (on: 16 strumieni/69 632; my: 10/131 072).
+   ✅ Produkt uboczny: `EKONOMIA-TOKENOW.md` §1bis miało „603 tok/s" — zmierzone **663 (r085)** i
+   **584 (r093)**, czyli **603 leży dokładnie między nimi, co do 10 %**.
+   ❌ **„3,6× LUKA SILNIKA" NIE ISTNIEJE — wiersz tabeli `MEGA-CONFIG.md` jest BŁĘDNIE ZAETYKIETOWANY.**
+   `r110` opisany jako „8B, v13 cap 45k" to w rzeczywistości **27B/vLLM**: log `arc3-duck-v13-27b.log`,
+   serwer `vllm-openai-server.log` (nie SGLang-owy `serve.log`), w treści **742× „vllm", 17× „27b",
+   0× „sglang"/„flash-next"**; `summary.txt`: mean **0,73**, 926 akcji, 155,46 tok/s, 48m6s.
+   **Skoro `r110` (62,6) i `r118` (63,1) to OBA 27B, są zgodne — a różnica 17,2→62,6 to 8B vs 27B,
+   czyli DOKŁADNIE różnica modelu**, o której Gemma napisała, że z niego „nie pochodzi".
+   **Linia 8B JUŻ JEST w dobrym stanie. Nie ma czego odzyskiwać.**
+   ❗**DZIESIĄTA KOREKTA, NAOSTRZEJSZA: zweryfikowałem ISTNIENIE artefaktu, nie jego TOŻSAMOŚĆ** —
+   napisałem *„sprawdziłem, że r110 istnieje… zawartości nie czytałem"* i na tej podstawie awansowałem
+   parsowanie `serve.log` na dźwignię nr 1 „wartą 20–40 punktów" oraz uczyniłem je **warunkiem
+   koniecznym** decyzji o slocie. **Awans WYCOFANY.** Złamałem własną regułę w momencie, w którym ją
+   cytowałem. **NOWA REGUŁA DO `FAKTY`: CYTOWANA TABELA JEST ARTEFAKTEM WTÓRNYM — przed zbudowaniem
+   na niej priorytetu trzeba pobrać artefakt PIERWOTNY i sprawdzić jego TOŻSAMOŚĆ (nazwa pliku,
+   serwer, model, znacznik czasu), nie tylko ISTNIENIE.**
+   ✅ **Co zostaje prawdziwe:** arytmetyka `akcje/grę = 2945×1000/(ms/token × tok/akcję)`; a skoro
+   silnik 8B jest już dobry (17,2 ms/token), **JEDYNYM czynnikiem do ruszenia jest `tok/akcję` = 647**.
+   Cel Gemmy: 400+ akcji/grę wymaga ~370 tok/akcję. **CZYLI BATCHING JEST WŁAŚCIWĄ DŹWIGNIĄ** —
+   stan ostateczny po czterech odwróceniach: `OPINIE-3-GALEZI` §5 (tak) → `OCENA-V13-1` §2 (nie) →
+   `OCENA-V13-2` §3 (tak) → §6 (nie) → **TERAZ: TAK, i silnik nie jest przeszkodą.**
+   ⚠️ **Dodatkowo `r110` potwierdza coś innego:** każda gra dostała **~45k tokenów** (45 247 / 45 775 /
+   45 411 / 44 850 / 45 276 / 44 582 / 42 317 / 44 385 / 45 769 / 45 170) przy wyniku **0,73** —
+   czyli cap 45k **wiązał w każdej grze**. Niezależny dowód przeciwko mojemu patchowi 0004.
+   ✅ **GEMMA ZMIERZYŁA PRÓG ESKALACJI (`escalation_audit.py`, r085, 32 ukończone poziomy):**
+   próg **10** → **154** wstrzyknięcia, 22 330 tokenów = **15,3 % puli gry**, odpala **PRZED** ludzkim
+   baseline'em na **31/32** poziomów (`cn04/4` „przestań próbować" po 41 akcjach, gdy człowiek
+   potrzebuje 300) · próg **20** → **60**, 6,0 %, ~25/32 · próg 60 → 12, 1,2 %, 7/32 ·
+   **`max(20, 1,2×baseline[poziom])` → 8, 0,8 %, 0/32.** Czyli **`ESCALATE_ACTIONS=10` z v13.2 jest
+   19× ZA CZUŁE.** Ich argument: *„kosztowna jest POSŁUSZNOŚĆ, nie tekst"* (każda zachęta prosi o turę
+   modelarską; co czwarta → ~12 tys. tokenów = 8 % puli) oraz efekt drugiego rzędu: priority gate
+   szereguje gry wg `priority_pace_reference.json` (poziom 1 = 27 tys. tokenów, fallback 45,9 tys.),
+   więc **gra, która napompuje tokeny, wpada do gorszej bandy kolejki — eskalacja @10 może sama
+   wypychać grę z kolejki.**
+   ⚠️ **Gemma precyzuje mój §2 z `OCENA-V13-2`: dyrektywa jest PRZYPOMNIENIEM, NIE WYMUSZENIEM**
+   (*„commit() zostaje opcją modelu"*). **Uzupełniam taksonomię stanów dźwigni: zareklamowana →
+   PRESJA OKRESOWA → wymuszona.** v13.2/v13.3/v15 są na środkowym.
+   ❗**INTERAKCJA, KTÓRĄ WYŁAPAŁA GEMMA (argument za 20, nie za 10):** v13.3 dokłada hint „batchuj",
+   więc działają **DWA NACISKI NARAZ** — „wykonuj więcej akcji na turę" i „przestań działać, zbuduj
+   model". **Przy progu 10 drugi WYGRYWA na pierwszych ~10 akcjach każdego poziomu**; przy 20 hint ma
+   czas zadziałać. **Dwie zmiany, każda osobno uzasadniona, razem się znoszą.**
+   **v13.3-arena (Smak `5548d35`)** dokłada dwie rzeczy, których brakowało: **`ARC3_OPENER_COMMIT_HINT=1`**
+   (batch na **1. turze** poziomu — atakuje `tok/akcję` od początku, zamiast czekać na próg) oraz
+   **patch 0007 = log zdarzeń win-path** (odpowiedź na „cichą awarię replay bez logu" od 7911).
+   **duck-v14** (`b38b82eb`) = v13.2 + próg **20** + **guard hooka sondy c45** (bo
+   `_orig_play = _S._HarnessGameSession.play` stało **POZA** jakimkolwiek `try` w komórce ustawiającej
+   `bm.solver.*` ⇒ brak atrybutu w innym revision bundla = **martwy notebook przed startem** — ósma
+   instancja klasy „awaria na ścieżce submisji, niewidoczna dla smoke") + **sonda rosteru** + **sonda budżetu**.
+   **duck-v15** (`07bf05e0`) = **v13.3-arena + 3 rzeczy z v14, które są env-only albo read-only.
+   ZERO nowych patchy** ⇒ certyfikacja v13.3 (**7/7 na czystym r033, 11/11 winpath, standalone ==
+   patched, playbook 14/14 na silniku**) **przenosi się bez zmian**. **Diff v15 vs v13.3 to DOKŁADNIE
+   komórki 1, 2, 26, 30 i nowa 37. Nic więcej.**
+   **SONDA ROSTERU v15 (komórka 37) ROZSTRZYGA SPÓR, O KTÓRY PROSZĘ OD DWÓCH TUR — LEPIEJ NIŻ MÓJ
+   POMYSŁ Z PRZEGLĄDARKĄ:** czyta `bm.game_runs` po biegu, pisze `roster_probe.jsonl`, drukuje werdykt
+   o powtarzalności bazowych kodów gier (czy pamięć win-path jest warta **0** czy **+5…15**) —
+   **plus ALARM `actions_per_call < 1,5` → batch pressure nie działa.** Czyli **w jednym biegu**
+   rozstrzyga roster **i** mierzy, czy jedyna dźwignia zadziałała. Moja baza porównawcza: **4,357
+   akcji/wywołanie** z r019.
+   ⚠️ **JEDEN SPÓR FAKTUALNY, KTÓRY v15 ROZSTRZYGNIE:** v14/v15 twierdzą *„we wszystkich trzech
+   zapisanych runach każda gra kończy się DOKŁADNIE na capie (`max == min == 48/48/90 min`), gra nie
+   zatrzymuje się sama, więc cap jest przydziałem akcji"*. **To sprzeczne z moim pomiarem z surowych
+   `benchmark.json`: r093 (v11) → 3 z 10 gier skończyły się WCZEŚNIEJ (`g50t` 1499 s, `cn04` 1609 s,
+   `tn36` 1692 s przy 2871–2893 s pozostałych); r085 (c45) → `tn36` 2166 s przy 2880–2885 s reszty.**
+   Oznaczam jako **rozbieżność, nie obalenie** (nie znam ich zestawu trzech runów). **Znaczenie:** jeśli
+   gry mogą kończyć się wcześnie, cap NIE jest jedynym przydziałem, a mój bug `min_done=0`/`ABANDON`
+   jest realny (3 gry × 1188–1381 s = 3840 s i ~243 600 tokenów oddanych). **Sonda budżetu v15 to
+   zmierzy — nie muszę rozstrzygać przed slotem.**
+   ✅ **Gemma znalazła SIÓDMĄ instancję klasy „zielony test przy martwym kodzie":** *„guard czyta
+   `game_state.raw.state`, a **mój pierwszy symulator nie miał atrybutu `raw`** — guard MILCZAŁBY i
+   test certyfikowałby ścieżkę, której nie ma. To dokładnie ten rodzaj błędu, który daje fałszywe
+   ALL CHECKS PASSED."* Uzupełniam taksonomię z `OCENA-V13-2.md` §5: obok „mock karmi wartości, których
+   rerun nie produkuje" (`pass_index`) jest **„mock NIE MA POLA, które czyta guard"**. **Reguła: mock
+   musi być walidowany przeciwko KONTRAKTOWI (np. `assert hasattr(state, "raw")`), nie tylko przeciwko
+   temu, co test chce zobaczyć.**
+   ❌ **ODPOWIEDŹ NA „A MOŻE SAM ZROBISZ LEPSZĄ WERSJĘ, KTÓRA DOGONI LIDERÓW": NIE — i to nie jest
+   skromność, tylko trzy twarde powody.** (1) **Nie mogę jej zweryfikować**: certyfikacja wymaga
+   `verify_v13.py --bundle <r033>` na czystym bundlu Franzena, a ja **nie mam bundla r033, nie mam
+   `arcengine`, nie mam GPU, nie mam `cargo`** (2 CPU / 3,9 GB); 3 z 12 testów `test_plan_commit.py`
+   wymagają `inference.agent.python_tool_sandbox` z bundla (potwierdził to 7911f950 niezależnie).
+   (2) **Nie mogę jej przetestować przed spaleniem slotu**, a zostały **3** (31.10, 1.11, 2.11) przy
+   σ≈2,5–3,9 i progu +5 pkt. (3) **v15 JUŻ JEST LEPSZY I ZWERYFIKOWANY**: diff 5 komórek, dziedziczy
+   certyfikację 7/7, zawiera obie rzeczy, które sam bym dodał (sonda rosteru, sonda budżetu), plus
+   dwie, na które bym NIE wpadł (guard hooka poza `try`; interakcja opener-hint ↔ eskalacja).
+   **Zbudowałbym rzecz niezweryfikowalną i zużył na nią slot, którego nie ma.**
+   ❌ **„DOGONIĆ LIDERÓW" = 50+ — PODTRZYMUJĘ, ŻE NIEOSIĄGALNE, i mam jeden dowód więcej.** Próg top-5
+   **51,04**, Chen **75,56**; nasza baza μ **25,77**, σ **3,93**, najlepszy draw **35,35** ⇒ **+25,3 pkt
+   = +6,4 σ**. **Nowy dowód: jedyną dźwignią o właściwej skali jest `tok/akcję` (647 → ~370), a
+   zmierzony koszt SAMEJ DYREKTYWY eskalacyjnej przy złym progu to 15,3 % puli** — czyli dźwignia,
+   która ma **obniżyć** zużycie tokenów, przy złym progu je **podnosi**. Do tego **WM GPT-5.4 = 24.67
+   < nasze 27,21**, więc scaffold paper01 bez GPT-5.5 nie daje 56.81.
+   **RANKING PO TEJ TURZE:** **1** wysłać **v15** (nie v13.2, nie v14) — ~28–31 **i rozstrzyga
+   roster + mierzy `actions_per_call` w tym samym biegu** · **2** przeczytać z logu: `roster_probe.jsonl`,
+   `budget_probe.json`, `actions_per_call` · **3** test osiągalności + asercja kontraktu mocka ·
+   **4** parser `serve.log` jako **STRAŻNIK REGRESJI** na każdym nowym runie (~5 min) · **5** 31.10 =
+   **DRUGI DRAW v15**, nie inna konfiguracja · **6** 1.11 rozgałęzienie z pkt 2, 2.11 select best.
+   ❌ **WYCOFANE Z POPRZEDNIEGO PLANU:** ~~parsowanie `serve.log` jako dźwignia nr 1~~ (hipoteza
+   obalona) · ~~„odzyskać 17,2 ms/token"~~ (nie ma czego odzyskiwać) · ~~`ESCALATE_ACTIONS=10`~~
+   (19× za czułe, kontrowało opener hint).
+   ➕ **NOWE „NIE ROBIĆ":** budowanie priorytetu na **cytowanej tabeli** bez sprawdzenia tożsamości
+   artefaktu · przenoszenie **mechanizmu** z cudzej konfiguracji bez przeliczenia · **hooki poza `try`**
+   w komórce ustawiającej `bm.solver.*`.
+   **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
+   powiedzieć dziesiąty raz, niż obiecać jedenaście.**
    ❌ **NOWE „NIE ROBIĆ": podnoszenie `max_runtime_s_per_game` (cap nigdy nie wiąże) oraz
    oszczędzanie tokenów/akcję jako GŁÓWNA dźwignia (r110: 572 vs 647 tok/akcję i 2,8× mniej akcji).**
 

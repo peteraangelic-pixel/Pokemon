@@ -249,6 +249,19 @@ w v13 **automatycznie**, bez trzech recenzji.
 
 ## 6. Ich wniosek końcowy — i dlaczego jest zgodny z moim, ale z inną liczbą startową
 
+> ⚠️ **CZĘŚĆ TEGO §6 JEST NIEAKTUALNA (30.10 ~08:20) — patrz `POMIAR-SERVE-LOG-I-V15.md`.**
+> * Ramka „**CEL 400 akcji wymaga ms/token × tok/akcję ≤ 7 362** … **sam batching przy 62,6 ms/token
+>   daje 118 akcji**" opiera się na `r110 = 62,6 ms/token` jako **8B**. **`r110` to 27B/vLLM**
+>   (`arc3-duck-v13-27b.log`, `vllm-openai-server.log`, 742 × „vllm", 0 × „sglang").
+>   **Wniosek „batching bez naprawy silnika nie da 400 akcji" UPADA — nie ma czego naprawiać.**
+>   Przy 8B (17,2 ms/token) batching do ~370 tok/akcję **daje** 400 akcji. **Batching JEST dźwignią.**
+> * **`serve.log` PRZESTAJE być warunkiem koniecznym dla slotu.** Sparsowałem go i obaliłem własną
+>   hipotezę nasycenia KV (obłożenie 60 %/53 %, kolejka 0,0 w każdym oknie). Parser zostaje jako
+>   **strażnik regresji**, nie jako dźwignia.
+> * **Stan dźwigni `PLAN_COMMIT` to „PRESJA OKRESOWA", nie „wymuszenie"** — Gemma: *„To przypomnienie,
+>   nie wymuszenie — `commit()` zostaje opcją modelu"*. Uzupełniam taksonomię:
+>   **zareklamowana → presja okresowa → wymuszona**. v13.2/v13.3/v15 są na środkowym.
+
 `MY-WORK-STATUS.md` (7911f950), *„Wniosek w jednym zdaniu"*:
 
 > *„przy **~205 akcjach na grę** sufit wynosi **~19–31 pkt**; jesteśmy na **79–100%** tego sufitu.
