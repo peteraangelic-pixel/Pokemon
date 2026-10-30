@@ -12,7 +12,7 @@ Wszystkie liczby poniżej są policzone z surowych artefaktów runów — pól `
 2. **Wynik to pokrycie poziomów × efektywność².** Nasza efektywność na poziomach, które kończymy, to **86–90%** — jesteśmy blisko sufitu.
 3. **Pokrycie to 29%** i to jest cały problem: kończymy ~3 z 7 poziomów na grę.
 4. **Przy naszym budżecie akcji sufit wynosi 18,7–31,9 pkt.** Jesteśmy na 79–100% tego sufitu. Dalsze strojenie strategii *przy tym samym budżecie* nie da 50 — nie ma z czego.
-5. **Przyczyna źródłowa: 6034 akcje / 6034 decyzje = dokładnie 1,00 akcji na decyzję LLM.** Każdy pojedynczy ruch kosztuje pełny round-trip modelu (~14,4 s, ~700–1100 tokenów). **Podwojenie akcji na decyzję podnosi sufit do 51,3.**
+5. **Przyczyna źródłowa (POPRAWIONA 30.10): budżet jest w tokenach, nie w turach.** Robimy **4,61 akcji na generację** — nie 1,00, poprzednia liczba była artefaktem metody (§4). Na grę mamy **~186 200 tokenów**, a wydajemy **853 tokeny na akcję**. Żeby dojść do 50, trzeba ściąć tokeny na akcję do **~479 (−44%)**. Drugi, mnożnikowy lewar: **tempo silnika** — 15,8 ms/token u nas vs 62,6 ms/token w złym reżimie (3,6×, §4.4).
 
 ---
 
@@ -102,34 +102,95 @@ Nasze 25,09 przy budżecie 206 akcji/grę jest **powyżej** modelu (18,7–22,4)
 
 ---
 
-## 4. Przyczyna źródłowa: 1,00 akcji na decyzję
+## 4. Przyczyna źródłowa — ⚠️ SEKCJA PRZEPISANA 30.10 (poprzednia miała błąd metody)
 
-Historia każdej gry ma pole `wallclock_seconds`. Rosnąca wartość = nowa decyzja LLM. Policzone na **6034 akcjach z 30 gier**:
+> **POPRZEDNIA WERSJA BYŁA BŁĘDNA.** Twierdziłem: „6034 akcje / 6034 decyzje =
+> 1,00 akcji na decyzję", licząc decyzje ze **wzrostu `wallclock_seconds`**.
+> To był test tautologiczny: `wallclock_seconds` to **kumulatywny czas wykonania**
+> i rośnie przy **każdej** akcji, więc metoda z definicji zwracała 1,00.
+> Poprawny wskaźnik generacji LLM to `generated_tokens > 0`.
+
+### 4.1 Ile naprawdę jest akcji na generację
+
+Policzone na tych samych 6034 akcjach z 30 gier (`local/benchmarks/`):
+
+| run | akcji | generacji (`gen>0`) | **akcji / generację** | **tok / akcję** |
+|---|---|---|---|---|
+| r013 | 2331 | 452 | **5,16** | 689 |
+| r015 | 1638 | 382 | 4,29 | 1100 |
+| r018 | 2065 | 474 | 4,36 | 841 |
+| **razem** | **6034** | **1308** | **4,61** | **853** |
+
+**Robimy 4,61 akcji na jedno wywołanie modelu — nie 1,00.** Batchowanie już
+działa. Model generuje ~3933 tokeny na generację, a z tego wychodzi ~4,6 akcji.
+
+### 4.2 Właściwy budżet jest w TOKENACH, nie w turach
+
+Model jest ograniczony przepustowością dekodowania, nie liczbą tur:
 
 ```
-6034 akcje / 6034 decyzje = 1.00 akcji na decyzję
+czas na grę (EVAL-BUDGET-MODEL.md §2)   = 2 945 s
+zmierzone tempo (nasze runy)            = 15,8 ms/token
+────────────────────────────────────────────────────────
+budżet tokenów na grę                   = 186 392 tok
+przy dzisiejszych 853 tok/akcję         = ~218 akcji/grę
 ```
 
-Przykład (tn36, r013): 234 akcje, 234 decyzje, 170 400 wygenerowanych tokenów.
+Sprawdzenie: tn36 wygenerowało 170 400 tokenów × 15,8 ms = **2693 s** z 2880 s
+dostępnych — czyli **93% budżetu to dekodowanie**. Model nie „myśli długo między
+ruchami"; **generuje dużo tokenów na każdą akcję**.
 
-**Każdy ruch to osobny pełny round-trip modelu:**
+### 4.3 Prawdziwa dźwignia: tokeny na akcję, nie akcje na turę
 
-- ~14,4 s na ruch (2880 s / 200 akcji)
-- ~689–1100 wygenerowanych tokenów na ruch
-- 48 minut × 4,3 ruchu/min = ~206 akcji na grę
+| akcji/grę | wymagane tok/akcję | vs dziś (853) | wynik (sufit, §3) |
+|---|---|---|---|
+| 218 (dziś) | 853 | 1,00× | ~19–31 |
+| **389** | **479** | **0,56×** | **~51** |
+| 600 | 310 | 0,36× | ~62 |
+| 736 | 253 | 0,30× | ~75 |
 
-Model myśli długo, a potem wykonuje **jeden** ruch. To jest cała struktura kosztu.
+*(liczby odtwarza `local/token_budget.py`; tn36 osobno miał 170 400 tok / 234 akcje
+= 728 tok/akcję, więc rozrzut między grami jest realny)*
 
-> **Uzupełnienie 30.10** (po przeczytaniu konfiguracji submisji v13.1):
-> te 48 minut nie jest przypadkiem smoke'a — **w prawdziwej ewaluacji wychodzi
-> praktycznie tyle samo**. Submisja ustawia `max_runtime_s_per_game = 532 min`
-> przy `concurrency = 10` i budżecie notebooka 9 h, ale gry są rotowane przez
-> priority gate, więc realny przydział to `9 h × 10 / liczba_gier`. Dla rosteru
-> ~110 gier daje to **~49 min na grę**. Dowód pośredni: nasz realny LB (26,25)
-> jest praktycznie równy wynikowi smoke'a (27–29), co znaczyłoby niemożliwe,
-> gdyby każda gra dostała 4× więcej czasu. Pełne wyprowadzenie, tabela
-> roster → akcje → sufit i wymagana liczba akcji dla 50/60/75:
-> **`EVAL-BUDGET-MODEL.md`**. Wniosek się nie zmienia, ale zyskuje mechanizm.
+**Żeby dojść do 50, trzeba ściąć tokeny na akcję o ~44%** — z 853 do ~479.
+Nie przez „więcej ruchów na turę" (mamy 4,6), ale przez **mniej tokenów na ruch**:
+albo więcej akcji z tej samej generacji, albo krótsze rozumowanie na generację.
+
+### 4.4 Drugi, mnożnikowy lewar: tempo silnika (3,6×)
+
+Niezależny audyt (`arena/c87f7a48-pokemon`, `AUDYT-4-GALEZI-30-10.md` §2) znalazł
+ten sam model 8B przy **17,2 ms/token** w r085 i **62,6 ms/token** w r110 — różnica
+**3,6×**, niepochodząca z modelu ani promptu. Mechanizm (ich hipoteza, z arytmetyką):
+pula KV 1 011 264 tok przy 10 grach × 131 072 tok = 1 310 720 → **pula się nasyca**,
+żądania kolejkują po miejsce w cache, a trim odpala dopiero przy 118k.
+
+**Nasze runy są w szybkim reżimie: 15,8 ms/token** (zmierzone wyżej, z `history[]`).
+To dobra wiadomość i zarazem **ryzyko**: przy 62,6 ms/token budżet spada do
+47 045 tok → ~65 akcji/grę → wynik rzędu 7–10.
+
+Dźwignia mnoży się z poprzednią:
+
+```
+akcje/gę = (budżet czasu / ms na token) × (1 / tokeny na akcję)
+            ↑ lewar silnika 3,6×        ↑ lewar 4.3 (potrzebne 1,5×)
+```
+
+**Uwaga na uczciwość:** hipoteza KV/prefix-cache to hipoteza c87, nie moja —
+nie zweryfikowałem jej. Ale **liczby 17,2 i 62,6 ms/token są z ich pomiaru**,
+a moje 15,8 ms/token jest moim własnym, niezależnym pomiarem z `history[]`.
+
+### 4.5 Co to znaczy dla v13.2 (`ESCALATE_ACTIONS` 60→10)
+
+Skoro **już** robimy 4,61 akcji na generację, premisa mojej rekomendacji
+(„model robi jedną akcję na turę, trzeba go zmusić do batchowania") **była
+oparta na błędnej liczbie**. Eskalacja może więc nie mieć czego naprawiać.
+
+Nie wycofuję samej rekomendacji — przy 60 eskalacja odpalała się 16 razy w biegu
+(`V13-AUDIT-30OCT.md` §1A.1), czyli była praktycznie martwa, więc 10 jest lepsze
+niż 60. Ale **uzasadnienie się zmienia**: nie „wymuś batchowanie", tylko „wymuś
+przemyślenie strategii na poziomie, gdy akcje nie posuwają sprawy".
+
+**Priorytetem jest teraz 4.3, nie 4.5.**
 
 ### Co to znaczy dla sufitów
 

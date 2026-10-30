@@ -42,10 +42,12 @@
 > | v13.1 | `cbefdd4` | naprawia oba; `ESCALATE=60` |
 > | **v13.2** | **`6b10853`** | **`ESCALATE=10` (moja rekomendacja), guard GAME_OVER, 8/8 testów; `commit()` nadal tylko presją** |
 >
-> **Wniosek w jednym zdaniu:** przy ~205 akcjach na grę sufit wynosi ~19–31 pkt;
-> jesteśmy na 79–100% tego sufitu. Jedyna dźwignia o właściwej skali to
-> **liczba akcji na decyzję LLM** (2 → sufit ~53, 4 → ~80). Playbook, scheduler
-> i cap tokenów razem są warte 0–3 pkt.
+> **Wniosek w jednym zdaniu (POPRAWIONY 30.10):** budżet to **~186 200 tokenów na grę**,
+> a wydajemy **853 na akcję** → ~218 akcji → sufit ~19–31 pkt. Robimy już **4,61 akcji
+> na generację**, więc „batchuj więcej" nie jest odpowiedzią. Żeby dojść do 50, trzeba
+> **ściąć tokeny na akcję do ~479 (−44%)**, a drugim mnożnikiem jest **tempo silnika**
+> (15,8 ms/token u nas vs 62,6 w złym reżimie = 3,6×). Playbook, scheduler i cap
+> tokenów razem są warte 0–3 pkt. Odtworzenie: `local/token_budget.py`.
 
 ---
 

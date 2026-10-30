@@ -440,6 +440,8 @@ Zapisuję je, bo wszystkie mają tę samą przyczynę i wszystkie kosztowały cz
 | 3 | „v13.2 nie istnieje" | istnieje, `6b108534` | **RefSpec: `--all` nie śledzi cudzych gałęzi `arena/*`** |
 | 4 | „cap 1,15 to reguła" | reguła to **1,0** | arcagibook ≠ strona konkursu |
 | 5 | symulator schedulera „+22 pkt" | +0…+8, przy 400 potrafi −5 | błąd w symulatorze (darmowe zaliczanie poziomów) |
+| 6 | „1,00 akcji na decyzję" (centralna liczba `MEGA-DIAGNOSIS` §4) | **4,61 akcji na generację** | **tautologiczny test**: `wallclock_seconds` rośnie przy każdej akcji, więc metoda zawsze dawała 1,00. Poprawny proxy: `generated_tokens > 0` |
+| 7 | „premisa: model robi 1 akcję na turę" → rekomendacja batchowania | batchowanie **już działa** (4,6×) | konsekwencja #6: uzasadnienie błędne, choć wniosek „więcej akcji" pozostaje słuszny |
 
 Wzór w #1–#3: **twierdziłem brak, patrząc na nieaktualne dane.** Procedura z §1.3
 jest odpowiedzią. W #4–#5: **brałem źródło wtórne za autorytatywne.** Odpowiedź:
