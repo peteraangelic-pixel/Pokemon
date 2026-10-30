@@ -128,6 +128,15 @@ Playbook sam, efektywność 100%, na znanych rosterach:
 Na naszych 10 grach playbook daje: cn04 +4,8%, ls20 +3,6%, m0r0 +14,3% —
 reszta gier bez zmian.
 
+**⚠️ KOREKTA 30.10 — realna wartość to raczej 0, nie +0,62.** Te liczby zakładają,
+że gry z playbooka **trafią** w roster ewaluacji. Niezależna recenzja c87
+(`arena/c87f7a48-pokemon`, `arc3-handoff/OCENA-V13-MEGA.md` §3) przytacza docstring
+`taaf/competition_arcade.py`: „one scorecard, hidden baselines, and **no repeated
+game IDs**", oraz cudzy pomiar held-out: **0/113 poziomów** na grach odstawionych.
+Jeśli to prawda, playbook nie trafi w żadną grę i jego wartość to **0,00**.
+Nie zweryfikowałem tego samodzielnie (brak źródeł harnessu w repo) — oznaczam
+jako dowód c87. Szczegóły: `V13-AUDIT-30OCT.md` §5.2.
+
 **To jest podłoga, nie sufit** — dochodzi jeszcze dead-skip i replay poziomów
 nauczonych przez LLM w trakcie biegu. Ale podłoga jest mała i **rozcieńcza się
 razem z rosterem**: 9 gier na 110 to 8% populacji.
@@ -176,21 +185,36 @@ Punkt 5 zgadza się u nas niezależnie (ja liczyłem z `benchmark.json`, oni z h
 runów). Punkt 1 to jedyne miejsce, gdzie się różnimy — i mam na to dowód pośredni,
 opisany w `EVAL-BUDGET-MODEL.md` §3.
 
-### 7.2 v13 vs v13.1 — czego nie da się rozdzielić
+### 7.2 v13 vs v13.1 — ✅ SPROSTOWANIE (30.10)
 
-**Na gałęzi jest tylko JEDEN commit** (`cbefdd4`) zawierający v13.1. Nie ma
-wcześniejszego commita z v13. Więc **diffu v13 → v13.1 nie da się odtworzyć z historii.**
+**Pierwotna wersja tej sekcji była nieprawdziwa.** Napisałem, że na gałęzi jest tylko
+jeden commit i diffu nie da się odtworzyć. Przyczyna błędu: klon był single-branch,
+a pierwszy `git fetch` nie pobrał historii. Po `git fetch --all` widzę **dwa** commity:
 
-Z README v13.1 wynika, że korekty dotyczyły trzech rzeczy:
+| commit | zawartość |
+|---|---|
+| `3782f8c` | **v13** → katalog `arc-agi-3/duck-v13-mega/` |
+| `cbefdd4` | **v13.1** → katalog `arc-agi-3/duck-v13-1/` |
+
+Diff jest dostępny, policzony i opisany w **`V13-AUDIT-30OCT.md` §2**. W skrócie:
+w kodzie zmieniły się **dwie rzeczy** (`base_key()` zamiast `_sanitize()` przy ścieżce
+magazynu; usunięta bramka `pass_index < 4` w `dead_skip()`), reszta to dokumentacja
+i metadane. `playbook.json`, `base-v11.ipynb`, `test_plan_commit.py`,
+`build_playbook.py` i `make_patch_0006.py` są **bajt w bajt identyczne**.
+
+Obie zmiany naprawiają realne, **dowiedzione uruchomieniem** błędy v13 — patrz
+`V13-AUDIT-30OCT.md` §3.
+
+Z README v13.1 wynikało, że korekty dotyczyły trzech rzeczy (teraz **potwierdzone diffem**):
 
 1. magazyn winpath kluczowany bazowym kodem gry (pamięć między wpisami rosteru),
 2. dead-skip oparty o liczniki magazynu zamiast `pass_index` (bo przy `n_passes=1`
    `pass_index` był martwy),
 3. korekta `ANALIZA-23.md` pkt 4 i oczekiwań w README.
 
-W kodzie, który czytałem, **wszystkie trzy są już zastosowane** (np. `base_key()`
-i docstring `dead_skip` wprost mówią o `n_passes=1`). Czyli czytałem wersję 13.1,
-nie 13. Ale **nie mogę potwierdzić, że v13 miało te błędy** — nie mam jego kodu.
+Wszystkie trzy są w v13.1 **i wszystkie trzy potwierdziłem diffem jako nieobecne w v13**.
+Punkt 1 i 2 są w kodzie (`base_key`, brak bramki `pass_index`); punkt 3 to
+`ANALIZA-23.md` pkt 4. Nie muszę już zgadywać — mam oba drzewa.
 
 ### 7.3 Czego nadal nie wiem
 
