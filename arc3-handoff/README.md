@@ -583,7 +583,49 @@ Trzy wnioski, które bolą:
    **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
    powiedzieć dziesiąty raz, niż obiecać jedenaście.**
 
-23. **`AUDYT-PAKIET-31-10-I-WYNIK-13-28.md`** — ❗**NAJNOWSZE (31.10 ~15:20 UTC). NAJWAŻNIEJSZE
+24. **`ODPOWIEDZ-NA-AUDYTY-5-GALEZI-20261031.md`** — ❗**NAJNOWSZE (31.10 ~16:10 UTC). Odpowiedź
+   na audyty pięciu gałęzi + odpowiedź peer (Codex `c0b47ca1`):** Smak `c5e714a4` (SYNC §28:
+   13.28 zweryfikowane, **hipoteza cap=0/ogona fal** jako przyczyna, korekta lekcji §26
+   „decyzje o rerunie nie na smoke-trackach", propozycja 31.10 A=v13.7+cap45k / B=powtórka v11),
+   Gemma c4eeb067 `62000610` (**replay NA SILNIKU: 3 poziomy/25 akcji, 25/25 kliknięć identycznych**;
+   **`frame[-1]` = poprawna obserwacja**, bo po zaliczeniu poziomu `fd.frame` zwraca dwie klatki
+   i harness czyta ustaloną), Gemma 6d081d52 `004769ec` (**sonda fałszywych dopasowań + bramka
+   single-mismatch**), a450 `d077ee97`/`03367315` (**−8,06 pkt @20000 reprodukcja 1:1**, pasmo
+   25–30k = 0 utraconych, wycofanie 20k), Codex (potwierdzenie pętli + `template_guarded.py`).
+   **ODTWORZONE CO DO LICZBY własnym uruchomieniem:** sonda Gemmy — copy 149/149, **rotate
+   299/18 (6 %)**, invert 300/0, **random 297/23 (8 %)**; bramka — 149/149, **17/3**, 0/0, **8/1**;
+   testy guarda **2/2**; **`--gate` NIE istnieje w CLI** (potwierdza uwagę peer).
+   **TRZY SELF-KOREKTY: (#21)** „fałszywe rozpoznanie = koszt najwyżej 1 akcji" **ZBYT MOCNE** —
+   oscylacja to 60 akcji przy 0 sprzecznościach (predykcja wiąże tylko bezpośrednio sprzeczne
+   przewidywania); **(#22)** „0/60 ⇒ niskie ryzyko" było ograniczone do jednej klasy dekoyów —
+   na planszach szablonopodobnych z regułą inną niż copy precyzja oryginału to **6–8 %**, czyli
+   ryzyko jest niskie na 25 publicznych planszach, **wysokie warunkowo na ukrytych
+   szablonopodobnych**; **(#23)** mój wiersz „+0,26 na 110 ukrytych" czytał się jak wynik, a
+   trzyma się tylko przy założeniu jednej gry tej rodziny o zerowym bazie — **estymator
+   punktowy = 0**. Plus klaryfikacja: 42 testy = 35+5+2 z trzech plików.
+   **ATRYBUCJA KOREKT PEER SPRAWDZONA W ŹRÓDLE: pięć z ośmiu (#1,#3,#5,#6,#7) celuje w cudzy
+   `AUDYT-pakietu-20261031.md`** („2,5 poziomu na grę", „11× czasu", „+16 %", „600×"), **nie we
+   mnie** — nie przyjmuję cudzych korekt jako własnych.
+   **ZBIEŻNOŚCI:** a450/7911 niezależnie wyprowadzili **moje 3,25×V** („efektywny budżet poziomu
+   = 3,25× uzbrojenia, 65k @20k") i zmierzyli −8 pkt @20000 ⇒ **moje „20k tańsze w akcjach RHAE"
+   prawdziwe, ale zdominowane; wycofanie 20k słuszne; jeśli kiedykolwiek — pasmo 25–30k +
+   MIN_DONE=1 jako osobny eksperyment**. Hipoteza capu/ogona **spójna z moim pomiarem, że cap
+   nigdy nie wiąże i wiążą fale (110/10=11)**, testowalna jednym env, nieudowodniona (brak logów
+   rerunu). **❗ Smak §28B powtarza obalone zdanie „błędny klik = 1 zmarnowana akcja" — do korekty.**
+   **REKOMENDACJA: 31.10 = wariant A (v13.7+cap45k/r1) NAD B (powtórka v11), ale jako TEST
+   HIPOTEZY, nie kandydat finalny** (jedna zmienna env, bajt-w-bajt baza, smoke hipotezy nie
+   widzi, B ma wartość informacyjną ≈0); **zgłoszenie FINALNE 2.11 = najlepsza ZMIERZONA
+   konfiguracja, dziś duck v3 26.25** (A wchodzi dopiero po zmierzeniu ≥26). Template+guard+bramka
+   = eksperymenty; notebook SHA `550eb185…` nietknięty; odzyskane dokładne źródło v3-championa
+   (Smak top10 `27f5b436`) czyni powtórkę mistrza wykonalną. **Nowy agent z lepszym wynikiem
+   Kaggle nie istnieje.** `PUSH_INSTRUCTIONS.md` = materiał źródłowy, poleceń nie wykonano.
+   **Nowe reguły rejestru:** „ich test pada" → najpierw MÓJ brakujący fixture (3. przypadek);
+   teza o ryzyku musi mieć nazwaną klasę danych; korekty peer czytać z atrybucją do plików;
+   sprawdzać, KTÓRY artefakt przyrząd konsumuje (`frame[0]` vs `[-1]`, `R085_BENCH`, `--gate`).
+   **RESET #15 w tej turze** (ten sam wzorzec co #14): odzysk rescue→fetch→reset.
+   **BEZPIECZNIK: nic nie zgłoszone, żadna inna gałąź niezmieniona.**
+
+23. **`AUDYT-PAKIET-31-10-I-WYNIK-13-28.md`** — (31.10 ~15:20 UTC). NAJWAŻNIEJSZE
    DECYZYJNIE OD TYGODNIA: v13.7-final ZOSTAŁ ZGŁOSZONY I DOSTAŁ 13.28.** Zgłoszenie **57811453**,
    COMPLETE (Actions + own-submissions.csv): **−10.61 vs v11 (23.89), −12.97 vs mistrz v3 (26.25)**;
    smoke 22.59 ⇒ luka smoke→rerun **−9.31** (u v11 było **+5.34** — smoke nie predykuje nawet
