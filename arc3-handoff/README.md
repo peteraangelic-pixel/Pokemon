@@ -583,7 +583,49 @@ Trzy wnioski, które bolą:
    **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
    powiedzieć dziesiąty raz, niż obiecać jedenaście.**
 
-22. **`AUDYT-V13-7-I-CZTERY-OPINIE.md`** (644 ln) — ❗**NAJNOWSZE (30.10 ~14:40 UTC). Fala
+23. **`AUDYT-PAKIET-31-10-I-WYNIK-13-28.md`** — ❗**NAJNOWSZE (31.10 ~15:20 UTC). NAJWAŻNIEJSZE
+   DECYZYJNIE OD TYGODNIA: v13.7-final ZOSTAŁ ZGŁOSZONY I DOSTAŁ 13.28.** Zgłoszenie **57811453**,
+   COMPLETE (Actions + own-submissions.csv): **−10.61 vs v11 (23.89), −12.97 vs mistrz v3 (26.25)**;
+   smoke 22.59 ⇒ luka smoke→rerun **−9.31** (u v11 było **+5.34** — smoke nie predykuje nawet
+   kierunku). Przy σ≈3.9 to **≈2.7σ ⇒ regresja konfiguracji, nie los**. **Rekomendacja GO dla
+   v13.7 wycofana przez autorów; ja wycofuję swoje wczorajsze „ZGODA bezwarunkowa"
+   (self-korekta 19): poparcie dotyczyło konfiguracji BEZ ani jednego pomiaru rerun.**
+   **Degraduję też a/call z „bramki" do diagnostyki (self-korekta 20)** — „próg 6.0" był
+   zapożyczoną implikacją wystarczalności, nie predyktorem; pakiet ma rację.
+   **Audytowany pakiet (kontroler symboliczny, gałąź `codex/arc-local-lab-v18-20261030`, komity
+   `f730639`/`aec6c3e`/`91f1ce9`):** notebook SHA256 `550eb185…d5fa` **co do znaku** ✓ · ich
+   **35/35 testów** (moje pierwsze 33 porażki = MÓJ brakujący fixture) ✓ · **pierwsza zanotowana
+   akcja odtworzona z pierwszej klatki** (`infer_copy_action` → `(6,39,39, expected=8)`) ✓ ·
+   arytmetyka RHAE: 3/6 poziomów ft09 = 6/21 = **28.5714 %** = ich `score_delta` ✓ · obserwacje
+   CZYSTE (piksele + legalne akcje + publiczny numer poziomu; brak ID/baseline/silnika/scoringu) ✓ ·
+   fallback = oryginalny `analyze` ✓ · izolacja per-ścieżka runtime ✓ · **samounieważniająca się
+   predykcja** (jedna niezgodność ⇒ moduł wychodzi z poziomu) ✓.
+   **Mój własny pomiar fałszywych rozpoznań: 0/60** na wabikach o geometrii ft09 z losowym
+   przemalowaniem 10 % pikseli; abstynencja na planszy zgodnej z regułą i na sprzecznym mapowaniu ✓.
+   **❗ MÓJ ZARZUT WYKONAWCZY: pętla stall NIEOGRANICZONA** — oscylująca komórka daje **60 akcji
+   w 60 klatkach**, bo w `TemplateTransfer.act` ani w hooku **nie ma limitu akcji na poziom**;
+   w RHAE akcje są mianownikiem, więc na ukrytej grze z oscylującym elementem moduł spali cały
+   poziom na klikach, które „walidują się" co klatkę. Naprawa = jedna linia; **warunek przed
+   jakąkolwiek promocją**.
+   **Wartość: +28.5714 na JEDNEJ grze = +1.14 pkt na 25 publicznych i +0.26 na 110 ukrytych,
+   a poza grą rozwojową dopasowanie 0/24 ⇒ estymator punktowy na ukrytych ≈ 0.** Dwa rzędy
+   wielkości mniej niż zmierzona regresja −10.61. „Hybryda 3 vs 0" = „kontroler 3" **+ „słaby
+   lokalny Qwen 0"** (56 wywołań, 0 akcji) — drugi człon to pomiar słabości fallbacku, nie siły
+   modułu; A/B na docelowym Flash-Next **nie wykonane**. Rust 33.4× i 75/75 śladów: **przyjęte
+   z JSON, nieodtworzalne u mnie** (brak `rustc`, arcengine ≥3.12).
+   **REKOMENDACJA: zgłoszenie finalne i slot 31.10 = ZMIERZONY MISTRZ duck v3 (26.25)** — jedyna
+   konfiguracja z dobrym rerunem (μ≈25.8, σ≈3.9). **NIE linia v13.x (13.28). NIE hybryda template
+   jako zgłoszenie** (≈0 pkt oczekiwane, n=1; notebook nie idzie na Kaggle bez osobnej zgody —
+   zbieżnie z pakietem i z BEZPIECZNIKIEM). Kontroler = kierunek badawczy + limit akcji na poziom.
+   **Obrazek dołączony do zlecenia NIE jest leaderboardem ARC-AGI-3** (skala 1000+, zespoły
+   YumeNeko/Schott/Totsuka… nieobecne w odczycie Kaggle ani w 40 handle'ach `read_top10.py`;
+   kolumny Agents/Join i ranking ~Elo pasują do areny agent-vs-agent) — **nierozpoznany,
+   nieużyty jako dowód**; progi i deadline pozostają ze strony konkursu, nie ze zrzutu.
+   **RESET WORKSPACE #14 w tej turze** (HEAD→`ca72e320`, 247 plików z dysku): odzysk przez
+   rescue→fetch→`reset --hard FETCH_HEAD`; 7 różniących się plików `pokemon-agent/` znów starsze
+   niż REMOTE. **BEZPIECZNIK: nic nie zgłoszone, notebook nietknięty.**
+
+22. **`AUDYT-V13-7-I-CZTERY-OPINIE.md`** (644 ln) — (30.10 ~14:40 UTC). Fala
    13:40–14:19: `duck-v13-7-final` Smak rev1 `402b3475` + rev2 `72761737`, 7 komitów a450
    (`f7a08aa8`…`c4dc99c9`), audyt Gemmy c4eeb067 `4ac0a5c9` i opinia Gemmy 6d081d52 (wypchnięta
    w trakcie tury jako `8799b6c4`/`9f2b4e63`). Cztery sesje zeszły się w 39 minut na tym samym
