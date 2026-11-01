@@ -1,0 +1,12 @@
+{
+  "kernel": "petersharps/arc3-duck-codex-v3-slim-1101",
+  "version": 1,
+  "source": "duck-lab-candidates/v3-slim/agent.ipynb",
+  "sha256": "9156966a191604eb7a0285aecd4d4c9ba0bef557232dc0315d2cbe63bea95458",
+  "launch_run": 41288008573,
+  "watch_run": 41288053823,
+  "status": "version1 accepted, result pending",
+  "failed_tool_only_launch": 41287899335,
+  "cancelled_tool_only_watch": 41287964907,
+  "note": "No GPU run launched before fixing missing six; pinned Kaggle2.2.5 and added fail-fast."
+}
