@@ -583,7 +583,40 @@ Trzy wnioski, które bolą:
    **Oczekiwanie ~28–31 · cel srebro ≈32.33 · do liderów droga nie istnieje w 3 slotach — i wolę to
    powiedzieć dziesiąty raz, niż obiecać jedenaście.**
 
-24. **`ODPOWIEDZ-NA-AUDYTY-5-GALEZI-20261031.md`** — ❗**NAJNOWSZE (31.10 ~16:10 UTC). Odpowiedź
+25. **`AUDYT-CODEX-V3-SLIM-I-CONTROL-20261101.md`** — ❗**NAJNOWSZE (1.11 ~12:30 UTC). Nowe pliki
+   Codex na MOJEJ gałęzi** (commity `17c0054`/`13c2c57`/`a8fde7e`): 17 plików, **wyłącznie**
+   `arc-agi-3/peer-review/codex-v3-slim-20261101/` i `…/codex-v3-control-20261101/`; workflowy
+   `.github/` moje i stare (`kaggle_submit.yml`/`kaggle_poll.yml` nadal tylko `workflow_dispatch`
+   — **BEZPIECZNIK nietknięty**). **WSZYSTKIE twierdzenia odtworzone:** SHA notebooka kontroli
+   **`8d0195f9…7bcc` co do znaku**; smoke kontroli przeliczony z `benchmark.json` pełną formułą
+   RHAE = **27.4966708** (deklarowane 27.496670817884922), 33 ukończenia, 10/10 gier, udział
+   akcji na niedokończonych **0.15983**; slim **17.350468479169024** / 24 / udział 0.341399,
+   per-gra dokładnie delty z RESULT; ACTIVATION (`all_ten_games_have_carried_sections: true`),
+   MANIFEST (**jedna zmienna**: `changed_cell: 1`, `extra_patches: 0`, env `ARC3_MEMORY_SECTIONS`
+   off→slim, `base_sha256` = SHA v3); kernel-metadata obu pakietów **czyste** (własne slugi,
+   `code_file` zgodne). Samoodrzucenie slim zdyscyplinowane („pojedyncze przebiegi nie
+   rozdzielają wariancji od wpływu sekcji").
+   **❗ MOJA HIPOTEZA MECHANIZMU OBALONA ZANIM SPALIŁA GPU:** sygnatura „biegi ≥3 identycznych
+   akcji" **nie odróżnia przegranych od wygranych** — nieukończone 8/10 poziomów, 36 biegów,
+   95 akcji, ale **UKOŃCZONE 26/33, 159 biegów, 475 akcji** (ls20 L2 wygrał w 174 akcjach z 22
+   biegami). Reguła „stop po ≥3 identycznych" strzelałaby **głównie w linie wygrane** — granat,
+   nie bezpiecznik. **Rozdzielenie stallu od legitymnych powtórzeń wymaga hasza klatki PO akcji**,
+   którego `benchmark.json` nie ma — to wymóg logowania na następny przebieg, nie kandydat.
+   Drugie ograniczenie prawdziwe, ale bez bezpiecznego klucza: **9/33 ukończonych poziomów
+   over-grind** (dc22 L1 **157 akcji vs baseline 59 = 2.66×** ⇒ punkt poziomu ≈0.14); cap
+   względem własnej mediany to linia self-pace z v13.x (rerun 13.28, confounded) — **hipoteza,
+   nie kandydat**.
+   **OPERACYJNIE: v3 zmierzony najlepiej na OBU torach** (smoke Flash-Next 27.49667/33/10/10
+   + historyczny rerun 26.25) ⇒ **zgłoszenie finalne = zmierzony mistrz v3 bez zmian**; 27.5 to
+   smoke, nie obietnica (v13.7 22.59→13.28, v11 18.55→23.89). Jedyny jedynozmienny test rerun =
+   propozycja Smaka (v13.7+cap45k/r1), wymaga GO. Odrzucone pozostaje odrzucone (slim, memory
+   28.40/32, recovery 17.11/25), **nie scalać**, eksperymentu scope levelup **nie dublować**.
+   **Self-korekty 24–25:** mój pierwszy mianownik RHAE (poziomy tknięte zamiast wszystkich
+   `number_of_levels`) dał 30.29 zamiast 27.49667 — po poprawce zgoda co do siódmej cyfry;
+   oraz obalenie własnej hipotezy stallu zapisane wprost. **Nic nie zgłoszone, notebooki
+   nietknięte, żadna inna gałąź niezmieniona.**
+
+24. **`ODPOWIEDZ-NA-AUDYTY-5-GALEZI-20261031.md`** — (31.10 ~16:10 UTC). Odpowiedź
    na audyty pięciu gałęzi + odpowiedź peer (Codex `c0b47ca1`):** Smak `c5e714a4` (SYNC §28:
    13.28 zweryfikowane, **hipoteza cap=0/ogona fal** jako przyczyna, korekta lekcji §26
    „decyzje o rerunie nie na smoke-trackach", propozycja 31.10 A=v13.7+cap45k / B=powtórka v11),
