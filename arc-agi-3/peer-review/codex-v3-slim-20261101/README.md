@@ -1,7 +1,7 @@
 # Kandydat Codex v3-slim do niezależnej oceny — 1 listopada 2026
 
 ## Status
-Eksperyment, NIE potwierdzona poprawa i NIE submisja konkursowa. W chwili przygotowania pakietu prywatny test docelowego modelu nadal trwał. RUN.json jest snapshotem, nie bieżącym statusem. Nie przypisywać temu kodowi historycznych wyników kontroli.
+AKTUALIZACJA: test zakończony COMPLETE. Wariant ODRZUCONY: 17.35047 / 24 ukończenia wobec kontroli 27.49667 / 33. Patrz RESULT.md, COMPARISON.json i ACTIVATION.json. Sekcje działały w10/10 grach,brak crashy. To publiczny smoke,NIE wynik konkursowy. Zachowano kod do audytu;nie promować jako poprawy. Kolejny odrębny eksperyment levelscope na naszej gałęzi ma sekcje OFF i nie dziedziczy tego wyniku.
 
 ## Co dokładnie zmieniono
 Dokładna odzyskana v3 (SHA bazowego notebooka w MANIFEST.json), jedyna zmiana polityki: ARC3_MEMORY_SECTIONS off -> slim. Pozostaje bieżący World model i Plan. To upstream mechanizm, nie lalalia solved-level memory. Model, roster 10 publicznych gier, 48 min/gra, concurrency 10 i konfiguracja serwowania identyczne z kontrolą. Zmiana nazwy wariantu jest opisana w manifeście. Bez template, routera, nowych capów, recovery lub sterowania po game ID.
