@@ -1,3 +1,5 @@
+> **Aktualny status: v0.2.0 po audycie.** Przeczytaj [ZMIANY_V02.md](ZMIANY_V02.md) i [wyniki kontrolne](results/v0.2.0/summary.json). Ponizszy opis v0.1 jest historyczny: jego portfolio, liczby i obietnice nie sa aktualna walidacja. v0.2 raportuje oddana energie, EFC i kwalifikowane cykle; chemia przeladowania pozostaje niezamodelowana. Instrukcje odtworzenia aktualnych wynikow sa w ZMIANY_V02.md.
+
 # battery-sim — symulator nowego typu ogniwa (katoda | elektrolit | anoda)
 
 Symulator w **Rust** do testowania kandydatów na nowy typ akumulatora.

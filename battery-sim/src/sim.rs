@@ -1,7 +1,8 @@
 //! Symulacja cykliczna (CC-CV-lite: ladowanie/rozladowanie CC z odcieciami
 //! napieciowymi), degradacja, termika brylowa i bezpieczenstwo.
 //!
-//! Port 1:1 z `tools/model_prototype.py` -- te same wzory i stale.
+//! v0.2: poprawki numeryczne po audycie; stare stale NIE sa ponownie skalibrowane.
+//! Protokol cykliczny: CC, prad odniesiony do POCZATKOWEJ pojemnosci, bez etapu CV.
 
 use crate::cell::{Cell, CellParams};
 use crate::materials::{Anode, Cathode, Electrolyte};
@@ -70,7 +71,7 @@ impl Default for SimParams {
             t_runaway: 200.0,
             dt_max: 10.0,
             dt_min: 0.5,
-            min_delivered: 0.30,
+            min_delivered: 0.80,
         }
     }
 }
@@ -97,6 +98,8 @@ pub enum Eol {
     Runaway,
     /// ogniwo nie jest w stanie pracowac zadanym C-rate (poza oknem napiec)
     RateLimited,
+    /// prad zablokowany przez separator lub przekroczony czas kroku/protokolu
+    ProtocolStopped,
     /// symulacja osiagnela limit cykli
     Survived(u64),
 }
@@ -108,6 +111,7 @@ impl Eol {
             Eol::Short => "short".to_string(),
             Eol::Runaway => "runaway".to_string(),
             Eol::RateLimited => "rate-limited".to_string(),
+            Eol::ProtocolStopped => "protocol-stopped".to_string(),
             Eol::Survived(n) => format!(">={n}"),
         }
     }
@@ -117,6 +121,7 @@ impl Eol {
 #[derive(Clone, Copy)]
 pub struct TracePoint {
     pub cycle: u64,
+    pub soc_start: f64,
     pub soc_top: f64,
     pub soc_end: f64,
     pub cap: f64,
@@ -128,6 +133,12 @@ pub struct TracePoint {
     pub temp: f64,
     pub t_charge_s: f64,
     pub t_discharge_s: f64,
+    pub charge_mah: f64,
+    pub discharge_mah: f64,
+    pub energy_in_mwh: f64,
+    pub energy_out_mwh: f64,
+    pub efc: f64,
+    pub t10_80_min: Option<f64>,
 }
 
 /// Wynik symulacji.
@@ -166,6 +177,20 @@ pub struct SimResult {
     pub delivered_frac: f64,
     /// to samo dla pierwszego cyklu (sprawnosc szybkosciowa swiezego ogniwa)
     pub delivered_frac_1: f64,
+    /// energia rzeczywiscie oddana w pierwszym/ostatnim cyklu [Wh/kg]
+    pub delivered_wh_kg_1: f64,
+    pub delivered_wh_kg_last: f64,
+    /// calkowity przeplyw ladunku odniesiony do poczatkowego Ah
+    pub efc: f64,
+    pub charge_mah: f64,
+    pub discharge_mah: f64,
+    pub energy_in_mwh: f64,
+    pub energy_out_mwh: f64,
+    pub t10_80_min_1: Option<f64>,
+    pub t10_80_max_min: Option<f64>,
+    pub qualifying_cycles: u64,
+    /// model nie ma chemii przeladowania poza 100% SOC
+    pub abuse_model_complete: bool,
     pub trace: Vec<TracePoint>,
 }
 
@@ -195,6 +220,12 @@ struct SimState {
     cath_exo_j: f64,
     cath_exo_done: bool,
     trace: Vec<TracePoint>,
+    sei_elapsed_h: f64,
+    charge_mah: f64,
+    discharge_mah: f64,
+    energy_in_mj: f64,
+    energy_out_mj: f64,
+    abuse_model_complete: bool,
 }
 
 /// Silnik symulacji (zamkniete nad stanem -- jak closures w Pythonie).
@@ -353,11 +384,36 @@ impl<'a> Engine<'a> {
         self.st.t += q_mw * dt / self.cell.c_th;
         let e_in = (i_ma * v).max(0.0) * dt;
         let e_out = (-i_ma * v).max(0.0) * dt;
+        self.st.charge_mah += i_ma.max(0.0) * dt / 3600.0;
+        self.st.discharge_mah += (-i_ma).max(0.0) * dt / 3600.0;
+        self.st.energy_in_mj += e_in;
+        self.st.energy_out_mj += e_out;
         self.check_safety();
         (s_new, e_in, e_out)
     }
 
     fn finish(self, c_ch: f64, c_dis: f64, t_amb: f64) -> SimResult {
+        let first = self.st.trace.first();
+        let last = self.st.trace.last();
+        let delivered_wh_kg_1 = first.map_or(0.0, |p| p.energy_out_mwh * 1000.0 / self.cell.m_tot);
+        let delivered_wh_kg_last =
+            last.map_or(0.0, |p| p.energy_out_mwh * 1000.0 / self.cell.m_tot);
+        let t10_80_min_1 = first.and_then(|p| p.t10_80_min);
+        let t10_80_max_min = self
+            .st
+            .trace
+            .iter()
+            .filter_map(|p| p.t10_80_min)
+            .reduce(f64::max);
+        let qualifying_cycles = self
+            .st
+            .trace
+            .iter()
+            .filter(|p| {
+                p.t10_80_min.is_some_and(|t| t <= 30.0)
+                    && p.discharge_mah / p.cap >= self.sp.min_delivered - 1e-9
+            })
+            .count() as u64;
         SimResult {
             cath: self.cell.cath.name,
             an: self.cell.an.name,
@@ -381,8 +437,8 @@ impl<'a> Engine<'a> {
             t_max: self.st.t_max,
             t80_min: self.st.t80.map(|v| v / 60.0).unwrap_or(0.0),
             t80_set: self.st.t80.is_some(),
-            eta: if self.st.eta_n > 0 {
-                self.st.eta_sum / self.st.eta_n as f64
+            eta: if self.st.energy_in_mj > 0.0 {
+                self.st.energy_out_mj / self.st.energy_in_mj
             } else {
                 0.0
             },
@@ -392,6 +448,17 @@ impl<'a> Engine<'a> {
             hours: self.st.hours,
             delivered_frac: self.st.delivered_frac,
             delivered_frac_1: self.st.delivered_frac_1.unwrap_or(0.0),
+            delivered_wh_kg_1,
+            delivered_wh_kg_last,
+            efc: self.st.discharge_mah / self.cap0,
+            charge_mah: self.st.charge_mah,
+            discharge_mah: self.st.discharge_mah,
+            energy_in_mwh: self.st.energy_in_mj / 3600.0,
+            energy_out_mwh: self.st.energy_out_mj / 3600.0,
+            t10_80_min_1,
+            t10_80_max_min,
+            qualifying_cycles,
+            abuse_model_complete: self.st.abuse_model_complete,
             trace: self.st.trace,
         }
     }
@@ -410,6 +477,26 @@ pub fn simulate(
     max_cycles: u64,
     abuse: Option<Abuse>,
 ) -> SimResult {
+    assert!(
+        c_ch.is_finite() && c_ch > 0.0 && c_dis.is_finite() && c_dis > 0.0,
+        "C-rate must be finite and positive"
+    );
+    assert!(
+        t_amb.is_finite() && t_amb > -273.15 && t_amb < cell.t_shutdown,
+        "cycling temperature must be finite, above absolute zero and below shutdown"
+    );
+    assert!(max_cycles > 0, "max_cycles must be positive");
+    if let Some(ab) = abuse {
+        assert!(
+            ab.t_oven.is_finite()
+                && ab.t_oven > -273.15
+                && ab.overcharge.is_finite()
+                && ab.overcharge >= 0.0
+                && ab.t_max_h.is_finite()
+                && ab.t_max_h > 0.0,
+            "invalid abuse protocol"
+        );
+    }
     let mut t_amb = t_amb;
     if let Some(ab) = abuse {
         t_amb = ab.t_oven;
@@ -456,15 +543,24 @@ pub fn simulate(
             cath_exo_j: 0.0,
             cath_exo_done: false,
             trace: Vec::new(),
+            sei_elapsed_h: 0.0,
+            charge_mah: 0.0,
+            discharge_mah: 0.0,
+            energy_in_mj: 0.0,
+            energy_out_mj: 0.0,
+            abuse_model_complete: false,
         },
     };
 
     // ------------------------------------------------------------- protokol abusow
     if let Some(ab) = abuse {
+        // Kontynuacja poprawki upstream: dwa etapy pozostaja diagnostyka.
+        // Nie udajemy fizyki poza 100% SOC: overcharge oznacza niepelne pokrycie modelu.
+        eng.st.abuse_model_complete = ab.overcharge == 0.0;
         // AUDYT 2026-11-01: stary test laczyl piec 150C z przeładowaniem i startowal
         // od razu w 150C przy SOC=0 — shutdown (PP 130C) zerowal prad od t=0, a piec
         // dominowal bilans cieplny, wiec wynik byl identyczny dla 0C/1C/10C.
-        // Teraz DWA osobne etapy, jak w normach (thermal abuse i overcharge osobno):
+        // Dwa uproszczone etapy diagnostyczne; to NIE jest protokol normatywny:
         //  1) soak w piecu (bez pradu): ogniwo startuje w 25C, PELNE SOC;
         //  2) przeładowanie przy 25C otoczenia, pelne SOC.
         eng.st.t = 25.0;
@@ -496,18 +592,28 @@ pub fn simulate(
         return eng.finish(c_ch, c_dis, t_amb);
     }
 
+    // SOC jest stanem ciaglym; odciecie rozladowania nie rozladowuje ogniwa do zera.
+    let mut s = 0.0f64;
     // ------------------------------------------------------------- cykle
     while eng.st.cycle < max_cycles {
         eng.st.cycle += 1;
         let plated_before = eng.st.plated;
+        let soc_start = s;
+        let charge_before = eng.st.charge_mah;
+        let discharge_before = eng.st.discharge_mah;
+        let mut t10 = if s <= 0.1 { None } else { Some(f64::NAN) };
+        let mut t80 = None;
         // ---- ladowanie CC do V_max
-        let mut s = 0.0;
         let dt = sp.dt_max.min((3600.0 / (c_ch * 150.0)).max(sp.dt_min));
-        let i_ma = c_ch * eng.st.cap;
+        let i_ma = c_ch * eng.cap0;
         let mut t_ch = 0.0;
         let mut e_in = 0.0;
         let mut e_out = 0.0;
-        while s < 1.0 {
+        while s < 1.0 - 1e-12 {
+            if eng.st.t >= cell.t_shutdown || t_ch >= 7200.0 / c_ch {
+                eng.st.eol = Some(Eol::ProtocolStopped);
+                break;
+            }
             let v = eng.ocv(s)
                 + i_ma * eng.r_int(eng.st.t) / 1000.0
                 + eng.eta_cat(i_ma, s, eng.st.t).abs()
@@ -515,24 +621,43 @@ pub fn simulate(
             if v >= eng.v_max {
                 break;
             }
-            let (sn, ei, eo) = eng.step(dt, i_ma, s);
+            let step_dt = dt.min((1.0 - s) * eng.st.cap * 3600.0 / i_ma);
+            let s_prev = s;
+            let (sn, ei, eo) = eng.step(step_dt, i_ma, s);
             s = sn;
             e_in += ei;
             e_out += eo;
-            t_ch += dt;
-            if eng.st.t80.is_none() && s >= 0.8 {
-                eng.st.t80 = Some(t_ch);
+            if t10.is_none() && s >= 0.1 {
+                t10 = Some(t_ch + step_dt * (0.1 - s_prev) / (s - s_prev));
             }
+            if t80.is_none() && s >= 0.8 {
+                t80 = Some(t_ch + step_dt * (0.8 - s_prev) / (s - s_prev));
+            }
+            t_ch += step_dt;
             if eng.st.runaway || eng.st.short {
                 break;
             }
         }
         let s_top = s;
+        if eng.st.cycle == 1 {
+            eng.st.t80 = t80;
+        }
+        let t10_80_min = t10.zip(t80).and_then(|(a, b)| {
+            if a.is_finite() {
+                Some((b - a) / 60.0)
+            } else {
+                None
+            }
+        });
         // ---- rozladowanie CC do V_min
         let dt = sp.dt_max.min((3600.0 / (c_dis * 150.0)).max(sp.dt_min));
-        let i_ma = -c_dis * eng.st.cap;
+        let i_ma = -c_dis * eng.cap0;
         let mut t_dis = 0.0;
-        while s > 0.0 {
+        while s > 1e-12 && !eng.st.runaway && !eng.st.short && eng.st.eol.is_none() {
+            if eng.st.t >= cell.t_shutdown || t_dis >= 7200.0 / c_dis {
+                eng.st.eol = Some(Eol::ProtocolStopped);
+                break;
+            }
             let v = eng.ocv(s)
                 + i_ma * eng.r_int(eng.st.t) / 1000.0
                 + eng.eta_cat(i_ma, s, eng.st.t)
@@ -540,15 +665,17 @@ pub fn simulate(
             if v <= eng.v_min {
                 break;
             }
-            let (sn, ei, eo) = eng.step(dt, i_ma, s);
+            let step_dt = dt.min(s * eng.st.cap * 3600.0 / -i_ma);
+            let (sn, ei, eo) = eng.step(step_dt, i_ma, s);
             s = sn;
             e_in += ei;
             e_out += eo;
-            t_dis += dt;
+            t_dis += step_dt;
             if eng.st.runaway || eng.st.short {
                 break;
             }
         }
+        s = s.clamp(0.0, 1.0);
         // ulamek pojemnosci odprowadzony w oknie napiec przy danym C-rate
         eng.st.delivered_frac = s_top - s;
         if eng.st.delivered_frac_1.is_none() {
@@ -561,6 +688,7 @@ pub fn simulate(
         }
         eng.st.trace.push(TracePoint {
             cycle: eng.st.cycle,
+            soc_start,
             soc_top: s_top,
             soc_end: s,
             cap: eng.st.cap,
@@ -572,6 +700,12 @@ pub fn simulate(
             temp: eng.st.t,
             t_charge_s: t_ch,
             t_discharge_s: t_dis,
+            charge_mah: eng.st.charge_mah - charge_before,
+            discharge_mah: eng.st.discharge_mah - discharge_before,
+            energy_in_mwh: e_in / 3600.0,
+            energy_out_mwh: e_out / 3600.0,
+            efc: eng.st.discharge_mah / eng.cap0,
+            t10_80_min,
         });
         // ---- degradacja na koniec cyklu
         let t_avg = eng.st.t.clamp(-20.0, 60.0);
@@ -589,16 +723,18 @@ pub fn simulate(
         let d_sei = sp.k_sei
             * eng.a.sei
             * eng.e.sei
-            * h_cyc.max(1e-9).sqrt()
+            * sqrt_time_increment(eng.st.sei_elapsed_h, h_cyc)
             * f_t_sei
             * (1.0 + 0.25 * (c_ch - 1.0).max(0.0));
+        eng.st.sei_elapsed_h += h_cyc;
         eng.st.sei += d_sei;
         eng.st.li_inv -= d_sei * sp.li_per_nm;
         // shuttle / samo-rozladowanie katody (Li-S)
         eng.st.li_inv -= eng.c.sd * h_cyc / 2.0;
         // dead Li (Li metal, Si) + dendryty
         if eng.a.dead_li > 0.0 {
-            let dead = eng.a.dead_li * (0.5 + 0.5 * c_ch);
+            let charged_frac = (eng.st.charge_mah - charge_before) / eng.cap0;
+            let dead = eng.a.dead_li * (0.5 + 0.5 * c_ch) * charged_frac;
             eng.st.li_inv -= dead;
             eng.st.dend += dead * eng.a.dend * if eng.is_solid { 0.5 } else { 1.0 };
         }
@@ -623,7 +759,10 @@ pub fn simulate(
             eng.st.eol = Some(Eol::Short);
             break;
         }
-        if eng.st.delivered_frac < sp.min_delivered {
+        if eng.st.eol.is_some() {
+            break;
+        }
+        if eng.st.delivered_frac < sp.min_delivered - 1e-9 {
             eng.st.eol = Some(Eol::RateLimited);
             break;
         }
@@ -639,4 +778,127 @@ pub fn simulate(
         eng.st.eol = Some(Eol::Survived(max_cycles));
     }
     eng.finish(c_ch, c_dis, t_amb)
+}
+
+fn sqrt_time_increment(elapsed: f64, duration: f64) -> f64 {
+    (elapsed + duration).sqrt() - elapsed.sqrt()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::materials::{anode, cathode, electrolyte};
+
+    fn fixture(ca: &str, an: &str, el: &str, ld: f64, np: f64) -> (Cell, CellParams, SimParams) {
+        let cp = CellParams::default();
+        let c = Cell::new(
+            cathode(ca).unwrap(),
+            anode(an).unwrap(),
+            electrolyte(el).unwrap(),
+            ld,
+            np,
+            &cp,
+        );
+        (c, cp, SimParams::default())
+    }
+
+    #[test]
+    fn residual_soc_is_preserved_and_charge_balances() {
+        let (c, cp, mut sp) = fixture("DRX", "SIC", "GEL", 40.0, 1.02);
+        sp.min_delivered = 0.0; // follow partial cycles for this continuity test only
+        let r = simulate(&c, &cp, &sp, 2.0, 1.0, -10.0, 3, None);
+        assert_eq!(r.trace.len(), 3);
+        assert!(r.trace[0].soc_end > 0.1);
+        for pair in r.trace.windows(2) {
+            assert!((pair[1].soc_start - pair[0].soc_end).abs() < 1e-12);
+        }
+        for p in &r.trace {
+            assert!((p.charge_mah - p.cap * (p.soc_top - p.soc_start)).abs() < 1e-10);
+            assert!((p.discharge_mah - p.cap * (p.soc_top - p.soc_end)).abs() < 1e-10);
+        }
+    }
+
+    #[test]
+    fn soc_bounds_hold_and_current_is_referenced_to_initial_capacity() {
+        let (c, cp, mut sp) = fixture("NMC811", "SIC", "LP57", 20.0, 1.1);
+        sp.min_delivered = 0.0;
+        sp.fade_base = 0.01;
+        let r = simulate(&c, &cp, &sp, 2.3, 1.7, 25.0, 3, None);
+        assert_eq!(r.trace.len(), 3);
+        assert!(r.trace[2].cap < r.trace[0].cap);
+        for p in &r.trace {
+            assert!((0.0..=1.0).contains(&p.soc_end));
+            assert!((0.0..=1.0 + 1e-12).contains(&p.soc_top));
+            assert!((p.charge_mah / (p.t_charge_s / 3600.0) - 2.3 * c.cap0).abs() < 1e-9);
+            assert!((p.discharge_mah / (p.t_discharge_s / 3600.0) - 1.7 * c.cap0).abs() < 1e-9);
+        }
+    }
+
+    #[test]
+    fn energy_and_efc_are_integrated_from_actual_discharge() {
+        let (c, cp, sp) = fixture("NMC811", "SIC", "GEL", 30.0, 1.1);
+        let r = simulate(&c, &cp, &sp, 2.0, 1.0, 25.0, 3, None);
+        let q: f64 = r.trace.iter().map(|p| p.discharge_mah).sum();
+        let e: f64 = r.trace.iter().map(|p| p.energy_out_mwh).sum();
+        assert!((q / c.cap0 - r.efc).abs() < 1e-10);
+        assert!((e - r.energy_out_mwh).abs() < 1e-10);
+        assert!(r.delivered_wh_kg_1 > 0.0 && r.delivered_wh_kg_1 < c.wh_kg);
+        let efficiency = r.energy_out_mwh / r.energy_in_mwh;
+        assert!((r.eta - efficiency).abs() < 1e-12);
+    }
+
+    #[test]
+    fn cold_partial_cycle_does_not_qualify_as_fast_charging() {
+        let (c, cp, sp) = fixture("DRX", "SIC", "GEL", 40.0, 1.02);
+        let r = simulate(&c, &cp, &sp, 2.0, 1.0, -10.0, 3000, None);
+        assert_eq!(r.eol, Eol::RateLimited);
+        assert_eq!(r.cycles, 1);
+        assert_eq!(r.qualifying_cycles, 0);
+        assert!(r.t10_80_min_1.is_none());
+        assert!(!r.t80_set);
+    }
+
+    #[test]
+    fn sqrt_sei_growth_is_invariant_to_time_subdivision() {
+        let coarse = sqrt_time_increment(0.0, 100.0);
+        let fine: f64 = (0..100).map(|n| sqrt_time_increment(n as f64, 1.0)).sum();
+        assert!((coarse - fine).abs() < 1e-12);
+        assert!(sqrt_time_increment(99.0, 1.0) < sqrt_time_increment(0.0, 1.0));
+    }
+
+    #[test]
+    fn separator_shutdown_stops_cycling_instead_of_spinning() {
+        let (mut c, cp, sp) = fixture("NMC811", "SIC", "GEL", 30.0, 1.1);
+        c.t_shutdown = 25.00001;
+        let r = simulate(&c, &cp, &sp, 2.0, 1.0, 25.0, 3, None);
+        assert_eq!(r.eol, Eol::ProtocolStopped);
+        assert!(r.hours < 1.0);
+    }
+
+    #[test]
+    fn overcharge_is_explicitly_marked_incomplete() {
+        let (c, cp, sp) = fixture("NMC811", "SIC", "GEL", 30.0, 1.1);
+        let r = simulate(
+            &c,
+            &cp,
+            &sp,
+            1.0,
+            1.0,
+            25.0,
+            1,
+            Some(Abuse {
+                t_oven: 150.0,
+                overcharge: 1.0,
+                t_max_h: 0.01,
+            }),
+        );
+        assert!(!r.abuse_model_complete);
+    }
+
+    #[test]
+    #[should_panic(expected = "C-rate")]
+    fn rejects_zero_current() {
+        let (c, cp, sp) = fixture("NMC811", "SIC", "GEL", 30.0, 1.1);
+        simulate(&c, &cp, &sp, 0.0, 1.0, 25.0, 1, None);
+    }
 }

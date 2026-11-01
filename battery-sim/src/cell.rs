@@ -133,6 +133,14 @@ impl Cell {
         np: f64,
         p: &CellParams,
     ) -> Cell {
+        assert!(
+            loading_cat.is_finite() && loading_cat > 0.0,
+            "loading must be finite and positive"
+        );
+        assert!(
+            np.is_finite() && np >= 1.0,
+            "cathode-limited model requires N/P >= 1"
+        );
         let cap = loading_cat * cath.cap_mah_g * cath.act / 1000.0; // mAh/cm^2
         let loading_an = np * cap / (an.cap_mah_g * an.act) * 1000.0; // mg/cm^2
 
@@ -140,8 +148,9 @@ impl Cell {
         // (Na nie tworzy stopow z Al -- oszczednosc masy i kosztu vs Cu)
         let na_ion = cath.name.starts_with("NA_");
         // masy na cm^2 elektrody [mg/cm^2]
-        let m_cat = loading_cat / cath.act;
-        let m_an = loading_an / an.act;
+        // Loading jest masa CALEJ suchej powloki; act wystepuje tylko w pojemnosci.
+        let m_cat = loading_cat;
+        let m_an = loading_an;
         let m_al = p.foil_al * p.dens_al * 1000.0;
         let (m_foil_an, t_foil_an) = if na_ion {
             (p.foil_al * p.dens_al * 1000.0, p.foil_al)
@@ -174,8 +183,8 @@ impl Cell {
         let wh_l = cap * v_avg / t_tot;
         // koszt materialowy [USD/kWh]: aktywne materialy + elektrolit
         // (masy w mg/cm^2 -> kg/cm^2, koszt USD/kg -> USD/cm^2)
-        let cost_cm2 = m_cat / 1.0e6 * cost_cath_usd_kg(cath.name)
-            + m_an / 1.0e6 * cost_an_usd_kg(an.name)
+        let cost_cm2 = m_cat * cath.act / 1.0e6 * cost_cath_usd_kg(cath.name)
+            + m_an * an.act / 1.0e6 * cost_an_usd_kg(an.name)
             + m_el / 1.0e6 * cost_el_usd_kg(el.name);
         let cost_kwh = cost_cm2 / (cap * v_avg / 1000.0) * 1000.0;
         let r_sep = p.t_sep / (kap * p.por_sep.powf(1.5));
@@ -227,5 +236,39 @@ impl Cell {
             sep_melt,
             t_shutdown: if is_solid { 1.0e9 } else { 130.0 },
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::materials::{anode, cathode, electrolyte};
+
+    #[test]
+    fn coating_mass_and_capacity_use_active_fraction_once() {
+        let c = Cell::new(
+            cathode("NMC811").unwrap(),
+            anode("GRAPHITE").unwrap(),
+            electrolyte("LP57").unwrap(),
+            20.0,
+            1.1,
+            &CellParams::default(),
+        );
+        assert_eq!(c.m_cat, 20.0);
+        assert!((c.cap0 - c.m_cat * c.cath.act * c.cath.cap_mah_g / 1000.0).abs() < 1e-12);
+        assert!((c.m_an * c.an.act * c.an.cap_mah_g / 1000.0 / c.cap0 - 1.1).abs() < 1e-12);
+    }
+
+    #[test]
+    #[should_panic(expected = "N/P")]
+    fn rejects_anode_limited_configuration() {
+        Cell::new(
+            cathode("NMC811").unwrap(),
+            anode("GRAPHITE").unwrap(),
+            electrolyte("LP57").unwrap(),
+            20.0,
+            0.8,
+            &CellParams::default(),
+        );
     }
 }

@@ -35,6 +35,20 @@ jobs:
       - name: build release
         working-directory: battery-sim
         run: cargo build --release
+      - name: regression tests (rayon and std)
+        working-directory: battery-sim
+        run: |
+          cargo test
+          cargo test --no-default-features
+      - name: post-audit validation (six cases and 2880-design grid)
+        working-directory: battery-sim
+        run: python3 tools/validate_v02.py --sweep
+      - name: archive post-audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-v02
+          path: battery-sim/results/v0.2.0
+          retention-days: 90
       - name: demo
         working-directory: battery-sim
         run: ./target/release/battery-sim demo

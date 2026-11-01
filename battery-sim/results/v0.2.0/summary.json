@@ -1,0 +1,96 @@
+{
+  "version": "0.2.0",
+  "protocol": "CC 2C/1C, fixed current referenced to initial Ah; no CV",
+  "qualification": ">=80% remaining capacity delivered; 10-80% <=30 min",
+  "cases": [
+    {
+      "case": "flagship",
+      "configuration": "NMC811/SIC/GEL",
+      "temp_C": 25,
+      "raw_cycles": 824,
+      "qualifying_cycles": 824,
+      "nominal_wh_kg": 286.6,
+      "delivered_wh_kg_first": 213.2,
+      "first_discharge_fraction": 0.816667,
+      "t10_80_min_first": 21.0,
+      "efc": 599.761111,
+      "physical_validation": "unvalidated"
+    },
+    {
+      "case": "drx_cold",
+      "configuration": "DRX/SIC/GEL",
+      "temp_C": -10,
+      "raw_cycles": 1,
+      "qualifying_cycles": 0,
+      "nominal_wh_kg": 373.0,
+      "delivered_wh_kg_first": 100.4,
+      "first_discharge_fraction": 0.333333,
+      "t10_80_min_first": null,
+      "efc": 0.333333,
+      "physical_validation": "unvalidated"
+    },
+    {
+      "case": "drx_room",
+      "configuration": "DRX/SIC/GEL",
+      "temp_C": 25,
+      "raw_cycles": 1,
+      "qualifying_cycles": 0,
+      "nominal_wh_kg": 373.0,
+      "delivered_wh_kg_first": 222.2,
+      "first_discharge_fraction": 0.677778,
+      "t10_80_min_first": null,
+      "efc": 0.677778,
+      "physical_validation": "unvalidated"
+    },
+    {
+      "case": "lfp_free",
+      "configuration": "LFP/LIFREE/LP57",
+      "temp_C": 25,
+      "raw_cycles": 616,
+      "qualifying_cycles": 616,
+      "nominal_wh_kg": 278.2,
+      "delivered_wh_kg_first": 256.8,
+      "first_discharge_fraction": 0.966667,
+      "t10_80_min_first": 21.0,
+      "efc": 532.766667,
+      "physical_validation": "unvalidated"
+    },
+    {
+      "case": "nmc_free",
+      "configuration": "NMC811/LIFREE/GEL",
+      "temp_C": -10,
+      "raw_cycles": 1,
+      "qualifying_cycles": 0,
+      "nominal_wh_kg": 366.7,
+      "delivered_wh_kg_first": 107.1,
+      "first_discharge_fraction": 0.33055600000000007,
+      "t10_80_min_first": null,
+      "efc": 0.330556,
+      "physical_validation": "unvalidated"
+    },
+    {
+      "case": "baseline",
+      "configuration": "NMC811/GRAPHITE/LP57",
+      "temp_C": 25,
+      "raw_cycles": 544,
+      "qualifying_cycles": 544,
+      "nominal_wh_kg": 242.7,
+      "delivered_wh_kg_first": 214.0,
+      "first_discharge_fraction": 0.922222,
+      "t10_80_min_first": 21.0,
+      "efc": 443.016667,
+      "physical_validation": "unvalidated"
+    }
+  ],
+  "sweep": {
+    "rows": 2880,
+    "performance_pass": 248,
+    "full_model_pass": 0,
+    "performance_by_cathode": {
+      "NMC811": 93,
+      "LFP": 152,
+      "DRX": 3
+    },
+    "performance_missing_t10_80": 0
+  }
+}

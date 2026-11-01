@@ -25,7 +25,7 @@ pub fn print_cell_summary(cell: &Cell) {
         cell.v_min, cell.v_max, cell.m_tot, cell.m_cat, cell.m_an, cell.m_el, cell.m_sep
     );
     println!(
-        "  pakiet: {:.1} Wh/kg | {:.0} Wh/L | grubosc {:.0} um | koszt materialowy ~${:.0}/kWh",
+        "  pakiet (mnoznik): {:.1} Wh/kg | suchy stos {:.0} Wh/L | grubosc {:.0} um | wybrane materialy ~${:.0}/kWh (bez produkcji)",
         cell.wh_kg_pack,
         cell.wh_l,
         cell.t_tot * 1.0e4,
@@ -35,7 +35,7 @@ pub fn print_cell_summary(cell: &Cell) {
 
 pub fn print_criteria(crit: &Criteria) {
     println!(
-        "Kryteria: energia >= {:.1} Wh/kg (bazowe Li-ion x{:.2}), >= {} cykli przy ladowaniu {:?}C, bezpieczny (brak eksplozji/runaway/zwarcia w cyklowaniu i abusa {}°C)",
+        "Kryteria modelowe: energia ODDANA >= {:.1} Wh/kg (referencja 25C, 2C/1C CC x{:.2}), >= {} kwalifikowanych cykli przy {:?}C (>=2C; >=80% pojemnosci i 10-80% <=30 min), diagnostyka pieca {}°C; bezpieczenstwo fizyczne NIEZWERYFIKOWANE",
         crit.baseline_wh, crit.energy_factor, crit.min_cycles, crit.fast_rates, crit.abuse.t_oven
     );
 }
@@ -84,6 +84,21 @@ pub fn print_sim_summary(r: &SimResult) {
         r.hours
     );
     println!(
+        "  Energia oddana: {:.1} Wh/kg (cykl 1), {:.1} Wh/kg (ostatni); nominalna OCV: {:.1} Wh/kg",
+        r.delivered_wh_kg_1, r.delivered_wh_kg_last, r.wh_kg
+    );
+    println!(
+        "  Przeplyw: {:.4} mAh/cm2 in, {:.4} out; {:.3} EFC; energia {:.4}/{:.4} mWh/cm2 in/out",
+        r.charge_mah, r.discharge_mah, r.efc, r.energy_in_mwh, r.energy_out_mwh
+    );
+    println!(
+        "  10-80% SOC: {} min (cykl 1), max {} min; kwalifikowane cykle: {}",
+        option_display(r.t10_80_min_1),
+        option_display(r.t10_80_max_min),
+        r.qualifying_cycles
+    );
+    println!("  Protokol: CC, prad odniesiony do poczatkowego Ah; BEZ etapu CV; stale nieprzekalibrowane.");
+    println!(
         "  Tmax: {:.1}°C | sprawnosc: {:.1}%",
         r.t_max,
         r.eta * 100.0
@@ -106,7 +121,7 @@ pub fn print_sim_summary(r: &SimResult) {
         "  pakiet: {:.1} Wh/kg | {:.0} Wh/L | koszt materialowy ~${:.0}/kWh",
         r.wh_kg_pack, r.wh_l, r.cost_kwh
     );
-    println!("  bezpieczenstwo: {flags}");
+    println!("  zdarzenia w modelu: {flags}; bezpieczenstwo fizyczne NIEZWERYFIKOWANE");
 }
 
 pub fn print_abuse_line(r: &SimResult) {
@@ -121,11 +136,20 @@ pub fn print_abuse_line(r: &SimResult) {
         flags.push_str("SHORT");
     }
     if flags.is_empty() {
-        flags.push_str("survives");
+        flags.push_str("brak zdarzen W MODELU");
     }
     println!(
         "  {:>8}/{:<8}/{:<6} | Tmax {:6.1}C | {} ({:.2} h)",
         r.cath, r.an, r.el, r.t_max, flags, r.hours
+    );
+    println!(
+        "    przeplyw {:.4} mAh/cm2; pokrycie przeladowania: {}; walidacja fizyczna: NIE",
+        r.charge_mah,
+        if r.abuse_model_complete {
+            "thermal-only"
+        } else {
+            "NIEPELNE (brak chemii poza 100% SOC)"
+        }
     );
 }
 
@@ -146,6 +170,8 @@ pub fn print_combo_line(r: &ComboResult) {
         if r.passed { "PASS" } else { "FAIL" },
         r.score
     );
+    println!("    energia oddana {:.1} Wh/kg; {:.1} EFC; {} kwalifikowanych cykli; 10-80% {} min; performance_pass={}; abuse_complete={}; physical_validation=unvalidated",
+        r.delivered_wh_kg_1, r.efc, r.qualifying_cycles, option_number(r.t10_80_min), r.performance_pass, r.abuse_model_complete);
 }
 
 pub fn print_combo_table(results: &[ComboResult], top: usize) {
@@ -168,17 +194,18 @@ pub fn write_sweep_csv(path: &str, results: &[ComboResult]) -> io::Result<()> {
     let mut f = File::create(path)?;
     writeln!(
         f,
-        "cathode,anode,electrolyte,loading_mg_cm2,np,temp_C,wh_kg,pack_wh_kg,wh_l,cost_usd_kwh,mah_g,energy_pass,cycles_fast,eol,c_best,t80_min,cycles_pass,t_max_cyc_C,safety_pass,abuse_tmax_C,abuse_explosion,abuse_runaway,abuse_short,passed,score"
+        "cathode,anode,electrolyte,loading_mg_cm2,np,temp_C,wh_kg,pack_wh_kg,wh_l,cost_usd_kwh,mah_g,energy_pass,cycles_fast,eol,c_best,t80_min,cycles_pass,t_max_cyc_C,safety_pass,abuse_tmax_C,abuse_explosion,abuse_runaway,abuse_short,passed,score,delivered_wh_kg_1,efc,qualifying_cycles,t10_80_min,performance_pass,abuse_model_complete,physical_validation,model_version,charge_protocol,current_reference"
     )?;
     for r in results {
         writeln!(
             f,
-            "{},{},{},{:.1},{:.2},{:.0},{:.1},{:.1},{:.0},{:.0},{:.1},{},{},{},{:.0},{:.1},{},{:.1},{},{:.1},{},{},{},{},{:.3}",
+            "{},{},{},{:.1},{:.2},{:.0},{:.1},{:.1},{:.0},{:.0},{:.1},{},{},{},{:.0},{:.1},{},{:.1},{},{:.1},{},{},{},{},{:.3},{:.3},{:.4},{},{},{},{},unvalidated,0.2.0,CC,initial_capacity",
             r.cath, r.an, r.el, r.loading, r.np, r.t_amb, r.wh_kg, r.wh_kg_pack, r.wh_l, r.cost_kwh, r.mah_g,
             bool_s(r.energy_pass), r.cycles, r.eol.label(), r.c_best, r.t80_min,
             bool_s(r.cycles_pass), r.t_max, bool_s(r.safety_pass), r.abuse_tmax,
             bool_s(r.abuse_explosion), bool_s(r.abuse_runaway), bool_s(r.abuse_short),
-            bool_s(r.passed), r.score
+            bool_s(r.passed), r.score, r.delivered_wh_kg_1, r.efc, r.qualifying_cycles,
+            option_number(r.t10_80_min), bool_s(r.performance_pass), bool_s(r.abuse_model_complete)
         )?;
     }
     Ok(())
@@ -189,12 +216,12 @@ pub fn write_trace_csv(path: &str, r: &SimResult) -> io::Result<()> {
     let mut f = File::create(path)?;
     writeln!(
         f,
-        "cycle,soc_top,soc_end,capacity_mAh_cm2,li_inv,cath_frac,r_mult,sei_nm,plated_mAh_cm2,temp_C,t_charge_s,t_discharge_s"
+        "cycle,soc_top,soc_end,capacity_mAh_cm2,li_inv,cath_frac,r_mult,sei_nm,plated_mAh_cm2,temp_C,t_charge_s,t_discharge_s,soc_start,charge_mAh_cm2,discharge_mAh_cm2,energy_in_mWh_cm2,energy_out_mWh_cm2,efc,t10_80_min"
     )?;
     for p in &r.trace {
         writeln!(
             f,
-            "{},{:.4},{:.4},{:.4},{:.5},{:.5},{:.4},{:.2},{:.4},{:.2},{:.0},{:.0}",
+            "{},{:.6},{:.6},{:.6},{:.6},{:.6},{:.6},{:.4},{:.6},{:.4},{:.4},{:.4},{:.6},{:.6},{:.6},{:.6},{:.6},{:.6},{}",
             p.cycle,
             p.soc_top,
             p.soc_end,
@@ -206,10 +233,21 @@ pub fn write_trace_csv(path: &str, r: &SimResult) -> io::Result<()> {
             p.plated,
             p.temp,
             p.t_charge_s,
-            p.t_discharge_s
+            p.t_discharge_s, p.soc_start, p.charge_mah, p.discharge_mah,
+            p.energy_in_mwh, p.energy_out_mwh, p.efc, option_number(p.t10_80_min)
         )?;
     }
     Ok(())
+}
+
+fn option_number(value: Option<f64>) -> String {
+    value.map(|v| format!("{v:.4}")).unwrap_or_default()
+}
+
+fn option_display(value: Option<f64>) -> String {
+    value
+        .map(|v| format!("{v:.4}"))
+        .unwrap_or_else(|| "NA".into())
 }
 
 /// Wypisuje co `every` cykli skrot przebiegu (do podgladu zywotnosci).

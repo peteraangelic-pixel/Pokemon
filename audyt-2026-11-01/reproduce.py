@@ -21,11 +21,15 @@ def main():
         remote = json.loads(remote_path.read_text(encoding='utf-8'))
         mismatch = []
         for item in remote:
-            data = (SRC / item['path']).read_bytes()
+            data = (SRC / item['path']).read_bytes().replace(b'\r\n', b'\n')
             sha = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
             if sha != item['sha']:
                 mismatch.append(item['path'])
         evidence['github_comparison'] = {'files': len(remote), 'mismatches': mismatch}
+        if mismatch:
+            raise SystemExit('Historical source mismatch. In a separate checkout restore battery-sim from '
+                             '697a0150204047c6a59f2ede0b7156cf3db27735 before reproducing v0.1 evidence. '
+                             'No historical evidence was overwritten. Changed: ' + ', '.join(mismatch))
     for base in [ROOT / 'battery-sim2', SRC, HERE / 'inputs']:
         for name in ['grid.csv', 'mega.csv', 'optim_winners.csv', 'marathon.csv']:
             path = base / name

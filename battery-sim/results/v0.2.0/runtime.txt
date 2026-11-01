@@ -1,0 +1,348 @@
+COMMAND battery-sim cell --cathode NMC811 --anode SIC --electrolyte GEL --loading 30 --np 1.1 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\flagship-trace.csv"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Ogniwo NMC811/SIC/GEL load=30/8 mg/cm^2 (kat/an) N/P=1.10: 286.6 Wh/kg, 83.2 mAh/g, V_avg=3.446, R0=7.88 Ohm*cm^2
+  V [2.70, 4.17], m_tot=69.3 mg/cm^2 (katoda 30.0, anoda 7.6, elektrolit 15.6, sep 1.8)
+  pakiet (mnoznik): 206.3 Wh/kg | suchy stos 1036 Wh/L | grubosc 192 um | wybrane materialy ~$62/kWh (bez produkcji)
+
+Wynik symulacji NMC811/SIC/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.10):
+  EOL: fade80 po 824 cyklach (899.7 h pracy)
+  Energia oddana: 213.2 Wh/kg (cykl 1), 169.4 Wh/kg (ostatni); nominalna OCV: 286.6 Wh/kg
+  Przeplyw: 3454.8480 mAh/cm2 in, 3454.6240 out; 599.761 EFC; energia 12906.2527/10833.0250 mWh/cm2 in/out
+  10-80% SOC: 21.0000 min (cykl 1), max 21.0000 min; kwalifikowane cykle: 824
+  Protokol: CC, prad odniesiony do poczatkowego Ah; BEZ etapu CV; stale nieprzekalibrowane.
+  Tmax: 27.2°C | sprawnosc: 83.9%
+  t80 (ladowanie do 80% SOC): 24.0 min
+  deliv (ostatni cykl): 81% | deliv (cykl 1): 82%
+  SEI: 5.8 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.090
+  pakiet: 206.3 Wh/kg | 1036 Wh/L | koszt materialowy ~$62/kWh
+  zdarzenia w modelu: brak zdarzen; bezpieczenstwo fizyczne NIEZWERYFIKOWANE
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    824 | 0.851/0.039 |  4.609 | 0.8197 | 0.8001 | 1.090 |   5.8 |  25.8
+
+== test abusow ==
+    NMC811/SIC     /GEL    | Tmax  154.5C | brak zdarzen W MODELU (6.00 h)
+    przeplyw 17.2800 mAh/cm2; pokrycie przeladowania: NIEPELNE (brak chemii poza 100% SOC); walidacja fizyczna: NIE
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\flagship-trace.csv
+
+
+COMMAND battery-sim cell --cathode DRX --anode SIC --electrolyte GEL --loading 40 --np 1.02 --temp -10 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\drx_cold-trace.csv"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Ogniwo DRX/SIC/GEL load=40/12 mg/cm^2 (kat/an) N/P=1.02: 373.0 Wh/kg, 100.2 mAh/g, V_avg=3.723, R0=10.35 Ohm*cm^2
+  V [2.75, 4.61], m_tot=94.8 mg/cm^2 (katoda 40.0, anoda 11.6, elektrolit 25.7, sep 1.8)
+  pakiet (mnoznik): 268.5 Wh/kg | suchy stos 1334 Wh/L | grubosc 265 um | wybrane materialy ~$38/kWh (bez produkcji)
+
+Wynik symulacji DRX/SIC/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: rate-limited po 1 cyklach (0.6 h pracy)
+  Energia oddana: 100.4 Wh/kg (cykl 1), 100.4 Wh/kg (ostatni); nominalna OCV: 373.0 Wh/kg
+  Przeplyw: 5.3306 mAh/cm2 in, 3.1667 out; 0.333 EFC; energia 22.5087/9.5211 mWh/cm2 in/out
+  10-80% SOC: NA min (cykl 1), max NA min; kwalifikowane cykle: 0
+  Protokol: CC, prad odniesiony do poczatkowego Ah; BEZ etapu CV; stale nieprzekalibrowane.
+  Tmax: -2.2°C | sprawnosc: 42.3%
+  t80: nie osiagnieto 80% SOC przy tym C-rate
+  deliv (ostatni cykl): 33% | deliv (cykl 1): 33%
+  SEI: 5.0 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.000
+  pakiet: 268.5 Wh/kg | 1334 Wh/L | koszt materialowy ~$38/kWh
+  zdarzenia w modelu: brak zdarzen; bezpieczenstwo fizyczne NIEZWERYFIKOWANE
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+      1 | 0.561/0.228 |  9.500 | 1.0000 | 1.0000 | 1.000 |   5.0 |  -7.2
+
+== test abusow ==
+       DRX/SIC     /GEL    | Tmax  159.2C | brak zdarzen W MODELU (6.00 h)
+    przeplyw 28.5000 mAh/cm2; pokrycie przeladowania: NIEPELNE (brak chemii poza 100% SOC); walidacja fizyczna: NIE
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\drx_cold-trace.csv
+
+
+COMMAND battery-sim cell --cathode DRX --anode SIC --electrolyte GEL --loading 40 --np 1.02 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\drx_room-trace.csv"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Ogniwo DRX/SIC/GEL load=40/12 mg/cm^2 (kat/an) N/P=1.02: 373.0 Wh/kg, 100.2 mAh/g, V_avg=3.723, R0=10.35 Ohm*cm^2
+  V [2.75, 4.61], m_tot=94.8 mg/cm^2 (katoda 40.0, anoda 11.6, elektrolit 25.7, sep 1.8)
+  pakiet (mnoznik): 268.5 Wh/kg | suchy stos 1334 Wh/L | grubosc 265 um | wybrane materialy ~$38/kWh (bez produkcji)
+
+Wynik symulacji DRX/SIC/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: rate-limited po 1 cyklach (1.1 h pracy)
+  Energia oddana: 222.2 Wh/kg (cykl 1), 222.2 Wh/kg (ostatni); nominalna OCV: 373.0 Wh/kg
+  Przeplyw: 7.3361 mAh/cm2 in, 6.4389 out; 0.678 EFC; energia 29.9388/21.0686 mWh/cm2 in/out
+  10-80% SOC: NA min (cykl 1), max NA min; kwalifikowane cykle: 0
+  Protokol: CC, prad odniesiony do poczatkowego Ah; BEZ etapu CV; stale nieprzekalibrowane.
+  Tmax: 30.1°C | sprawnosc: 70.4%
+  t80: nie osiagnieto 80% SOC przy tym C-rate
+  deliv (ostatni cykl): 68% | deliv (cykl 1): 68%
+  SEI: 5.0 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.000
+  pakiet: 268.5 Wh/kg | 1334 Wh/L | koszt materialowy ~$38/kWh
+  zdarzenia w modelu: brak zdarzen; bezpieczenstwo fizyczne NIEZWERYFIKOWANE
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+      1 | 0.772/0.094 |  9.500 | 1.0000 | 1.0000 | 1.000 |   5.0 |  26.8
+
+== test abusow ==
+       DRX/SIC     /GEL    | Tmax  159.2C | brak zdarzen W MODELU (6.00 h)
+    przeplyw 28.5000 mAh/cm2; pokrycie przeladowania: NIEPELNE (brak chemii poza 100% SOC); walidacja fizyczna: NIE
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\drx_room-trace.csv
+
+
+COMMAND battery-sim cell --cathode LFP --anode LIFREE --electrolyte LP57 --loading 35 --np 1.02 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\lfp_free-trace.csv"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Ogniwo LFP/LIFREE/LP57 load=35/0 mg/cm^2 (kat/an) N/P=1.02: 278.2 Wh/kg, 81.3 mAh/g, V_avg=3.422, R0=3.88 Ohm*cm^2
+  V [2.90, 3.75], m_tot=65.4 mg/cm^2 (katoda 35.0, anoda 0.1, elektrolit 14.4, sep 1.8)
+  pakiet (mnoznik): 200.3 Wh/kg | suchy stos 974 Wh/L | grubosc 187 um | wybrane materialy ~$26/kWh (bez produkcji)
+
+Wynik symulacji LFP/LIFREE/LP57 (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: fade80 po 616 cyklach (799.2 h pracy)
+  Energia oddana: 256.8 Wh/kg (cykl 1), 205.1 Wh/kg (ostatni); nominalna OCV: 278.2 Wh/kg
+  Przeplyw: 2834.3187 mAh/cm2 in, 2834.3187 out; 532.767 EFC; energia 10345.5962/9260.1779 mWh/cm2 in/out
+  10-80% SOC: 21.0000 min (cykl 1), max 21.0000 min; kwalifikowane cykle: 616
+  Protokol: CC, prad odniesiony do poczatkowego Ah; BEZ etapu CV; stale nieprzekalibrowane.
+  Tmax: 26.4°C | sprawnosc: 89.5%
+  t80 (ladowanie do 80% SOC): 24.0 min
+  deliv (ostatni cykl): 97% | deliv (cykl 1): 97%
+  SEI: 5.5 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.011
+  pakiet: 200.3 Wh/kg | 974 Wh/L | koszt materialowy ~$26/kWh
+  zdarzenia w modelu: brak zdarzen; bezpieczenstwo fizyczne NIEZWERYFIKOWANE
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    616 | 0.965/0.000 |  4.256 | 0.8001 | 0.9734 | 1.011 |   5.5 |  25.6
+
+== test abusow ==
+       LFP/LIFREE  /LP57   | Tmax  150.7C | brak zdarzen W MODELU (6.00 h)
+    przeplyw 15.9600 mAh/cm2; pokrycie przeladowania: NIEPELNE (brak chemii poza 100% SOC); walidacja fizyczna: NIE
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\lfp_free-trace.csv
+
+
+COMMAND battery-sim cell --cathode NMC811 --anode LIFREE --electrolyte GEL --loading 35 --np 1.02 --temp -10 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\nmc_free-trace.csv"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Ogniwo NMC811/LIFREE/GEL load=35/0 mg/cm^2 (kat/an) N/P=1.02: 366.7 Wh/kg, 96.7 mAh/g, V_avg=3.792, R0=6.19 Ohm*cm^2
+  V [3.25, 4.30], m_tot=69.5 mg/cm^2 (katoda 35.0, anoda 0.2, elektrolit 18.1, sep 1.8)
+  pakiet (mnoznik): 264.0 Wh/kg | suchy stos 1625 Wh/L | grubosc 157 um | wybrane materialy ~$48/kWh (bez produkcji)
+
+Wynik symulacji NMC811/LIFREE/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: rate-limited po 1 cyklach (0.6 h pracy)
+  Energia oddana: 107.1 Wh/kg (cykl 1), 107.1 Wh/kg (ostatni); nominalna OCV: 366.7 Wh/kg
+  Przeplyw: 3.6960 mAh/cm2 in, 2.2213 out; 0.331 EFC; energia 15.3828/7.4410 mWh/cm2 in/out
+  10-80% SOC: NA min (cykl 1), max NA min; kwalifikowane cykle: 0
+  Protokol: CC, prad odniesiony do poczatkowego Ah; BEZ etapu CV; stale nieprzekalibrowane.
+  Tmax: -6.4°C | sprawnosc: 48.4%
+  t80: nie osiagnieto 80% SOC przy tym C-rate
+  deliv (ostatni cykl): 33% | deliv (cykl 1): 33%
+  SEI: 5.0 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.000
+  pakiet: 264.0 Wh/kg | 1625 Wh/L | koszt materialowy ~$48/kWh
+  zdarzenia w modelu: brak zdarzen; bezpieczenstwo fizyczne NIEZWERYFIKOWANE
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+      1 | 0.550/0.219 |  6.720 | 1.0000 | 1.0000 | 1.000 |   5.0 |  -8.8
+
+== test abusow ==
+    NMC811/LIFREE  /GEL    | Tmax  151.0C | brak zdarzen W MODELU (6.00 h)
+    przeplyw 20.1600 mAh/cm2; pokrycie przeladowania: NIEPELNE (brak chemii poza 100% SOC); walidacja fizyczna: NIE
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\nmc_free-trace.csv
+
+
+COMMAND battery-sim cell --cathode NMC811 --anode GRAPHITE --electrolyte LP57 --loading 20 --np 1.1 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\baseline-trace.csv"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Ogniwo NMC811/GRAPHITE/LP57 load=20/13 mg/cm^2 (kat/an) N/P=1.10: 242.7 Wh/kg, 65.2 mAh/g, V_avg=3.721, R0=4.10 Ohm*cm^2
+  V [3.10, 4.22], m_tot=58.9 mg/cm^2 (katoda 20.0, anoda 12.9, elektrolit 10.4, sep 1.8)
+  pakiet (mnoznik): 174.8 Wh/kg | suchy stos 750 Wh/L | grubosc 190 um | wybrane materialy ~$48/kWh (bez produkcji)
+
+Wynik symulacji NMC811/GRAPHITE/LP57 (ladowanie 2C, rozladowanie 1C, N/P 1.10):
+  EOL: fade80 po 544 cyklach (664.5 h pracy)
+  Energia oddana: 214.0 Wh/kg (cykl 1), 165.0 Wh/kg (ostatni); nominalna OCV: 242.7 Wh/kg
+  Przeplyw: 1701.1840 mAh/cm2 in, 1701.1840 out; 443.017 EFC; energia 6665.2664/6029.8144 mWh/cm2 in/out
+  10-80% SOC: 21.0000 min (cykl 1), max 21.0000 min; kwalifikowane cykle: 544
+  Protokol: CC, prad odniesiony do poczatkowego Ah; BEZ etapu CV; stale nieprzekalibrowane.
+  Tmax: 26.1°C | sprawnosc: 90.5%
+  t80 (ladowanie do 80% SOC): 24.0 min
+  deliv (ostatni cykl): 90% | deliv (cykl 1): 92%
+  SEI: 5.4 nm | zaladowany lit: 0.93 mAh/cm^2 | R x1.526
+  pakiet: 174.8 Wh/kg | 750 Wh/L | koszt materialowy ~$48/kWh
+  zdarzenia w modelu: brak zdarzen; bezpieczenstwo fizyczne NIEZWERYFIKOWANE
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    544 | 0.896/0.000 |  3.073 | 0.8001 | 0.8591 | 1.525 |   5.4 |  25.4
+
+== test abusow ==
+    NMC811/GRAPHITE/LP57   | Tmax  160.1C | RUNAWAY EXPLOSION SHORT (0.04 h)
+    przeplyw 0.0000 mAh/cm2; pokrycie przeladowania: NIEPELNE (brak chemii poza 100% SOC); walidacja fizyczna: NIE
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\baseline-trace.csv
+
+
+COMMAND battery-sim sweep --cathodes NMC811,LFP,DRX --anodes LIFREE,SIC,GRAPHITE --electrolytes LP57,GEL,IONIC,SOLID --loadings 20,25,30,35 --nps 1.02,1.05,1.1,1.2 --temps -10,0,10,25,45 --c-rates 2,3 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\optim_winners_v02.csv" --top 12
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Kryteria modelowe: energia ODDANA >= 214.0 Wh/kg (referencja 25C, 2C/1C CC x1.00), >= 500 kwalifikowanych cykli przy [2.0, 3.0]C (>=2C; >=80% pojemnosci i 10-80% <=30 min), diagnostyka pieca 150°C; bezpieczenstwo fizyczne NIEZWERYFIKOWANE
+Siatka: 3 katod x 3 anod x 4 elektrolitow x 4 loadingow x 4 N/P x 5 temp = 2880 kombinacji (backend: rayon, 32 watkow)
+  ... 24/2880 kombinacji
+  ... 48/2880 kombinacji
+  ... 72/2880 kombinacji
+  ... 96/2880 kombinacji
+  ... 120/2880 kombinacji
+  ... 144/2880 kombinacji
+  ... 168/2880 kombinacji
+  ... 192/2880 kombinacji
+  ... 216/2880 kombinacji
+  ... 240/2880 kombinacji
+  ... 264/2880 kombinacji
+  ... 288/2880 kombinacji
+  ... 312/2880 kombinacji
+  ... 336/2880 kombinacji
+  ... 360/2880 kombinacji
+  ... 384/2880 kombinacji
+  ... 408/2880 kombinacji
+  ... 432/2880 kombinacji
+  ... 456/2880 kombinacji
+  ... 480/2880 kombinacji
+  ... 504/2880 kombinacji
+  ... 528/2880 kombinacji
+  ... 552/2880 kombinacji
+  ... 576/2880 kombinacji
+  ... 600/2880 kombinacji
+  ... 624/2880 kombinacji
+  ... 648/2880 kombinacji
+  ... 672/2880 kombinacji
+  ... 696/2880 kombinacji
+  ... 720/2880 kombinacji
+  ... 744/2880 kombinacji
+  ... 768/2880 kombinacji
+  ... 792/2880 kombinacji
+  ... 816/2880 kombinacji
+  ... 840/2880 kombinacji
+  ... 864/2880 kombinacji
+  ... 888/2880 kombinacji
+  ... 912/2880 kombinacji
+  ... 936/2880 kombinacji
+  ... 960/2880 kombinacji
+  ... 984/2880 kombinacji
+  ... 1008/2880 kombinacji
+  ... 1032/2880 kombinacji
+  ... 1056/2880 kombinacji
+  ... 1080/2880 kombinacji
+  ... 1104/2880 kombinacji
+  ... 1128/2880 kombinacji
+  ... 1152/2880 kombinacji
+  ... 1176/2880 kombinacji
+  ... 1200/2880 kombinacji
+  ... 1224/2880 kombinacji
+  ... 1248/2880 kombinacji
+  ... 1272/2880 kombinacji
+  ... 1296/2880 kombinacji
+  ... 1320/2880 kombinacji
+  ... 1344/2880 kombinacji
+  ... 1368/2880 kombinacji
+  ... 1392/2880 kombinacji
+  ... 1416/2880 kombinacji
+  ... 1440/2880 kombinacji
+  ... 1464/2880 kombinacji
+  ... 1488/2880 kombinacji
+  ... 1512/2880 kombinacji
+  ... 1536/2880 kombinacji
+  ... 1560/2880 kombinacji
+  ... 1584/2880 kombinacji
+  ... 1608/2880 kombinacji
+  ... 1632/2880 kombinacji
+  ... 1656/2880 kombinacji
+  ... 1680/2880 kombinacji
+  ... 1704/2880 kombinacji
+  ... 1728/2880 kombinacji
+  ... 1752/2880 kombinacji
+  ... 1776/2880 kombinacji
+  ... 1800/2880 kombinacji
+  ... 1824/2880 kombinacji
+  ... 1848/2880 kombinacji
+  ... 1872/2880 kombinacji
+  ... 1896/2880 kombinacji
+  ... 1920/2880 kombinacji
+  ... 1944/2880 kombinacji
+  ... 1968/2880 kombinacji
+  ... 1992/2880 kombinacji
+  ... 2016/2880 kombinacji
+  ... 2040/2880 kombinacji
+  ... 2064/2880 kombinacji
+  ... 2088/2880 kombinacji
+  ... 2112/2880 kombinacji
+  ... 2136/2880 kombinacji
+  ... 2160/2880 kombinacji
+  ... 2184/2880 kombinacji
+  ... 2208/2880 kombinacji
+  ... 2232/2880 kombinacji
+  ... 2256/2880 kombinacji
+  ... 2280/2880 kombinacji
+  ... 2304/2880 kombinacji
+  ... 2328/2880 kombinacji
+  ... 2352/2880 kombinacji
+  ... 2376/2880 kombinacji
+  ... 2400/2880 kombinacji
+  ... 2424/2880 kombinacji
+  ... 2448/2880 kombinacji
+  ... 2472/2880 kombinacji
+  ... 2496/2880 kombinacji
+  ... 2520/2880 kombinacji
+  ... 2544/2880 kombinacji
+  ... 2568/2880 kombinacji
+  ... 2592/2880 kombinacji
+  ... 2616/2880 kombinacji
+  ... 2640/2880 kombinacji
+  ... 2664/2880 kombinacji
+  ... 2688/2880 kombinacji
+  ... 2712/2880 kombinacji
+  ... 2736/2880 kombinacji
+  ... 2760/2880 kombinacji
+  ... 2784/2880 kombinacji
+  ... 2808/2880 kombinacji
+  ... 2832/2880 kombinacji
+  ... 2856/2880 kombinacji
+  ... 2880/2880 kombinacji
+
+Sweep zakonczony: 2880 kombinacji w 36.3 s. MODEL_SCREEN_PASS (pelne pokrycie protokolu): 0/2880
+  performance_pass: 248 (energia oddana + >=500 kwalifikowanych cykli; nie walidacja fizyczna)
+  Przeladowanie poza 100% SOC nie jest zamodelowane: brak pelnego PASS przy tym wymaganiu.
+
+  kombinacja          | Wh/kg  E | cykle@szybkim C (t80)      | Tmax   S | abus (Tmax)      | PASS/FAIL score
+  ----------------------------------------------------------------------------------------------------------
+       DRX/LIFREE  /LP57   load=  30 T= 45 |  440.9 Wh/kg (317.4 pak) 1906.7 Wh/L $ 21/kWh E | cyc@fast   157 . (C=2, t80 24.0min) | Tmax  48.3C . (abuse T 151.0C) | FAIL score 0.77
+    energia oddana 401.4 Wh/kg; 133.5 EFC; 157 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  35 T= 45 |  454.1 Wh/kg (326.9 pak) 1989.5 Wh/L $ 21/kWh E | cyc@fast   154 . (C=2, t80 24.0min) | Tmax  49.1C . (abuse T 151.2C) | FAIL score 0.77
+    energia oddana 400.9 Wh/kg; 127.5 EFC; 154 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  35 T= 45 |  453.7 Wh/kg (326.7 pak) 1981.6 Wh/L $ 21/kWh E | cyc@fast   155 . (C=2, t80 24.0min) | Tmax  49.2C . (abuse T 151.2C) | FAIL score 0.77
+    energia oddana 400.6 Wh/kg; 128.8 EFC; 155 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  30 T= 45 |  441.4 Wh/kg (317.8 pak) 1917.8 Wh/L $ 21/kWh E | cyc@fast   155 . (C=2, t80 24.0min) | Tmax  48.3C . (abuse T 151.0C) | FAIL score 0.76
+    energia oddana 399.2 Wh/kg; 130.9 EFC; 155 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  30 T= 45 |  441.2 Wh/kg (317.7 pak) 1914.0 Wh/L $ 21/kWh E | cyc@fast   156 . (C=2, t80 24.0min) | Tmax  48.3C . (abuse T 151.0C) | FAIL score 0.76
+    energia oddana 399.1 Wh/kg; 132.1 EFC; 156 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  25 T= 45 |  424.0 Wh/kg (305.3 pak) 1810.8 Wh/L $ 21/kWh E | cyc@fast   158 . (C=2, t80 24.0min) | Tmax  47.5C . (abuse T 150.8C) | FAIL score 0.76
+    energia oddana 398.0 Wh/kg; 137.5 EFC; 158 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  35 T= 45 |  454.4 Wh/kg (327.1 pak) 1996.0 Wh/L $ 21/kWh E | cyc@fast   154 . (C=2, t80 24.0min) | Tmax  49.1C . (abuse T 151.2C) | FAIL score 0.76
+    energia oddana 398.5 Wh/kg; 126.7 EFC; 154 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  35 T= 45 |  454.2 Wh/kg (327.1 pak) 1993.6 Wh/L $ 21/kWh E | cyc@fast   154 . (C=2, t80 24.0min) | Tmax  49.1C . (abuse T 151.2C) | FAIL score 0.76
+    energia oddana 398.4 Wh/kg; 127.1 EFC; 154 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  30 T= 45 |  441.5 Wh/kg (317.9 pak) 1920.1 Wh/L $ 21/kWh E | cyc@fast   155 . (C=2, t80 24.0min) | Tmax  48.3C . (abuse T 151.0C) | FAIL score 0.76
+    energia oddana 396.7 Wh/kg; 130.4 EFC; 155 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  25 T= 45 |  424.5 Wh/kg (305.7 pak) 1821.0 Wh/L $ 21/kWh E | cyc@fast   156 . (C=2, t80 24.0min) | Tmax  47.5C . (abuse T 150.8C) | FAIL score 0.76
+    energia oddana 395.9 Wh/kg; 134.7 EFC; 156 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  25 T= 45 |  424.4 Wh/kg (305.5 pak) 1817.5 Wh/L $ 21/kWh E | cyc@fast   157 . (C=2, t80 24.0min) | Tmax  47.5C . (abuse T 150.8C) | FAIL score 0.76
+    energia oddana 395.8 Wh/kg; 136.0 EFC; 157 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+       DRX/LIFREE  /LP57   load=  25 T= 45 |  424.6 Wh/kg (305.7 pak) 1823.1 Wh/L $ 21/kWh E | cyc@fast   156 . (C=2, t80 24.0min) | Tmax  47.5C . (abuse T 150.8C) | FAIL score 0.76
+    energia oddana 393.5 Wh/kg; 134.2 EFC; 156 kwalifikowanych cykli; 10-80% 21.0000 min; performance_pass=false; abuse_complete=false; physical_validation=unvalidated
+  ... (2868 kombinacji wiecej, uzyj --top)
+
+Wyniki zapisane do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\optim_winners_v02.csv
+
+
+COMMAND battery-sim report --lang en --out "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\report-en.md"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Raport (en) zapisany: C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\report-en.md (42 linii)
+
+
+COMMAND battery-sim report --lang pl --out "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\report-pl.md"
+battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.
+Raport (pl) zapisany: C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\results\v0.2.0\report-pl.md (42 linii)

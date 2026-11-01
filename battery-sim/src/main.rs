@@ -376,8 +376,9 @@ fn run_sweep(cli: &Cli, cp: &CellParams, sp: &SimParams) {
     let samples = cli.get_usize("--samples", 0);
 
     let base = baseline_cell(cp);
+    let baseline_run = simulate(&base, cp, sp, 2.0, 1.0, 25.0, 1, None);
     let crit = sweep::Criteria {
-        baseline_wh: base.wh_kg,
+        baseline_wh: baseline_run.delivered_wh_kg_1,
         energy_factor: cli.get_f64("--energy-factor", 1.0),
         min_cycles: cli.get_u64("--min-cycles", 500),
         fast_rates,
@@ -417,12 +418,15 @@ fn run_sweep(cli: &Cli, cp: &CellParams, sp: &SimParams) {
     });
     let n_pass = results.iter().filter(|r| r.passed).count();
     println!(
-        "\nSweep zakonczony: {} kombinacji w {:.1} s. PASS (wszystkie kryteria): {}/{}",
+        "\nSweep zakonczony: {} kombinacji w {:.1} s. MODEL_SCREEN_PASS (pelne pokrycie protokolu): {}/{}",
         results.len(),
         elapsed.as_secs_f64(),
         n_pass,
         results.len()
     );
+    println!("  performance_pass: {} (energia oddana + >=500 kwalifikowanych cykli; nie walidacja fizyczna)",
+        results.iter().filter(|r| r.performance_pass).count());
+    println!("  Przeladowanie poza 100% SOC nie jest zamodelowane: brak pelnego PASS przy tym wymaganiu.");
     if total_full != jobs.len() {
         println!(
             "(przetestowano probke z {} kombinacji; bez --samples pelna siatka)",
@@ -566,7 +570,9 @@ Kompilacja:
   cargo run --release -- sweep          (z rayon, domyslnie)
   cargo run --release --no-default-features -- sweep   (bez rayona, czysty std)
 
-Model: port 1:1 z tools/model_prototype.py (tam referencyjne stale i walidacja).
+Model v0.2: poprawki numeryczne po audycie; stale nieprzekalibrowane.
+Ladowanie CC (bez CV), staly prad wzgledem poczatkowej pojemnosci.
+Raport/pitch/investor generuja aktualny status badan, bez historycznych obietnic marketingowych.
 "
     );
 }
@@ -650,6 +656,7 @@ fn run_investor(cli: &Cli) {
 
 fn main() {
     let cli = parse_cli();
+    eprintln!("battery-sim v0.2.0: MODEL NIEZWALIDOWANY; CC bez CV, prad wzgledem poczatkowego Ah; overcharge chemistry incomplete. Historyczne CSV v0.1 nie opisuja tej wersji.");
     let cp = CellParams::default();
     let sp = SimParams::default();
     match cli.sub.as_str() {

@@ -20,6 +20,11 @@ pub struct OurRow {
     pub t80_min: f64,
     pub abuse_ok: bool,
     pub abuse_tmax: f64,
+    pub delivered_wh_kg_1: f64,
+    pub efc: f64,
+    pub qualifying_cycles: u64,
+    pub t10_80_min: Option<f64>,
+    pub abuse_model_complete: bool,
 }
 
 /// Wiersz tabeli komercyjnej ("bd" = brak danych).
@@ -182,8 +187,13 @@ pub fn evaluate_candidates(cp: &CellParams, sp: &SimParams) -> Vec<OurRow> {
             cycles: r.cycles,
             eol: r.eol.label(),
             t80_min: r.t80_min,
-            abuse_ok: !(ab.explosion || ab.runaway || ab.short),
+            abuse_ok: !(ab.explosion || ab.runaway || ab.short) && ab.abuse_model_complete,
             abuse_tmax: ab.t_max,
+            delivered_wh_kg_1: r.delivered_wh_kg_1,
+            efc: r.efc,
+            qualifying_cycles: r.qualifying_cycles,
+            t10_80_min: r.t10_80_min_1,
+            abuse_model_complete: ab.abuse_model_complete,
         }
     })
 }
@@ -206,12 +216,20 @@ pub fn print_benchmark(cp: &CellParams, sp: &SimParams) {
             r.cycles,
             r.t80_min,
             r.eol,
-            if r.abuse_ok {
+            if !r.abuse_model_complete {
+                format!(
+                    "INCOMPLETE (Tmax {:.0}°C; overcharge chemistry missing)",
+                    r.abuse_tmax
+                )
+            } else if r.abuse_ok {
                 format!("OK (Tmax {:.0}°C)", r.abuse_tmax)
             } else {
                 format!("FAIL (Tmax {:.0}°C)", r.abuse_tmax)
             }
         );
+        println!("    oddane {:.1} Wh/kg; {:.1} EFC; kwalifikowane cykle {}; 10-80% {} min; physical_validation=unvalidated",
+            r.delivered_wh_kg_1, r.efc, r.qualifying_cycles,
+            r.t10_80_min.map(|x| format!("{x:.2}")).unwrap_or_else(|| "NA".into()));
     }
     println!("\n== Ogniwa komercyjne (dane producentow/prasa 2025-2026; * = deklaracja; zrodla w README) ==");
     println!(

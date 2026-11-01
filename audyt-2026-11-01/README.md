@@ -37,6 +37,18 @@ po uruchomieniu w samym repozytorium lista ścieżek będzie krótsza. Porównuj
 
 ## Odtworzenie po pobraniu gałęzi
 
+**Uwaga po wydaniu v0.2:** ponizsze dowody dotycza historycznego modelu v0.1.
+W osobnym checkoutcie aktualnej galezi najpierw wykonaj:
+
+```powershell
+git restore --source=697a0150204047c6a59f2ede0b7156cf3db27735 -- battery-sim
+```
+
+Nastepnie buduj i uruchamiaj polecenia ponizej. Skrypt odmawia nadpisania historycznych
+dowodow, jesli manifest zrodel nie odpowiada wersji audytowanej.
+Do aktualnego modelu sluzy `battery-sim/tools/validate_v02.py --sweep`;
+szczegoly: [zmiany v0.2](../battery-sim/ZMIANY_V02.md).
+
 Wymagane: Rust/Cargo i Python 3; brak dodatkowych pakietów Python.
 Z głównego katalogu repozytorium:
 

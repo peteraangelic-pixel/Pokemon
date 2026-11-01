@@ -1,0 +1,2 @@
+cycle,soc_top,soc_end,capacity_mAh_cm2,li_inv,cath_frac,r_mult,sei_nm,plated_mAh_cm2,temp_C,t_charge_s,t_discharge_s,soc_start,charge_mAh_cm2,discharge_mAh_cm2,energy_in_mWh_cm2,energy_out_mWh_cm2,efc,t10_80_min
+1,0.561111,0.227778,9.500000,1.000000,1.000000,1.000000,5.0000,0.000000,-7.1971,1010.0000,1200.0000,0.000000,5.330556,3.166667,22.508708,9.521076,0.333333,

@@ -11,7 +11,7 @@ use crate::sim::{simulate, Abuse, Eol, SimParams, SimResult};
 
 /// Parametry kryteriow oceny.
 pub struct Criteria {
-    /// energia bazowa [Wh/kg] (NMC811/GRAPHITE/LP57, load=20, N/P=1.1)
+    /// energia oddana referencji [Wh/kg], 25C, 2C/1C CC, load=20, N/P=1.1
     pub baseline_wh: f64,
     /// wymagany ulamek energii bazowej (1.0 = "nie gorsze niz Li-ion")
     pub energy_factor: f64,
@@ -50,6 +50,12 @@ pub struct ComboResult {
     pub wh_l: f64,
     pub cost_kwh: f64,
     pub mah_g: f64,
+    pub delivered_wh_kg_1: f64,
+    pub efc: f64,
+    pub qualifying_cycles: u64,
+    pub t10_80_min: Option<f64>,
+    pub performance_pass: bool,
+    pub abuse_model_complete: bool,
     pub energy_pass: bool,
     /// najlepsza liczba cykli sposrod szybkich C-rate
     pub cycles: u64,
@@ -67,7 +73,7 @@ pub struct ComboResult {
     pub abuse_tmax: f64,
     /// wszystkie trzy kryteria spelnione
     pub passed: bool,
-    /// wynik w skali 0..1 (do rankingu)
+    /// niekalibrowany wynik do rankingu (nie prawdopodobienstwo sukcesu)
     pub score: f64,
 }
 
@@ -79,7 +85,6 @@ pub fn evaluate_combo(
     sp: &SimParams,
 ) -> ComboResult {
     let cell = Cell::new(job.cath, job.an, job.el, job.loading, job.np, cp);
-    let energy_pass = cell.wh_kg >= crit.baseline_wh * crit.energy_factor;
 
     let mut best: Option<SimResult> = None;
     let mut worst_safe = true;
@@ -94,30 +99,33 @@ pub fn evaluate_combo(
         }
         let better = match &best {
             None => true,
-            Some(b) => r.cycles > b.cycles,
+            Some(b) => {
+                (r.c_ch >= 2.0, r.qualifying_cycles, r.delivered_wh_kg_1)
+                    > (b.c_ch >= 2.0, b.qualifying_cycles, b.delivered_wh_kg_1)
+            }
         };
         if better {
             best = Some(r);
         }
     }
     let best = best.expect("fast_rates nie moze byc puste");
-    let cycles_pass = !(best.runaway || best.short) && best.cycles >= crit.min_cycles;
+    let energy_pass = best.delivered_wh_kg_1 >= crit.baseline_wh * crit.energy_factor;
+    let cycles_pass = !(best.runaway || best.short || best.explosion)
+        && best.c_ch >= 2.0
+        && best.qualifying_cycles >= crit.min_cycles;
+    let performance_pass = energy_pass && cycles_pass;
 
     // test abusow (piec + przeladowanie): ogniwo nie moze wybuchnac ani wejsc w thermal runaway
     let ab = simulate(&cell, cp, sp, 1.0, 1.0, job.t_amb, 1, Some(crit.abuse));
     let abuse_safe = !(ab.explosion || ab.runaway || ab.short);
-    let safety_pass = worst_safe && abuse_safe;
+    let safety_pass = worst_safe && abuse_safe && ab.abuse_model_complete;
 
     let passed = energy_pass && cycles_pass && safety_pass;
-    let t80 = if best.t80_min > 0.0 {
-        best.t80_min
-    } else {
-        60.0
-    };
-    let score = cell.wh_kg / 250.0 * 0.4
-        + (best.cycles.min(1500) as f64) / 1500.0 * 0.3
+    let speed_score = best.t10_80_min_1.map_or(0.0, |t| (20.0 / t).min(1.0));
+    let score = best.delivered_wh_kg_1 / 250.0 * 0.4
+        + (best.qualifying_cycles.min(1500) as f64) / 1500.0 * 0.3
         + if safety_pass { 0.2 } else { 0.0 }
-        + (20.0 / t80).min(1.0) * 0.1;
+        + speed_score * 0.1;
     ComboResult {
         cath: cell.cath.name,
         an: cell.an.name,
@@ -130,6 +138,12 @@ pub fn evaluate_combo(
         wh_l: cell.wh_l,
         cost_kwh: cell.cost_kwh,
         mah_g: cell.mah_g,
+        delivered_wh_kg_1: best.delivered_wh_kg_1,
+        efc: best.efc,
+        qualifying_cycles: best.qualifying_cycles,
+        t10_80_min: best.t10_80_min_1,
+        performance_pass,
+        abuse_model_complete: ab.abuse_model_complete,
         energy_pass,
         cycles: best.cycles,
         eol: best.eol,
@@ -215,4 +229,62 @@ pub fn sample<T: Clone>(items: &[T], k: usize, seed: u64) -> Vec<T> {
         idx.swap(i, j);
     }
     idx[..k].iter().map(|&i| items[i].clone()).collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::materials::{anode, cathode, electrolyte};
+
+    fn evaluate(rate: f64, temp: f64, cath: &str) -> ComboResult {
+        let cp = CellParams::default();
+        let sp = SimParams::default();
+        evaluate_combo(
+            &ComboJob {
+                cath: cathode(cath).unwrap(),
+                an: anode("SIC").unwrap(),
+                el: electrolyte("GEL").unwrap(),
+                loading: 40.0,
+                np: 1.02,
+                t_amb: temp,
+            },
+            &Criteria {
+                baseline_wh: 0.0,
+                energy_factor: 1.0,
+                min_cycles: 1,
+                fast_rates: vec![rate],
+                abuse: Abuse {
+                    t_oven: 150.0,
+                    overcharge: 1.0,
+                    t_max_h: 0.01,
+                },
+                max_cycles: 3,
+            },
+            &cp,
+            &sp,
+        )
+    }
+
+    #[test]
+    fn cold_partial_cycles_cannot_pass_performance_gate() {
+        let r = evaluate(2.0, -10.0, "DRX");
+        assert!(!r.cycles_pass);
+        assert!(!r.performance_pass);
+        assert!(!r.passed);
+    }
+
+    #[test]
+    fn one_c_is_not_accepted_as_fast_charging() {
+        let r = evaluate(1.0, 25.0, "NMC811");
+        assert!(!r.cycles_pass);
+        assert!(!r.performance_pass);
+    }
+
+    #[test]
+    fn incomplete_abuse_model_cannot_award_full_pass() {
+        let r = evaluate(2.0, 25.0, "NMC811");
+        assert!(!r.abuse_model_complete);
+        assert!(!r.safety_pass);
+        assert!(!r.passed);
+    }
 }

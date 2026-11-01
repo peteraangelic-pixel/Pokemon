@@ -129,7 +129,7 @@ pub fn print_ladder(cli: &Cli, cp: &CellParams, sp: &SimParams) {
         let mut max_c = 0.0f64;
         for &c in &RATE_LADDER {
             let s = simulate(&cell, cp, sp, c, 1.0, r.temp, 3000, None);
-            if s.cycles >= 500 {
+            if c >= 2.0 && s.qualifying_cycles >= 500 && !(s.runaway || s.short || s.explosion) {
                 max_c = c;
             }
             cycs.push(s.cycles);
@@ -168,11 +168,13 @@ pub fn print_ladder(cli: &Cli, cp: &CellParams, sp: &SimParams) {
                 t_max_h: 3.0,
             };
             let s = simulate(&cell, cp, sp, 1.0, 1.0, r.temp, 1, Some(ab));
-            let ok = !(s.explosion || s.runaway || s.short);
+            let ok = !(s.explosion || s.runaway || s.short) && s.abuse_model_complete;
             if ok {
                 max_t = t;
             }
-            let tag = if s.explosion {
+            let tag = if !s.abuse_model_complete {
+                "INCOMPLETE"
+            } else if s.explosion {
                 "EXPL"
             } else if s.runaway {
                 "RUN"
