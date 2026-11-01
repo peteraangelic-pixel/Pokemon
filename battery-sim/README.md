@@ -311,3 +311,35 @@ lit-metal i elektrolity stałe → przeżywają.
 Model jest **fenomenologiczny** (stałe skalibrowane na rząd wielkości
 literaturowy), nie ab initio — służy do szybkiego rankingu kandydatów
 i „co-jeśli” (zmień parametr w `materials.rs` / `sim.rs` i zobacz efekt).
+
+## Audyt zewnętrzny (2026-11-01) i ograniczenia modelu
+
+Na tej gałęzi jest pełny, niezależny audyt: [`../audyt-2026-11-01/`](../audyt-2026-11-01/)
+(`AUDYT_BATERII_PL.md` + `evidence.json` + skrypt reprodukcji
+`reproduce.py`). Model odtwarza się dokładnie, ale audyt znalazł realne
+problemy — **czytaj przed cytowaniem jakiejkolwiek liczby**:
+
+1. **Test abuse w v0.1.0 był próżny względem przeładowania** — przy piecu 150 °C
+   wynik był identyczny dla 0C/1C/10C (prąd zerowany przez shutdown od t=0).
+   **Poprawione w tym commicie**: protokół dwuetapowy (soak w piecu bez prądu,
+   potem przeładowanie w 25 °C z pełnym SOC). Fizyczne bezpieczeństwo jest
+   jednak nadal **niezweryfikowane** — potrzeba specjalistycznego laboratorium.
+2. **PASS nie wymagał osiągnięcia 80% SOC** — część „PASS” to cykle niepełne
+   (t80=0 oznacza brak 80%, a nie szybkie ładowanie).
+3. **Anode-free (LIFREE) wisi na jednym parametrze** `dead_li`:
+   0,0002 → 512 cykli, 0,001 → 126, 0,003 → 44. To parametr, nie fizyka.
+4. **Ekspansja Si i geometria nie różnicują wyników** w modelu
+   (LP57/GEL/SOLID mają identyczną masę 71,199849 mg/cm²).
+5. **Koszty USD/kWh = tylko materiały aktywne** (bez BOM, procesu, uzysku, kapitału).
+6. **NMC811 zawiera kobalt** (LiNi₀.₈Mn₀.₁Co₀.₁O₂); energia pakietowa flagshipa
+   (201 Wh/kg) jest **niżej** niż półstałe na rynku (WeLion 260) — nie „bijemy
+   energią pakietową”.
+7. **Dokładność ±15% / 2× nie ma jeszcze zestawu walidacyjnego**; zgodność
+   Python↔Rust dowodzi tylko implementacji, nie fizyki.
+
+**Reguła:** CSV i raporty sprzed audytu zostają jako historyczne — nie cytujemy
+z nich „bezpieczeństwa” ani „przewagi nad rynkiem” bez walidacji labem.
+**Otwarte do naprawy:** ciągłość SOC między cyklami, faza CV w ładowaniu,
+bilans Li/Na w anode-free, mechanika ekspansji Si, pełny BOM, kalibracja
+na ogniwach referencyjnych (pierwszy eksperyment: NMC/grafit–Si; ścieżka
+kosztowa: LFP/LMFP/grafit).

@@ -282,6 +282,7 @@ The flagship needs Si-C supply and a gel-filling step. These two don't:
 - ~118,000 combinations simulated; two independent implementations agree digit-for-digit; deterministic across machines (verified on an external PC).
 - Public, reproducible repository; CI green; full condition matrices (temperature, C-rate, abuse, shelf life) for every candidate.
 - **We do not have physical cells yet.** This is a simulation-stage asset. The 12-month, €150k plan below is the bridge.
+- **External audit (2026-11-01, `audyt-2026-11-01/` on this branch) found real issues** — above all the v0.1.0 abuse test did not exercise overcharge (fixed in this commit: two-phase protocol), PASS did not require 80% SOC, anode-free life hinges on one parameter (`dead_li`), costs are active-materials-only, and the flagship NMC811 does contain cobalt. Treat every model number as a hypothesis, not a measurement; physical safety stays unverified until a specialist lab tests it.
 
 ## Market
 ~$150B/yr cell market (est.), ~25%/yr growth (EV + grid storage), ~60–70% China share; Western OEMs actively de-risking cobalt/nickel. Beachheads: commercial vehicles & buses (fast charge + safety), drones/aviation (energy), hot climates & grid storage (heat + shelf life), materials suppliers (licensing).
@@ -389,6 +390,7 @@ Flagship wymaga dostaw Si-C i kroku napełniania żelem. Te dwa nie:
 - ~118 000 przesymulowanych kombinacji; dwie niezależne implementacje zgadzają się co do cyfry; determinizm między maszynami potwierdzony (weryfikacja na zewnętrznym PC).
 - Publiczne, reprodukowalne repo; CI green; pełne macierze warunków (temperatura, C-rate, abuse, shelf life) dla każdego kandydata.
 - **Nie mamy jeszcze fizycznych ogniw.** To aktywo na etapie symulacji. Poniższy plan 12-miesięczny / 150 tys. EUR to most między nimi.
+- **Zewnętrzny audyt (2026-11-01, `audyt-2026-11-01/` na tej gałęzi) znalazł prawdziwe problemy** — przede wszystkim test abuse w v0.1.0 nie ćwiczył przeładowania (poprawione w tym commicie: protokół dwuetapowy), PASS nie wymagał 80% SOC, żywotność anode-free wisi na jednym parametrze (`dead_li`), koszty to tylko materiały aktywne, a flagship NMC811 jednak zawiera kobalt. Każdą liczbę z modelu traktuj jako hipotezę, nie pomiar; bezpieczeństwo fizyczne niezweryfikowane, dopóki nie sprawdzi go specjalistyczne laboratorium.
 
 ## Rynek
 Rynek ogniw ~150 mld USD/rok (szacunek), ~25%/rok wzrostu (EV + magazyny), ~60–70% udziału Chin; zachodni producenci aktywnie ograniczają ryzyko Co/Ni. Przyczółki: pojazdy użytkowe/autobusy (szybkie ładowanie + bezpieczeństwo), drony/lotnictwo (energia), gorący klimat + magazyny (upał + shelf life), dostawcy materiałów (licencje).
@@ -453,7 +455,7 @@ Our screen of 250 combinations found cells that get all three at once: **279 Wh/
 ## Why now
 1. The materials exist and are procurable today (NMC811 cathodes; Si-C anodes from Sila/Amprius-class suppliers; gel electrolytes from WeLion/CATL-class lines).
 2. The bottleneck is iteration speed: one lab design cycle takes weeks; our screen takes seconds and is reproducible (CI, CSV, public repo).
-3. Cobalt/nickel supply concentration (DRC, Indonesia) is a board-level risk for every OEM — a cobalt-free, high-energy cell sits exactly on that agenda.
+3. Cobalt/nickel supply concentration (DRC, Indonesia) is a board-level risk for every OEM — our cobalt/nickel-free variants (DRX, LFP/LMFP, Na-ion) sit exactly on that agenda. (Note: the flagship NMC811 contains cobalt, as all NMC does — the Co-free story is the DRX/LFP/Na-ion pipeline.)
 4. **Manufacturability:** the lead buildable candidate (NMC811 + Si-C + gel) runs on existing Li-ion lines — standard cathode, Si-C from suppliers already in production (Sila), gel = a filling-step tweak (semi-solid lines exist: WeLion, CATL). Na-ion is already in mass production on adapted lines (CATL, late 2025).
 5. **Shelf life is modeled too**: calendar aging at 50%/100% SOC and 25/45 °C — the failure mode that actually kills EV batteries (they sit parked 95% of the time). Our NMC candidate: ~8 years at 25 °C/100% SOC, ~3.5 at 45 °C; the LFP variant: >15 years.
 
@@ -514,7 +516,7 @@ Nasz screen 250 kombinacji znalazł ogniwa, które mają wszystkie trzy naraz: *
 ## Dlaczego teraz
 1. Materiały istnieją i są kupowalne dziś (katody NMC811; anody Si-C klasy Sila/Amprius; elektrolity żelowe klasy WeLion/CATL).
 2. Wąskim gardłem jest szybkość iteracji: jeden cykl projektowy w labie = tygodnie; nasz screen = sekundy, wyniki reprodukowalne (CI, CSV, publiczne repo).
-3. Koncentracja dostaw kobaltu/niklu (DRC, Indonezja) to dziś temat zarządów — ogniwo wysokoenergetyczne bez kobaltu leży dokładnie w tym trendzie.
+3. Koncentracja dostaw kobaltu/niklu (DRC, Indonezja) to dziś temat zarządów — nasze warianty bez kobaltu/niklu (DRX, LFP/LMFP, Na-jon) leżą dokładnie w tym trendzie. (Uwaga: flagship NMC811 zawiera kobalt, jak każdy NMC — historię „bez kobaltu” robi pipeline DRX/LFP/Na-jon.)
 4. **Produkowalność:** główny kandydat do złożenia (NMC811 + Si-C + żel) idzie na istniejących liniach Li-ion — katoda standardowa, Si-C od dostawców produkujących już dziś (Sila), żel = modyfikacja napełniania (linie półstałe są: WeLion, CATL). Na-jon jest już w produkcji masowej na liniach adaptowanych (CATL, koniec 2025).
 5. **Modelujemy też „życie na półce”:** starzenie kalendarzowe przy 50%/100% SOC i 25/45 °C — tryb, który faktycznie zabija baterie w EV (auto stoi zaparkowane 95% czasu). Nasz kandydat NMC811: ~8 lat przy 25 °C/100% SOC, ~3,5 przy 45 °C; wariant LFP: >15 lat.
 

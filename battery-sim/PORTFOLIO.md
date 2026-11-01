@@ -8,11 +8,21 @@ patrz ostatnia sekcja.
 Kryteria wewnętrzne (chyba że zaznaczono): energia ≥ 236.9 Wh/kg (baseline
 Li-ion), ≥ 500 cykli @2C, brak eksplozji / runaway / zwarcia (cyklowanie + abuse 150 °C).
 
+> **⚠ Audyt zewnętrzny (2026-11-01) — czytaj koniecznie:** [`../audyt-2026-11-01/`](../audyt-2026-11-01/)
+> Audyt potwierdził odtwarzalność modelu, ale wykazał też: (a) test abuse w v0.1.0
+> nie ćwiczył przeładowania — **protokół poprawiony** (dwa etapy: soak w piecu +
+> przeładowanie w 25 °C), jednak fizyczne bezpieczeństwo pozostaje **niezweryfikowane**
+> (wymaga specjalistycznego labu) — wszystkie liczby „abuse” w tabeli to wynik modelu;
+> (b) koszty USD/kWh to **tylko materiały aktywne** (bez BOM/procesu); (c) flagship
+> NMC811 **zawiera kobalt** (LiNi₀.₈Mn₀.₁Co₀.₁O₂) — „bez kobaltu” to tylko DRX/LFP/LMFP/Na-jon;
+> (d) energia pakietowa flagshipa (201) jest **niżej** niż półstałe (WeLion 260) —
+> naszą przewagą w tabeli jest koszt + szybkość wdrożenia, nie energia pakietowa.
+
 ## Nasze baterie vs najlepsze na rynku
 
 | # | Nasza bateria | Energia (pakiet) | Cykle @2C | Koszt | Bezpieczeństwo / specyfika | Najbliższe na rynku — i czym je bijemy | Kiedy |
 |---|---|---|---|---|---|---|---|
-| 1 | **NMC811 + Si-C + GEL** (flagship) | 279 Wh/kg (201) | 670 | $67/kWh | abuse 170 °C; moc 5C (klasa żel+Si-C) | CATL Qilin 255 pak; WeLion 260 pak (półstałe, drogie) — **bijemy: energia + koszt + abuse** | 1–2 lata (istniejące linie) |
+| 1 | **NMC811 + Si-C + GEL** (flagship) | 279 Wh/kg (201) | 670 | $67/kWh | abuse 170 °C (model — patrz uwaga o audycie); moc 5C | CATL Qilin 255 pak; WeLion 260 pak (półstałe, drogie) — **pakiet 201 < 260: NIE bijemy energią pakietową; bijemy kosztem i (w modelu) abuse** | 1–2 lata (istniejące linie) |
 | 2 | **NMC811 + anode-free + GEL/LP57** (premium) | 359–367 (258–264) | 512–543 | $43–50/kWh | abuse 150–170 °C; moc 5C | WeLion 360 ogniwo (półstałe, Li-metal); Amprius 500 (lotnictwo, nisza) — **bijemy: podobna energia, niższy koszt** | 2027+ (anode-free) |
 | 3 | **LMFP/LFP + anode-free + LP57** (masowy) | 270–298 (195–214) | 512–824 | **$27/kWh** | klasa bezpieczeństwa LFP; LMFP: żyje w 60 °C | BYD Blade 160 (LFP); CATL Naxtra 175 — **bijemy: 1,7–1,9× energii przy tej samej klasie bezpieczeństwa** | 2–3 lata (linie LFP + anode-free) |
 | 4 | **DRX + Si-C + GEL** (nowatorski) | 354–361 (255–260) | 590–641 | $41/kWh | abuse 150 °C; moc 5C; **bez Co/Ni** | brak odpowiednika; najbliżej NMC wysokoniklowe — **bijemy: bez kobaltu/niklu, koszt** | 2027+ (katoda DRX = pilot) |

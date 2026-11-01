@@ -461,17 +461,38 @@ pub fn simulate(
 
     // ------------------------------------------------------------- protokol abusow
     if let Some(ab) = abuse {
-        let t_end = ab.t_max_h * 3600.0;
-        let i_ma = ab.overcharge * eng.cap0;
+        // AUDYT 2026-11-01: stary test laczyl piec 150C z przeładowaniem i startowal
+        // od razu w 150C przy SOC=0 — shutdown (PP 130C) zerowal prad od t=0, a piec
+        // dominowal bilans cieplny, wiec wynik byl identyczny dla 0C/1C/10C.
+        // Teraz DWA osobne etapy, jak w normach (thermal abuse i overcharge osobno):
+        //  1) soak w piecu (bez pradu): ogniwo startuje w 25C, PELNE SOC;
+        //  2) przeładowanie przy 25C otoczenia, pelne SOC.
+        eng.st.t = 25.0;
+        eng.st.t_max = 25.0;
         let dt = 2.0;
+        let t_end = ab.t_max_h * 3600.0;
+        let mut t_all = 0.0;
+        // etap 1: piec (thermal abuse), bez pradu
+        eng.t_amb = ab.t_oven;
         let mut t = 0.0;
-        let mut s: f64 = 0.0;
+        while t < t_end && !eng.st.runaway && !eng.st.short {
+            let _ = eng.step(dt, 0.0, 1.0);
+            t += dt;
+        }
+        t_all += t;
+        // etap 2: przeładowanie w temperaturze pokojowej
+        eng.t_amb = 25.0;
+        eng.st.t = 25.0;
+        let i_ma = ab.overcharge * eng.cap0;
+        let mut t = 0.0;
+        let mut s: f64 = 1.0;
         while t < t_end && !eng.st.runaway && !eng.st.short {
             let (sn, _, _) = eng.step(dt, i_ma, s.min(1.0));
             s = sn;
             t += dt;
         }
-        eng.st.hours = t / 3600.0;
+        t_all += t;
+        eng.st.hours = t_all / 3600.0;
         return eng.finish(c_ch, c_dis, t_amb);
     }
 
