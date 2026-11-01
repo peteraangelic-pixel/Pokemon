@@ -1,0 +1,13 @@
+case,dead_li,expansion,cycles,abuse_runaway,abuse_short,wh_kg,wh_l
+lfp_free,0.0002,1,512,false,false,270.154,936.497
+lfp_free,0.001,1,126,false,false,270.154,936.497
+lfp_free,0.003,1,44,false,false,270.154,936.497
+sic_expansion,0.0001,0,670,false,false,278.796,993.732
+sic_expansion,0.0001,0.6,670,false,false,278.796,993.732
+sic_expansion,0.0001,3,670,false,false,278.796,993.732
+GEOMETRY LP57: mass_mg=71.199849 electrolyte_mg=15.552000 thickness_cm=0.019975 wh_kg=278.796299 wh_l=993.732027
+GEOMETRY GEL: mass_mg=71.199849 electrolyte_mg=15.552000 thickness_cm=0.019975 wh_kg=278.796299 wh_l=993.732027
+GEOMETRY SOLID: mass_mg=71.199849 electrolyte_mg=15.552000 thickness_cm=0.019975 wh_kg=278.796299 wh_l=993.732027
+ABUSE overcharge=0: Tmax=154.890253803132 runaway=false short=false
+ABUSE overcharge=1: Tmax=154.890253803132 runaway=false short=false
+ABUSE overcharge=10: Tmax=154.890253803132 runaway=false short=false

@@ -1,0 +1,210 @@
+[
+  {
+    "path": ".gitignore",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "4550e3aaf3be3d75dcca3025f89da9b1a1a0ab40",
+    "size": 107,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/4550e3aaf3be3d75dcca3025f89da9b1a1a0ab40"
+  },
+  {
+    "path": "ANALIZA_GRID.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "cb74f4b15ae39ad218e1e724b54d82a544fc40ab",
+    "size": 5313,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/cb74f4b15ae39ad218e1e724b54d82a544fc40ab"
+  },
+  {
+    "path": "ANALIZA_MARATHON.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "c656f9788d40847d6a781367ae98e8fc1e0b39ff",
+    "size": 4253,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/c656f9788d40847d6a781367ae98e8fc1e0b39ff"
+  },
+  {
+    "path": "ANALIZA_MEGA.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "3aeb559ec680342f40d9c3ce3549fd8c1a0939f2",
+    "size": 3950,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/3aeb559ec680342f40d9c3ce3549fd8c1a0939f2"
+  },
+  {
+    "path": "ANALIZA_OPTIM.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "d71d3061d6770c11ee9ee53b5ddfcb064f5e8a43",
+    "size": 3964,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/d71d3061d6770c11ee9ee53b5ddfcb064f5e8a43"
+  },
+  {
+    "path": "Cargo.toml",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "4055c11da74685ecdb0efb58298a2b7519b33978",
+    "size": 483,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/4055c11da74685ecdb0efb58298a2b7519b33978"
+  },
+  {
+    "path": "PORTFOLIO.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "29b4713686ad3e52bc7843242d973df7e15b6595",
+    "size": 3752,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/29b4713686ad3e52bc7843242d973df7e15b6595"
+  },
+  {
+    "path": "README.md",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "2ff92b69e482b227e7ecee067c226847f21306a0",
+    "size": 18523,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/2ff92b69e482b227e7ecee067c226847f21306a0"
+  },
+  {
+    "path": "grid.csv",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "3403fa1a4d91a7dce1a1f93c8c71d9dd269db021",
+    "size": 1893290,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/3403fa1a4d91a7dce1a1f93c8c71d9dd269db021"
+  },
+  {
+    "path": "marathon.csv",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "1b744c51cc13f02bd978dd7c9ae8e85a2d9624ce",
+    "size": 46770,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/1b744c51cc13f02bd978dd7c9ae8e85a2d9624ce"
+  },
+  {
+    "path": "mega.csv",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "de230c68351eddcbfc3c86407da359a3139834bb",
+    "size": 12936239,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/de230c68351eddcbfc3c86407da359a3139834bb"
+  },
+  {
+    "path": "src/benchmark.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "1032d488f27533dc17b601475be8cc6c3856b570",
+    "size": 6994,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/1032d488f27533dc17b601475be8cc6c3856b570"
+  },
+  {
+    "path": "src/cell.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "94a997264df1116a9c8682f8fe8a966a37c44310",
+    "size": 7798,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/94a997264df1116a9c8682f8fe8a966a37c44310"
+  },
+  {
+    "path": "src/doc.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "cf6c689070d5484063860fae24fcc17bd9c121b5",
+    "size": 45416,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/cf6c689070d5484063860fae24fcc17bd9c121b5"
+  },
+  {
+    "path": "src/ladder.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "fcb7369a544d21c17e4325ef98317a3046725b42",
+    "size": 8278,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/fcb7369a544d21c17e4325ef98317a3046725b42"
+  },
+  {
+    "path": "src/main.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "c290ae75b8df3fb1bca7f59f9e18e6c4dd715759",
+    "size": 21830,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/c290ae75b8df3fb1bca7f59f9e18e6c4dd715759"
+  },
+  {
+    "path": "src/materials.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "7a6acf1f18f05030f873946b21aae0a70cff4f5b",
+    "size": 15003,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/7a6acf1f18f05030f873946b21aae0a70cff4f5b"
+  },
+  {
+    "path": "src/par.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "203c53480c56a2f617d5e9e3721eb6a00f4f09ec",
+    "size": 2555,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/203c53480c56a2f617d5e9e3721eb6a00f4f09ec"
+  },
+  {
+    "path": "src/report.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "db2d40dff8dc3d469b191ee9c419efb662613bb7",
+    "size": 8182,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/db2d40dff8dc3d469b191ee9c419efb662613bb7"
+  },
+  {
+    "path": "src/sim.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "ebcb5761caa3de85dd48020b5bcc94cb67e7dc51",
+    "size": 21106,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/ebcb5761caa3de85dd48020b5bcc94cb67e7dc51"
+  },
+  {
+    "path": "src/storage.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "c3fd24f733b616686260cb6eb1ebb8cb61f9bb60",
+    "size": 7412,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/c3fd24f733b616686260cb6eb1ebb8cb61f9bb60"
+  },
+  {
+    "path": "src/sweep.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "f86402395f6cd94270d37d22fb8414e4a6355e59",
+    "size": 6586,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/f86402395f6cd94270d37d22fb8414e4a6355e59"
+  },
+  {
+    "path": "src/util.rs",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "c96b2daed4d57e617c49f053c1d39bc7303acba1",
+    "size": 982,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/c96b2daed4d57e617c49f053c1d39bc7303acba1"
+  },
+  {
+    "path": "tools/model_prototype.py",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "f488dcaa4005f33bc3a50d1279136bb8138751ab",
+    "size": 30209,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/f488dcaa4005f33bc3a50d1279136bb8138751ab"
+  },
+  {
+    "path": "tools/optimize-winners.sh",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "b2bb293c4d9b31395e6026bd12121e7a7e3bd930",
+    "size": 1545,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/b2bb293c4d9b31395e6026bd12121e7a7e3bd930"
+  },
+  {
+    "path": "tools/setup-offline-toolchain.sh",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "9048e32160a9f3f731dc4e9caee619ad8afe1376",
+    "size": 5278,
+    "url": "https://api.github.com/repos/peteraangelic-pixel/Pokemon/git/blobs/9048e32160a9f3f731dc4e9caee619ad8afe1376"
+  }
+]

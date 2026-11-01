@@ -1,0 +1,148 @@
+CASE flagship
+COMMAND "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\target\release\battery-sim.exe" cell --cathode NMC811 --anode SIC --electrolyte GEL --loading 30 --np 1.1 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\flagship-trace.csv"
+Ogniwo NMC811/SIC/GEL load=30/8 mg/cm^2 (kat/an) N/P=1.10: 278.8 Wh/kg, 80.9 mAh/g, V_avg=3.446, R0=8.11 Ohm*cm^2
+  V [2.70, 4.17], m_tot=71.2 mg/cm^2 (katoda 31.2, anoda 8.1, elektrolit 15.6, sep 1.8)
+  pakiet: 200.7 Wh/kg | 994 Wh/L | grubosc 200 um | koszt materialowy ~$67/kWh
+
+Wynik symulacji NMC811/SIC/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.10):
+  EOL: fade80 po 670 cyklach (844.5 h pracy)
+  Tmax: 27.3°C | sprawnosc: 81.8%
+  t80 (ladowanie do 80% SOC): 24.2 min
+  deliv (ostatni cykl): 85% | deliv (cykl 1): 81%
+  SEI: 23.9 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.080
+  pakiet: 200.7 Wh/kg | 994 Wh/L | koszt materialowy ~$67/kWh
+  bezpieczenstwo: brak zdarzen
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    670 | 0.872/0.022 |  4.609 | 0.8002 | 0.8349 | 1.080 |  23.9 |  25.6
+
+== test abusow ==
+    NMC811/SIC     /GEL    | Tmax  154.9C | survives (3.00 h)
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\flagship-trace.csv
+
+
+CASE drx_cold
+COMMAND "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\target\release\battery-sim.exe" cell --cathode DRX --anode SIC --electrolyte GEL --loading 40 --np 1.02 --temp -10 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\drx_cold-trace.csv"
+Ogniwo DRX/SIC/GEL load=40/12 mg/cm^2 (kat/an) N/P=1.02: 361.0 Wh/kg, 97.0 mAh/g, V_avg=3.723, R0=10.73 Ohm*cm^2
+  V [2.75, 4.61], m_tot=98.0 mg/cm^2 (katoda 42.1, anoda 12.4, elektrolit 25.7, sep 1.8)
+  pakiet: 259.9 Wh/kg | 1268 Wh/L | grubosc 279 um | koszt materialowy ~$41/kWh
+
+Wynik symulacji DRX/SIC/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: fade80 po 641 cyklach (412.6 h pracy)
+  Tmax: -2.1°C | sprawnosc: 44.7%
+  t80: nie osiagnieto 80% SOC przy tym C-rate
+  deliv (ostatni cykl): 40% | deliv (cykl 1): 32%
+  SEI: 6.0 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.022
+  pakiet: 259.9 Wh/kg | 1268 Wh/L | koszt materialowy ~$41/kWh
+  bezpieczenstwo: brak zdarzen
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    641 | 0.600/0.200 |  7.602 | 0.8002 | 0.9483 | 1.022 |   6.0 |  -7.9
+
+== test abusow ==
+       DRX/SIC     /GEL    | Tmax  160.3C | survives (3.00 h)
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\drx_cold-trace.csv
+
+
+CASE drx_room
+COMMAND "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\target\release\battery-sim.exe" cell --cathode DRX --anode SIC --electrolyte GEL --loading 40 --np 1.02 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\drx_room-trace.csv"
+Ogniwo DRX/SIC/GEL load=40/12 mg/cm^2 (kat/an) N/P=1.02: 361.0 Wh/kg, 97.0 mAh/g, V_avg=3.723, R0=10.73 Ohm*cm^2
+  V [2.75, 4.61], m_tot=98.0 mg/cm^2 (katoda 42.1, anoda 12.4, elektrolit 25.7, sep 1.8)
+  pakiet: 259.9 Wh/kg | 1268 Wh/L | grubosc 279 um | koszt materialowy ~$41/kWh
+
+Wynik symulacji DRX/SIC/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: fade80 po 443 cyklach (477.1 h pracy)
+  Tmax: 30.2°C | sprawnosc: 71.5%
+  t80: nie osiagnieto 80% SOC przy tym C-rate
+  deliv (ostatni cykl): 71% | deliv (cykl 1): 67%
+  SEI: 17.3 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.094
+  pakiet: 259.9 Wh/kg | 1268 Wh/L | koszt materialowy ~$41/kWh
+  bezpieczenstwo: brak zdarzen
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    443 | 0.789/0.078 |  7.601 | 0.8049 | 0.8001 | 1.094 |  17.3 |  26.4
+
+== test abusow ==
+       DRX/SIC     /GEL    | Tmax  160.3C | survives (3.00 h)
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\drx_room-trace.csv
+
+
+CASE lfp_free
+COMMAND "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\target\release\battery-sim.exe" cell --cathode LFP --anode LIFREE --electrolyte LP57 --loading 35 --np 1.02 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\lfp_free-trace.csv"
+Ogniwo LFP/LIFREE/LP57 load=35/0 mg/cm^2 (kat/an) N/P=1.02: 270.2 Wh/kg, 78.9 mAh/g, V_avg=3.422, R0=3.98 Ohm*cm^2
+  V [2.90, 3.75], m_tot=67.4 mg/cm^2 (katoda 36.8, anoda 0.1, elektrolit 14.4, sep 1.8)
+  pakiet: 194.5 Wh/kg | 936 Wh/L | grubosc 194 um | koszt materialowy ~$27/kWh
+
+Wynik symulacji LFP/LIFREE/LP57 (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: fade80 po 512 cyklach (745.2 h pracy)
+  Tmax: 26.4°C | sprawnosc: 90.3%
+  t80 (ladowanie do 80% SOC): 24.2 min
+  deliv (ostatni cykl): 97% | deliv (cykl 1): 97%
+  SEI: 16.5 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.014
+  pakiet: 194.5 Wh/kg | 936 Wh/L | koszt materialowy ~$27/kWh
+  bezpieczenstwo: brak zdarzen
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    512 | 0.972/-0.003 |  4.258 | 0.8003 | 0.9779 | 1.014 |  16.5 |  25.4
+
+== test abusow ==
+       LFP/LIFREE  /LP57   | Tmax  150.7C | survives (3.00 h)
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\lfp_free-trace.csv
+
+
+CASE nmc_free
+COMMAND "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\target\release\battery-sim.exe" cell --cathode NMC811 --anode LIFREE --electrolyte GEL --loading 35 --np 1.02 --temp -10 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\nmc_free-trace.csv"
+Ogniwo NMC811/LIFREE/GEL load=35/0 mg/cm^2 (kat/an) N/P=1.02: 358.7 Wh/kg, 94.6 mAh/g, V_avg=3.792, R0=6.31 Ohm*cm^2
+  V [3.25, 4.30], m_tot=71.0 mg/cm^2 (katoda 36.5, anoda 0.2, elektrolit 18.1, sep 1.8)
+  pakiet: 258.3 Wh/kg | 1578 Wh/L | grubosc 161 um | koszt materialowy ~$50/kWh
+
+Wynik symulacji NMC811/LIFREE/GEL (ladowanie 2C, rozladowanie 1C, N/P 1.02):
+  EOL: fade80 po 542 cyklach (370.5 h pracy)
+  Tmax: -6.4°C | sprawnosc: 54.1%
+  t80: nie osiagnieto 80% SOC przy tym C-rate
+  deliv (ostatni cykl): 46% | deliv (cykl 1): 32%
+  SEI: 5.5 nm | zaladowany lit: 0.00 mAh/cm^2 | R x1.011
+  pakiet: 258.3 Wh/kg | 1578 Wh/L | koszt materialowy ~$50/kWh
+  bezpieczenstwo: brak zdarzen
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    542 | 0.622/0.167 |  5.378 | 0.8003 | 0.9743 | 1.011 |   5.5 |  -9.1
+
+== test abusow ==
+    NMC811/LIFREE  /GEL    | Tmax  151.0C | survives (3.00 h)
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\nmc_free-trace.csv
+
+
+CASE baseline
+COMMAND "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\Pokemon-arena-d1882c0f-pokemon\battery-sim\target\release\battery-sim.exe" cell --cathode NMC811 --anode GRAPHITE --electrolyte LP57 --loading 20 --np 1.1 --temp 25 --c-rate 2 --cycles 3000 --abuse --trace-every 1000 --csv "C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\baseline-trace.csv"
+Ogniwo NMC811/GRAPHITE/LP57 load=20/13 mg/cm^2 (kat/an) N/P=1.10: 236.9 Wh/kg, 63.7 mAh/g, V_avg=3.721, R0=4.18 Ohm*cm^2
+  V [3.10, 4.22], m_tot=60.3 mg/cm^2 (katoda 20.8, anoda 13.5, elektrolit 10.4, sep 1.8)
+  pakiet: 170.5 Wh/kg | 726 Wh/L | grubosc 197 um | koszt materialowy ~$51/kWh
+
+Wynik symulacji NMC811/GRAPHITE/LP57 (ladowanie 2C, rozladowanie 1C, N/P 1.10):
+  EOL: fade80 po 735 cyklach (1018.8 h pracy)
+  Tmax: 26.0°C | sprawnosc: 91.5%
+  t80 (ladowanie do 80% SOC): 24.2 min
+  deliv (ostatni cykl): 92% | deliv (cykl 1): 92%
+  SEI: 18.3 nm | zaladowany lit: 0.61 mAh/cm^2 | R x1.393
+  pakiet: 170.5 Wh/kg | 726 Wh/L | koszt materialowy ~$51/kWh
+  bezpieczenstwo: brak zdarzen
+
+Przebieg (co 1000 cykli):
+  { cykl | SOC top/kon | kap [mAh/cm2] | Li inv | katoda | R x | SEI nm | T °C }
+    735 | 0.922/-0.003 |  3.072 | 0.8000 | 0.8148 | 1.393 |  18.3 |  25.3
+
+== test abusow ==
+    NMC811/GRAPHITE/LP57   | Tmax  160.2C | RUNAWAY EXPLOSION SHORT (0.01 h)
+
+Przebieg zapisany do C:\Users\Vizua\Desktop\Projekty CC\NewBattery\audyt-2026-11-01\baseline-trace.csv
