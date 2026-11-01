@@ -96,7 +96,7 @@ fn render_pl(rows: &[OurRow], cp: &CellParams, sp: &SimParams) -> String {
     s.push_str("Projektuje się ogniwo 3-komponentowe (katoda | elektrolit | anoda), które:\n");
     s.push_str("1. ma energię właściwą **nie niższą niż referencyjny Li-ion** (NMC811/grafit/LP57, 236.9 Wh/kg),\n");
     s.push_str("2. wytrzymuje **≥ 500 cykli przy szybkim ładowaniu** (2C–3C),\n");
-    s.push_str("3. jest **bezpieczne** — brak eksplozji / thermal runaway / zwarcia w teście abuse (piec 150 °C + przeładowanie 1C, 3 h).\n\n");
+    s.push_str("3. w modelu brak eksplozji / runaway / zwarcia w teście abuse (piec 150 °C + przeładowanie 1C, 3 h) — **to wynik symulacji, nie pomiar; audyt 2026-11-01 pokazuje ograniczenia testu, a fizyczne bezpieczeństwo wymaga specjalistycznego labu**.\n\n");
     s.push_str("## 2. Metodyka (skrót)\n\n");
     s.push_str("- Model fizyczny: krzywe OCV, bilanse masy/energii na cm², opór wewnętrzny (jonowy + Butler-Volmer + interfejs), cykliczna degradacja (SEI, fade katody, stres oksydacyjny, plating Li, dead Li), sprzężona termika bryłowa z reakcjami egzotermicznymi, spalaniem elektrolitu i zamknięciem separatora PP.\n");
     s.push_str("- Metryki rynkowe: **Wh/kg pakietowe** (×0.72 — BMS/obudowa/chłodzenie), **Wh/L** (z gęstości powłok i grubości elektrod), **koszt materiałowy $/kWh** (materiały aktywne + elektrolit; bez folii, spoiw, capex i marży).\n");
@@ -153,7 +153,7 @@ fn render_en(rows: &[OurRow], cp: &CellParams, sp: &SimParams) -> String {
     s.push_str("We are designing a 3-component cell (cathode | electrolyte | anode) that:\n");
     s.push_str("1. has specific energy **no lower than the reference Li-ion** (NMC811/graphite/LP57, 236.9 Wh/kg),\n");
     s.push_str("2. survives **≥ 500 cycles at fast charging** (2C–3C),\n");
-    s.push_str("3. is **safe** — no explosion / thermal runaway / internal short in the abuse test (150 °C oven + 1C overcharge, 3 h).\n\n");
+    s.push_str("3. in the model: no explosion / runaway / internal short in the abuse test (150 °C oven + 1C overcharge, 3 h) — **a simulation result, not a measurement; see the 2026-11-01 audit; physical safety requires a specialist lab**.\n\n");
     s.push_str("## 2. Methodology (summary)\n\n");
     s.push_str("- Physics-based cell model: OCV curves, mass/energy balances per cm², internal resistance (ionic + Butler-Volmer + interface), cyclic degradation (SEI growth, cathode fade, oxidative stress, Li plating, dead Li), lumped thermal model with exothermic reactions, electrolyte combustion and PP separator shutdown.\n");
     s.push_str("- Market metrics: **pack-level Wh/kg** (×0.72 — BMS/enclosure/cooling), **Wh/L** (from coating densities and electrode thicknesses), **material cost $/kWh** (active materials + electrolyte; excl. foils, binders, capex, margin).\n");
@@ -229,7 +229,7 @@ And iteration is slow: one lab cycle per candidate takes weeks. A new cell desig
 |---|---|---|
 | energy | **279 Wh/kg** cell (201 pack) | ~230–260 Wh/kg cell (NMC); 260 pack (WeLion semi-solid) |
 | fast-charge life | **670 cycles @2C** (10–80% in ~24 min) | ~500–800 @2C (fast-charge cells) |
-| abuse survival | **150 °C oven + overcharge: survives, margin to 170 °C** | liquid-electrolyte NMC/graphite cells fail the same cell-level test (real packs survive it only with heavy protection systems) |
+| abuse survival | **model only: 150 °C oven + overcharge survives, margin to 170 °C (audit 2026-11-01 — simulation, physical safety unverified, lab test required)** | liquid-electrolyte NMC/graphite cells fail the same cell-level test (real packs survive it only with heavy protection systems) |
 | discharge power | **5C** | 3–4C typical |
 | material cost | **~$67/kWh** | ~$55–80/kWh (LFP–NMC cells) |
 | time to production | **1–2 years, existing lines** | new chemistry: 3–5+ years |
@@ -440,7 +440,7 @@ fn render_pitch_en() -> String {
 _Generated {date} · battery-sim v{ver} · contact: [YOUR NAME / EMAIL]_
 
 ## What this is
-An open-source physics simulator for battery cells (Rust; runs on a laptop; screens ~250 real material combinations in about a minute on a 16-core PC) **plus a portfolio of cell designs it produced**, led by one that can be built on existing production lines in 1–2 years: **NMC811 + Si-C + gel — 279 Wh/kg (201 Wh/kg pack), 670 fast-charge cycles @2C, survives 150 °C abuse + overcharge, ~$67/kWh material cost, 5C discharge power** (the 1–2 years is validation and automotive qualification — not invention: every material is already in mass production today). The portfolio also holds: a $27/kWh mass-market variant (LFP/LMFP + anode-free), a 367 Wh/kg premium variant (anode-free), a 361 Wh/kg cobalt/nickel-free novel variant (DRX + Si-C), and a specialty cell that is the only one in the model surviving 60 °C (LFP + anode-free + solid electrolyte, >20 years shelf life).
+An open-source physics simulator for battery cells (Rust; runs on a laptop; screens ~250 real material combinations in about a minute on a 16-core PC) **plus a portfolio of cell designs it produced**, led by one that can be built on existing production lines in 1–2 years: **NMC811 + Si-C + gel — 279 Wh/kg (201 Wh/kg pack), 670 fast-charge cycles @2C, survives the 150 °C abuse + overcharge test in the model (audit 2026-11-01: simulation result, physical safety unverified), ~$67/kWh material cost, 5C discharge power** (the 1–2 years is validation and automotive qualification — not invention: every material is already in mass production today). The portfolio also holds: a $27/kWh mass-market variant (LFP/LMFP + anode-free), a 367 Wh/kg premium variant (anode-free), a 361 Wh/kg cobalt/nickel-free novel variant (DRX + Si-C), and a specialty cell that is the only one in the model surviving 60 °C (LFP + anode-free + solid electrolyte, >20 years shelf life).
 
 We built it because we kept hitting the same wall: "which of these 200 real chemistries would actually work?" A lab answers that in weeks per candidate. We answer it in minutes.
 
@@ -501,7 +501,7 @@ fn render_pitch_pl() -> String {
 _Wygenerowano {date} · battery-sim v{ver} · kontakt: [IMIĘ / E-MAIL]_
 
 ## Co to jest
-Open-source'owy symulator fizyczny ogniw (Rust; działa na laptopie; ~250 kombinacji materiałów w ~1 min na 16-rdzeniowym PC) **plus portfolio projektów ogniw, które wyprodukował**, na czele z jednym, który da się złożyć na istniejących liniach produkcyjnych w 1–2 lata: **NMC811 + Si-C + żel — 279 Wh/kg (201 Wh/kg pakiet), 670 cykli szybkiego ładowania @2C, przeżywa test 150 °C + przeładowanie, ~$67/kWh kosztu materiałowego, moc rozładowania 5C** (ten 1–2 lata to walidacja i kwalifikacja, nie wymyślanie — każdy materiał jest już w masowej produkcji). W portfolio są też: wariant masowy za $27/kWh (LFP/LMFP + anode-free), wariant premium 367 Wh/kg (anode-free), wariant nowatorski 361 Wh/kg bez kobaltu/niklu (DRX + Si-C) i wariant specjalistyczny — jedyny w modelu przeżywający 60 °C (LFP + anode-free + stały elektrolit, >20 lat na półce).
+Open-source'owy symulator fizyczny ogniw (Rust; działa na laptopie; ~250 kombinacji materiałów w ~1 min na 16-rdzeniowym PC) **plus portfolio projektów ogniw, które wyprodukował**, na czele z jednym, który da się złożyć na istniejących liniach produkcyjnych w 1–2 lata: **NMC811 + Si-C + żel — 279 Wh/kg (201 Wh/kg pakiet), 670 cykli szybkiego ładowania @2C, przeżywa w modelu test 150 °C + przeładowanie (audyt 2026-11-01: wynik symulacji, bezpieczeństwo fizyczne niezweryfikowane), ~$67/kWh kosztu materiałowego, moc rozładowania 5C** (ten 1–2 lata to walidacja i kwalifikacja, nie wymyślanie — każdy materiał jest już w masowej produkcji). W portfolio są też: wariant masowy za $27/kWh (LFP/LMFP + anode-free), wariant premium 367 Wh/kg (anode-free), wariant nowatorski 361 Wh/kg bez kobaltu/niklu (DRX + Si-C) i wariant specjalistyczny — jedyny w modelu przeżywający 60 °C (LFP + anode-free + stały elektrolit, >20 lat na półce).
 
 Budowaliśmy go, bo sami trafialiśmy na tę samą ścianę: „która z tych 200 realnych chemii faktycznie zadziała?” Laboratorium odpowiada tygodniami na jednego kandydata. My odpowiadamy w minuty.
 
