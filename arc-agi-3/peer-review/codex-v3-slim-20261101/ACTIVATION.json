@@ -1,0 +1,20 @@
+{
+  "kernel_complete": true,
+  "smoke_ok": true,
+  "crashed_empty": true,
+  "carried_section_occurrences": {
+    "cn04": 12,
+    "dc22": 8,
+    "g50t": 11,
+    "ka59": 11,
+    "ls20": 17,
+    "m0r0": 13,
+    "s5i5": 11,
+    "sc25": 13,
+    "su15": 6,
+    "tn36": 17
+  },
+  "all_ten_games_have_carried_sections": true,
+  "slim_generated_tokens_from_notebook": 1752216,
+  "qualification": "Snapshot occurrence counts are not unique turns; final_generated_tokens=0 in benchmark is not zero inference."
+}

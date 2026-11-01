@@ -4,9 +4,12 @@
   "source": "duck-lab-candidates/v3-slim/agent.ipynb",
   "sha256": "9156966a191604eb7a0285aecd4d4c9ba0bef557232dc0315d2cbe63bea95458",
   "launch_run": 41288008573,
-  "watch_run": 41288053823,
-  "status": "version1 accepted, result pending",
+  "watch_run": 41295604412,
+  "status": "COMPLETE; rejected:24 levels,17.350468479169024 public smoke",
   "failed_tool_only_launch": 41287899335,
   "cancelled_tool_only_watch": 41287964907,
-  "note": "No GPU run launched before fixing missing six; pinned Kaggle2.2.5 and added fail-fast."
+  "note": "No GPU run launched before fixing missing six; pinned Kaggle2.2.5 and added fail-fast.",
+  "previous_watch_run": 41288053823,
+  "queue_transition_utc": "2026-11-01T09:28:11Z",
+  "previous_collector_last_observation_utc": "2026-11-01T09:55:26Z"
 }
