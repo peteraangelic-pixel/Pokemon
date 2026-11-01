@@ -28,10 +28,25 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 # --- measured constants -----------------------------------------------------
-# r085 / r121: same harness, same 10 public games, same 48 min.
+# Three runs, same 10 public games, same harness, same 48 min budget.
+#
+# CORRECTION (01.11): an earlier version of this module used "total actions /
+# levels completed" for r085 (66.4) and "actions on COMPLETED levels / levels
+# completed" for v3 (47.8). Those are different quantities and the difference
+# looked like a 37% efficiency collapse. Done consistently, efficiency is flat
+# and the variable that moves is the share of actions spent on levels that are
+# never finished.
 ACTIONS_PER_GAME = 220
-ACTIONS_PER_LEVEL_C45 = 66.4     # r085
-ACTIONS_PER_LEVEL_V137 = 91.0    # r121
+ACTIONS_PER_LEVEL_C45 = 51.8     # r085: actions on completed levels / completions
+ACTIONS_PER_LEVEL_V137 = 50.4    # r121
+ACTIONS_PER_LEVEL_V3 = 47.8      # fresh v3 control, 01.11
+
+WASTE_C45 = 0.22
+WASTE_V137 = 0.45
+WASTE_V3 = 0.16
+
+ACTIONS_PER_CALL = {"v3": 4.48, "r085": 4.51, "r121": 5.01}
+TOKENS_PER_CALL = {"v3": 4066, "r085": 3009, "r121": 3675}
 
 # The symbolic controller of the Codex package: 3 levels in 25 actions on ft09.
 ACTIONS_PER_LEVEL_SYMBOLIC = 25 / 3
@@ -65,9 +80,29 @@ def coverage_from_levels(completed, level_counts=LEVEL_COUNTS) -> float:
     done = list(completed)
     total = 0.0
     for i, n in enumerate(level_counts):
-        k = min(done[i] if i < len(done) else 0, n)
-        total += weight(int(k)) / weight(n)
+        k = min(float(done[i]) if i < len(done) else 0.0, float(n))
+        whole = int(k)
+        frac = k - whole
+        # a fractional level credits that fraction of the next level's weight;
+        # without this, rounding makes every lever saturate at the same value
+        w = weight(whole) + (frac * (whole + 1) if whole + 1 <= n else 0.0)
+        total += w / weight(n)
     return total / len(level_counts)
+
+
+def scaled_shape(target_levels: float, completed, level_counts=LEVEL_COUNTS) -> list[float]:
+    """Scale a recorded per-game depth profile to a new mean, without rounding.
+
+    Rounding to whole levels saturates: past about 4.6 levels/game every game is
+    pinned at its maximum and further levers stop registering, which would hide
+    the very differences we are trying to measure.
+    """
+    done = list(completed)
+    mean = sum(done) / len(level_counts)
+    if mean <= 0:
+        return [0.0] * len(level_counts)
+    a = target_levels / mean
+    return [min(k * a, float(n)) for k, n in zip(done, level_counts)]
 
 
 def concentration_uplift(completed, level_counts=LEVEL_COUNTS) -> float:
@@ -112,6 +147,27 @@ def levels_for_score(target: float, level_counts=LEVEL_COUNTS) -> float:
         else:
             hi = mid
     return (lo + hi) / 2
+
+
+def levels_per_game(actions_per_game: float, actions_per_level: float,
+                    waste_share: float) -> float:
+    """Depth from budget, efficiency and waste — the three-constant model.
+
+        completed_actions = actions_per_game * (1 - waste_share)
+        levels            = completed_actions / actions_per_level
+    """
+    return actions_per_game * (1.0 - waste_share) / actions_per_level
+
+
+def actions_for_depth(levels: float, actions_per_level: float,
+                      waste_share: float) -> float:
+    """Actions per game needed to reach a depth, inverting the model above."""
+    return levels * actions_per_level / (1.0 - waste_share)
+
+
+def tokens_per_action(tokens_per_call: float, actions_per_call: float) -> float:
+    """Cost of one action; the budget buys `tokens_per_game / this` actions."""
+    return tokens_per_call / actions_per_call
 
 
 def actions_per_level_for(levels: float, actions_per_game: float = ACTIONS_PER_GAME) -> float:
