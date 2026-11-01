@@ -1,0 +1,11 @@
+{
+  "off_output": [],
+  "slim_output": [
+    "Working world model carried from earlier turns:",
+    "- World model: Observed mechanics",
+    "- Plan: Test the next hypothesis",
+    "- Revise any item above immediately if `current_frame` or `history` contradicts it."
+  ],
+  "inference_sources_identical": 34,
+  "scope": "Real ToolAgent branch behavior and clean patch chain; no LLM quality measurement."
+}

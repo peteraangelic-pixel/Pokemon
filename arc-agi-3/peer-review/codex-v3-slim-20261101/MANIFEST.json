@@ -1,0 +1,15 @@
+{
+  "base_sha256": "8d0195f92c5518a41d14edbfca596b72c27690f269f681bbaa9af0bc3d257bcc",
+  "sha256": "9156966a191604eb7a0285aecd4d4c9ba0bef557232dc0315d2cbe63bea95458",
+  "changed_cell": 1,
+  "compiled_code_cells": 14,
+  "env_delta": {
+    "ARC3_MEMORY_SECTIONS": [
+      "off",
+      "slim"
+    ]
+  },
+  "extra_patches": 0,
+  "score_measured": false,
+  "model_budget_roster_unchanged": true
+}
