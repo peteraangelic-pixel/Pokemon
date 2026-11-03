@@ -91,7 +91,7 @@ pub fn run_probes(
             let path = format!("/zz-baseline-{:016x}", fnv1a(host.as_bytes()));
             let url = format!("https://{host}{path}");
             limiter.acquire();
-            match client.get(&url).send() {
+            match client.get(url.as_str()).send() {
                 Ok(r) => {
                     let status = r.status().as_u16();
                     let body = r.bytes().map(|b| sha256_hex(&b)).unwrap_or_default();
@@ -115,9 +115,26 @@ pub fn run_probes(
                     value: json!({"id": id, "url": url, "note": note, "error": e}),
                 };
             }
+            // Optional per-probe request headers. This is what makes a CORS test
+            // meaningful: the answer is only a finding if the server reflects the
+            // foreign Origin we sent, and allows credentials with it.
+            let sent_origin = p
+                .get("headers")
+                .and_then(|h| h.get("Origin"))
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string();
             limiter.acquire();
             let t0 = Instant::now();
-            let resp = client.get(url).send();
+            let mut req = client.get(url);
+            if let Some(hs) = p.get("headers").and_then(|h| h.as_object()) {
+                for (k, v) in hs {
+                    if let Some(vs) = v.as_str() {
+                        req = req.header(k.as_str(), vs);
+                    }
+                }
+            }
+            let resp = req.send();
             let elapsed = t0.elapsed().as_millis() as u64;
             match resp {
                 Ok(r) => {
@@ -156,10 +173,22 @@ pub fn run_probes(
                         .copied()
                         .filter(|h| !(*h == "not_found_pl" || *h == "html_error_pre"))
                         .collect();
-                    let interesting = !meaningful.is_empty() || (!same_as_baseline && status < 400);
+                    let interesting = !meaningful.is_empty()
+                        || cors_reflected
+                        || cors_wildcard_with_creds
+                        || (!same_as_baseline && status < 400);
 
+                    let acao = hdr("access-control-allow-origin");
+                    let acac = hdr("access-control-allow-credentials");
+                    let cors_reflected = !sent_origin.is_empty() && acao == sent_origin;
+                    let cors_wildcard_with_creds = acao == "*" && acac.eq_ignore_ascii_case("true");
                     let mut out = json!({
                         "id": id, "url": url, "note": note,
+                        "sent_origin": sent_origin,
+                        "acao": acao,
+                        "acac": acac,
+                        "cors_reflected": cors_reflected,
+                        "cors_wildcard_with_credentials": cors_wildcard_with_creds,
                         "status": status,
                         "content_type": ctype,
                         "content_disposition": disp,
@@ -223,8 +252,8 @@ mod tests {
         let t = "<html><body>Witamy na stronie</body></html>";
         let strong = ["unix_passwd", "aws_access_key", "private_key", "azure_metadata"];
         for (name, re) in marker_table() {
-            if strong.contains(&name.as_str()) {
-                assert!(!re.is_match(t), "{name} must not match plain html");
+            if strong.contains(name) {
+                assert!(!re.is_match(t), "{} must not match plain html", name);
             }
         }
     }

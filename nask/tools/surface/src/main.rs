@@ -470,7 +470,10 @@ fn main() {
                         let mark = if p["interesting"].as_bool() == Some(true) { ">>" } else { "  " };
                         println!("{} {:<26} {:<5} {:>7}B  markers={}", mark,
                             p["id"].as_str().unwrap_or("?"),
-                            p["status"].map(|s| s.to_string()).unwrap_or_else(|| "-".into()),
+                            p["status"]
+                                .as_u64()
+                                .map(|s| s.to_string())
+                                .unwrap_or_else(|| "-".into()),
                             p["bytes"].as_u64().unwrap_or(0), p["markers"]);
                     }
                 }
