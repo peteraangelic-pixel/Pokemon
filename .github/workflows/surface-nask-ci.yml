@@ -1,0 +1,33 @@
+name: NASK surface CI
+
+# Compile + unit tests + offline selftest. Never touches the network.
+on:
+  push:
+    branches: [arena/7911f950-pokemon]
+    paths:
+      - "nask/tools/surface/**"
+      - ".github/workflows/surface-nask-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MANIFEST: nask/tools/surface/Cargo.toml
+  BIN: nask/tools/surface/target/release/surface
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Unit tests (no network)
+        run: cargo test --manifest-path "$MANIFEST"
+      - name: Build
+        run: cargo build --release --manifest-path "$MANIFEST"
+      - name: Offline selftest (guard, limiter, analyzer)
+        run: ./"$BIN" selftest
+      - name: Scope table
+        run: ./"$BIN" scope

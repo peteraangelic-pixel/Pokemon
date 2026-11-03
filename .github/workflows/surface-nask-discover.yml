@@ -1,0 +1,120 @@
+name: NASK surface discover
+
+# Read-only discovery against the published scope at <=5 req/s, then offline
+# Rayon analysis, then the *derived* results are committed so they can be read
+# back (workflow artifacts and run logs are not reachable from the agent sandbox;
+# a commit on the branch is).
+#
+# Trigger: editing nask/run/REQUEST.json. workflow_dispatch stays available for
+# the repository owner, whose token has actions:write - the agent token does not.
+on:
+  push:
+    branches: [arena/7911f950-pokemon]
+    paths:
+      - "nask/run/REQUEST.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# One network coordinator: two concurrent runs would add up past the 5 req/s limit.
+concurrency:
+  group: nask-surface-network-coordinator
+  cancel-in-progress: false
+
+env:
+  MANIFEST: nask/tools/surface/Cargo.toml
+  BIN: nask/tools/surface/target/release/surface
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Unit tests gate the network run
+        run: cargo test --manifest-path "$MANIFEST"
+      - name: Build
+        run: cargo build --release --manifest-path "$MANIFEST"
+      - name: Offline selftest gate
+        run: ./"$BIN" selftest
+      - name: Scope table
+        run: ./"$BIN" scope
+
+      - name: Read request parameters
+        id: req
+        run: |
+          RPS=$(python3 -c "import json;print(json.load(open('nask/run/REQUEST.json')).get('rps',4))")
+          ASSETS=$(python3 -c "import json;print(json.load(open('nask/run/REQUEST.json')).get('assets',40))")
+          RUN=$(python3 -c "import json;print(json.load(open('nask/run/REQUEST.json')).get('run','0'))")
+          echo "rps=$RPS" >> "$GITHUB_OUTPUT"
+          echo "assets=$ASSETS" >> "$GITHUB_OUTPUT"
+          echo "run=$RUN" >> "$GITHUB_OUTPUT"
+
+      - name: Discovery (read-only GET, <=5 req/s)
+        run: |
+          ./"$BIN" run --out nask/out \
+            --rps "${{ steps.req.outputs.rps }}" \
+            --assets "${{ steps.req.outputs.assets }}"
+
+      - name: Offline analysis (rayon)
+        run: ./"$BIN" analyze --dir nask/out
+
+      - name: Per-host table
+        run: |
+          python3 - <<'PY'
+          import json
+          a = json.load(open("nask/out/analysis.json"))
+          print(f"{'host':<34}{'docs':>6}{'js':>5}{'routes':>8}  frameworks")
+          for h, v in a["per_host"].items():
+              print(f"{h:<34}{v['documents']:>6}{v['js_documents']:>5}{v['route_literals']:>8}  {','.join(v['frameworks'])}")
+          PY
+
+      - name: Commit derived results (never the fetched bodies)
+        if: always()
+        run: |
+          set -e
+          RUN="${{ steps.req.outputs.run }}"
+          mkdir -p nask/reports
+          if [ -f nask/out/analysis.json ]; then
+            cp nask/out/analysis.json "nask/reports/analysis-run${RUN}.json"
+          fi
+          if [ -f nask/out/index.json ]; then
+            python3 - "$RUN" <<'PY'
+          import json, sys
+          run = sys.argv[1]
+          idx = json.load(open("nask/out/index.json"))
+          keep = ["n", "url", "host", "tier", "status", "content_type", "location",
+                  "server", "x_powered_by", "bytes", "sha256", "ms", "error"]
+          rows = [{k: e.get(k) for k in keep} for e in idx.get("entries", [])]
+          out = {"run": run, "requests_issued": idx.get("requests_issued"),
+                 "wall_seconds": idx.get("wall_seconds"), "requested_rps": idx.get("requested_rps"),
+                 "entries": rows}
+          json.dump(out, open(f"nask/reports/index-run{run}.json", "w"), indent=1)
+          print(f"index-run{run}.json: {len(rows)} entries")
+          PY
+          fi
+          git config user.name "surface-bot"
+          git config user.email "surface-bot@users.noreply.github.com"
+          git add nask/reports
+          if git diff --cached --quiet; then
+            echo "no result files to commit"
+            exit 0
+          fi
+          git commit -m "surface: run ${RUN} results [skip ci]"
+          git push origin HEAD:arena/7911f950-pokemon
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nask-surface-${{ github.run_id }}
+          path: |
+            nask/out/index.json
+            nask/out/analysis.json
+            nask/out/bodies/
+          if-no-files-found: warn
+          retention-days: 14

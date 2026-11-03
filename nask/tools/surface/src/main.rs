@@ -208,7 +208,12 @@ fn cmd_selftest() -> Result<(), String> {
     let checks = [
         ("kind is html", r["kind"] == json!("html")),
         ("generator parsed", r["generator"] == json!("Next.js 15.2.3")),
-        ("script found", r["scripts"].as_array().map(|a| a.len() == 1).unwrap_or(false)),
+        // Both scripts are recorded here; dropping the off-scope CDN one is the
+        // job of resolve_same_origin, tested separately above.
+        (
+            "both script tags recorded",
+            r["scripts"].as_array().map(|a| a.len() == 2).unwrap_or(false),
+        ),
         ("form action found", r["forms"][0]["action"] == json!("/api/report")),
         ("api route found", r["route_literals"].as_array().map(|a| a.iter().any(|v| v == "/api/v1/reports")).unwrap_or(false)),
         ("comment hit found", r["sensitive_comment_hits"].as_array().map(|a| !a.is_empty()).unwrap_or(false)),
@@ -366,6 +371,24 @@ fn cmd_analyze(dir: &Path) -> Result<Value, String> {
 }
 
 fn main() {
+    // The agent sandbox cannot read GitHub Actions logs (the log host is not
+    // reachable), so every failure is also emitted as a workflow annotation,
+    // which is readable through the check-runs API.
+    std::panic::set_hook(Box::new(|info| {
+        let msg = info
+            .payload()
+            .downcast_ref::<&str>()
+            .map(|s| s.to_string())
+            .or_else(|| info.payload().downcast_ref::<String>().cloned())
+            .unwrap_or_else(|| "panic".to_string());
+        let loc = info
+            .location()
+            .map(|l| format!("{}:{}", l.file(), l.line()))
+            .unwrap_or_default();
+        eprintln!("panic at {loc}: {msg}");
+        eprintln!("::error title=surface panic::{msg} (at {loc})");
+    }));
+
     let args: Vec<String> = std::env::args().collect();
     let cmd = args.get(1).map(|s| s.as_str()).unwrap_or("help");
     let flag = |name: &str| -> Option<String> {
@@ -422,6 +445,7 @@ fn main() {
 
     if let Err(e) = result {
         eprintln!("error: {e}");
+        eprintln!("::error title=surface::{e}");
         std::process::exit(1);
     }
 }
