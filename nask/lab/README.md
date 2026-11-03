@@ -36,3 +36,7 @@ Prototyp zawiera planowanie round-robin z wagą dwa dla NASK i limiter bez burst
 - Blokada `~/.nasklab-network.lock` chroni tylko procesy tego klienta korzystające z tego samego konta/komputera; nie synchronizuje innych narzędzi, runnerów, maszyn czy innych użytkowników. Jeśli program zostanie brutalnie przerwany i plik zostanie, należy najpierw potwierdzić, że proces nie działa, a potem usunąć stary plik blokady. Żadnych równoległych kampanii; bez pewności co do łącznego ruchu nie uruchamiać.
 
 Testy kontrolne używają atrap odpowiedzi i nie łączą się z prawdziwymi usługami. Nadal potrzebny jest przegląd operatora, aktualnego scope i warunków hostingu przed rzeczywistym uruchomieniem. Zbieranie statusów nie dowodzi istnienia ani braku luki.
+
+## Audyt czasów wielu procesów
+
+`audit_events.py` działa całkowicie offline i przyjmuje wyłącznie celowo zredukowany JSONL z polami `source` i `started_at` (czas ISO 8601 ze strefą i co najmniej milisekundami). Zlicza łączne rozpoczęcia w ruchomym oknie jednej sekundy oraz źródła okna o największej liczbie; nie zapisuje adresów ani treści. Brak kompletnych logów, niska precyzja znaczników, różnice zegarów lub brak dowodów czasu rozpoczęcia oznaczają, że wynik nie wykazuje zgodności z limitem. Surowych danych z odpowiedziami, URL-ami, sekretami i PII nie używać jako wejścia ani nie publikować. Wyłącznie dane syntetyczne są w testach.
