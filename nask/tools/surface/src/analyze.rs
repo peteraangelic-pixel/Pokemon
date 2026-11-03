@@ -32,10 +32,14 @@ fn re_attr() -> &'static Regex {
 }
 
 /// String literals that look like a route: `"/api/x"`, `'/v1/y'`, `https://host/z`.
+///
+/// Kept deliberately flat. A nested repetition such as
+/// `(?:/[\w\-.~%]{0,60}){1,8}` compiles to more than the regex crate's 10 MB
+/// DFA limit and fails at runtime with `CompiledTooBig`.
 fn re_route() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| {
-        Regex::new(r#"["'`]((?:https?://[^"'`\s<>]{4,120})|(?:/[\w\-.~%]{0,60}){1,8}(?:\?[^"'`\s<>]{0,120})?)["'`]"#)
+        Regex::new(r#"["'`]((?:https?://[^"'`\s<>]{4,120})|/[\w\-.~%/]{1,300}(?:\?[^"'`\s<>]{0,120})?)["'`]"#)
             .unwrap()
     })
 }

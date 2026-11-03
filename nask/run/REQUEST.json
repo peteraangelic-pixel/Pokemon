@@ -1,1 +1,6 @@
-{"note":"Changing this file triggers the discovery run (workflow_dispatch is unavailable to the agent token, push is not).","run":"001","rps":4,"assets":40}
+{
+ "note": "Bump 'run' to trigger discovery; the previous run number is the report file suffix.",
+ "run": "002",
+ "rps": 4,
+ "assets": 40
+}
