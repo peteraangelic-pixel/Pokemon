@@ -40,3 +40,7 @@ Testy kontrolne używają atrap odpowiedzi i nie łączą się z prawdziwymi us�
 ## Audyt czasów wielu procesów
 
 `audit_events.py` działa całkowicie offline i przyjmuje wyłącznie celowo zredukowany JSONL z polami `source` i `started_at` (czas ISO 8601 ze strefą i co najmniej milisekundami). Zlicza łączne rozpoczęcia w ruchomym oknie jednej sekundy oraz źródła okna o największej liczbie; nie zapisuje adresów ani treści. Brak kompletnych logów, niska precyzja znaczników, różnice zegarów lub brak dowodów czasu rozpoczęcia oznaczają, że wynik nie wykazuje zgodności z limitem. Surowych danych z odpowiedziami, URL-ami, sekretami i PII nie używać jako wejścia ani nie publikować. Wyłącznie dane syntetyczne są w testach.
+
+## Kontrola dostępu — wyłącznie analiza offline
+
+`auth_matrix.py` porównuje tylko dostarczone kody statusu i deklarowaną relację zasobu (prywatny/współdzielony/nieznany). Użytkownik otrzymujący dostęp do udostępnionego mu zasobu nie jest IDOR-em. Nawet 200/200 dla prywatnego zasobu to wyłącznie sygnał do sprawdzenia faktycznej treści, właściciela, stanu uprawnień i zgodności zakresu — nigdy automatyczne stwierdzenie luki. 401/403/404 to odmowa lub ukrycie, nie dowód bezpieczeństwa całej aplikacji. Nie przechowywać ani nie przekazywać tu cudzych danych, tokenów ani surowych odpowiedzi.
