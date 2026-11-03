@@ -1,0 +1,5 @@
+# nask/out/ and build products stay out of git: they contain fetched public bodies,
+# which belong in a workflow artifact, not in a public repository.
+nask/out/
+nask/tools/surface/target/
+private/
