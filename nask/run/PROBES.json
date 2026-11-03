@@ -1,5 +1,5 @@
 {
-  "run": "004",
+  "run": "004b",
   "note": "Wave 1: parametr sterujacy sciezka/URL-em. Wszystkie zadania GET, read-only, hosts z zakresu programu. Kazda sonda ma hipoteze w polu note.",
   "probes": [
     {
