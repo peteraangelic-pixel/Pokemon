@@ -1,6 +1,6 @@
 # NASK lab — offline prototype
 
-**Stan: wyłącznie offline, dane fikcyjne. Nie znajduje ani nie weryfikuje rzeczywistych luk. Nie wysyła żadnych żądań HTTP ani DNS.** Wbudowany fixture wykorzystuje wyłącznie syntetyczne domeny `*.example.invalid`; nazwy programów są etykietami demonstracyjnymi, a kod HTTP i różnice są wymyślone.
+**Stan: analizator `lab.py` i testy są offline; osobny `safe_client.py` może wykonywać ograniczone żądania po ręcznym włączeniu. Żaden z nich nie znajduje ani nie weryfikuje rzeczywistych luk.** Wbudowany fixture wykorzystuje wyłącznie syntetyczne domeny `*.example.invalid`; nazwy programów są etykietami demonstracyjnymi, a kod HTTP i różnice są wymyślone.
 
 ## Uruchomienie (Python 3.9+)
 
@@ -11,7 +11,7 @@ python nask/lab/lab.py nask/lab/fixtures/demo.json
 
 Wyjście porównuje wyłącznie fikcyjne metadane wariantów dla tego samego URL. Różnica w kodzie lub fingerprint nie jest dowodem luki; brak różnicy nie dowodzi bezpieczeństwa. Fixture należy traktować jak kod testowy, nie wkładać do niego prawdziwych odpowiedzi, tokenów, URL z sekretami, danych osobowych ani wyników produkcyjnych. Walidacja danych to nie system zapobiegania wyciekom.
 
-Prototyp zawiera planowanie round-robin z wagą dwa dla NASK i limiter bez burstu jako **niezależny komponent demonstracyjny**. CLI nie wywołuje limitera: to tylko odczyty lokalnego słownika. Limiter nie jest współdzielony między procesami, maszynami lub Actions i **nie nadaje się do bezpiecznego skanowania produkcji**. Brak HTTP klienta, kont, prawdziwego scope, PoC i wyzwalaczy sieciowych.
+Prototyp zawiera planowanie round-robin z wagą dwa dla NASK i limiter bez burstu jako **niezależny komponent demonstracyjny**. CLI nie wywołuje limitera: to tylko odczyty lokalnego słownika. Limiter nie jest współdzielony między procesami, maszynami lub Actions i **nie nadaje się do bezpiecznego skanowania produkcji**. Ten prototyp nie zawiera klienta HTTP, kont ani PoC; odrębny klient statusów opisano niżej.
 
 ## Actions
 
@@ -24,3 +24,15 @@ Prototyp zawiera planowanie round-robin z wagą dwa dla NASK i limiter bez burst
 - Odrębnie zaprojektować minimalizację zbieranych danych, poufne przechowywanie, kontrolę dostępu i procedurę zatrzymania przy przypadkowym kontakcie z cudzymi danymi. Nigdy publiczne artefakty lub logi.
 - Wybrać mały, nieniszczący scenariusz i tylko własne zasoby/konta tam, gdzie pozwala regulamin. Wynik automatu to hipoteza, nie zgłoszenie; przed zgłoszeniem konieczna bezpieczna weryfikacja i ocena CVSS.
 - Dopiero po pomiarze kosztów offline rozważyć Rust/Rayon lub FFI; brak cargo w obecnym środowisku, a operacje sieciowe limitowane 5 req/s nie uzasadniają automatycznie FFI. Dodać testy FFI i wsparcie Windows przed zależnością od rodzimej biblioteki.
+
+## Osobny klient statusów korzeniowych (2026-11-03)
+
+`safe_client.py` jest **ograniczonym zamiennikiem pierwszego etapu**, nie forkiem ani naprawą oryginalnego kodu na gałęzi repo NASK i nie skanerem podatności. Realizuje tylko niezalogowane GET `/` dla wbudowanych dokładnych hostów NASK/CERT/Gov/mSzyfr, bez Władysławowa, bez zgadywania i bez `www` aliasów. Sporne pary `pllum/plum`, `mwdb/wmdb` i CTF są wstrzymane; `dataannotation.pllum.org.pl` widnieje osobno w obu wersjach regulaminu. Dla mSzyfr jest jeden dokładny host wykryty w publicznym indeksie, a nie automatyczna enumeracja wildcardu.
+
+- Domyślnie **dry-run**, bez połączeń. Plan: `python nask/lab/safe_client.py --program nask --program cert --program gov --program mszyfr --requests 4`.
+- W kodzie ścieżka rzeczywistego pobrania wymaga `--execute`, własnoręcznie potwierdzonej dzisiejszej daty weryfikacji regulaminów (`--reviewed-on YYYY-MM-DD`) i `--sole-operator` (żaden inny proces, komputer ani runner nie prowadzi równoległych testów). To oświadczenia użytkownika, nie automatyczna weryfikacja. Ten klient **nie wykonuje rzeczywistych żądań w Actions**.
+- Jedno żądanie naraz, minimum 1 s odstępu rozpoczęcia, maks. 16 na uruchomienie; bez retry, bez przekierowań, TLS z weryfikacją, bez ciasteczek, nagłówków autoryzacji ani proxy z otoczenia. 403/429/5xx i błędy transportu zatrzymują całą kampanię. Selekcję kolejkuje round-robin.
+- Przyjmuje wyłącznie nazwy programów z zakodowanej listy; nie przyjmuje dowolnych URL, ścieżek czy hostów. Nie czyta i nie zapisuje treści odpowiedzi ani nagłówków, nie wysyła formularzy. Wypisuje tylko nazwę programu, host i status. Jest to ograniczenie ryzyka, nie dowód, że w nagłówkach lub danych wymienianych podczas połączenia nigdy nie pojawią się informacje wrażliwe. Nie nadaje się do badania logowania ani cudzych zasobów.
+- Blokada `~/.nasklab-network.lock` chroni tylko procesy tego klienta korzystające z tego samego konta/komputera; nie synchronizuje innych narzędzi, runnerów, maszyn czy innych użytkowników. Jeśli program zostanie brutalnie przerwany i plik zostanie, należy najpierw potwierdzić, że proces nie działa, a potem usunąć stary plik blokady. Żadnych równoległych kampanii; bez pewności co do łącznego ruchu nie uruchamiać.
+
+Testy kontrolne używają atrap odpowiedzi i nie łączą się z prawdziwymi usługami. Nadal potrzebny jest przegląd operatora, aktualnego scope i warunków hostingu przed rzeczywistym uruchomieniem. Zbieranie statusów nie dowodzi istnienia ani braku luki.
