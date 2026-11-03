@@ -16,10 +16,18 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: nask/lab
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
       - name: Test Rust offline comparison
         run: cargo test --manifest-path nask/lab/rust/Cargo.toml --offline
+      - name: Test and build Rust FFI analysis
+        run: |
+          cargo test --locked --manifest-path nask/lab/rust-analysis/Cargo.toml
+          cargo build --locked --release --manifest-path nask/lab/rust-analysis/Cargo.toml
+      - name: Exercise Python-Rust FFI using synthetic data
+        run: python3 nask/lab/tests/ffi_smoke.py --library nask/lab/rust-analysis/target/release/libnasklab.so
       - name: Test offline lab
         run: python3 -m unittest discover -s nask/lab/tests -v
       - name: Run synthetic demonstration

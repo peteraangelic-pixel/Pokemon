@@ -15,7 +15,7 @@ Prototyp zawiera planowanie round-robin z wagą dwa dla NASK i limiter bez burst
 
 ## Actions
 
-`.github/workflows/nask-offline-lab.yml`: push zmian laboratorium na gałęzi sesji lub ręczne wywołanie, instalacja Rust stable, testy prostego modułu Rust i Python, syntetyczne dane, brak skanów i eksportu artefaktów. Status uruchomienia workflow należy sprawdzić na GitHub Actions dla bieżącego commita. Rustowy moduł porównuje metadane offline; nie jest jeszcze połączony z Pythonem przez FFI. Nie został skompilowany ani przetestowany w tym środowisku (brak cargo). Publiczne repo i logi nie nadają się do przechowywania poufnych wyników.
+`.github/workflows/nask-offline-lab.yml`: push zmian laboratorium na gałęzi sesji lub ręczne wywołanie, instalacja Rust stable, testy prostego modułu Rust i Python, syntetyczne dane, brak skanów i eksportu artefaktów. Workflow nie został wysłany na GitHub ani uruchomiony. Moduł `rust-analysis` i `ffi_analysis.py` realizują offline Python/ctypes → Rust/Rayon; kod analizy pochodzi z `peteraangelic-pixel/NASK`, commit `8b3228a470d7714e2315bf20fff31fdb0568ee8f`. Workflow testuje prawdziwe wywołanie FFI na syntetycznych danych. Osobny mały moduł `rust` porównuje metadane. Nie został skompilowany ani przetestowany w tym środowisku (brak cargo). Publiczne repo i logi nie nadają się do przechowywania poufnych wyników.
 
 ## Warunki przed jakimkolwiek późniejszym użyciem sieci
 
