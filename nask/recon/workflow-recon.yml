@@ -1,0 +1,63 @@
+name: recon
+
+# Moc obliczeniowa GitHub Actions jest tu potrzebna w JEDNYM miejscu:
+# kompilacja Rusta + analiza offline setek plików JS (Rayon, CPU-bound).
+# Cała część sieciowa jest i tak ograniczona do 4.5 req/s przez regulamin konkursu.
+
+on:
+  workflow_dispatch:
+    inputs:
+      rps:
+        description: "Żądania na sekundę (max 5.0 wg regulaminu §6 pkt 2)"
+        default: "4.5"
+        required: true
+  push:
+    branches: [main]
+    paths: ["recon/**", ".github/workflows/recon.yml"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: recon
+      # UWAGA: build NIE jest opcjonalny. W repo NASK CI było "zielone", bo
+      # cargo build usunięto z workflow — a 3 z 4 crate'ów się nie kompilowały.
+      - name: Build (bramka — bez tego CI kłamie)
+        working-directory: recon
+        run: cargo build --release --locked
+      - name: Testy jednostkowe (guard zakresu, odejmowanie catch-all, limiter)
+        working-directory: recon
+        run: cargo test --release --locked
+      - name: Wypisz zakres i sprawdź guard
+        working-directory: recon
+        run: |
+          ./target/release/naskrecon scope
+          # ten check MUSI zwrócić kod 1 — inaczej guard zakresu jest zepsuty
+          if ./target/release/naskrecon check gitlab.snkom.nask.pl; then
+            echo "BŁĄD: guard zakresu przepuścił host spoza §5"; exit 1
+          else
+            echo "OK: host spoza zakresu poprawnie odrzucony"
+          fi
+      - name: Skan pasywny domen w zakresie
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: recon
+        run: |
+          RPS="${{ github.event.inputs.rps }}"
+          ./target/release/naskrecon --rps "$RPS" sweep
+          ./target/release/naskrecon --rps "$RPS" hypotheses
+      - name: Clippy (nieblokujący — styl nie może ukryć błędu kompilacji)
+        if: always()
+        continue-on-error: true
+        working-directory: recon
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Zachowaj wyniki
+        if: always() && github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: recon-output
+          path: recon/recon-out.jsonl
+          if-no-files-found: ignore
