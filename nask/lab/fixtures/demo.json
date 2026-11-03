@@ -1,0 +1,15 @@
+{
+  "allowed_hosts": ["nask.example.invalid", "cert.example.invalid", "gov.example.invalid", "mszyfr.example.invalid", "wladyslawowo.example.invalid"],
+  "cases": [
+    {"program":"NASK","url":"https://nask.example.invalid/fixture","variant":"a","status":200,"fingerprint":"fixture_a"},
+    {"program":"NASK","url":"https://nask.example.invalid/fixture","variant":"b","status":403,"fingerprint":"fixture_b"},
+    {"program":"CERT","url":"https://cert.example.invalid/fixture","variant":"a","status":200,"fingerprint":"same"},
+    {"program":"CERT","url":"https://cert.example.invalid/fixture","variant":"b","status":200,"fingerprint":"same"},
+    {"program":"GOV","url":"https://gov.example.invalid/fixture","variant":"a","status":200,"fingerprint":"same"},
+    {"program":"GOV","url":"https://gov.example.invalid/fixture","variant":"b","status":200,"fingerprint":"same"},
+    {"program":"MSZYFR","url":"https://mszyfr.example.invalid/fixture","variant":"a","status":200,"fingerprint":"same"},
+    {"program":"MSZYFR","url":"https://mszyfr.example.invalid/fixture","variant":"b","status":200,"fingerprint":"same"},
+    {"program":"WLADYSLAWOWO","url":"https://wladyslawowo.example.invalid/fixture","variant":"a","status":200,"fingerprint":"same"},
+    {"program":"WLADYSLAWOWO","url":"https://wladyslawowo.example.invalid/fixture","variant":"b","status":200,"fingerprint":"same"}
+  ]
+}

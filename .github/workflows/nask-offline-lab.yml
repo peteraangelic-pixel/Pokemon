@@ -1,0 +1,26 @@
+name: NASK offline lab tests
+
+# Offline-only push CI; no live scanners or URL inputs.
+on:
+  push:
+    branches: ["arena/a450b00f-pokemon"]
+    paths: ["nask/lab/**", ".github/workflows/nask-offline-lab.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: Test Rust offline comparison
+        run: cargo test --manifest-path nask/lab/rust/Cargo.toml --offline
+      - name: Test offline lab
+        run: python3 -m unittest discover -s nask/lab/tests -v
+      - name: Run synthetic demonstration
+        run: python3 nask/lab/lab.py nask/lab/fixtures/demo.json
