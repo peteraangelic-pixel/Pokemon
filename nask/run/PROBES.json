@@ -1,5 +1,5 @@
 {
-  "run": "005",
+  "run": "006",
   "note": "Wave 2: SSRF w /_next/image, CORS, obejscie filtra download-file przez zakodowany schemat, odkrywanie API HIVE.",
   "probes": [
     {
@@ -118,63 +118,81 @@
     {
       "id": "cors-zglos",
       "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS: czy serwer odbija obcy Origin (placone, gdy pozwala czytac dane)",
       "snippet": true
     },
     {
       "id": "cors-dns",
       "url": "https://dns.pl/api/who-is-xml/",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na API rejestru domen",
       "snippet": true
     },
     {
       "id": "cors-sos",
       "url": "https://116sos.pl/api/announcements",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na API ogloszen",
       "snippet": true
     },
     {
       "id": "cors-hive",
       "url": "https://dataannotation.pllum.org.pl/api/v1",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na API HIVE",
       "snippet": true
     },
     {
       "id": "cors-pllum",
       "url": "https://pllum.org.pl/api/_content/query",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na API tresci PLLuM (Nuxt content)",
       "snippet": true
     },
     {
       "id": "cors-oad",
       "url": "https://oad.nask.pl/api/",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na API OAD",
       "snippet": true
     },
     {
       "id": "cors-sci",
       "url": "https://science.nask.pl/wp-json/",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na WordPress REST (sprawdzic takze, czy REST jest otwarty)",
       "snippet": true
     },
     {
       "id": "cors-dyz",
       "url": "https://dyzurnet.pl/api/",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na API dyzurnet",
       "snippet": true
     },
     {
       "id": "cors-bm",
       "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/2026/10/NASK_poradnik-IoT.pdf",
-      "headers": { "Origin": "https://evil.example" },
+      "headers": {
+        "Origin": "https://evil.example"
+      },
       "note": "CORS na endpointcie pobierania plikow",
       "snippet": false
     },

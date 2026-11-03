@@ -61,6 +61,85 @@ fn safe_snippet(bytes: &[u8], limit: usize) -> String {
     out
 }
 
+
+/// One request, fully measured. Reused for the original probe and for the single
+/// same-origin redirect hop.
+fn measure(
+    client: &reqwest::blocking::Client,
+    limiter: &crate::scope::Limiter,
+    url: &str,
+    sent_origin: &str,
+    baselines: &std::collections::HashMap<String, (u16, String)>,
+    want_snippet: bool,
+) -> Value {
+    limiter.acquire();
+    let t0 = Instant::now();
+    let mut req = client.get(url);
+    if !sent_origin.is_empty() {
+        req = req.header("Origin", sent_origin);
+    }
+    let resp = match req.send() {
+        Ok(r) => r,
+        Err(e) => {
+            return json!({"url": url, "status": null, "bytes": 0, "ms": t0.elapsed().as_millis() as u64,
+                          "error": e.to_string()})
+        }
+    };
+    let status = resp.status().as_u16();
+    let hdr = |n: &str| {
+        resp.headers().get(n).and_then(|v| v.to_str().ok()).unwrap_or("").to_string()
+    };
+    let ctype = hdr("content-type");
+    let disp = hdr("content-disposition");
+    let location = hdr("location");
+    let acao = hdr("access-control-allow-origin");
+    let acac = hdr("access-control-allow-credentials");
+    let body = resp.bytes().unwrap_or_default();
+    let digest = sha256_hex(&body);
+    let text = String::from_utf8_lossy(&body);
+    let mut hits: Vec<&'static str> = Vec::new();
+    for (name, re) in marker_table() {
+        if re.is_match(&text) {
+            hits.push(*name);
+        }
+    }
+    let meaningful: Vec<&str> = hits
+        .iter()
+        .copied()
+        .filter(|h| !(*h == "not_found_pl" || *h == "html_error_pre"))
+        .collect();
+    let host = crate::scope::split_url(url).map(|(h, _)| h).unwrap_or_default();
+    let (b_status, b_hash) = baselines.get(&host).cloned().unwrap_or((0, String::new()));
+    let same_as_baseline = status == b_status && digest == b_hash;
+    let cors_reflected = !sent_origin.is_empty() && acao == sent_origin;
+    let cors_wildcard_with_creds = acao == "*" && acac.eq_ignore_ascii_case("true");
+    let mut out = json!({
+        "url": url,
+        "status": status,
+        "content_type": ctype,
+        "content_disposition": disp,
+        "location": location,
+        "acao": acao,
+        "acac": acac,
+        "cors_reflected": cors_reflected,
+        "cors_wildcard_with_credentials": cors_wildcard_with_creds,
+        "bytes": body.len(),
+        "sha256": digest,
+        "ms": t0.elapsed().as_millis() as u64,
+        "markers": hits,
+        "baseline_status": b_status,
+        "same_as_baseline": same_as_baseline,
+        "interesting": !meaningful.is_empty()
+            || cors_reflected
+            || cors_wildcard_with_creds
+            || (!same_as_baseline && status < 400),
+    });
+    if want_snippet && meaningful.is_empty() {
+        out["snippet"] = json!(safe_snippet(&body, 400));
+    }
+    out
+}
+
 pub struct ProbeResult {
     pub value: Value,
 }
@@ -115,108 +194,60 @@ pub fn run_probes(
                     value: json!({"id": id, "url": url, "note": note, "error": e}),
                 };
             }
-            // Optional per-probe request headers. This is what makes a CORS test
-            // meaningful: the answer is only a finding if the server reflects the
-            // foreign Origin we sent, and allows credentials with it.
             let sent_origin = p
                 .get("headers")
                 .and_then(|h| h.get("Origin"))
                 .and_then(|v| v.as_str())
                 .unwrap_or("")
                 .to_string();
-            limiter.acquire();
-            let t0 = Instant::now();
-            let mut req = client.get(url);
-            if let Some(hs) = p.get("headers").and_then(|h| h.as_object()) {
-                for (k, v) in hs {
-                    if let Some(vs) = v.as_str() {
-                        req = req.header(k.as_str(), vs);
-                    }
-                }
-            }
-            let resp = req.send();
-            let elapsed = t0.elapsed().as_millis() as u64;
-            match resp {
-                Ok(r) => {
-                    let status = r.status().as_u16();
-                    let hdr = |n: &str| {
-                        r.headers()
-                            .get(n)
-                            .and_then(|v| v.to_str().ok())
-                            .unwrap_or("")
-                            .to_string()
+
+            let mut first = measure(client, limiter, url, &sent_origin, &baselines, want_snippet);
+
+            // Server frameworks commonly answer a canonical path with 308 to the
+            // trailing-slash form. Following it is useful, but only if it stays on
+            // the same host: a redirect is exactly how a request could leave the
+            // published scope, which is why the client itself never follows one.
+            let mut followed: Option<Value> = None;
+            let status = first.get("status").and_then(|v| v.as_u64()).unwrap_or(0);
+            let loc = first.get("location").and_then(|v| v.as_str()).unwrap_or("").to_string();
+            if (300..400).contains(&status) && !loc.is_empty() {
+                let (base_host, base_path) = crate::scope::split_url(url).unwrap_or_default();
+                let target = if loc.starts_with("https://") {
+                    Some(loc.clone())
+                } else if loc.starts_with('/') {
+                    Some(format!("https://{base_host}{loc}"))
+                } else if loc.starts_with("http://") {
+                    None // never downgrade
+                } else {
+                    // relative to the directory of the current path
+                    let dir = match base_path.rfind('/') {
+                        Some(i) => &base_path[..=i],
+                        None => "/",
                     };
-                    // Capture every header we care about BEFORE moving the
-                    // response into bytes(): a closure that borrows `r` cannot
-                    // outlive the move (E0505).
-                    let ctype = hdr("content-type");
-                    let disp = hdr("content-disposition");
-                    let location = hdr("location");
-                    let acao = hdr("access-control-allow-origin");
-                    let acac = hdr("access-control-allow-credentials");
-                    let body = r.bytes().unwrap_or_default();
-                    let digest = sha256_hex(&body);
-                    let text = String::from_utf8_lossy(&body);
-                    let mut hits: Vec<&str> = Vec::new();
-                    for (name, re) in marker_table() {
-                        if re.is_match(&text) {
-                            hits.push(*name);
-                        }
+                    Some(format!("https://{base_host}{dir}{loc}"))
+                };
+                if let Some(t) = target {
+                    if crate::scope::split_url(&t).is_ok() {
+                        let hop = measure(client, limiter, &t, &sent_origin, &baselines, want_snippet);
+                        followed = Some(hop);
                     }
-                    let (b_status, b_hash) = baselines
-                        .get(
-                            &crate::scope::split_url(url)
-                                .map(|(h, _)| h)
-                                .unwrap_or_default(),
-                        )
-                        .cloned()
-                        .unwrap_or((0, String::new()));
-                    let same_as_baseline = status == b_status && digest == b_hash;
-                    // A finding needs a marker that is not merely the catch-all
-                    // error page, or a response clearly different from it.
-                    let meaningful: Vec<&str> = hits
-                        .iter()
-                        .copied()
-                        .filter(|h| !(*h == "not_found_pl" || *h == "html_error_pre"))
-                        .collect();
-                    let cors_reflected = !sent_origin.is_empty() && acao == sent_origin;
-                    let cors_wildcard_with_creds = acao == "*" && acac.eq_ignore_ascii_case("true");
-                    let interesting = !meaningful.is_empty()
-                        || cors_reflected
-                        || cors_wildcard_with_creds
-                        || (!same_as_baseline && status < 400);
-                    let mut out = json!({
-                        "id": id, "url": url, "note": note,
-                        "sent_origin": sent_origin,
-                        "acao": acao,
-                        "acac": acac,
-                        "cors_reflected": cors_reflected,
-                        "cors_wildcard_with_credentials": cors_wildcard_with_creds,
-                        "status": status,
-                        "content_type": ctype,
-                        "content_disposition": disp,
-                        "location": location,
-                        "bytes": body.len(),
-                        "sha256": digest,
-                        "ms": elapsed,
-                        "markers": hits,
-                        "baseline_status": b_status,
-                        "same_as_baseline": same_as_baseline,
-                        "interesting": interesting,
-                    });
-                    // A snippet is only kept when no marker fired: a hit means the
-                    // body may contain sensitive material, which must not be
-                    // committed to a public repository.
-                    if want_snippet && meaningful.is_empty() {
-                        out["snippet"] = json!(safe_snippet(&body, 400));
-                    }
-                    ProbeResult { value: out }
                 }
-                Err(e) => ProbeResult {
-                    value: json!({"id": id, "url": url, "note": note,
-                                  "status": null, "error": e.to_string(), "ms": elapsed}),
-                },
             }
+
+            let mut out = first.take();
+            if let Some(o) = out.as_object_mut() {
+                o.insert("id".into(), json!(id));
+                o.insert("note".into(), json!(note));
+                o.insert("sent_origin".into(), json!(sent_origin));
+                if let Some(f) = followed {
+                    let hop_interesting = f.get("interesting").and_then(|v| v.as_bool()) == Some(true);
+                    o.insert("followed".into(), f);
+                    if hop_interesting {
+                        o.insert("interesting".into(), json!(true));
+                    }
+                }
+            }
+            ProbeResult { value: out }
         })
         .collect()
 }
