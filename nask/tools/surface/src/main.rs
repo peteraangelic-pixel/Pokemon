@@ -9,6 +9,7 @@
 //!   * no payloads, no state-changing requests, no authentication.
 
 mod analyze;
+mod probe;
 mod scope;
 
 use rayon::prelude::*;
@@ -18,7 +19,7 @@ use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::time::{Duration, Instant};
 
-const UA: &str = "nask-bugbounty-surface/0.1 (authorized research under hack.cert.pl terms; read-only GET)";
+pub const UA: &str = "nask-bugbounty-surface/0.1 (authorized research under hack.cert.pl terms; read-only GET)";
 const MAX_REQUESTS: usize = 700;
 
 /// Static, deliberately short list. Nothing here is a dictionary brute force;
@@ -355,6 +356,46 @@ fn cmd_run(out: &Path, rps: f64, per_host_assets: usize) -> Result<Value, String
     Ok(index)
 }
 
+fn cmd_probe(plan: &Path, out: &Path, rps: f64, snippets: bool) -> Result<Value, String> {
+    let raw = std::fs::read_to_string(plan).map_err(|e| format!("{}: {e}", plan.display()))?;
+    let plan_v: Value = serde_json::from_str(&raw).map_err(|e| e.to_string())?;
+    let probes: Vec<Value> = plan_v
+        .get("probes")
+        .and_then(|v| v.as_array())
+        .cloned()
+        .unwrap_or_default();
+    if probes.is_empty() {
+        return Err("plan has no probes".into());
+    }
+    if probes.len() > 200 {
+        return Err(format!("at most 200 probes per run, plan has {}", probes.len()));
+    }
+    let limiter = scope::Limiter::new(rps)?;
+    let client = probe::default_client()?;
+    let t0 = Instant::now();
+    let results = probe::run_probes(&client, &limiter, &probes, snippets);
+    let rows: Vec<Value> = results.into_iter().map(|r| r.value).collect();
+    let interesting = rows
+        .iter()
+        .filter(|r| r.get("interesting").and_then(|v| v.as_bool()) == Some(true))
+        .count();
+    let outv = json!({
+        "schema_version": 1,
+        "plan_run": plan_v.get("run").cloned().unwrap_or(Value::Null),
+        "probes": rows,
+        "count": rows.len(),
+        "interesting": interesting,
+        "wall_seconds": t0.elapsed().as_secs(),
+        "note": "interesting=true means a strong marker fired, or the answer differs from this host's catch-all baseline. Neither is a confirmed vulnerability: each needs a second, independent proof.",
+    });
+    if let Some(parent) = out.parent() {
+        std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+    }
+    std::fs::write(out, serde_json::to_string_pretty(&outv).map_err(|e| e.to_string())?)
+        .map_err(|e| e.to_string())?;
+    Ok(outv)
+}
+
 fn cmd_analyze(dir: &Path) -> Result<Value, String> {
     let idx_raw = std::fs::read_to_string(dir.join("index.json")).map_err(|e| e.to_string())?;
     let index: Value = serde_json::from_str(&idx_raw).map_err(|e| e.to_string())?;
@@ -415,6 +456,26 @@ fn main() {
                 );
             })
         }
+        "probe" => {
+            let plan = PathBuf::from(
+                flag("--plan").ok_or_else(|| "--plan FILE is required".to_string())?,
+            );
+            let out = PathBuf::from(flag("--out").unwrap_or_else(|| "nask/out/probe.json".into()));
+            let rps: f64 = flag("--rps").and_then(|v| v.parse().ok()).unwrap_or(3.0);
+            let snippets = args.iter().any(|a| a == "--snippets");
+            cmd_probe(&plan, &out, rps, snippets).map(|r| {
+                println!("probe: {} probes, {} interesting", r["count"], r["interesting"]);
+                if let Some(rows) = r["probes"].as_array() {
+                    for p in rows {
+                        let mark = if p["interesting"].as_bool() == Some(true) { ">>" } else { "  " };
+                        println!("{} {:<26} {:<5} {:>7}B  markers={}", mark,
+                            p["id"].as_str().unwrap_or("?"),
+                            p["status"].map(|s| s.to_string()).unwrap_or_else(|| "-".into()),
+                            p["bytes"].as_u64().unwrap_or(0), p["markers"]);
+                    }
+                }
+            })
+        }
         "analyze" => {
             let dir = PathBuf::from(flag("--dir").unwrap_or_else(|| "out".into()));
             cmd_analyze(&dir).map(|a| {
@@ -438,6 +499,7 @@ fn main() {
             println!("  surface scope                 list in-scope hosts and limits");
             println!("  surface selftest              verify guard, limiter and analyzer offline");
             println!("  surface run --out DIR [--rps 4] [--assets 40]");
+            println!("  surface probe --plan F --out F [--rps 3] [--snippets]");
             println!("  surface analyze --dir DIR     (re)analyze an existing DIR/index.json");
             Ok(())
         }

