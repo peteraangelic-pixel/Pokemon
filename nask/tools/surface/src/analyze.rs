@@ -39,8 +39,11 @@ fn re_attr() -> &'static Regex {
 fn re_route() -> &'static Regex {
     static R: OnceLock<Regex> = OnceLock::new();
     R.get_or_init(|| {
-        Regex::new(r#"["'`]((?:https?://[^"'`\s<>]{4,120})|/[\w\-.~%/]{1,300}(?:\?[^"'`\s<>]{0,120})?)["'`]"#)
-            .unwrap()
+        // Unbounded classes only: every bounded repetition ({n,m}) multiplies the
+        // determinised automaton, and the crate refuses anything above its size
+        // limit with CompiledTooBig. Length is bounded afterwards, in code.
+        Regex::new(r#"["'`]((?:https?://[^"'`\s<>]+)|/[\w\-.~%/]+(?:\?[^"'`\s<>]*)?)["'`]"#)
+            .expect("route regex")
     })
 }
 
@@ -127,7 +130,12 @@ pub fn analyze_one(path: &Path, content_type: &str) -> Value {
     }
 
     for c in re_route().captures_iter(&body) {
-        routes.push(c[1].to_string());
+        // The regex keeps unbounded classes for speed; the usable length is
+        // bounded here instead.
+        let s = c[1].trim();
+        if (2..=300).contains(&s.len()) && !s.starts_with("data:") {
+            routes.push(s.to_string());
+        }
     }
     for c in re_sourcemap().captures_iter(&body) {
         maps.push(c[1].to_string());
