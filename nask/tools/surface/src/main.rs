@@ -457,9 +457,13 @@ fn main() {
             })
         }
         "probe" => {
-            let plan = PathBuf::from(
-                flag("--plan").ok_or_else(|| "--plan FILE is required".to_string())?,
-            );
+            let plan = match flag("--plan") {
+                Some(p) => PathBuf::from(p),
+                None => {
+                    eprintln!("error: --plan FILE is required");
+                    std::process::exit(1);
+                }
+            };
             let out = PathBuf::from(flag("--out").unwrap_or_else(|| "nask/out/probe.json".into()));
             let rps: f64 = flag("--rps").and_then(|v| v.parse().ok()).unwrap_or(3.0);
             let snippets = args.iter().any(|a| a == "--snippets");

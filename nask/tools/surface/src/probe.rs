@@ -173,15 +173,14 @@ pub fn run_probes(
                         .copied()
                         .filter(|h| !(*h == "not_found_pl" || *h == "html_error_pre"))
                         .collect();
-                    let interesting = !meaningful.is_empty()
-                        || cors_reflected
-                        || cors_wildcard_with_creds
-                        || (!same_as_baseline && status < 400);
-
                     let acao = hdr("access-control-allow-origin");
                     let acac = hdr("access-control-allow-credentials");
                     let cors_reflected = !sent_origin.is_empty() && acao == sent_origin;
                     let cors_wildcard_with_creds = acao == "*" && acac.eq_ignore_ascii_case("true");
+                    let interesting = !meaningful.is_empty()
+                        || cors_reflected
+                        || cors_wildcard_with_creds
+                        || (!same_as_baseline && status < 400);
                     let mut out = json!({
                         "id": id, "url": url, "note": note,
                         "sent_origin": sent_origin,
