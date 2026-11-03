@@ -39,7 +39,12 @@ jobs:
           fi
           exit $code
       - name: Build
-        run: cargo build --release --manifest-path "$MANIFEST"
+        run: |
+          set +e
+          cargo build --release --manifest-path "$MANIFEST" > /tmp/build.log 2>&1
+          code=$?
+          if [ $code -ne 0 ]; then tail -c 8000 /tmp/build.log > nask/reports/last-build-output.txt; fi
+          exit $code
       - name: Offline selftest (guard, limiter, analyzer)
         run: ./"$BIN" selftest
       - name: Scope table

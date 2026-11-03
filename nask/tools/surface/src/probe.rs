@@ -154,7 +154,7 @@ pub fn run_probes(
                     let mut hits: Vec<&str> = Vec::new();
                     for (name, re) in marker_table() {
                         if re.is_match(&text) {
-                            hits.push(name);
+                            hits.push(*name);
                         }
                     }
                     let (b_status, b_hash) = baselines
