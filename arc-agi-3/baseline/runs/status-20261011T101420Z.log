@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "<string>", line 1, in <module>
-KeyError: 'id'
-A kernel must be specified
-make: *** [Makefile:64: status] Error 1

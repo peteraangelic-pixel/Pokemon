@@ -1,0 +1,72 @@
+{
+ "note": "Raw JSON logs for r085 (c45) and r121 (v13.7) are NOT recoverable: they existed only in /tmp and in a branch that no longer exists on origin (checked all 8 remote branches). Only aggregate figures survive and are recorded as constants below.",
+ "runs": {
+  "v3": {
+   "source": "peer-review/codex-v3-control-20261101/benchmark.json @ git history",
+   "games": [
+    {
+     "n": 7,
+     "k": 3,
+     "s": 21.3394532627866
+    },
+    {
+     "n": 6,
+     "k": 2,
+     "s": 14.285714285714285
+    },
+    {
+     "n": 6,
+     "k": 4,
+     "s": 47.61904761904761
+    },
+    {
+     "n": 6,
+     "k": 3,
+     "s": 23.65875499633545
+    },
+    {
+     "n": 7,
+     "k": 3,
+     "s": 16.54049743992188
+    },
+    {
+     "n": 6,
+     "k": 5,
+     "s": 71.42857142857143
+    },
+    {
+     "n": 8,
+     "k": 5,
+     "s": 41.66666666666667
+    },
+    {
+     "n": 7,
+     "k": 3,
+     "s": 14.38038343218624
+    },
+    {
+     "n": 9,
+     "k": 3,
+     "s": 13.333333333333334
+    },
+    {
+     "n": 7,
+     "k": 2,
+     "s": 10.714285714285714
+    }
+   ]
+  },
+  "r085": {
+   "source": "AGGREGATE ONLY - raw log lost",
+   "mean_score": 26.78,
+   "levels_per_game": 3.2,
+   "actions_per_game": 212.6
+  },
+  "r121": {
+   "source": "AGGREGATE ONLY - raw log lost",
+   "mean_score": 22.59,
+   "levels_per_game": 2.5,
+   "actions_per_game": 227.5
+  }
+ }
+}
