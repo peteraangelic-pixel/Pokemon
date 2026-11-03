@@ -146,8 +146,14 @@ pub fn run_probes(
                             .unwrap_or("")
                             .to_string()
                     };
+                    // Capture every header we care about BEFORE moving the
+                    // response into bytes(): a closure that borrows `r` cannot
+                    // outlive the move (E0505).
                     let ctype = hdr("content-type");
                     let disp = hdr("content-disposition");
+                    let location = hdr("location");
+                    let acao = hdr("access-control-allow-origin");
+                    let acac = hdr("access-control-allow-credentials");
                     let body = r.bytes().unwrap_or_default();
                     let digest = sha256_hex(&body);
                     let text = String::from_utf8_lossy(&body);
@@ -173,8 +179,6 @@ pub fn run_probes(
                         .copied()
                         .filter(|h| !(*h == "not_found_pl" || *h == "html_error_pre"))
                         .collect();
-                    let acao = hdr("access-control-allow-origin");
-                    let acac = hdr("access-control-allow-credentials");
                     let cors_reflected = !sent_origin.is_empty() && acao == sent_origin;
                     let cors_wildcard_with_creds = acao == "*" && acac.eq_ignore_ascii_case("true");
                     let interesting = !meaningful.is_empty()
@@ -191,7 +195,7 @@ pub fn run_probes(
                         "status": status,
                         "content_type": ctype,
                         "content_disposition": disp,
-                        "location": hdr("location"),
+                        "location": location,
                         "bytes": body.len(),
                         "sha256": digest,
                         "ms": elapsed,
