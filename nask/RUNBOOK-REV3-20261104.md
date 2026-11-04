@@ -11,8 +11,14 @@
 >   `https://app.powerbi.com/reportEmbed?reportId=470044cf-1a84-4ecb-87f1-7e914afdbb19&autoAuth=true&ctid=95dc45af-07b0-4179-a598-9740073a6e4a`.
 >   Agregaty → zamykamy. Rekordy/dane osobowe bez logowania → **klasa 3, Tier 1 (9 000/20 000 zł)**.
 >   `app.powerbi.com` **nie** testujemy automatem (Microsoft, poza §5).
-> * **NOWE L1b:** formularz `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` (pola `name`,
->   `description`, …) — ta sama klasa co sendForm, mniejsza konkurencja; wymaga GO.
+> * **NOWY krok `zglos-inicjatywe` (lead L14 w rejestrze):** formularz
+>   `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` (pola `name`, `description`, …) — ta sama
+>   klasa co sendForm, mniejsza konkurencja; wymaga GO.
+> * **KOREKTA #41 (godz. 11:40):** pełny test `POST /api/sendForm` jest **ODRADZANY** — udane
+>   żądanie tworzy prawdziwe zgłoszenie dezinformacji u operatora rządowego (skutek
+>   nieodwracalny, ta sama kategoria co L16). Najpierw **L1-A** (walidacja + egzekwowanie
+>   reCAPTCHA bez tworzenia rekordu, lead **L23**). I wprost: **stan wypłacalności = 0
+>   potwierdzonych podatności** — nie ma dziś czego zgłaszać na `hack.cert.pl`.
 > * **WYKLUCZONE DECYZJĄ WŁASNĄ (nigdy nie testujemy):** `116sos.pl/otrzymaj-pomoc/formularz` —
 >   formularz pomocowy telefonu zaufania; testowe zgłoszenie może uruchomić realną procedurę
 >   i zająć zasób potrzebujący. Regulamin tego nie zakazuje wprost — właśnie dlatego wykluczamy.
@@ -55,6 +61,33 @@ u operatora rządowego; reCAPTCHA v3 nie przechodzi automatem — `executeRecapt
 Kontrakt (z bundle'a, `7911f950` run003): `multipart/form-data`, pola `accept` (wymagane,
 niepuste), `email`, `file` (klient: `image/png`, `image/jpeg`, ≤ 20 MB), `reason` ≤ 250 znaków,
 `urls` (wymagane, **do 50 linków, po jednym w linii**), `g-recaptcha-response`.
+
+
+> **KOREKTA #41 (04.11 ~11:40) — ten krok jest ODRADZANY w formie pełnej.**
+> Pełny test = **wysłanie fałszywego zgłoszenia dezinformacji** do operatora rządowego:
+> udane żądanie tworzy realny rekord (do 50 URL-i, powód, załącznik), którego nie da się
+> cofnąć. To ta sama kategoria co L16 (formularz pomocy przy telefonie zaufania), którą
+> wykluczyliśmy decyzją własną, i to samo, co 17-IDEE-ZAROBEK ma na liście zakazanej.
+> Zanim cokolwiek tu wyślesz, wykonaj **L1-A** poniżej — daje część sygnału bez rekordu.
+
+### L1-A — wariant bez tworzenia rekordu (**ZALECANY, czeka na jawne GO**)
+
+`POST /api/sendForm` z ciałem multipart, w którym **brakuje pola wymaganego** (`accept`),
+`urls` jest puste, a `g-recaptcha-response` nie ma wcale. Poprawna aplikacja odrzuca to na
+walidacji/captchy, więc **rekord nie powstaje**.
+
+Co mierzy: czy walidacja jest serwerowa, czy tylko kliencka (200 przy brakującym `accept` =
+dowód, że serwer nie egzekwuje ani captchy, ani akceptacji regulaminu → klasa 7/13); czy
+reCAPTCHA v3 jest egzekwowana po stronie serwera; czy odpowiedź 4xx nie ujawnia stack trace
+(celowo sprawdzamy 4xx, nie 500 — korekta #29); czy odpowiedzi różnią się zależnie od
+brakującego pola.
+
+Czego **nie** da: klasy 5 (SSRF z odczytem), walidacji uploadu, stored XSS w panelu
+moderatora — te trzy wymagają realnego rekordu. Budżet: 1 próba + 2 kontrole, ≤4 żądania
+POST, 1,0 req/s; wynik (także negatywny) natychmiast do rejestru jako **L23**.
+
+### L1-B — wariant pełny (**ODRADZANY**; każda próba = jedno prawdziwe zgłoszenie)
+
 
 Kolejność prób (każda = jedno zgłoszenie testowe, własne dane, własny kontroler):
 
