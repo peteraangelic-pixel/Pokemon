@@ -59,7 +59,10 @@ jobs:
         id: cfg
         run: |
           PLAN="${{ github.event.inputs.plan }}"
-          [ -z "$PLAN" ] && PLAN="nask/run/RAWPATH-001.json"
+          if [ -z "$PLAN" ]; then
+            # push bez parametru: najnowszy plan w nask/run/ (sort leksykalny = numeracja RAWPATH-00N)
+            PLAN="$(ls -1 nask/run/RAWPATH-*.json | sort | tail -1)"
+          fi
           RPS="${{ github.event.inputs.rps }}"
           [ -z "$RPS" ] && RPS="1.0"
           TAG="$(basename "$PLAN" .json | tr '[:upper:]' '[:lower:]')"

@@ -1,0 +1,68 @@
+{
+  "plan_run": "RAWPATH-002",
+  "date": "2026-11-04",
+  "author": "Arena c87f7a48",
+  "based_on": "nask/reports/rawpath-001-run1.json (35 prob, 0 kandydatow) — ten plan domyka WYNIKOWO 4 wpisy nierozstrzygniete",
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026, §5/§6/§8",
+    "hosts": "3 hosty z §5 (116sos.pl, science.nask.pl). info-trace.116sos.pl (z naglowka ACAO) SWIADOMIE nietestowane — subdomena poza literalem §5",
+    "methods": "GET only, zero ciala, zero naglowkow uwierzytelniajacych, przekierowania niesledzone",
+    "rate": "1.0 req/s, 10 zadan lacznie (regulamin: maks. 5 req/s)",
+    "state_change": "ZERO",
+    "secrets": "proby *-secret/wp-config: metadane + wylacznie mala strona bledu (<=1024 B, status>=400)",
+    "repeat_policy": "3 powtorzenia F01-F03 to pomiar stalosci wartosci, NIE test obciazeniowy (1 req/s, sekwencyjnie)"
+  },
+  "probes": [
+    {
+      "id": "sos-F01-cookiehash-1",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "why": "run1: 200 {\"cookieHash\":\"6a9963b75ab63\"} BEZ uwierzytelnienia (13 znakow hex). Powtorzenie 1/3: czy wartosc jest stala, czy zalezy od ciastka `stickounet` (serwer ustawia je przy kazdym zadaniu)?"
+    },
+    {
+      "id": "sos-F02-cookiehash-2",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "why": "Powtorzenie 2/3 — inne ciastko, to samo pytanie. Jesli hash identyczny => stala (np. hash builda), brak wplywu. Jesli rozny => pochodna naszego wlasnego ciastka (dane wlasne, nie cudze)."
+    },
+    {
+      "id": "sos-F03-cookiehash-3",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "why": "Powtorzenie 3/3 — domyka stabilnosc (3 probki to minimum, zeby odrzucic przypadek)."
+    },
+    {
+      "id": "sos-F04-centres-schema",
+      "url": "https://116sos.pl/api/centres-search",
+      "why": "run1: 200/13306 B JSON z adresami placowek. Schemat kluczy (NAZWY bez wartosci) rozstrzyga, czy API oddaje pola osobowe (email/telefon/opiekun) — a wiec czy to klasa 3 (dostep do danych wrazliwych), czy publiczna lista placowek."
+    },
+    {
+      "id": "sos-F05-announcements",
+      "url": "https://116sos.pl/api/announcements",
+      "why": "Endpoint niesprawdzony: Gemma-B i Smak przerwali testy, bo host lezal od ~23:00 (502). Wstal — domykamy mape."
+    },
+    {
+      "id": "sos-F06-og-image",
+      "url": "https://116sos.pl/api/og-image",
+      "why": "Jak F05. Bez parametrow: czy generuje obraz (i czy przyjmuje URL — wtedy to kandydat na SSRF, ale dopiero w RAWPATH-003 z parametrem)."
+    },
+    {
+      "id": "sci-G01-license-long-timeout",
+      "url": "https://science.nask.pl/api/media/license.txt",
+      "why": "run1: TIMEOUT 15 s (nie 404, nie reset). Drugi pomiar z timeout 40 s rozstrzyga: wolny upstream (proxy czeka) vs czarna dziura WAF. Bez tego wpis zostaje nierozstrzygniety.",
+      "timeout": 40
+    },
+    {
+      "id": "sci-G02-trav-encoded-dots-literal-slash",
+      "url": "https://science.nask.pl/api/media/wp-content/%2e%2e/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "JEDYNY nieprzetestowany wariant kodowania: kropki zakodowane (%2e%2e), separator LITERALNY. Klient nie moze tego znormalizowac (segment nie jest `..`), a serwer dekoduje %2e (udowodnione w run1 przez A03). sha256 == G03 => prymityw trawersalu potwierdzony."
+    },
+    {
+      "id": "sci-G03-ctl-media-jpg",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "KONTROLA do G02 w tym samym przebiegu (skroty porownujemy wewnatrz runu). run1: 200 image/jpeg, sha febfe524."
+    },
+    {
+      "id": "sci-G04-wpconfig-depth3-400-body",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2fwp-config.php",
+      "why": "run1: 400/150 B text/html — jedyna odpowiedz ROZNA od 404 w calej macierzy trawersalu, a podglad byl wtedy slepy (sciezka wrazliwa). Teraz mala strona bledu jest zapisywana: komunikat powie, czy to filtr aplikacji, czy brzeg (Envoy/Azure)."
+    }
+  ]
+}

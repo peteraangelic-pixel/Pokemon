@@ -83,8 +83,12 @@ _MARKER_SRC: dict[str, tuple[str, int]] = {
                    r"coś poszło nie tak|cos poszlo nie tak|404 - Strona|page not found|not found)", re.I),
     "HTML_DOC": (r"<!doctype html|<html", re.I),
     "SPA_SHELL": (r"<div id=[\"']?(root|app|__next)[\"']?", re.I),
-    "WAF_BLOCK": (r"(access denied|request blocked|reference\s*#|azure front door|"
-                  r"cloudflare|incident id|nr zdarzenia)", re.I),
+    # informacyjny: sama nazwa dostawcy NIE oznacza blokady (strona glowna
+    # dyzurnet.pl zawiera "cloudflare" w ciele — patrz KOREKTA #28)
+    "WAF_VENDOR": (r"(azure front door|cloudflare|envoy)", re.I),
+    # silny: jednoznaczny komunikat odmowy/block page
+    "WAF_BLOCK": (r"(access denied|request blocked|reference\s*#\s*[0-9a-f]|"
+                  r"incident id|nr zdarzenia|attention required|blocked by)", re.I),
     "ENV_ASSIGNMENTS": (r"^[A-Za-z_][A-Za-z0-9_]*\s*=\s*\S+", re.M),
     "SECRET_KEYS": (r"(DB_PASSWORD|DB_USER|SECRET_KEY|API_KEY|APP_KEY|PRIVATE_KEY|"
                     r"ACCESS_TOKEN|AWS_SECRET|PASSWORD\s*=)", re.I),
@@ -191,6 +195,26 @@ def _sanitize_preview(body: bytes, limit: int = 200) -> str:
     return "".join(out)
 
 
+def decide_preview(status: int | None, body: bytes, probe_id: str, raw_path: str,
+                   secret_marker_hits: int, limit: int = 200) -> str | None:
+    """Czy zapisac podglad ciala do raportu.
+
+    Trzy zasady (kolejnosc ma znaczenie):
+      1. mala strona BLEDU (status >= 400, <= 1024 B) jest zapisywana zawsze —
+         nie moze byc plikiem wrazliwym, a rozstrzyga np. komunikat proxy przy
+         trawersalu (run 1: `sci-A12` 400/150 B bez podgladu = slepy wpis);
+      2. sciezka/id pasujace do wzorca wrazliwego LUB trafione znaczniki sekretu
+         -> brak podgladu, zostaja metadane (status/typ/rozmiar/sha256/licznik);
+      3. w pozostalych przypadkach podglad z sanityzacja znakow niedrukowalnych.
+    """
+    if status is not None and status >= 400 and len(body) <= 1024:
+        return _sanitize_preview(body, limit)
+    sensitive = bool(SENSITIVE_ID_RE.search(probe_id or "")) or bool(SENSITIVE_ID_RE.search(raw_path or ""))
+    if sensitive or secret_marker_hits:
+        return None
+    return _sanitize_preview(body, limit)
+
+
 def _markers(body: bytes) -> dict[str, int]:
     found = {}
     for name, rx in MARKERS.items():
@@ -216,6 +240,7 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
         "headers": {},
         "set_cookie_names": [],
         "markers": {},
+        "json_keys": {},
         "secret_marker_hits": 0,
         "preview": None,
         "error": None,
@@ -256,12 +281,11 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
         rec["bytes_read"] = len(body)
         rec["sha256"] = hashlib.sha256(body).hexdigest() if body else None
         rec["markers"] = _markers(body)
-        sensitive = bool(SENSITIVE_ID_RE.search(probe_id or "")) or bool(SENSITIVE_ID_RE.search(raw_path))
         rec["secret_marker_hits"] = sum(rec["markers"].get(m, 0) for m in SECRET_MARKER_NAMES)
-        if not sensitive and rec["secret_marker_hits"] == 0:
-            rec["preview"] = _sanitize_preview(body)
-        elif sensitive or rec["secret_marker_hits"]:
-            rec["preview"] = None  # tresc potencjalnie wrazliwa: tylko metadane
+        rec["preview"] = decide_preview(rec["status"], body, probe_id, raw_path,
+                                        rec["secret_marker_hits"])
+        if rec.get("content_type") == "application/json":
+            rec["json_keys"] = json_key_schema(body)
     except (socket.timeout, TimeoutError) as exc:
         rec["error"] = f"timeout: {exc.__class__.__name__}"
     except ssl.SSLError as exc:
@@ -276,6 +300,36 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
             pass
     rec["verdict"] = classify(rec)
     return rec
+
+
+def json_key_schema(body: bytes, max_depth: int = 3, max_keys: int = 80) -> dict:
+    """Nazwy kluczy odpowiedzi JSON bez WARTOSCI (prywatnosc: oceniamy, czy struktura
+    zawiera pola osobowe, nie kopiujemy danych do repo)."""
+    try:
+        data = json.loads(body.decode("utf-8", "replace"))
+    except Exception:  # noqa: BLE001 - nie-JSON lub uciety odczyt
+        return {}
+    keys: dict[str, int] = {}
+
+    def walk(node, prefix: str, depth: int) -> None:
+        if depth > max_depth or len(keys) > max_keys:
+            return
+        if isinstance(node, dict):
+            for k, v in node.items():
+                path = f"{prefix}.{k}" if prefix else str(k)
+                keys[path] = keys.get(path, 0) + 1
+                walk(v, path, depth + 1)
+        elif isinstance(node, list):
+            for item in node[:5]:  # probka 5 elementow wystarczy do schematu
+                walk(item, prefix + "[]", depth + 1)
+
+    walk(data, "", 0)   # depth 0 = korzen; max_depth liczy poziomy ponizej
+    personal = sorted({k for k in keys if re.search(
+        r"(email|mail|phone|tel|pesel|nip|name|nazwa|surname|address|adres|birth|urodz|"
+        r"(?:^|[._])id(?:$|[._])|user|klient|client|account|konto|login|ip|coord|gps|"
+        r"lat|lon|note|notatka|comment|komentarz|description|opis)$", k.split("[")[-1], re.I)})
+    return {"keys": sorted(keys)[:max_keys], "key_count": len(keys),
+            "personal_like": personal[:25]}
 
 
 def classify(rec: dict) -> str:
@@ -301,10 +355,12 @@ def classify(rec: dict) -> str:
     if status >= 500:
         return "server-error"
     if status == 200:
-        if markers.get("WAF_BLOCK"):
-            return "blocked-waf-200"
+        # KOLEJNOSC MA ZNACZENIE: strona "nie znaleziono" z kodem 200 jest
+        # soft-404 nawet wtedy, gdy w ciele pada nazwa dostawcy WAF.
         if markers.get("SOFT404_PL") and "html" in ctype:
             return "soft-404-html"
+        if markers.get("WAF_BLOCK"):
+            return "blocked-waf-200"
         if rec.get("secret_marker_hits"):
             return "CANDIDATE-SECRET-FILE"
         if ctype in ("application/zip", "application/x-zip-compressed") or markers.get("ZIP_MAGIC"):
@@ -371,7 +427,7 @@ def load_plan(path: str | Path) -> list[dict]:
             raise ValueError(f"proba bez 'url': {item!r}")
         check_scope(item["url"])  # walidacja PRZED jakimkolwiek zadaniem
         out.append({"id": item.get("id") or item["url"], "url": item["url"],
-                    "why": item.get("why", "")})
+                    "why": item.get("why", ""), "timeout": item.get("timeout")})
     return out
 
 
@@ -388,7 +444,8 @@ def run_plan(plan: list[dict], rps: float = DEFAULT_RPS, timeout: float = DEFAUL
                         "why": p["why"]} for p in plan],
         }
     for item in plan:
-        rec = probe(item["url"], limiter, timeout=timeout, probe_id=item["id"])
+        rec = probe(item["url"], limiter, timeout=float(item.get("timeout") or timeout),
+                    probe_id=item["id"])
         rec["why"] = item.get("why", "")
         records.append(rec)
     summary = summarize(records)
@@ -495,7 +552,7 @@ def selftest() -> int:
         pass
 
     status_word = "OK" if not fails else "FAIL"
-    print(f"selftest: {status_word} (7 grup, {len(fails)} bledow)")
+    print(f"selftest: {status_word} (10 grup, {len(fails)} bledow)")
     for f in fails:
         print("  -", f)
     return 1 if fails else 0

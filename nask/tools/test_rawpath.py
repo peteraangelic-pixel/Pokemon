@@ -250,5 +250,131 @@ class TestMarkersOnRealBytes(unittest.TestCase):
         self.assertIn("APACHE_STATUS", rawpath._markers(b"<title>Apache Server Status</title>"))
 
 
+class TestRegressionFromRun1(unittest.TestCase):
+    """Odtworzone DOKLADNE przypadki z `nask/reports/rawpath-001-run1.json`.
+
+    Zasada przyjeca od Gemmy-A (ich 52 falszywe trafienia): kazdy blad pomiaru
+    dostaje test regresyjny, zeby nie wrocil w nastepnym przebiegu.
+    """
+
+    def test_dns_env_is_homepage_not_secret_file(self):
+        # run1: dns-B01 200/51213 B text/html — run007 (7911) mial to jako "interesting"
+        rec = {"status": 200, "content_type": "text/html", "bytes_read": 51213,
+               "markers": {"HTML_DOC": 2, "SPA_SHELL": 1}, "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "html-page")
+
+    def test_dyżurnet_homepage_is_not_waf_block(self):
+        # KOREKTA #28: "cloudflare" w ciele strony glownej nie jest blokada
+        rec = {"status": 200, "content_type": "text/html", "bytes_read": 65536,
+               "markers": {"HTML_DOC": 2, "WAF_VENDOR": 1}, "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "html-page")
+
+    def test_dyżurnet_soft404_beats_vendor_word(self):
+        rec = {"status": 200, "content_type": "text/html", "bytes_read": 58279,
+               "markers": {"SOFT404_PL": 8, "HTML_DOC": 2, "WAF_VENDOR": 1},
+               "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "soft-404-html")
+
+    def test_zglos_soft404(self):
+        rec = {"status": 200, "content_type": "text/html", "bytes_read": 30260,
+               "markers": {"SOFT404_PL": 4, "HTML_DOC": 2}, "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "soft-404-html")
+
+    def test_real_block_page_still_detected(self):
+        rec = {"status": 200, "content_type": "text/html", "bytes_read": 1484,
+               "markers": {"WAF_BLOCK": 1, "HTML_DOC": 1}, "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "blocked-waf-200")
+        rec403 = dict(rec, status=403)
+        self.assertEqual(classify(rec403), "blocked-waf-or-auth")
+
+    def test_hive_shell_and_control_share_hash(self):
+        # run1: /.env i / daly IDENTYCZNY sha256 (908ce0b4) = catch-all, nie plik
+        shell = {"status": 200, "content_type": "text/html", "bytes_read": 713,
+                 "markers": {"HTML_DOC": 2, "SPA_SHELL": 1}, "secret_marker_hits": 0}
+        self.assertEqual(classify(shell), "spa-catch-all-shell")
+        ev = cross_hash_evidence([
+            {"id": "hive-B09", "raw_path": "/.env", "sha256": "9" * 64, "bytes_read": 713},
+            {"id": "hive-B10", "raw_path": "/", "sha256": "9" * 64, "bytes_read": 713},
+        ])
+        self.assertEqual(len(ev), 1)
+
+    def test_pdf_control_is_media(self):
+        rec = {"status": 200, "content_type": "application/pdf", "bytes_read": 65536,
+               "markers": {"PDF_MAGIC": 1, "JSON_BODY": 1}, "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "media-file")
+
+    def test_hive_405_route_exists(self):
+        rec = {"status": 405, "content_type": "application/json", "bytes_read": 31,
+               "markers": {"JSON_BODY": 1}, "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "method-not-allowed-route-exists")
+
+    def test_timeout_is_transport_error_not_clean(self):
+        # run1: sci-A07 i sci-A15 = timeout 15 s. Brak odpowiedzi NIGDY nie jest "czysto"
+        rec = {"status": None, "content_type": None, "bytes_read": 0, "markers": {},
+               "secret_marker_hits": 0, "error": "timeout: TimeoutError"}
+        self.assertEqual(classify(rec), "transport-error")
+
+
+class TestDecidePreview(unittest.TestCase):
+    def test_small_error_page_always_recorded(self):
+        out = rawpath.decide_preview(400, b"<html><body>Bad Request</body></html>",
+                                     "sci-A12-wpconfig-depth3-secret",
+                                     "/api/media/%2e%2e%2fwp-config.php", 0)
+        self.assertIsNotNone(out)
+        self.assertIn("Bad Request", out)
+
+    def test_sensitive_body_never_recorded(self):
+        out = rawpath.decide_preview(200, b"<?php define('DB_PASSWORD','sekret');",
+                                     "sci-A09-wpconfig-depth0-secret",
+                                     "/api/media/wp-config.php", 3)
+        self.assertIsNone(out)
+
+    def test_secret_marker_blocks_preview_even_for_innocent_id(self):
+        out = rawpath.decide_preview(200, b"DB_PASSWORD=x\nAPI_KEY=y\n", "dns-B01", "/.env", 2)
+        self.assertIsNone(out)
+
+    def test_ordinary_html_preview_ok(self):
+        out = rawpath.decide_preview(200, b"<!doctype html><html>strona</html>",
+                                     "dns-B05-home-ctl", "/", 0)
+        self.assertIn("doctype", out)
+
+    def test_large_error_body_not_previewed_if_sensitive(self):
+        out = rawpath.decide_preview(500, b"x" * 5000, "probe-credentials", "/creds", 0)
+        self.assertIsNone(out)
+
+
+class TestJsonKeySchema(unittest.TestCase):
+    def test_names_without_values(self):
+        body = json.dumps({"centres": [{"address": {"city": "Slawno", "street": "Gdanska"},
+                                        "email": "a@b.c", "phone": "123"}]}).encode()
+        schema = rawpath.json_key_schema(body)
+        self.assertIn("centres[].address.city", schema["keys"])
+        self.assertIn("centres[].email", schema["keys"])
+        blob = json.dumps(schema, ensure_ascii=False)
+        for value in ("Slawno", "Gdanska", "a@b.c", "123"):
+            self.assertNotIn(value, blob, f"WARTOSC {value} wyciekla do schematu")
+
+    def test_personal_like_flagged(self):
+        body = json.dumps({"user": {"email": "x", "phone": "y", "nickname": "z"}}).encode()
+        schema = rawpath.json_key_schema(body)
+        joined = " ".join(schema["personal_like"])
+        self.assertIn("email", joined)
+        self.assertIn("phone", joined)
+
+    def test_truncated_json_is_safe(self):
+        self.assertEqual(rawpath.json_key_schema(b'{"centres":[{"a"'), {})
+
+    def test_non_json_is_safe(self):
+        self.assertEqual(rawpath.json_key_schema(b"<!doctype html><html>"), {})
+
+    def test_depth_and_key_caps(self):
+        deep = {"a": {"b": {"c": {"d": {"e": 1}}}}}
+        schema = rawpath.json_key_schema(json.dumps(deep).encode(), max_depth=2)
+        self.assertTrue(all(k.count(".") <= 2 for k in schema["keys"]), schema["keys"])
+        wide = {f"k{i}": i for i in range(500)}
+        schema2 = rawpath.json_key_schema(json.dumps(wide).encode(), max_keys=10)
+        self.assertLessEqual(len(schema2["keys"]), 11)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
