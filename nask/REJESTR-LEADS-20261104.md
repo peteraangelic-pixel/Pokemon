@@ -62,7 +62,7 @@ ta sama przyczyna na dwóch hostach = **jedna** nagroda · duplikat = zero · wy
 Źródła: `PRZEGLAD-GALEZI-20261104.md` (przegląd + dowody), `RUNBOOK-REV2-20261104.md` (nowa
 kolejność), `reports/rawpath-00{1,2,3}-run*.json` (rekordy wszystkich żądań).
 
-## Log żądań 04.11 (łącznie 52 do celów + 5 przez `fetch_page` + 2 `curl` zablokowane w sandboxie)
+## Log żądań 04.11 (łącznie 59 do celów w 4 przebiegach + 5 przez `fetch_page` + 2 `curl` zablokowane w sandboxie)
 
 | kanał | przebieg | żądania | tempo | hosty | wynik |
 |---|---|---:|---|---|---|
@@ -71,6 +71,7 @@ kolejność), `reports/rawpath-00{1,2,3}-run*.json` (rekordy wszystkich żądań
 | Actions `41814163117` | RAWPATH-001 | 35 | 1,0 req/s (min. odstęp 1,000 s), 70,13 s | science, dns, dyzurnet, zglos, dataannotation, bezpiecznymiesiac, 116sos | **0 kandydatów**; 3 grupy identycznych ciał (dowody) |
 | Actions `41814928560` | RAWPATH-002 | 10 | 1,0 req/s, 10,94 s | 116sos, science | **0 kandydatów**; `cookieHash` stały; `license.txt` = 404 (timeout z run1 przejściowy); 400 = **nginx** |
 | Actions (run 3) | RAWPATH-003 | 7 | 1,0 req/s, 7,28 s | science | `%252e%252e` → **404** (aplikacja nie dekoduje 2×); ucieczki → `RemoteDisconnected`; H06 → 404 aplikacji |
+| Actions `41816135053` (run 4) | RAWPATH-003 — **reprodukcja** | 7 | 1,0 req/s, 6,55 s | science | **identyczne statusy/rozmiary/sha256 w 7/7**; jedyna różnica = etykieta `/robots.txt` po korekcie #30. Wynik negatywny odtwarzalny |
 
 **Zero POST/PUT/DELETE · zero hostów spoza §5 · zero zmian stanu · zero użycia znalezionych
 poświadczeń · zero zgłoszeń (nic nie spełnia progu PoC) · Władysławowo i inne programy nietknięte.**

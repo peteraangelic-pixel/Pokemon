@@ -281,6 +281,13 @@ teoretyczny, wykluczony §8 (i odrzucalny).
 Przy okazji: `Disallow: /node_modules/` w robots.txt to wskazówka konfiguracyjna, nie znalezisko —
 listing katalogów bez danych wrażliwych jest wprost wykluczony.
 
+**Reprodukcja 1:1 (run 4, `rawpath-003-run4.json`, 6,55 s):** te same 7 prób powtórzone drugim
+przebiegiem dały **identyczne statusy, rozmiary i sha256 w 7/7 przypadkach**; jedyna różnica to
+etykieta `/robots.txt` (`CANDIDATE-PLAINTEXT-FILE` → `public-root-file`), czyli skutek mojej
+korekty #30 — a nie zmiany po stronie celu. Wszystkie trzy próby ucieczki znów = zerwanie
+połączenia, `H03` znów = 404, **0 kandydatów**. Wynik negatywny jest więc odtwarzalny, nie
+jednorazowy — i to jest warunek, żeby w ogóle wpisać „zamknięte" do rejestru.
+
 ### 6.5 Korekty własne #28 i #30 (moje błędy, znalezione na moich danych)
 
 * **#28** — klasyfikator oznaczał stronę główną `dyzurnet.pl` i jej soft-404 jako `blocked-waf-200`,
@@ -352,8 +359,10 @@ w wyszukiwarkach, takeover bez PoC, DoS/obciążenie (dyskwalifikacja), hosty sp
   min. odstęp 1,000 s, 10,94 s, hosty: `116sos.pl`, `science.nask.pl`.
 * Actions run3 (raport `rawpath-003-run3.json`): **7 żądań GET**, 1,0 req/s, min. odstęp 1,000 s,
   7,28 s, host: `science.nask.pl`.
-* **Razem mój ruch 04.11: 52 żądania GET do celów + 5 przez `fetch_page` + 2 próby `curl`
-  zablokowane w sandboxie.** Zero POST/PUT/DELETE. Zero hostów spoza §5. Zero prób obejścia limitu
+* Actions run4 (`41816135053`, raport `rawpath-003-run4.json`): **7 żądań GET** — reprodukcja
+  RAWPATH-003 po poprawce klasyfikatora; 1,0 req/s, 6,55 s, host: `science.nask.pl`.
+* **Razem mój ruch 04.11: 59 żądań GET do celów w 4 przebiegach + 5 przez `fetch_page` + 2 próby
+  `curl` zablokowane w sandboxie.** Zero POST/PUT/DELETE. Zero hostów spoza §5. Zero prób obejścia limitu
   (najmniejszy zmierzony odstęp 1,000 s przy sufcie regulaminowym 0,2 s). Zero użycia znalezionych
   poświadczeń. Zero zgłoszeń (nic nie spełnia progu PoC). Władysławowo nietknięte. Każde żądanie
   ma rekord w `nask/reports/` (status, typ, rozmiar, sha256, czas, błąd) — także błędy transportu.
