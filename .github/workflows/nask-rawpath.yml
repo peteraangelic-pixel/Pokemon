@@ -109,6 +109,14 @@ jobs:
           echo "probe rc=$rc" | tee -a "$RUNNER_TEMP/logs/20-probe.log"
           exit $rc
 
+      - name: Commit raportu przebiegu (od razu — nie czekamy do konca joba)
+        if: always()
+        continue-on-error: true
+        run: |
+          bash nask/tools/ci_commit.sh \
+            "nask-rawpath: raport ${{ steps.cfg.outputs.tag }} (run ${{ github.run_number }}) [skip ci]" \
+            "${{ steps.cfg.outputs.out }}" 2>&1 | tee "$RUNNER_TEMP/logs/25-commit-probe.log"
+
       - name: Mining offline (bundle_scan) — tylko jesli pobrano JS
         id: mine
         continue-on-error: true
@@ -146,6 +154,14 @@ jobs:
           fi
           set -e
           exit $rc
+
+      - name: Commit analizy miningu (od razu)
+        if: always()
+        continue-on-error: true
+        run: |
+          bash nask/tools/ci_commit.sh \
+            "nask-rawpath: mining bundli ${{ steps.cfg.outputs.tag }} (run ${{ github.run_number }}) [skip ci]" \
+            "${{ steps.cfg.outputs.mine }}" 2>&1 | tee "$RUNNER_TEMP/logs/35-commit-mine.log"
 
       - name: Audyt zgodnosci przebiegu
         id: audit
@@ -206,15 +222,9 @@ jobs:
             echo "plan: ${{ steps.cfg.outputs.plan }}"
             echo "kody krokow: probe=${{ steps.probe.outcome }} mine=${{ steps.mine.outcome }} audit=${{ steps.audit.outcome }}"
           } > "$LOGDIR/00-summary.txt" 2>/dev/null || true
-          # zadnego ciala odpowiedzi w repo — tylko raporty i ogony logow
-          git status --porcelain | grep -vE '^\?\? nask/reports/' || true
-          git config user.name "arena-nask-bot"
-          git config user.email "arena-nask-bot@users.noreply.github.com"
-          git add nask/reports
-          if git diff --cached --quiet; then
-            echo "brak nowych raportow do commitu"
-          else
-            git commit -m "nask-rawpath: raporty ${{ steps.cfg.outputs.tag }} (run ${{ github.run_number }}) [skip ci]"
-            git pull --rebase origin arena/c87f7a48-pokemon
-            git push origin HEAD:arena/c87f7a48-pokemon
-          fi
+          # zadnego ciala odpowiedzi w repo — tylko raporty i ogony logow (guard jest
+          # w ci_commit.sh: odmawia commitu czegokolwiek poza nask/reports/)
+          git status --porcelain || true
+          bash nask/tools/ci_commit.sh \
+            "nask-rawpath: diagnostyka + ogony logow (run ${{ github.run_number }}) [skip ci]" \
+            "$LOGDIR"
