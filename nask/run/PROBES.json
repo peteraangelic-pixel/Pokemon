@@ -1,109 +1,113 @@
 {
-  "run": "009",
-  "note": "Wave 5: API CMS (Wagtail/Django /api/v2/) na 7 hostach + refleksje XSS z unikalnym markerem zzqx9. GET, read-only. Baseline jest teraz normalizowany (cyfry -> #), bo dns.pl dokleja do kazdej odpowiedzi unikalny _event_transid i bez tego wszystko wygladalo na 'interesujace'.",
-  "matrix": {
-    "hosts": [
-      "dyzurnet.pl",
-      "science.nask.pl",
-      "bezpiecznymiesiac.pl",
-      "oad.nask.pl",
-      "zglos-dezinformacje.nask.pl",
-      "116sos.pl",
-      "dns.pl"
-    ],
-    "paths": [
-      { "path": "/api/v2/", "note": "korzen Wagtail API - listing endpointow" },
-      { "path": "/api/v2/pages/", "note": "Wagtail: wszystkie strony, takze nieopublikowane przy braku filtrowania" },
-      { "path": "/api/v2/documents/", "note": "Wagtail: dokumenty, czesto niepubliczne PDF-y" },
-      { "path": "/api/v2/images/", "note": "Wagtail: obrazy" },
-      { "path": "/admin/", "note": "identyfikacja CMS: 200 = panel logowania" },
-      { "path": "/search/?q=test", "note": "Wagtail: wyszukiwarka - czy indeksuje tresci niepubliczne" }
-    ]
-  },
+  "run": "010",
+  "note": "Wave 6: specyfika CMS per host. Drupal (dns.pl) ?_format=json i rejestracja; WordPress (science, 116sos) obejscie blokady /wp-json przez ?rest_route; Nuxt (pllum) _draft; Next.js pages-router /_next/data/<buildId>/. GET, read-only, bez zakladania kont.",
   "probes": [
     {
-      "id": "xss-dns-q",
-      "url": "https://dns.pl/search-results?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "dns.pl (Drupal): czy parametr q trafia do HTML bez escapowania. Refleksja sama w sobie nie jest luka - oceniam okno wokol markera",
+      "id": "dns-user-login",
+      "url": "https://dns.pl/user/login",
+      "note": "Drupal: czy panel logowania jest wystawiony (200 = tak; sam fakt nie jest luka, ale mowi o powierzchni)",
       "snippet": true
     },
     {
-      "id": "xss-dns-keys",
-      "url": "https://dns.pl/search-results?keys=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "dns.pl: parametr keys (domyslny w Drupal search)",
+      "id": "dns-user-register",
+      "url": "https://dns.pl/user/register",
+      "note": "Drupal: czy rejestracja jest otwarta. Regulamin pozwala na WLASNE konta, wiec to warunek wstepny do pracy zalogowanej",
       "snippet": true
     },
     {
-      "id": "xss-dns-search",
-      "url": "https://dns.pl/search-results?search=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "dns.pl: parametr search",
+      "id": "dns-user-password",
+      "url": "https://dns.pl/user/password",
+      "note": "Drupal: reset hasla - sprawdzic, czy formularz zdradza istnienie konta (user enumeration jest WYLACZONY, wiec tylko orientacyjnie)"
+    },
+    {
+      "id": "dns-node-1-json",
+      "url": "https://dns.pl/node/1?_format=json",
+      "note": "Drupal: eksport wezla do JSON. Jesli modul serialization jest wlaczony i uprawnienia zbyt szerokie, ujawnia pola niewidoczne na stronie"
+    },
+    {
+      "id": "dns-node-1-hal",
+      "url": "https://dns.pl/node/1?_format=hal_json",
+      "note": "Drupal: wariant HAL JSON tego samego wezla"
+    },
+    {
+      "id": "dns-install-php",
+      "url": "https://dns.pl/core/install.php",
+      "note": "Drupal: instalator. Dostepny = powazny problem; zwykle 403/404 po instalacji"
+    },
+    {
+      "id": "dns-jsonapi-node",
+      "url": "https://dns.pl/jsonapi/node/page",
+      "note": "Drupal: JSON:API (korzen /jsonapi dal 404, sprawdzam zasob bezposrednio)"
+    },
+    {
+      "id": "sci-rest-route-posts",
+      "url": "https://science.nask.pl/?rest_route=/wp/v2/posts&per_page=1",
+      "note": "WordPress: obejscie blokady /wp-json przez parametr rest_route. Sprawdza, czy REST jest realnie wylaczony, czy tylko przekierowany",
       "snippet": true
     },
     {
-      "id": "xss-sci-s",
-      "url": "https://science.nask.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "science.nask.pl (WordPress): parametr s, typowe miejsce refleksji w naglowku wynikow",
+      "id": "sci-rest-route-users",
+      "url": "https://science.nask.pl/?rest_route=/wp/v2/users",
+      "note": "WordPress: lista uzytkownikow przez rest_route (user enumeration jest wylaczony z konkursu - sprawdzam istnienie sciezki, nie zglaszam)"
+    },
+    {
+      "id": "sci-xmlrpc",
+      "url": "https://science.nask.pl/xmlrpc.php",
+      "note": "WordPress: xmlrpc.php. GET zwraca 405 przy wlaczonym module; pingback SSRF wymaga POST, wiec tego nie robie"
+    },
+    {
+      "id": "sci-wp-login",
+      "url": "https://science.nask.pl/wp-login.php",
+      "note": "WordPress: panel logowania"
+    },
+    {
+      "id": "sos-rest-route-posts",
+      "url": "https://116sos.pl/?rest_route=/wp/v2/posts&per_page=1",
+      "note": "WordPress na 116sos: to samo obejscie",
       "snippet": true
     },
     {
-      "id": "xss-sci-en-s",
-      "url": "https://science.nask.pl/en?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "science: ten sam parametr na wersji EN",
+      "id": "sos-wp-login",
+      "url": "https://116sos.pl/wp-login.php",
+      "note": "WordPress na 116sos: panel logowania"
+    },
+    {
+      "id": "pllum-content-draft",
+      "url": "https://pllum.org.pl/api/_content/query?_draft=true",
+      "note": "Nuxt Content: jesli API honoruje _draft, zwroci nieopublikowane tresci. To bylby realny wyciek tresci",
       "snippet": true
     },
     {
-      "id": "xss-sos-s",
-      "url": "https://116sos.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "116sos.pl: wyszukiwarka",
+      "id": "pllum-content-only",
+      "url": "https://pllum.org.pl/api/_content/query?only=title,_draft,_path",
+      "note": "Nuxt Content: projekcja pol - sprawdza, czy _draft wystepuje w odpowiedzi"
+    },
+    {
+      "id": "pllum-content-where",
+      "url": "https://pllum.org.pl/api/_content/query?where=%7B%22_draft%22%3Atrue%7D",
+      "note": "Nuxt Content: filtrowanie po _draft=true"
+    },
+    {
+      "id": "sci-next-data",
+      "url": "https://science.nask.pl/_next/data/Grl_YQ5SCHd1ahmhesPv6/index.json",
+      "note": "Next.js pages-router: surowe propsy strony jako JSON. buildId pochodzi z __NEXT_DATA__ zebranego w przebiegu 003. Moze ujawnic dane, ktorych nie renderuje UI",
       "snippet": true
     },
     {
-      "id": "xss-pllum-q",
-      "url": "https://pllum.org.pl/?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "pllum.org.pl (Nuxt): parametr q",
+      "id": "sos-next-data",
+      "url": "https://116sos.pl/_next/data/8CjJwbyxpVqpWnorny23T/index.json",
+      "note": "Next.js pages-router: propsy strony",
       "snippet": true
     },
     {
-      "id": "xss-oad-q",
-      "url": "https://oad.nask.pl/?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "oad.nask.pl (Next.js): parametr q",
-      "snippet": true
+      "id": "bwybory-next-data",
+      "url": "https://bezpiecznewybory.pl/_next/data/V7BZQbRTqgFDrmT2Y-Lps/index.json",
+      "note": "Next.js pages-router na hoscie za WAF - sprawdzic, czy ta sciezka tez jest blokowana"
     },
     {
-      "id": "xss-zglos-q",
-      "url": "https://zglos-dezinformacje.nask.pl/?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "zglos-dezinformacje: parametr q",
-      "snippet": true
-    },
-    {
-      "id": "xss-bm-s",
-      "url": "https://bezpiecznymiesiac.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "bezpiecznymiesiac: wyszukiwarka",
-      "snippet": true
-    },
-    {
-      "id": "xss-dyz-s",
-      "url": "https://dyzurnet.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "dyzurnet: wyszukiwarka",
-      "snippet": true
-    },
-    {
-      "id": "xss-dns-404",
-      "url": "https://dns.pl/nieistniejaca-zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
-      "reflect": "zzqx9",
-      "note": "dns.pl: czy sciezka trafia do strony 404 bez escapowania (Drupal czesto odbija adres)",
-      "snippet": true
+      "id": "sci-api-media-list",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2026/10/",
+      "note": "science: katalog uploads jako sciezka (listing katalogu jest wylaczony, ale kod mowi o zachowaniu proxy)"
     }
   ]
 }
