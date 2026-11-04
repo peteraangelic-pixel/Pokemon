@@ -1,0 +1,92 @@
+{
+  "dry_run": false,
+  "count": 129,
+  "wall_seconds": 216.42,
+  "min_observed_gap_s": 1.0,
+  "verdicts": {
+    "other-200": 115,
+    "CANDIDATE-SECRET-FILE": 6,
+    "transport-error": 6,
+    "not-found": 2
+  },
+  "candidates": [
+    {
+      "id": "js-016-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "verdict": "CANDIDATE-SECRET-FILE",
+      "status": 200,
+      "content_type": "application/javascript",
+      "bytes_read": 112594
+    },
+    {
+      "id": "js-023-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/35g9u-wrehnzi.js",
+      "verdict": "CANDIDATE-SECRET-FILE",
+      "status": 200,
+      "content_type": "application/javascript",
+      "bytes_read": 417741
+    },
+    {
+      "id": "js-026-dataannotation",
+      "url": "https://dataannotation.pllum.org.pl/assets/index-ClBZuP56.js",
+      "verdict": "CANDIDATE-SECRET-FILE",
+      "status": 200,
+      "content_type": "application/javascript",
+      "bytes_read": 2770426
+    },
+    {
+      "id": "js-048-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "verdict": "CANDIDATE-SECRET-FILE",
+      "status": 200,
+      "content_type": "application/javascript",
+      "bytes_read": 112594
+    },
+    {
+      "id": "js-067-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "verdict": "CANDIDATE-SECRET-FILE",
+      "status": 200,
+      "content_type": "application/javascript",
+      "bytes_read": 112594
+    },
+    {
+      "id": "js-128-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/polyfills-42372ed130431b0a.js",
+      "verdict": "CANDIDATE-SECRET-FILE",
+      "status": 200,
+      "content_type": "application/javascript",
+      "bytes_read": 112594
+    }
+  ],
+  "identical_bodies": [
+    {
+      "sha256": "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5",
+      "identical_bodies": [
+        "js-001-116sos:/_next/static/8CjJwbyxpVqpWnorny23T/_buildManifest.js",
+        "js-002-116sos:/_next/static/8CjJwbyxpVqpWnorny23T/_ssgManifest.js"
+      ]
+    },
+    {
+      "sha256": "0973c1d64c88adc8e3c950410cb58b288f72118d5965b78049438deb8f2f9683",
+      "identical_bodies": [
+        "js-016-bezpiecznymies:/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "js-048-dyzurnet:/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "js-067-oad:/_next/static/chunks/0cz1d0mv5g_q7.js",
+        "js-128-zglos_dezinfor:/_next/static/chunks/polyfills-42372ed130431b0a.js"
+      ]
+    },
+    {
+      "sha256": "8bbb58cbfd4633c1d828c6bc37bc32abc768a149c01b1dfc4f5131fd81274551",
+      "identical_bodies": [
+        "js-025-bezpiecznymies:/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+        "js-062-dyzurnet:/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+        "js-078-oad:/_next/static/chunks/turbopack-3-ry682tkyiqk.js"
+      ]
+    }
+  ],
+  "bodies_saved": 123,
+  "bodies_bytes_total": 10470052,
+  "out": "nask/reports/rawpath-004-run7.json"
+}
+probe rc=0

@@ -1,0 +1,5 @@
+plikow JS: 108, bajtow: 10470052
+przeskanowano 108 plikow; endpointy: 31; sekret-kandydaty: 0; idor_prerank: 0
+plikow: 108 | endpointow unikalnych: 28 | kandydatow na sekrety: 0
+przyklady endpointow: ['/_next/data/', '/_next/data/${e.buildId}', '/_next/data/${this.buildId}${n}${h}', '/api', '/api/', '/api/_nuxt_icon', '/api/announcements', '/api/contact', '/api/count-deleted-domains', '/api/domain-browser/', '/api/downloadFile', '/api/fetch-cookie-hash', '/api/funny-name/', '/api/media/wp-content/', '/api/media/wp-includes/', '/api/registrars-countries/en', '/api/registrars-countries/pl', '/api/registrars-list/', '/api/registrars-services', '/api/search']
+mine rc=0

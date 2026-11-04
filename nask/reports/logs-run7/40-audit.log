@@ -1,0 +1,8 @@
+min. odstep miedzy zadaniami: 1.000000 s (limit 0.2 s = 5 req/s)
+hosty: 9 (wszystkie w §5) | zadan: 129 | czas: 216.42 s
+werdykty: {"other-200": 115, "CANDIDATE-SECRET-FILE": 6, "transport-error": 6, "not-found": 2}
+kandydaci do recznego potwierdzenia: 6
+identyczne ciala (dowod z hasha): 3
+ciala zapisane do analizy: 123 | bajtow: 10470052
+mining: plikow 108 | endpointow 28 | idor_prerank 0
+AUDYT OK
