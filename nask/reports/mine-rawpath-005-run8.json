@@ -1,0 +1,20 @@
+{
+ "files": 2,
+ "results": [
+  {
+   "file": "/home/runner/work/_temp/bodies/dns-I02-translations-domainbrowser.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/sci-I03-media-wp-includes-js.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  }
+ ],
+ "idor_prerank": []
+}
