@@ -1,0 +1,16 @@
+{
+  "dry_run": false,
+  "count": 4,
+  "wall_seconds": 3.46,
+  "min_observed_gap_s": 1.0,
+  "verdicts": {
+    "other-200": 3,
+    "not-found": 1
+  },
+  "candidates": [],
+  "identical_bodies": [],
+  "bodies_saved": 3,
+  "bodies_bytes_total": 126562,
+  "out": "nask/reports/rawpath-005-run8.json"
+}
+probe rc=0

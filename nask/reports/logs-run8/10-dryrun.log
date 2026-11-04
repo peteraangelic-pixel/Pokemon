@@ -1,0 +1,16 @@
+  dns-I01-deleted-domains-list       /deleted_domains.txt
+  dns-I02-translations-domainbrowser /translations/domainBrowser?locales=pl
+  sci-I03-media-wp-includes-js       /api/media/wp-includes/js/jquery/jquery.min.js
+  sci-I04-media-wp-includes-php-secret /api/media/wp-includes/version.php
+{
+  "dry_run": true,
+  "count": 4,
+  "wall_seconds": null,
+  "min_observed_gap_s": null,
+  "verdicts": null,
+  "candidates": null,
+  "identical_bodies": null,
+  "bodies_saved": null,
+  "bodies_bytes_total": null,
+  "out": null
+}
