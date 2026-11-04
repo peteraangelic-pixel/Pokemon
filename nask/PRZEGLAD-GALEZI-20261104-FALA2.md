@@ -279,3 +279,69 @@ obie ścieżki naraz (konto platformy + trzy pytania).
 * **#36** mój nocny plan L4 „wtyczki WP na 116sos/dyzurnet" był oparty na `wp-json` = 404;
   fala 2 domknęła obejście (`?rest_route=` → HTML, `xmlrpc.php`/`wp-login.php` → 404), więc
   pozycja wypada z runbooka zamiast czekać na „sprawdzenie później".
+
+---
+
+## 10. Wyniki RAWPATH-004/005 (mining + 4 próby domykające) — stan na 11:35
+
+### 10.1 RAWPATH-004 (run 7, `41821385075`): 129 bundli JS, 10,47 MB
+
+| parametr | wartość |
+|---|---|
+| żądania | 129 GET, 1,0 req/s, 216,42 s, **min. odstęp 1,000 s** |
+| odpowiedzi | 121 × 200, 2 × 404 (`_buildManifest.js`/`_ssgManifest.js` z innym buildId), 6 × timeout (chunki `116sos`/`science`) |
+| ciała | 123 pliki, **10 470 052 B** w `RUNNER_TEMP` (nigdy w repo); commitowany manifest + analiza |
+| mining | **108 plików, 28 unikalnych endpointów, 0 sekret-kandydatów**, `idor_prerank` = 0 |
+| formaty ID w bundlach | `sequential-int-candidate` 19, `uuid` 1, `other` 153 |
+
+**Zero sekretów w 10,47 MB publicznego JS** — zbieżne z `5ed750ef` (47 bundli / 7,3 MB → 0 sekretów,
+0 sourcemap). Dwa niezależne przebiegi, ten sam wynik ⇒ klasa „wyciek poświadczeń z bundli"
+zamknięta dla całego zakresu NASK.
+
+**Endpointy wydobyte z bundli (28):** `zglos-dezinformacje` → **`/api/sendForm` i nic więcej**
+(potwierdzenie z kodu klienta, że to jedyne API); `science` → `/api/{contact,downloadFile,search}`,
+**`/api/media/wp-content/`**, **`/api/media/wp-includes/`**; `116sos` → `/api/{announcements,
+fetch-cookie-hash}`; `dns.pl` → `/api/{zone-stats,registrars-services,registrars-list/,
+registrars-countries/{pl,en},count-deleted-domains,domain-browser/,who-is-xml/,stats/,funny-name/}`,
+**`/deleted_domains.txt`**, `/news/`, `/post-data/`, `/events/?…`; `pllum` → `/api/_nuxt_icon`;
+wzorce `/_next/data/${buildId}…`.
+
+### 10.2 RAWPATH-005 (run 8): cztery próby, dwie hipotezy rozstrzygnięte
+
+| próba | wynik | rozstrzygnięcie |
+|---|---|---|
+| `dns.pl/deleted_domains.txt` | **200, `text/plain; charset=UTF-8`, 37 343 B**, `cache-control: no-cache, private` | plik istnieje i jest generowany dynamicznie. **Treści celowo NIE pobrałem do raportu** (`no_preview: true`) — dopóki nie wiemy, czy zawiera dane abonenta, nie kopiuję jej ani do repo, ani do kontekstu. Rejestr L20: **10-sekundowe spojrzenie usera** w przeglądarce. Jeśli to sama lista nazw domen (najbardziej prawdopodobne — rejestr publikuje takie dane, a bundel ma też `/api/count-deleted-domains`) → **klasa wykluczona** (informacja bez danych wrażliwych) |
+| `dns.pl/translations/domainBrowser?locales=pl` | 200, **`application/javascript`**, 1 666 B, treść: `t.add("domain_browser_suggestion_title", "Propozycje domen dostępnych do rejestracji:", "domainBrowser", "pl")` | **hipoteza L17 NIEPOTWIERDZONA**: to etykiety UI (Bazinga Translator), nie nazwy parametrów API. Mining: 0 endpointów, 0 parametrów. L17 → zamknięty jako niska wartość |
+| `science/api/media/wp-includes/js/jquery/jquery.min.js` | **200, `text/javascript`, 87 553 B, jQuery v3.7.1** | **hipoteza allow-listy POTWIERDZONA** |
+| `science/api/media/wp-includes/version.php` | **404** | `.php` w dozwolonym katalogu **nie** jest serwowany |
+
+**Mechanizm domknięty (L7 zamykam z pełnym wyjaśnieniem, nie tylko wynikiem):**
+`/api/media/` na `science.nask.pl` to **proxy statycznych assetów z allow-listą dwóch podkatalogów
+WordPress** (`wp-content/`, `wp-includes/`) i allow-listą typów pliku (JS/CSS/obrazy — `.php` → 404),
+stojące za **nginx**, który dekoduje `%2e` i normalizuje segmenty `..` **przed** przekazaniem do
+aplikacji (dowód: `%252e%252e` → 404, czyli aplikacja nie dekoduje drugi raz), a próby wyjścia
+poza korzeń kończą się **zerwaniem połączenia** lub **nginx 400**. Stąd wszystkie negatywy
+z run1–run3 (`robots.txt`, `license.txt`, `readme.html`, `wp-config.php` na 4 głębokościach —
+wszystko 404). **To nie jest „nie udało się przetestować", tylko „tak to działa".**
+
+### 10.3 Korekty własne z tej fali
+
+* **#38** — 6 werdyktów `CANDIDATE-SECRET-FILE` w run7 to **fałszywe trafienia mojego
+  klasyfikatora**: polyfills i chunki (112–417 kB, `application/javascript`) zawierają słowa
+  `API_KEY`/`PASSWORD` z list typów `input` w React (`password:!0,range:!0,search:!0,…` — dokładnie
+  ten sam szum, który Gemma-A widziała w swoich sondach S1). Kandydatem jest teraz wyłącznie
+  odpowiedź, która **może** być plikiem konfiguracyjnym (`text/plain`, `application/octet-stream`,
+  brak typu); JS → `js-bundle-with-keyword-hits`.
+* **#39** — surowa ekstrakcja parametrów dała **662 pozycje**, w tym `null`, `return`, `this`, `NaN`,
+  `ut`, `io`, `Ba`, `Ii`. Filtr `is_real_param()` (długość ≥ 3, bez słów kluczowych JS i typów
+  `input`, bez zmiennych minifikatora). `type` zostaje — to realny parametr (`?type=publication`
+  na `oad.nask.pl`).
+* **#40** — plik pobrany z URL-a bez rozszerzenia (`/translations/x?locales=pl`) zapisywał się jako
+  `.bin` i **bundle_scan go pomijał** (rglob tylko `.js/.json/.html/.map`). Rozszerzenie jest teraz
+  brane z `Content-Type`. Do tego `no_preview` jako jawna flaga planu (użyta przy `deleted_domains.txt`).
+* **Utrata runu 6** (mój błąd CI, korekta #37) → naprawiona strukturalnie: `nask/tools/ci_commit.sh`
+  (5 prób pusha, guard „nic poza `nask/reports/`", porządkowanie po nieudanym rebase) + commity
+  **etapowe** (raport, mining, diagnostyka osobno). Run 7 i 8 dały po 3 commity bota — żadne dane
+  już nie przepadną wraz z workspace runnera.
+
+**Testy: 76 OK** (68 + 8 regresji z run7), selftest **12 grup OK**, vendored `har_triage` **11/11 OK**.
