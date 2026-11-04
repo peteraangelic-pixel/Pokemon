@@ -1,147 +1,94 @@
 {
-  "run": "014b",
-  "note": "PRZELOM: analysis-run003.json (juz w repo, 479 dokumentow) zawiera route_literals wyciagniete z bundli JS. Okazalo sie, ze dns.pl (TIER 1) ma DZIESIEC realnych tras /api/, ktorych nie ma w zadnym raporcie: /api/stats/, /api/zone-stats, /api/count-deleted-domains, /api/registrars-list/, /api/registrars-services, /api/registrars-countries/{pl,en}, /api/domain-browser/, /api/funny-name/, /api/who-is-xml/. Wczesniejsze 'dns.pl API martwe' dotyczylo INNYCH nazw (Drupal /node/1?_format=json, /jsonapi) - te trasy sa z wlasnego kodu aplikacji. Rownolegle: dyzurnet.pl ma ZERO literalow /api/ w swoim kodzie klienckim, co zamyka wczorajsza enumeracje 26 sciezek z przyczyna (Disallow: /api/ to szablon, nie mapa). PRZEBIEG POWTORZONY jako 014b: run 014 wykonal sondy poprawnie (build i selftest przeszly, krok Probes = success), ale commit raportu zostal odrzucony jako non-fast-forward, bo wypchnalem wlasny commit w trakcie trwania workflow. Raport przepadl mimo poprawnie wykonanych 26 zadan. Workflow ma teraz rebase + 5 prob push.",
+  "run": "015",
+  "note": "WZORZEC Z RUNU 014b na dns.pl: WSZYSTKIE trzy dzialajace trasy nie mialy ukosnika koncowego (/api/zone-stats -> 200 JSON 11759 B, /api/registrars-services -> 200 JSON, /api/registrars-countries/pl -> 200 JSON), a WSZYSTKIE piec, ktore daly 404, mialy ukosnik (/api/stats/, /api/registrars-list/, /api/domain-browser/, /api/funny-name/, /api/who-is-xml/). To jeden wzorzec na piec przypadkach, nie przypadek - powtorka bez ukosnika jest tania i rozstrzyga. Jesli dziala, dostajemy WHOIS-xml i przegladarke domen na TIER 1.",
   "probes": [
     {
-      "id": "dns-api-stats",
-      "url": "https://dns.pl/api/stats/",
+      "id": "dns-stats-noslash",
+      "url": "https://dns.pl/api/stats",
       "snippet": true,
-      "note": "statystyki: realna trasa z bundla. Sprawdzic status i czy zwraca JSON"
+      "note": "ten sam zasob bez ukosnika koncowego - test wzorca"
     },
     {
-      "id": "dns-api-zone-stats",
-      "url": "https://dns.pl/api/zone-stats",
+      "id": "dns-registrars-list-noslash",
+      "url": "https://dns.pl/api/registrars-list",
       "snippet": true,
-      "note": "statystyki strefy: bez ukosnika koncowego (tak jak w literale)"
+      "note": "lista rejestratorow bez ukosnika: dane publiczne, ale sprawdzic schemat (pola kontaktowe?)"
     },
     {
-      "id": "dns-api-count-deleted",
-      "url": "https://dns.pl/api/count-deleted-domains",
-      "note": "licznik usunietych domen: najprostsza trasa, dobry wskaznik czy API dziala"
-    },
-    {
-      "id": "dns-api-registrars-list",
-      "url": "https://dns.pl/api/registrars-list/",
+      "id": "dns-domain-browser-noslash",
+      "url": "https://dns.pl/api/domain-browser",
       "snippet": true,
-      "note": "lista rejestratorow: dane publiczne, ale sprawdzic schemat (czy sa pola kontaktowe)"
+      "note": "przegladarka domen bez ukosnika: NAJWIEKSZY kandydat na parametry"
     },
     {
-      "id": "dns-api-registrars-services",
-      "url": "https://dns.pl/api/registrars-services",
+      "id": "dns-funny-name-noslash",
+      "url": "https://dns.pl/api/funny-name",
       "snippet": true,
-      "note": "uslugi rejestratorow"
+      "note": "generator nazw bez ukosnika"
     },
     {
-      "id": "dns-api-registrars-countries-pl",
-      "url": "https://dns.pl/api/registrars-countries/pl",
-      "note": "kraje rejestratorow, wersja polska"
-    },
-    {
-      "id": "dns-api-registrars-countries-en",
-      "url": "https://dns.pl/api/registrars-countries/en",
-      "note": "kraje rejestratorow, wersja angielska"
-    },
-    {
-      "id": "dns-api-domain-browser",
-      "url": "https://dns.pl/api/domain-browser/",
+      "id": "dns-whois-noslash",
+      "url": "https://dns.pl/api/who-is-xml",
       "snippet": true,
-      "note": "przegladarka domen: NAJWIEKSZY kandydat na parametry (litera, strona, sortowanie) - powierzchnia injection i enumeracji"
+      "note": "WHOIS-xml bez ukosnika: rozstrzyga, czy trasa istnieje"
     },
     {
-      "id": "dns-api-funny-name",
-      "url": "https://dns.pl/api/funny-name/",
+      "id": "dns-whois-domain-valid",
+      "url": "https://dns.pl/api/who-is-xml?domain=nask.pl",
       "snippet": true,
-      "note": "generator 'smiesznych nazw': nazwa sugeruje przyjmowanie danych wejsciowych"
+      "note": "WHOIS dla domeny, ktorej dane sa i tak publiczne (whois nask.pl). Kontrola poprawna: pokazuje format"
     },
     {
-      "id": "dns-api-whois-xml",
-      "url": "https://dns.pl/api/who-is-xml/",
-      "snippet": true,
-      "note": "WHOIS w XML: najbogatsza klasa (budowanie XML/WHOIS). Sprawdzic, czy bez parametru zwraca blad czy dane"
-    },
-    {
-      "id": "dns-api-whois-valid",
-      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
-      "snippet": true,
-      "note": "WHOIS dla domeny publicznej, ktorej dane i tak sa jawne. Kontrola poprawna: pokazuje format odpowiedzi"
-    },
-    {
-      "id": "dns-api-whois-missing",
-      "url": "https://dns.pl/api/who-is-xml/?domain=zzqx9probe-nieistnieje.pl",
+      "id": "dns-whois-domain-missing",
+      "url": "https://dns.pl/api/who-is-xml?domain=zzqx9probe-nieistnieje.pl",
       "note": "domena nieistniejaca: rozroznia obsluge bledu od pustej odpowiedzi"
     },
     {
-      "id": "dns-api-whois-quote",
-      "url": "https://dns.pl/api/who-is-xml/?domain=zzqx9%27",
-      "note": "pojedynczy apostrof w parametrze: minimalna sonda bledu SQL, tylko odczyt. WAF moze przerwac polaczenie - to tez wynik"
+      "id": "dns-whois-domain-quote",
+      "url": "https://dns.pl/api/who-is-xml?domain=zzqx9%27",
+      "note": "apostrof w parametrze domeny: minimalna sonda bledu SQL, tylko odczyt. WAF moze przerwac - to tez wynik"
     },
     {
-      "id": "dns-api-browser-letter",
-      "url": "https://dns.pl/api/domain-browser/?letter=a",
-      "note": "czy parametr jest honorowany (zmiana rozmiaru ciala vs /api/domain-browser/)"
+      "id": "dns-whois-param-alt",
+      "url": "https://dns.pl/api/who-is-xml?name=nask.pl",
+      "note": "nazwa parametru moze byc inna (name/domena/q): rozstrzyga kontrakt bez zgadywania wartosci"
     },
     {
-      "id": "dns-api-browser-quote",
-      "url": "https://dns.pl/api/domain-browser/?letter=zzqx9%27",
-      "note": "apostrof w parametrze listy: czy blad ujawnia zapytanie"
+      "id": "dns-browser-letter",
+      "url": "https://dns.pl/api/domain-browser?letter=a",
+      "note": "czy lista przyjmuje parametr (rozmiar vs wersja bez parametru)"
     },
     {
-      "id": "dns-api-stats-param",
-      "url": "https://dns.pl/api/stats/?year=2024",
-      "note": "czy trasa statystyk przyjmuje parametr (rozmiar vs wersja bez parametru)"
+      "id": "dns-funny-name-param",
+      "url": "https://dns.pl/api/funny-name?name=zzqx9probe",
+      "note": "czy generator przyjmuje dane wejsciowe - jesli tak, to powierzchnia odbicia do HTML/JSON"
     },
     {
-      "id": "sos-og-real-id",
-      "url": "https://116sos.pl/api/og-image?imageId=18650",
-      "note": "POPRAWKA do run 012: bundel zawiera realne identyfikatory (18650, 30225, 30263, 30267, 30278). Moja negatywka dotyczyla ID NIEPOPRAWNYCH, ktore spadaja na statyczny obraz. Tu sprawdzam, czy poprawny ID daje inny obraz"
+      "id": "dns-zone-stats-param",
+      "url": "https://dns.pl/api/zone-stats?lang=en",
+      "note": "czy statystyki honoruja parametr (porownanie z 11759 B / sha e0cd791d)"
     },
     {
-      "id": "sos-og-real-id-2",
-      "url": "https://116sos.pl/api/og-image?imageId=30225",
-      "note": "drugi realny ID: czy obraz rozni sie miedzy poprawnymi ID (czyli generator jest dynamiczny)"
-    },
-    {
-      "id": "sos-api-centres-body",
-      "url": "https://116sos.pl/api/centres",
+      "id": "dns-count-deleted-body",
+      "url": "https://dns.pl/api/count-deleted-domains",
       "snippet": true,
-      "note": "run 013: 401, 32 B - JEDYNA trasa /api na 116sos, ktora nie jest 404 (szablon 404 = sha 0cce5732). Czytam tresc bledu: framework i kontrakt"
+      "note": "run 014b: 200 ale text/html 17 B - anomalia (API zwracajace 17 bajtow HTML). Czytam tresc"
     },
     {
-      "id": "sos-api-centres-item",
-      "url": "https://116sos.pl/api/centres/1",
-      "note": "czy istnieje zasob po identyfikatorze (401 vs 404 rozstrzyga o strukturze trasy)"
-    },
-    {
-      "id": "sos-api-contact",
-      "url": "https://116sos.pl/api/contact",
-      "note": "trasa kontaktowa z literali science - sprawdzam, czy 116sos ma te sama"
-    },
-    {
-      "id": "sci-api-contact",
-      "url": "https://science.nask.pl/api/contact",
+      "id": "dns-registrars-countries-body",
+      "url": "https://dns.pl/api/registrars-countries/pl",
       "snippet": true,
-      "note": "NOWA trasa z bundla science (301 literalow /api). GET na endpoint kontaktowy: 405 = trasa istnieje i przyjmuje tylko POST"
+      "note": "283 B JSON: czy zawiera dane kontaktowe rejestratorow (kandydat na dane osobowe)"
     },
     {
-      "id": "sci-node-modules",
-      "url": "https://science.nask.pl/node_modules/",
-      "note": "robots.txt science jawnie zabrania /node_modules/. To nie kontrola dostepu, wiec sprawdzam, czy katalog jest realnie serwowany - ekspozycja kodu"
+      "id": "sci-node-modules-noslash",
+      "url": "https://science.nask.pl/node_modules",
+      "note": "run 014b: /node_modules/ -> 308 /node_modules. Sprawdzam cel bez ukosnika - czy katalog jest realnie serwowany"
     },
     {
-      "id": "sci-node-modules-next",
-      "url": "https://science.nask.pl/node_modules/next/package.json",
-      "note": "jesli /node_modules/ jest serwowany, package.json ujawnia wersje wszystkich zaleznosci"
-    },
-    {
-      "id": "dyz-api-kontakt-recheck",
-      "url": "https://dyzurnet.pl/api/kontakt",
-      "note": "run 013: 404 ale 17515 B - inny szablon niz pozostale 25 tras (~12820 B). Powtorka rozstrzyga, czy to stabilne zjawisko"
-    },
-    {
-      "id": "zglos-sitemap-body",
-      "url": "https://zglos-dezinformacje.nask.pl/sitemap.xml",
-      "snippet": true,
-      "note": "436 B XML - tresc (poprzednio bez flagi snippet)"
+      "id": "sos-og-invalid-vs-valid",
+      "url": "https://116sos.pl/api/og-image?imageId=18651",
+      "note": "id sasiedni do poprawnego 18650: rozstrzyga, czy NUMERY SA SEKWENCYJNE (wtedy mozna enumerowac) czy obraz jest generowany dla kazdej liczby"
     }
   ]
 }
