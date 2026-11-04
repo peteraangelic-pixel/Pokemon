@@ -435,5 +435,63 @@ class TestRegressionFromRun2Run3(unittest.TestCase):
             self.assertNotIn('"%s"' % value, blob)
 
 
+class TestRegressionFromRun7(unittest.TestCase):
+    """Rekordy z `rawpath-004-run7.json` (mining 129 bundli)."""
+
+    def test_js_bundle_is_not_secret_file(self):
+        # KOREKTA #38: polyfills z `SECRET_KEYS` x8 to bundel JS, nie plik konfiguracyjny
+        rec = {"status": 200, "content_type": "application/javascript", "bytes_read": 112594,
+               "markers": {"WAF_VENDOR": 2, "SECRET_KEYS": 8}, "secret_marker_hits": 8}
+        self.assertEqual(classify(rec), "js-bundle-with-keyword-hits")
+
+    def test_html_with_keyword_hits_is_not_secret_file(self):
+        rec = {"status": 200, "content_type": "text/html", "bytes_read": 417741,
+               "markers": {"HTML_DOC": 3, "SECRET_KEYS": 1}, "secret_marker_hits": 1}
+        self.assertEqual(classify(rec), "html-page")
+
+    def test_real_config_file_is_still_candidate(self):
+        rec = {"status": 200, "content_type": "text/plain", "bytes_read": 300,
+               "markers": {"ENV_ASSIGNMENTS": 4, "SECRET_KEYS": 1}, "secret_marker_hits": 5}
+        self.assertEqual(classify(rec), "CANDIDATE-SECRET-FILE")
+
+    def test_octet_stream_with_secret_hits_is_candidate(self):
+        rec = {"status": 200, "content_type": "application/octet-stream", "bytes_read": 900,
+               "markers": {"GIT_REF": 1}, "secret_marker_hits": 1}
+        self.assertEqual(classify(rec), "CANDIDATE-SECRET-FILE")
+
+    def test_extension_from_content_type_when_url_has_none(self):
+        from rawpath import CT_EXT
+        self.assertEqual(CT_EXT["application/json"], ".json")
+        self.assertEqual(CT_EXT["application/javascript"], ".js")
+
+
+class TestParamFilter(unittest.TestCase):
+    """KOREKTA #39: 662 surowe 'parametry' z run7 to w wiekszosci szum minifikatora."""
+
+    def test_minifier_noise_rejected(self):
+        from bundle_scan import is_real_param
+        for noise in ("null", "return", "this", "NaN", "ut", "io", "en", "break", "as",
+                      "gl", "vi", "Ii", "Ir", "Lr", "Qi", "ec", "ia", "Ba", "Bm",
+                      "password", "text", "true", "u1", "q7"):
+            self.assertFalse(is_real_param(noise), noise)
+
+    def test_real_params_kept(self):
+        from bundle_scan import is_real_param
+        for real in ("fileId", "query", "lang", "perPage", "domain", "_format",
+                     "rest_route", "userId", "locales", "searchPhrase", "reason",
+                     "urls", "accept", "type"):
+            self.assertTrue(is_real_param(real), real)
+
+    def test_scan_text_filters_params(self):
+        from bundle_scan import scan_text
+        js = 'fetch("/api/v1/tasks?fileId=1&type=x&perPage=10");var null=this;function(a){return a}'
+        r = scan_text("t.js", js)
+        self.assertIn("fileId", r["params"])
+        self.assertIn("perPage", r["params"])
+        self.assertNotIn("null", r["params"])
+        self.assertNotIn("return", r["params"])
+        self.assertNotIn("this", r["params"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -231,9 +231,14 @@ def _markers(body: bytes) -> dict[str, int]:
     return found
 
 
+CT_EXT = {"application/json": ".json", "text/html": ".html", "text/plain": ".txt",
+          "application/javascript": ".js", "text/javascript": ".js"}
+
+
 def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
           max_bytes: int = MAX_BODY_BYTES, probe_id: str = "",
-          ua: str = USER_AGENT, save_dir: "str | Path | None" = None) -> dict:
+          ua: str = USER_AGENT, save_dir: "str | Path | None" = None,
+          no_preview: bool = False) -> dict:
     """Wysyla JEDNO zadanie GET o surowej sciezce i zwraca rekord dowodowy."""
     rec: dict = {
         "id": probe_id,
@@ -289,8 +294,11 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
         rec["bytes_read"] = len(body)
         if save_dir and body:
             # ciala NIGDY nie trafiaja do repo: katalog roboczy runnera, a do
-            # raportu tylko manifest (id, plik, url, rozmiar, sha256, typ)
-            ext = Path(raw_path.split("?", 1)[0]).suffix or ".bin"
+            # raportu tylko manifest (id, plik, url, rozmiar, sha256, typ).
+            # Rozszerzenie z Content-Type, gdy URL go nie ma (np. /translations/x?locales=pl
+            # -> .json) — inaczej bundle_scan pomija plik (rglob tylko .js/.json/.html/.map).
+            ct_now = (rec.get("content_type") or "")
+            ext = Path(raw_path.split("?", 1)[0]).suffix or CT_EXT.get(ct_now, ".bin")
             safe = re.sub(r"[^A-Za-z0-9._-]", "_", probe_id or "probe")[:80]
             dest = Path(save_dir) / f"{safe}{ext}"
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -299,8 +307,8 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
         rec["sha256"] = hashlib.sha256(body).hexdigest() if body else None
         rec["markers"] = _markers(body)
         rec["secret_marker_hits"] = sum(rec["markers"].get(m, 0) for m in SECRET_MARKER_NAMES)
-        rec["preview"] = decide_preview(rec["status"], body, probe_id, raw_path,
-                                        rec["secret_marker_hits"])
+        rec["preview"] = None if no_preview else decide_preview(
+            rec["status"], body, probe_id, raw_path, rec["secret_marker_hits"])
         if rec.get("content_type") == "application/json":
             rec["json_keys"] = json_key_schema(body)
     except (socket.timeout, TimeoutError) as exc:
@@ -382,6 +390,12 @@ def classify(rec: dict) -> str:
         if markers.get("WAF_BLOCK"):
             return "blocked-waf-200"
         if rec.get("secret_marker_hits"):
+            # KOREKTA #38: bundel JS/HTML/JSON, ktory ZAWIERA slowa typu `API_KEY`
+            # (minifikatory, listy typow input w React), nie jest plikiem z sekretami.
+            # Kandydatem jest tylko odpowiedz, ktora MOZE byc plikiem konfiguracyjnym.
+            if "javascript" in ctype or "json" in ctype or "html" in ctype:
+                return "js-bundle-with-keyword-hits" if "javascript" in ctype else (
+                    "json-response" if "json" in ctype else "html-page")
             return "CANDIDATE-SECRET-FILE"
         if ctype in ("application/zip", "application/x-zip-compressed") or markers.get("ZIP_MAGIC"):
             return "CANDIDATE-ARCHIVE"
@@ -448,7 +462,7 @@ def load_plan(path: str | Path) -> list[dict]:
         check_scope(item["url"])  # walidacja PRZED jakimkolwiek zadaniem
         out.append({"id": item.get("id") or item["url"], "url": item["url"],
                     "why": item.get("why", ""), "timeout": item.get("timeout"),
-                    "max_bytes": item.get("max_bytes")})
+                    "max_bytes": item.get("max_bytes"), "no_preview": item.get("no_preview")})
     return out
 
 
@@ -468,7 +482,8 @@ def run_plan(plan: list[dict], rps: float = DEFAULT_RPS, timeout: float = DEFAUL
     for item in plan:
         rec = probe(item["url"], limiter, timeout=float(item.get("timeout") or timeout),
                     probe_id=item["id"], save_dir=save_bodies,
-                    max_bytes=int(item.get("max_bytes") or max_bytes))
+                    max_bytes=int(item.get("max_bytes") or max_bytes),
+                    no_preview=bool(item.get("no_preview")))
         rec["why"] = item.get("why", "")
         records.append(rec)
     summary = summarize(records)
@@ -575,7 +590,7 @@ def selftest() -> int:
         pass
 
     status_word = "OK" if not fails else "FAIL"
-    print(f"selftest: {status_word} (11 grup, {len(fails)} bledow)")
+    print(f"selftest: {status_word} (12 grup, {len(fails)} bledow)")
     for f in fails:
         print("  -", f)
     return 1 if fails else 0

@@ -78,10 +78,47 @@ def classify_id(value: str) -> str:
     return "other"
 
 
+# KOREKTA #39: surowe QUERY_RX/PATH_PARAM_RX na zminifikowanym JS daja 662 "parametry",
+# z czego wiekszosc to slowa kluczowe i dwuliterowe zmienne (null/return/this/et/dpl/NaN...).
+# Filtr: dlugosc >= 3, brak slow kluczowych JS/TS, brak jednoliterowych + camelCase-zmiennych
+# typowych dla minifikatora (2 znaki, wielka litera na poczatku).
+JS_KEYWORDS = {
+    "null", "return", "this", "true", "false", "undefined", "function", "object", "string",
+    "number", "boolean", "break", "case", "catch", "class", "const", "continue", "default",
+    "delete", "else", "export", "extends", "finally", "for", "from", "get", "if", "import",
+    "instanceof", "let", "new", "set", "super", "switch", "throw", "try", "typeof", "var",
+    "void", "while", "with", "yield", "async", "await", "static", "public", "private",
+    "prototype", "length", "concat", "slice", "index", "value", "target", "window",
+    "document", "global", "module", "exports", "require", "define", "apply", "call",
+}
+JSX_INPUT_TYPES = {
+    "password", "range", "search", "tel", "text", "time", "url", "week", "month", "date",
+    "color", "email", "file", "hidden", "image", "number", "radio", "reset", "submit",
+    "checkbox", "button", "datetime", "locale",
+}
+
+
+def is_real_param(name: str) -> bool:
+    """Odsiewa szum minifikatora; zostawia nazwy, ktore moga byc parametrem API."""
+    if not name or len(name) < 3:
+        return False
+    low = name.lower()
+    if low in JS_KEYWORDS or low in JSX_INPUT_TYPES:
+        return False
+    if name[:1].isupper() and len(name) <= 3:      # `Ba`, `Ii`, `Lr` — zmienne minifikatora
+        return False
+    if not re.search(r"[a-z]", name):               # `NaN`, `UT`, `IO`
+        return False
+    if re.fullmatch(r"[A-Za-z]{1,2}\d*", name):     # `u1`, `q7`, `e`
+        return False
+    return True
+
+
 def scan_text(name: str, text: str) -> dict:
     endpoints = set(ENDPOINT_RX.findall(text)) | set(FETCH_RX.findall(text))
     endpoints = {e for e in endpoints if e.startswith("/") and not e.startswith("//")}
-    params = set(QUERY_RX.findall(text)) | set(PATH_PARAM_RX.findall(text))
+    params = {p for p in (set(QUERY_RX.findall(text)) | set(PATH_PARAM_RX.findall(text)))
+              if is_real_param(p)}
     secrets = []
     for kind, rx in SECRET_PATTERNS.items():
         for m in rx.findall(text):

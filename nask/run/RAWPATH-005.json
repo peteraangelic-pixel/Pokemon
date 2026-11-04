@@ -1,0 +1,39 @@
+{
+  "plan_run": "RAWPATH-005",
+  "date": "2026-11-04",
+  "author": "Arena c87f7a48",
+  "based_on": "mine-rawpath-004-run7.json (108 plikow, 28 endpointow) — 4 proby domykajace dwa nowe tropy z miningu",
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026, §5/§6/§8",
+    "hosts": "dns.pl (T1), science.nask.pl (T2) — oba w §5",
+    "methods": "GET only, 1.0 req/s, 4 zadania, przekierowania niesledzone, HTTPS z weryfikacja certyfikatu",
+    "state_change": "ZERO",
+    "data": "dns-I01: no_preview=true — tresc nie trafia do repo, dopoki nie wiemy, czy zawiera dane osobowe; zapisujemy rozmiar/typ/sha256. Ciala do RUNNER_TEMP, commitowany manifest + analiza",
+    "escalation": "jesli deleted_domains.txt zawiera dane abonenta (imie/nazwisko/email/PESEL) — KONIEC pobierania, jeden dowod wystarczy, informuje usera i szykujemy zgloszenie (klasa 3, Tier 1)"
+  },
+  "probes": [
+    {
+      "id": "dns-I01-deleted-domains-list",
+      "url": "https://dns.pl/deleted_domains.txt",
+      "why": "NOWY endpoint z miningu bundli dns.pl (run7): plik tekstowy z lista usunietych domen. Rozstrzygniecie: czy to publiczne dane rejestru (domeny = informacja jawna), czy zawiera dane abonenta (wtedy klasa 3, Tier 1). no_preview=TRUE — zadna tresc nie trafia do repo, dopoki nie wiemy, co to jest; najpierw rozmiar/typ/sha256.",
+      "max_bytes": 262144,
+      "no_preview": true
+    },
+    {
+      "id": "dns-I02-translations-domainbrowser",
+      "url": "https://dns.pl/translations/domainBrowser?locales=pl",
+      "why": "Pobrane w run7, ale zapisane jako .bin (URL bez rozszerzenia) i POMINIENTE przez bundle_scan. Teraz rozszerzenie z Content-Type (.json) => trafi do miningu. Zawiera nazwy pol/parametrow przegladarki domen — klucz do ozywienia /api/domain-browser/ (404 bez parametru)."
+    },
+    {
+      "id": "sci-I03-media-wp-includes-js",
+      "url": "https://science.nask.pl/api/media/wp-includes/js/jquery/jquery.min.js",
+      "why": "Hipoteza z miningu: bundel science odwoluje sie do /api/media/wp-content/ ORAZ /api/media/wp-includes/ => proxy ma allow-liste PODKATALOGOW WP, a nie czyta dowolnych plikow. To wyjasnia wszystkie negatywy z run1-3 (robots/license/wp-config = 404). 200 + application/javascript = allow-lista potwierdzona.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "sci-I04-media-wp-includes-php-secret",
+      "url": "https://science.nask.pl/api/media/wp-includes/version.php",
+      "why": "Druga polowa hipotezy: .php w dozwolonym podkatalogu NIE jest serwowany (run1 A14 = 404). Powtorzenie z zapisem ciala do miningu i metadanami (bez podgladu)."
+    }
+  ]
+}
