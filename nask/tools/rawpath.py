@@ -233,7 +233,7 @@ def _markers(body: bytes) -> dict[str, int]:
 
 def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
           max_bytes: int = MAX_BODY_BYTES, probe_id: str = "",
-          ua: str = USER_AGENT) -> dict:
+          ua: str = USER_AGENT, save_dir: "str | Path | None" = None) -> dict:
     """Wysyla JEDNO zadanie GET o surowej sciezce i zwraca rekord dowodowy."""
     rec: dict = {
         "id": probe_id,
@@ -250,6 +250,7 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
         "json_keys": {},
         "secret_marker_hits": 0,
         "preview": None,
+        "saved_to": None,
         "error": None,
         "verdict": None,
     }
@@ -286,6 +287,15 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
         rec["content_type"] = (rec["headers"].get("content-type") or "").split(";")[0].strip().lower() or None
         body = resp.read(max_bytes) or b""
         rec["bytes_read"] = len(body)
+        if save_dir and body:
+            # ciala NIGDY nie trafiaja do repo: katalog roboczy runnera, a do
+            # raportu tylko manifest (id, plik, url, rozmiar, sha256, typ)
+            ext = Path(raw_path.split("?", 1)[0]).suffix or ".bin"
+            safe = re.sub(r"[^A-Za-z0-9._-]", "_", probe_id or "probe")[:80]
+            dest = Path(save_dir) / f"{safe}{ext}"
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(body)
+            rec["saved_to"] = str(dest)
         rec["sha256"] = hashlib.sha256(body).hexdigest() if body else None
         rec["markers"] = _markers(body)
         rec["secret_marker_hits"] = sum(rec["markers"].get(m, 0) for m in SECRET_MARKER_NAMES)
@@ -437,12 +447,14 @@ def load_plan(path: str | Path) -> list[dict]:
             raise ValueError(f"proba bez 'url': {item!r}")
         check_scope(item["url"])  # walidacja PRZED jakimkolwiek zadaniem
         out.append({"id": item.get("id") or item["url"], "url": item["url"],
-                    "why": item.get("why", ""), "timeout": item.get("timeout")})
+                    "why": item.get("why", ""), "timeout": item.get("timeout"),
+                    "max_bytes": item.get("max_bytes")})
     return out
 
 
 def run_plan(plan: list[dict], rps: float = DEFAULT_RPS, timeout: float = DEFAULT_TIMEOUT,
-             dry_run: bool = False) -> dict:
+             dry_run: bool = False, save_bodies: "str | None" = None,
+             max_bytes: int = MAX_BODY_BYTES) -> dict:
     limiter = Limiter(rps)
     started = time.time()
     records: list[dict] = []
@@ -455,7 +467,8 @@ def run_plan(plan: list[dict], rps: float = DEFAULT_RPS, timeout: float = DEFAUL
         }
     for item in plan:
         rec = probe(item["url"], limiter, timeout=float(item.get("timeout") or timeout),
-                    probe_id=item["id"])
+                    probe_id=item["id"], save_dir=save_bodies,
+                    max_bytes=int(item.get("max_bytes") or max_bytes))
         rec["why"] = item.get("why", "")
         records.append(rec)
     summary = summarize(records)
@@ -575,6 +588,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--rps", type=float, default=DEFAULT_RPS, help=f"tempo (domyslnie {DEFAULT_RPS}, sufit {MAX_RPS})")
     ap.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT)
     ap.add_argument("--dry-run", action="store_true", help="walidacja planu bez zadnego zadania")
+    ap.add_argument("--save-bodies", help="katalog roboczy na ciala (mining offline; NIE commitowany)")
+    ap.add_argument("--max-bytes", type=int, default=MAX_BODY_BYTES,
+                    help=f"limit odczytu ciala na zadanie (domyslnie {MAX_BODY_BYTES})")
     ap.add_argument("--selftest", action="store_true", help="testy offline (zero sieci)")
     args = ap.parse_args(argv)
 
@@ -584,7 +600,19 @@ def main(argv: list[str] | None = None) -> int:
         ap.error("--plan jest wymagany (albo --selftest)")
 
     plan = load_plan(args.plan)
-    report = run_plan(plan, rps=args.rps, timeout=args.timeout, dry_run=args.dry_run)
+    report = run_plan(plan, rps=args.rps, timeout=args.timeout, dry_run=args.dry_run,
+                      save_bodies=args.save_bodies, max_bytes=args.max_bytes)
+    if args.save_bodies and not args.dry_run:
+        saved = [r for r in report["probes"] if r.get("saved_to")]
+        report["bodies_saved"] = len(saved)
+        report["bodies_dir"] = str(args.save_bodies)
+        report["bodies_bytes_total"] = sum(r.get("bytes_read") or 0 for r in saved)
+        report["bodies_manifest"] = [
+            {"id": r["id"], "file": r["saved_to"], "url": r["url"],
+             "bytes": r.get("bytes_read"), "sha256": r.get("sha256"),
+             "content_type": r.get("content_type")}
+            for r in saved
+        ]
 
     text = json.dumps(report, ensure_ascii=False, indent=2)
     if args.out and not args.dry_run:
@@ -605,6 +633,8 @@ def main(argv: list[str] | None = None) -> int:
         "verdicts": s.get("verdicts"),
         "candidates": s.get("candidates"),
         "identical_bodies": report.get("identical_bodies"),
+        "bodies_saved": report.get("bodies_saved"),
+        "bodies_bytes_total": report.get("bodies_bytes_total"),
         "out": args.out,
     }, ensure_ascii=False, indent=2))
     return 0

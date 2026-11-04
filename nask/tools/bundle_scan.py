@@ -51,6 +51,12 @@ ALLOW_RX = re.compile(
     r"<|\\u00|0x[0-9a-fA-F]+|[0-9]+\.?[0-9]*|\{|\[|function|require\()", re.I)
 
 
+def fingerprint(value: str) -> str:
+    """Odcisk kandydata na sekret: sha256[:12]. Bez fragmentow wartosci w raporcie."""
+    import hashlib
+    return hashlib.sha256(value.encode("utf-8", "replace")).hexdigest()[:12]
+
+
 def shannon(s: str) -> float:
     if not s:
         return 0.0
@@ -84,8 +90,11 @@ def scan_text(name: str, text: str) -> dict:
                 continue
             if kind == "generic_assignment" and shannon(val) < 3.5:
                 continue  # niskia entropia = raczej hasło-hasło z dokumentacji, nie sekret
+            # KOREKTA #33: nawet 6 znakow sekretu nie powinno trafic do publicznego
+            # repo. Zostaje odcisk (sha256[:12]) + dlugosc + entropia — wystarcza do
+            # deduplikacji i do potwierdzenia znaleziska bez ujawniania wartosci.
             secrets.append({"kind": kind, "entropy": round(shannon(val), 2),
-                            "preview": val[:4] + "…" + val[-2:] if len(val) > 8 else val})
+                            "length": len(val), "fingerprint": fingerprint(val)})
     id_samples = re.findall(r"""["']([0-9a-fA-F\-]{6,64})["']""", text)
     formats = Counter(classify_id(v) for v in id_samples[:2000])
     return {"file": name, "endpoints": sorted(endpoints), "params": sorted(params),

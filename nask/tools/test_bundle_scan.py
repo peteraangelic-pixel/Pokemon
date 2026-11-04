@@ -1,4 +1,5 @@
 """Unit tests for nask/tools/bundle_scan.py — offline, no network."""
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -36,10 +37,26 @@ class TestScan(unittest.TestCase):
         kinds = {s["kind"] for s in r["secrets"]}
         self.assertIn("aws_access_key_id", kinds)
         self.assertIn("jwt", kinds)
-        # "changeme" i "undefined" maja byc odfiltrowane allow-lista
-        previews = " ".join(s["preview"] for s in r["secrets"])
-        self.assertNotIn("changeme", previews)
-        self.assertNotIn("undefined", previews)
+        # allow-lista: "changeme" i "undefined" nie daja wpisu
+        self.assertEqual(len([s for s in r["secrets"] if s["length"] == len("changeme")]), 0)
+
+    def test_secret_values_never_serialized(self):
+        """KOREKTA #33: raport nie moze zawierac ZADNEGO fragmentu wartosci sekretu."""
+        r = scan_text("t.js", JS)
+        blob = json.dumps(r, ensure_ascii=False)
+        for secret in ("AKIAIOSFODNN7EXAMPLE",
+                       "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U"):
+            for frag in (secret, secret[:8], secret[:4] + "\u2026" + secret[-2:], secret[-6:]):
+                self.assertNotIn(frag, blob, f"fragment sekretu w raporcie: {frag!r}")
+        for s in r["secrets"]:
+            self.assertEqual(sorted(s.keys()), ["entropy", "fingerprint", "kind", "length"])
+
+    def test_fingerprint_stable_and_value_free(self):
+        from bundle_scan import fingerprint
+        self.assertEqual(fingerprint("abc123"), fingerprint("abc123"))
+        self.assertNotEqual(fingerprint("abc123"), fingerprint("abc124"))
+        self.assertEqual(len(fingerprint("x" * 100)), 12)
+        self.assertNotIn("abc123", fingerprint("abc123"))
 
     def test_id_format_classifier(self):
         self.assertEqual(classify_id("42"), "sequential-int-candidate")

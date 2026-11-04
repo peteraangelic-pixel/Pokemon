@@ -77,10 +77,38 @@ jobs:
 
       - name: Przebieg (sekwencyjny, globalny limiter)
         run: |
+          # ciala odpowiedzi ida WYLACZNIE do katalogu roboczego runnera (RUNNER_TEMP),
+          # nigdy do repo — do repo trafia manifest (id/url/rozmiar/sha256/typ)
           python nask/tools/rawpath.py \
             --plan "${{ steps.cfg.outputs.plan }}" \
             --rps "${{ steps.cfg.outputs.rps }}" \
+            --max-bytes 4000000 \
+            --save-bodies "$RUNNER_TEMP/bodies" \
             --out "${{ steps.cfg.outputs.out }}"
+
+      - name: Mining offline (bundle_scan) — tylko jesli pobrano JS
+        run: |
+          DIR="$RUNNER_TEMP/bodies"
+          CNT=$(find "$DIR" -type f -name '*.js' 2>/dev/null | wc -l)
+          echo "plikow JS do analizy: $CNT"
+          if [ "$CNT" -gt 0 ]; then
+            python nask/tools/bundle_scan.py --in "$DIR" \
+              --out "nask/reports/mine-${{ steps.cfg.outputs.tag }}-run${{ github.run_number }}.json"
+            python - <<'PY'
+          import json, glob
+          f = sorted(glob.glob("nask/reports/mine-*-run${{ github.run_number }}.json"))[-1]
+          d = json.load(open(f, encoding="utf-8"))
+          files = d.get("files") or d.get("results") or []
+          eps = sorted({e for r in files for e in (r.get("endpoints") or [])})
+          secs = [s for r in files for s in (r.get("secrets") or [])]
+          print(f"plikow: {len(files)}, endpointow unikalnych: {len(eps)}, kandydatow na sekrety: {len(secs)}")
+          blob = json.dumps(d, ensure_ascii=False)
+          assert "AKIA" not in blob and "-----BEGIN" not in blob, "wartosc sekretu w raporcie!"
+          print("przyklady endpointow:", eps[:15])
+          PY
+          else
+            echo "brak JS — krok miningu pominiety"
+          fi
 
       - name: Audyt zgodnosci przebiegu
         run: |
@@ -109,6 +137,10 @@ jobs:
 
       - name: Commit raportu do galezi
         run: |
+          # zabezpieczenie: zadnego ciala odpowiedzi w repo (tylko raporty/analizy)
+          if [ -n "$(git status --porcelain | grep -vE '^\?\? nask/reports/|^A  nask/reports/|^ M nask/reports/')" ]; then
+            echo "UWAGA: nieoczekiwane zmiany poza nask/reports — nie commituje"; git status --porcelain; exit 1
+          fi
           git config user.name "arena-nask-bot"
           git config user.email "arena-nask-bot@users.noreply.github.com"
           git add nask/reports

@@ -1,0 +1,792 @@
+{
+  "plan_run": "RAWPATH-004",
+  "date": "2026-11-04",
+  "author": "Arena c87f7a48",
+  "based_on": "nask/reports/analysis-run003.json z galezi Pokemon@arena/7911f950 (commit ca0f3cc9) — 479 dokumentow, z tego 129 plikow JS na hostach §5. NIE crawluje nic samodzielnie: plan jest lista assetow, ktore ich przebieg juz zobaczyl.",
+  "purpose": "Domknac L12/L5 z runbooka: mapa endpointow z bundli (zglos flight-data, dyzurnet app-router, dns.pl Drupal domain-browser, HIVE index-*.js 2.77 MB) BEZ wysylania sond do API. Ciala sa pobierane do katalogu roboczego runnera (RUNNER_TEMP) i NIGDY nie trafiaja do repo; commitujemy wylacznie analize bundle_scan.py (endpointy, parametry, formaty ID, odciski sekretow).",
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026, §5/§6/§8",
+    "hosts": "12 literalow §5; www.nask.pl WYKLUCZONE z planu (2 dokumenty z ich mapy pomijam)",
+    "what": "publiczne assety JS, ktore pobiera kazda przegladarka odwiedzajaca te strony; GET-only",
+    "rate": "1.0 req/s sekwencyjnie (regulamin: 5) — wolniej niz przegladarka",
+    "state_change": "ZERO; zero POST; zero sondowania endpointow API w tym przebiegu",
+    "data": "ciala zostaja na runnerze; do repo trafia manifest (id/url/rozmiar/sha256/typ) i analiza bez tresci",
+    "secrets": "bundle_scan zapisuje ODCISK sha256[:12] + dlugosc + entropie, nigdy fragment wartosci (KOREKTA #33)"
+  },
+  "probes": [
+    {
+      "id": "js-001-116sos",
+      "url": "https://116sos.pl/_next/static/8CjJwbyxpVqpWnorny23T/_buildManifest.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 5453 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-002-116sos",
+      "url": "https://116sos.pl/_next/static/8CjJwbyxpVqpWnorny23T/_ssgManifest.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 459 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-003-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/4125-eec950d4bc4fe7f0.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 82956 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-004-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/4165-3fdd1dafcfa06ed4.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 16656 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-005-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/4225-4efa18ad1daccf45.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 57831 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-006-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/4661-03fece942227a40f.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 8889 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-007-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/7100-2129ccaa94d967cf.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 79872 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-008-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/97-fc10c7ada9fc72f8.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 164442 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-009-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/framework-e6c7080b6dfa798b.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 420478 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-010-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/main-94bc6707d4ece65a.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 169297 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-011-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/pages/404-7c666c518601c5ff.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 4733 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-012-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/pages/_app-1106ac9f13f1718c.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 432087 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-013-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/pages/index-4cac6f9e73cb76e5.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 22298 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-014-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/polyfills-42372ed130431b0a.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 112594 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-015-116sos",
+      "url": "https://116sos.pl/_next/static/chunks/webpack-1222a6ab286d6dc9.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 4791 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-016-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 112594 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-017-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/0w4utots6eco9.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 126819 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-018-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/10z12yry21psu.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 665761 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-019-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/18krwe8j0lp89.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 158696 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-020-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/1ey0tzaixu969.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 227741 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-021-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/2-8uxx08smute.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 30549 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-022-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/2y59kb5oyawum.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 15348 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-023-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/35g9u-wrehnzi.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 417741 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-024-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/3iel4-q6f-0oy.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 17852 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-025-bezpiecznymies",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 10030 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-026-dataannotation",
+      "url": "https://dataannotation.pllum.org.pl/assets/index-ClBZuP56.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2770426 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-027-dns",
+      "url": "https://dns.pl/bundles/bazingajstranslation/js/translator.min.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 5035 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-028-dns",
+      "url": "https://dns.pl/dist/scripts/918-3.3.0.ac20b951.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 892552 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-029-dns",
+      "url": "https://dns.pl/dist/scripts/main-3.3.0.02aeae80.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 117358 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-030-dns",
+      "url": "https://dns.pl/dist/scripts/runtime-3.3.0.28f8de37.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 1599 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-031-dns",
+      "url": "https://dns.pl/translations/delegation?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 779 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-032-dns",
+      "url": "https://dns.pl/translations/deletedDomainCount?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 550 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-033-dns",
+      "url": "https://dns.pl/translations/domainBrowser?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 1666 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-034-dns",
+      "url": "https://dns.pl/translations/domainCount?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 159 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-035-dns",
+      "url": "https://dns.pl/translations/enum?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 347 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-036-dns",
+      "url": "https://dns.pl/translations/funnyName?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 1038 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-037-dns",
+      "url": "https://dns.pl/translations/govErrors?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 18669 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-038-dns",
+      "url": "https://dns.pl/translations/idnTranslator?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 964 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-039-dns",
+      "url": "https://dns.pl/translations/registrarsList?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3035 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-040-dns",
+      "url": "https://dns.pl/translations/statCharts?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 348 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-041-dns",
+      "url": "https://dns.pl/translations/transfer?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 6280 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-042-dns",
+      "url": "https://dns.pl/translations/wcag?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 920 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-043-dns",
+      "url": "https://dns.pl/translations/whoIs?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2708 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-044-dns",
+      "url": "https://dns.pl/translations/zoneStats?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 1098 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-045-dns",
+      "url": "https://dns.pl/translations?locales=pl",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 7228 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-046-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/04mdbrgdjpnbq.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 4831 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-047-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/07lirgnhzsm11.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2924 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-048-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 112594 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-049-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/0s6h-yted0uw2.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 50780 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-050-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/0v1n5lp8ubxj2.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 20000 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-051-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/0vyi56aya56rg.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 163327 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-052-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/1rh8-9-2_7k2d.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2088 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-053-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/1zkc3mymypfwm.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 26518 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-054-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/2-5er9m2_t7b6.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 21553 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-055-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/26hbu1e9eaa5-.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 34024 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-056-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/2p9ljallbhsik.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 33880 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-057-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/2vy43xy80_lh-.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 38869 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-058-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/2ydgn1tgb69eq.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 207228 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-059-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/3j19fjxgah_v0.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 6529 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-060-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/3mszv0ft6a7a_.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 407786 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-061-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/3vub9fxmxbjlz.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 24512 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-062-dyzurnet",
+      "url": "https://dyzurnet.pl/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 10030 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-063-dyzurnet",
+      "url": "https://dyzurnet.pl/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 1239 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-064-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/01oz8t4rw-8jj.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3234 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-065-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/02nb7hg5s7v8z.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 158647 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-066-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/08n2mthgm95xu.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 29523 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-067-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 112594 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-068-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/0gnc331ufzpqs.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 14147 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-069-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/0gr21xybkhnle.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 8108 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-070-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/0sng4_8r3chh8.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 30665 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-071-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/0sw1eb_yznt8l.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 229592 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-072-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/25wnn-gw_syze.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 12970 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-073-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/336zrw5xkwuiy.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 13490 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-074-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/3ad-negp3lyp2.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 13827 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-075-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/3wo7t9hh7pyto.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2108 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-076-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/41lk95l8op7nz.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 34692 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-077-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/44_w6eytmvq9p.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3722 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-078-oad",
+      "url": "https://oad.nask.pl/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 10030 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-079-pllum",
+      "url": "https://pllum.org.pl/_nuxt/-C9FN7Ba.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3672 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-080-pllum",
+      "url": "https://pllum.org.pl/_nuxt/66rz0oFA.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 1598 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-081-pllum",
+      "url": "https://pllum.org.pl/_nuxt/9uif2R2V.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 31443 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-082-pllum",
+      "url": "https://pllum.org.pl/_nuxt/BJ0Ek7y3.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2023 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-083-pllum",
+      "url": "https://pllum.org.pl/_nuxt/BJ2ClxiI.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2629 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-084-pllum",
+      "url": "https://pllum.org.pl/_nuxt/BMEwPcxG.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 4098 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-085-pllum",
+      "url": "https://pllum.org.pl/_nuxt/BQcmsTRh.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 12643 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-086-pllum",
+      "url": "https://pllum.org.pl/_nuxt/BSqRjEM9.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 2316 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-087-pllum",
+      "url": "https://pllum.org.pl/_nuxt/BqxNAZss.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 5953 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-088-pllum",
+      "url": "https://pllum.org.pl/_nuxt/C1wZBUgL.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 234 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-089-pllum",
+      "url": "https://pllum.org.pl/_nuxt/C5SKit0R.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 5380 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-090-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CAlTsaVx.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3800 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-091-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CGR6JgK7.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 85683 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-092-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CGmQ8tKL.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 4434 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-093-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CI9Gd-qu.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 7102 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-094-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CV0IJDpc.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 41044 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-095-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CWQjT-PT.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 115 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-096-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CXQd0J5C.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 1649 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-097-pllum",
+      "url": "https://pllum.org.pl/_nuxt/CbpnTjo1.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3604 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-098-pllum",
+      "url": "https://pllum.org.pl/_nuxt/Cze8tWNQ.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 252502 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-099-pllum",
+      "url": "https://pllum.org.pl/_nuxt/DMefkSmz.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 7730 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-100-pllum",
+      "url": "https://pllum.org.pl/_nuxt/DNcLBEIr.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 15758 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-101-pllum",
+      "url": "https://pllum.org.pl/_nuxt/D_lYqQJL.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 45970 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-102-pllum",
+      "url": "https://pllum.org.pl/_nuxt/DaRjI7nc.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 8584 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-103-pllum",
+      "url": "https://pllum.org.pl/_nuxt/DlAUqK2U.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 91 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-104-pllum",
+      "url": "https://pllum.org.pl/_nuxt/DwJuBpzS.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 839 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-105-pllum",
+      "url": "https://pllum.org.pl/_nuxt/FczsBppw.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 7748 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-106-pllum",
+      "url": "https://pllum.org.pl/_nuxt/U0KiN5q5.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 471 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-107-science",
+      "url": "https://science.nask.pl/_next/static/Grl_YQ5SCHd1ahmhesPv6/_buildManifest.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 8872 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-108-science",
+      "url": "https://science.nask.pl/_next/static/Grl_YQ5SCHd1ahmhesPv6/_clientMiddlewareManifest.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 96 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-109-science",
+      "url": "https://science.nask.pl/_next/static/Grl_YQ5SCHd1ahmhesPv6/_ssgManifest.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 827 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-110-science",
+      "url": "https://science.nask.pl/_next/static/chunks/022bbpomwzg6i.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 24059 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-111-science",
+      "url": "https://science.nask.pl/_next/static/chunks/0dck9t_bz8687.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 31699 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-112-science",
+      "url": "https://science.nask.pl/_next/static/chunks/1twrq8867wq7g.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 6662 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-113-science",
+      "url": "https://science.nask.pl/_next/static/chunks/33qgb98h_6wco.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3269 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-114-science",
+      "url": "https://science.nask.pl/_next/static/chunks/38c-rhg1it8eg.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 100173 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-115-science",
+      "url": "https://science.nask.pl/_next/static/chunks/3bjjbczm6xmxy.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 238510 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-116-science",
+      "url": "https://science.nask.pl/_next/static/chunks/3bpomgww3gqxa.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 40634 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-117-science",
+      "url": "https://science.nask.pl/_next/static/chunks/3wigeoy01-4us.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 49750 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-118-science",
+      "url": "https://science.nask.pl/_next/static/chunks/turbopack-2c3mg3r-05n1w.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 11255 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-119-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/413-5e0b6b7e5866129f.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 119015 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-120-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/51fbb617-cbc03c785fe2a174.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 950 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-121-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/6da37222-b092541e14d1b5a6.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 203721 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-122-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/7e0b69db-8f9206bcea1ce65f.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 69999 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-123-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/94-f73edc448420d7d8.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 242176 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-124-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/app/%5Blocale%5D/error-10980afc28860fc9.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 11485 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-125-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/app/%5Blocale%5D/layout-63e01e706d03fdef.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 15967 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-126-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/app/%5Blocale%5D/page-b09fb0150c4ca4ed.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 19338 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-127-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/main-app-8be590c639fce775.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 512 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-128-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/polyfills-42372ed130431b0a.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 112594 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    },
+    {
+      "id": "js-129-zglos_dezinfor",
+      "url": "https://zglos-dezinformacje.nask.pl/_next/static/chunks/webpack-3937ac471c6a060c.js",
+      "why": "asset z mapy 7911f950 run003 (analysis-run003.json, 3430 B) — mining OFFLINE endpointow/parametrow/formatow ID; zero probowania endpointow",
+      "max_bytes": 4000000
+    }
+  ]
+}
