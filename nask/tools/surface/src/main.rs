@@ -359,11 +359,57 @@ fn cmd_run(out: &Path, rps: f64, per_host_assets: usize) -> Result<Value, String
 fn cmd_probe(plan: &Path, out: &Path, rps: f64, snippets: bool) -> Result<Value, String> {
     let raw = std::fs::read_to_string(plan).map_err(|e| format!("{}: {e}", plan.display()))?;
     let plan_v: Value = serde_json::from_str(&raw).map_err(|e| e.to_string())?;
-    let probes: Vec<Value> = plan_v
+    let mut probes: Vec<Value> = plan_v
         .get("probes")
         .and_then(|v| v.as_array())
         .cloned()
         .unwrap_or_default();
+
+    // Compact form for a wide, shallow sweep: the same list of paths against
+    // every listed host. Writing 100+ near-identical entries by hand invites
+    // copy-paste mistakes, and a typo in a URL is a request to the wrong place.
+    if let Some(m) = plan_v.get("matrix") {
+        let hosts: Vec<String> = m
+            .get("hosts")
+            .and_then(|v| v.as_array())
+            .map(|a| a.iter().filter_map(|h| h.as_str().map(String::from)).collect())
+            .unwrap_or_default();
+        let paths: Vec<(String, String)> = m
+            .get("paths")
+            .and_then(|v| v.as_array())
+            .map(|a| {
+                a.iter()
+                    .filter_map(|p| {
+                        Some((
+                            p.get("path")?.as_str()?.to_string(),
+                            p.get("note").and_then(|n| n.as_str()).unwrap_or("").to_string(),
+                        ))
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        if hosts.len() * paths.len() > 400 {
+            return Err(format!(
+                "matrix expands to {} probes, above the 400 safety limit",
+                hosts.len() * paths.len()
+            ));
+        }
+        for host in &hosts {
+            for (path, note) in &paths {
+                let slug: String = path
+                    .trim_matches('/')
+                    .chars()
+                    .map(|c| if c.is_ascii_alphanumeric() { c.to_ascii_lowercase() } else { '-' })
+                    .collect();
+                probes.push(json!({
+                    "id": format!("{}-{}", host.split('.').next().unwrap_or(host), slug),
+                    "url": format!("https://{host}{path}"),
+                    "note": format!("{host}: {note}"),
+                    "snippet": path.len() < 20,
+                }));
+            }
+        }
+    }
     if probes.is_empty() {
         return Err("plan has no probes".into());
     }

