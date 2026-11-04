@@ -35,7 +35,7 @@ TOKEN_PARAM_NAMES = {
 UUID_RE = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 HEX_LONG_RE = re.compile(r"^[0-9a-fA-F]{16,}$")
 BASE64_LONG_RE = re.compile(r"^[A-Za-z0-9+/=]{24,}$")
-NUMERIC_ID_RE = re.compile(r"^\d{4,}$")
+NUMERIC_ID_RE = re.compile(r"^\d{3,}$")
 
 
 def normalize_template(path: str) -> str:
@@ -118,10 +118,10 @@ def analyze(
         by_template.setdefault((o.template, o.method), {}).setdefault(o.account, []).append(o.status)
 
     for (template, method), per_account in by_template.items():
-        statuses_2xx = {a for a, sts in per_account.items() if any(200 <= s < 300 for s in sts)}
-        statuses_denied = {a for a, sts in per_account.items() if any(s in (401, 403) for s in sts)}
-        if statuses_2xx and statuses_denied and (statuses_2xx & statuses_denied):
-            accounts = tuple(sorted(statuses_2xx | statuses_denied))
+        ok_only = {a for a, sts in per_account.items() if all(200 <= s < 300 for s in sts)}
+        denied_only = {a for a, sts in per_account.items() if all(s in (401, 403) for s in sts)}
+        if ok_only and denied_only:
+            accounts = tuple(sorted(ok_only | denied_only))
             statuses = tuple(sorted({s for a in accounts for s in per_account[a]}))
             findings.append(
                 Finding(

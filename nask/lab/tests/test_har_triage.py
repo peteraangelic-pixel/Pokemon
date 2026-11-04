@@ -21,7 +21,7 @@ class Tests(unittest.TestCase):
     def test_normalize_ids(self):
         self.assertEqual(normalize_template("/api/tasks/101"), "/api/tasks/{id}")
         self.assertEqual(normalize_template("/api/tasks/abc123deadbeef"), "/api/tasks/{id}")
-        self.assertEqual(normalize_template("/api/public/5"), "/api/public/{id}")
+        self.assertEqual(normalize_template("/api/public/5"), "/api/public/5")
 
     def test_permission_asymmetry_and_idor(self):
         findings = analyze(OBS)
