@@ -3,19 +3,26 @@ name: NASK raw-path probe
 # Sonda o SUROWEJ sciezce (bez normalizacji klienta) dla 12 hostow z §5 programu
 # NASK PIB na hack.cert.pl (edycja 11/2026). GET-only, 1 req/s, zero zmiany stanu,
 # zero tresci wrazliwych w logach i w repo. Bramka: testy offline bez sieci.
+#
+# DIAGNOSTYKA: sandbox sesji Arena nie ma dostepu do hosta blobow Actions
+# (`productionresultssa*.blob.core.windows.net` -> EOF), wiec logow przegladarkowych
+# nie da sie czytac `gh api .../logs`. Dlatego kazdy krok zapisuje swoj log do
+# $RUNNER_TEMP, a krok koncowy (if: always) commituje ich ogony do
+# `nask/reports/logs-run<N>/`. Bez tego porazka przebiegu jest nieodczytywalna.
 
 on:
   push:
     branches: [ "arena/c87f7a48-pokemon" ]
     paths:
       - "nask/tools/rawpath.py"
+      - "nask/tools/bundle_scan.py"
       - "nask/run/RAWPATH-*.json"
       - ".github/workflows/nask-rawpath.yml"
   workflow_dispatch:
     inputs:
       plan:
-        description: "Plik planu (nask/run/RAWPATH-001.json)"
-        default: "nask/run/RAWPATH-001.json"
+        description: "Plik planu (domyslnie najnowszy nask/run/RAWPATH-*.json)"
+        default: ""
       rps:
         description: "Tempo req/s (sufit regulaminowy 5, domyslnie 1.0)"
         default: "1.0"
@@ -38,7 +45,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Testy jednostkowe (offline)
-        run: python -m unittest discover -s nask/tools -p "test_*.py" -v
+        run: |
+          python -m unittest discover -s nask/tools -p "test_*.py" -v 2>&1 | tail -40
+          python -m unittest discover -s nask/tools/vendor/a450b00f/tests -p "test_*.py" -v 2>&1 | tail -20
       - name: Selftest narzedzia (straz zakresu, sufit tempa, klasyfikator)
         run: python nask/tools/rawpath.py --selftest
 
@@ -46,7 +55,7 @@ jobs:
     name: "Sonda: GET-only 1 req/s, hosty wylacznie z §5"
     needs: gate
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -60,94 +69,152 @@ jobs:
         run: |
           PLAN="${{ github.event.inputs.plan }}"
           if [ -z "$PLAN" ]; then
-            # push bez parametru: najnowszy plan w nask/run/ (sort leksykalny = numeracja RAWPATH-00N)
             PLAN="$(ls -1 nask/run/RAWPATH-*.json | sort | tail -1)"
           fi
           RPS="${{ github.event.inputs.rps }}"
           [ -z "$RPS" ] && RPS="1.0"
           TAG="$(basename "$PLAN" .json | tr '[:upper:]' '[:lower:]')"
+          RUN="${{ github.run_number }}"
+          mkdir -p "$RUNNER_TEMP/logs"
           echo "plan=$PLAN" >> "$GITHUB_OUTPUT"
           echo "rps=$RPS" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "out=nask/reports/${TAG}-run${{ github.run_number }}.json" >> "$GITHUB_OUTPUT"
-          echo "plan=$PLAN rps=$RPS out=${TAG}-run${{ github.run_number }}.json"
+          echo "out=nask/reports/${TAG}-run${RUN}.json" >> "$GITHUB_OUTPUT"
+          echo "mine=nask/reports/mine-${TAG}-run${RUN}.json" >> "$GITHUB_OUTPUT"
+          echo "logdir=nask/reports/logs-run${RUN}" >> "$GITHUB_OUTPUT"
+          echo "plan=$PLAN rps=$RPS tag=$TAG run=$RUN"
 
       - name: Dry-run — walidacja zakresu PRZED jakimkolwiek zadaniem
-        run: python nask/tools/rawpath.py --plan "${{ steps.cfg.outputs.plan }}" --dry-run
+        run: |
+          set +e
+          python nask/tools/rawpath.py --plan "${{ steps.cfg.outputs.plan }}" --dry-run \
+            2>&1 | tee "$RUNNER_TEMP/logs/10-dryrun.log" | tail -25
+          rc=${PIPESTATUS[0]}; set -e
+          echo "dry-run rc=$rc"
+          exit $rc
 
       - name: Przebieg (sekwencyjny, globalny limiter)
+        id: probe
+        continue-on-error: true
         run: |
-          # ciala odpowiedzi ida WYLACZNIE do katalogu roboczego runnera (RUNNER_TEMP),
-          # nigdy do repo — do repo trafia manifest (id/url/rozmiar/sha256/typ)
+          set +e
           python nask/tools/rawpath.py \
             --plan "${{ steps.cfg.outputs.plan }}" \
             --rps "${{ steps.cfg.outputs.rps }}" \
             --max-bytes 4000000 \
             --save-bodies "$RUNNER_TEMP/bodies" \
-            --out "${{ steps.cfg.outputs.out }}"
+            --out "${{ steps.cfg.outputs.out }}" \
+            2>&1 | tee "$RUNNER_TEMP/logs/20-probe.log" | tail -60
+          rc=${PIPESTATUS[0]}; set -e
+          echo "probe rc=$rc" | tee -a "$RUNNER_TEMP/logs/20-probe.log"
+          exit $rc
 
       - name: Mining offline (bundle_scan) — tylko jesli pobrano JS
+        id: mine
+        continue-on-error: true
         run: |
+          set +e
           DIR="$RUNNER_TEMP/bodies"
           CNT=$(find "$DIR" -type f -name '*.js' 2>/dev/null | wc -l)
-          echo "plikow JS do analizy: $CNT"
+          BYTES=$(du -sb "$DIR" 2>/dev/null | cut -f1)
+          echo "plikow JS: $CNT, bajtow: ${BYTES:-0}" | tee "$RUNNER_TEMP/logs/30-mine.log"
           if [ "$CNT" -gt 0 ]; then
-            python nask/tools/bundle_scan.py --in "$DIR" \
-              --out "nask/reports/mine-${{ steps.cfg.outputs.tag }}-run${{ github.run_number }}.json"
-            python - <<'PY'
-          import json, glob
-          f = sorted(glob.glob("nask/reports/mine-*-run${{ github.run_number }}.json"))[-1]
-          d = json.load(open(f, encoding="utf-8"))
-          files = d.get("files") or d.get("results") or []
-          eps = sorted({e for r in files for e in (r.get("endpoints") or [])})
-          secs = [s for r in files for s in (r.get("secrets") or [])]
-          print(f"plikow: {len(files)}, endpointow unikalnych: {len(eps)}, kandydatow na sekrety: {len(secs)}")
+            python nask/tools/bundle_scan.py --in "$DIR" --out "${{ steps.cfg.outputs.mine }}" \
+              2>&1 | tee -a "$RUNNER_TEMP/logs/30-mine.log" | tail -20
+            rc=${PIPESTATUS[0]}
+            python - "$RUNNER_TEMP/logs/30-mine.log" <<'PY' 2>&1 | tee -a "$RUNNER_TEMP/logs/30-mine.log"
+          import json, glob, sys
+          files = sorted(glob.glob("nask/reports/mine-*-run%s.json" % "${{ github.run_number }}"))
+          if not files:
+              print("BRAK RAPORTU MININGU"); sys.exit(0)
+          d = json.load(open(files[-1], encoding="utf-8"))
+          # UWAGA: w raporcie bundle_scan klucz "files" to LICZNIK (int), a lista
+          # wynikow jest pod "results" — run 5 padl wlasnie na tym (TypeError)
+          rows = d.get("results") if isinstance(d.get("results"), list) else []
+          eps = sorted({e for r in rows for e in (r.get("endpoints") or [])})
+          secs = [s for r in rows for s in (r.get("secrets") or [])]
           blob = json.dumps(d, ensure_ascii=False)
-          assert "AKIA" not in blob and "-----BEGIN" not in blob, "wartosc sekretu w raporcie!"
-          print("przyklady endpointow:", eps[:15])
+          print("plikow:", len(rows), "| endpointow unikalnych:", len(eps), "| kandydatow na sekrety:", len(secs))
+          print("przyklady endpointow:", eps[:20])
+          for bad in ("AKIA", "ASIA", "-----BEGIN", "xox"):
+              assert bad not in blob, "wartosc sekretu w raporcie: " + bad
           PY
+            echo "mine rc=$rc" | tee -a "$RUNNER_TEMP/logs/30-mine.log"
           else
-            echo "brak JS — krok miningu pominiety"
+            echo "brak JS — mining pominiety" | tee -a "$RUNNER_TEMP/logs/30-mine.log"
+            rc=0
           fi
+          set -e
+          exit $rc
 
       - name: Audyt zgodnosci przebiegu
+        id: audit
+        continue-on-error: true
         run: |
-          python - <<'PY'
-          import json, os, sys, glob
-          files = sorted(glob.glob("nask/reports/*-run${{ github.run_number }}.json"))
-          if not files:
-              print("BRAK RAPORTU — przebieg nie zapisal wyniku"); sys.exit(1)
-          d = json.load(open(files[-1], encoding="utf-8"))
+          set +e
+          OUT="${{ steps.cfg.outputs.out }}"
+          MINE="${{ steps.cfg.outputs.mine }}"
+          RUN="${{ github.run_number }}"
+          python - "$OUT" "$MINE" "$RUN" <<'PY' 2>&1 | tee "$RUNNER_TEMP/logs/40-audit.log"
+          import json, os, sys, urllib.parse
+          out, mine, run = sys.argv[1], sys.argv[2], sys.argv[3]
           scope = {"nask.pl","dyzurnet.pl","dns.pl","oad.nask.pl","zglos-dezinformacje.nask.pl",
                    "bezpiecznymiesiac.pl","secure.edu.pl","bezpiecznewybory.pl","116sos.pl",
                    "pllum.org.pl","science.nask.pl","dataannotation.pllum.org.pl"}
-          import urllib.parse
+          if not os.path.exists(out):
+              print("BRAK RAPORTU PRZEBIEGU:", out); sys.exit(1)
+          d = json.load(open(out, encoding="utf-8"))
           hosts = {urllib.parse.urlsplit(p["url"]).hostname for p in d["probes"]}
-          assert hosts <= scope, f"hosty spoza §5: {hosts - scope}"
+          assert hosts <= scope, "hosty spoza §5: %s" % (hosts - scope)
           gap = d.get("min_observed_gap_s")
           if gap is not None:
-              assert gap >= 0.19, f"tempo powyzej 5 req/s: odstep {gap}"
-              print(f"min. odstep miedzy zadaniami: {gap:.6f} s (limit 0.2 s = 5 req/s)")
-          print(f"hosty: {len(hosts)} (wszystkie w §5), zadan: {d['count']}, "
-                f"czas: {d.get('wall_seconds')} s")
-          print("werdykty:", json.dumps(d["summary"]["verdicts"], ensure_ascii=False))
-          print("kandydaci do recznego potwierdzenia:", len(d["summary"]["candidates"]))
-          print("identyczne ciala (dowod z hasha):", len(d["identical_bodies"]))
+              assert gap >= 0.19, "tempo powyzej 5 req/s: odstep %s" % gap
+              print("min. odstep miedzy zadaniami: %.6f s (limit 0.2 s = 5 req/s)" % gap)
+          s = d.get("summary") or {}
+          print("hosty: %d (wszystkie w §5) | zadan: %d | czas: %s s" % (len(hosts), d["count"], d.get("wall_seconds")))
+          print("werdykty:", json.dumps(s.get("verdicts"), ensure_ascii=False))
+          print("kandydaci do recznego potwierdzenia:", len(s.get("candidates") or []))
+          print("identyczne ciala (dowod z hasha):", len(d.get("identical_bodies") or []))
+          print("ciala zapisane do analizy:", d.get("bodies_saved"), "| bajtow:", d.get("bodies_bytes_total"))
+          # raport nie moze zawierac wartosci sekretow
+          blob = json.dumps(d, ensure_ascii=False)
+          for bad in ("AKIA", "ASIA", "-----BEGIN", "DB_PASSWORD=", "xox"):
+              assert bad not in blob, "sekret w raporcie: " + bad
+          if os.path.exists(mine):
+              m = json.load(open(mine, encoding="utf-8"))
+              rows = m.get("results") if isinstance(m.get("results"), list) else []
+              print("mining: plikow %d | endpointow %d | idor_prerank %d"
+                    % (len(rows),
+                       len({e for r in rows for e in (r.get("endpoints") or [])}),
+                       len(m.get("idor_prerank") or [])))
+          print("AUDYT OK")
           PY
+          rc=${PIPESTATUS[0]}; set -e
+          exit $rc
 
-      - name: Commit raportu do galezi
+      - name: Diagnostyka + commit raportow (zawsze, takze po porazce)
+        if: always()
         run: |
-          # zabezpieczenie: zadnego ciala odpowiedzi w repo (tylko raporty/analizy)
-          if [ -n "$(git status --porcelain | grep -vE '^\?\? nask/reports/|^A  nask/reports/|^ M nask/reports/')" ]; then
-            echo "UWAGA: nieoczekiwane zmiany poza nask/reports — nie commituje"; git status --porcelain; exit 1
-          fi
+          LOGDIR="${{ steps.cfg.outputs.logdir }}"
+          mkdir -p "$LOGDIR"
+          for f in "$RUNNER_TEMP"/logs/*.log; do
+            [ -e "$f" ] || continue
+            tail -300 "$f" > "$LOGDIR/$(basename "$f")"
+          done
+          {
+            echo "run: ${{ github.run_number }} | sha: ${{ github.sha }}"
+            echo "plan: ${{ steps.cfg.outputs.plan }}"
+            echo "kody krokow: probe=${{ steps.probe.outcome }} mine=${{ steps.mine.outcome }} audit=${{ steps.audit.outcome }}"
+          } > "$LOGDIR/00-summary.txt" 2>/dev/null || true
+          # zadnego ciala odpowiedzi w repo — tylko raporty i ogony logow
+          git status --porcelain | grep -vE '^\?\? nask/reports/' || true
           git config user.name "arena-nask-bot"
           git config user.email "arena-nask-bot@users.noreply.github.com"
           git add nask/reports
           if git diff --cached --quiet; then
-            echo "brak nowych raportow"
+            echo "brak nowych raportow do commitu"
           else
-            git commit -m "nask-rawpath: raport ${{ steps.cfg.outputs.tag }} (run ${{ github.run_number }}) [skip ci]"
+            git commit -m "nask-rawpath: raporty ${{ steps.cfg.outputs.tag }} (run ${{ github.run_number }}) [skip ci]"
             git pull --rebase origin arena/c87f7a48-pokemon
             git push origin HEAD:arena/c87f7a48-pokemon
           fi

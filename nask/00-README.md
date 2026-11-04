@@ -47,8 +47,10 @@ Wszystko, co wymaga logowania, jest w planie — do wykonania ręcznie.
 | plik | co zawiera |
 |---|---|
 | `PRZEGLAD-GALEZI-20261104.md` | przegląd 6 gałęzi + repo NASK: co przejmuję, co **prostuję z dowodem** (m.in. 23 „interesting" z run007 = szum), co wnoszę; wyniki 3 przebiegów RAWPATH (52 żądania) |
-| `RUNBOOK-REV2-20261104.md` | **obowiązująca** kolejność L0–L5 (L1/L2 HIVE zablokowane — brak publicznej rejestracji; L3 sendForm tylko z przeglądarki usera i po GO) |
+| `RUNBOOK-REV3-20261104.md` | **obowiązująca** kolejność L0–L5 (L1/L2 HIVE zablokowane — brak publicznej rejestracji; L3 sendForm tylko z przeglądarki usera i po GO) |
 | `REJESTR-LEADS-20261104.md` | baza prawdy leadów: L1–L12 ze statusem i dowodem + log wszystkich żądań (noc + dzień) |
+| `PRZEGLAD-GALEZI-20261104-FALA2.md` | **fala 2**: commity 10:14–10:55 + 7 nowych plików Drive (20 razem) — H10 obalony, HIVE zaproszeniowy, mwdb 2.20.0, PowerBI embed (URL), 3 nowe formularze (w tym jeden **wykluczony decyzją własną**), defekt w `har_triage` znaleziony przez uruchomienie |
+| `tools/vendor/a450b00f/` | przejęty offline-triage HAR z dwóch własnych kont (+ `PROWENIENCJA.md`: commit, 1/11 FAIL u źródła, nasza 1 poprawka, 11/11 OK) |
 | `tools/rawpath.py` + `tools/test_rawpath.py` | sonda o **surowej ścieżce** (bez normalizacji klienta), klasyfikator z dowodu, schemat kluczy JSON bez wartości, redakcja sekretów; 52 testy + selftest 11 grup |
 | `run/RAWPATH-00{1,2,3}.json` | plany przebiegów (35 + 10 + 7 prób) z uzasadnieniem i warunkami odrzucenia |
 | `reports/rawpath-00{1,2,3}-run*.json` | rekordy każdego żądania: status, typ, rozmiar, sha256, czas, znaczniki, błędy |

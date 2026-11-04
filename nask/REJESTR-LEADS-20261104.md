@@ -27,18 +27,25 @@ kontach. Wszystko, co poniżej oznaczone WYKLUCZONE, **nie idzie do zgłoszenia*
 
 | id | cel | klasa regulaminu | status | plan |
 |---|---|---|---|---|
-| L1 | HIVE | 9.1–9.3, 12.1–12.2, 13 | **ZABLOKOWANY (04.11)** — brak publicznej rejestracji: `/register`, `/api/v1/register` → 404 w 2 kanałach; `/api/v1/projects/` → 401; `/api/v1/users/1` → 405 | runbook rev 2 **L4**; wymaga konta od organizatora (wniosek = L0 pkt 2) |
-| L2 | HIVE reset | 2.1–2.3 | **ZABLOKOWANY (04.11)** — jw., bez konta nie ma przepływu do zbadania | runbook rev 2 L4 krok 4.5 |
-| L3 | zglos-dezinformacje | 7 (upload ze skutkiem), 5 (SSRF **z odczytem**) | **AKTYWNY — najwyższa wartość**; automatem niewykonalny (reCAPTCHA v3 + żądanie zapisujące) | runbook rev 2 **L1** (przeglądarka usera + jawne GO); korekta #31: dowodem jest żądanie do własnego kontrolera **z odczytem**, nie tylko refleksja w UI |
+| L1 | HIVE | 9.1–9.3, 12.1–12.2, 13 | **ZABLOKOWANY (04.11)** — brak publicznej rejestracji: `/register`, `/api/v1/register` → 404 w 2 kanałach; `/api/v1/projects/` → 401; `/api/v1/users/1` → 405 | runbook rev 3 **L4**; wymaga konta od organizatora (wniosek = L0 pkt 2) |
+| L2 | HIVE reset | 2.1–2.3 | **ZABLOKOWANY (04.11)** — jw., bez konta nie ma przepływu do zbadania | runbook rev 3 L4 krok 4.5 |
+| L3 | zglos-dezinformacje | 7 (upload ze skutkiem), 5 (SSRF **z odczytem**) | **AKTYWNY — najwyższa wartość**; automatem niewykonalny (reCAPTCHA v3 + żądanie zapisujące) | runbook rev 3 **L1** (przeglądarka usera + jawne GO); korekta #31: dowodem jest żądanie do własnego kontrolera **z odczytem**, nie tylko refleksja w UI |
 | L4 | 116sos / science / dyzurnet | 3.1/3.3, 12.2 | **CZĘŚCIOWO ZAMKNIĘTY (04.11)**: `116sos/api/{fetch-cookie-hash,announcements,og-image,centres-search}` = negatywy/dane publiczne (run2); `science/api/media` = zamknięty (run1+2+3, 22 próby); `science/wp-json` = 404 | zostało: porównanie `totalItems` z UI 116sos (2 min usera) |
-| L5 | dns.pl | 3.3 / 12.2 | **AKTYWNY (niski)**; uwaga: host oddaje stronę główną z kodem 200 na obce ścieżki + `_event_transid` (korekta #32) ⇒ bez normalizacji każde porównanie jest fałszywe | runbook rev 2 L5 (mapa z bundli Drupal `domain-browser`) |
+| L5 | dns.pl | 3.3 / 12.2 | **AKTYWNY (niski)**; uwaga: host oddaje stronę główną z kodem 200 na obce ścieżki + `_event_transid` (korekta #32) ⇒ bez normalizacji każde porównanie jest fałszywe | runbook rev 3 L5 (mapa z bundli Drupal `domain-browser`) |
 | L6 | oad `/podglad-pdf` | 5 / 15 | **MARTWY (dowód: wiersze 8–12 logu)**; uzupełnione 04.11: na tym brzegu 500 nie niesie informacji (App Router daje 500 na każdą obcą ścieżkę) | nie testować ponownie |
 | L7 | `science.nask.pl/api/media/` traversal | 15 (path traversal/LFI) | **ZAMKNIĘTY NEGATYWNY (04.11, run1+2+3)** — `%2e` normalizuje nginx; aplikacja nie dekoduje drugi raz (`%252e%252e` → 404); ucieczka = `RemoteDisconnected`/nginx 400/404 aplikacji; **0 plików spoza `wp-content`** | nie wracać; dowód w `reports/rawpath-00{1,2,3}-run*.json` |
 | L8 | `116sos.pl/api/fetch-cookie-hash` | 3 | **ZAMKNIĘTY NEGATYWNY (04.11)** — wartość stała `6a9963b75ab63` w 3 próbkach przy nowym ciastku `stickounet` za każdym razem; brak wpływu (informacja bez danych wrażliwych = wykluczone) | nie wracać |
 | L9 | `116sos.pl/api/centres-search` | 3.1/3.3 | **AKTYWNY (2 min pracy usera)** — 28 kluczy, dane instytucjonalne placówek; jeśli API oddaje więcej niż publiczne UI (placówki niepubliczne / dane opiekunów) → klasa 3, Tier 2 do 10 000 zł | porównać `totalItems` z wyszukiwarką na `116sos.pl` |
 | L10 | `www.nask.pl` (apex `nask.pl` → 302) | — | **BLOKADA FORMALNA** — apex daje 302 na `www` w 8/8 żądań (run007), a §5 wymienia literał `nask.pl` bez `*` ⇒ cały Tier-1 host praktycznie nietestowalny | pytanie do organizatora (L0 pkt 3) |
 | L11 | `info-trace.116sos.pl` | — | **POZA §5** — subdomena ujawniona w nagłówku `Access-Control-Allow-Origin` (run1, `sos-D01/D02/D03`); nie testuję bez interpretacji organizatora | to samo pytanie co L10 |
-| L12 | mapy API z bundli (zglos flight-data 13+ chunków, dyzurnet app-router, dns.pl Drupal) | 9/12 | **AKTYWNY (ja, offline)** — bez wysyłania żądań; potem jedna sonda celowana na endpoint, nie sweep | `bundle_scan.py` + runbook rev 2 L5 |
+| L13 | `oad.nask.pl` — embed PowerBI | 3 (dostęp do danych wrażliwych) | **AKTYWNY — 2 minuty usera, najwyższy stosunek wartości do pracy** | otworzyć w incognito `oad.nask.pl/trendy` albo sam embed: `https://app.powerbi.com/reportEmbed?reportId=470044cf-1a84-4ecb-87f1-7e914afdbb19&autoAuth=true&ctid=95dc45af-07b0-4179-a598-9740073a6e4a` (URL wydobyty z `oad.nask.pl/_next/static/chunks/41lk95l8op7nz.js` w `analysis-run003.json` 7911f950). Agregaty → zamykamy; rekordy/dane osobowe bez logowania → klasa 3, Tier 1 (9 000/20 000 zł). **`app.powerbi.com` nietestowane automatem** (własność Microsoftu, poza §5) |
+| L14 | `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` | 7 (upload), 13 (mass assignment), 8 (stored XSS) | **AKTYWNY — wymaga GO** (żądanie zapisujące, Tier 2) | formularz z pola `forms` w `analysis-run003.json`: `name`, `description`, …; ta sama klasa co sendForm, mniejsza konkurencja |
+| L15 | `science.nask.pl/contact` | 7/8 | **AKTYWNY (niski)** — wymaga GO | pola `name`, `email`, …; prawdopodobnie tylko wysyła maila |
+| L16 | `116sos.pl/otrzymaj-pomoc/formularz` | — | **WYKLUCZONE DECYZJĄ WŁASNĄ — NIE TESTUJEMY NIGDY** | formularz „otrzymaj pomoc" przy telefonie zaufania dla dzieci/młodzieży w kryzysie: testowe zgłoszenie może uruchomić realną procedurę pomocową i zająć zasób potrzebujący. Regulamin tego nie zakazuje wprost — właśnie dlatego wykluczamy (realny, nieodwracalny wpływ na osoby trzecie) |
+| L17 | `dns.pl/translations/domainBrowser?locales=pl` (+`delegation`, `domainCount`, `deletedDomainCount`) | 12 | **AKTYWNY (offline)** — pobrane w RAWPATH-004 | tłumaczenia Symfony/Bazinga zawierają nazwy pól i parametrów ⇒ najtańsza droga do ożywienia `/api/domain-browser/` (404 bez właściwego parametru, `5ed750ef` bieg 4/5) |
+| L18 | HIVE `assets/index-ClBZuP56.js` = 2,77 MB | 9/10/13 | **AKTYWNY (offline)** — RAWPATH-004 czyta całość (limit 4 MB) | ich analiza wyciągnęła z niego tylko 75 literałów tras (vs 10 005 dla dns.pl) ⇒ mapa API HIVE **nie została wydobyta**; potrzebna w chwili przyznania konta (formaty ID = koszt IDOR-a) |
+| L19 | `har_triage` (kod `a450b00f@bb17ccdc`) | — (narzędzie) | **DEFEKT ZGŁOSZONY + naprawiony lokalnie** | `normalize_template("/api/tasks/abc123deadbeef")` nie normalizuje (HEX_LONG_RE `{16,}` vs ich test oczekujący `{id}`) → 1/11 testów FAIL na ich HEAD. U mnie: vendored + 1 udokumentowana poprawka (`{12,}`) → 11/11 OK. `nask/tools/vendor/a450b00f/PROWENIENCJA.md` |
+| L12 | mapy API z bundli (zglos flight-data 13+ chunków, dyzurnet app-router, dns.pl Drupal) | 9/12 | **AKTYWNY (ja, offline)** — bez wysyłania żądań; potem jedna sonda celowana na endpoint, nie sweep | `bundle_scan.py` + runbook rev 3 L5 |
 
 ## Wprost WYKLUCZONE z nagród (nie zgłaszamy, żeby nie palić reputacji zgłoszeń)
 
@@ -59,7 +66,7 @@ ta sama przyczyna na dwóch hostach = **jedna** nagroda · duplikat = zero · wy
 
 # DOPISEK 04.11 (dzień) — log żądań i rozstrzygnięcia po przeglądzie 6 gałęzi
 
-Źródła: `PRZEGLAD-GALEZI-20261104.md` (przegląd + dowody), `RUNBOOK-REV2-20261104.md` (nowa
+Źródła: `PRZEGLAD-GALEZI-20261104.md` (przegląd + dowody), `RUNBOOK-REV3-20261104.md` (nowa
 kolejność), `reports/rawpath-00{1,2,3}-run*.json` (rekordy wszystkich żądań).
 
 ## Log żądań 04.11 (łącznie 59 do celów w 4 przebiegach + 5 przez `fetch_page` + 2 `curl` zablokowane w sandboxie)
@@ -111,5 +118,32 @@ znaczniki treści (nazwy, nie fragmenty), `Set-Cookie` tylko jako nazwy. Dla śc
 | L9 | `totalItems` z `/api/centres-search` vs liczba placówek w publicznym UI | user (2 min) |
 | L1/L2 | HIVE IDOR/BAC/mass assignment/reset hasła | po koncie od organizatora |
 | L10/L11 | zakres `www.nask.pl` i `info-trace.116sos.pl` | pytanie do organizatora (L0) |
+| L13 | `oad.nask.pl` — embed PowerBI | 3 (dostęp do danych wrażliwych) | **AKTYWNY — 2 minuty usera, najwyższy stosunek wartości do pracy** | otworzyć w incognito `oad.nask.pl/trendy` albo sam embed: `https://app.powerbi.com/reportEmbed?reportId=470044cf-1a84-4ecb-87f1-7e914afdbb19&autoAuth=true&ctid=95dc45af-07b0-4179-a598-9740073a6e4a` (URL wydobyty z `oad.nask.pl/_next/static/chunks/41lk95l8op7nz.js` w `analysis-run003.json` 7911f950). Agregaty → zamykamy; rekordy/dane osobowe bez logowania → klasa 3, Tier 1 (9 000/20 000 zł). **`app.powerbi.com` nietestowane automatem** (własność Microsoftu, poza §5) |
+| L14 | `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` | 7 (upload), 13 (mass assignment), 8 (stored XSS) | **AKTYWNY — wymaga GO** (żądanie zapisujące, Tier 2) | formularz z pola `forms` w `analysis-run003.json`: `name`, `description`, …; ta sama klasa co sendForm, mniejsza konkurencja |
+| L15 | `science.nask.pl/contact` | 7/8 | **AKTYWNY (niski)** — wymaga GO | pola `name`, `email`, …; prawdopodobnie tylko wysyła maila |
+| L16 | `116sos.pl/otrzymaj-pomoc/formularz` | — | **WYKLUCZONE DECYZJĄ WŁASNĄ — NIE TESTUJEMY NIGDY** | formularz „otrzymaj pomoc" przy telefonie zaufania dla dzieci/młodzieży w kryzysie: testowe zgłoszenie może uruchomić realną procedurę pomocową i zająć zasób potrzebujący. Regulamin tego nie zakazuje wprost — właśnie dlatego wykluczamy (realny, nieodwracalny wpływ na osoby trzecie) |
+| L17 | `dns.pl/translations/domainBrowser?locales=pl` (+`delegation`, `domainCount`, `deletedDomainCount`) | 12 | **AKTYWNY (offline)** — pobrane w RAWPATH-004 | tłumaczenia Symfony/Bazinga zawierają nazwy pól i parametrów ⇒ najtańsza droga do ożywienia `/api/domain-browser/` (404 bez właściwego parametru, `5ed750ef` bieg 4/5) |
+| L18 | HIVE `assets/index-ClBZuP56.js` = 2,77 MB | 9/10/13 | **AKTYWNY (offline)** — RAWPATH-004 czyta całość (limit 4 MB) | ich analiza wyciągnęła z niego tylko 75 literałów tras (vs 10 005 dla dns.pl) ⇒ mapa API HIVE **nie została wydobyta**; potrzebna w chwili przyznania konta (formaty ID = koszt IDOR-a) |
+| L19 | `har_triage` (kod `a450b00f@bb17ccdc`) | — (narzędzie) | **DEFEKT ZGŁOSZONY + naprawiony lokalnie** | `normalize_template("/api/tasks/abc123deadbeef")` nie normalizuje (HEX_LONG_RE `{16,}` vs ich test oczekujący `{id}`) → 1/11 testów FAIL na ich HEAD. U mnie: vendored + 1 udokumentowana poprawka (`{12,}`) → 11/11 OK. `nask/tools/vendor/a450b00f/PROWENIENCJA.md` |
 | L12 | mapy API z bundli (zglos flight-data, dyzurnet app-router, dns.pl Drupal) — offline | ja |
 | L5 | `dns.pl` z normalizacją `_event_transid` | ja (niski priorytet) |
+
+## Zamknięcia z fali 2 (04.11, 10:14–10:55) — nie wracamy
+
+| co | dowód | kto |
+|---|---|---|
+| **H10 `/admin/logs` = „guardy tylko klienta"** (wycena 4,5–10k) | **OBALONE**: 200/713 B = **identyczne z catch-all** hosta; `/api/v1/admin/logs` → 404; `/api/v1/users/` → 401 | Gemma-B runda 7 (`e46c9169`) |
+| HIVE = dostęp **zaproszeniowy** (nie „brak rejestracji" przejściowy) | potwierdzone przez usera: trzeba być członkiem organizacji | `7911f950` raport nocy §4 |
+| `mwdb.cert.pl` XSS Rich attributes | `server_version` = **2.20.0** ⇒ poprawka #1272/#1274 wdrożona (program CERT, nie NASK) | Gemma-A przebieg 4 + Drive 15 |
+| `centres-search` filtrowanie | `q` i `id` **ignorowane** (13 306 B zawsze) ⇒ „testy SQLi na `q`" mierzyły szum; L9 prawie domknięty | Gemma-B runda 7 |
+| `pllum` Nuxt drafts | `_draft=true` → `200, 2 B = []` | Gemma-B + `7911f950` run010 |
+| Wagtail `/api/v2/*` | × 7 hostów → 308 → 404 (API niewystawione) | `7911f950` run009 |
+| Drupal `dns.pl` | `?_format=json`/`hal_json`, `/jsonapi/node/page`, `/user/login`, **`/user/register`**, `/core/install.php` → 404 | `7911f950` run010 |
+| WordPress `science`/`116sos` | `?rest_route=/wp/v2/posts` → **HTML** (162/103 kB), `xmlrpc.php`, `wp-login.php` → 404 | `7911f950` run010 |
+| `/_next/data` | `116sos` → 8 256 B `application/json`, ale `pageProps` **publicznej** strony; `science` → 404; `bezpiecznewybory` → 403 | `7911f950` run010 |
+| XSS refleksyjny | jedyna refleksja `bezpiecznymiesiac/?s=` trafia do payloadu RSC jako **zescapowany string JSON** → wykluczone §8 | `7911f950` run009 |
+| `dyzurnet/api` | 404 + 38 981 B (catch-all App Routera) — API nie istnieje pod tą ścieżką | Gemma-B runda 7 |
+| cache poisoning przez `X-Forwarded-Host` | brak refleksji na `/api/fetch-cookie-hash` | Gemma-B runda 7 |
+| `download-file` prefiks | elastyczny (`%2Fmedia%2F`, `/MEDIA/`, `media/` → **ten sam plik** 540 927 B), ale `.`/`..` → 400 ⇒ nie poszerza dostępu | Gemma-B runda 7 |
+| `science/api/media` traversal | **22 próby / 3 przebiegi + reprodukcja 1:1** — `%2e` normalizuje nginx, aplikacja nie dekoduje 2×, ucieczka = reset/nginx 400/404, 0 plików spoza `wp-content` | **ja (c87)**, run1–run4 |
+| `116sos/api/fetch-cookie-hash` | wartość **stała** — 3 próbki w jednym przebiegu (ja) + 2 dni/2 żądania bez ciastka (Gemma-B) | dwa kanały |

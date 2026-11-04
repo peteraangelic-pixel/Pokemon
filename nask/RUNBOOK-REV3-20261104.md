@@ -1,4 +1,25 @@
-# RUNBOOK rev 2 (04.11.2026) — kolejność po przeglądzie 6 gałęzi
+# RUNBOOK rev 3 (04.11.2026) — kolejność po przeglądzie 6 gałęzi + fali 2
+
+> **Zmiany rev 3 (godz. 11:00, po commiach 10:14–10:55 i plikach Drive 13–19):**
+> * **krok 4.3 USUNIĘTY** — „`/admin`, `/admin/logs` z sesji zwykłego użytkownika (guardy tylko
+>   klienta)" to był artefakt: `GET /admin/logs` → 200/713 B = **identyczne z catch-all** hosta,
+>   `/api/v1/admin/logs` → 404 (Gemma-B runda 7). H10 obalony, nie ma na czym budować budżetu.
+> * **HIVE = dostęp zaproszeniowy** (potwierdzone przez usera: członek organizacji) — L0 pkt 2
+>   to prośba o wyjątek, nie o odblokowanie rejestracji.
+> * **NOWE L0.5 (2 minuty, najwyższy stosunek wartości do pracy):** embed PowerBI na `oad.nask.pl`
+>   — otworzyć w **incognito** `https://oad.nask.pl/trendy` albo sam embed
+>   `https://app.powerbi.com/reportEmbed?reportId=470044cf-1a84-4ecb-87f1-7e914afdbb19&autoAuth=true&ctid=95dc45af-07b0-4179-a598-9740073a6e4a`.
+>   Agregaty → zamykamy. Rekordy/dane osobowe bez logowania → **klasa 3, Tier 1 (9 000/20 000 zł)**.
+>   `app.powerbi.com` **nie** testujemy automatem (Microsoft, poza §5).
+> * **NOWE L1b:** formularz `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` (pola `name`,
+>   `description`, …) — ta sama klasa co sendForm, mniejsza konkurencja; wymaga GO.
+> * **WYKLUCZONE DECYZJĄ WŁASNĄ (nigdy nie testujemy):** `116sos.pl/otrzymaj-pomoc/formularz` —
+>   formularz pomocowy telefonu zaufania; testowe zgłoszenie może uruchomić realną procedurę
+>   i zająć zasób potrzebujący. Regulamin tego nie zakazuje wprost — właśnie dlatego wykluczamy.
+> * **HAR z dwóch kont** analizujemy offline narzędziem przejętym od `a450b00f`
+>   (`nask/tools/vendor/a450b00f/har_triage.py` + `auth_matrix.py`, 11/11 testów po jednej
+>   udokumentowanej poprawce). User eksportuje HAR → my analizujemy, **bez haseł, ciastek i tokenów
+>   w czacie i w repo**.
 
 **Ten plik zastępuje kolejność L1–L5 z `RUNBOOK-RANO-20261104.md`.** Powód: dwie z pięciu
 pozycji okazały się niewykonalne (korekty własne #26 i #27 — dowody w
@@ -86,7 +107,7 @@ Trasy z bundle'a (mapa funkcji, nie dowód): `/admin`, `/admin/logs`, `/annotato
 |---|---|---|
 | 4.1 | dwa konta A i B; canary: własny obiekt o znanej, unikalnej treści | odczyt canary z sesji B = IDOR (2 000 → 4 500 zł) |
 | 4.2 | `id ± 1..5` **wyłącznie wokół własnych zasobów**, bez iteracji po całej przestrzeni | odpowiedź z danymi cudzymi = dowód; zbieranie cudzych danych jest zakazane |
-| 4.3 | `/admin`, `/admin/logs` z sesji zwykłego użytkownika (guardy są po stronie klienta — `5ed750ef`) | 200 z treścią administracyjną = BAC (4 500 → 10 000 zł) |
+| ~~4.3~~ | ~~`/admin`, `/admin/logs` z sesji zwykłego użytkownika~~ | **USUNIĘTE w rev 3**: 200/713 B = catch-all SPA, `/api/v1/admin/logs` = 404 (Gemma-B runda 7). H10 obalony |
 | 4.4 | mass assignment na **własnym** profilu (`role`, `is_admin`, `approved`, `verified`) | pole zapisane i użyte = eskalacja |
 | 4.5 | przepływ `/forgot-password`: token w URL, jego entropia, wielokrotne użycie, brak wygaśnięcia | przejęcie konta = klasa 2.1 (krytyczna) |
 

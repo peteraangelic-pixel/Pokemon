@@ -304,7 +304,7 @@ jednorazowy — i to jest warunek, żeby w ogóle wpisać „zamknięte" do reje
 
 ---
 
-## 7. Nowa kolejność poranka (RUNBOOK rev 2 — skrót; pełny: `RUNBOOK-REV2-20261104.md`)
+## 7. Nowa kolejność poranka (RUNBOOK rev 2 — skrót; pełny: `RUNBOOK-REV3-20261104.md`)
 
 | # | co | kto | blokada |
 |---|---|---|---|
