@@ -190,6 +190,33 @@ fn cmd_selftest() -> Result<(), String> {
     assert_eq!(resolve_same_origin("nask.pl", "https://cdn.example/x.js"), None);
     assert_eq!(resolve_same_origin("nask.pl", "mailto:a@b"), None);
 
+    println!("selftest: normalized digests (dns.pl reflected path)");
+    // dns.pl answers an unknown path with the home page and echoes that path in
+    // a skip-link anchor. Both sides must collapse, or every probe looks novel.
+    let home_with = |reflected: &str| {
+        format!(
+            r#"<a class="skip" href="https://dns.pl{reflected}#navigation-menu-top">pomin</a><script>var _event_transid='2072786175';</script><h1>Przeglad domen</h1>"#
+        )
+    };
+    let baseline_body = home_with("/zz-baseline-00ff");
+    let probe_body = home_with("/.env");
+    assert_eq!(
+        probe::normalize_for(&baseline_body, "/zz-baseline-00ff"),
+        probe::normalize_for(&probe_body, "/.env"),
+        "reflected path must not make baseline and soft-404 differ"
+    );
+    assert_ne!(
+        probe::normalize_for(&probe_body, "/.env"),
+        probe::normalize_for("<h1>Nie znaleziono strony</h1>", "/.env"),
+        "a genuinely different page must keep a different digest"
+    );
+    assert_eq!(
+        probe::normalize_for(&probe_body, "/"),
+        probe::normalize_for(&probe_body, "/a"),
+        "paths shorter than 5 bytes are never substituted"
+    );
+    println!("  ok: transid and reflected path collapse, real differences survive");
+
     println!("selftest: analyzer on embedded fixture");
     let dir = std::env::temp_dir().join(format!("surface-selftest-{}", std::process::id()));
     std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;

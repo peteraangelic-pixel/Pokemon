@@ -105,7 +105,8 @@ fn measure(
     let body = resp.bytes().unwrap_or_default();
     let digest = sha256_hex(&body);
     let text = String::from_utf8_lossy(&body);
-    let digest_norm = sha256_hex(normalize(&text).as_bytes());
+    let req_path = crate::scope::split_url(url).map(|(_, p)| p).unwrap_or_default();
+    let digest_norm = sha256_hex(normalize_for(&text, &req_path).as_bytes());
 
     // Reflection check for XSS triage: the marker is unique, so finding it in
     // the body proves the parameter reaches the output. The window shows whether
@@ -164,7 +165,13 @@ fn measure(
             || reflection.get("found").and_then(|v| v.as_bool()).unwrap_or(false)
             || (!same_as_baseline && status < 400),
     });
-    if want_snippet && meaningful.is_empty() {
+    // A snippet was asked for explicitly for this probe. The old rule (show one
+    // only when NO meaningful marker fired) made robots.txt permanently
+    // unreadable, because `robots` is itself a marker. Keep the guard only for
+    // markers that imply secret material actually reached the body.
+    const NEVER_SNIPPET: [&str; 4] = ["unix_passwd", "private_key", "aws_access_key", "azure_metadata"];
+    let secretish = meaningful.iter().any(|m| NEVER_SNIPPET.contains(m));
+    if want_snippet && !secretish {
         out["snippet"] = json!(safe_snippet(&body, 400));
     }
     out
@@ -204,7 +211,7 @@ pub fn run_probes(
                 Ok(r) => {
                     let status = r.status().as_u16();
                     let body = r.bytes().unwrap_or_default();
-                    let norm = normalize(&String::from_utf8_lossy(&body));
+                    let norm = normalize_for(&String::from_utf8_lossy(&body), &path);
                     (host.clone(), (status, sha256_hex(norm.as_bytes())))
                 }
                 Err(_) => (host.clone(), (0, String::new())),
@@ -319,6 +326,24 @@ fn normalize(text: &str) -> String {
         }
     }
     out
+}
+
+/// Drupal (`dns.pl`) answers an unknown path with the *home page*, status 200,
+/// and echoes the requested path back inside skip-link anchors
+/// (`https://dns.pl/.env#navigation-menu-top`). Digits are already collapsed by
+/// `normalize`, but the reflected path alone makes every probe differ from the
+/// baseline, which then reads as "interesting" forever. That is the single
+/// biggest false-positive generator on this host, so strip the reflected
+/// request path on BOTH sides (probe and baseline) before hashing.
+pub(crate) fn normalize_for(text: &str, req_path: &str) -> String {
+    let base = normalize(text);
+    let needle = normalize(req_path);
+    // Never strip a token this short: "/" or "/x" occur all over the markup and
+    // removing them would flatten genuinely different pages into the same hash.
+    if needle.len() < 5 {
+        return base;
+    }
+    base.replace(&needle, "\u{27e8}PATH\u{27e9}")
 }
 
 fn fnv1a(bytes: &[u8]) -> u64 {
