@@ -1,218 +1,147 @@
 {
-  "run": "013",
-  "note": "Run 012 zamknal trzy leady dowodem bajtowym: (1) og-image ignoruje imageId w calosci - 10 roznych wartosci (2, 0, -1, 999999999, abc, brak, [], &url=, &title=) dawalo IDENTYCZNE 16264 B sha 3aff4e21, wiec to obraz statyczny: brak LFI, brak SSRF, brak wstrzykniecia, brak enumeracji; (2) cookie-hash jest staly takze przy DWOCH roznych realnie wyslanych ciasteczkach (poprawiona kontrola) - niezalezny od klienta; (3) /api/zgloszenia na dyzurnet to prawdziwe 404. NOWE: robots.txt dyzurnet jawnie zabrania /api/ - istnieje ukryty obszar API, ktorego nikt nie mapowal. Ten przebieg go mapuje, z KONTROLA ZMIERZONA W TYM SAMYM PRZEBIEGU: szablon 404 dla /api/* to 12833 B sha 233fee86 - kazda odpowiedz o innym sha jest kandydatem, bez zgadywania.",
+  "run": "014",
+  "note": "PRZELOM: analysis-run003.json (juz w repo, 479 dokumentow) zawiera route_literals wyciagniete z bundli JS. Okazalo sie, ze dns.pl (TIER 1) ma DZIESIEC realnych tras /api/, ktorych nie ma w zadnym raporcie: /api/stats/, /api/zone-stats, /api/count-deleted-domains, /api/registrars-list/, /api/registrars-services, /api/registrars-countries/{pl,en}, /api/domain-browser/, /api/funny-name/, /api/who-is-xml/. Wczesniejsze 'dns.pl API martwe' dotyczylo INNYCH nazw (Drupal /node/1?_format=json, /jsonapi) - te trasy sa z wlasnego kodu aplikacji. Rownolegle: dyzurnet.pl ma ZERO literalow /api/ w swoim kodzie klienckim, co zamyka wczorajsza enumeracje 26 sciezek z przyczyna (Disallow: /api/ to szablon, nie mapa).",
   "probes": [
     {
-      "id": "dyz-api-control-404",
-      "url": "https://dyzurnet.pl/api/zgloszenia",
-      "note": "KONTROLA: zmierzone w run 012 jako 404 12833 B sha 233fee86. Powtorka ustala szablon 404 dla /api/* w tym przebiegu"
-    },
-    {
-      "id": "dyz-api-report",
-      "url": "https://dyzurnet.pl/api/report",
-      "note": "najbardziej prawdopodobna trasa serwisu zglaszania incydentow"
-    },
-    {
-      "id": "dyz-api-zglos",
-      "url": "https://dyzurnet.pl/api/zglos",
-      "note": "polski wariant nazwy"
-    },
-    {
-      "id": "dyz-api-zgloszenie",
-      "url": "https://dyzurnet.pl/api/zgloszenie",
-      "note": "polski wariant liczby pojedynczej"
-    },
-    {
-      "id": "dyz-api-submit",
-      "url": "https://dyzurnet.pl/api/submit",
-      "note": "generyczna nazwa wysylki formularza"
-    },
-    {
-      "id": "dyz-api-incidents",
-      "url": "https://dyzurnet.pl/api/incidents",
-      "note": "slownictwo tej domeny (incydenty)"
-    },
-    {
-      "id": "dyz-api-kontakt",
-      "url": "https://dyzurnet.pl/api/kontakt",
-      "note": "formularz kontaktowy po polsku"
-    },
-    {
-      "id": "dyz-api-contact",
-      "url": "https://dyzurnet.pl/api/contact",
-      "note": "formularz kontaktowy po angielsku"
-    },
-    {
-      "id": "dyz-api-search",
-      "url": "https://dyzurnet.pl/api/search",
-      "note": "wyszukiwarka: typowe miejsce refleksji"
-    },
-    {
-      "id": "dyz-api-config",
-      "url": "https://dyzurnet.pl/api/config",
-      "note": "ekspozycja konfiguracji klienta"
-    },
-    {
-      "id": "dyz-api-health",
-      "url": "https://dyzurnet.pl/api/health",
-      "note": "endpoint zdrowia: czesto ujawnia wersje i zaleznosci"
-    },
-    {
-      "id": "dyz-api-newsletter",
-      "url": "https://dyzurnet.pl/api/newsletter",
-      "note": "zapis do newslettera: powierzchnia masowego dodawania adresow"
-    },
-    {
-      "id": "dyz-api-upload",
-      "url": "https://dyzurnet.pl/api/upload",
-      "note": "przyjmowanie zalacznikow: najwazniejsza klasa przy zglaszaniu incydentow"
-    },
-    {
-      "id": "dyz-api-files",
-      "url": "https://dyzurnet.pl/api/files",
-      "note": "lista plikow: kandydat na IDOR, jesli istnieje"
-    },
-    {
-      "id": "dyz-api-auth",
-      "url": "https://dyzurnet.pl/api/auth",
-      "note": "korzen uwierzytelniania"
-    },
-    {
-      "id": "dyz-api-login",
-      "url": "https://dyzurnet.pl/api/login",
-      "note": "logowanie: GET powinien byc 405, nie 404, jesli trasa istnieje"
-    },
-    {
-      "id": "dyz-api-user",
-      "url": "https://dyzurnet.pl/api/user",
-      "note": "konto: kandydat na nieuwierzytelniony odczyt"
-    },
-    {
-      "id": "dyz-api-users",
-      "url": "https://dyzurnet.pl/api/users",
-      "note": "lista kont: najwyzsza waga, jesli otwarta"
-    },
-    {
-      "id": "dyz-api-admin",
-      "url": "https://dyzurnet.pl/api/admin",
-      "note": "panel administracyjny pod /api"
-    },
-    {
-      "id": "dyz-api-v1",
-      "url": "https://dyzurnet.pl/api/v1",
-      "note": "wersjonowany korzen"
-    },
-    {
-      "id": "dyz-api-sitemap",
-      "url": "https://dyzurnet.pl/api/sitemap",
-      "note": "generator sitemapy: czesto czyta system plikow"
-    },
-    {
-      "id": "dyz-api-og",
-      "url": "https://dyzurnet.pl/api/og",
-      "note": "generator obrazkow: ta sama klasa, ktora u 116sos okazala sie statyczna - sprawdzic, czy tu jest dynamiczny"
-    },
-    {
-      "id": "dyz-api-revalidate",
-      "url": "https://dyzurnet.pl/api/revalidate",
-      "note": "Next.js ISR: jesli otwarte bez sekretu, to realny wplyw na tresc (nie tylko odczyt)"
-    },
-    {
-      "id": "dyz-api-exit-preview",
-      "url": "https://dyzurnet.pl/api/exit-preview",
-      "note": "Next.js preview mode: klasyczne miejsce bledu autoryzacji"
-    },
-    {
-      "id": "dyz-api-forms",
-      "url": "https://dyzurnet.pl/api/forms",
-      "note": "generyczny handler formularzy"
-    },
-    {
-      "id": "dyz-api-mail",
-      "url": "https://dyzurnet.pl/api/mail",
-      "note": "wysylka poczty: kandydat na otwarty relay"
-    },
-    {
-      "id": "dyz-api-robots",
-      "url": "https://dyzurnet.pl/robots.txt",
+      "id": "dns-api-stats",
+      "url": "https://dns.pl/api/stats/",
       "snippet": true,
-      "note": "tresc (run 012 pokazal Disallow: /api/ - teraz po naprawie reguly snippet dziala mimo markera robots)"
+      "note": "statystyki: realna trasa z bundla. Sprawdzic status i czy zwraca JSON"
     },
     {
-      "id": "dyz-sitemap-structure",
-      "url": "https://dyzurnet.pl/sitemap.xml",
+      "id": "dns-api-zone-stats",
+      "url": "https://dns.pl/api/zone-stats",
       "snippet": true,
-      "note": "75176 B XML: struktura i pierwsze trasy - mapa serwisu, ktorej nikt nie pobral"
+      "note": "statystyki strefy: bez ukosnika koncowego (tak jak w literale)"
     },
     {
-      "id": "sci-robots-body",
-      "url": "https://science.nask.pl/robots.txt",
+      "id": "dns-api-count-deleted",
+      "url": "https://dns.pl/api/count-deleted-domains",
+      "note": "licznik usunietych domen: najprostsza trasa, dobry wskaznik czy API dziala"
+    },
+    {
+      "id": "dns-api-registrars-list",
+      "url": "https://dns.pl/api/registrars-list/",
       "snippet": true,
-      "note": "73 B: tresc po naprawie reguly snippet"
+      "note": "lista rejestratorow: dane publiczne, ale sprawdzic schemat (czy sa pola kontaktowe)"
     },
     {
-      "id": "zglos-sitemap",
-      "url": "https://zglos-dezinformacje.nask.pl/sitemap.xml",
-      "note": "POPRAWIONY HOST (run 012 mial literowke deinformacje - bramka zakresu slusznie odmowila)"
-    },
-    {
-      "id": "sos-tag-plain",
-      "url": "https://116sos.pl/artykuly/tag/zzqx9b",
-      "reflect": "zzqx9b",
-      "note": "KONTROLA: run 012 pokazal odbicie segmentu trasy w <title> jako czysty tekst. Tu bez metaznakow"
-    },
-    {
-      "id": "sos-tag-angle",
-      "url": "https://116sos.pl/artykuly/tag/zzqx9%3Cb%3Ezzqx9b%3C%2Fb%3E",
-      "reflect": "zzqx9b",
-      "note": "TEST ROZSTRZYGAJACY: czy znaczniki sa escapowane. W oknie refleksji szukam DOSLOWNEGO <b>zzqx9b</b> (kandydat) vs &lt;b&gt; (bezpiecznie). Zgodne z regulaminem: wlasne zadanie, brak zmiany stanu"
-    },
-    {
-      "id": "sos-tag-quote",
-      "url": "https://116sos.pl/artykuly/tag/zzqx9q%22%3Ezzqx9b",
-      "reflect": "zzqx9b",
-      "note": "wariant wyjscia z atrybutu: czy cudzyslow jest escapowany"
-    },
-    {
-      "id": "sos-autor-500",
-      "url": "https://116sos.pl/artykuly/autor/zzqx9probe",
+      "id": "dns-api-registrars-services",
+      "url": "https://dns.pl/api/registrars-services",
       "snippet": true,
-      "note": "run 012: 500 9120 B z markerem json_error. Czytam cialo: czy blad ujawnia stack, wewnetrzny host albo zapytanie"
+      "note": "uslugi rejestratorow"
     },
     {
-      "id": "sos-api-articles",
-      "url": "https://116sos.pl/api/articles",
-      "note": "enumeracja /api na 116sos; kontrola 404 to szablon z tego przebiegu"
+      "id": "dns-api-registrars-countries-pl",
+      "url": "https://dns.pl/api/registrars-countries/pl",
+      "note": "kraje rejestratorow, wersja polska"
     },
     {
-      "id": "sos-api-documents",
-      "url": "https://116sos.pl/api/documents",
-      "note": "dokumenty: kandydat na nieuwierzytelniona liste plikow"
+      "id": "dns-api-registrars-countries-en",
+      "url": "https://dns.pl/api/registrars-countries/en",
+      "note": "kraje rejestratorow, wersja angielska"
     },
     {
-      "id": "sos-api-search",
-      "url": "https://116sos.pl/api/search",
-      "note": "wyszukiwarka"
+      "id": "dns-api-domain-browser",
+      "url": "https://dns.pl/api/domain-browser/",
+      "snippet": true,
+      "note": "przegladarka domen: NAJWIEKSZY kandydat na parametry (litera, strona, sortowanie) - powierzchnia injection i enumeracji"
     },
     {
-      "id": "sos-api-authors",
-      "url": "https://116sos.pl/api/authors",
-      "note": "autorzy: powiazane z trasa, ktora dala 500"
+      "id": "dns-api-funny-name",
+      "url": "https://dns.pl/api/funny-name/",
+      "snippet": true,
+      "note": "generator 'smiesznych nazw': nazwa sugeruje przyjmowanie danych wejsciowych"
     },
     {
-      "id": "sos-api-tags",
-      "url": "https://116sos.pl/api/tags",
-      "note": "tagi: powiazane z trasa, ktora dala refleksje"
+      "id": "dns-api-whois-xml",
+      "url": "https://dns.pl/api/who-is-xml/",
+      "snippet": true,
+      "note": "WHOIS w XML: najbogatsza klasa (budowanie XML/WHOIS). Sprawdzic, czy bez parametru zwraca blad czy dane"
     },
     {
-      "id": "sos-api-centres",
+      "id": "dns-api-whois-valid",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "snippet": true,
+      "note": "WHOIS dla domeny publicznej, ktorej dane i tak sa jawne. Kontrola poprawna: pokazuje format odpowiedzi"
+    },
+    {
+      "id": "dns-api-whois-missing",
+      "url": "https://dns.pl/api/who-is-xml/?domain=zzqx9probe-nieistnieje.pl",
+      "note": "domena nieistniejaca: rozroznia obsluge bledu od pustej odpowiedzi"
+    },
+    {
+      "id": "dns-api-whois-quote",
+      "url": "https://dns.pl/api/who-is-xml/?domain=zzqx9%27",
+      "note": "pojedynczy apostrof w parametrze: minimalna sonda bledu SQL, tylko odczyt. WAF moze przerwac polaczenie - to tez wynik"
+    },
+    {
+      "id": "dns-api-browser-letter",
+      "url": "https://dns.pl/api/domain-browser/?letter=a",
+      "note": "czy parametr jest honorowany (zmiana rozmiaru ciala vs /api/domain-browser/)"
+    },
+    {
+      "id": "dns-api-browser-quote",
+      "url": "https://dns.pl/api/domain-browser/?letter=zzqx9%27",
+      "note": "apostrof w parametrze listy: czy blad ujawnia zapytanie"
+    },
+    {
+      "id": "dns-api-stats-param",
+      "url": "https://dns.pl/api/stats/?year=2024",
+      "note": "czy trasa statystyk przyjmuje parametr (rozmiar vs wersja bez parametru)"
+    },
+    {
+      "id": "sos-og-real-id",
+      "url": "https://116sos.pl/api/og-image?imageId=18650",
+      "note": "POPRAWKA do run 012: bundel zawiera realne identyfikatory (18650, 30225, 30263, 30267, 30278). Moja negatywka dotyczyla ID NIEPOPRAWNYCH, ktore spadaja na statyczny obraz. Tu sprawdzam, czy poprawny ID daje inny obraz"
+    },
+    {
+      "id": "sos-og-real-id-2",
+      "url": "https://116sos.pl/api/og-image?imageId=30225",
+      "note": "drugi realny ID: czy obraz rozni sie miedzy poprawnymi ID (czyli generator jest dynamiczny)"
+    },
+    {
+      "id": "sos-api-centres-body",
       "url": "https://116sos.pl/api/centres",
-      "note": "czy istnieje wariant zapisu obok tylko-odczytu centres-search"
+      "snippet": true,
+      "note": "run 013: 401, 32 B - JEDYNA trasa /api na 116sos, ktora nie jest 404 (szablon 404 = sha 0cce5732). Czytam tresc bledu: framework i kontrakt"
     },
     {
-      "id": "sos-api-config",
-      "url": "https://116sos.pl/api/config",
-      "note": "konfiguracja klienta"
+      "id": "sos-api-centres-item",
+      "url": "https://116sos.pl/api/centres/1",
+      "note": "czy istnieje zasob po identyfikatorze (401 vs 404 rozstrzyga o strukturze trasy)"
+    },
+    {
+      "id": "sos-api-contact",
+      "url": "https://116sos.pl/api/contact",
+      "note": "trasa kontaktowa z literali science - sprawdzam, czy 116sos ma te sama"
+    },
+    {
+      "id": "sci-api-contact",
+      "url": "https://science.nask.pl/api/contact",
+      "snippet": true,
+      "note": "NOWA trasa z bundla science (301 literalow /api). GET na endpoint kontaktowy: 405 = trasa istnieje i przyjmuje tylko POST"
+    },
+    {
+      "id": "sci-node-modules",
+      "url": "https://science.nask.pl/node_modules/",
+      "note": "robots.txt science jawnie zabrania /node_modules/. To nie kontrola dostepu, wiec sprawdzam, czy katalog jest realnie serwowany - ekspozycja kodu"
+    },
+    {
+      "id": "sci-node-modules-next",
+      "url": "https://science.nask.pl/node_modules/next/package.json",
+      "note": "jesli /node_modules/ jest serwowany, package.json ujawnia wersje wszystkich zaleznosci"
+    },
+    {
+      "id": "dyz-api-kontakt-recheck",
+      "url": "https://dyzurnet.pl/api/kontakt",
+      "note": "run 013: 404 ale 17515 B - inny szablon niz pozostale 25 tras (~12820 B). Powtorka rozstrzyga, czy to stabilne zjawisko"
+    },
+    {
+      "id": "zglos-sitemap-body",
+      "url": "https://zglos-dezinformacje.nask.pl/sitemap.xml",
+      "snippet": true,
+      "note": "436 B XML - tresc (poprzednio bez flagi snippet)"
     }
   ]
 }
