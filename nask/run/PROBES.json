@@ -1,113 +1,98 @@
 {
-  "run": "010",
-  "note": "Wave 6: specyfika CMS per host. Drupal (dns.pl) ?_format=json i rejestracja; WordPress (science, 116sos) obejscie blokady /wp-json przez ?rest_route; Nuxt (pllum) _draft; Next.js pages-router /_next/data/<buildId>/. GET, read-only, bez zakladania kont.",
+  "run": "011",
+  "note": "116sos.pl WROCIL (byl 502 przez noc) i ma endpointy, ktorych nikt nie rozstrzygnal: /api/fetch-cookie-hash zwraca cookieHash bez uwierzytelnienia, /api/centres-search 13 KB JSON. Plus mapa API dyzurnet i dns, ktorej nikt nie zrobil. GET, read-only, bez kont, bez parametrow modyfikujacych.",
   "probes": [
     {
-      "id": "dns-user-login",
-      "url": "https://dns.pl/user/login",
-      "note": "Drupal: czy panel logowania jest wystawiony (200 = tak; sam fakt nie jest luka, ale mowi o powierzchni)",
+      "id": "sos-root",
+      "url": "https://116sos.pl/",
+      "note": "kontrola: host zyje po awarii 502; zapisac naglowki (ACAO, Set-Cookie - tylko nazwy)",
+      "snippet": false
+    },
+    {
+      "id": "sos-cookie-hash-1",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "note": "pomiar 1: czy cookieHash jest zwracany bez uwierzytelnienia i bez ciasteczka",
       "snippet": true
     },
     {
-      "id": "dns-user-register",
-      "url": "https://dns.pl/user/register",
-      "note": "Drupal: czy rejestracja jest otwarta. Regulamin pozwala na WLASNE konta, wiec to warunek wstepny do pracy zalogowanej",
+      "id": "sos-cookie-hash-2",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "note": "pomiar 2 (ten sam URL, inne zadanie): jesli hash jest STALY miedzy zadaniami bez ciasteczka, to stala wartosc serwerowa - bez wplywu, zamykamy",
       "snippet": true
     },
     {
-      "id": "dns-user-password",
-      "url": "https://dns.pl/user/password",
-      "note": "Drupal: reset hasla - sprawdzic, czy formularz zdradza istnienie konta (user enumeration jest WYLACZONY, wiec tylko orientacyjnie)"
-    },
-    {
-      "id": "dns-node-1-json",
-      "url": "https://dns.pl/node/1?_format=json",
-      "note": "Drupal: eksport wezla do JSON. Jesli modul serialization jest wlaczony i uprawnienia zbyt szerokie, ujawnia pola niewidoczne na stronie"
-    },
-    {
-      "id": "dns-node-1-hal",
-      "url": "https://dns.pl/node/1?_format=hal_json",
-      "note": "Drupal: wariant HAL JSON tego samego wezla"
-    },
-    {
-      "id": "dns-install-php",
-      "url": "https://dns.pl/core/install.php",
-      "note": "Drupal: instalator. Dostepny = powazny problem; zwykle 403/404 po instalacji"
-    },
-    {
-      "id": "dns-jsonapi-node",
-      "url": "https://dns.pl/jsonapi/node/page",
-      "note": "Drupal: JSON:API (korzen /jsonapi dal 404, sprawdzam zasob bezposrednio)"
-    },
-    {
-      "id": "sci-rest-route-posts",
-      "url": "https://science.nask.pl/?rest_route=/wp/v2/posts&per_page=1",
-      "note": "WordPress: obejscie blokady /wp-json przez parametr rest_route. Sprawdza, czy REST jest realnie wylaczony, czy tylko przekierowany",
+      "id": "sos-cookie-hash-with-cookie",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "headers": { "Cookie": "stickounet=zzqx9probe1" },
+      "note": "pomiar 3: czy hash jest pochodna NASZEGO ciasteczka (wtedy to funkcja, nie wyciek). Porownanie trzech prob rozstrzyga sprawe",
       "snippet": true
     },
     {
-      "id": "sci-rest-route-users",
-      "url": "https://science.nask.pl/?rest_route=/wp/v2/users",
-      "note": "WordPress: lista uzytkownikow przez rest_route (user enumeration jest wylaczony z konkursu - sprawdzam istnienie sciezki, nie zglaszam)"
-    },
-    {
-      "id": "sci-xmlrpc",
-      "url": "https://science.nask.pl/xmlrpc.php",
-      "note": "WordPress: xmlrpc.php. GET zwraca 405 przy wlaczonym module; pingback SSRF wymaga POST, wiec tego nie robie"
-    },
-    {
-      "id": "sci-wp-login",
-      "url": "https://science.nask.pl/wp-login.php",
-      "note": "WordPress: panel logowania"
-    },
-    {
-      "id": "sos-rest-route-posts",
-      "url": "https://116sos.pl/?rest_route=/wp/v2/posts&per_page=1",
-      "note": "WordPress na 116sos: to samo obejscie",
+      "id": "sos-centres-control",
+      "url": "https://116sos.pl/api/centres-search",
+      "note": "kontrola: 13 KB JSON z adresami placowek pomocy - sprawdzic SCHEMAT KLUCZY, czy sa pola osobowe",
       "snippet": true
     },
     {
-      "id": "sos-wp-login",
-      "url": "https://116sos.pl/wp-login.php",
-      "note": "WordPress na 116sos: panel logowania"
+      "id": "sos-centres-q",
+      "url": "https://116sos.pl/api/centres-search?q=Warszawa",
+      "note": "czy endpoint przyjmuje filtr tekstowy (potencjalna powierzchnia injection, tylko odczyt)"
     },
     {
-      "id": "pllum-content-draft",
-      "url": "https://pllum.org.pl/api/_content/query?_draft=true",
-      "note": "Nuxt Content: jesli API honoruje _draft, zwroci nieopublikowane tresci. To bylby realny wyciek tresci",
+      "id": "sos-centres-limit",
+      "url": "https://116sos.pl/api/centres-search?limit=1000",
+      "note": "czy parametr limit jest honorowany (masowy odczyt) - sprawdzic czy rozmiar rosnie"
+    },
+    {
+      "id": "sos-centres-inject",
+      "url": "https://116sos.pl/api/centres-search?city=Warszawa'",
+      "note": "pojedynczy apostrof w parametrze: minimalna sonda bledu SQL, tylko odczyt. WAF moze uciac polaczenie - to tez wynik"
+    },
+    {
+      "id": "sos-announcements",
+      "url": "https://116sos.pl/api/announcements",
+      "note": "endpoint wracal 502; teraz sprawdzic realna odpowiedz i schemat",
       "snippet": true
     },
     {
-      "id": "pllum-content-only",
-      "url": "https://pllum.org.pl/api/_content/query?only=title,_draft,_path",
-      "note": "Nuxt Content: projekcja pol - sprawdza, czy _draft wystepuje w odpowiedzi"
+      "id": "sos-og-image",
+      "url": "https://116sos.pl/api/og-image?imageId=1",
+      "note": "generator obrazkow po imageId - sprawdzic, czy parametr jest numeryczny i co zwraca"
     },
     {
-      "id": "pllum-content-where",
-      "url": "https://pllum.org.pl/api/_content/query?where=%7B%22_draft%22%3Atrue%7D",
-      "note": "Nuxt Content: filtrowanie po _draft=true"
+      "id": "dyz-api-root",
+      "url": "https://dyzurnet.pl/api/",
+      "note": "dyzurnet: /api/ zwracalo 308 -> /api i 200 HTML. Sprawdzic, czy istnieje realny korzen API (mapy nikt nie zrobil)"
     },
     {
-      "id": "sci-next-data",
-      "url": "https://science.nask.pl/_next/data/Grl_YQ5SCHd1ahmhesPv6/index.json",
-      "note": "Next.js pages-router: surowe propsy strony jako JSON. buildId pochodzi z __NEXT_DATA__ zebranego w przebiegu 003. Moze ujawnic dane, ktorych nie renderuje UI",
-      "snippet": true
+      "id": "dyz-api-zgloszenia",
+      "url": "https://dyzurnet.pl/api/zgloszenia/",
+      "note": "dyzurnet: domniemana trasa zgloszen incydentow"
     },
     {
-      "id": "sos-next-data",
-      "url": "https://116sos.pl/_next/data/8CjJwbyxpVqpWnorny23T/index.json",
-      "note": "Next.js pages-router: propsy strony",
-      "snippet": true
+      "id": "dyz-api-robots",
+      "url": "https://dyzurnet.pl/robots.txt",
+      "note": "dyzurnet: robots.txt czesto ujawnia realne sciezki API panelu"
     },
     {
-      "id": "bwybory-next-data",
-      "url": "https://bezpiecznewybory.pl/_next/data/V7BZQbRTqgFDrmT2Y-Lps/index.json",
-      "note": "Next.js pages-router na hoscie za WAF - sprawdzic, czy ta sciezka tez jest blokowana"
+      "id": "dns-robots",
+      "url": "https://dns.pl/robots.txt",
+      "note": "dns.pl: robots.txt - mapa realnych tras (te z bundle'a okazaly sie martwe)"
     },
     {
-      "id": "sci-api-media-list",
-      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2026/10/",
-      "note": "science: katalog uploads jako sciezka (listing katalogu jest wylaczony, ale kod mowi o zachowaniu proxy)"
+      "id": "sci-robots",
+      "url": "https://science.nask.pl/robots.txt",
+      "note": "science: robots.txt - czy wskazuje inne sitemapy/sekcje niz znamy"
+    },
+    {
+      "id": "oad-robots",
+      "url": "https://oad.nask.pl/robots.txt",
+      "note": "oad: robots.txt"
+    },
+    {
+      "id": "zglos-robots",
+      "url": "https://zglos-dezinformacje.nask.pl/robots.txt",
+      "note": "zglos: robots.txt"
     }
   ]
 }
