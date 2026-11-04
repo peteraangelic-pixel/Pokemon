@@ -1,0 +1,1991 @@
+{
+ "files": 108,
+ "results": [
+  {
+   "file": "/home/runner/work/_temp/bodies/js-076-oad.js",
+   "endpoints": [],
+   "params": [
+    "autoAuth",
+    "ctid",
+    "current",
+    "dpl",
+    "reportId",
+    "total",
+    "url",
+    "year"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-024-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-108-science.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-091-pllum.js",
+   "endpoints": [],
+   "params": [
+    "Fa",
+    "Ua",
+    "Wa",
+    "auto",
+    "fit",
+    "io",
+    "ixid",
+    "ixlib",
+    "null",
+    "oo",
+    "po",
+    "so",
+    "to",
+    "zo"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "other": 11
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-053-dyzurnet.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-006-116sos.js",
+   "endpoints": [
+    "/api/announcements"
+   ],
+   "params": [
+    "imageId",
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-079-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-012-116sos.js",
+   "endpoints": [
+    "/api/fetch-cookie-hash"
+   ],
+   "params": [
+    "aB",
+    "code",
+    "dpl",
+    "e0",
+    "eZ",
+    "ef",
+    "el",
+    "em",
+    "en",
+    "er",
+    "et",
+    "null",
+    "rp",
+    "tD",
+    "tF",
+    "tO",
+    "tS",
+    "tW",
+    "this",
+    "tw",
+    "url"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "sequential-int-candidate": 1,
+    "other": 1
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-047-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-074-oad.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-111-science.js",
+   "endpoints": [],
+   "params": [
+    "language",
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-070-oad.js",
+   "endpoints": [],
+   "params": [
+    "null",
+    "return"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-057-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "eA",
+    "ej",
+    "null",
+    "undefined"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-065-oad.js",
+   "endpoints": [],
+   "params": [
+    "break",
+    "null",
+    "true"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-061-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "dpl",
+    "url"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-089-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-106-pllum.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-019-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [
+    "break",
+    "null",
+    "true"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-072-oad.js",
+   "endpoints": [],
+   "params": [
+    "type"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-113-science.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-060-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "an",
+    "as",
+    "code",
+    "eE",
+    "ef",
+    "el",
+    "eo",
+    "g0",
+    "g3",
+    "g7",
+    "gD",
+    "gK",
+    "gM",
+    "gl",
+    "h6",
+    "hV",
+    "href",
+    "i1",
+    "i2",
+    "i5",
+    "iO",
+    "ij",
+    "l8",
+    "lm",
+    "nj",
+    "nu",
+    "null",
+    "pF",
+    "pP",
+    "pi",
+    "r0",
+    "r2",
+    "rF",
+    "rR",
+    "return",
+    "src",
+    "tV",
+    "tf",
+    "u_",
+    "vB",
+    "vD",
+    "v_",
+    "vi",
+    "vl",
+    "vp",
+    "y2",
+    "yc",
+    "ys"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-081-pllum.js",
+   "endpoints": [],
+   "params": [
+    "color",
+    "null",
+    "pt",
+    "sn"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-028-dns.js",
+   "endpoints": [],
+   "params": [
+    "Bs",
+    "Fo",
+    "Ge",
+    "Ii",
+    "Js",
+    "Ke",
+    "Ks",
+    "Lc",
+    "Me",
+    "NaN",
+    "Ni",
+    "Ou",
+    "Pl",
+    "Pr",
+    "Promise",
+    "Qc",
+    "Qe",
+    "Rl",
+    "String",
+    "Te",
+    "Wi",
+    "_e",
+    "ae",
+    "am",
+    "an",
+    "ci",
+    "ct",
+    "fe",
+    "he",
+    "ji",
+    "jr",
+    "mn",
+    "null",
+    "return",
+    "rn",
+    "this",
+    "tu",
+    "ue"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "other": 134,
+    "sequential-int-candidate": 13
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-123-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [
+    "break",
+    "null",
+    "return",
+    "true"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-007-116sos.js",
+   "endpoints": [],
+   "params": [
+    "ea",
+    "eb",
+    "ed",
+    "eg",
+    "em",
+    "eo",
+    "er",
+    "es",
+    "et",
+    "ev",
+    "ey",
+    "null",
+    "rl"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-110-science.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-109-science.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-023-bezpiecznymies.js",
+   "endpoints": [
+    "/events/?${r.toString()}",
+    "/news/",
+    "/post-data/"
+   ],
+   "params": [
+    "access_token",
+    "break",
+    "continue",
+    "e4",
+    "e6",
+    "e8",
+    "eF",
+    "eR",
+    "eS",
+    "eb",
+    "ed",
+    "ef",
+    "eh",
+    "el",
+    "em",
+    "en",
+    "er",
+    "eu",
+    "ey",
+    "fields",
+    "id",
+    "mode",
+    "null",
+    "return",
+    "src",
+    "tF",
+    "tG",
+    "tR",
+    "tg",
+    "this",
+    "title",
+    "url",
+    "window"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-104-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-016-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [
+    "Ba",
+    "Bm",
+    "Bo",
+    "Df",
+    "Fe",
+    "Hf",
+    "Ii",
+    "Ir",
+    "Iy",
+    "Jh",
+    "Jn",
+    "Kf",
+    "Ko",
+    "Lm",
+    "Lr",
+    "NaN",
+    "Pa",
+    "Pe",
+    "Pp",
+    "Pv",
+    "Qf",
+    "Qi",
+    "Rg",
+    "Sv",
+    "Uf",
+    "Vi",
+    "Vl",
+    "Vn",
+    "Wn",
+    "Wp",
+    "Xf",
+    "Yi",
+    "Yl",
+    "Zy",
+    "as",
+    "ba",
+    "dt",
+    "dy",
+    "ec",
+    "gh",
+    "gl",
+    "ha",
+    "hf",
+    "ia",
+    "io",
+    "jl",
+    "jp",
+    "lf",
+    "nr",
+    "null",
+    "oy",
+    "pp",
+    "qa",
+    "qf",
+    "qm",
+    "rs",
+    "sm",
+    "tn",
+    "ut",
+    "uy",
+    "vi",
+    "vm",
+    "wa",
+    "wf",
+    "wh",
+    "zf",
+    "zh"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "sequential-int-candidate": 1
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-003-116sos.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-071-oad.js",
+   "endpoints": [],
+   "params": [
+    "ak",
+    "at",
+    "ns",
+    "null",
+    "or",
+    "rH",
+    "rJ",
+    "sB",
+    "t2",
+    "tM",
+    "tX",
+    "u1",
+    "u2",
+    "u7",
+    "uK",
+    "uY"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-013-116sos.js",
+   "endpoints": [],
+   "params": [
+    "null",
+    "page",
+    "perPage"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-116-science.js",
+   "endpoints": [
+    "/api/media/wp-content/",
+    "/api/media/wp-includes/"
+   ],
+   "params": [
+    "dpl",
+    "eG",
+    "null",
+    "tN",
+    "tR",
+    "tb",
+    "tm",
+    "tp",
+    "url"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-051-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "break",
+    "null",
+    "true"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-027-dns.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-096-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-010-116sos.js",
+   "endpoints": [
+    "/_next/data/",
+    "/api",
+    "/api/"
+   ],
+   "params": [
+    "ef",
+    "et",
+    "null",
+    "return",
+    "this"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-102-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-086-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-078-oad.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-068-oad.js",
+   "endpoints": [],
+   "params": [
+    "type"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-062-dyzurnet.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-112-science.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-030-dns.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-017-bezpiecznymies.js",
+   "endpoints": [
+    "/_next/data/",
+    "/_next/data/${e.buildId}",
+    "/api",
+    "/api/"
+   ],
+   "params": [
+    "encodeURIComponent",
+    "et",
+    "null",
+    "this"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-005-116sos.js",
+   "endpoints": [],
+   "params": [
+    "eF",
+    "null",
+    "ti"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-025-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-021-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [
+    "null",
+    "return"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-054-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-009-116sos.js",
+   "endpoints": [],
+   "params": [
+    "continue",
+    "e3",
+    "e7",
+    "eJ",
+    "eL",
+    "lP",
+    "lr",
+    "nd",
+    "null",
+    "ol",
+    "r0",
+    "return",
+    "rq",
+    "s3",
+    "s4",
+    "sX",
+    "sY",
+    "t5",
+    "tA",
+    "tL",
+    "tQ",
+    "tR",
+    "tZ",
+    "tg",
+    "uV",
+    "ut"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-080-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-058-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "aS",
+    "an",
+    "n2",
+    "nF",
+    "nG",
+    "null",
+    "or",
+    "rZ",
+    "rj",
+    "sB",
+    "ts",
+    "u1",
+    "u2",
+    "u7",
+    "uK",
+    "uY"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-126-zglos_dezinfor.js",
+   "endpoints": [
+    "/api/sendForm"
+   ],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-090-pllum.js",
+   "endpoints": [],
+   "params": [
+    "inherit",
+    "transparent"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-064-oad.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-055-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "dpl",
+    "null",
+    "url"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-128-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [
+    "Ba",
+    "Bm",
+    "Bo",
+    "Df",
+    "Fe",
+    "Hf",
+    "Ii",
+    "Ir",
+    "Iy",
+    "Jh",
+    "Jn",
+    "Kf",
+    "Ko",
+    "Lm",
+    "Lr",
+    "NaN",
+    "Pa",
+    "Pe",
+    "Pp",
+    "Pv",
+    "Qf",
+    "Qi",
+    "Rg",
+    "Sv",
+    "Uf",
+    "Vi",
+    "Vl",
+    "Vn",
+    "Wn",
+    "Wp",
+    "Xf",
+    "Yi",
+    "Yl",
+    "Zy",
+    "as",
+    "ba",
+    "dt",
+    "dy",
+    "ec",
+    "gh",
+    "gl",
+    "ha",
+    "hf",
+    "ia",
+    "io",
+    "jl",
+    "jp",
+    "lf",
+    "nr",
+    "null",
+    "oy",
+    "pp",
+    "qa",
+    "qf",
+    "qm",
+    "rs",
+    "sm",
+    "tn",
+    "ut",
+    "uy",
+    "vi",
+    "vm",
+    "wa",
+    "wf",
+    "wh",
+    "zf",
+    "zh"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "sequential-int-candidate": 1
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-097-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-103-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-083-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-084-pllum.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-107-science.js",
+   "endpoints": [
+    "/api/contact",
+    "/api/downloadFile",
+    "/api/search"
+   ],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-122-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [
+    "null",
+    "rh"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-020-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [
+    "aS",
+    "at",
+    "ns",
+    "null",
+    "or",
+    "rH",
+    "rJ",
+    "sB",
+    "t2",
+    "tM",
+    "tX",
+    "u1",
+    "u2",
+    "u9",
+    "uK",
+    "uY"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-119-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [
+    "Emoji_Component",
+    "Extended_Pictographic",
+    "eM",
+    "eY",
+    "hl",
+    "null",
+    "onload",
+    "render"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-105-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-069-oad.js",
+   "endpoints": [],
+   "params": [
+    "type"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-094-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-125-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-115-science.js",
+   "endpoints": [
+    "/_next/data/${this.buildId}${n}${h}"
+   ],
+   "params": [
+    "ae",
+    "aw",
+    "en",
+    "ns",
+    "null",
+    "on",
+    "rH",
+    "rK",
+    "return",
+    "sU",
+    "t2",
+    "tI",
+    "tX",
+    "u0",
+    "u1",
+    "u9",
+    "uG",
+    "uQ"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-101-pllum.js",
+   "endpoints": [],
+   "params": [
+    "Ae",
+    "Tt",
+    "gt",
+    "la",
+    "null",
+    "qa"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "uuid": 1
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-087-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-029-dns.js",
+   "endpoints": [
+    "/api/count-deleted-domains",
+    "/api/domain-browser/",
+    "/api/funny-name/",
+    "/api/registrars-countries/en",
+    "/api/registrars-countries/pl",
+    "/api/registrars-list/",
+    "/api/registrars-services",
+    "/api/stats/",
+    "/api/who-is-xml/",
+    "/api/zone-stats",
+    "/deleted_domains.txt"
+   ],
+   "params": [
+    "Boolean",
+    "Function",
+    "dn",
+    "domainName",
+    "hl",
+    "null",
+    "render",
+    "statisticsUrl"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-085-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-046-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-092-pllum.js",
+   "endpoints": [],
+   "params": [
+    "color",
+    "query"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-018-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [
+    "code",
+    "dpl",
+    "e0",
+    "e4",
+    "e6",
+    "e8",
+    "e9",
+    "eC",
+    "eD",
+    "eE",
+    "eH",
+    "eJ",
+    "eL",
+    "eM",
+    "eN",
+    "eO",
+    "eP",
+    "eR",
+    "eS",
+    "eT",
+    "eU",
+    "ea",
+    "ec",
+    "ee",
+    "eh",
+    "ei",
+    "ek",
+    "el",
+    "en",
+    "eq",
+    "er",
+    "es",
+    "et",
+    "ew",
+    "ey",
+    "href",
+    "id",
+    "localeUsed",
+    "nE",
+    "nF",
+    "null",
+    "rg",
+    "ri",
+    "tC",
+    "tF",
+    "tO",
+    "tS",
+    "this",
+    "to",
+    "tt",
+    "tz",
+    "url"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "sequential-int-candidate": 1
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-098-pllum.js",
+   "endpoints": [
+    "/api/_nuxt_icon"
+   ],
+   "params": [
+    "Av",
+    "Bd",
+    "Boolean",
+    "Ff",
+    "Ft",
+    "Ke",
+    "Lv",
+    "Ne",
+    "Object",
+    "Re",
+    "String",
+    "ae",
+    "be",
+    "de",
+    "dp",
+    "ee",
+    "et",
+    "ev",
+    "icons",
+    "mg",
+    "mh",
+    "null",
+    "oe",
+    "pr",
+    "qn",
+    "re",
+    "render",
+    "return",
+    "rt",
+    "se",
+    "te",
+    "this",
+    "vl"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-059-dyzurnet.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-063-dyzurnet.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-073-oad.js",
+   "endpoints": [],
+   "params": [
+    "null",
+    "return"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-050-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-022-bezpiecznymies.js",
+   "endpoints": [],
+   "params": [
+    "null",
+    "return"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-121-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [
+    "aN",
+    "al",
+    "n6",
+    "nJ",
+    "nM",
+    "null",
+    "oo",
+    "r1",
+    "rW",
+    "sH",
+    "st",
+    "td",
+    "u4",
+    "u6",
+    "uX",
+    "uZ"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-026-dataannotation.js",
+   "endpoints": [],
+   "params": [
+    "A4t",
+    "A6t",
+    "AK",
+    "AQ",
+    "Ace",
+    "Ape",
+    "Ase",
+    "BK",
+    "Bie",
+    "Bmt",
+    "Bpt",
+    "C5t",
+    "CG",
+    "CQ",
+    "Ctt",
+    "DAt",
+    "DQ",
+    "Det",
+    "Dmt",
+    "Dse",
+    "Dt",
+    "Dut",
+    "E4t",
+    "E5t",
+    "E6t",
+    "EJ",
+    "EMt",
+    "EQ",
+    "Eb",
+    "Emoji_Component",
+    "Emt",
+    "Er",
+    "Extended_Pictographic",
+    "F3",
+    "FK",
+    "FU",
+    "Fhe",
+    "Fmt",
+    "Fpt",
+    "Fr",
+    "G2",
+    "G6t",
+    "GEt",
+    "Gn",
+    "Gpt",
+    "H3",
+    "HK",
+    "Hi",
+    "I4t",
+    "ID_Continue",
+    "ID_Start",
+    "IK",
+    "Ihe",
+    "Im",
+    "Imt",
+    "Ipt",
+    "Ir",
+    "It",
+    "JK",
+    "JU",
+    "Joe",
+    "Jt",
+    "K4t",
+    "K6t",
+    "Kmt",
+    "Kr",
+    "L4t",
+    "L6t",
+    "LK",
+    "LS",
+    "Le",
+    "Lmt",
+    "Lpt",
+    "Lr",
+    "Lse",
+    "Lu",
+    "Mbt",
+    "Mj",
+    "Mr",
+    "Mse",
+    "Mt",
+    "Mxt",
+    "NK",
+    "NaN",
+    "Nce",
+    "Nt",
+    "Nvt",
+    "OK",
+    "OTt",
+    "Ol",
+    "Omt",
+    "Opt",
+    "Or",
+    "Ot",
+    "P6t",
+    "PK",
+    "PTt",
+    "Pvt",
+    "Q0t",
+    "QK",
+    "Qi",
+    "Qt",
+    "RK",
+    "Re",
+    "Res",
+    "Rmt",
+    "Rpt",
+    "Rr",
+    "SQ",
+    "S_",
+    "Sj",
+    "Snt",
+    "TG",
+    "TK",
+    "TQ",
+    "Tht",
+    "U6t",
+    "UJ",
+    "UK",
+    "UX",
+    "Ua",
+    "Ude",
+    "Ue",
+    "Umt",
+    "Upt",
+    "VK",
+    "Vh",
+    "Vpt",
+    "Vr",
+    "W4t",
+    "Wmt",
+    "Woe",
+    "Wt",
+    "Xa",
+    "Xie",
+    "Xmt",
+    "Xpt",
+    "Xv",
+    "Y1",
+    "Ypt",
+    "Yq",
+    "Z0t",
+    "Z8",
+    "ZU",
+    "Zie",
+    "Zoe",
+    "Zpt",
+    "Zt",
+    "_0",
+    "_Q",
+    "_S",
+    "_W",
+    "a5t",
+    "a6t",
+    "aMt",
+    "aQ",
+    "abt",
+    "act",
+    "amt",
+    "anywhere",
+    "at",
+    "b4t",
+    "b5t",
+    "bG",
+    "bQ",
+    "bS",
+    "bl",
+    "bmt",
+    "bse",
+    "cce",
+    "cmt",
+    "continue",
+    "crampedsubarray",
+    "ct",
+    "dQ",
+    "die",
+    "eAt",
+    "eQ",
+    "eTt",
+    "en",
+    "et",
+    "fQ",
+    "fR",
+    "fX",
+    "fce",
+    "fe",
+    "fmt",
+    "forwards",
+    "ft",
+    "fv",
+    "fvt",
+    "g4t",
+    "g6t",
+    "gG",
+    "gQ",
+    "gkt",
+    "gpe",
+    "gse",
+    "gt",
+    "h4t",
+    "h6t",
+    "hQ",
+    "hce",
+    "iQ",
+    "ia",
+    "ie",
+    "ig",
+    "imt",
+    "inherit",
+    "it",
+    "j4t",
+    "jF",
+    "jK",
+    "jS",
+    "jce",
+    "jmt",
+    "jpt",
+    "jse",
+    "jt",
+    "jut",
+    "jvt",
+    "k5t",
+    "kG",
+    "kQ",
+    "kfe",
+    "knt",
+    "kt",
+    "l4t",
+    "l6t",
+    "l8t",
+    "lA",
+    "lQ",
+    "left",
+    "lgt",
+    "lim",
+    "lmt",
+    "mY",
+    "mi",
+    "mo",
+    "mod",
+    "mt",
+    "nQ",
+    "noe",
+    "none",
+    "np",
+    "nt",
+    "null",
+    "nvt",
+    "o0t",
+    "omt",
+    "ooe",
+    "oot",
+    "ot",
+    "oxt",
+    "pQ",
+    "pfe",
+    "pmt",
+    "ppe",
+    "q4t",
+    "qJ",
+    "qK",
+    "qf",
+    "qmt",
+    "qoe",
+    "qpt",
+    "qvt",
+    "qw",
+    "rD",
+    "rE",
+    "rH",
+    "rQ",
+    "rd",
+    "return",
+    "rpe",
+    "rut",
+    "s2",
+    "s8t",
+    "sQ",
+    "sl",
+    "soe",
+    "st",
+    "subarray",
+    "t5t",
+    "t6t",
+    "tE",
+    "tQ",
+    "this",
+    "u1",
+    "u7",
+    "uQ",
+    "um",
+    "undefined",
+    "ut",
+    "utt",
+    "v6t",
+    "vQ",
+    "vr",
+    "vse",
+    "vt",
+    "w5t",
+    "wJ",
+    "wQ",
+    "wS",
+    "we",
+    "window",
+    "wmt",
+    "wt",
+    "wvt",
+    "x2",
+    "xOt",
+    "xQ",
+    "xe",
+    "xgt",
+    "xmt",
+    "xn",
+    "xt",
+    "y1",
+    "y2",
+    "yG",
+    "yQ",
+    "yse",
+    "z3",
+    "z5t",
+    "z6t",
+    "zK",
+    "zU",
+    "zde",
+    "zpt",
+    "zt",
+    "zvt",
+    "zw"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "other": 3
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-004-116sos.js",
+   "endpoints": [],
+   "params": [
+    "addressdetails",
+    "bbox",
+    "countrycodes",
+    "format",
+    "lang",
+    "lat",
+    "layer",
+    "limit",
+    "lon",
+    "null",
+    "zoom"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-093-pllum.js",
+   "endpoints": [],
+   "params": [
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-077-oad.js",
+   "endpoints": [],
+   "params": [
+    "topic",
+    "type"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-088-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-015-116sos.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {
+    "other": 4
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-052-dyzurnet.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-129-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-001-116sos.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-120-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-099-pllum.js",
+   "endpoints": [],
+   "params": [
+    "key",
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-100-pllum.js",
+   "endpoints": [],
+   "params": [
+    "color",
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-048-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "Ba",
+    "Bm",
+    "Bo",
+    "Df",
+    "Fe",
+    "Hf",
+    "Ii",
+    "Ir",
+    "Iy",
+    "Jh",
+    "Jn",
+    "Kf",
+    "Ko",
+    "Lm",
+    "Lr",
+    "NaN",
+    "Pa",
+    "Pe",
+    "Pp",
+    "Pv",
+    "Qf",
+    "Qi",
+    "Rg",
+    "Sv",
+    "Uf",
+    "Vi",
+    "Vl",
+    "Vn",
+    "Wn",
+    "Wp",
+    "Xf",
+    "Yi",
+    "Yl",
+    "Zy",
+    "as",
+    "ba",
+    "dt",
+    "dy",
+    "ec",
+    "gh",
+    "gl",
+    "ha",
+    "hf",
+    "ia",
+    "io",
+    "jl",
+    "jp",
+    "lf",
+    "nr",
+    "null",
+    "oy",
+    "pp",
+    "qa",
+    "qf",
+    "qm",
+    "rs",
+    "sm",
+    "tn",
+    "ut",
+    "uy",
+    "vi",
+    "vm",
+    "wa",
+    "wf",
+    "wh",
+    "zf",
+    "zh"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "sequential-int-candidate": 1
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-124-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-002-116sos.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-066-oad.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-049-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "anywhere",
+    "em",
+    "forwards",
+    "inherit",
+    "none",
+    "null"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-127-zglos_dezinfor.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-067-oad.js",
+   "endpoints": [],
+   "params": [
+    "Ba",
+    "Bm",
+    "Bo",
+    "Df",
+    "Fe",
+    "Hf",
+    "Ii",
+    "Ir",
+    "Iy",
+    "Jh",
+    "Jn",
+    "Kf",
+    "Ko",
+    "Lm",
+    "Lr",
+    "NaN",
+    "Pa",
+    "Pe",
+    "Pp",
+    "Pv",
+    "Qf",
+    "Qi",
+    "Rg",
+    "Sv",
+    "Uf",
+    "Vi",
+    "Vl",
+    "Vn",
+    "Wn",
+    "Wp",
+    "Xf",
+    "Yi",
+    "Yl",
+    "Zy",
+    "as",
+    "ba",
+    "dt",
+    "dy",
+    "ec",
+    "gh",
+    "gl",
+    "ha",
+    "hf",
+    "ia",
+    "io",
+    "jl",
+    "jp",
+    "lf",
+    "nr",
+    "null",
+    "oy",
+    "pp",
+    "qa",
+    "qf",
+    "qm",
+    "rs",
+    "sm",
+    "tn",
+    "ut",
+    "uy",
+    "vi",
+    "vm",
+    "wa",
+    "wf",
+    "wh",
+    "zf",
+    "zh"
+   ],
+   "secrets": [],
+   "id_formats": {
+    "sequential-int-candidate": 1
+   }
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-095-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-075-oad.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-082-pllum.js",
+   "endpoints": [],
+   "params": [],
+   "secrets": [],
+   "id_formats": {}
+  },
+  {
+   "file": "/home/runner/work/_temp/bodies/js-056-dyzurnet.js",
+   "endpoints": [],
+   "params": [
+    "null",
+    "return"
+   ],
+   "secrets": [],
+   "id_formats": {}
+  }
+ ],
+ "idor_prerank": []
+}
