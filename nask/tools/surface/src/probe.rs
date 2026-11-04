@@ -69,6 +69,7 @@ fn measure(
     limiter: &crate::scope::Limiter,
     url: &str,
     sent_origin: &str,
+    cookie: &str,
     reflect: &str,
     baselines: &std::collections::HashMap<String, (u16, String)>,
     want_snippet: bool,
@@ -78,6 +79,12 @@ fn measure(
     let mut req = client.get(url);
     if !sent_origin.is_empty() {
         req = req.header("Origin", sent_origin);
+    }
+    // A probe-level cookie is needed to tell a *constant* server value from a
+    // value derived from the client's own state. Without it the control is
+    // vacuous: two identical bodyless requests always agree.
+    if !cookie.is_empty() {
+        req = req.header("Cookie", cookie);
     }
     let resp = match req.send() {
         Ok(r) => r,
@@ -226,7 +233,10 @@ pub fn run_probes(
                 .to_string();
 
             let reflect = p.get("reflect").and_then(|v| v.as_str()).unwrap_or("");
-            let mut first = measure(client, limiter, url, &sent_origin, reflect, &baselines, want_snippet);
+            let cookie = p.get("cookie").and_then(|v| v.as_str()).unwrap_or("");
+            let mut first = measure(
+                client, limiter, url, &sent_origin, cookie, reflect, &baselines, want_snippet,
+            );
 
             // Server frameworks commonly answer a canonical path with 308 to the
             // trailing-slash form. Following it is useful, but only if it stays on
@@ -253,7 +263,17 @@ pub fn run_probes(
                 };
                 if let Some(t) = target {
                     if crate::scope::split_url(&t).is_ok() {
-                        let hop = measure(client, limiter, &t, &sent_origin, reflect, &baselines, want_snippet);
+                        let hop_cookie = if crate::scope::split_url(&t).map(|(h, _)| h)
+                            == crate::scope::split_url(url).map(|(h, _)| h)
+                        {
+                            cookie
+                        } else {
+                            ""
+                        };
+                        let hop = measure(
+                            client, limiter, &t, &sent_origin, hop_cookie, reflect, &baselines,
+                            want_snippet,
+                        );
                         followed = Some(hop);
                     }
                 }
