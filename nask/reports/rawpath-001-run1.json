@@ -1,0 +1,960 @@
+{
+  "schema_version": 1,
+  "dry_run": false,
+  "rps_requested": 1.0,
+  "min_observed_gap_s": 1.0,
+  "wall_seconds": 70.13,
+  "count": 35,
+  "summary": {
+    "count": 35,
+    "verdicts": {
+      "not-found": 12,
+      "html-page": 6,
+      "media-file": 4,
+      "blocked-waf-200": 2,
+      "json-response": 2,
+      "spa-catch-all-shell": 2,
+      "status-400": 2,
+      "transport-error": 2,
+      "forbidden": 1,
+      "method-not-allowed-route-exists": 1,
+      "soft-404-html": 1
+    },
+    "candidates": [],
+    "transport_errors": [
+      "sci-A07-media-license",
+      "sci-A15-trav-os-etc-hostname"
+    ],
+    "out_of_scope_refusals": []
+  },
+  "identical_bodies": [
+    {
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "identical_bodies": [
+        "hive-C03-register-404:/api/v1/register",
+        "hive-C04-openapi-404:/api/v1/openapi.json"
+      ]
+    },
+    {
+      "sha256": "908ce0b4e45c176777e4e8ba171c06e8f71c912d01ea687ac16874c5f0ff40cf",
+      "identical_bodies": [
+        "hive-B09-env-adjudicate:/.env",
+        "hive-B10-shell-ctl:/"
+      ]
+    },
+    {
+      "sha256": "febfe52454f36f418006bed26318c7865976e39d5c958cce02a1b45e757e3e02",
+      "identical_bodies": [
+        "sci-A01-ctl-media-jpg:/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+        "sci-A03-dot-segment-hash:/api/media/wp-content/uploads/sites/4/2023/06/%2e/Struktura-s-e1687258346784.jpg"
+      ]
+    }
+  ],
+  "note": "Werdykt wynika z typu/rozmiaru/znacznikow, nie z samego kodu. CANDIDATE-* wymaga recznego potwierdzenia przez czlowieka przed jakimkolwiek zgloszeniem; tresci wrazliwe nie sa zapisywane.",
+  "probes": [
+    {
+      "id": "sci-A01-ctl-media-jpg",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "status": 200,
+      "reason": "OK",
+      "ms": 3887,
+      "bytes_read": 65536,
+      "sha256": "febfe52454f36f418006bed26318c7865976e39d5c958cce02a1b45e757e3e02",
+      "content_type": "image/jpeg",
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "public, max-age=86400",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JPEG_MAGIC": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "......JFIF..............Exif..MM.*.......i...........................P...........d........27..........27......2023:01:27 12:59:16.2023:01:27 12:59:16.......http://ns.adobe.com/xap/1.0/.<?xpacket begin",
+      "error": null,
+      "verdict": "media-file",
+      "raw_path": "/api/media/wp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "KONTROLA dodatnia: run006 = 200/182155 B. Bez jej sha256 dowod z hasha nie istnieje."
+    },
+    {
+      "id": "sci-A02-media-robots-ctl",
+      "url": "https://science.nask.pl/api/media/robots.txt",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 1231,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": "",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/robots.txt",
+      "why": "KONTROLA ujemna: run007 = 404. Proxy nie serwuje dowolnego pliku z korzenia aplikacji."
+    },
+    {
+      "id": "sci-A03-dot-segment-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/uploads/sites/4/2023/06/%2e/Struktura-s-e1687258346784.jpg",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1163,
+      "bytes_read": 65536,
+      "sha256": "febfe52454f36f418006bed26318c7865976e39d5c958cce02a1b45e757e3e02",
+      "content_type": "image/jpeg",
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "public, max-age=86400",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JPEG_MAGIC": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "......JFIF..............Exif..MM.*.......i...........................P...........d........27..........27......2023:01:27 12:59:16.2023:01:27 12:59:16.......http://ns.adobe.com/xap/1.0/.<?xpacket begin",
+      "error": null,
+      "verdict": "media-file",
+      "raw_path": "/api/media/wp-content/uploads/sites/4/2023/06/%2e/Struktura-s-e1687258346784.jpg",
+      "why": "Dowod DEKODOWANIA bez ucieczki: segment `%2e` po rozwinięciu daje TEN SAM plik. sha256 == A01 => serwer dekoduje procenty i normalizuje sciezke."
+    },
+    {
+      "id": "sci-A04-trav-roundtrip-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/%2e%2e%2fwp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 661,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": "",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-content/%2e%2e%2fwp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "PRYMITYW TRAWERSALU bez danych wrazliwych: `wp-content/../wp-content/<plik>`. sha256 == A01 => serwer rozwija `..` na dysku (klasa path traversal, §8). Odrzucenie: 404/400/reset WAF."
+    },
+    {
+      "id": "sci-A05-trav-mixed-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/..%2fwp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 768,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": "",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-content/..%2fwp-content/uploads/sites/4/2023/06/Struktura-s-e1687258346784.jpg",
+      "why": "Jak A04, ale kropki literalne (`..%2f`) — wlasnie ten wariant w reqwest dawal blad transportu (run007), wiec jest niezmierzony."
+    },
+    {
+      "id": "sci-A06-trav-double-enc-hash",
+      "url": "https://science.nask.pl/api/media/wp-content/%252e%252e%252fwp-content%252fuploads%252fsites%252f4%252f2023%252f06%252fStruktura-s-e1687258346784.jpg",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 905,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": "",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-content/%252e%252e%252fwp-content%252fuploads%252fsites%252f4%252f2023%252f06%252fStruktura-s-e1687258346784.jpg",
+      "why": "Podwojne kodowanie: przechodzi tylko przy dwoch przebiegach dekodera. Klient NIE normalizuje tego segmentu (brak literalnych kropek)."
+    },
+    {
+      "id": "sci-A07-media-license",
+      "url": "https://science.nask.pl/api/media/license.txt",
+      "status": null,
+      "reason": null,
+      "ms": 15380,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": "timeout: TimeoutError",
+      "verdict": "transport-error",
+      "raw_path": "/api/media/license.txt",
+      "why": "Plik korzenia WordPress (nieszkodliwy, rozpoznawalny). 200 + text/plain => proxy czyta poza poddrzewem mediow."
+    },
+    {
+      "id": "sci-A08-media-readme",
+      "url": "https://science.nask.pl/api/media/readme.html",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 1073,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": "",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/readme.html",
+      "why": "Jak A07 — drugi plik korzenia WP."
+    },
+    {
+      "id": "sci-A09-wpconfig-depth0-secret",
+      "url": "https://science.nask.pl/api/media/wp-config.php",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 476,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-config.php",
+      "why": "KRYTYCZNA: jesli korzeniem proxy jest katalog WP, to wp-config.php lezy wprost. 200 + PHP_SOURCE/SECRET_KEYS => dane bazy (Tier 2 do 10 000 zl). Tresc NIE jest zapisywana."
+    },
+    {
+      "id": "sci-A10-wpconfig-depth1-secret",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2fwp-config.php",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 508,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/%2e%2e%2fwp-config.php",
+      "why": "Jak A09, jeden poziom w gore (korzen proxy moze byc /wp-content)."
+    },
+    {
+      "id": "sci-A11-wpconfig-depth2-secret",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2fwp-config.php",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 479,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/%2e%2e%2f%2e%2e%2fwp-config.php",
+      "why": "Jak A09, dwa poziomy w gore (korzen proxy = /wp-content/uploads)."
+    },
+    {
+      "id": "sci-A12-wpconfig-depth3-secret",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2fwp-config.php",
+      "status": 400,
+      "reason": "Bad Request",
+      "ms": 760,
+      "bytes_read": 150,
+      "sha256": "487ad0d2cf075f4328a1adf57ef428759ad4e2c873a8ebd2ad9653990829c9cf",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html",
+        "content-length": "150"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": null,
+      "verdict": "status-400",
+      "raw_path": "/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2fwp-config.php",
+      "why": "Jak A09, trzy poziomy w gore — domyka niepewnosc glebokosci D."
+    },
+    {
+      "id": "sci-A13-wpconfig-sample-secret",
+      "url": "https://science.nask.pl/api/media/wp-config-sample.php",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 478,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-config-sample.php",
+      "why": "Kontrola dla A09-A12: plik publiczny bez sekretow. Rozroznia 'serwuje kazdy .php' od 'tylko ten jeden'."
+    },
+    {
+      "id": "sci-A14-version-php-secret",
+      "url": "https://science.nask.pl/api/media/wp-includes/version.php",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 1243,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/media/wp-includes/version.php",
+      "why": "Jawnosc zrodla PHP ($wp_version). Niski wplyw, ale domyka obraz proxy."
+    },
+    {
+      "id": "sci-A15-trav-os-etc-hostname",
+      "url": "https://science.nask.pl/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fhostname",
+      "status": null,
+      "reason": null,
+      "ms": 15340,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [],
+      "markers": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "error": "timeout: TimeoutError",
+      "verdict": "transport-error",
+      "raw_path": "/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fhostname",
+      "why": "Ucieczka do pliku OS, cel NIESZKODLIWY. `etc/passwd` resetuje WAF (run007: 3 bledy transportu), wiec hostname rozstrzyga to samo bez ryzyka."
+    },
+    {
+      "id": "dns-B01-env-adjudicate",
+      "url": "https://dns.pl/.env",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1124,
+      "bytes_read": 51213,
+      "sha256": "ab3beed51668c5222fff4aeff81c7b9557d9723c0916cca56a2f2eb66455b5cc",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51213"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.<script type=\"text/javascript\">.  var _event_transid='2072786175';.</script>..    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-w",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/.env",
+      "why": "run007: 200/51201 B. fetch_page 04.11: STRONA GLOWNA Drupal (sciezka odbita w kotwicach). Potwierdzic typem/znacznikami i zamknac wpis."
+    },
+    {
+      "id": "dns-B02-gitconfig-adjudicate",
+      "url": "https://dns.pl/.git/config",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1294,
+      "bytes_read": 51230,
+      "sha256": "ce69e46fe1c948d110edd989070c7e163ede31688f29a82bd0c39dad24f53a74",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51230"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.<script type=\"text/javascript\">.  var _event_transid='2072786176';.</script>..    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-w",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/.git/config",
+      "why": "run007: 200/51230 B. Oczekiwane: html-page, BEZ znacznika GIT_REF."
+    },
+    {
+      "id": "dns-B03-dbsql-adjudicate",
+      "url": "https://dns.pl/db.sql",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1293,
+      "bytes_read": 51218,
+      "sha256": "6888b5ea8d93b7e74d3584432eff32512cce1e48e49f0ae0e9f30c0ee5d6eb01",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51218"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.<script type=\"text/javascript\">.  var _event_transid='2072786177';.</script>..    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-w",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/db.sql",
+      "why": "run007: 200/51227 B. Oczekiwane: html-page/soft-404."
+    },
+    {
+      "id": "dns-B04-serverstatus-adjudicate",
+      "url": "https://dns.pl/server-status",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1195,
+      "bytes_read": 51218,
+      "sha256": "66d95c213764c883fd2b61b9174624c7cd81749d8920f89cf392f50285567bf3",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51218"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.<script type=\"text/javascript\">.  var _event_transid='2072786178';.</script>..    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-w",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/server-status",
+      "why": "run007: 200/51200 B. Oczekiwane: html-page, BEZ APACHE_STATUS."
+    },
+    {
+      "id": "dns-B05-home-ctl",
+      "url": "https://dns.pl/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 596,
+      "bytes_read": 51142,
+      "sha256": "aeb06cb04e06e280694544a043feebe35d2199854ef46b19f7c04d66b0f32c41",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51142"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/",
+      "why": "KONTROLA: strona glowna ~51 kB — wyjasnia wszystkie cztery pozycje powyzej (sciezka jest odbita w HTML, stad rozne rozmiary)."
+    },
+    {
+      "id": "dyz-B06-serverstatus-adjudicate",
+      "url": "https://dyzurnet.pl/server-status",
+      "status": 200,
+      "reason": "OK",
+      "ms": 841,
+      "bytes_read": 58279,
+      "sha256": "680a27362a1289dd4413dd2219ea99fd46723ef44d77384ad1bdd69f6d795279",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "x-frame-options": "SAMEORIGIN",
+        "server": "cloudflare"
+      },
+      "set_cookie_names": [
+        "locale"
+      ],
+      "markers": {
+        "SOFT404_PL": 8,
+        "HTML_DOC": 2,
+        "WAF_BLOCK": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/24uuad1087qu2.css\" da",
+      "error": null,
+      "verdict": "blocked-waf-200",
+      "raw_path": "/server-status",
+      "why": "run007: 200/58279 B. fetch_page: 'Nie znaleziono strony' = soft-404 z kodem 200."
+    },
+    {
+      "id": "dyz-B07-home-ctl",
+      "url": "https://dyzurnet.pl/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 291,
+      "bytes_read": 65536,
+      "sha256": "a40280ef768dc067e46853e2fe63c446b531dc30ad7fb07444b8da2f41babd50",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "x-frame-options": "SAMEORIGIN",
+        "server": "cloudflare"
+      },
+      "set_cookie_names": [
+        "locale"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "WAF_BLOCK": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/24uuad1087qu2.css\" da",
+      "error": null,
+      "verdict": "blocked-waf-200",
+      "raw_path": "/",
+      "why": "KONTROLA dla B06."
+    },
+    {
+      "id": "zglos-B08-serverstatus-adjudicate",
+      "url": "https://zglos-dezinformacje.nask.pl/server-status",
+      "status": 200,
+      "reason": "OK",
+      "ms": 999,
+      "bytes_read": 30260,
+      "sha256": "e277fb7f67f138bafb5cf5d7c5b5bbe030c90bbac5f14be39864ebc74bb47028",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "x-frame-options": "SAMEORIGIN",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "SOFT404_PL": 4,
+        "HTML_DOC": 2
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\" class=\"overflow-x-hidden scroll-smooth\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=width=device-width, initial-scale=1, maximum-scale=1, user-scal",
+      "error": null,
+      "verdict": "soft-404-html",
+      "raw_path": "/server-status",
+      "why": "run007: 200/30260 B. fetch_page: 'Ups! Coś poszło nie tak... 404' = soft-404."
+    },
+    {
+      "id": "hive-B09-env-adjudicate",
+      "url": "https://dataannotation.pllum.org.pl/.env",
+      "status": 200,
+      "reason": "OK",
+      "ms": 419,
+      "bytes_read": 713,
+      "sha256": "908ce0b4e45c176777e4e8ba171c06e8f71c912d01ea687ac16874c5f0ff40cf",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html",
+        "content-length": "713",
+        "last-modified": "Wed, 12 Aug 2026 10:25:04 GMT",
+        "etag": "\"6a7c4a00-2c9\"",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!doctype html>.<html lang=\"en\">.  <head>.    <meta charset=\"UTF-8\" />.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />.    <link rel=\"icon\" href=\"/favicon.ico\" />.    <met",
+      "error": null,
+      "verdict": "spa-catch-all-shell",
+      "raw_path": "/.env",
+      "why": "run007: 200/713 B = dokladnie rozmiar shella SPA (udokumentowany przez dwie sesje). Oczekiwane: spa-catch-all-shell."
+    },
+    {
+      "id": "hive-B10-shell-ctl",
+      "url": "https://dataannotation.pllum.org.pl/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 371,
+      "bytes_read": 713,
+      "sha256": "908ce0b4e45c176777e4e8ba171c06e8f71c912d01ea687ac16874c5f0ff40cf",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html",
+        "content-length": "713",
+        "last-modified": "Wed, 12 Aug 2026 10:25:04 GMT",
+        "etag": "\"6a7c4a00-2c9\"",
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!doctype html>.<html lang=\"en\">.  <head>.    <meta charset=\"UTF-8\" />.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />.    <link rel=\"icon\" href=\"/favicon.ico\" />.    <met",
+      "error": null,
+      "verdict": "spa-catch-all-shell",
+      "raw_path": "/",
+      "why": "KONTROLA: shell 713 B. Dowod, ze B09 to catch-all, nie plik (identyczny sha256)."
+    },
+    {
+      "id": "bm-B11-downloadfile-ctl",
+      "url": "https://bezpiecznymiesiac.pl/download-file/?fileUrl=/media/2026/10/NASK_poradnik-IoT.pdf",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1057,
+      "bytes_read": 65536,
+      "sha256": "6ea7057f85c1fc684e85681eadd3cbaa30da717539172c9316241dc8e6f3a3d4",
+      "content_type": "application/pdf",
+      "headers": {
+        "content-type": "application/pdf",
+        "x-frame-options": "DENY",
+        "content-disposition": "attachment; filename*=UTF-8''NASK_poradnik-IoT.pdf",
+        "x-cache": "CONFIG_NOCACHE",
+        "cache-control": "public, max-age=3600, s-maxage=3600"
+      },
+      "set_cookie_names": [
+        "TiPMix",
+        "x-ms-routing-name",
+        "Path"
+      ],
+      "markers": {
+        "JSON_BODY": 1,
+        "PDF_MAGIC": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "%PDF-1.7.%......562 0 obj.<</Linearized 1/L 603523/O 565/E 39193/N 24/T 592162/H [ 1547 1487]>>.endobj.           ..xref..562 61..0000000016 00000 n..0000003220 00000 n..0000003477 00000 n..0000003521",
+      "error": null,
+      "verdict": "media-file",
+      "raw_path": "/download-file/?fileUrl=/media/2026/10/NASK_poradnik-IoT.pdf",
+      "why": "KONTROLA dodatnia klasyfikatora: run004b = 200/603523 B application/pdf (publiczny poradnik NASK). Sprawdza PDF_MAGIC + Content-Disposition."
+    },
+    {
+      "id": "hive-C01-users1-405",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/users/1",
+      "status": 405,
+      "reason": "Method Not Allowed",
+      "ms": 368,
+      "bytes_read": 31,
+      "sha256": "83c09ba9a8daedb136f90b17a294caa90ad471a016e430df6e229acb5a81e100",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "31",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "csrf_token"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"detail\":\"Method Not Allowed\"}",
+      "error": null,
+      "verdict": "method-not-allowed-route-exists",
+      "raw_path": "/api/v1/users/1",
+      "why": "Gemma-B: 405 = trasa istnieje dla innej metody. Jedno zadanie, id=1, ZERO iteracji (nie zbieramy cudzych danych)."
+    },
+    {
+      "id": "hive-C02-projects-401",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/projects/",
+      "status": 401,
+      "reason": "Unauthorized",
+      "ms": 341,
+      "bytes_read": 30,
+      "sha256": "cfec9feffbcc0dabaa0f92491e3609eeb1e9bc8d17625cd7f043be03b609c812",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "30",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "csrf_token"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"detail\":\"Not authenticated\"}",
+      "error": null,
+      "verdict": "forbidden",
+      "raw_path": "/api/v1/projects/",
+      "why": "Gemma-B: 401 {detail: Not authenticated} => kontrola dostepu na poziomie routera DZIALA. Potwierdzenie domyka H10."
+    },
+    {
+      "id": "hive-C03-register-404",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/register",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 352,
+      "bytes_read": 22,
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "22",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "csrf_token"
+      ],
+      "markers": {
+        "SOFT404_PL": 1,
+        "JSON_BODY": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"detail\":\"Not Found\"}",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/v1/register",
+      "why": "Gemma-B: brak publicznej rejestracji (404). To BLOKUJE moj RUNBOOK L1/L2 — wymaga drugiego, niezaleznego kanalu."
+    },
+    {
+      "id": "hive-C04-openapi-404",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/openapi.json",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 359,
+      "bytes_read": 22,
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "22",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "csrf_token"
+      ],
+      "markers": {
+        "SOFT404_PL": 1,
+        "JSON_BODY": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"detail\":\"Not Found\"}",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/v1/openapi.json",
+      "why": "Brak schematu OpenAPI => bez konta nie ma mapy API."
+    },
+    {
+      "id": "sos-D01-home",
+      "url": "https://116sos.pl/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1338,
+      "bytes_read": 65536,
+      "sha256": "07dfd8e59fd76cacd3d97e2841fe5822a9978a38111cb7405f5f54c31883b57c",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "103227",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "s-maxage=300, stale-while-revalidate=31535700",
+        "etag": "\"15jp9f6mm8s27dg\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet",
+        "stickounet"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><title data-next-head=\"\">116sos.pl | Pomoc psycholog",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/",
+      "why": "Zywy/martwy? Od ~23:00 502 nginx na wszystko (Gemma-B, Smak) — testy przerwane, nie zakonczone."
+    },
+    {
+      "id": "sos-D02-fetch-cookie-hash",
+      "url": "https://116sos.pl/api/fetch-cookie-hash",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1215,
+      "bytes_read": 30,
+      "sha256": "31345c459894f2f0916c1b727347d547723a1fc2ab63e1593335fe538906cc10",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "30",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "etag": "\"arx7qm7oybu\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet",
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"cookieHash\":\"6a9963b75ab63\"}",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/fetch-cookie-hash",
+      "why": "NAJCIEKAWSZA nazwa w mapie (Smak H14): czy endpoint zwraca hash ciastka bez uwierzytelnienia?"
+    },
+    {
+      "id": "sos-D03-centres-search",
+      "url": "https://116sos.pl/api/centres-search",
+      "status": 200,
+      "reason": "OK",
+      "ms": 2201,
+      "bytes_read": 13306,
+      "sha256": "a30131e2323db8379685be515876c737a081e6a150eee63cbb2ee61b8ccdcbcb",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "13306",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "etag": "\"ywp3wenbfqa1k\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet",
+        "stickounet",
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"centres\":[{\"address\":{\"apartment\":\"\",\"building\":\"18A\",\"city\":\"S..awno\",\"postcode\":\"76-100\",\"street\":\"Gda..ska\",\"voivodeships\":\"Zachodniopomorskie\"},\"canSleep\":false,\"centreAimedTo\":[\"Doro..li\",\"Dzie",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/centres-search",
+      "why": "Niesprawdzony do konca; Tier 2, dane o placowkach (kontekst zdrowia)."
+    },
+    {
+      "id": "sci-E01-downloadfile-known-id",
+      "url": "https://science.nask.pl/api/downloadFile?fileId=18864",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1184,
+      "bytes_read": 65536,
+      "sha256": "6551b545d938248a0bf65d4a1c407c6f3d950e121c6b1d1f7d6c7f2a4c55dd12",
+      "content_type": "image/png",
+      "headers": {
+        "content-type": "image/png",
+        "content-disposition": "attachment; filename=\"Designer-11.png\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 2,
+        "JPEG_MAGIC": 1,
+        "PNG_MAGIC": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": ".PNG........IHDR.............=.p^...QcaBX...Qjumb....jumdc2pa.........8.q.c2pa...I.jumb...Gjumdc2ma.........8.q.urn:c2pa:3af057e6-d7ed-4396-9ea9-07e2b91b365f.....jumb...)jumdc2as.........8.q.c2pa.asse",
+      "error": null,
+      "verdict": "media-file",
+      "raw_path": "/api/downloadFile?fileId=18864",
+      "why": "Gemma-B: 200 image/png 2210114 B, publiczny plik z aktualnosci. Czytamy tylko pierwsze 64 kB (limit dowodu)."
+    },
+    {
+      "id": "sci-E02-downloadfile-invalid",
+      "url": "https://science.nask.pl/api/downloadFile?fileId=-1",
+      "status": 400,
+      "reason": "Bad Request",
+      "ms": 793,
+      "bytes_read": 27,
+      "sha256": "30277b2e49e1b53a31631573c7a172f64bea8ad489af6b549205ac2d992d9649",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "27",
+        "etag": "\"10zw8b15f7pr\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"error\":\"Invalid file id\"}",
+      "error": null,
+      "verdict": "status-400",
+      "raw_path": "/api/downloadFile?fileId=-1",
+      "why": "Gemma-B: 400 'Invalid file id' = twarda walidacja. Domkniecie kontraktu w rejestrze."
+    }
+  ]
+}
