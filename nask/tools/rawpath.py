@@ -108,6 +108,13 @@ MARKERS: dict[str, "re.Pattern[bytes]"] = {
 }
 SECRET_MARKER_NAMES = ("ENV_ASSIGNMENTS", "SECRET_KEYS", "GIT_REF", "WP_CONFIG_HEADER", "PHP_SOURCE")
 
+# Publiczne pliki KORZENIA hosta — z definicji zamierzone, wiec nie sa kandydatem.
+# Dopasowanie tylko dla sciezki bez `..`/`%2e` (trawersal do `license.txt` poza
+# poddrzewem mediow pozostaje znaleziskiem — patrz RAWPATH-003, H02).
+BENIGN_ROOT_FILE_RE = re.compile(
+    r"^/(robots\.txt|humans\.txt|ads\.txt|crossdomain\.xml|favicon\.ico|manifest\.json"
+    r"|sitemap[^/]*\.xml|security\.txt|\.well-known/security\.txt)$", re.I)
+
 # Naglowki zapisywane w raporcie (wartosci skrocone). `Set-Cookie` — TYLKO nazwy.
 HEADER_WHITELIST = (
     "content-type", "content-length", "content-disposition", "location", "server",
@@ -355,6 +362,9 @@ def classify(rec: dict) -> str:
     if status >= 500:
         return "server-error"
     if status == 200:
+        raw = rec.get("raw_path") or ""
+        if BENIGN_ROOT_FILE_RE.match(raw.split("?", 1)[0]) and not re.search(r"(%2e|\.\.)", raw, re.I):
+            return "public-root-file"          # KOREKTA #30: robots.txt to nie kandydat
         # KOLEJNOSC MA ZNACZENIE: strona "nie znaleziono" z kodem 200 jest
         # soft-404 nawet wtedy, gdy w ciele pada nazwa dostawcy WAF.
         if markers.get("SOFT404_PL") and "html" in ctype:
@@ -552,7 +562,7 @@ def selftest() -> int:
         pass
 
     status_word = "OK" if not fails else "FAIL"
-    print(f"selftest: {status_word} (10 grup, {len(fails)} bledow)")
+    print(f"selftest: {status_word} (11 grup, {len(fails)} bledow)")
     for f in fails:
         print("  -", f)
     return 1 if fails else 0

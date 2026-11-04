@@ -82,7 +82,7 @@ Jak powinni naprawić tę lukę? (np. dodać walidację właściciela zasobu w e
 ## 10. Oświadczenie
 Oświadczam, że:
 - Testowałem wyłącznie w zakresie (scope) programu na hack.cert.pl
-- Nie造成łam szkód w usługach, nie przeprowadziłem Ataku DoS
+- Nie spowodowałem szkód w usługach, nie przeprowadziłem ataku DoS
 - Zachowam dyskrecję do momentu wdrożenia poprawki
 - Zgłoszenie zawiera prawdziwe, odtwórcze PoC
 

@@ -376,5 +376,64 @@ class TestJsonKeySchema(unittest.TestCase):
         self.assertLessEqual(len(schema2["keys"]), 11)
 
 
+class TestRegressionFromRun2Run3(unittest.TestCase):
+    """Rekordy z `rawpath-002-run2.json` i `rawpath-003-run3.json`."""
+
+    def test_root_robots_is_not_a_candidate(self):
+        # run3 H02: 200 text/plain 73 B = publiczny robots.txt (KOREKTA #30)
+        rec = {"status": 200, "content_type": "text/plain", "bytes_read": 73,
+               "markers": {}, "secret_marker_hits": 0, "raw_path": "/robots.txt"}
+        self.assertEqual(classify(rec), "public-root-file")
+
+    def test_same_file_via_traversal_still_candidate(self):
+        rec = {"status": 200, "content_type": "text/plain", "bytes_read": 73,
+               "markers": {}, "secret_marker_hits": 0,
+               "raw_path": "/api/media/%2e%2e/%2e%2e/%2e%2e/%2e%2e/robots.txt"}
+        self.assertEqual(classify(rec), "CANDIDATE-PLAINTEXT-FILE")
+
+    def test_well_known_security_txt_is_public(self):
+        rec = {"status": 200, "content_type": "text/plain", "bytes_read": 300,
+               "markers": {}, "secret_marker_hits": 0, "raw_path": "/.well-known/security.txt"}
+        self.assertEqual(classify(rec), "public-root-file")
+
+    def test_env_file_at_root_is_still_candidate(self):
+        # `/.env` nie jest na liscie publicznych plikow korzenia
+        rec = {"status": 200, "content_type": "text/plain", "bytes_read": 300,
+               "markers": {"ENV_ASSIGNMENTS": 3}, "secret_marker_hits": 3, "raw_path": "/.env"}
+        self.assertEqual(classify(rec), "CANDIDATE-SECRET-FILE")
+
+    def test_remote_disconnected_is_transport_error(self):
+        # run3 H04/H05/H07: brzeg zrywa polaczenie przy probie ucieczki
+        rec = {"status": None, "content_type": None, "bytes_read": 0, "markers": {},
+               "secret_marker_hits": 0,
+               "error": "transport: RemoteDisconnected: Remote end closed connection without response"}
+        self.assertEqual(classify(rec), "transport-error")
+
+    def test_app_404_page_after_normalization(self):
+        # run3 H06: 404/17524 B text/html = strona 404 aplikacji (nginx zwija `..` i clampuje)
+        rec = {"status": 404, "content_type": "text/html", "bytes_read": 17524,
+               "markers": {"HTML_DOC": 2, "SPA_SHELL": 1}, "secret_marker_hits": 0}
+        self.assertEqual(classify(rec), "not-found")
+
+    def test_static_cookie_hash_is_not_a_finding_by_itself(self):
+        # run2 F01-F03: identyczny sha256 ciala w 3 probkach => wartosc stala
+        recs = [{"id": f"sos-F0{i}", "raw_path": "/api/fetch-cookie-hash",
+                 "sha256": "3" * 64, "bytes_read": 30} for i in (1, 2, 3)]
+        ev = cross_hash_evidence(recs)
+        self.assertEqual(len(ev), 1)
+        self.assertEqual(len(ev[0]["identical_bodies"]), 3)
+
+    def test_json_schema_of_public_directory(self):
+        body = json.dumps({"centres": [{"name": "X", "phone": "Y", "email": "Z",
+                                        "geoCords": {"lat": 1, "lon": 2}}],
+                           "totalItems": 1, "lastPage": 1}).encode()
+        schema = rawpath.json_key_schema(body)
+        self.assertIn("centres[].geoCords.lat", schema["keys"])
+        self.assertIn("totalItems", schema["keys"])
+        blob = json.dumps(schema, ensure_ascii=False)
+        for value in ("X", "Y", "Z"):
+            self.assertNotIn('"%s"' % value, blob)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

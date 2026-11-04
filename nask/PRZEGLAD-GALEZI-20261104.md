@@ -219,11 +219,10 @@ selftest **10 grup OK** (bramka w workflow, zero sieci).
 | `sci-A12` | `%2e%2e%2f`×3 + `wp-config.php` | **400 / 150 B `text/html`** — jedyna odpowiedź inna niż 404 w całej macierzy |
 | `sci-A07`, `sci-A15` | `license.txt`; `%2e%2e%2f`×4 + `etc%2fhostname` | **timeout 15 s** (nie reset, nie 404) |
 
-Werdykt: **dekodowanie procentów jest, ucieczki z katalogu mediów nie ma** (0 plików spoza
-`wp-content`). Zostają trzy zjawiska nierozstrzygnięte: timeout na `license.txt`, timeout na
-`etc%2fhostname` i `400` przy trzech poziomach — domyka je RAWPATH-002 (timeout 40 s, wariant
-`%2e%2e` z literalnym `/`, podgląd małego ciała błędu). **Nie ma zgłoszenia i nie będzie**, dopóki
-nie pojawi się plik spoza katalogu mediów.
+Werdykt po run1: **dekodowanie procentów jest, ucieczki z katalogu mediów nie ma** (0 plików spoza
+`wp-content`). Zostały trzy zjawiska nierozstrzygnięte: timeout na `license.txt`, timeout na
+`etc%2fhostname` i `400` przy trzech poziomach — domykają je RAWPATH-002 i RAWPATH-003 (§6.3, §6.4).
+**Nie ma zgłoszenia i nie będzie**, dopóki nie pojawi się plik spoza katalogu mediów.
 
 **b) 116sos.pl WRÓCIŁ i ma coś, czego nikt nie zmierzył** (Gemma-B i `5ed750ef` przerwali przez 502):
 
@@ -245,13 +244,56 @@ testuję jej bez interpretacji organizatora (tak samo jak `www.nask.pl`).
 `{"detail":"Not Found"}` (identyczny sha `37ec4665…`). Kontrola dostępu na poziomie routera działa;
 rejestracji nie ma ⇒ IDOR/BAC czeka na konto od organizatora.
 
-### 6.3 Korekta własna #28 (mój błąd, znaleziony na moich danych)
+### 6.3 Przebieg RAWPATH-002 (10 prób, 1,0 req/s, 10,94 s, **0 kandydatów**)
 
-Mój klasyfikator oznaczał stronę główną `dyzurnet.pl` i jej soft-404 jako `blocked-waf-200`, bo
-znacznik WAF łapał samo słowo „cloudflare" w ciele. Rozdzieliłem `WAF_VENDOR` (informacyjny) od
-`WAF_BLOCK` (komunikat odmowy) i ustawiłem kolejność: **soft-404 przed WAF**. Do tego
-`decide_preview()`: małe ciało błędu (status ≥ 400, ≤ 1024 B) jest zapisywane zawsze — inaczej
-`sci-A12` (400/150 B) był ślepym wpisem. **5 testów regresyjnych odtwarza dokładne rekordy z run1.**
+| próba | wynik | rozstrzygnięcie |
+|---|---|---|
+| `sos-F01/F02/F03` `/api/fetch-cookie-hash` | 3 × 200 `application/json` 30 B, **sha256 ciała IDENTYCZNY** (`31345c45…`), wartość `{"cookieHash":"6a9963b75ab63"}` | **wartość STAŁA** — nie pochodna ciastka `stickounet` (serwer ustawia je na nowo przy każdym żądaniu). Brak wpływu ⇒ klasa wykluczona (informacja bez danych wrażliwych). **Lead H14 (`5ed750ef`) ZAMKNIĘTY jako negatyw** |
+| `sos-F04` `/api/centres-search` | 200 JSON 13 306 B, **28 kluczy**: `address.{apartment,building,city,postcode,street,voivodeships}`, `canSleep`, `centreAimedTo`, `centreSupports`, `email`, `geoCords.{lat,lon}`, `id`, `name`, `open24`, `ops`, `phone`, `scopeOfHelp`, `specialist`, `updatedAt`, `webPage`, `totalItems`, `lastPage` | katalog **placówek pomocowych** (dane instytucjonalne, ta sama wyszukiwarka działa w publicznym SPA). Schemat zapisałem **bez wartości**. Zostaje jedno zadanie dla usera: porównać `totalItems` z liczbą placówek w UI (§7 L3) |
+| `sos-F05` `/api/announcements` | 200 JSON 603 B, klucze `[].{type,content,pages}` — publiczne newsy | negatyw |
+| `sos-F06` `/api/og-image` | 200 `image/jpeg` 16 264 B (statyczny OG, bez parametru URL) | negatyw |
+| `sci-G01` `/api/media/license.txt`, timeout 40 s | **404 w 584 ms** | timeout 15 s z run1 był **przejściowy**, nie „wolnym upstreamem" — wpis wyjaśniony |
+| `sci-G02` `/api/media/wp-content/%2e%2e/wp-content/uploads/...jpg` | **200, sha256 IDENTYCZNY z kontrolą `G03`** (`febfe524…`) | zakodowane kropki + **literalny** separator są rozwijane → **albo nginx, albo aplikacja**. Sam ten fakt NIE jest podatnością (patrz §6.4) |
+| `sci-G04` `%2e%2e%2f`×3 + `wp-config.php` | 400 / 150 B; ciało: **`400 Bad Request` … `nginx`** | ucieczkę odrzuca **brzeg (nginx)**, nie aplikacja — ochrona działa |
+
+### 6.4 Przebieg RAWPATH-003 (7 prób, 7,28 s) — **rozstrzygnięcie: NIE ma podatności**
+
+Pytanie brzmiało: czy identyczny sha256 w `G02` to dowód prymitywu trawersalu w aplikacji, czy
+tylko normalizacja nginx przed proxy. Zaprojektowałem dwie próby, które to rozróżniają:
+
+| próba | ścieżka | wynik | co z tego wynika |
+|---|---|---|---|
+| `sci-H02` kontrola celu | `/robots.txt` | 200 `text/plain` 73 B, sha `43263c2a…`, treść `User-agent: * / Disallow: /api/ / /_next/ / /node_modules/` | punkt odniesienia dla ucieczki |
+| `sci-H03` **dyskryminator warstwy** | `/api/media/wp-content/%252e%252e/wp-content/uploads/...jpg` | **404** | nginx dekoduje **raz**, więc po jego stronie zostaje literal `%2e%2e` i nie normalizuje; aplikacja **nie dekoduje drugi raz**. ⇒ `G02` (200, identyczny sha) to **normalizacja nginx**, NIE prymityw w aplikacji |
+| `sci-H04` ucieczka, separatory literalne | `/api/media/%2e%2e/%2e%2e/%2e%2e/%2e%2e/robots.txt` | **`RemoteDisconnected`** — brzeg zrywa połączenie | ucieczka blokowana (zgodne z obserwacją Gemmy-B „traversal → reset WAF") |
+| `sci-H05` ucieczka, separatory zakodowane | `/api/media/%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2frobots.txt` | **`RemoteDisconnected`** | jw. |
+| `sci-H06` ucieczka 3 poziomy, cel wrażliwy | `/api/media/wp-content/%2e%2e/%2e%2e/%2e%2e/wp-config.php` | **404 / 17 524 B `text/html`** = standardowa strona 404 aplikacji | nginx zwinął `..` i **zclampował** do korzenia; aplikacja oddała zwykłe 404. Żadnego pliku |
+| `sci-H07` ucieczka do OS, cel nieszkodliwy | `/api/media/%2e%2e/…×6/etc/hostname` | **`RemoteDisconnected`** | jw. |
+
+**Werdykt końcowy dla `science.nask.pl/api/media/` (22 próby w 3 przebiegach):**
+`%2e` jest dekodowane i normalizowane przez **nginx**, aplikacja **nie** dekoduje drugi raz
+(H03 = 404), każda próba wyjścia poza poddrzewo mediów kończy się **zerwaniem połączenia**
+(H04/H05/H07), **nginx 400** (G04) albo **404 aplikacji** (H06, A08–A14). **Ani jeden plik spoza
+`wp-content` nie został podany.** Trop zamknięty jako negatywny, z mechanizmem — nie wracamy.
+Zgłoszenia nie będzie: „ten sam plik pod innym URL-em" bez odczytu spoza katalogu to scenariusz
+teoretyczny, wykluczony §8 (i odrzucalny).
+
+Przy okazji: `Disallow: /node_modules/` w robots.txt to wskazówka konfiguracyjna, nie znalezisko —
+listing katalogów bez danych wrażliwych jest wprost wykluczony.
+
+### 6.5 Korekty własne #28 i #30 (moje błędy, znalezione na moich danych)
+
+* **#28** — klasyfikator oznaczał stronę główną `dyzurnet.pl` i jej soft-404 jako `blocked-waf-200`,
+  bo znacznik WAF łapał samo słowo „cloudflare" w ciele. Rozdzieliłem `WAF_VENDOR` (informacyjny)
+  od `WAF_BLOCK` (komunikat odmowy) i ustawiłem kolejność: **soft-404 przed WAF**. Dodatkowo
+  `decide_preview()`: małe ciało błędu (status ≥ 400, ≤ 1024 B) jest zapisywane zawsze — inaczej
+  `sci-A12` (400/150 B) był ślepym wpisem, a to właśnie ono ujawniło nginx jako warstwę blokującą.
+* **#30** — `/robots.txt` (200 `text/plain` 73 B) dostał werdykt `CANDIDATE-PLAINTEXT-FILE`, bo reguła
+  „mały text/plain = kandydat" nie znała publicznych plików korzenia. Dodałem `BENIGN_ROOT_FILE_RE`
+  (robots/security/sitemap/manifest/favicon/ads/humans/crossdomain) **tylko** dla ścieżki bez
+  `..`/`%2e` — ten sam plik podany przez trawersal nadal jest kandydatem (test to asserts).
+* **5 + 8 testów regresyjnych** odtwarza dokładne rekordy z run1/run2/run3. Razem **66 testów OK**,
+  selftest **11 grup OK**.
 
 ---
 
@@ -261,14 +303,16 @@ znacznik WAF łapał samo słowo „cloudflare" w ciele. Rozdzieliłem `WAF_VEND
 |---|---|---|---|
 | **L0** | rejestracja `hack.cert.pl` + akceptacja regulaminu platformy i konkursu NASK; **wniosek do organizatora o konto testowe HIVE**; **pytanie o zakres `www.nask.pl`** (apex `nask.pl` daje 302 na `www` ⇒ cały Tier-1 host jest praktycznie nietestowalny bez interpretacji) | **user** (15 min) | — |
 | **L1** | `sendForm` w przeglądarce: najpierw legalne zgłoszenie testowe z linkiem do **własnego** kontrolera (SSRF z odczytem — sam DNS jest wykluczony), potem walidacja typów plików (SVG/PNG z payloadem → stored XSS w panelu analityka) | **user + moje payloady** | **jawne GO** (zmiana stanu u operatora + reCAPTCHA v3) |
-| **L2** | `science/api/media` — domknięcie 3 zjawisk z run1 (RAWPATH-002) | ja (Actions) | trwa |
-| **L3** | `116sos` — `cookieHash` ×3, `centres-search` (schemat), `announcements`, `og-image` | ja (Actions) | trwa |
+| **L2** | ~~`science/api/media`~~ — **ZAMKNIĘTE** po 22 próbach w 3 przebiegach: `%2e` normalizuje nginx, aplikacja nie dekoduje drugi raz (H03 = 404), ucieczka = zerwanie połączenia / nginx 400 / 404 aplikacji, **0 plików spoza `wp-content`** | ja (Actions) — zrobione | — |
+| **L3** | `116sos` — **ZAMKNIĘTE**: `fetch-cookie-hash` = wartość stała (3 próbki, identyczny sha256), `announcements` = publiczne newsy, `og-image` = statyczny JPEG, `centres-search` = katalog placówek (28 kluczy). **Zostaje 2 minuty usera**: porównać `totalItems` z `/api/centres-search` z liczbą placówek w publicznej wyszukiwarce — jeśli API oddaje więcej (placówki niepubliczne / dane opiekunów), to klasa 3, Tier 2 do 10 000 zł | user (porównanie) | — |
 | **L4** | HIVE z kontem organizatora: IDOR A↔B (canary, `id±1..5` **tylko własne zasoby**, mass assignment na własnym profilu), `/admin/logs` (guardy tylko klienta wg `5ed750ef`) | user + ja | konto od organizatora |
 | **L5** | mapa API z bundli: `zglos` (13+ chunków flight-data), `dyzurnet` (app-router), `dns.pl` (Drupal `domain-browser`) → `bundle_scan.py` | ja | — |
 
 **Nie robimy** (zmierzone, zamknięte): `/podglad-pdf`, `download-file` (bm), `downloadFile` enum,
 `/_next/image`, CORS, CVE-2025-29927, SQLi przez GET, `.env`/`.git` (2× zmierzone), refleksje
-w wyszukiwarkach, takeover bez PoC, DoS/obciążenie (dyskwalifikacja), hosty spoza §5.
+w wyszukiwarkach, takeover bez PoC, DoS/obciążenie (dyskwalifikacja), hosty spoza §5,
+**`science/api/media` traversal (22 próby, 3 przebiegi — mechanizm opisany w §6.4)**,
+**`116sos/api/fetch-cookie-hash` (wartość stała)**, **`/api/announcements`, `/api/og-image`**.
 
 ---
 
@@ -301,12 +345,18 @@ w wyszukiwarkach, takeover bez PoC, DoS/obciążenie (dyskwalifikacja), hosty sp
   `zglos-dezinformacje.nask.pl/server-status`, `science.nask.pl/api/media/%252e%252e%252frobots.txt`,
   `science.nask.pl/api/media/robots.txt`) — sekwencyjnie, ≪ 5 req/s, tylko hosty §5, zero zmiany stanu.
 * `curl` z sandboxa: **2 próby** (zakończone kodem `000` — TCP zablokowane, żądania nie wyszły).
-* Actions run1 (`41814163117`): **35 żądań GET**, 1,0 req/s, min. odstęp 1,000 s, 70,13 s,
-  tylko `science.nask.pl`, `dns.pl`, `dyzurnet.pl`, `zglos-dezinformacje.nask.pl`,
-  `dataannotation.pllum.org.pl`, `bezpiecznymiesiac.pl`, `116sos.pl`.
-* Actions run2 (RAWPATH-002): **10 żądań GET**, 1,0 req/s, `116sos.pl` + `science.nask.pl`.
-* Zero POST/PUT/DELETE. Zero hostów spoza §5. Zero prób obejścia limitu. Zero użycia znalezionych
-  poświadczeń. Zero zgłoszeń (nic nie spełnia progu PoC). Władysławowo nietknięte.
+* Actions run1 (`41814163117`, raport `rawpath-001-run1.json`): **35 żądań GET**, 1,0 req/s,
+  min. odstęp 1,000 s, 70,13 s, hosty: `science.nask.pl`, `dns.pl`, `dyzurnet.pl`,
+  `zglos-dezinformacje.nask.pl`, `dataannotation.pllum.org.pl`, `bezpiecznymiesiac.pl`, `116sos.pl`.
+* Actions run2 (`41814928560`, raport `rawpath-002-run2.json`): **10 żądań GET**, 1,0 req/s,
+  min. odstęp 1,000 s, 10,94 s, hosty: `116sos.pl`, `science.nask.pl`.
+* Actions run3 (raport `rawpath-003-run3.json`): **7 żądań GET**, 1,0 req/s, min. odstęp 1,000 s,
+  7,28 s, host: `science.nask.pl`.
+* **Razem mój ruch 04.11: 52 żądania GET do celów + 5 przez `fetch_page` + 2 próby `curl`
+  zablokowane w sandboxie.** Zero POST/PUT/DELETE. Zero hostów spoza §5. Zero prób obejścia limitu
+  (najmniejszy zmierzony odstęp 1,000 s przy sufcie regulaminowym 0,2 s). Zero użycia znalezionych
+  poświadczeń. Zero zgłoszeń (nic nie spełnia progu PoC). Władysławowo nietknięte. Każde żądanie
+  ma rekord w `nask/reports/` (status, typ, rozmiar, sha256, czas, błąd) — także błędy transportu.
 
 ## 10. Moje korekty własne (ciągnione z rejestru 25 pozycji)
 
@@ -314,8 +364,18 @@ w wyszukiwarkach, takeover bez PoC, DoS/obciążenie (dyskwalifikacja), hosty sp
   tylko przeglądarka usera i jawne GO.
 * **#27** RUNBOOK L1/L2 „załóż dwa własne konta w HIVE" → **niemożliwe**: brak publicznej rejestracji
   (404 w dwóch kanałach); konto wyłącznie od organizatora.
-* **#28** klasyfikator `rawpath`: słowo „cloudflare" ≠ blokada WAF (patrz §6.3), naprawione +
-  5 testów regresyjnych.
+* **#28** klasyfikator `rawpath`: słowo „cloudflare" ≠ blokada WAF; soft-404 musi mieć pierwszeństwo
+  przed znacznikiem dostawcy (patrz §6.5) — naprawione + 5 testów regresyjnych.
 * **#29** mój nocny wniosek „500 bez danych na `oad/podglad-pdf` = klasa wykluczona" był poprawny,
   ale **niepełny**: `zglos-dezinformacje` zwraca 500 na *każdą* obcą ścieżkę (App Router), więc na
   tym brzegu kod 500 nie niesie informacji wcale. Uzupełniam wpis w rejestrze.
+* **#30** klasyfikator `rawpath`: publiczny `/robots.txt` nie jest kandydatem (`public-root-file`),
+  ale **ten sam plik podany przez trawersal jest** — reguła działa tylko dla ścieżki bez `..`/`%2e`
+  (§6.5, 8 testów regresyjnych z run2/run3).
+* **#31 (metoda)** — mój nocny pomysł „SSRF tylko jeśli UI odbija podgląd linku" był za wąski:
+  równie dobrym dowodem jest **żądanie do własnego kontrolera z odczytem treści**, a sam fakt
+  pobrania bez odczytu jest wykluczony (blind SSRF). Zapisuję w runbooku L1 krok 1.1.
+* **#32 (metoda)** — nocny wpis „dns.pl: publiczny whois + `sites/default/files`" traktowałem jako
+  powierzchnię; pomiar pokazał, że `dns.pl` oddaje **stronę główną z kodem 200** na każdą obcą
+  ścieżkę, wstrzykując licznik `_event_transid` i odbijając ścieżkę w kotwicach. Bez normalizacji
+  tych dwóch rzeczy każde porównanie bajtowe na tym hoście jest fałszywym trafieniem (§5.1).

@@ -41,3 +41,15 @@ Reszta to kolejność w `03-PLAN-DZIALANIA.md`.
 Rekonesans był **pasywny**: Certificate Transparency, nagłówki HTTP, treść stron publicznych.
 Nie wykonano żadnego testu atakującego, nie założono konta, nie wysłano payloadu.
 Wszystko, co wymaga logowania, jest w planie — do wykonania ręcznie.
+
+## Aktualne na 04.11.2026 (po przeglądzie 6 gałęzi zespołu)
+
+| plik | co zawiera |
+|---|---|
+| `PRZEGLAD-GALEZI-20261104.md` | przegląd 6 gałęzi + repo NASK: co przejmuję, co **prostuję z dowodem** (m.in. 23 „interesting" z run007 = szum), co wnoszę; wyniki 3 przebiegów RAWPATH (52 żądania) |
+| `RUNBOOK-REV2-20261104.md` | **obowiązująca** kolejność L0–L5 (L1/L2 HIVE zablokowane — brak publicznej rejestracji; L3 sendForm tylko z przeglądarki usera i po GO) |
+| `REJESTR-LEADS-20261104.md` | baza prawdy leadów: L1–L12 ze statusem i dowodem + log wszystkich żądań (noc + dzień) |
+| `tools/rawpath.py` + `tools/test_rawpath.py` | sonda o **surowej ścieżce** (bez normalizacji klienta), klasyfikator z dowodu, schemat kluczy JSON bez wartości, redakcja sekretów; 52 testy + selftest 11 grup |
+| `run/RAWPATH-00{1,2,3}.json` | plany przebiegów (35 + 10 + 7 prób) z uzasadnieniem i warunkami odrzucenia |
+| `reports/rawpath-00{1,2,3}-run*.json` | rekordy każdego żądania: status, typ, rozmiar, sha256, czas, znaczniki, błędy |
+| `.github/workflows/nask-rawpath.yml` | bramka offline (testy) → przebieg 1,0 req/s → audyt zgodności → commit raportu |

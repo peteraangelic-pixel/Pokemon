@@ -1,3 +1,9 @@
+> **UWAGA (04.11, po przeglądzie 6 gałęzi): ten runbook jest NIEAKTUALNY w części L1–L3.**
+> L1/L2 (HIVE) są **zablokowane** — brak publicznej rejestracji (`/register`, `/api/v1/register`
+> → 404 w dwóch niezależnych kanałach); L3 (zglos-dezinformacje) **nie jest wykonalny automatem**
+> — reCAPTCHA v3 + żądanie zapisujące. Obowiązuje **`RUNBOOK-REV2-20261104.md`**, a dowody i
+> rozstrzygnięcia są w `PRZEGLAD-GALEZI-20261104.md`. Ten plik zostaje jako zapis stanu z nocy.
+
 # Runbook na rano (4.11.2026) — kolejność wg stosunku szansy do pracy
 
 **Warunek wstępny (bez tego nic poniżej):** konto na hack.cert.pl + akceptacja regulaminu
