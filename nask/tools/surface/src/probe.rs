@@ -69,6 +69,7 @@ fn measure(
     limiter: &crate::scope::Limiter,
     url: &str,
     sent_origin: &str,
+    reflect: &str,
     baselines: &std::collections::HashMap<String, (u16, String)>,
     want_snippet: bool,
 ) -> Value {
@@ -97,6 +98,26 @@ fn measure(
     let body = resp.bytes().unwrap_or_default();
     let digest = sha256_hex(&body);
     let text = String::from_utf8_lossy(&body);
+    let digest_norm = sha256_hex(normalize(&text).as_bytes());
+
+    // Reflection check for XSS triage: the marker is unique, so finding it in
+    // the body proves the parameter reaches the output. The window shows whether
+    // it landed as text or as live markup - only the latter is a candidate.
+    let mut reflection = Value::Null;
+    if !reflect.is_empty() {
+        reflection = match text.find(reflect) {
+            Some(pos) => {
+                let start = pos.saturating_sub(120);
+                let end = (pos + reflect.len() + 120).min(text.len());
+                let window = text
+                    .get(start..end)
+                    .map(|w| safe_snippet(w.as_bytes(), 260))
+                    .unwrap_or_default();
+                json!({"found": true, "offset": pos, "window": window})
+            }
+            None => json!({"found": false}),
+        };
+    }
     let mut hits: Vec<&'static str> = Vec::new();
     for (name, re) in marker_table() {
         if re.is_match(&text) {
@@ -110,7 +131,7 @@ fn measure(
         .collect();
     let host = crate::scope::split_url(url).map(|(h, _)| h).unwrap_or_default();
     let (b_status, b_hash) = baselines.get(&host).cloned().unwrap_or((0, String::new()));
-    let same_as_baseline = status == b_status && digest == b_hash;
+    let same_as_baseline = status == b_status && digest_norm == b_hash;
     let cors_reflected = !sent_origin.is_empty() && acao == sent_origin;
     let cors_wildcard_with_creds = acao == "*" && acac.eq_ignore_ascii_case("true");
     let mut out = json!({
@@ -127,11 +148,13 @@ fn measure(
         "sha256": digest,
         "ms": t0.elapsed().as_millis() as u64,
         "markers": hits,
+        "reflection": reflection,
         "baseline_status": b_status,
         "same_as_baseline": same_as_baseline,
         "interesting": !meaningful.is_empty()
             || cors_reflected
             || cors_wildcard_with_creds
+            || reflection.get("found").and_then(|v| v.as_bool()).unwrap_or(false)
             || (!same_as_baseline && status < 400),
     });
     if want_snippet && meaningful.is_empty() {
@@ -173,8 +196,9 @@ pub fn run_probes(
             match client.get(url.as_str()).send() {
                 Ok(r) => {
                     let status = r.status().as_u16();
-                    let body = r.bytes().map(|b| sha256_hex(&b)).unwrap_or_default();
-                    (host.clone(), (status, body))
+                    let body = r.bytes().unwrap_or_default();
+                    let norm = normalize(&String::from_utf8_lossy(&body));
+                    (host.clone(), (status, sha256_hex(norm.as_bytes())))
                 }
                 Err(_) => (host.clone(), (0, String::new())),
             }
@@ -201,7 +225,8 @@ pub fn run_probes(
                 .unwrap_or("")
                 .to_string();
 
-            let mut first = measure(client, limiter, url, &sent_origin, &baselines, want_snippet);
+            let reflect = p.get("reflect").and_then(|v| v.as_str()).unwrap_or("");
+            let mut first = measure(client, limiter, url, &sent_origin, reflect, &baselines, want_snippet);
 
             // Server frameworks commonly answer a canonical path with 308 to the
             // trailing-slash form. Following it is useful, but only if it stays on
@@ -228,7 +253,7 @@ pub fn run_probes(
                 };
                 if let Some(t) = target {
                     if crate::scope::split_url(&t).is_ok() {
-                        let hop = measure(client, limiter, &t, &sent_origin, &baselines, want_snippet);
+                        let hop = measure(client, limiter, &t, &sent_origin, reflect, &baselines, want_snippet);
                         followed = Some(hop);
                     }
                 }
@@ -250,6 +275,30 @@ pub fn run_probes(
             ProbeResult { value: out }
         })
         .collect()
+}
+
+/// Replace digit/hex runs with a placeholder before hashing.
+///
+/// dns.pl stamps every response with a fresh `_event_transid`, so the raw hash of
+/// two identical 404 pages never matches. Comparing raw hashes against the
+/// catch-all baseline therefore flagged every such page as "interesting" -
+/// a systematic false-positive generator. Normalising first removes the noise
+/// while keeping the comparison meaningful.
+fn normalize(text: &str) -> String {
+    let mut out = String::with_capacity(text.len());
+    let mut in_run = false;
+    for c in text.chars() {
+        if c.is_ascii_digit() {
+            if !in_run {
+                out.push('#');
+                in_run = true;
+            }
+        } else {
+            in_run = false;
+            out.push(c);
+        }
+    }
+    out
 }
 
 fn fnv1a(bytes: &[u8]) -> u64 {

