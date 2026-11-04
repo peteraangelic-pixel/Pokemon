@@ -73,7 +73,17 @@ jobs:
           git add nask/reports
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
           git commit -m "surface: probe run ${{ steps.req.outputs.run }} [skip ci]"
-          git push origin HEAD:arena/7911f950-pokemon
+          # A run takes minutes; the agent may push while it is in flight. Without
+          # this the probes run, the report is written, and then the push is
+          # rejected as non-fast-forward - the measurement is lost even though
+          # every request succeeded. Rebase on top of whatever landed and retry.
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin arena/7911f950-pokemon && git push origin HEAD:arena/7911f950-pokemon; then
+              echo "report pushed on attempt $i"; exit 0
+            fi
+            echo "attempt $i rejected, retrying"; sleep 15
+          done
+          echo "report could not be pushed; see artifact"; exit 1
 
       - uses: actions/upload-artifact@v4
         if: always()
