@@ -1,13 +1,16 @@
-# Wyniki przebiegów RAWPATH-006 (run 9) i RAWPATH-007 (run 10) — 05.11.2026
+# Wyniki przebiegów RAWPATH-006 (run 9), RAWPATH-007 (run 10) i RAWPATH-008 (run 11) — 05.11.2026
 
-**Bilans uczciwy: 53 żądania GET, 0 nowych podatności wypłacalnych, 6 leadów zamkniętych
-z mechanizmem, 1 nowy żywy endpoint (treści publiczne), 1 nowe narzędzie rozstrzygające
-(liczniki PII), 1 mapa offline (HIVE, 71 tras klienta).**
+**Bilans uczciwy: 60 żądań GET w trzech przebiegach (31 + 22 + 7), 0 nowych podatności
+wypłacalnych, 7 leadów zamkniętych z mechanizmem (w tym L9 drugim, niezależnym kanałem),
+1 nowy żywy endpoint (treści publiczne), 1 nowe narzędzie rozstrzygające (liczniki PII),
+1 mapa offline (HIVE, 71 tras klienta), 1 nowa trasa publiczna znaleziona w run 11
+(`116sos.pl/osrodki-pomocowe`).**
 
 Zgodność: run 9 = 31 żądań / 47,08 s / 7 hostów §5 / min. odstęp 1,000 s; run 10 = 22 żądania /
-21,37 s / 5 hostów §5 / min. odstęp 1,000 s. GET-only, 0 POST, 0 zmian stanu, 0 hostów spoza §5,
-0 zgłoszeń. Rekordy: `reports/rawpath-006-run9.json`, `reports/rawpath-007-run10.json`,
-mining: `reports/mine-rawpath-00{6,7}-run{9,10}.json`, logi: `reports/logs-run{9,10}/`.
+21,37 s / 5 hostów §5 / min. odstęp 1,000 s; run 11 = 7 żądań / 7,81 s / 4 hosty §5 / min. odstęp
+1,000 s. GET-only, 0 POST, 0 zmian stanu, 0 hostów spoza §5, 0 zgłoszeń. Rekordy:
+`reports/rawpath-00{6,7,8}-run{9,10,11}.json`, mining:
+`reports/mine-rawpath-00{6,7,8}-run{9,10,11}.json`, logi: `reports/logs-run{9,10,11}/`.
 
 ---
 
@@ -269,3 +272,154 @@ Do potwierdzenia w następnym przebiegu (tanio, bez ryzyka): `Allow`/405 na `GET
 (zero zmiany stanu), trasa katalogu placówek 116sos (żeby domknąć L9 bez usera), angielska
 tabela tras oad (żeby ustalić, gdzie naprawdę jest strona z PowerBI), `/lista_domen_usunietych`
 i `/przegladarka` na dns.pl (niezależne potwierdzenie §7 i mapa UI dla `/api/domain-browser/`).
+
+---
+
+## 12. RUN 11 (`RAWPATH-008`, przebieg `42024136601`) — 7 żądań, 7 rozstrzygnięć
+
+Zgodność (z `logs-run11/40-audit.log`): **7 żądań / 7,81 s / 4 hosty §5** (`zglos-dezinformacje.nask.pl`,
+`116sos.pl`, `oad.nask.pl`, `dns.pl`) / **min. odstęp 1,000 s** / 6 ciał 304 447 B / **0 kandydatów
+do ręcznego potwierdzenia** / 0 identycznych ciał / 0 błędów transportu / 0 odmów wyjścia poza zakres
+/ **AUDYT OK**. Mining: 5 plików, 1 endpoint, `idor_prerank` 0.
+Werdykty: `html-page` 4, `method-not-allowed-route-exists` 1, `other-200` 1, `redirect-not-followed` 1.
+
+| id | żądanie | status | bajty | sha256[:16] | werdykt |
+|---|---|---:|---:|---|---|
+| `zglos-L01` | `GET /api/sendForm` | **405** | **0** | — (`content-length: 0`) | method-not-allowed-route-exists |
+| `sos-L02` | `GET /` (116sos) | 200 | 103 227 | `2f4719a3b0029506` | html-page |
+| `sos-L03` | `GET /mapa-serwisu` | 200 | 103 104 | `11ffb7ff61702063` | html-page |
+| `oad-L04` | `GET /en/` | **308** → `location: /en` | 3 | `7a4ba3ba0fb8f6c3` | redirect-not-followed |
+| `oad-L05` | `GET /_next/static/chunks/0gnc331ufzpqs.js` | 200 | 14 147 | `06473846a4098a33` | other-200 (JS) |
+| `dns-L06` | `GET /lista_domen_usunietych` | 200 | 41 998 | `004dfdaa0883e442` | html-page |
+| `dns-L07` | `GET /przegladarka` | 200 | 41 968 | `be30e4a3b57d21b6` | html-page |
+
+### 12.1 L32 ZAMKNIĘTY — `GET /api/sendForm` = 405 z **pustym ciałem i bez nagłówka `Allow`**
+
+Trasa istnieje (405, nie 404), ale serwer **nie ujawnia listy metod**: `content-length: 0`,
+nagłówki tylko `x-frame-options: SAMEORIGIN` i `x-cache: CONFIG_NOCACHE`.
+
+* Wartość praktyczna: **pasywne rozpoznanie metod jest niemożliwe** ⇒ L23/L1-A (POST bez rekordu)
+  pozostaje jedyną drogą i nadal wymaga jawnego GO oraz przeglądarki usera. Zero zmiany stanu w run 11.
+* Ocena uczciwa: brak `Allow` w odpowiedzi 405 to odstępstwo od RFC 9110 §15.5.6, ale **bez skutku
+  bezpieczeństwa** — kategoria informacyjna, czyli dokładnie to, co §8 wyklucza. **Nie zgłaszamy.**
+  (Zgłoszenie takiego drobiazgu to ryzyko odrzucenia, a trzy odrzucenia mogą zablokować składanie
+  kolejnych — to jest realny koszt, nie formalność.)
+
+### 12.2 L9 ZAMKNIĘTY **drugim, niezależnym kanałem** — 116sos ma publiczną trasę katalogu placówek
+
+Mining dwóch stron 116sos (`/` + `/mapa-serwisu`) dał **326 unikalnych tras publicznych**. Wśród nich:
+
+```
+/osrodki-pomocowe
+/osrodki-pomocowe/dodaj
+/osrodki-pomocowe/dziekujemy
+```
+
+Czyli: serwis **sam publikuje katalog ośrodków pomocowych** i ma formularz samoobsługowego dodania
+placówki (`/dodaj`) ze stroną podziękowania (`/dziekujemy`). To domyka L9 bez 2 minut pracy usera
+i bez porównywania czegokolwiek ręcznie:
+
+1. `/api/centres-search` (run 9: 13 306 B, `PII_EMAIL: 10`, `personal_like` puste, 0 PESEL / 0 telefonów
+   / 0 IBAN) oddaje **placówki**, a nie osoby — schemat `centres[]` ma pola `canSleep`, `open24`,
+   `centreAimedTo`;
+2. ta sama odpowiedź ma `access-control-allow-origin: https://info-trace.116sos.pl`, czyli jest
+   zaprojektowana jako backend publicznej aplikacji;
+3. 8 domen instytucji wydobytych z tej odpowiedzi (`gops.slawno.ibip.pl`, `mops.krakow.pl`,
+   `jarocin.naszops.pl`, `gopsosieck.pl`, `gopschelmno.naszops.pl`, `kolaki.pl`, `markot.pila.pl`,
+   `www.gops.ugslawno.pl`) to publiczne ośrodki z własnymi stronami i BIP;
+4. **run 11: serwis ma jawną, linkowaną w mapie serwisu trasę `/osrodki-pomocowe`.**
+
+Wniosek: dane są **publicznie przeznaczone do udostępniania** ⇒ §8 wyklucza, lead zamknięty.
+Hipoteza wypłacalna (dane opiekunów/dzieci) jest martwa od run 9, a teraz nie ma już nawet resztki
+do sprawdzenia. **Nie odpytujemy `/osrodki-pomocowe/dodaj`** — to formularz zapisujący (zmiana stanu),
+wymagałby GO tak jak `sendForm`.
+
+Reszta tabeli tras 116sos (dla porządku): `/artykuly/**` 277, `/_next/**` 26, `/dokumenty/**` 6
+(w tym `/dokumenty/klauzula-informacyjna-ipz-ptp`), `/favicons/**` 5, `/otrzymaj-pomoc{,/czat,/formularz}`
+(**wyłączone decyzją własną** — interwencja kryzysowa), `/api/og-image`, `/aktualnosci`, `/o-platformie-sos`,
+`/IPZ-PTP`, `/NASK`, `/mapa-serwisu`. Parametry w HTML: tylko `imageId` i `page`.
+**Zero tras** pasujących do `placow*`, `centr*`, `interwenc*`, `telefon*`, `116*` poza wymienionymi.
+
+### 12.3 L13 — prawdopodobieństwo **spada dalej**: nawigacja oad nie zna żadnej strony z PowerBI
+
+Chunk nawigacji/stopki `0gnc331ufzpqs.js` jest żywy (200, 14 147 B, `last-modified: Wed, 04 Nov 2026
+12:46:11 GMT`, `cache-control: public, max-age=31536000, immutable`) i zawiera **17 literałów tras**:
+
+```
+/bip  /deklaracja-dostepnosci  /en/  /logo.svg  /oad-logo-footer.svg  /polityka-prywatnosci
+/wyniki-wyszukiwania?type=project  /wyniki-wyszukiwania?type=publication  /zglos-dezinformacje
+/icons/{MC.png,glob.svg,naskLogoWhite.svg,socials/footer/{facebook,instagram,linkedIn,twitter,youtube}.svg}
+```
+
+Hosty w tym chunku: `www.facebook.com`, `x.com`, `www.linkedin.com`, `www.instagram.com`,
+`www.youtube.com`, `www.w3.org` — **ani `app.powerbi.com`, ani żadnej trasy `/trendy`/`/raport*`**,
+ani żadnego `/api/*`. Razem z run 10 (`/trendy` 404, `/en/trendy` 404 o identycznym sha256,
+`/trendy/` → 308) daje to spójny obraz: **kod embedu istnieje jako martwy moduł ładowany przy
+`/wyniki-wyszukiwania`, ale strona nie jest osiągalna w bieżącym deploy-u**. Zostaje wyłącznie
+30-sekundowe sprawdzenie samego URL-a embedu przez usera (instrukcja po korekcie #49).
+
+Dodatkowo: `oad.nask.pl/en/` → **308** na `/en` — mój plan miał wersję z ukośnikiem, więc run 12
+(`oad-M05`) pobierze właściwy cel i da aktualną angielską tabelę tras.
+
+### 12.4 dns.pl: UI potwierdza L20 drugim kanałem i **nie** zdradza mechanizmu przeglądarki domen
+
+* `/lista_domen_usunietych` = 200, **41 998 B**, a `/przegladarka` = 200, **41 968 B** — dwie różne
+  strony (różne sha256), obie **znacznie poniżej 51 225 B**. To drugie, niezależne potwierdzenie
+  reguły L25: przechwycenie brzegowe ma charakterystyczny rozmiar ~51,2 kB i `_event_transid`,
+  a te odpowiedzi go nie mają ⇒ są prawdziwymi stronami.
+* HTML obu stron **nie zawiera żadnego literału `/api/*`** i żadnych parametrów poza `family`
+  oraz `locales` (Google Fonts) ⇒ mechanizm odpytywania `/przegladarka` siedzi w JS
+  (`main-3.3.0.02aeae80.js`, który już mamy: jego endpointy `/api/{stats,who-is-xml,domain-browser,funny-name}`
+  dają 404 w GET) albo jest POST-em. Run 12 (`dns-M07`) pobierze `/search-results` — formularz
+  wyszukiwarki bez query string (celowo, żeby nie wejść w warstwę brzegową).
+* **Nawigacja rejestru linkuje `/deleted_domains.txt`** oraz `/en/list_of_expired_domain_names`
+  ⇒ publikowanie tej listy jest **zamierzone i widoczne w menu serwisu**. To drugi kanał dla L20
+  (pierwszy: 0 znaczników PII w 46 440 B + 31,6 B na wiersz).
+* Nowe trasy dns.pl z run 11 (spoza bundla): `/raporty`, `/search-results`, `/site-map`,
+  `/en/browser`, `/en/list_of_expired_domain_names`, `/gov.pl/wniosek`, `/RDAP_w_NASK`,
+  `/NASK_extension_of_RDAP_Response`, `/punkt_kontaktowy_rejestru_do_spraw_{DSA,KSC}`,
+  `/eksporty_pliku_strefy_pl`, `/lista_domen_{funkcjonalnych,regionalnych}`, `/pl_registry_lock*`,
+  `/regulamin_nazw_domeny_pl_{by,ru,ua}/**`, `/cennik_dla_rejestratorow`, `/historia`, `/jakosc_w_nask`,
+  `/polityka_przeciwdzialania_naduzyciom`, `/procedura-weryfikacji-danych`,
+  `/polityka-rejestru-dotyczaca-danych`, `/instrukcje-dla-autorow`, `/bundles/bazingajstranslation/js/translator.min.js`
+  (Symfony + BazingaJsTranslation ⇒ część serwisu jest renderowana serwerowo, nie SPA).
+* Hosty w HTML dns.pl: `dns.pl`, `www.dns.pl`, `fonts.googleapis.com`, **`panel.dns.pl`**,
+  **`tracker.dns.pl`** — dwa ostatnie poza literałami §5, więc **nietknięte** (pytanie do organizatora, L0).
+
+### 12.5 Świeży `buildId` 116sos i ogólna reguła (rozszerzenie lekcji z korekty #31)
+
+Run 11 oddał `/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js` ⇒ **aktualny buildId 116sos to
+`eY_q-tnDts2YvuKlalLWP`**, a `8CjJwbyxpVqpWnorny23T` z mapy sesji 7911f950 jest **nieaktualny**.
+Reguła: buildId, nazwę chunka i hash assetu bierzemy **z tego samego przebiegu**, w którym ich
+używamy — inaczej sonda wraca 404 i wynik jest nieinterpretowalny (dokładnie tak padły `bm-J26`
+w run 9 po redeployu i `sci-J21` bez kontroli). Run 12 używa `eY_q-tnDts2YvuKlalLWP` natychmiast.
+
+### 12.6 Nowy host ujawniony w HTML 116sos (poza §5 — **nieodpytywany**)
+
+`116sos.multisite.lab.nob.pib.nask.pl` — środowisko lab/multisite. Poza literałami §5 programu NASK,
+a w programie CERT infrastruktura `*.lab.cert.pl` jest wprost **wyłączona**, więc analogii nie
+testujemy. Wpisane do rejestru jako pytanie do organizatora (razem z `www.nask.pl`,
+`info-trace.116sos.pl`, `panel.dns.pl`, `tracker.dns.pl`).
+
+### 12.7 Korekta #50 (obserwacja, bez zmiany kodu)
+
+Znacznik `SOFT404_PL` odpalił się na **pliku JS** (`oad-L05`, 14 147 B) — minifikowany chunk zawiera
+polskie frazy UI, które pasują do wzorca. To **szum kosmetyczny, nie błąd werdyktu**: logika werdyktu
+bramkuje ten znacznik warunkiem `"html" in ctype` (`rawpath.py`, linia 454), więc JS dostał prawidłowy
+werdykt `other-200`. Nie zmieniam kodu — zmiana bez testu na żywym materiale byłaby gorsza niż
+udokumentowany, nieszkodliwy szum. Gdyby kiedykolwiek `soft-404-html` pojawił się przy `content-type`
+innym niż HTML, to już jest błąd i wracamy.
+
+### 12.8 Stan po trzech przebiegach 05.11
+
+| rzecz | stan |
+|---|---|
+| potwierdzone podatności | **0** |
+| zgłoszenia | **0** |
+| żądania GET razem (04.11 + 05.11) | 321 + 31 + 22 + 7 = **381** |
+| POST / PUT / DELETE | **0** |
+| zmiany stanu | **0** |
+| hosty spoza §5 odpytane | **0** |
+| leady zamknięte 05.11 z mechanizmem | L5, L9 (2 kanały), L18, L20 (2 kanały), L22, L24–L31, **L32** |
+| leady aktywne | **L13** (tylko URL embedu, 30 s, user), **L0** (rejestracja + pytanie do organizatora), L23/L1-A (POST, wymaga GO), L14/L15 (formularze, wymagają GO), L36 (defekt cudzego narzędzia) |
+| w drodze | run 12 = `RAWPATH-009`, 7 sond (116sos `/osrodki-pomocowe` + propsy Next.js z kontrolą + manifest tras, oad `/en`, dns.pl `/raporty` i `/search-results`) |

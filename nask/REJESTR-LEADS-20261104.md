@@ -44,10 +44,10 @@ kontach. Wszystko, co poniżej oznaczone WYKLUCZONE, **nie idzie do zgłoszenia*
 | L6 | oad `/podglad-pdf` | 5 / 15 | **MARTWY (dowód: wiersze 8–12 logu)**; uzupełnione 04.11: na tym brzegu 500 nie niesie informacji (App Router daje 500 na każdą obcą ścieżkę) | nie testować ponownie |
 | L7 | `science.nask.pl/api/media/` traversal | 15 (path traversal/LFI) | **ZAMKNIĘTY NEGATYWNY z MECHANIZMEM (04.11, run1+2+3+8)** — allow-lista katalogów i typów + normalizacja nginx (szczegóły: L21) — `%2e` normalizuje nginx; aplikacja nie dekoduje drugi raz (`%252e%252e` → 404); ucieczka = `RemoteDisconnected`/nginx 400/404 aplikacji; **0 plików spoza `wp-content`** | nie wracać; dowód w `reports/rawpath-00{1,2,3}-run*.json` |
 | L8 | `116sos.pl/api/fetch-cookie-hash` | 3 | **ZAMKNIĘTY NEGATYWNY (04.11)** — wartość stała `6a9963b75ab63` w 3 próbkach przy nowym ciastku `stickounet` za każdym razem; brak wpływu (informacja bez danych wrażliwych = wykluczone) | nie wracać |
-| L9 | `116sos.pl/api/centres-search` | 3.1/3.3 | **ZAMKNIĘTY jako dane instytucjonalne (05.11, run 9)** — 200 JSON 13 306 B, **`PII_EMAIL: 10`**, `personal_like` puste, 0 PESEL/telefon/IBAN; mining `hosts` z tej odpowiedzi dał 8 domen **instytucji**: `gops.slawno.ibip.pl`, `mops.krakow.pl`, `jarocin.naszops.pl`, `gopsosieck.pl`, `gopschelmno.naszops.pl`, `kolaki.pl`, `markot.pila.pl`, `www.gops.ugslawno.pl` (GOPS/MOPS = publiczne ośrodki z własnymi stronami i BIP); schemat `centres[]` opisuje **placówkę** (`canSleep`, `open24`, `centreAimedTo`), nie osobę | hipoteza wypłacalna (dane opiekunów/dzieci) MARTWA. Resztka do zdjęcia w 2 min **tylko jeśli user chce**: czy zbiór placówek z API jest równy zbiorowi w publicznej wyszukiwarce (gdyby API oddawało placówki o **niejawnych adresach**, to zmienia postać rzeczy). Run 11 (`sos-L02/L03`) próbuje domknąć to bez usera |
+| L9 | `116sos.pl/api/centres-search` | 3.1/3.3 | **ZAMKNIĘTY jako dane instytucjonalne (05.11, run 9)** — 200 JSON 13 306 B, **`PII_EMAIL: 10`**, `personal_like` puste, 0 PESEL/telefon/IBAN; mining `hosts` z tej odpowiedzi dał 8 domen **instytucji**: `gops.slawno.ibip.pl`, `mops.krakow.pl`, `jarocin.naszops.pl`, `gopsosieck.pl`, `gopschelmno.naszops.pl`, `kolaki.pl`, `markot.pila.pl`, `www.gops.ugslawno.pl` (GOPS/MOPS = publiczne ośrodki z własnymi stronami i BIP); schemat `centres[]` opisuje **placówkę** (`canSleep`, `open24`, `centreAimedTo`), nie osobę **DRUGI KANAŁ (run 11): serwis ma publiczną trasę `/osrodki-pomocowe` (+ `/dodaj`, `/dziekujemy`) linkowaną w `/mapa-serwisu` ⇒ katalog placówek jest jawną stroną, nie wyciekiem. | zamknięte dwoma kanałami: run 9 (0 PII osobowych, 8 domen GOPS/MOPS, `ACAO: info-trace`) + run 11 (publiczna trasa katalogu). **Nie wracamy.** `/osrodki-pomocowe/dodaj` = formularz zapisujący ⇒ L37, bez GO nie dotykamy |
 | L10 | `www.nask.pl` (apex `nask.pl` → 302) | — | **BLOKADA FORMALNA** — apex daje 302 na `www` w 8/8 żądań (run007), a §5 wymienia literał `nask.pl` bez `*` ⇒ cały Tier-1 host praktycznie nietestowalny | pytanie do organizatora (L0 pkt 3) |
 | L11 | `info-trace.116sos.pl` | — | **POZA §5** — subdomena ujawniona w nagłówku `Access-Control-Allow-Origin` (run1, `sos-D01/D02/D03`); nie testuję bez interpretacji organizatora | to samo pytanie co L10 |
-| L13 | `oad.nask.pl` — embed PowerBI | 3 (dostęp do danych wrażliwych) | **AKTYWNY, ale ZAWĘŻONY (05.11, korekta #49)** — `oad.nask.pl/trendy` = **404** (13 814 B), `/en/trendy` = **404** (identyczny sha256 `286f1682796c…`), `/trendy/` = **308** z `location: /trendy`. Chunk z embedem (`41lk95l8op7nz.js`, 34 692 B) jest nadal ładowany przez `/wyniki-wyszukiwania`, więc kod żyje, ale trasy nie ma. Prawdopodobieństwo, że raport jest żywy: **obniżone**, nie wykluczone | **user, 30 s, incognito — TYLKO sam embed** (instrukcja z `oad.nask.pl/trendy` była błędna): `https://app.powerbi.com/reportEmbed?reportId=470044cf-1a84-4ecb-87f1-7e914afdbb19&autoAuth=true&ctid=95dc45af-07b0-4179-a598-9740073a6e4a`. Rekordy/dane osobowe bez logowania → klasa 3, Tier 1 (9 000/20 000 zł); agregaty albo błąd logowania → zamykamy. `app.powerbi.com` = Microsoft, **poza §5** — nigdy automatem |
+| L13 | `oad.nask.pl` — embed PowerBI | 3 (dostęp do danych wrażliwych) | **AKTYWNY, ale ZAWĘŻONY (05.11, korekta #49)** — `oad.nask.pl/trendy` = **404** (13 814 B), `/en/trendy` = **404** (identyczny sha256 `286f1682796c…`), `/trendy/` = **308** z `location: /trendy`. Chunk z embedem (`41lk95l8op7nz.js`, 34 692 B) jest nadal ładowany przez `/wyniki-wyszukiwania`, więc kod żyje, ale trasy nie ma. Prawdopodobieństwo, że raport jest żywy: **obniżone**, nie wykluczone Run 11: chunk nawigacji `0gnc331ufzpqs.js` (200, 14 147 B, `last-modified: 04.11 12:46:11`) ma 17 tras i **zero** odniesień do `app.powerbi.com`/`/trendy`/`/raport*`; `/en/` → **308** `/en`. | **user, 30 s, incognito — TYLKO sam embed** (instrukcja z `oad.nask.pl/trendy` była błędna): `https://app.powerbi.com/reportEmbed?reportId=470044cf-1a84-4ecb-87f1-7e914afdbb19&autoAuth=true&ctid=95dc45af-07b0-4179-a598-9740073a6e4a`. Rekordy/dane osobowe bez logowania → klasa 3, Tier 1 (9 000/20 000 zł); agregaty albo błąd logowania → zamykamy. `app.powerbi.com` = Microsoft, **poza §5** — nigdy automatem |
 | L14 | `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` | 7 (upload), 13 (mass assignment), 8 (stored XSS) | **AKTYWNY — wymaga GO** (żądanie zapisujące, Tier 2) | formularz z pola `forms` w `analysis-run003.json`: `name`, `description`, …; ta sama klasa co sendForm, mniejsza konkurencja |
 | L15 | `science.nask.pl/contact` | 7/8 | **AKTYWNY (niski)** — wymaga GO | pola `name`, `email`, …; prawdopodobnie tylko wysyła maila |
 | L16 | `116sos.pl/otrzymaj-pomoc/formularz` | — | **WYKLUCZONE DECYZJĄ WŁASNĄ — NIE TESTUJEMY NIGDY** | formularz „otrzymaj pomoc" przy telefonie zaufania dla dzieci/młodzieży w kryzysie: testowe zgłoszenie może uruchomić realną procedurę pomocową i zająć zasób potrzebujący. Regulamin tego nie zakazuje wprost — właśnie dlatego wykluczamy (realny, nieodwracalny wpływ na osoby trzecie) |
@@ -128,16 +128,16 @@ znaczniki treści (nazwy, nie fragmenty), `Set-Cookie` tylko jako nazwy. Dla śc
 
 | lead | co | kto |
 |---|---|---|
-| embed PowerBI — **tylko sam URL embedu** (trasa `/trendy` = 404 ×3, korekta #49); prawdopodobieństwo obniżone, nie wykluczone | **user, 30 s w incognito** | **user, 2 min w incognito** |
-| `dns.pl/deleted_domains.txt` — **ZAMKNIĘTY bez usera**: 0 znaczników PII w 46 440 B + 31,6 B/wiersz przy 1 467 pozycjach = same nazwy domen | zamknięte (run 9) | **user, 10 s** |
+| **L13** | embed PowerBI — **wyłącznie sam URL embedu** (trasa `/trendy` = 404 ×3; nawigacja oad jej nie zna, chunk z embedem to martwy moduł — run 11 §12.3); prawdopodobieństwo niskie, nie wykluczone | **user, 30 s w incognito** |
+| **L20** | `dns.pl/deleted_domains.txt` — **ZAMKNIĘTY bez usera**: 0 znaczników PII w 46 440 B + 31,6 B/wiersz przy 1 467 pozycjach = same nazwy domen; run 11: nawigacja rejestru sama linkuje ten plik | zamknięte (2 kanały) |
 | **L23** | `sendForm` — **wariant bez tworzenia rekordu** (walidacja serwerowa + egzekwowanie reCAPTCHA). Opis niżej | ja, **wyłącznie po jawnym GO** |
 | L3 | `sendForm` — pełny test (SSRF z odczytem, walidacja uploadu, stored XSS w panelu, mass assignment) | **ODRADZAM — tworzy fałszywe zgłoszenie dezinformacji** (patrz korekta #41) |
-| `centres-search` — **ZAMKNIĘTY jako dane instytucjonalne**: 10 e-maili, 8 domen GOPS/MOPS w tej samej odpowiedzi, `personal_like` puste | zamknięte (run 9); resztka: run 11 `sos-L02/L03` | user, 2 min |
+| **L9** | `centres-search` — **ZAMKNIĘTY dwoma kanałami**: 0 PII osobowych, 8 domen GOPS/MOPS, `ACAO: info-trace` (run 9) + publiczna trasa `/osrodki-pomocowe` z `/dodaj` i `/dziekujemy` (run 11) | zamknięte; nic do zrobienia |
 | L14 | `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` (klasa 7/13/8, Tier 2 — ta sama klasa co `sendForm`, mniejsza konkurencja) | user + jawne GO |
 | L15 | `science.nask.pl/contact` (7/8, niski — prawdopodobnie tylko wysyła maila) | user + jawne GO |
 | L1/L2 | HIVE: IDOR/BAC/mass assignment/reset hasła | po koncie od organizatora (wniosek = L0 pkt 2) |
 | L10/L11 | zakres `www.nask.pl` (apex → 302, §5 bez `*`) i `info-trace.116sos.pl` | pytanie do organizatora (L0 pkt 3) |
-| mapa HIVE — **ZAMKNIĘTA offline**: 71 tras klienta, 0 literałów API ⇒ API tylko z HAR-a | zamknięte (run 9/10) | ja, offline |
+| **L18** | mapa HIVE — **ZAMKNIĘTA offline**: 71 tras klienta, 0 literałów API ⇒ mapę API da wyłącznie HAR z zalogowanej sesji | zamknięte (ja, offline) |
 | L12 | mapy API z bundli (zglos flight-data, dyzurnet app-router, dns.pl Drupal) | ja, offline |
 | L5 | `dns.pl` z normalizacją `_event_transid` (korekta #32) | ja, niski priorytet |
 | L16 | `116sos.pl/otrzymaj-pomoc/formularz` | **NIGDY — wykluczone decyzją własną** |
@@ -266,16 +266,20 @@ cała droga do pierwszej nagrody — nie mam innej i nie będę udawał, że mam
 |---|---|---:|---|---|---|
 | Actions `42020874553` (run 9) | RAWPATH-006 | 31 | 1,0 req/s, 47,08 s, min. odstęp 1,000 s | 7 hostów §5 (dns.pl, science, oad, bezpiecznymiesiac, pllum, dataannotation, 116sos) | 1 kandydat (`CANDIDATE-PII-IN-RESPONSE` = `centres-search`, 10 e-maili instytucji); 13×404, 4×400, 1×transport-error; 30 ciał 3 646 132 B; mining 29 plików, **71 tras HIVE** |
 | Actions `42022263875` (run 10) | RAWPATH-007 | 22 | 1,0 req/s, 21,37 s, min. odstęp 1,000 s | 5 hostów §5 (dns.pl, science, oad, pllum, dataannotation) | **0 kandydatów**; 8 grup rozstrzygnięć A–H; 22 ciała 460 469 B; mining 20 plików, 17 endpointów |
+| Actions `42024136601` (run 11) | RAWPATH-008 | 7 | 1,0 req/s, 7,81 s, min. odstęp 1,000 s | 4 hosty §5 (zglos-dezinformacje, 116sos, oad, dns.pl) | **0 kandydatów**; 6 ciał 304 447 B; mining 5 plików: **326 tras publicznych 116sos** (w tym `/osrodki-pomocowe{,/dodaj,/dziekujemy}`), 91–92 tras dns.pl, 17 tras oad, świeży buildId `eY_q-tnDts2YvuKlalLWP` |
 
-**Razem: 321 (do 04.11) + 31 (run 9) + 22 (run 10) = 374 żądania GET** do celów + 7 `fetch_page`
+**Razem: 321 (do 04.11) + 31 (run 9) + 22 (run 10) + 7 (run 11) = 381 żądań GET** do celów + 7 `fetch_page`
 + 2 zablokowane `curl` w sandboxie. Wszystkie przebiegi: 1,0 req/s (sufit §6 pkt 2 = 5),
 najmniejszy zmierzony odstęp 1,000 s, **GET-only, zero POST/PUT/DELETE, zero zmian stanu,
 zero hostów spoza §5, zero zgłoszeń, zero użycia znalezionych wartości** (porównywaliśmy
 wyłącznie odciski sha256 — korekta #33).
 
-Celowo pominięte hosty ujawnione w run 9 (poza literałami §5, więc **nie odpytywane**):
-`panel.dns.pl`, `tracker.dns.pl` (z bundla dns.pl), `www.nask.pl` (L10), `info-trace.116sos.pl`
-(L11), `app.powerbi.com` (Microsoft).
+Celowo pominięte hosty ujawnione w run 9/11 (poza literałami §5, więc **nie odpytywane**):
+`panel.dns.pl`, `tracker.dns.pl`, `www.dns.pl` (z bundla i HTML dns.pl), `www.nask.pl` (L10),
+`info-trace.116sos.pl` (L11), **`116sos.multisite.lab.nob.pib.nask.pl`** (L38, z HTML 116sos
+w run 11; w programie CERT `*.lab.cert.pl` jest wprost wyłączone ⇒ analogii nie testujemy),
+`app.powerbi.com` (Microsoft), hosty bibliotek (`fonts.googleapis.com`, `fonts.cdnfonts.com`,
+`www.w3.org`, social media).
 
 ## Zamknięcia 05.11 — nie wracamy
 
@@ -296,10 +300,10 @@ Celowo pominięte hosty ujawnione w run 9 (poza literałami §5, więc **nie odp
 
 | id | cel | klasa | status | plan |
 |---|---|---|---|---|
-| L32 | `zglos-dezinformacje.nask.pl/api/sendForm` — **GET** (405 + nagłówek `Allow`) | — (rozpoznanie) | **AKTYWNY (run 11, `zglos-L01`)** — zero zmiany stanu: odczyt trasy, nie wysyłka | bez tego L23/L3 są planowane na ślepo (nie wiemy, jakie metody serwer przyjmuje) |
-| L33 | `116sos.pl` — trasa katalogu placówek + `mapa-serwisu` | 3 (tylko warunkowo) | **AKTYWNY (run 11, `sos-L02/L03`)** | domknięcie resztki L9 **bez** 2 minut usera: porównanie zbioru placówek z API ze zbiorem tras publicznych |
-| L34 | `oad.nask.pl/en/` + chunk nawigacji `0gnc331ufzpqs.js` | 3 (warunkowo, przez L13) | **AKTYWNY (run 11, `oad-L04/L05`)** | aktualna tabela tras deploy-u: czy strona z PowerBI istnieje pod inną nazwą |
-| L35 | `dns.pl/lista_domen_usunietych` i `/przegladarka` | — | **AKTYWNY (run 11, `dns-L06/L07`)** | drugie, niezależne potwierdzenie L20 przez UI + ustalenie, jak `/przegladarka` odpytuje dane (`/api/domain-browser/` = 404 w GET) |
+| L32 | `zglos-dezinformacje.nask.pl/api/sendForm` — **GET** (405 + nagłówek `Allow`) | — (rozpoznanie) | **ZAMKNIĘTY (run 11)** — `GET /api/sendForm` → **405** z `content-length: 0` i **bez nagłówka `Allow`** (nagłówki tylko `x-frame-options`, `x-cache`). Trasa istnieje, metod serwer nie ujawnia | pasywne rozpoznanie metod niemożliwe ⇒ L23/L1-A zostaje jedyną drogą i nadal wymaga GO + przeglądarki usera. Brak `Allow` przy 405 to odstępstwo od RFC 9110 §15.5.6 **bez skutku bezpieczeństwa** = kategoria informacyjna, §8 ⇒ **nie zgłaszamy** (ryzyko odrzucenia jest realnym kosztem) |
+| L33 | `116sos.pl` — trasa katalogu placówek + `mapa-serwisu` | 3 (tylko warunkowo) | **ZAMKNIĘTY offline (run 11)** — 326 tras publicznych 116sos z `/` i `/mapa-serwisu`: **`/osrodki-pomocowe`, `/osrodki-pomocowe/dodaj`, `/osrodki-pomocowe/dziekujemy`** ⇒ katalog placówek jest jawną stroną serwisu z samoobsługowym formularzem dodania | domyka L9 **drugim kanałem** (pierwszy: 0 PII osobowych + 8 domen GOPS/MOPS + `ACAO: info-trace`). `/osrodki-pomocowe/dodaj` = formularz zapisujący ⇒ **nie odpytujemy bez GO** (L37). Run 12 (`sos-M01…M04`) mierzy, czy propsy Next.js nie oddają więcej niż strona |
+| L34 | `oad.nask.pl/en/` + chunk nawigacji `0gnc331ufzpqs.js` | 3 (warunkowo, przez L13) | **CZĘŚCIOWO ZAMKNIĘTY (run 11)** — chunk nawigacji `0gnc331ufzpqs.js` żywy (200, 14 147 B, `last-modified: 04.11 12:46:11`, immutable) ma 17 tras i **zero** odniesień do `app.powerbi.com`, `/trendy`, `/raport*` ani `/api/*`; `oad.nask.pl/en/` → **308** `location: /en` | nawigacja bieżącego deploy-u nie zna strony z PowerBI ⇒ L13 spada dalej. Run 12 (`oad-M05`) pobierze właściwy cel `/en` i da aktualną angielską tabelę tras |
+| L35 | `dns.pl/lista_domen_usunietych` i `/przegladarka` | — | **ZAMKNIĘTY (run 11)** — `/lista_domen_usunietych` 200 **41 998 B** i `/przegladarka` 200 **41 968 B**: prawdziwe strony (różne sha256, obie poniżej 51,2 kB ⇒ nie przechwycenie brzegowe L25), a ich HTML **nie zawiera żadnego literału `/api/*`** ani parametrów poza `family`/`locales` (Google Fonts); nawigacja rejestru **linkuje `/deleted_domains.txt`** i `/en/list_of_expired_domain_names` | L20 potwierdzone drugim kanałem (publikacja listy jest zamierzona i widoczna w menu). Mechanizm `/przegladarka` siedzi w JS albo w POST ⇒ run 12 (`dns-M06/M07`) pobiera `/raporty` i `/search-results` **bez query string** (L25) |
 | L36 | `NASK@b2cf80a4:nask-lab/tools/bundle_scan.py` | — (narzędzie, compliance) | **DEFEKT ZGŁOSZONY** | ich kopia **mojego** narzędzia sprzed korekty #33 zapisuje `preview` = 4 pierwsze + 2 ostatnie znaki wartości sekretu (a dla wartości ≤ 8 znaków — **całą wartość**) do raportu commitowanego w publicznym repo. Dowód odtworzony 05.11 na syntetycznym kluczu: ich wersja `{"preview":"aK91…3w"}`, moja `{"length":20,"fingerprint":"6e2ae262d780"}`. Brak też #39/#44/#45/#48 |
 
 ## Korekty własne z 05.11
@@ -325,3 +329,32 @@ Celowo pominięte hosty ujawnione w run 9 (poza literałami §5, więc **nie odp
   w 3 wariantach. Poprawione w runbooku i w rejestrze: sprawdzenie dotyczy wyłącznie URL-a embedu.
 * **Stan testów:** 92 testy `unittest` OK (76 → 92) + `rawpath.py --selftest` **13 grup** OK
   + vendored `a450b00f` 11/11 OK.
+
+## Run 11 (05.11, `42024136601`) — nowe leady i korekta #50
+
+| id | cel | klasa | status | plan |
+|---|---|---|---|---|
+| L37 | `116sos.pl/osrodki-pomocowe/dodaj` | — (formularz zapisujący) | **WYŁĄCZONY bez GO** | odkryte w run 11 razem z `/dziekujemy`. To dodanie placówki do publicznego katalogu = zmiana stanu w rejestrze instytucji; bez jawnego GO i bez przeglądarki usera **nie dotykamy** (tak samo jak `sendForm` i `zglos-inicjatywe`) |
+| L38 | `116sos.multisite.lab.nob.pib.nask.pl` | — | **POZA §5, nie odpytywany** | ujawniony w HTML 116sos w run 11. Środowisko lab/multisite; w programie CERT `*.lab.cert.pl` jest wprost wyłączone ⇒ nie testujemy przez analogię. Trafiło do pytania dla organizatora razem z `www.nask.pl`, `info-trace.116sos.pl`, `panel.dns.pl`, `tracker.dns.pl` |
+| L39 | świeży buildId 116sos `eY_q-tnDts2YvuKlalLWP` | — | **AKTYWNY (run 12)** | `/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js` z run 11. Stary buildId `8CjJwbyxpVqpWnorny23T` (mapa sesji 7911f950) **nieaktualny**. Reguła: buildId/nazwę chunka bierzemy z tego samego przebiegu, w którym ich używamy (rozszerzenie lekcji z korekty #31 — tak padły `bm-J26` i `sci-J21`) |
+| L40 | `dns.pl/raporty`, `/search-results`, `/site-map`, `/en/browser`, `/en/list_of_expired_domain_names`, `/RDAP_w_NASK`, `/NASK_extension_of_RDAP_Response` | 1/3 warunkowo | **AKTYWNY (run 12: `dns-M06/M07`)** | trasy znalezione w HTML dns.pl w run 11, nieznane z bundla `main-3.3.0`. `/raporty` i `/search-results` pobieramy **bez query string** (na dns.pl wzorce w query przechwytuje warstwa brzegowa, L25) |
+| L41 | `oad.nask.pl/en` | 3 warunkowo | **AKTYWNY (run 12: `oad-M05`)** | cel 308 z run 11 (`/en/` → `/en`). Aktualna angielska tabela tras = ostatnia szansa na znalezienie strony z PowerBI pod inną nazwą (po korekcie #49 i run 11 §12.3) |
+
+**Korekta #51 (mój błąd formatowania, naprawiony):** aktualizując tabelę `Co zostało otwarte`
+nadpisałem komórki `[1]`/`[2]` zamiast `[2]`/`[3]`, przez co cztery wiersze (L13, L20, L9, L18)
+straciły identyfikator leadu i miały zdublowaną kolumnę „kto". Naprawione w tym samym commicie;
+sprawdzenie: skrypt liczy liczbę `|` w każdym wierszu tabeli i porównuje z nagłówkiem
+(0 niezgodności). Przyczyna źródłowa ta sama co w korekcie #42 — patchowanie tabel Markdown
+indeksami bez asercji na liczbę kolumn.
+
+**Korekta #50 (obserwacja, bez zmiany kodu):** znacznik `SOFT404_PL` odpalił się na pliku JS
+(`oad-L05`, 14 147 B — minifikowany chunk z polskimi frazami UI). To szum kosmetyczny, nie błąd
+werdyktu: logika werdyktu bramkuje ten znacznik warunkiem `"html" in ctype` (`rawpath.py:454`),
+więc JS dostał prawidłowy `other-200`. Kod zostaje bez zmian — poprawka bez testu na żywym
+materiale byłaby gorsza niż udokumentowany, nieszkodliwy szum. Kryterium powrotu: `soft-404-html`
+przy `content-type` innym niż HTML.
+
+**Run 11 w liczbach:** 7 żądań / 7,81 s / 4 hosty §5 / min. odstęp 1,000 s / 6 ciał 304 447 B /
+**0 kandydatów** / 0 identycznych ciał / 0 błędów transportu / **AUDYT OK**. Werdykty: `html-page` 4,
+`method-not-allowed-route-exists` 1, `other-200` 1, `redirect-not-followed` 1. Szczegóły:
+`WYNIKI-RUN9-RUN10-20261105.md` §12.

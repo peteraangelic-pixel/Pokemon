@@ -1,0 +1,59 @@
+{
+  "plan_run": "RAWPATH-009",
+  "date": "2026-11-05",
+  "author": "Arena c87f7a48",
+  "based_on": "rawpath-008-run11.json + mine-rawpath-008-run11.json (326 tras 116sos, 91-92 trasy dns.pl, 17 tras oad, swiezy buildId eY_q-tnDts2YvuKlalLWP)",
+  "purpose": "Siedem sond domykajacych reszte z run 11: (1-4) 116sos — publiczna trasa /osrodki-pomocowe jako drugi kanal dla L9, propsy Next.js z kontrola, manifest tras; (5) oad /en — cel przekierowania 308 i aktualna tabela tras po korekcie #49; (6-7) dns.pl /raporty i /search-results — trasy odkryte w HTML, bez query string z powodu mechanizmu brzegowego L25.",
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026, §5/§6/§7/§8",
+    "hosts": "116sos.pl (Tier 2), oad.nask.pl (Tier 1), dns.pl (Tier 1) — 3 hosty, wszystkie w §5. POMINIENTE celowo: www.nask.pl, info-trace.116sos.pl, panel.dns.pl, tracker.dns.pl, 116sos.multisite.lab.nob.pib.nask.pl (wszystkie ujawnione w run 11, wszystkie poza literałami §5), app.powerbi.com (Microsoft).",
+    "methods": "GET only, 1.0 req/s (sufit §6 pkt 2 = 5), 7 zadan, przekierowania niesledzone, HTTPS z weryfikacja certyfikatu, bez uwierzytelnienia (§6 pkt 1)",
+    "state_change": "ZERO. Celowo NIE odpytujemy `/osrodki-pomocowe/dodaj` (formularz dodania placowki = zmiana stanu), `/otrzymaj-pomoc/formularz` ani `/otrzymaj-pomoc/czat` (interwencja kryzysowa — wylaczone decyzja wlasna), `/api/sendForm` (POST, czeka na jawne GO — run 11 wykonal tylko GET, 405, zero bajtow).",
+    "pii": "Liczniki PII (korekta #43) liczone tylko dla odpowiedzi DANYCH (json/text); strony HTML/JS dostaja podglad 200 znakow sanityzowany. Zadne dane osobowe nie trafiaja do repo; sekrety tylko jako odcisk sha256[:12] (korekta #33).",
+    "escalation": "jesli M02/M03 odda JSON z licznikiem PII > 0 dla osob fizycznych (PESEL, telefon +48, e-mail nieinstytucjonalny) albo jesli propsy zawieraja pola, ktorych strona publiczna NIE wyswietla — STOP na tym endpoincie, wpis do rejestru, informacja dla usera. Bez enumeracji ID i bez eskalacji samodzielnej (§7 pkt 9: jedna przyczyna = jedna podatnosc)."
+  },
+  "probes": [
+    {
+      "id": "sos-M01-osrodki-pomocowe",
+      "url": "https://116sos.pl/osrodki-pomocowe",
+      "why": "ROZSTRZYGNIENCIE L9 drugim kanalem. Run 11 dowiodl, ze 116sos.pl MA publiczna trase katalogu: `/osrodki-pomocowe` (+ `/dodaj`, `/dziekujemy`) — a `centres-search` z run9 (13 306 B, PII_EMAIL 10, 8 domen GOPS/MOPS) ma `ACAO: https://info-trace.116sos.pl`. Hipoteza do sfalsyfikowania: API oddaje WIECEJ niz publiczna strona (np. pola nieprezentowane). Jesli strona publiczna pokazuje te same placowki, L9 jest zamkniete dowodem z dwoch niezaleznych kanalow, nie tylko arytmetyka. Liczniki PII (korekta #43) mierza, czy cokolwiek osobowego w ogole tu jest — bez zapisywania wartosci.",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "sos-M02-nextdata-osrodki",
+      "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/osrodki-pomocowe.json",
+      "why": "Propsy serwerowe Next.js dla tej samej trasy (buildId `eY_q-tnDts2YvuKlalLWP` jest SWIEZY: wzial sie z `/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js` w odpowiedzi run 11, nie ze starej mapy `8CjJwbyxpVqpWnorny23T`). To jedyny sposob, zeby zobaczyc PELNY ksztalt obiektu placowki bez logowania: HTML oddaje tylko to, co renderer wypisal. Kontrola: M03.",
+      "max_bytes": 2097152
+    },
+    {
+      "id": "sos-M03-nextdata-mapa-kontrola",
+      "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/mapa-serwisu.json",
+      "why": "GRUPA KONTROLNA dla M02 (regula: sonda bez kontroli w tym samym przebiegu nie jest sonda). Jesli M03 = 200 JSON, a M02 = 404, to znaczy, ze trasa osrodki nie jest SSG (getServerSideProps) — wynik merytoryczny. Jesli OBA = 404, `_next/data` jest wylaczone i wynik M02 jest nieinterpretowalny (tak bylo w run9 dla science: sci-J21 404 + sci-J22 transport-error = brak kontroli).",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "sos-M04-buildmanifest",
+      "url": "https://116sos.pl/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js",
+      "why": "Autorytatywna lista tras deploymentu (manifest budowania). Zastepuje zgadywanie tras i domyka L33 offline: widzimy, czy istnieje jakakolwiek trasa placowek poza `/osrodki-pomocowe`, oraz czy `/otrzymaj-pomoc/formularz` (WYKLUCZONY decyzja wlasna: interwencja kryzysowa) jest jedyna forma. Plik zwykle <10 kB.",
+      "max_bytes": 524288
+    },
+    {
+      "id": "oad-M05-en",
+      "url": "https://oad.nask.pl/en",
+      "why": "Cel 308 z run 11 (`/en/` -> `location: /en`, 3 B): wlasciwa angielska strona glowna. Po korekcie #49 (trasa /trendy = 404 w 3 wariantach) i run 11 (chunk nawigacji ma 17 tras i ZERO odniesien do PowerBI/trendow) zostalo jedno pytanie: czy angielska tabela tras pokaze strone z raportem pod inna nazwa. Mining `paths` z tej odpowiedzi = aktualna tabela deploymentu.",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "dns-M06-raporty",
+      "url": "https://dns.pl/raporty",
+      "why": "Trasa `/raporty` odkryta w run 11 w HTML obu stron dns.pl (a nieznana z bundla `main-3.3.0`). Cel: czy rejestr publikuje tam dane/raporty statystyczne (drugi kanal dla `/api/zone-stats` i `deleted_domains.txt`), czy tylko opis. BEZ query string celowo: na dns.pl wzorce w query przechwytuje warstwa brzegowa (L25).",
+      "max_bytes": 524288
+    },
+    {
+      "id": "dns-M07-search-results",
+      "url": "https://dns.pl/search-results",
+      "why": "UI wyszukiwarki dns.pl (trasa z run 11). `/przegladarka` (41 968 B) nie zawiera zadnego literalu `/api/*` ani parametru innego niz `family`/`locales` z Google Fonts, a `/api/domain-browser/` daje 404 w GET (run9 dns-J12) => mechanizm odpytywania jest albo w JS, albo POST. Ta strona pokaze formularz i jego `action`/inputy. BEZ query string (L25). Zero zmiany stanu.",
+      "max_bytes": 524288
+    }
+  ]
+}
