@@ -1,67 +1,62 @@
 {
-  "run": "021",
+  "run": "022",
   "rps": 1.0,
-  "note": "METODA: uzyc SCHEMATU ODPOWIEDZI jako slownika parametrow. /api/search zwraca {'pageData':[],'page':0,'perPage':0,'lastPage':0} przy KAZDYM wejsciu - czyli zapytanie przechodzi, ale lista jest pusta, bo perPage wynosi 0. Testowalem 'limit' (nie zadzialal) i 'page' (nie zadzialal), ale NIE 'perPage', ktore jest dokladna nazwa pola w odpowiedzi. Jesli perPage zadziala, dostajemy realna liste wynikow - a wtedy refleksja i injection maja na czym pracowac. To tania, falsyfikowalna hipoteza: jesli perPage=10 nadal daje pusta liste, trasa jest martwa i zamykam ja definitywnie.",
+  "note": "OSTATNIA SENSOWNA POWIERZCHNIA na science /api/search. Run 021 dowiodl, ze parametr 'page' JEST rozpoznawany, bo page=0 zwrocil INNY blad (400, 30 B, sha aa333d65) niz blad dlugosci frazy (400, 47 B, sha 4d4c455f). Czyli mamy dwa udowodnione parametry: 'query' (min 3 znaki) i 'page' (walidowany). Reszta (perPage, per_page, perpage, sort, locale, limit) jest ignorowana - 10 sond, wszystkie identyczne 49 B. Ten przebieg sprawdza OBSLUGE BLEDOW I TYPOW na parametrze, ktory realnie istnieje: to klasyczne miejsce wycieku sciezki serwera i stack trace, a take type juggling. Kazde 500 z trescia jest kandydatem klasy 'ujawnienie informacji' (najnizsza placona, ale placona).",
   "probes": [
     {
-      "id": "sci-perpage-10",
-      "url": "https://science.nask.pl/api/search?query=abc&perPage=10",
+      "id": "sci-page-zero-body",
+      "url": "https://science.nask.pl/api/search?query=abc&page=0",
       "snippet": true,
-      "note": "KLUCZOWA: nazwa pola z odpowiedzi jako nazwa parametru. 49 B -> nadal pusto; wieksze cialo -> dziala"
+      "note": "KLUCZOWA: dokladna tresc bledu 30 B - mowi, jaki typ i zakres jest oczekiwany"
     },
     {
-      "id": "sci-perpage-page",
-      "url": "https://science.nask.pl/api/search?query=abc&page=1&perPage=10",
+      "id": "sci-page-alpha",
+      "url": "https://science.nask.pl/api/search?query=abc&page=abc",
       "snippet": true,
-      "note": "para paginacji dokladnie jak w kontrakcie: page + perPage"
+      "note": "type juggling: tekst tam, gdzie oczekiwana liczba. 500 z trescia = wyciek; 400 = poprawna walidacja"
     },
     {
-      "id": "sci-perpage-all",
-      "url": "https://science.nask.pl/api/search?query=a&page=1&perPage=100",
+      "id": "sci-page-negative",
+      "url": "https://science.nask.pl/api/search?query=abc&page=-1",
       "snippet": true,
-      "note": "najszerszy odczyt: jednoliterowa fraza i duza strona. Wykrywa, czy trasa cokolwiek zwraca"
+      "note": "wartosc ujemna: czy zakres jest sprawdzany"
     },
     {
-      "id": "sci-perpage-snake",
-      "url": "https://science.nask.pl/api/search?query=abc&per_page=10",
+      "id": "sci-page-huge",
+      "url": "https://science.nask.pl/api/search?query=abc&page=999999999",
       "snippet": true,
-      "note": "wariant snake_case: rozstrzyga konwencje nazw bez zgadywania"
+      "note": "poza zakresem: zachowanie przy duzej liczbie"
     },
     {
-      "id": "sci-perpage-upper",
-      "url": "https://science.nask.pl/api/search?query=abc&perpage=10",
+      "id": "sci-page-float",
+      "url": "https://science.nask.pl/api/search?query=abc&page=1.5",
       "snippet": true,
-      "note": "wariant bez wielkiej litery"
+      "note": "liczba zmiennoprzecinkowa: ujawnia, czy parsowanie jest scisle"
     },
     {
-      "id": "sci-perpage-reflect",
-      "url": "https://science.nask.pl/api/search?query=zzqx9probe&perPage=10",
+      "id": "sci-query-array",
+      "url": "https://science.nask.pl/api/search?query[]=abc",
+      "snippet": true,
+      "note": "tablica zamiast skalaru na UDOWODNIONYM parametrze: klasyczny type juggling frameworkow PHP/qs"
+    },
+    {
+      "id": "sci-query-duplicate",
+      "url": "https://science.nask.pl/api/search?query=abc&query=zzqx9probe",
       "reflect": "zzqx9probe",
       "snippet": true,
-      "note": "refleksja na REALNYCH wynikach: jedyny przypadek, w ktorym fraza moze wrocic w ciele"
+      "note": "duplikat parametru: ktora wartosc wygrywa i czy druga wraca w odpowiedzi"
     },
     {
-      "id": "sci-perpage-true",
-      "url": "https://science.nask.pl/api/search?query=abc&perPage=10&page=1&sort=title",
+      "id": "sci-page-array",
+      "url": "https://science.nask.pl/api/search?query=abc&page[]=1",
       "snippet": true,
-      "note": "czy sortowanie jest osobnym parametrem (typowe w tej rodzinie API)"
+      "note": "tablica na parametrze liczbowym"
     },
     {
-      "id": "sci-perpage-locale",
-      "url": "https://science.nask.pl/api/search?query=abc&perPage=10&locale=pl",
-      "snippet": true,
-      "note": "czy locale jest osobnym wymiarem (strona ma wersje jezykowe)"
-    },
-    {
-      "id": "sci-search-root-body",
+      "id": "sci-control-final",
       "url": "https://science.nask.pl/api/search?query=abc",
       "snippet": true,
-      "note": "powtorka kontroli w TYM przebiegu: 49 B sha 96e5f3a2 - punkt odniesienia dla wszystkich powyzszych"
-    },
-    {
-      "id": "sci-search-page-zero",
-      "url": "https://science.nask.pl/api/search?query=abc&page=0&perPage=10",
-      "note": "page=0: czy indeks stron jest zerowy czy jeden (ujawnia typ bez czytania kodu)"
+      "note": "KONTROLA koncowa: znane 49 B sha 96e5f3a2 - punkt odniesienia w tym samym przebiegu"
     }
   ]
 }
