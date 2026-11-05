@@ -1,0 +1,36 @@
+{
+  "dry_run": false,
+  "count": 22,
+  "wall_seconds": 21.37,
+  "min_observed_gap_s": 1.0,
+  "verdicts": {
+    "not-found": 8,
+    "json-response": 6,
+    "html-page": 4,
+    "method-not-allowed-route-exists": 1,
+    "other-200": 1,
+    "redirect-not-followed": 1,
+    "status-400": 1
+  },
+  "candidates": [],
+  "identical_bodies": [
+    {
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "identical_bodies": [
+        "hive-K21-api-project-conversation:/api/v1/projects/test/conversation/1",
+        "hive-K22-api-annotators:/api/v1/annotators"
+      ]
+    },
+    {
+      "sha256": "78516d89b48fb30227e87bb0512f923af45af322a5cd4bca97d4d8d57362d106",
+      "identical_bodies": [
+        "pllum-K19-content-query-preview:/api/_content/query?preview=test-123",
+        "pllum-K20-content-query-plain:/api/_content/query"
+      ]
+    }
+  ],
+  "bodies_saved": 22,
+  "bodies_bytes_total": 460469,
+  "out": "nask/reports/rawpath-007-run10.json"
+}
+probe rc=0

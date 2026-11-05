@@ -1,0 +1,34 @@
+  dns-K01-token-repeat               /api/who-is-xml/?domain=nask.pl
+  dns-K02-token-repeat               /api/who-is-xml/?domain=nask.pl
+  dns-K03-token-other-value          /api/who-is-xml/?domain=przyklad-test-xyz-987.pl
+  dns-K04-token-home-repeat          /
+  dns-K05-token-content-page         /statystyki/liczba_aktywnych_IDN
+  dns-K06-live-endpoint-with-crlf    /api/zone-stats?x=%0D%0A
+  dns-K07-live-endpoint-benign       /api/zone-stats?x=1
+  dns-K08-nonexistent-with-external-url /api/nie-istnieje-xyz-123?statisticsUrl=https%3A%2F%2Fexample.com%2F
+  dns-K09-nonexistent-plain          /api/nie-istnieje-xyz-123
+  sci-K10-search-min-length          /api/search?query=aaa
+  sci-K11-search-page2               /api/search?query=hive&page=2
+  sci-K12-search-perpage             /api/search?query=hive&perPage=100
+  sci-K13-search-post-status-draft   /api/search?query=hive&post_status=draft
+  sci-K14-contact-get                /api/contact
+  sci-K15-sitemap-control            /sitemap.xml
+  oad-K16-powerbi-chunk              /_next/static/chunks/41lk95l8op7nz.js
+  oad-K17-trendy-en                  /en/trendy
+  oad-K18-trendy-slash               /trendy/
+  pllum-K19-content-query-preview    /api/_content/query?preview=test-123
+  pllum-K20-content-query-plain      /api/_content/query
+  hive-K21-api-project-conversation  /api/v1/projects/test/conversation/1
+  hive-K22-api-annotators            /api/v1/annotators
+{
+  "dry_run": true,
+  "count": 22,
+  "wall_seconds": null,
+  "min_observed_gap_s": null,
+  "verdicts": null,
+  "candidates": null,
+  "identical_bodies": null,
+  "bodies_saved": null,
+  "bodies_bytes_total": null,
+  "out": null
+}
