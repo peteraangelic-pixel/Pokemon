@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-11-03",
+  "timezone": "Europe/Warsaw",
+  "purpose": "Read-only record of public terms; not an authorization engine or an implemented scanner.",
+  "recommended_first_program": "nask",
+  "active_vulnerability_testing_performed": false,
+  "program_limit_requests_per_second": 5,
+  "project_proposed_default_requests_per_second_total": 1,
+  "platform_terms_url": "https://hack.cert.pl/terms-of-service",
+  "faq_url": "https://hack.cert.pl/faq",
+  "programs": [
+    {
+      "id": "nask",
+      "name": "NASK",
+      "tiers": [
+        {
+          "tier": 1,
+          "exact_hosts": [
+            "nask.pl",
+            "dyzurnet.pl",
+            "dns.pl",
+            "oad.nask.pl",
+            "zglos-dezinformacje.nask.pl"
+          ],
+          "rewards_pln": {
+            "low": 600,
+            "medium": 4000,
+            "high": 9000,
+            "critical": 20000
+          }
+        },
+        {
+          "tier": 2,
+          "exact_hosts": [
+            "bezpiecznymiesiac.pl",
+            "secure.edu.pl",
+            "bezpiecznewybory.pl",
+            "116sos.pl",
+            "pllum.org.pl",
+            "science.nask.pl",
+            "dataannotation.pllum.org.pl"
+          ],
+          "rewards_pln": {
+            "low": 300,
+            "medium": 2000,
+            "high": 4500,
+            "critical": 10000
+          }
+        }
+      ],
+      "same_root_cause_multiple_services_is_one_finding": true,
+      "no_dedicated_test_accounts_notice": false,
+      "edition": "11/2026",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-30",
+      "page_url": "https://hack.cert.pl/programs/nask-pib/nask/editions/1",
+      "terms_url": "https://hack.cert.pl/api/v1/public/institutions/nask-pib/programs/nask/editions/1/terms/download",
+      "terms_file": "research/sources/nask-terms-2026-11.pdf",
+      "terms_sha256": "c2cb402c09c6b658a3c078b65bb7f662faa214d5df9abe81758a3b8dc9bd45d7",
+      "initial_edition_pool_pln": 100000,
+      "remaining_pool_pln": null,
+      "results_deadline_days_after_edition_end": 30,
+      "rolling_awards_explicitly_allowed": true,
+      "payout_deadline_days_after_results": 60,
+      "winner_acceptance_deadline_days": 7,
+      "own_or_test_accounts_only": true,
+      "false_notice_means": "No statement observed on the program page; test-account availability is unverified."
+    },
+    {
+      "id": "cert-polska",
+      "name": "CERT Polska",
+      "tiers": [
+        {
+          "tier": 1,
+          "exact_hosts": [
+            "cert.pl",
+            "m.cert.pl",
+            "incydent.cert.pl",
+            "moje.cert.pl",
+            "n6portal.cert.pl",
+            "mwdb.cert.pl",
+            "hack.cert.pl"
+          ],
+          "rewards_pln": {
+            "low": 600,
+            "medium": 4000,
+            "high": 9000,
+            "critical": 20000
+          }
+        },
+        {
+          "tier": 2,
+          "exact_hosts": [
+            "ctf.hack.cert.pl"
+          ],
+          "wildcard_hosts": [
+            "*.cert.pl"
+          ],
+          "rewards_pln": {
+            "low": 300,
+            "medium": 2000,
+            "high": 4500,
+            "critical": 10000
+          }
+        }
+      ],
+      "excluded_wildcard_hosts": [
+        "*.hack.cert.pl",
+        "*.lab.cert.pl"
+      ],
+      "scope_conflicts": [
+        "ctf.hack.cert.pl is explicitly listed, but PDF also excludes *.hack.cert.pl; webpage states an exception. Do not test this host until resolved."
+      ],
+      "no_dedicated_test_accounts_notice": true,
+      "edition": "11/2026",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-30",
+      "page_url": "https://hack.cert.pl/programs/cert-polska/bug-bounty-cert-polska/editions/1",
+      "terms_url": "https://hack.cert.pl/api/v1/public/institutions/cert-polska/programs/bug-bounty-cert-polska/editions/1/terms/download",
+      "terms_file": "research/sources/cert-polska-terms-2026-11.pdf",
+      "terms_sha256": "990199cfd1a202034b3c61bcf0dc0654818f3554db46720854098eb028658aaf",
+      "initial_edition_pool_pln": 100000,
+      "remaining_pool_pln": null,
+      "results_deadline_days_after_edition_end": 30,
+      "rolling_awards_explicitly_allowed": true,
+      "payout_deadline_days_after_results": 60,
+      "winner_acceptance_deadline_days": 7,
+      "own_or_test_accounts_only": true,
+      "false_notice_means": "No statement observed on the program page; test-account availability is unverified."
+    },
+    {
+      "id": "gov-pl",
+      "name": "Portal Gov.pl / COI",
+      "tiers": [
+        {
+          "tier": null,
+          "exact_hosts": [
+            "www.gov.pl"
+          ],
+          "rewards_pln": {
+            "low": 600,
+            "medium": 4000,
+            "high": 9000,
+            "critical": 20000
+          }
+        }
+      ],
+      "no_dedicated_test_accounts_notice": false,
+      "edition": "11/2026",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-30",
+      "page_url": "https://hack.cert.pl/programs/centralny-osrodek-informatyki/portal-gov-pl/editions/1",
+      "terms_url": "https://hack.cert.pl/api/v1/public/institutions/centralny-osrodek-informatyki/portal-gov-pl/editions/1/terms/download",
+      "terms_file": "research/sources/gov-pl-terms-2026-11.pdf",
+      "terms_sha256": "156660e6b09e5003c027aee39d39c2a5772894e5668ec7b2d2ba588c79772985",
+      "initial_edition_pool_pln": 100000,
+      "remaining_pool_pln": null,
+      "results_deadline_days_after_edition_end": 30,
+      "rolling_awards_explicitly_allowed": true,
+      "payout_deadline_days_after_results": 60,
+      "winner_acceptance_deadline_days": 7,
+      "own_or_test_accounts_only": true,
+      "false_notice_means": "No statement observed on the program page; test-account availability is unverified."
+    },
+    {
+      "id": "mszyfr",
+      "name": "mSzyfr",
+      "tiers": [
+        {
+          "tier": null,
+          "exact_hosts": [],
+          "wildcard_hosts": [
+            "*.komunikator.narodowy.gov.pl"
+          ],
+          "rewards_pln": {
+            "low": 600,
+            "medium": 4000,
+            "high": 9000,
+            "critical": 20000
+          }
+        }
+      ],
+      "no_dedicated_test_accounts_notice": true,
+      "edition": "11/2026",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-30",
+      "page_url": "https://hack.cert.pl/programs/mszyfr/mszyfr/editions/1",
+      "terms_url": "https://hack.cert.pl/api/v1/public/institutions/mszyfr/programs/mszyfr/editions/1/terms/download",
+      "terms_file": "research/sources/mszyfr-terms-2026-11.pdf",
+      "terms_sha256": "598f72722ef2e5375aad02a802da39eb40d4986a4c8708fe8b6321861a6c4af5",
+      "initial_edition_pool_pln": 100000,
+      "remaining_pool_pln": null,
+      "results_deadline_days_after_edition_end": 30,
+      "rolling_awards_explicitly_allowed": true,
+      "payout_deadline_days_after_results": 60,
+      "winner_acceptance_deadline_days": 7,
+      "own_or_test_accounts_only": true,
+      "false_notice_means": "No statement observed on the program page; test-account availability is unverified."
+    },
+    {
+      "id": "wladyslawowo",
+      "name": "Gmina Władysławowo",
+      "tiers": [
+        {
+          "tier": 1,
+          "exact_hosts": [
+            "eobieg.wladyslawowo.pl",
+            "bip.wladyslawowo.pl"
+          ],
+          "rewards_pln": {
+            "low": 200,
+            "medium": 1000,
+            "high": 2000,
+            "critical": 4000
+          }
+        },
+        {
+          "tier": 2,
+          "exact_hosts": [
+            "wladyslawowo.pl",
+            "cciod.wladyslawowo.pl"
+          ],
+          "rewards_pln": {
+            "low": 100,
+            "medium": 500,
+            "high": 1000,
+            "critical": 2000
+          }
+        }
+      ],
+      "no_dedicated_test_accounts_notice": false,
+      "edition": "11/2026",
+      "start_date": "2026-11-03",
+      "end_date": "2026-11-30",
+      "page_url": "https://hack.cert.pl/programs/cciod-wladyslawowo/gmina-wladyslawowo/editions/1"
+    }
+  ]
+}

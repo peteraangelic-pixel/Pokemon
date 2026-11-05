@@ -1,0 +1,214 @@
+{
+ "requests": 208,
+ "findings": [
+  {
+   "host": "nask.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "nask",
+   "tier": 1
+  },
+  {
+   "host": "nask.pl",
+   "kind": "security_txt",
+   "severity": "none",
+   "impact": null,
+   "evidence": "plik istnieje — zapisz kontakt do zgloszen",
+   "section": "info",
+   "accepted": false,
+   "program": "nask",
+   "tier": 1
+  },
+  {
+   "host": "oad.nask.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "nask",
+   "tier": 1
+  },
+  {
+   "host": "zglos-dezinformacje.nask.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "nask",
+   "tier": 1
+  },
+  {
+   "host": "bezpiecznymiesiac.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "nask",
+   "tier": 2
+  },
+  {
+   "host": "bezpiecznewybory.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "nask",
+   "tier": 2
+  },
+  {
+   "host": "pllum.org.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "nask",
+   "tier": 2
+  },
+  {
+   "host": "dataannotation.pllum.org.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "nask",
+   "tier": 2
+  },
+  {
+   "host": "cert.pl",
+   "kind": "security_txt",
+   "severity": "none",
+   "impact": null,
+   "evidence": "plik istnieje — zapisz kontakt do zgloszen",
+   "section": "info",
+   "accepted": false,
+   "program": "cert",
+   "tier": 1
+  },
+  {
+   "host": "incydent.cert.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "cert",
+   "tier": 1
+  },
+  {
+   "host": "n6portal.cert.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "cert",
+   "tier": 1
+  },
+  {
+   "host": "mwdb.cert.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "cert",
+   "tier": 1
+  },
+  {
+   "host": "hack.cert.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "cert",
+   "tier": 1
+  },
+  {
+   "host": "ctf.hack.cert.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "cert",
+   "tier": 2
+  },
+  {
+   "host": "www.gov.pl",
+   "kind": "cors",
+   "severity": "none",
+   "impact": null,
+   "evidence": "ACAO=* bez Allow-Credentials — regulamin §8 poz.5.6 nie uznaje tego za podatnosc",
+   "section": "5.6",
+   "accepted": false,
+   "program": "gov",
+   "tier": 1
+  },
+  {
+   "host": "komunikator.narodowy.gov.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "mszyfr",
+   "tier": 1
+  },
+  {
+   "host": "bip.wladyslawowo.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "wladyslawowo",
+   "tier": 1
+  },
+  {
+   "host": "wladyslawowo.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "wladyslawowo",
+   "tier": 2
+  },
+  {
+   "host": "cciod.wladyslawowo.pl",
+   "kind": "clickjacking",
+   "severity": "none",
+   "impact": null,
+   "evidence": "brak X-Frame-Options i CSP frame-ancestors — §8 poz.3.1 wyklucza",
+   "section": "3.1",
+   "accepted": false,
+   "program": "wladyslawowo",
+   "tier": 2
+  }
+ ]
+}

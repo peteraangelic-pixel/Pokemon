@@ -1,0 +1,21 @@
+{
+  "_komentarz": "Program NASK (hack.cert.pl, edycja 11/2026), §5 regulaminu: dokładna lista hostów, bez wildcardu. Zaktualizuj po każdej zmianie regulaminu.",
+  "program": "nask-pib/nask",
+  "edycja": "11/2026",
+  "tier1": [
+    "nask.pl",
+    "dyzurnet.pl",
+    "dns.pl",
+    "oad.nask.pl",
+    "zglos-dezinformacje.nask.pl"
+  ],
+  "tier2": [
+    "bezpiecznymiesiac.pl",
+    "secure.edu.pl",
+    "bezpiecznewybory.pl",
+    "116sos.pl",
+    "pllum.org.pl",
+    "science.nask.pl",
+    "dataannotation.pllum.org.pl"
+  ]
+}
