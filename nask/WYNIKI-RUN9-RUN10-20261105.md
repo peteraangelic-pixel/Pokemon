@@ -1,16 +1,16 @@
-# Wyniki przebiegów RAWPATH-006 (run 9), RAWPATH-007 (run 10) i RAWPATH-008 (run 11) — 05.11.2026
+# Wyniki przebiegów RAWPATH-006/007/008/009 (run 9–12) — 05.11.2026
 
-**Bilans uczciwy: 60 żądań GET w trzech przebiegach (31 + 22 + 7), 0 nowych podatności
-wypłacalnych, 7 leadów zamkniętych z mechanizmem (w tym L9 drugim, niezależnym kanałem),
-1 nowy żywy endpoint (treści publiczne), 1 nowe narzędzie rozstrzygające (liczniki PII),
-1 mapa offline (HIVE, 71 tras klienta), 1 nowa trasa publiczna znaleziona w run 11
-(`116sos.pl/osrodki-pomocowe`).**
+**Bilans uczciwy: 67 żądań GET w czterech przebiegach (31 + 22 + 7 + 7), 0 nowych podatności
+wypłacalnych, 11 leadów zamkniętych z mechanizmem, 1 nowy żywy endpoint (treści publiczne),
+1 nowe narzędzie rozstrzygające (liczniki PII — i to ono zatrzymało nas w run 12 na danych),
+2 mapy offline (HIVE: 71 tras klienta; 116sos: 24 trasy z `_buildManifest.js`),
+**1 kandydat na dane osobowe (`PII_EMAIL: 1596`) rozstrzygnięty jako publiczny katalog
+instytucji i ZATRZYMANY bez enumeracji**.**
 
-Zgodność: run 9 = 31 żądań / 47,08 s / 7 hostów §5 / min. odstęp 1,000 s; run 10 = 22 żądania /
-21,37 s / 5 hostów §5 / min. odstęp 1,000 s; run 11 = 7 żądań / 7,81 s / 4 hosty §5 / min. odstęp
-1,000 s. GET-only, 0 POST, 0 zmian stanu, 0 hostów spoza §5, 0 zgłoszeń. Rekordy:
-`reports/rawpath-00{6,7,8}-run{9,10,11}.json`, mining:
-`reports/mine-rawpath-00{6,7,8}-run{9,10,11}.json`, logi: `reports/logs-run{9,10,11}/`.
+Zgodność: run 9 = 31 żądań / 47,08 s / 7 hostów §5; run 10 = 22 / 21,37 s / 5 hostów; run 11 = 7 /
+7,81 s / 4 hosty; run 12 = 7 / 12,45 s / 3 hosty — wszystkie z min. odstępem **1,000 s**. GET-only, 0 POST, 0 zmian stanu, 0 hostów spoza §5, 0 zgłoszeń. Rekordy:
+`reports/rawpath-00{6,7,8,9}-run{9,10,11,12}.json`, mining:
+`reports/mine-rawpath-00{6,7,8,9}-run{9,10,11,12}.json`, logi: `reports/logs-run{9,10,11,12}/`.
 
 ---
 
@@ -423,3 +423,157 @@ innym niż HTML, to już jest błąd i wracamy.
 | leady zamknięte 05.11 z mechanizmem | L5, L9 (2 kanały), L18, L20 (2 kanały), L22, L24–L31, **L32** |
 | leady aktywne | **L13** (tylko URL embedu, 30 s, user), **L0** (rejestracja + pytanie do organizatora), L23/L1-A (POST, wymaga GO), L14/L15 (formularze, wymagają GO), L36 (defekt cudzego narzędzia) |
 | w drodze | run 12 = `RAWPATH-009`, 7 sond (116sos `/osrodki-pomocowe` + propsy Next.js z kontrolą + manifest tras, oad `/en`, dns.pl `/raporty` i `/search-results`) |
+
+---
+
+## 13. RUN 12 (`RAWPATH-009`, przebieg `42026055521`) — kandydat PII, rozstrzygnięty i zatrzymany
+
+Zgodność (`logs-run12/40-audit.log`): **7 żądań / 12,45 s / 3 hosty §5** (`116sos.pl`, `oad.nask.pl`,
+`dns.pl`) / min. odstęp 1,000 s / 7 ciał **3 365 169 B** / **1 kandydat do ręcznego potwierdzenia** /
+0 błędów transportu / 0 odmów zakresu / **AUDYT OK**. Mining: 7 plików, 1 endpoint, `idor_prerank` 0.
+
+| id | żądanie | status | bajty | sha256[:16] | werdykt |
+|---|---|---:|---:|---|---|
+| `sos-M01` | `GET /osrodki-pomocowe` | 200 | **5 181 512** (`content-length`) | `6c3c83ea2a591f70` | html-page |
+| `sos-M02` | `GET /_next/data/eY_q…/osrodki-pomocowe.json` | 200 | **4 985 036** | `7a55976801f7b546` | **CANDIDATE-PII-IN-RESPONSE** (`PII_EMAIL: 1596`) |
+| `sos-M03` | `GET /_next/data/eY_q…/mapa-serwisu.json` (**kontrola**) | 200 | 44 222 | `a3761e2c940fa4dd` | json-response (`__N_SSP`, `pageProps.pages[]`) |
+| `sos-M04` | `GET /_next/static/eY_q…/_buildManifest.js` | 200 | 5 453 | `d8cdffa8cc2a5a59` | other-200 (JS) |
+| `oad-M05` | `GET /en` | 200 | 74 838 | `4eec75ad57c55fd6` | html-page (69 tras) |
+| `dns-M06` | `GET /raporty` | 200 | 53 532 | `a8db70d4053f386d` | html-page (122 trasy) |
+| `dns-M07` | `GET /search-results` | 200 | 41 396 | `ac08938f86ee98a4` | html-page (91 tras) |
+
+### 13.1 Kandydat: 1 596 adresów e-mail w publicznych propsach. **Werdykt: katalog instytucji, nie wyciek**
+
+`/osrodki-pomocowe` to strona publiczna (200 bez uwierzytelnienia, `cache-control: private, no-store`,
+`ACAO: https://info-trace.116sos.pl`), a jej propsy Next.js (`__N_SSP` = `getServerSideProps`) ważą
+**4,99 MB** i zawierają **1 596 trafień wzorca e-mail**. Licznik zadziałał dokładnie tak, jak
+zaprojektowałem go w korekcie #43: **wartości nie zostały zapisane ani w raporcie, ani w podglądzie**
+(w raporcie jest tylko liczba), a odpowiedź dostała werdykt wymagający ręcznego rozstrzygnięcia.
+
+Rozstrzygnięcie — cztery argumenty, wszystkie z tego samego przebiegu:
+
+1. **Strona publiczna niesie ten sam ładunek co propsy**: HTML = 5 181 512 B, JSON = 4 985 036 B
+   (HTML = propsy + markup). Zaprojektowany test falsyfikacji („czy propsy/API oddają **więcej** niż
+   strona publiczna?") dał odpowiedź **NIE**. Nie ma więc żadnej ukrytej warstwy danych — jest ten sam
+   publiczny katalog, tylko w dwóch formatach.
+2. **Domeny w tej odpowiedzi to instytucje, nie osoby**: `samorzad.gov.pl`, `mops.krakow.pl`,
+   `mopsbydgoszcz.pl`, `mops.pila.pl`, `www.mops.zory.pl`, `www.mops.boleslawiec.pl`, `pcpr.rybnik.pl`,
+   `pcpr.mikolowski.pl`, `mopr.slupsk.pl`, `www.mopr.ostroleka.pl`, `moprciechanow.pl`, `cus.mlawa.pl`,
+   `srodmiescie.um.warszawa.pl`, `gopsosieck.pl`, `gopsodrzywol.naszops.pl`, `opsladek.naszops.pl`,
+   `swinna.naszops.pl`, `belskduzy.naszops.pl`, `mgopsbialybor.naszops.pl`, `ops.biala.gmina.pl`,
+   `www.opsrybnik.pl`, `opsczerwionka.pl`, `www.ops.gieraltowice.pl`, `mgopsszamocin.bip.gov.pl`,
+   `mlynarze.bipgminy.pl`, `www.biuletyn.abip.pl`, `gopsbrudzen.pl`, `www.gopssobienie.pl`,
+   `kiszkowo.pl`, `markot.pila.pl`, `www.monar.org`, `www.monar-markot.poznan.pl`,
+   `www.bratalbert.org`, `mopslebork.pl`, `www.sow-swietochlowice.pl` (MOPS/GOPS/PCPR/CUS/MOPR =
+   publiczne ośrodki pomocy; `naszops.pl`/`ibip.pl`/`bip.gov.pl`/`bipgminy.pl`/`abip.pl` = biuletyny
+   informacji publicznej). To **służbowe adresy kontaktowe instytucji wpisanych do jawnego rejestru**,
+   publikowane także na ich własnych stronach i w BIP.
+3. **Serwis sam zbiera te dane od instytucji**: `_buildManifest.js` potwierdza trasy
+   `/osrodki-pomocowe/dodaj` i `/osrodki-pomocowe/dziekujemy` ⇒ katalog jest **samoobsługowy**.
+   Instytucja sama się wpisuje, żeby być znalezioną. To jest funkcja serwisu, nie błąd.
+4. **Reszta liczników PII = 0**: 0 PESEL-i, 0 IBAN-ów, 0 telefonów z prefiksem +48.
+   Uczciwe zastrzeżenie: mój wzorzec telefonu wymaga `+48`, więc numery w zapisie krajowym
+   (`22 123 45 67`) **nie są liczone** — nie twierdzę, że telefonów tam nie ma; twierdzę, że mój
+   licznik ich nie mierzy. To ograniczenie narzędzia, wpisane do rejestru jako takie.
+
+**Decyzja: STOP na tym endpoincie.** Zgodnie z regułą programu („dane osobowe → przerwać natychmiast")
+i z §8 (dane publicznie dostępne, brak skutku bezpieczeństwa):
+
+* **nie** powtarzamy żądania, **nie** pobieramy pełnych 4,99 MB ponownie,
+* **nie** enumerujemy `/osrodki-pomocowe/{25924…25933}` ani ~1 600 ID (`id_formats: sequential-int-candidate 76`,
+  `other 1600`) — to publiczne strony publicznych instytucji, więc enumeracja nie daje nic
+  niepublicznego, a generuje ruch na danych osobowych,
+* **nie** zgłaszamy tego jako wycieku: nie przekroczono żadnej granicy autoryzacji (brak logowania,
+  brak sesji, brak IDOR-a — Gemma wcześniej zmierzyła, że `centres-search` ignoruje `q` i `id` i zawsze
+  oddaje te same 13 306 B),
+* **nie** zapisujemy żadnej wartości adresu w repo (w raporcie jest wyłącznie liczba 1596).
+
+Gdyby ktoś chciał to zgłosić jako „masowa ekspozycja e-maili" — to jest dokładnie kategoria, którą
+zespół koordynatora odrzucił 19 razy (§8), a trzy odrzucenia mogą zablokować składanie kolejnych
+zgłoszeń. Koszt przewyższa zerową szansę wypłaty.
+
+### 13.2 L33/L39 ZAMKNIĘTE — 116sos.pl zmapowany w całości offline (24 trasy)
+
+`_buildManifest.js` (5 453 B, `last-modified: 04.11 10:35:58`, immutable) = autorytatywna lista tras
+deploymentu:
+
+```
+/404  /_app  /_error  /IPZ-PTP  /NASK  /aktualnosci  /artykuly  /artykuly/autor  /artykuly/tag
+/dokumenty  /mapa-serwisu  /o-platformie-sos  /osrodki-pomocowe  /osrodki-pomocowe/dodaj
+/osrodki-pomocowe/dziekujemy  /otrzymaj-pomoc  /otrzymaj-pomoc/czat  /otrzymaj-pomoc/formularz
+/otrzymaj-pomoc/formularz/blad  /otrzymaj-pomoc/formularz/sukces  /otrzymaj-pomoc/telefon
+/pytania-i-odpowiedzi  /sitemap.xml  /telefony-pomocowe
+```
+
+Zero tras nieznanych, zero tras administracyjnych, zero panelu. Powierzchnia 116sos.pl = **24 trasy
+publiczne + 4 endpointy API** (`/api/centres-search`, `/api/og-image`, `/api/fetch-cookie-hash`,
+`/api/announcements`) — wszystkie zmierzone i zamknięte (dwa ostatnie: 3× identyczny sha256
+`31345c45…`). **Nie ma tu już czego szukać bez logowania, a logowania nie ma.**
+Trasy `/otrzymaj-pomoc/**` pozostają **wyłączone decyzją własną** (interwencja kryzysowa).
+
+Kontrola `sos-M03` (44 222 B) potwierdziła, że `_next/data` działa i buildId `eY_q-tnDts2YvuKlalLWP`
+jest właściwy (`__N_SSP` w odpowiedzi) ⇒ wynik M02 jest interpretowalny. **To drugi przypadek w tym
+projekcie, w którym grupa kontrolna w tym samym przebiegu zdecydowała o tym, czy dowód cokolwiek znaczy**
+(pierwszy: run 10, grupa B — przechwycenie brzegowe na dns.pl).
+
+### 13.3 L13 praktycznie MARTWE — angielska tabela tras oad też nie zna PowerBI
+
+`oad.nask.pl/en` = 200, 74 838 B, **69 tras**:
+
+```
+/en  /en/about-us  /en/accessibility-declaration  /en/news  /en/news/<4 artykuły>
+/en/o-dezinformacji  /en/o-nas  /en/privacy-policy  /en/projects/{cedmo,deepmntrg5,osint-ctf-nask}
+/en/public-information-bulletin  /en/report-disinformation  /en/search-results?type={news,project,publication}
+/en/zglos-dezinformacje  /podglad-pdf?url=%2Fmedia%2F2026%2F{07,08,10}%2F<RAPORT>.pdf
+/_next/static/chunks/{01oz8t4rw-8jj,02nb7hg5s7v8z,…,41lk95l8op7nz,0gnc331ufzpqs,turbopack-3-ry682tkyiqk}.js
+```
+
+Hosty: `www.w3.org` + social media. **Ani `/en/trendy`, ani `/en/trends`, ani `app.powerbi.com`, ani
+żadnej trasy z raportem.** Trzy niezależne obserwacje mówią to samo: (1) `/trendy` i `/en/trendy` = 404,
+(2) chunk nawigacji (17 tras) nie zna PowerBI, (3) pełna tabela tras angielskich (69) nie zna PowerBI.
+Chunk `41lk95l8op7nz.js` z `reportId` jest **nadal wysyłany**, czyli to martwy moduł po usuniętej
+podstronie. **L13 spada do poziomu „sprawdź 30 sekund, prawdopodobnie nic tam nie ma"** — i tylko
+dlatego zostaje otwarty, że koszt sprawdzenia jest bliski zeru, a nagroda za klasę 3 Tier 1 nie jest.
+
+Przy okazji: trzy nowe `/podglad-pdf?url=` (raporty ENG z 07/08/10.2026) — ten mechanizm jest
+**zamknięty z reprodukcją 7/7** (allow-lista `/media/`, brak SSRF), więc to tylko publiczne PDF-y.
+
+### 13.4 dns.pl — `/raporty` i `/search-results` domykają historię statystyk (L5/L22/L40)
+
+* `/raporty` (53 532 B, 122 trasy) = strona z publicznymi raportami kwartalnymi: `/raporty/{2,3,6}`
+  oraz linki `/sites/default/files/2024-*/NASK-Q{1,2,3,4}-*-RAPORT.pdf`,
+  `/sites/default/files/2024-04/NASK-raport-rynek-nazw-domeny-pl-2023.pdf` (Drupal ⇒ ścieżki plików
+  publiczne, bez autoryzacji — i bez wartości: to opublikowane raporty).
+* **Znalezione prawdziwe trasy statystyk**: `/statystyki/liczba_aktywnych_IDN`,
+  `/statystyki/liczba_aktywnych_nazw_domeny_pl`,
+  `/statystyki/liczba_aktywnych_nazw_domeny_pl_z_podziałem_na_strefy`,
+  `/statystyki/liczba_nazw_domeny_pl_uwolnionych_po_wczesniejszym_usunieciu`,
+  `/statystyki/liczba_nazw_domeny_pl_uwolnionych_z_powodu_braku_odnowienia`,
+  `/statystyki/liczba_nazw_domeny_pl_zabezpieczonych_DNSSEC`,
+  `/statystyki/liczba_nowozarejestrowanych_nazw_domeny_pl`, `/statystyki/liczba_odnowionych_nazw_domeny_pl…`.
+  **To domyka L5/L22 z mechanizmem**: statystyki dns.pl są stronami renderowanymi serwerowo
+  (Symfony/Drupal + Bazinga), a nie endpointami API — dlatego `/api/stats/` daje 404, a jedynym żywym
+  JSON-em jest `/api/zone-stats`. `statisticsUrl` z bundla to zmienna klienta, która miała wskazywać
+  na te strony.
+* `/search-results` (41 396 B) ma tę samą listę 91 tras i **zero literałów `/api/*`**, parametry tylko
+  `family`/`locales` (Google Fonts) ⇒ wyszukiwarka/przeglądarka domen nie odpytuje żadnego GET-owego
+  API w HTML. Razem z 404 na `/api/domain-browser/` wniosek: **funkcja jest albo POST-owa, albo
+  niedziałająca (martwy UI)**. Nie testujemy POST bez GO, a martwy UI nie jest podatnością.
+* Decyzja o **nie**odpytywaniu `/statystyki/*`: to publiczne agregaty (liczby domen), dokładnie ten sam
+  rodzaj danych co `/api/zone-stats` (2 757 995) i `/raporty`. Osiem żądań, zero wartości
+  poznawczej, zero szansy na klasę 1–8. Wpisane jako powierzchnia zmapowana i nieciekawa.
+
+### 13.5 Stan po czterech przebiegach 05.11
+
+| rzecz | stan |
+|---|---|
+| potwierdzone podatności | **0** |
+| zgłoszenia | **0** |
+| żądania GET razem | 321 (do 04.11) + 31 + 22 + 7 + 7 = **388** |
+| POST / PUT / DELETE | **0** |
+| zmiany stanu | **0** |
+| hosty spoza §5 odpytane | **0** |
+| wartości e-maili/sekretów w repo | **0** (tylko liczniki i odciski sha256[:12]) |
+| kandydat PII | **1** (`sos-M02`, 1 596 e-maili) — rozstrzygnięty jako publiczny katalog instytucji, **zatrzymany bez enumeracji** |
+| powierzchnia zmapowana offline | 116sos.pl **kompletnie** (24 trasy + 4 API), oad **obie tabele tras** (PL 88 133 B + EN 69 tras), dns.pl **~130 tras UI + pełna mapa API**, science 4 API, HIVE 71 tras klienta, pllum 1 chunk |
+| leady otwarte | **L0** (rejestracja + pytania do organizatora), **L13** (30 s, prawdopodobieństwo bardzo niskie), **L23/L1-A** (POST, wymaga GO), L14/L15 (formularze, wymaga GO), L37 (`/osrodki-pomocowe/dodaj`, wymaga GO), L36 (defekt cudzego narzędzia), L38/L10/L11 (zakres — pytanie) |
