@@ -6,11 +6,22 @@
 >   `/api/v1/admin/logs` → 404 (Gemma-B runda 7). H10 obalony, nie ma na czym budować budżetu.
 > * **HIVE = dostęp zaproszeniowy** (potwierdzone przez usera: członek organizacji) — L0 pkt 2
 >   to prośba o wyjątek, nie o odblokowanie rejestracji.
-> * **NOWE L0.5 (2 minuty, najwyższy stosunek wartości do pracy):** embed PowerBI na `oad.nask.pl`
->   — otworzyć w **incognito** `https://oad.nask.pl/trendy` albo sam embed
+> * **L0.5 — POPRAWIONE 05.11 (korekta #49, run 10):** embed PowerBI. Trasa `oad.nask.pl/trendy`
+>   **NIE ISTNIEJE**: `/trendy` → 404 (13 814 B), `/en/trendy` → 404 (identyczny sha256),
+>   `/trendy/` → 308 z `location: /trendy`. Chunk `41lk95l8op7nz.js` (34 692 B) z embedem jest
+>   nadal wysyłany (ładuje go `/wyniki-wyszukiwania`), więc kod żyje, ale strony nie ma ⇒
+>   prawdopodobieństwo, że raport jest żywy, **spadło**. Sprawdzenie sprowadza się do
+>   **samego URL-a embedu, 30 sekund, incognito**:
 >   `https://app.powerbi.com/reportEmbed?reportId=470044cf-1a84-4ecb-87f1-7e914afdbb19&autoAuth=true&ctid=95dc45af-07b0-4179-a598-9740073a6e4a`.
->   Agregaty → zamykamy. Rekordy/dane osobowe bez logowania → **klasa 3, Tier 1 (9 000/20 000 zł)**.
->   `app.powerbi.com` **nie** testujemy automatem (Microsoft, poza §5).
+>   Agregaty albo błąd logowania → zamykamy. Rekordy/dane osobowe bez logowania → **klasa 3,
+>   Tier 1 (9 000/20 000 zł)**. `app.powerbi.com` **nie** testujemy automatem (Microsoft, poza §5).
+> * **NOWA REGUŁA DLA WSZYSTKICH SONDA dns.pl (05.11, run 10, lead L25):** odpowiedź
+>   `200 + ~51,2 kB + <script>var _event_transid=…</script>` oznacza **żądanie oflagowane przez
+>   warstwę brzegową**, NIE istniejący zasób. Dowód: `/api/zone-stats?x=1` → 200 `application/json`
+>   11 761 B, a `/api/zone-stats?x=%0D%0A` → 200 `text/html` 51 225 B (strona główna);
+>   `/api/nie-istnieje-xyz-123` → 404, a ta sama ścieżka z `?statisticsUrl=https://example.com/`
+>   → 200 strona główna. Kto to pomyli, zgłosi fałszywy SSRF/open-redirect/bypass.
+>   Samo przechwycenie **nie jest wypłacalne** — nie zgłaszamy.
 > * **NOWY krok `zglos-inicjatywe` (lead L14 w rejestrze):** formularz
 >   `bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/` (pola `name`, `description`, …) — ta sama
 >   klasa co sendForm, mniejsza konkurencja; wymaga GO.

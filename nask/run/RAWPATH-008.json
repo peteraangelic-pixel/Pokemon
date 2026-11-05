@@ -1,0 +1,58 @@
+{
+  "plan_run": "RAWPATH-008",
+  "date": "2026-11-05",
+  "author": "Arena c87f7a48",
+  "based_on": "rawpath-007-run10.json + mine-rawpath-006/007 (paths/hosts) — 7 sond domykajacych rzeczy, ktore run9/run10 zostawily jako 'do potwierdzenia'",
+  "purpose": "Siedem tanich rozstrzygniec, kazde z uzasadnieniem i kontrola: (1) GET na /api/sendForm = 405/Allow bez zadnej zmiany stanu (przygotowanie L23/L3 bez wysylania zgloszenia); (2-3) trasa katalogu placowek 116sos + mapa serwisu, zeby domknac L9 BEZ 2 minut usera; (4-5) aktualna tabela tras oad, zeby ustalic, czy strona z PowerBI w ogole istnieje (L13 po korekcie #49); (6) niezalezne potwierdzenie L20 przez UI dns.pl; (7) jak naprawde dziala przegladarka domen (/api/domain-browser/ = 404 w GET).",
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026, §5/§6/§7/§8",
+    "hosts": "zglos-dezinformacje.nask.pl (T1), 116sos.pl (T2), oad.nask.pl (T1), dns.pl (T1) — 4 hosty, wszystkie w §5. POMINIENTE celowo: www.nask.pl, info-trace.116sos.pl, panel.dns.pl, tracker.dns.pl (poza literałami §5 — L10/L11 + §1 wynikow run9).",
+    "methods": "GET only, 1.0 req/s (sufit §6 pkt 2 = 5), 7 zadan, przekierowania niesledzone, HTTPS z weryfikacja certyfikatu, bez uwierzytelnienia (§6 pkt 1)",
+    "state_change": "ZERO. GET na /api/sendForm NIE tworzy zgloszenia: to odczyt trasy, ktory serwer musi odrzucic (405) — dokladnie ta sama klasa zadania co run10 sci-K14 /api/contact (405, 30 B). Nie wysylamy zadnego pola, zadnego pliku, zadnego tokenu reCAPTCHA.",
+    "pii": "Liczniki PII (korekta #43) liczone tylko dla odpowiedzi DANYCH; strony HTML maja podglad 200 znakow sanityzowany. Zadne dane osobowe nie trafiaja do repo.",
+    "escalation": "jesli którakolwiek odpowiedz da licznik PII > 0 w danych niepublicznych albo 405/Allow na sendForm ujawni metode inna niz POST — STOP na tym endpoincie, wpis do rejestru, informacja dla usera. Bez enumeracji i bez eskalacji samodzielnej."
+  },
+  "probes": [
+    {
+      "id": "zglos-L01-sendform-get",
+      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
+      "why": "GET na trasie POST-owej: ZERO zmiany stanu (nic nie wysylamy — L23 czeka na jawne GO). Cel: 405 + naglowek `Allow` (biała lista metod) albo 404. Rozstrzyga, czy /api/sendForm jest jedyna trasa API zglos-dezinformacje (mining run7: tak) i czy serwer w ogole rozroznia metody — bez tego L23/L3 sa planowane na slepo. Odpowiedz 4xx <=1024 B jest zapisywana z podgladem (korekta #28b) — to komunikat API, nie dane."
+    },
+    {
+      "id": "sos-L02-home",
+      "url": "https://116sos.pl/",
+      "why": "Strona glowna 116sos + mining `paths` (korekta #44): szukamy nazwy trasy katalogu placowek. Po co: zeby domknac L9 BEZ pracy usera — majac trase, pobieramy /_next/data/<buildId>/<trasa>.json (buildId 8CjJwbyxpVqpWnorny23T z mapy 7911f950) i porownujemy zbior placowek z API `centres-search` (run9: 13 306 B, 10 e-maili instytucji).",
+      "max_bytes": 524288
+    },
+    {
+      "id": "sos-L03-mapa-serwisu",
+      "url": "https://116sos.pl/mapa-serwisu",
+      "why": "Mapa serwisu = autorytatywna lista tras publicznych (odpowiednik sitemap dla L9). Kontrola dla L02: jesli katalog placowek jest strona publiczna, bedzie tu wymieniony wprost; jesli go NIE ma, a API oddaje placowki — to jest wlasnie roznica, ktora rozstrzyga, czy dane sa publicznie przeznaczone do udostepniania.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "oad-L04-en-home",
+      "url": "https://oad.nask.pl/en/",
+      "why": "Angielska tabela tras oad. Run10 dowiodl, ze /trendy i /en/trendy = 404, a chunk PowerBI ma trasy ANGIELSKIE (/about-us, /news) obok polskich (/aktualnosci, /o-nas) i szablony /${t.H.EN}, /${t.L}. Hipoteza: strona z raportem PowerBI istnieje pod inna nazwa (np. /en/trends, /raporty). Mining `paths` z tej strony daje aktualna liste tras DEPLOYMENTU — a nie literały z chunka, ktore moga byc martwym kodem.",
+      "max_bytes": 524288
+    },
+    {
+      "id": "oad-L05-nav-chunk",
+      "url": "https://oad.nask.pl/_next/static/chunks/0gnc331ufzpqs.js",
+      "why": "Chunk nawigacji/stopki (run9 oad-J25 mining: ma /bip, /wyniki-wyszukiwania?type=..., /zglos-dezinformacje, /o-nas, /logo.svg, /en/). Pelna tabela tras z tego modulu rozstrzyga, czy PowerBI ma wlasna strone w biezacym deploymencie. 1 zadanie, analiza offline (korekta #44).",
+      "max_bytes": 524288
+    },
+    {
+      "id": "dns-L06-lista-usunietych",
+      "url": "https://dns.pl/lista_domen_usunietych",
+      "why": "NIEZALEZNE potwierdzenie rozstrzygniecia L20 (run9: deleted_domains.txt = 46 440 B, 0 znacznikow PII, 31,6 B/wiersz przy 1467 pozycjach = same nazwy domen). Strona UI dla tej samej listy pokazuje, co rejestr sam uwaza za publiczne: jesli UI prezentuje nazwy domen (bez abonenta), L20 jest domkniete drugim kanalem, nie tylko arytmetyka.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-L07-przegladarka",
+      "url": "https://dns.pl/przegladarka",
+      "why": "UI przegladarki domen (trasa z bundla dns.pl, run9 paths: /przegladarka, /en/browser). Cel: /api/domain-browser/ daje 404 w GET (run9 dns-J12) — strona UI pokaze, jak naprawde jest odpytywana (inna sciezka, POST, albo token reCAPTCHA v3, ktory dns.pl laduje w main-3.3.0.js). Bez tego kazda hipoteza o domain-browser jest zgadywaniem.",
+      "max_bytes": 262144
+    }
+  ]
+}

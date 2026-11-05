@@ -55,3 +55,16 @@ Wszystko, co wymaga logowania, jest w planie — do wykonania ręcznie.
 | `run/RAWPATH-00{1,2,3}.json` | plany przebiegów (35 + 10 + 7 prób) z uzasadnieniem i warunkami odrzucenia |
 | `reports/rawpath-00{1,2,3}-run*.json` | rekordy każdego żądania: status, typ, rozmiar, sha256, czas, znaczniki, błędy |
 | `.github/workflows/nask-rawpath.yml` | bramka offline (testy) → przebieg 1,0 req/s → audyt zgodności → commit raportu |
+
+## Aktualne na 05.11.2026 (run 9 + run 10 + przegląd repo NASK)
+
+| plik | co zawiera |
+|---|---|
+| `WYNIKI-RUN9-RUN10-20261105.md` | **najnowszy stan**: 53 żądania GET w Actions (run 9 = 31, run 10 = 22), tabela wszystkich son z dowodami, 8 grup rozstrzygnięć (A–H), mechanizm przechwycenia brzegowego dns.pl, zamknięcia L5/L9/L18/L20/L22 + nowe L24–L36, korekty #43–#49 |
+| `PRZEGLAD-REPO-NASK-20261105.md` | przegląd gałęzi i repo `peteraangelic-pixel/NASK` z 05.11 (commit `b2cf80a4`): co przejmuję (`har_triage`, mapa `hack.cert.pl`), co prostuję (defekt ich `bundle_scan.py` = kopia mojej wersji sprzed korekty #33, `class: "8.9"` = CVSS nie klasa §8, sweep `downloadFile?fileId=` już zamknięty, `ctf.hack.cert.pl` = konflikt zakresu) |
+| `run/RAWPATH-00{4,5,6,7,8}.json` | plany przebiegów: 129 sond na assety JS (run 7), 4 kontrole (run 8), 31 (run 9), 22 rozstrzygnięcia (run 10), 7 (run 11) |
+| `reports/rawpath-00{4..7}-run{7..10}.json` | surowe rekordy żądań ze statusem, typem, rozmiarem, sha256, licznikami PII i odciskami sekretów (**bez wartości** — korekta #33) |
+| `reports/mine-rawpath-00{4,6,7}-run{7,9,10}.json` | analiza pobranych ciał: trasy, hosty, parametry, sekrety (odciski), formaty ID — m.in. **71 tras klienta HIVE**, 91 literałów `dns.pl`, 8 domen instytucji w odpowiedzi `centres-search` |
+| `reports/logs-run{7,8,9,10}/` | logi audytu zgodności z Actions (tempo, hosty, brak wzorców kluczy) |
+| `tools/rawpath.py` (v. po korekcie #43) | liczniki PII jako liczby + wyciszanie podglądu + werdykt `CANDIDATE-PII-IN-RESPONSE`; selftest **13 grup** |
+| `tools/bundle_scan.py` (po korektach #44/#45/#48) | literały ścieżek (`paths`), hostów (`hosts`), sekrety w query-stringu, `looks_like_credential()`; 3,9 MB / 0,58 s / rdzeń; **92 testy OK** |
