@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "dry_run": false,
+  "rps_requested": 1.0,
+  "min_observed_gap_s": 1.0,
+  "wall_seconds": 12.45,
+  "count": 7,
+  "summary": {
+    "count": 7,
+    "verdicts": {
+      "html-page": 4,
+      "CANDIDATE-PII-IN-RESPONSE": 1,
+      "json-response": 1,
+      "other-200": 1
+    },
+    "candidates": [
+      {
+        "id": "sos-M02-nextdata-osrodki",
+        "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/osrodki-pomocowe.json",
+        "verdict": "CANDIDATE-PII-IN-RESPONSE",
+        "status": 200,
+        "content_type": "application/json",
+        "bytes_read": 2097152
+      }
+    ],
+    "transport_errors": [],
+    "out_of_scope_refusals": []
+  },
+  "identical_bodies": [],
+  "note": "Werdykt wynika z typu/rozmiaru/znacznikow, nie z samego kodu. CANDIDATE-* wymaga recznego potwierdzenia przez czlowieka przed jakimkolwiek zgloszeniem; tresci wrazliwe nie sa zapisywane.",
+  "probes": [
+    {
+      "id": "sos-M01-osrodki-pomocowe",
+      "url": "https://116sos.pl/osrodki-pomocowe",
+      "status": 200,
+      "reason": "OK",
+      "ms": 2517,
+      "bytes_read": 1048576,
+      "sha256": "6c3c83ea2a591f700d0122836a835f57d1fa94b40c1f152d5be8d5127f664eb9",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "5181512",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"jx7xqugl1830sfn\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><title data-next-head=\"\">116sos.pl | Pomoc psycholog",
+      "saved_to": "/home/runner/work/_temp/bodies/sos-M01-osrodki-pomocowe.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/osrodki-pomocowe",
+      "why": "ROZSTRZYGNIENCIE L9 drugim kanalem. Run 11 dowiodl, ze 116sos.pl MA publiczna trase katalogu: `/osrodki-pomocowe` (+ `/dodaj`, `/dziekujemy`) — a `centres-search` z run9 (13 306 B, PII_EMAIL 10, 8 domen GOPS/MOPS) ma `ACAO: https://info-trace.116sos.pl`. Hipoteza do sfalsyfikowania: API oddaje WIECEJ niz publiczna strona (np. pola nieprezentowane). Jesli strona publiczna pokazuje te same placowki, L9 jest zamkniete dowodem z dwoch niezaleznych kanalow, nie tylko arytmetyka. Liczniki PII (korekta #43) mierza, czy cokolwiek osobowego w ogole tu jest — bez zapisywania wartosci."
+    },
+    {
+      "id": "sos-M02-nextdata-osrodki",
+      "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/osrodki-pomocowe.json",
+      "status": 200,
+      "reason": "OK",
+      "ms": 4660,
+      "bytes_read": 2097152,
+      "sha256": "7a55976801f7b5466fcdfbd8c2bc9f484f27c7b774f7b896021b89a02dec6bb3",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "4985036",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"cztnzx6a6s2wlb0\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1,
+        "PII_EMAIL": 1596
+      },
+      "pii_marker_hits": 1596,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/sos-M02-nextdata-osrodki.json",
+      "error": null,
+      "verdict": "CANDIDATE-PII-IN-RESPONSE",
+      "raw_path": "/_next/data/eY_q-tnDts2YvuKlalLWP/osrodki-pomocowe.json",
+      "why": "Propsy serwerowe Next.js dla tej samej trasy (buildId `eY_q-tnDts2YvuKlalLWP` jest SWIEZY: wzial sie z `/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js` w odpowiedzi run 11, nie ze starej mapy `8CjJwbyxpVqpWnorny23T`). To jedyny sposob, zeby zobaczyc PELNY ksztalt obiektu placowki bez logowania: HTML oddaje tylko to, co renderer wypisal. Kontrola: M03."
+    },
+    {
+      "id": "sos-M03-nextdata-mapa-kontrola",
+      "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/mapa-serwisu.json",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1708,
+      "bytes_read": 44222,
+      "sha256": "a3761e2c940fa4dd263d30d3099e9df8befe2887bedf0492c93baf2956451d07",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "44222",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"tvsksnei20xku\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "__N_SSP",
+          "pageProps",
+          "pageProps.appPageUrl",
+          "pageProps.ogDescription",
+          "pageProps.ogImageId",
+          "pageProps.ogTitle",
+          "pageProps.pages",
+          "pageProps.pages[].children",
+          "pageProps.pages[].label",
+          "pageProps.pages[].url",
+          "pageProps.seodescription",
+          "pageProps.seotitle",
+          "pageProps.staticPages",
+          "pageProps.staticPages[].label",
+          "pageProps.staticPages[].url"
+        ],
+        "key_count": 15,
+        "personal_like": [
+          "pageProps.ogDescription",
+          "pageProps.seodescription"
+        ]
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"pageProps\":{\"pages\":[{\"label\":\"Strona g....wna\",\"url\":\"/\",\"children\":[{\"url\":\"/aktualnosci\",\"label\":\"Aktualnosci\",\"children\":[]},{\"url\":\"/api/og-image\",\"label\":\"Og image\",\"children\":[]},{\"url\":\"/art",
+      "saved_to": "/home/runner/work/_temp/bodies/sos-M03-nextdata-mapa-kontrola.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/_next/data/eY_q-tnDts2YvuKlalLWP/mapa-serwisu.json",
+      "why": "GRUPA KONTROLNA dla M02 (regula: sonda bez kontroli w tym samym przebiegu nie jest sonda). Jesli M03 = 200 JSON, a M02 = 404, to znaczy, ze trasa osrodki nie jest SSG (getServerSideProps) — wynik merytoryczny. Jesli OBA = 404, `_next/data` jest wylaczone i wynik M02 jest nieinterpretowalny (tak bylo w run9 dla science: sci-J21 404 + sci-J22 transport-error = brak kontroli)."
+    },
+    {
+      "id": "sos-M04-buildmanifest",
+      "url": "https://116sos.pl/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js",
+      "status": 200,
+      "reason": "OK",
+      "ms": 817,
+      "bytes_read": 5453,
+      "sha256": "d8cdffa8cc2a5a591961805b550cda00878818e2957ee8bce28dd098bc0b1004",
+      "content_type": "application/javascript",
+      "headers": {
+        "content-type": "application/javascript; charset=UTF-8",
+        "content-length": "5453",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "public, max-age=31536000, immutable",
+        "last-modified": "Wed, 04 Nov 2026 10:35:58 GMT",
+        "etag": "W/\"154d-1a1a6213ab0\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {},
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "self.__BUILD_MANIFEST=function(s,c,a,t,e,o,i,r,u,d,f,k,m,y){return{__rewrites:{afterFiles:[],beforeFiles:[],fallback:[]},__routerFilterStatic:{numItems:0,errorRate:1e-4,numBits:0,numHashes:null,bitArr",
+      "saved_to": "/home/runner/work/_temp/bodies/sos-M04-buildmanifest.js",
+      "error": null,
+      "verdict": "other-200",
+      "raw_path": "/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js",
+      "why": "Autorytatywna lista tras deploymentu (manifest budowania). Zastepuje zgadywanie tras i domyka L33 offline: widzimy, czy istnieje jakakolwiek trasa placowek poza `/osrodki-pomocowe`, oraz czy `/otrzymaj-pomoc/formularz` (WYKLUCZONY decyzja wlasna: interwencja kryzysowa) jest jedyna forma. Plik zwykle <10 kB."
+    },
+    {
+      "id": "oad-M05-en",
+      "url": "https://oad.nask.pl/en",
+      "status": 200,
+      "reason": "OK",
+      "ms": 809,
+      "bytes_read": 74838,
+      "sha256": "4eec75ad57c55fd60bad8f2cd37e5c252f60eaafd1b81bad35fdbe6f648c5366",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 2
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\" class=\"font-sans _59dTrW_variable ZFv9mW_variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" ",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-M05-en.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/en",
+      "why": "Cel 308 z run 11 (`/en/` -> `location: /en`, 3 B): wlasciwa angielska strona glowna. Po korekcie #49 (trasa /trendy = 404 w 3 wariantach) i run 11 (chunk nawigacji ma 17 tras i ZERO odniesien do PowerBI/trendow) zostalo jedno pytanie: czy angielska tabela tras pokaze strone z raportem pod inna nazwa. Mining `paths` z tej odpowiedzi = aktualna tabela deploymentu."
+    },
+    {
+      "id": "dns-M06-raporty",
+      "url": "https://dns.pl/raporty",
+      "status": 200,
+      "reason": "OK",
+      "ms": 798,
+      "bytes_read": 53532,
+      "sha256": "a8db70d4053f386d50dc4c06d79873c03cdcf475b8d19c5d6cc7493ef8a39b49",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "53532"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-M06-raporty.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/raporty",
+      "why": "Trasa `/raporty` odkryta w run 11 w HTML obu stron dns.pl (a nieznana z bundla `main-3.3.0`). Cel: czy rejestr publikuje tam dane/raporty statystyczne (drugi kanal dla `/api/zone-stats` i `deleted_domains.txt`), czy tylko opis. BEZ query string celowo: na dns.pl wzorce w query przechwytuje warstwa brzegowa (L25)."
+    },
+    {
+      "id": "dns-M07-search-results",
+      "url": "https://dns.pl/search-results",
+      "status": 200,
+      "reason": "OK",
+      "ms": 547,
+      "bytes_read": 41396,
+      "sha256": "ac08938f86ee98a458165994b95171252c4bbae92a8ae8bec7dd09714b967d8c",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "41396"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-M07-search-results.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/search-results",
+      "why": "UI wyszukiwarki dns.pl (trasa z run 11). `/przegladarka` (41 968 B) nie zawiera zadnego literalu `/api/*` ani parametru innego niz `family`/`locales` z Google Fonts, a `/api/domain-browser/` daje 404 w GET (run9 dns-J12) => mechanizm odpytywania jest albo w JS, albo POST. Ta strona pokaze formularz i jego `action`/inputy. BEZ query string (L25). Zero zmiany stanu."
+    }
+  ],
+  "bodies_saved": 7,
+  "bodies_dir": "/home/runner/work/_temp/bodies",
+  "bodies_bytes_total": 3365169,
+  "bodies_manifest": [
+    {
+      "id": "sos-M01-osrodki-pomocowe",
+      "file": "/home/runner/work/_temp/bodies/sos-M01-osrodki-pomocowe.html",
+      "url": "https://116sos.pl/osrodki-pomocowe",
+      "bytes": 1048576,
+      "sha256": "6c3c83ea2a591f700d0122836a835f57d1fa94b40c1f152d5be8d5127f664eb9",
+      "content_type": "text/html"
+    },
+    {
+      "id": "sos-M02-nextdata-osrodki",
+      "file": "/home/runner/work/_temp/bodies/sos-M02-nextdata-osrodki.json",
+      "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/osrodki-pomocowe.json",
+      "bytes": 2097152,
+      "sha256": "7a55976801f7b5466fcdfbd8c2bc9f484f27c7b774f7b896021b89a02dec6bb3",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sos-M03-nextdata-mapa-kontrola",
+      "file": "/home/runner/work/_temp/bodies/sos-M03-nextdata-mapa-kontrola.json",
+      "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/mapa-serwisu.json",
+      "bytes": 44222,
+      "sha256": "a3761e2c940fa4dd263d30d3099e9df8befe2887bedf0492c93baf2956451d07",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sos-M04-buildmanifest",
+      "file": "/home/runner/work/_temp/bodies/sos-M04-buildmanifest.js",
+      "url": "https://116sos.pl/_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js",
+      "bytes": 5453,
+      "sha256": "d8cdffa8cc2a5a591961805b550cda00878818e2957ee8bce28dd098bc0b1004",
+      "content_type": "application/javascript"
+    },
+    {
+      "id": "oad-M05-en",
+      "file": "/home/runner/work/_temp/bodies/oad-M05-en.html",
+      "url": "https://oad.nask.pl/en",
+      "bytes": 74838,
+      "sha256": "4eec75ad57c55fd60bad8f2cd37e5c252f60eaafd1b81bad35fdbe6f648c5366",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-M06-raporty",
+      "file": "/home/runner/work/_temp/bodies/dns-M06-raporty.html",
+      "url": "https://dns.pl/raporty",
+      "bytes": 53532,
+      "sha256": "a8db70d4053f386d50dc4c06d79873c03cdcf475b8d19c5d6cc7493ef8a39b49",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-M07-search-results",
+      "file": "/home/runner/work/_temp/bodies/dns-M07-search-results.html",
+      "url": "https://dns.pl/search-results",
+      "bytes": 41396,
+      "sha256": "ac08938f86ee98a458165994b95171252c4bbae92a8ae8bec7dd09714b967d8c",
+      "content_type": "text/html"
+    }
+  ]
+}
