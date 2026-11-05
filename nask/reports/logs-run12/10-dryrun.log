@@ -1,0 +1,19 @@
+  sos-M01-osrodki-pomocowe           /osrodki-pomocowe
+  sos-M02-nextdata-osrodki           /_next/data/eY_q-tnDts2YvuKlalLWP/osrodki-pomocowe.json
+  sos-M03-nextdata-mapa-kontrola     /_next/data/eY_q-tnDts2YvuKlalLWP/mapa-serwisu.json
+  sos-M04-buildmanifest              /_next/static/eY_q-tnDts2YvuKlalLWP/_buildManifest.js
+  oad-M05-en                         /en
+  dns-M06-raporty                    /raporty
+  dns-M07-search-results             /search-results
+{
+  "dry_run": true,
+  "count": 7,
+  "wall_seconds": null,
+  "min_observed_gap_s": null,
+  "verdicts": null,
+  "candidates": null,
+  "identical_bodies": null,
+  "bodies_saved": null,
+  "bodies_bytes_total": null,
+  "out": null
+}

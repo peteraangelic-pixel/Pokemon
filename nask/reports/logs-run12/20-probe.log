@@ -1,0 +1,27 @@
+{
+  "dry_run": false,
+  "count": 7,
+  "wall_seconds": 12.45,
+  "min_observed_gap_s": 1.0,
+  "verdicts": {
+    "html-page": 4,
+    "CANDIDATE-PII-IN-RESPONSE": 1,
+    "json-response": 1,
+    "other-200": 1
+  },
+  "candidates": [
+    {
+      "id": "sos-M02-nextdata-osrodki",
+      "url": "https://116sos.pl/_next/data/eY_q-tnDts2YvuKlalLWP/osrodki-pomocowe.json",
+      "verdict": "CANDIDATE-PII-IN-RESPONSE",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes_read": 2097152
+    }
+  ],
+  "identical_bodies": [],
+  "bodies_saved": 7,
+  "bodies_bytes_total": 3365169,
+  "out": "nask/reports/rawpath-009-run12.json"
+}
+probe rc=0
