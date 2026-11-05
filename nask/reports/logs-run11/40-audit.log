@@ -1,0 +1,8 @@
+min. odstep miedzy zadaniami: 1.000000 s (limit 0.2 s = 5 req/s)
+hosty: 4 (wszystkie w §5) | zadan: 7 | czas: 7.81 s
+werdykty: {"html-page": 4, "method-not-allowed-route-exists": 1, "other-200": 1, "redirect-not-followed": 1}
+kandydaci do recznego potwierdzenia: 0
+identyczne ciala (dowod z hasha): 0
+ciala zapisane do analizy: 6 | bajtow: 304447
+mining: plikow 5 | endpointow 1 | idor_prerank 0
+AUDYT OK

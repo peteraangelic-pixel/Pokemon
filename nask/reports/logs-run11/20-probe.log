@@ -1,0 +1,18 @@
+{
+  "dry_run": false,
+  "count": 7,
+  "wall_seconds": 7.81,
+  "min_observed_gap_s": 1.0,
+  "verdicts": {
+    "html-page": 4,
+    "method-not-allowed-route-exists": 1,
+    "other-200": 1,
+    "redirect-not-followed": 1
+  },
+  "candidates": [],
+  "identical_bodies": [],
+  "bodies_saved": 6,
+  "bodies_bytes_total": 304447,
+  "out": "nask/reports/rawpath-008-run11.json"
+}
+probe rc=0

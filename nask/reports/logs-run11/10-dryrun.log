@@ -1,0 +1,19 @@
+  zglos-L01-sendform-get             /api/sendForm
+  sos-L02-home                       /
+  sos-L03-mapa-serwisu               /mapa-serwisu
+  oad-L04-en-home                    /en/
+  oad-L05-nav-chunk                  /_next/static/chunks/0gnc331ufzpqs.js
+  dns-L06-lista-usunietych           /lista_domen_usunietych
+  dns-L07-przegladarka               /przegladarka
+{
+  "dry_run": true,
+  "count": 7,
+  "wall_seconds": null,
+  "min_observed_gap_s": null,
+  "verdicts": null,
+  "candidates": null,
+  "identical_bodies": null,
+  "bodies_saved": null,
+  "bodies_bytes_total": null,
+  "out": null
+}
