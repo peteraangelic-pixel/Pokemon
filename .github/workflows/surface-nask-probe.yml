@@ -53,16 +53,25 @@ jobs:
           tail -c 6000 /tmp/test.log > nask/reports/last-test-output.txt || true
           grep -q "test result: ok" /tmp/test.log && echo "TESTS OK" || echo "TESTS NOT OK - see nask/reports/last-test-output.txt"
 
-      - name: Read run id
+      - name: Read run id and rate
         id: req
-        run: echo "run=$(python3 -c "import json;print(json.load(open('nask/run/PROBES.json')).get('run','0'))")" >> "$GITHUB_OUTPUT"
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          p = json.load(open("nask/run/PROBES.json"))
+          print("run=" + str(p.get("run", "0")))
+          # The plan may ask for a slower pace: dns.pl drops connections after a
+          # burst, and a transport error is a lost measurement, not a negative.
+          rps = float(p.get("rps", 3))
+          print("rps=" + str(max(0.5, min(rps, 4.5))))
+          PY
 
       - name: Probes
         run: |
           ./"$BIN" probe \
             --plan nask/run/PROBES.json \
             --out "nask/reports/probe-run${{ steps.req.outputs.run }}.json" \
-            --rps 3 --snippets
+            --rps "${{ steps.req.outputs.rps }}" --snippets
 
       - name: Commit report
         if: always()

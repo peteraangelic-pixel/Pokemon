@@ -1,109 +1,24 @@
 {
-  "run": "016",
-  "note": "LUKA W MOIM WLASNYM PODEJSCIU: wszystkie 404 na dns.pl sprawdzalem WYLACZNIE GET-em. 404 na GET nie dowodzi, ze trasa nie istnieje - moze przyjmowac tylko POST. Rozstrzyga to OPTIONS: nie zmienia stanu, a ujawnia naglowek Allow. Narzedzie ma teraz metody GET/HEAD/OPTIONS z allowlista w kodzie i blokujacym selftestem, ktory dowodzi, ze POST/PUT/PATCH/DELETE sa NIEOSIAGALNE. Drugi nowy kierunek: /api/registrars-countries/{pl,en} zwraca ROZNE ciala (283 vs 276 B), wiec segment sciezki JEST przetwarzany - to realna powierzchnia parametru, ktorej nikt nie tkal.",
+  "run": "017",
+  "rps": 1.0,
+  "note": "POWTORKA po utraconym pomiarze. W runie 016 piec sond parametru sciezki na dns.pl padlo na bledzie transportu ('error sending request'), bo dns.pl zrywa polaczenia po serii ~11 zadan przy 3 req/s. Blad transportu to UTRACONY POMIAR, nie wynik negatywny - wiec nie wolno mi go tak zapisac. Ten przebieg robi wylacznie te piec sond plus kontrole, tempo 1.0 req/s. Ustalenia z runu 016, ktore sa wazne: OPTIONS na dns.pl jest BEZUZYTECZNE (wszystkie 17 sciezek, takze zywe i martwe, zwracaja 200 text/html ~51 KB - Drupalowski front controller polyka OPTIONS), wiec pytanie 'czy martwe trasy istnieja dla POST' pozostaje otwarte na dns.pl. Natomiast na dwoch innych hostach OPTIONS zadzialal: zglos /api/sendForm -> 204 Allow: OPTIONS, POST; science /api/contact -> 405 Allow: POST.",
   "probes": [
     {
-      "id": "opt-dns-stats",
-      "url": "https://dns.pl/api/stats",
-      "method": "OPTIONS",
-      "note": "KLUCZOWE: GET dal 404. OPTIONS z naglowkiem Allow rozstrzyga, czy trasa istnieje dla innej metody"
-    },
-    {
-      "id": "opt-dns-stats-slash",
-      "url": "https://dns.pl/api/stats/",
-      "method": "OPTIONS",
-      "note": "ten sam zasob z ukosnikiem - wariant z literala bundla"
-    },
-    {
-      "id": "opt-dns-registrars-list",
-      "url": "https://dns.pl/api/registrars-list",
-      "method": "OPTIONS",
-      "note": "lista rejestratorow: GET 404, OPTIONS rozstrzyga"
-    },
-    {
-      "id": "opt-dns-domain-browser",
-      "url": "https://dns.pl/api/domain-browser",
-      "method": "OPTIONS",
-      "note": "przegladarka domen dziala w przegladarce, a GET na tym sklada 404 - byc moze POST-only"
-    },
-    {
-      "id": "opt-dns-domain-browser-slash",
-      "url": "https://dns.pl/api/domain-browser/",
-      "method": "OPTIONS",
-      "note": "wariant z ukosnikiem, dokladnie jak w bundlu"
-    },
-    {
-      "id": "opt-dns-funny-name",
-      "url": "https://dns.pl/api/funny-name/",
-      "method": "OPTIONS",
-      "note": "generator nazw: najbardziej 'wejsciowy' z martwych"
-    },
-    {
-      "id": "opt-dns-whois",
-      "url": "https://dns.pl/api/who-is-xml/",
-      "method": "OPTIONS",
-      "note": "WHOIS-xml: najwyzsza wartosc, jesli istnieje dla POST"
-    },
-    {
-      "id": "opt-dns-zone-stats",
-      "url": "https://dns.pl/api/zone-stats",
-      "method": "OPTIONS",
-      "note": "KONTROLA: trasa ZNANA jako zywa - jaki Allow zwraca endpoint, ktory istnieje"
-    },
-    {
-      "id": "opt-dns-registrars-services",
-      "url": "https://dns.pl/api/registrars-services",
-      "method": "OPTIONS",
-      "note": "kontrola druga: zywa trasa"
-    },
-    {
-      "id": "opt-sci-contact",
-      "url": "https://science.nask.pl/api/contact",
-      "method": "OPTIONS",
-      "note": "GET dal 405 {'error':'Method not allowed'}. OPTIONS powinien potwierdzic POST i pokazac Allow"
-    },
-    {
-      "id": "opt-sos-centres",
-      "url": "https://116sos.pl/api/centres",
-      "method": "OPTIONS",
-      "note": "GET dal 401 'Unable to fetch data' - czy to endpoint zapisu?"
-    },
-    {
-      "id": "opt-zglos-sendform",
-      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
-      "method": "OPTIONS",
-      "note": "jedyny znany endpoint zglos: OPTIONS ujawnia Allow i polityke preflight BEZ wysylania POST"
-    },
-    {
-      "id": "opt-preflight-dns",
-      "url": "https://dns.pl/api/zone-stats",
-      "method": "OPTIONS",
-      "headers": { "Origin": "https://zzqx9probe.example" },
-      "note": "PRAWDZIWY PREFLIGHT: dotad testowalem CORS zwyklym GET-em, a to INNA sciezka kodu. Sprawdzam, czy serwer odbija dowolny Origin w Access-Control-Allow-Origin"
-    },
-    {
-      "id": "opt-preflight-sci",
-      "url": "https://science.nask.pl/api/contact",
-      "method": "OPTIONS",
-      "headers": { "Origin": "https://zzqx9probe.example" },
-      "note": "preflight na drugim hoscie: odbicie Origin + Allow-Methods + Allow-Credentials"
-    },
-    {
-      "id": "dns-countries-baseline",
+      "id": "dns-countries-pl-control",
       "url": "https://dns.pl/api/registrars-countries/pl",
       "snippet": true,
-      "note": "KONTROLA dla testu parametru sciezki: znane 200 JSON 283 B"
+      "note": "KONTROLA: znane 200 JSON 283 B. Musi byc PIERWSZE, zanim cokolwiek zdazy ograniczyc ruch"
     },
     {
-      "id": "dns-countries-unknown",
+      "id": "dns-countries-pl-unknown",
       "url": "https://dns.pl/api/registrars-countries/zzqx9",
       "snippet": true,
-      "note": "segment nieznany: czy serwer waliduje wartosc, czy przetwarza dowolny ciag"
+      "note": "segment nieznany: czy serwer przetwarza dowolny ciag, czy waliduje wartosc"
     },
     {
       "id": "dns-countries-upper",
       "url": "https://dns.pl/api/registrars-countries/PL",
-      "note": "wielkie litery: rozroznia porownanie scisle od nietnaleznosci"
+      "note": "wielkie litery: porownanie scisle kontra niewrazliwe na wielkosc"
     },
     {
       "id": "dns-countries-quote",
@@ -114,7 +29,7 @@
       "id": "dns-countries-dotdot",
       "url": "https://dns.pl/api/registrars-countries/..%2f..%2fzone-stats",
       "snippet": true,
-      "note": "zakodowany traversal w segmencie: czy dekodowanie nastepuje przed routingiem. Cel nieszkodliwy (istniejaca trasa)"
+      "note": "zakodowany traversal w segmencie: czy dekodowanie nastepuje przed routingiem. Cel nieszkodliwy, istniejaca trasa"
     },
     {
       "id": "dns-countries-empty",
@@ -122,16 +37,20 @@
       "note": "brak segmentu: zachowanie domyslne trasy"
     },
     {
+      "id": "dns-countries-en-control",
+      "url": "https://dns.pl/api/registrars-countries/en",
+      "note": "KONTROLA druga: znane 200 JSON 276 B, rozne od /pl - dowod, ze segment jest przetwarzany"
+    },
+    {
+      "id": "dns-zone-stats-control",
+      "url": "https://dns.pl/api/zone-stats",
+      "note": "KONTROLA trzecia: znane 200 JSON 11759 B - potwierdza, ze host jeszcze odpowiada na koniec przebiegu"
+    },
+    {
       "id": "head-dns-zone-stats",
       "url": "https://dns.pl/api/zone-stats",
       "method": "HEAD",
-      "note": "HEAD: naglowki bez ciala - ujawnia serwer, cache, ETag"
-    },
-    {
-      "id": "head-sos-root",
-      "url": "https://116sos.pl/",
-      "method": "HEAD",
-      "note": "HEAD na stronie glownej 116sos: naglowki infrastruktury"
+      "note": "HEAD na zywej trasie: naglowki bez ciala (serwer, cache, ETag). Na koncu, zeby nie zabrac budzetu sondom GET"
     }
   ]
 }
