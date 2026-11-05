@@ -1,94 +1,137 @@
 {
-  "run": "015",
-  "note": "WZORZEC Z RUNU 014b na dns.pl: WSZYSTKIE trzy dzialajace trasy nie mialy ukosnika koncowego (/api/zone-stats -> 200 JSON 11759 B, /api/registrars-services -> 200 JSON, /api/registrars-countries/pl -> 200 JSON), a WSZYSTKIE piec, ktore daly 404, mialy ukosnik (/api/stats/, /api/registrars-list/, /api/domain-browser/, /api/funny-name/, /api/who-is-xml/). To jeden wzorzec na piec przypadkach, nie przypadek - powtorka bez ukosnika jest tania i rozstrzyga. Jesli dziala, dostajemy WHOIS-xml i przegladarke domen na TIER 1.",
+  "run": "016",
+  "note": "LUKA W MOIM WLASNYM PODEJSCIU: wszystkie 404 na dns.pl sprawdzalem WYLACZNIE GET-em. 404 na GET nie dowodzi, ze trasa nie istnieje - moze przyjmowac tylko POST. Rozstrzyga to OPTIONS: nie zmienia stanu, a ujawnia naglowek Allow. Narzedzie ma teraz metody GET/HEAD/OPTIONS z allowlista w kodzie i blokujacym selftestem, ktory dowodzi, ze POST/PUT/PATCH/DELETE sa NIEOSIAGALNE. Drugi nowy kierunek: /api/registrars-countries/{pl,en} zwraca ROZNE ciala (283 vs 276 B), wiec segment sciezki JEST przetwarzany - to realna powierzchnia parametru, ktorej nikt nie tkal.",
   "probes": [
     {
-      "id": "dns-stats-noslash",
+      "id": "opt-dns-stats",
       "url": "https://dns.pl/api/stats",
-      "snippet": true,
-      "note": "ten sam zasob bez ukosnika koncowego - test wzorca"
+      "method": "OPTIONS",
+      "note": "KLUCZOWE: GET dal 404. OPTIONS z naglowkiem Allow rozstrzyga, czy trasa istnieje dla innej metody"
     },
     {
-      "id": "dns-registrars-list-noslash",
+      "id": "opt-dns-stats-slash",
+      "url": "https://dns.pl/api/stats/",
+      "method": "OPTIONS",
+      "note": "ten sam zasob z ukosnikiem - wariant z literala bundla"
+    },
+    {
+      "id": "opt-dns-registrars-list",
       "url": "https://dns.pl/api/registrars-list",
-      "snippet": true,
-      "note": "lista rejestratorow bez ukosnika: dane publiczne, ale sprawdzic schemat (pola kontaktowe?)"
+      "method": "OPTIONS",
+      "note": "lista rejestratorow: GET 404, OPTIONS rozstrzyga"
     },
     {
-      "id": "dns-domain-browser-noslash",
+      "id": "opt-dns-domain-browser",
       "url": "https://dns.pl/api/domain-browser",
-      "snippet": true,
-      "note": "przegladarka domen bez ukosnika: NAJWIEKSZY kandydat na parametry"
+      "method": "OPTIONS",
+      "note": "przegladarka domen dziala w przegladarce, a GET na tym sklada 404 - byc moze POST-only"
     },
     {
-      "id": "dns-funny-name-noslash",
-      "url": "https://dns.pl/api/funny-name",
-      "snippet": true,
-      "note": "generator nazw bez ukosnika"
+      "id": "opt-dns-domain-browser-slash",
+      "url": "https://dns.pl/api/domain-browser/",
+      "method": "OPTIONS",
+      "note": "wariant z ukosnikiem, dokladnie jak w bundlu"
     },
     {
-      "id": "dns-whois-noslash",
-      "url": "https://dns.pl/api/who-is-xml",
-      "snippet": true,
-      "note": "WHOIS-xml bez ukosnika: rozstrzyga, czy trasa istnieje"
+      "id": "opt-dns-funny-name",
+      "url": "https://dns.pl/api/funny-name/",
+      "method": "OPTIONS",
+      "note": "generator nazw: najbardziej 'wejsciowy' z martwych"
     },
     {
-      "id": "dns-whois-domain-valid",
-      "url": "https://dns.pl/api/who-is-xml?domain=nask.pl",
-      "snippet": true,
-      "note": "WHOIS dla domeny, ktorej dane sa i tak publiczne (whois nask.pl). Kontrola poprawna: pokazuje format"
+      "id": "opt-dns-whois",
+      "url": "https://dns.pl/api/who-is-xml/",
+      "method": "OPTIONS",
+      "note": "WHOIS-xml: najwyzsza wartosc, jesli istnieje dla POST"
     },
     {
-      "id": "dns-whois-domain-missing",
-      "url": "https://dns.pl/api/who-is-xml?domain=zzqx9probe-nieistnieje.pl",
-      "note": "domena nieistniejaca: rozroznia obsluge bledu od pustej odpowiedzi"
+      "id": "opt-dns-zone-stats",
+      "url": "https://dns.pl/api/zone-stats",
+      "method": "OPTIONS",
+      "note": "KONTROLA: trasa ZNANA jako zywa - jaki Allow zwraca endpoint, ktory istnieje"
     },
     {
-      "id": "dns-whois-domain-quote",
-      "url": "https://dns.pl/api/who-is-xml?domain=zzqx9%27",
-      "note": "apostrof w parametrze domeny: minimalna sonda bledu SQL, tylko odczyt. WAF moze przerwac - to tez wynik"
+      "id": "opt-dns-registrars-services",
+      "url": "https://dns.pl/api/registrars-services",
+      "method": "OPTIONS",
+      "note": "kontrola druga: zywa trasa"
     },
     {
-      "id": "dns-whois-param-alt",
-      "url": "https://dns.pl/api/who-is-xml?name=nask.pl",
-      "note": "nazwa parametru moze byc inna (name/domena/q): rozstrzyga kontrakt bez zgadywania wartosci"
+      "id": "opt-sci-contact",
+      "url": "https://science.nask.pl/api/contact",
+      "method": "OPTIONS",
+      "note": "GET dal 405 {'error':'Method not allowed'}. OPTIONS powinien potwierdzic POST i pokazac Allow"
     },
     {
-      "id": "dns-browser-letter",
-      "url": "https://dns.pl/api/domain-browser?letter=a",
-      "note": "czy lista przyjmuje parametr (rozmiar vs wersja bez parametru)"
+      "id": "opt-sos-centres",
+      "url": "https://116sos.pl/api/centres",
+      "method": "OPTIONS",
+      "note": "GET dal 401 'Unable to fetch data' - czy to endpoint zapisu?"
     },
     {
-      "id": "dns-funny-name-param",
-      "url": "https://dns.pl/api/funny-name?name=zzqx9probe",
-      "note": "czy generator przyjmuje dane wejsciowe - jesli tak, to powierzchnia odbicia do HTML/JSON"
+      "id": "opt-zglos-sendform",
+      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
+      "method": "OPTIONS",
+      "note": "jedyny znany endpoint zglos: OPTIONS ujawnia Allow i polityke preflight BEZ wysylania POST"
     },
     {
-      "id": "dns-zone-stats-param",
-      "url": "https://dns.pl/api/zone-stats?lang=en",
-      "note": "czy statystyki honoruja parametr (porownanie z 11759 B / sha e0cd791d)"
+      "id": "opt-preflight-dns",
+      "url": "https://dns.pl/api/zone-stats",
+      "method": "OPTIONS",
+      "headers": { "Origin": "https://zzqx9probe.example" },
+      "note": "PRAWDZIWY PREFLIGHT: dotad testowalem CORS zwyklym GET-em, a to INNA sciezka kodu. Sprawdzam, czy serwer odbija dowolny Origin w Access-Control-Allow-Origin"
     },
     {
-      "id": "dns-count-deleted-body",
-      "url": "https://dns.pl/api/count-deleted-domains",
-      "snippet": true,
-      "note": "run 014b: 200 ale text/html 17 B - anomalia (API zwracajace 17 bajtow HTML). Czytam tresc"
+      "id": "opt-preflight-sci",
+      "url": "https://science.nask.pl/api/contact",
+      "method": "OPTIONS",
+      "headers": { "Origin": "https://zzqx9probe.example" },
+      "note": "preflight na drugim hoscie: odbicie Origin + Allow-Methods + Allow-Credentials"
     },
     {
-      "id": "dns-registrars-countries-body",
+      "id": "dns-countries-baseline",
       "url": "https://dns.pl/api/registrars-countries/pl",
       "snippet": true,
-      "note": "283 B JSON: czy zawiera dane kontaktowe rejestratorow (kandydat na dane osobowe)"
+      "note": "KONTROLA dla testu parametru sciezki: znane 200 JSON 283 B"
     },
     {
-      "id": "sci-node-modules-noslash",
-      "url": "https://science.nask.pl/node_modules",
-      "note": "run 014b: /node_modules/ -> 308 /node_modules. Sprawdzam cel bez ukosnika - czy katalog jest realnie serwowany"
+      "id": "dns-countries-unknown",
+      "url": "https://dns.pl/api/registrars-countries/zzqx9",
+      "snippet": true,
+      "note": "segment nieznany: czy serwer waliduje wartosc, czy przetwarza dowolny ciag"
     },
     {
-      "id": "sos-og-invalid-vs-valid",
-      "url": "https://116sos.pl/api/og-image?imageId=18651",
-      "note": "id sasiedni do poprawnego 18650: rozstrzyga, czy NUMERY SA SEKWENCYJNE (wtedy mozna enumerowac) czy obraz jest generowany dla kazdej liczby"
+      "id": "dns-countries-upper",
+      "url": "https://dns.pl/api/registrars-countries/PL",
+      "note": "wielkie litery: rozroznia porownanie scisle od nietnaleznosci"
+    },
+    {
+      "id": "dns-countries-quote",
+      "url": "https://dns.pl/api/registrars-countries/pl%27",
+      "note": "apostrof w segmencie sciezki: minimalna sonda bledu zapytania, tylko odczyt"
+    },
+    {
+      "id": "dns-countries-dotdot",
+      "url": "https://dns.pl/api/registrars-countries/..%2f..%2fzone-stats",
+      "snippet": true,
+      "note": "zakodowany traversal w segmencie: czy dekodowanie nastepuje przed routingiem. Cel nieszkodliwy (istniejaca trasa)"
+    },
+    {
+      "id": "dns-countries-empty",
+      "url": "https://dns.pl/api/registrars-countries/",
+      "note": "brak segmentu: zachowanie domyslne trasy"
+    },
+    {
+      "id": "head-dns-zone-stats",
+      "url": "https://dns.pl/api/zone-stats",
+      "method": "HEAD",
+      "note": "HEAD: naglowki bez ciala - ujawnia serwer, cache, ETag"
+    },
+    {
+      "id": "head-sos-root",
+      "url": "https://116sos.pl/",
+      "method": "HEAD",
+      "note": "HEAD na stronie glownej 116sos: naglowki infrastruktury"
     }
   ]
 }

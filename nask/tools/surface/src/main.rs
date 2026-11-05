@@ -190,6 +190,19 @@ fn cmd_selftest() -> Result<(), String> {
     assert_eq!(resolve_same_origin("nask.pl", "https://cdn.example/x.js"), None);
     assert_eq!(resolve_same_origin("nask.pl", "mailto:a@b"), None);
 
+    println!("selftest: write methods are unreachable");
+    // The programme forbids changing state, so this must be a property of the
+    // binary, not of my memory. A 404 to GET can also mean "POST-only route",
+    // which is why OPTIONS exists here and POST still does not.
+    assert_eq!(probe::ALLOWED_METHODS, ["GET", "HEAD", "OPTIONS"]);
+    for forbidden in ["POST", "PUT", "PATCH", "DELETE", "TRACE", "CONNECT"] {
+        assert!(
+            !probe::ALLOWED_METHODS.contains(&forbidden),
+            "{forbidden} must never be sendable"
+        );
+    }
+    println!("  ok: POST/PUT/PATCH/DELETE/TRACE/CONNECT cannot be expressed in a plan");
+
     println!("selftest: normalized digests (dns.pl reflected path)");
     // dns.pl answers an unknown path with the home page and echoes that path in
     // a skip-link anchor. Both sides must collapse, or every probe looks novel.

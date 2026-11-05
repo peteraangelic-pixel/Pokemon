@@ -63,11 +63,21 @@ fn safe_snippet(bytes: &[u8], limit: usize) -> String {
 
 
 /// One request, fully measured. Reused for the original probe and for the single
+/// Methods this tool may ever send.
+///
+/// Deliberately closed: GET, HEAD and OPTIONS only. POST/PUT/PATCH/DELETE are
+/// unreachable by construction, not by discipline, because every one of them
+/// can create or mutate state on someone else's production system. A 404 to GET
+/// does NOT prove a route is absent - it may be POST-only - and OPTIONS answers
+/// that question without changing anything.
+pub const ALLOWED_METHODS: [&str; 3] = ["GET", "HEAD", "OPTIONS"];
+
 /// same-origin redirect hop.
 fn measure(
     client: &reqwest::blocking::Client,
     limiter: &crate::scope::Limiter,
     url: &str,
+    method: &str,
     sent_origin: &str,
     cookie: &str,
     reflect: &str,
@@ -76,7 +86,14 @@ fn measure(
 ) -> Value {
     limiter.acquire();
     let t0 = Instant::now();
-    let mut req = client.get(url);
+    // Anything outside the allowlist degrades to GET; the caller rejects such a
+    // plan before it reaches the network.
+    let verb = match method {
+        "HEAD" => reqwest::Method::HEAD,
+        "OPTIONS" => reqwest::Method::OPTIONS,
+        _ => reqwest::Method::GET,
+    };
+    let mut req = client.request(verb, url);
     if !sent_origin.is_empty() {
         req = req.header("Origin", sent_origin);
     }
@@ -101,6 +118,8 @@ fn measure(
     let disp = hdr("content-disposition");
     let location = hdr("location");
     let acao = hdr("access-control-allow-origin");
+    let allow = hdr("allow");
+    let allow_methods = hdr("access-control-allow-methods");
     let acac = hdr("access-control-allow-credentials");
     let body = resp.bytes().unwrap_or_default();
     let digest = sha256_hex(&body);
@@ -150,6 +169,9 @@ fn measure(
         "location": location,
         "acao": acao,
         "acac": acac,
+        "method": method,
+        "allow": allow,
+        "allow_methods": allow_methods,
         "cors_reflected": cors_reflected,
         "cors_wildcard_with_credentials": cors_wildcard_with_creds,
         "bytes": body.len(),
@@ -241,8 +263,22 @@ pub fn run_probes(
 
             let reflect = p.get("reflect").and_then(|v| v.as_str()).unwrap_or("");
             let cookie = p.get("cookie").and_then(|v| v.as_str()).unwrap_or("");
+            let method = p
+                .get("method")
+                .and_then(|v| v.as_str())
+                .unwrap_or("GET")
+                .to_ascii_uppercase();
+            if !ALLOWED_METHODS.contains(&method.as_str()) {
+                return ProbeResult {
+                    value: json!({
+                        "id": id, "url": url, "note": note,
+                        "error": format!("method {method} is not permitted; allowed: GET, HEAD, OPTIONS"),
+                    }),
+                };
+            }
             let mut first = measure(
-                client, limiter, url, &sent_origin, cookie, reflect, &baselines, want_snippet,
+                client, limiter, url, &method, &sent_origin, cookie, reflect, &baselines,
+                want_snippet,
             );
 
             // Server frameworks commonly answer a canonical path with 308 to the
@@ -278,8 +314,8 @@ pub fn run_probes(
                             ""
                         };
                         let hop = measure(
-                            client, limiter, &t, &sent_origin, hop_cookie, reflect, &baselines,
-                            want_snippet,
+                            client, limiter, &t, &method, &sent_origin, hop_cookie, reflect,
+                            &baselines, want_snippet,
                         );
                         followed = Some(hop);
                     }
