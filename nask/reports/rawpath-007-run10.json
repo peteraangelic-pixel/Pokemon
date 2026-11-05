@@ -1,0 +1,1170 @@
+{
+  "schema_version": 1,
+  "dry_run": false,
+  "rps_requested": 1.0,
+  "min_observed_gap_s": 1.0,
+  "wall_seconds": 21.37,
+  "count": 22,
+  "summary": {
+    "count": 22,
+    "verdicts": {
+      "not-found": 8,
+      "json-response": 6,
+      "html-page": 4,
+      "method-not-allowed-route-exists": 1,
+      "other-200": 1,
+      "redirect-not-followed": 1,
+      "status-400": 1
+    },
+    "candidates": [],
+    "transport_errors": [],
+    "out_of_scope_refusals": []
+  },
+  "identical_bodies": [
+    {
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "identical_bodies": [
+        "hive-K21-api-project-conversation:/api/v1/projects/test/conversation/1",
+        "hive-K22-api-annotators:/api/v1/annotators"
+      ]
+    },
+    {
+      "sha256": "78516d89b48fb30227e87bb0512f923af45af322a5cd4bca97d4d8d57362d106",
+      "identical_bodies": [
+        "pllum-K19-content-query-preview:/api/_content/query?preview=test-123",
+        "pllum-K20-content-query-plain:/api/_content/query"
+      ]
+    }
+  ],
+  "note": "Werdykt wynika z typu/rozmiaru/znacznikow, nie z samego kodu. CANDIDATE-* wymaga recznego potwierdzenia przez czlowieka przed jakimkolwiek zgloszeniem; tresci wrazliwe nie sa zapisywane.",
+  "probes": [
+    {
+      "id": "dns-K01-token-repeat",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 712,
+      "bytes_read": 40919,
+      "sha256": "c1f59cc6eac6a40e03ae1d461b1ba2ccd8d68990ea3ad3b97f99f0f675bf42da",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40919"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K01-token-repeat.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/who-is-xml/?domain=nask.pl",
+      "why": "ROZSTRZYGNIENCIE kandydata z run9 (dns-J11: generic_assignment, 111 znakow, entropia 5.5, odcisk b2c856bd7b5c) — powtorzenie DOKLADNIE tego samego zadania. Jesli odcisk sie ZMIENI miedzy probami = token na-zadanie (nonce/CSRF/transid) = informacja bez wartosci (wykluczone §8). Jesli odcisk jest STABILNY w 3 probach = staly literał w stronie = kandydat klasy 1 (poswiadczenia), Tier 1. Powtorzenie 1/2."
+    },
+    {
+      "id": "dns-K02-token-repeat",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 707,
+      "bytes_read": 40920,
+      "sha256": "912ed85eb7a9c792d0a1018efee1f3570c1b4b9f882cbc093ad7cd11144d436b",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40920"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K02-token-repeat.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/who-is-xml/?domain=nask.pl",
+      "why": "ROZSTRZYGNIENCIE kandydata z run9 (dns-J11: generic_assignment, 111 znakow, entropia 5.5, odcisk b2c856bd7b5c) — powtorzenie DOKLADNIE tego samego zadania. Jesli odcisk sie ZMIENI miedzy probami = token na-zadanie (nonce/CSRF/transid) = informacja bez wartosci (wykluczone §8). Jesli odcisk jest STABILNY w 3 probach = staly literał w stronie = kandydat klasy 1 (poswiadczenia), Tier 1. Powtorzenie 2/2."
+    },
+    {
+      "id": "dns-K03-token-other-value",
+      "url": "https://dns.pl/api/who-is-xml/?domain=przyklad-test-xyz-987.pl",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 811,
+      "bytes_read": 40926,
+      "sha256": "e6a7677aa6181ccd61ff77871641b7456a8f542b1d1f75c1375d7f8ac5a51473",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40926"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K03-token-other-value.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/who-is-xml/?domain=przyklad-test-xyz-987.pl",
+      "why": "KONTROLA dla K01/K02: ta sama sciezka, INNA wartosc parametru. Rozroznia 'token zalezy od zadania/odpowiedzi' od 'token jest w szablonie strony'. Bez tego stabilny odcisk nic nie znaczy."
+    },
+    {
+      "id": "dns-K04-token-home-repeat",
+      "url": "https://dns.pl/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 866,
+      "bytes_read": 51127,
+      "sha256": "0be8117289ccaebb2ed8078e53da899fce655d4674de559d5218c2b9f9118a75",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51127"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K04-token-home-repeat.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/",
+      "why": "KONTROLA B: strona glowna powtorzona (run9 dns-J00 = 0 sekretow). Jesli tu token sie pojawi, a w run9 nie — token jest wstrzykiwany losowo/zaleznie od cache (s-maxage=300), czyli to artefakt warstwy brzegowej, nie znalezisko."
+    },
+    {
+      "id": "dns-K05-token-content-page",
+      "url": "https://dns.pl/statystyki/liczba_aktywnych_IDN",
+      "status": 200,
+      "reason": "OK",
+      "ms": 562,
+      "bytes_read": 42289,
+      "sha256": "ff4b731ae78b23093636bddfc54de48720948e0b48551e9ced6e449cfc893e81",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "42289"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K05-token-content-page.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/statystyki/liczba_aktywnych_IDN",
+      "why": "KONTROLA C (dodatnia): mapa galezi 7911f950 (analysis-run003.json) ma dla ~100 stron dns.pl trafienie `Token = '<~110 znakow>'` w `sensitive_comment_hits` — czyli token jest elementem SZABLONU strony 200. To rozstrzyga, czy kandydat z run9 to ten sam mechanizm (publiczny, na-zadanie) — a wtedy zamykamy go jako niewyplacalny i nie marnujemy zgloszenia."
+    },
+    {
+      "id": "dns-K06-live-endpoint-with-crlf",
+      "url": "https://dns.pl/api/zone-stats?x=%0D%0A",
+      "status": 200,
+      "reason": "OK",
+      "ms": 716,
+      "bytes_read": 51225,
+      "sha256": "0a04f1ebe325f42c2460b62e517a99f070ae28d7952a6fc37c38079ffce0e485",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51225"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.<script type=\"text/javascript\">.  var _event_transid='2072802802';.</script>..    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-w",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K06-live-endpoint-with-crlf.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/api/zone-stats?x=%0D%0A",
+      "why": "DECYDUJACA proba mechanizmu: ZYWY endpoint (run9 dns-J01 = 200 application/json 11 761 B) z doklejonym wzorcem ataku w query. Jesli zamiast JSON wróci strona glowna z _event_transid (51 2xx B) = przechwycenie nastepuje PRZED routingiem (warstwa brzegowa/monitoring), a nie w aplikacji ⇒ hipoteza SSRF na /api/stats/ jest MARTWA z mechanizmem, a kazdy przyszly '200 na dns.pl' trzeba czytac jako 'zadanie oflagowane'."
+    },
+    {
+      "id": "dns-K07-live-endpoint-benign",
+      "url": "https://dns.pl/api/zone-stats?x=1",
+      "status": 200,
+      "reason": "OK",
+      "ms": 423,
+      "bytes_read": 11761,
+      "sha256": "ac71bbf84fe74f813b9af49795c4fc8c82e0cfc7905dde4f96f44d161d9ef8a6",
+      "content_type": "application/json",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "no-cache, private",
+        "content-type": "application/json",
+        "content-length": "11761"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "errors",
+          "lang",
+          "stats",
+          "stats.day",
+          "stats.rows",
+          "stats.time"
+        ],
+        "key_count": 6,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"errors\":{},\"lang\":\"pl\",\"stats\":{\"time\":\"2026-11-05 12:50 CET\",\"day\":\"2026-11-04\",\"rows\":[[\"\",\"suma\",\"2757995\",\"100.00 %\",\"6510248\",\"100.00 %\",\"2.36\",\"+1467\",\"+7614\",\"+27206\",\"+192512\"],[1,\"pl\",\"2317",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K07-live-endpoint-benign.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/zone-stats?x=1",
+      "why": "KONTROLA D dla K06: ten sam zywy endpoint, nieszkodliwy parametr. Musi dac 200 JSON 11 761 B — bez tego K06 nie rozstrzyga niczego (zasada: sonda bez kontroli w tym samym przebiegu nie jest sonda)."
+    },
+    {
+      "id": "dns-K08-nonexistent-with-external-url",
+      "url": "https://dns.pl/api/nie-istnieje-xyz-123?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "status": 200,
+      "reason": "OK",
+      "ms": 614,
+      "bytes_read": 51204,
+      "sha256": "cb72175caaec9ceb8e822fd34462d3096adc9e2b4956350f2a28a47306590f05",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51204"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.<script type=\"text/javascript\">.  var _event_transid='2072802803';.</script>..    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-w",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K08-nonexistent-with-external-url.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/api/nie-istnieje-xyz-123?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "why": "KONTROLA E: sciezka NIEISTNIEJACA + wzorzec URL-a zewnetrznego w query. Jesli 200 + strona glowna (jak run9 dns-J06) ⇒ o kodzie 200 decyduje WZORZEC W QUERY, nie sciezka i nie endpoint ⇒ run9 J06/J10 to artefakty przechwycenia, nie zachowanie /api/stats/ czy /api/who-is-xml/."
+    },
+    {
+      "id": "dns-K09-nonexistent-plain",
+      "url": "https://dns.pl/api/nie-istnieje-xyz-123",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 710,
+      "bytes_read": 40911,
+      "sha256": "c9a3ceb2763ccd5cb460276c6ee64b585b0d38ee3164981690915d541fe71a40",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40911"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-K09-nonexistent-plain.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/nie-istnieje-xyz-123",
+      "why": "KONTROLA F dla K08: ta sama nieistniejaca sciezka bez query ⇒ oczekiwane 404 (40 9xx B, Drupal), jak wszystkie /api/* z run9 oprocz zone-stats i count-deleted-domains."
+    },
+    {
+      "id": "sci-K10-search-min-length",
+      "url": "https://science.nask.pl/api/search?query=aaa",
+      "status": 200,
+      "reason": "OK",
+      "ms": 909,
+      "bytes_read": 1790,
+      "sha256": "7ea38d36e1a91befb8f12a17ab1094634255da442e68c2bdbc04d73f4b119724",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "1790",
+        "etag": "\"t7xsg9n3791dp\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "lastPage",
+          "page",
+          "pageData",
+          "pageData[].description",
+          "pageData[].id",
+          "pageData[].imageUrl",
+          "pageData[].imageUrl.ID",
+          "pageData[].imageUrl.alt",
+          "pageData[].imageUrl.author",
+          "pageData[].imageUrl.caption",
+          "pageData[].imageUrl.date",
+          "pageData[].imageUrl.description",
+          "pageData[].imageUrl.filename",
+          "pageData[].imageUrl.filesize",
+          "pageData[].imageUrl.height",
+          "pageData[].imageUrl.icon",
+          "pageData[].imageUrl.id",
+          "pageData[].imageUrl.link",
+          "pageData[].imageUrl.menu_order",
+          "pageData[].imageUrl.mime_type",
+          "pageData[].imageUrl.modified",
+          "pageData[].imageUrl.name",
+          "pageData[].imageUrl.sizes",
+          "pageData[].imageUrl.status",
+          "pageData[].imageUrl.subtype",
+          "pageData[].imageUrl.title",
+          "pageData[].imageUrl.type",
+          "pageData[].imageUrl.uploaded_to",
+          "pageData[].imageUrl.url",
+          "pageData[].imageUrl.width",
+          "pageData[].title",
+          "pageData[].type",
+          "pageData[].typeName",
+          "perPage"
+        ],
+        "key_count": 34,
+        "personal_like": [
+          "pageData[].description",
+          "pageData[].id",
+          "pageData[].imageUrl.ID",
+          "pageData[].imageUrl.description",
+          "pageData[].imageUrl.filename",
+          "pageData[].imageUrl.id",
+          "pageData[].imageUrl.name",
+          "pageData[].typeName"
+        ]
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"pageData\":[{\"id\":13276,\"title\":\"Mgr in... Arkadiusz Modzelewski\",\"description\":\"\",\"typeName\":\"Osoba\",\"imageUrl\":{\"ID\":13360,\"id\":13360,\"title\":\"AM_profilowe\",\"filename\":\"AM_profilowe-e1761123641865.",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-K10-search-min-length.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/search?query=aaa",
+      "why": "Run9 dowiódł, ze /api/search istnieje i wymaga `query` >= 3 znaki (400 {\"error\":\"Query must be at least 3 characters\"}, identyczny sha256 dla 3 wariantow parametru = dowod z grupy kontrolnej). Tu: minimalne zapytanie ⇒ `page`/`lastPage` z odpowiedzi mowi, jak duzy jest indeks i czy paginacja jest po stronie serwera."
+    },
+    {
+      "id": "sci-K11-search-page2",
+      "url": "https://science.nask.pl/api/search?query=hive&page=2",
+      "status": 200,
+      "reason": "OK",
+      "ms": 735,
+      "bytes_read": 49,
+      "sha256": "96e5f3a28fd3d66209d0d82e76308935c2e0098cde27666d77ab5b0b8573a9e5",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "49",
+        "etag": "\"zab4hwfsv91d\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "lastPage",
+          "page",
+          "pageData",
+          "perPage"
+        ],
+        "key_count": 4,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"pageData\":[],\"page\":0,\"perPage\":0,\"lastPage\":0}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-K11-search-page2.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/search?query=hive&page=2",
+      "why": "Czy `page` jest honorowany (inna tresc/`page` w odpowiedzi) — bez tego nie wiemy, czy indeks daje sie wyliczac strona po stronie."
+    },
+    {
+      "id": "sci-K12-search-perpage",
+      "url": "https://science.nask.pl/api/search?query=hive&perPage=100",
+      "status": 400,
+      "reason": "Bad Request",
+      "ms": 428,
+      "bytes_read": 30,
+      "sha256": "aa333d65e77cf83710a55831348bdbb383aa9f0afb4a31e539dc144f28a5f26e",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "30",
+        "etag": "\"14eh9a34ydwu\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "error"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"error\":\"Invalid pagination\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-K12-search-perpage.json",
+      "error": null,
+      "verdict": "status-400",
+      "raw_path": "/api/search?query=hive&perPage=100",
+      "why": "Czy rozmiar strony jest kontrolowany przez klienta (`perPage` to realna nazwa z bundli 116sos/science). Jesli tak i brak gornego limitu = masowy odczyt w jednym zadaniu — ale UWAGA: masowy odczyt TRESCI PUBLICZNYCH nie jest klasa 3. Rozstrzyga dopiero K13."
+    },
+    {
+      "id": "sci-K13-search-post-status-draft",
+      "url": "https://science.nask.pl/api/search?query=hive&post_status=draft",
+      "status": 200,
+      "reason": "OK",
+      "ms": 764,
+      "bytes_read": 2121,
+      "sha256": "b4c9ddfdb2050eb6b2a2384c34ae9d9fb00786934d802401326853d29a3cb4af",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "2121",
+        "etag": "\"hnk1bx9tol1mq\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "lastPage",
+          "page",
+          "pageData",
+          "pageData[].description",
+          "pageData[].id",
+          "pageData[].imageUrl",
+          "pageData[].imageUrl.ID",
+          "pageData[].imageUrl.alt",
+          "pageData[].imageUrl.author",
+          "pageData[].imageUrl.caption",
+          "pageData[].imageUrl.date",
+          "pageData[].imageUrl.description",
+          "pageData[].imageUrl.filename",
+          "pageData[].imageUrl.filesize",
+          "pageData[].imageUrl.height",
+          "pageData[].imageUrl.icon",
+          "pageData[].imageUrl.id",
+          "pageData[].imageUrl.link",
+          "pageData[].imageUrl.menu_order",
+          "pageData[].imageUrl.mime_type",
+          "pageData[].imageUrl.modified",
+          "pageData[].imageUrl.name",
+          "pageData[].imageUrl.sizes",
+          "pageData[].imageUrl.status",
+          "pageData[].imageUrl.subtype",
+          "pageData[].imageUrl.title",
+          "pageData[].imageUrl.type",
+          "pageData[].imageUrl.uploaded_to",
+          "pageData[].imageUrl.url",
+          "pageData[].imageUrl.width",
+          "pageData[].title",
+          "pageData[].type",
+          "pageData[].typeName",
+          "perPage"
+        ],
+        "key_count": 34,
+        "personal_like": [
+          "pageData[].description",
+          "pageData[].id",
+          "pageData[].imageUrl.ID",
+          "pageData[].imageUrl.description",
+          "pageData[].imageUrl.filename",
+          "pageData[].imageUrl.id",
+          "pageData[].imageUrl.name",
+          "pageData[].typeName"
+        ]
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"pageData\":[{\"id\":12983,\"title\":\"Rozw..j i pilota..owe wdro..enie du..ych modeli j..zykowych w polskiej administracji publicznej (HIVE AI)\",\"description\":\"Wspieramy cyfryzacj.. polskiej administracji",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-K13-search-post-status-draft.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/search?query=hive&post_status=draft",
+      "why": "DYSTYNKCJA WYPŁACALNOSCI: czy filtr statusu publikacji WordPress jest sterowalny z query (mass assignment na filtrze). Jesli odpowiedz zawiera wpisy o statusie innym niz publish (robocze/prywatne) = klasa 3 (dostep do danych niepublicznych), Tier 2: 2 000-10 000 zl. Jesli odpowiedz IDENTYCZNA z run9 dns... tzn. z sci-J17 (sha b4c9ddfdb2050eb6) = parametr ignorowany, trop zamykamy. Kontrola: sci-J17 z run9 + sci-K10 w tym przebiegu."
+    },
+    {
+      "id": "sci-K14-contact-get",
+      "url": "https://science.nask.pl/api/contact",
+      "status": 405,
+      "reason": "Method Not Allowed",
+      "ms": 557,
+      "bytes_read": 30,
+      "sha256": "a95fc358abdccaedaa897d7b52208a16be222db5273af907da49ea31f40fad0a",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "30",
+        "etag": "\"gz8ozgte0mu\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "error"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"error\":\"Method not allowed\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-K14-contact-get.json",
+      "error": null,
+      "verdict": "method-not-allowed-route-exists",
+      "raw_path": "/api/contact",
+      "why": "Trzeci endpoint z miningu run7 (js-107-science: /api/contact, /api/downloadFile, /api/search). GET na endpoint prawdopodobnie POST-owy: 405 = trasa istnieje (method-not-allowed-route-exists), 404 = nie istnieje. Zero zmiany stanu — nie wysylamy formularza (L15 wymaga GO)."
+    },
+    {
+      "id": "sci-K15-sitemap-control",
+      "url": "https://science.nask.pl/sitemap.xml",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 696,
+      "bytes_read": 17524,
+      "sha256": "29bcb7e940ac57a0fd14d3992179ee4f8e6d9cdb3823a4201a6a1ff4f74cea7e",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "17524",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"vm8yrrp051di5\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><link rel=\"icon\" href=\"/favicon.ico\" data-next-head=",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-K15-sitemap-control.xml",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/sitemap.xml",
+      "why": "KONTROLA G: autorytatywny zbior URL-i OPUBLIKOWANYCH. Bez tego nie da sie rozstrzygnac, czy cokolwiek z /api/search jest niepubliczne: porownanie offline (ID/URL z odpowiedzi API vs sitemap) daje dowod 'API oddaje wiecej niz publikacja' albo zamyka trop."
+    },
+    {
+      "id": "oad-K16-powerbi-chunk",
+      "url": "https://oad.nask.pl/_next/static/chunks/41lk95l8op7nz.js",
+      "status": 200,
+      "reason": "OK",
+      "ms": 735,
+      "bytes_read": 34692,
+      "sha256": "40342c79e0dd4c50b688027da93b139b94498a615ad84e170ee7b3b78bf56759",
+      "content_type": "application/javascript",
+      "headers": {
+        "content-type": "application/javascript; charset=UTF-8",
+        "content-length": "34692",
+        "cache-control": "public, max-age=31536000, immutable",
+        "last-modified": "Wed, 04 Nov 2026 12:46:11 GMT",
+        "etag": "W/\"8784-1a1a6987238\"",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "SOFT404_PL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "(()=>{\"use strict\";(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,74684,e=>{var t=e.i(56073),r=e.i(3781);e.s([\"default\",0,function({pre",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-K16-powerbi-chunk.js",
+      "error": null,
+      "verdict": "other-200",
+      "raw_path": "/_next/static/chunks/41lk95l8op7nz.js",
+      "why": "Chunk, w ktorym jest embed PowerBI (reportId 470044cf-..., ctid 95dc45af-...) i literaly /trendy, /about-us, /news, /media/. Run9 dowiodl, ze /trendy = 404, ale ten chunk jest WCIAZ ladowany przez /wyniki-wyszukiwania (mining run9: oad-J24 paths). Pobranie + nowy ekstraktor `paths`/`hosts` (korekta #44) daje pelny zbior tras tego modulu offline: czy istnieje endpoint generujacy embed-token (klasa 1/3), czy tylko publiczny URL z autoAuth."
+    },
+    {
+      "id": "oad-K17-trendy-en",
+      "url": "https://oad.nask.pl/en/trendy",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 644,
+      "bytes_read": 13814,
+      "sha256": "286f1682796ce4e7e9ec86b99fa838de1ac50e3aca776229d3ddc8e3f4c86666",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "13814",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"nefqlhddicamp\"",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 2
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\" class=\"font-sans _59dTrW_variable ZFv9mW_variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"styleshee",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-K17-trendy-en.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/en/trendy",
+      "why": "Run9: /trendy = 404 (13 814 B, strona 404 Next). Literaly tras w chunku PowerBI sa ANGIELSKIE (/trendy, /about-us, /news), a oad ma /en/search-results ⇒ hipoteza: moduł jest pod prefiksem lokalizacyjnym. Rozstrzygniecie L13 bez pracy usera, jesli 200."
+    },
+    {
+      "id": "oad-K18-trendy-slash",
+      "url": "https://oad.nask.pl/trendy/",
+      "status": 308,
+      "reason": "Permanent Redirect",
+      "ms": 495,
+      "bytes_read": 7,
+      "sha256": "a405e1a403b0040a78e03885ea4d674a1d22e006fa7f3c91560c0cbc3a1eef99",
+      "content_type": null,
+      "headers": {
+        "location": "/trendy",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {},
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "/trendy",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-K18-trendy-slash.bin",
+      "error": null,
+      "verdict": "redirect-not-followed",
+      "raw_path": "/trendy/",
+      "why": "Wariant z ukosnikiem (App Router rozroznia /x i /x/ przy trailingSlash=false). Tania alternatywa dla K17; jesli obie 404 ⇒ trasa nie istnieje i L13 zaweza sie do samego embed-URL-a (do sprawdzenia przez usera w 30 s)."
+    },
+    {
+      "id": "pllum-K19-content-query-preview",
+      "url": "https://pllum.org.pl/api/_content/query?preview=test-123",
+      "status": 200,
+      "reason": "OK",
+      "ms": 859,
+      "bytes_read": 9543,
+      "sha256": "78516d89b48fb30227e87bb0512f923af45af322a5cd4bca97d4d8d57362d106",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "9543",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "DENY",
+        "cache-control": "public, max-age=3600, s-maxage=3600"
+      },
+      "set_cookie_names": [
+        "TiPMix",
+        "x-ms-routing-name"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "[]._dir",
+          "[]._draft",
+          "[]._extension",
+          "[]._file",
+          "[]._id",
+          "[]._locale",
+          "[]._partial",
+          "[]._path",
+          "[]._source",
+          "[]._stem",
+          "[]._type",
+          "[].cc",
+          "[].consortium",
+          "[].consortium.description",
+          "[].consortium.headline",
+          "[].consortium.title",
+          "[].description",
+          "[].efects",
+          "[].efects.description",
+          "[].efects.headline",
+          "[].efects.plans",
+          "[].efects.title",
+          "[].faq",
+          "[].faq.description",
+          "[].faq.headline",
+          "[].faq.items",
+          "[].faq.title",
+          "[].features",
+          "[].features.description",
+          "[].features.headline",
+          "[].features.items",
+          "[].features.title",
+          "[].hero",
+          "[].hero.description",
+          "[].hero.links",
+          "[].hero.title",
+          "[].license",
+          "[].logos",
+          "[].logos.images",
+          "[].logos.title",
+          "[].title",
+          "[].vision",
+          "[].vision.description",
+          "[].vision.headline",
+          "[].vision.items",
+          "[].vision.title"
+        ],
+        "key_count": 46,
+        "personal_like": [
+          "[]._id",
+          "[].consortium.description",
+          "[].description",
+          "[].efects.description",
+          "[].faq.description",
+          "[].features.description",
+          "[].hero.description",
+          "[].vision.description"
+        ]
+      },
+      "secret_marker_hits": 0,
+      "preview": "[{\"_path\":\"/form\",\"_dir\":\"\",\"_draft\":false,\"_partial\":false,\"_locale\":\"\",\"title\":\"PLLuM - Polish Large Language Universal Model\",\"description\":\"Naucz PLLuM m..wi..\",\"hero\":{\"title\":\"Naucz PLLuM m..wi.",
+      "saved_to": "/home/runner/work/_temp/bodies/pllum-K19-content-query-preview.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/_content/query?preview=test-123",
+      "why": "Mapa 7911f950: chunk CI9Gd-qu.js zawiera `getPreviewToken`/`setPreviewToken`/`b().query.preview=n` + sessionStorage ⇒ wlasciwym przelacznikiem wersji roboczych Nuxt Content jest TOKEN preview, nie `_draft=true` (Gemma-B: `_draft=true` → 200, 2 B = []). Token celowo NIEPOPRAWNY (test-123): sprawdzamy, czy odpowiedz ROZNI sie od kontroli K20 (czy parametr w ogole jest przetwarzany). Zero zgadywania prawdziwego tokena."
+    },
+    {
+      "id": "pllum-K20-content-query-plain",
+      "url": "https://pllum.org.pl/api/_content/query",
+      "status": 200,
+      "reason": "OK",
+      "ms": 824,
+      "bytes_read": 9543,
+      "sha256": "78516d89b48fb30227e87bb0512f923af45af322a5cd4bca97d4d8d57362d106",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "9543",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "DENY",
+        "cache-control": "public, max-age=3600, s-maxage=3600"
+      },
+      "set_cookie_names": [
+        "TiPMix",
+        "x-ms-routing-name"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "[]._dir",
+          "[]._draft",
+          "[]._extension",
+          "[]._file",
+          "[]._id",
+          "[]._locale",
+          "[]._partial",
+          "[]._path",
+          "[]._source",
+          "[]._stem",
+          "[]._type",
+          "[].cc",
+          "[].consortium",
+          "[].consortium.description",
+          "[].consortium.headline",
+          "[].consortium.title",
+          "[].description",
+          "[].efects",
+          "[].efects.description",
+          "[].efects.headline",
+          "[].efects.plans",
+          "[].efects.title",
+          "[].faq",
+          "[].faq.description",
+          "[].faq.headline",
+          "[].faq.items",
+          "[].faq.title",
+          "[].features",
+          "[].features.description",
+          "[].features.headline",
+          "[].features.items",
+          "[].features.title",
+          "[].hero",
+          "[].hero.description",
+          "[].hero.links",
+          "[].hero.title",
+          "[].license",
+          "[].logos",
+          "[].logos.images",
+          "[].logos.title",
+          "[].title",
+          "[].vision",
+          "[].vision.description",
+          "[].vision.headline",
+          "[].vision.items",
+          "[].vision.title"
+        ],
+        "key_count": 46,
+        "personal_like": [
+          "[]._id",
+          "[].consortium.description",
+          "[].description",
+          "[].efects.description",
+          "[].faq.description",
+          "[].features.description",
+          "[].hero.description",
+          "[].vision.description"
+        ]
+      },
+      "secret_marker_hits": 0,
+      "preview": "[{\"_path\":\"/form\",\"_dir\":\"\",\"_draft\":false,\"_partial\":false,\"_locale\":\"\",\"title\":\"PLLuM - Polish Large Language Universal Model\",\"description\":\"Naucz PLLuM m..wi..\",\"hero\":{\"title\":\"Naucz PLLuM m..wi.",
+      "saved_to": "/home/runner/work/_temp/bodies/pllum-K20-content-query-plain.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/_content/query",
+      "why": "KONTROLA H dla K19 (ten sam przebieg): ten sam endpoint bez parametru. Identyczny sha256 ⇒ `preview` jest ignorowany ⇒ trop zamykamy; roznica ⇒ mechanizm zywy i wtedy potrzebne jest konto CMS (nie zgadujemy tokenow)."
+    },
+    {
+      "id": "hive-K21-api-project-conversation",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/projects/test/conversation/1",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 379,
+      "bytes_read": 22,
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "22",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "csrf_token"
+      ],
+      "markers": {
+        "SOFT404_PL": 1,
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "detail"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"detail\":\"Not Found\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/hive-K21-api-project-conversation.json",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/v1/projects/test/conversation/1",
+      "why": "Ksztalt API odtworzony offline z bundla 2,77 MB (korekta #44: 71 literałow tras, m.in. /projects/$projectShortName/conversation/$recordId — parametry routera TanStack). Cel: rozroznic 401 (trasa istnieje, wymaga konta) od 404 (nie istnieje) — to jest mapa IDOR-a L1/L2 na moment przyznania konta. ZERO zgadywania ID realnych obiektow: 'test' i '1'."
+    },
+    {
+      "id": "hive-K22-api-annotators",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/annotators",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 364,
+      "bytes_read": 22,
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "content-length": "22",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "csrf_token"
+      ],
+      "markers": {
+        "SOFT404_PL": 1,
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "detail"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"detail\":\"Not Found\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/hive-K22-api-annotators.json",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/v1/annotators",
+      "why": "Druga trasa z bundla (/annotators, /projects/$x/edit/annotators). Znane z run1: /api/v1/users/1 → 405, /api/v1/projects/ → 401, /api/v1/admin/logs → 404, /register → 404. 401 vs 404 rozstrzyga, czy modul annotatorow jest wystawiony (przygotowanie do L1/L2)."
+    }
+  ],
+  "bodies_saved": 22,
+  "bodies_dir": "/home/runner/work/_temp/bodies",
+  "bodies_bytes_total": 460469,
+  "bodies_manifest": [
+    {
+      "id": "dns-K01-token-repeat",
+      "file": "/home/runner/work/_temp/bodies/dns-K01-token-repeat.html",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "bytes": 40919,
+      "sha256": "c1f59cc6eac6a40e03ae1d461b1ba2ccd8d68990ea3ad3b97f99f0f675bf42da",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-K02-token-repeat",
+      "file": "/home/runner/work/_temp/bodies/dns-K02-token-repeat.html",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "bytes": 40920,
+      "sha256": "912ed85eb7a9c792d0a1018efee1f3570c1b4b9f882cbc093ad7cd11144d436b",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-K03-token-other-value",
+      "file": "/home/runner/work/_temp/bodies/dns-K03-token-other-value.html",
+      "url": "https://dns.pl/api/who-is-xml/?domain=przyklad-test-xyz-987.pl",
+      "bytes": 40926,
+      "sha256": "e6a7677aa6181ccd61ff77871641b7456a8f542b1d1f75c1375d7f8ac5a51473",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-K04-token-home-repeat",
+      "file": "/home/runner/work/_temp/bodies/dns-K04-token-home-repeat.html",
+      "url": "https://dns.pl/",
+      "bytes": 51127,
+      "sha256": "0be8117289ccaebb2ed8078e53da899fce655d4674de559d5218c2b9f9118a75",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-K05-token-content-page",
+      "file": "/home/runner/work/_temp/bodies/dns-K05-token-content-page.html",
+      "url": "https://dns.pl/statystyki/liczba_aktywnych_IDN",
+      "bytes": 42289,
+      "sha256": "ff4b731ae78b23093636bddfc54de48720948e0b48551e9ced6e449cfc893e81",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-K06-live-endpoint-with-crlf",
+      "file": "/home/runner/work/_temp/bodies/dns-K06-live-endpoint-with-crlf.html",
+      "url": "https://dns.pl/api/zone-stats?x=%0D%0A",
+      "bytes": 51225,
+      "sha256": "0a04f1ebe325f42c2460b62e517a99f070ae28d7952a6fc37c38079ffce0e485",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-K07-live-endpoint-benign",
+      "file": "/home/runner/work/_temp/bodies/dns-K07-live-endpoint-benign.json",
+      "url": "https://dns.pl/api/zone-stats?x=1",
+      "bytes": 11761,
+      "sha256": "ac71bbf84fe74f813b9af49795c4fc8c82e0cfc7905dde4f96f44d161d9ef8a6",
+      "content_type": "application/json"
+    },
+    {
+      "id": "dns-K08-nonexistent-with-external-url",
+      "file": "/home/runner/work/_temp/bodies/dns-K08-nonexistent-with-external-url.html",
+      "url": "https://dns.pl/api/nie-istnieje-xyz-123?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "bytes": 51204,
+      "sha256": "cb72175caaec9ceb8e822fd34462d3096adc9e2b4956350f2a28a47306590f05",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-K09-nonexistent-plain",
+      "file": "/home/runner/work/_temp/bodies/dns-K09-nonexistent-plain.html",
+      "url": "https://dns.pl/api/nie-istnieje-xyz-123",
+      "bytes": 40911,
+      "sha256": "c9a3ceb2763ccd5cb460276c6ee64b585b0d38ee3164981690915d541fe71a40",
+      "content_type": "text/html"
+    },
+    {
+      "id": "sci-K10-search-min-length",
+      "file": "/home/runner/work/_temp/bodies/sci-K10-search-min-length.json",
+      "url": "https://science.nask.pl/api/search?query=aaa",
+      "bytes": 1790,
+      "sha256": "7ea38d36e1a91befb8f12a17ab1094634255da442e68c2bdbc04d73f4b119724",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-K11-search-page2",
+      "file": "/home/runner/work/_temp/bodies/sci-K11-search-page2.json",
+      "url": "https://science.nask.pl/api/search?query=hive&page=2",
+      "bytes": 49,
+      "sha256": "96e5f3a28fd3d66209d0d82e76308935c2e0098cde27666d77ab5b0b8573a9e5",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-K12-search-perpage",
+      "file": "/home/runner/work/_temp/bodies/sci-K12-search-perpage.json",
+      "url": "https://science.nask.pl/api/search?query=hive&perPage=100",
+      "bytes": 30,
+      "sha256": "aa333d65e77cf83710a55831348bdbb383aa9f0afb4a31e539dc144f28a5f26e",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-K13-search-post-status-draft",
+      "file": "/home/runner/work/_temp/bodies/sci-K13-search-post-status-draft.json",
+      "url": "https://science.nask.pl/api/search?query=hive&post_status=draft",
+      "bytes": 2121,
+      "sha256": "b4c9ddfdb2050eb6b2a2384c34ae9d9fb00786934d802401326853d29a3cb4af",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-K14-contact-get",
+      "file": "/home/runner/work/_temp/bodies/sci-K14-contact-get.json",
+      "url": "https://science.nask.pl/api/contact",
+      "bytes": 30,
+      "sha256": "a95fc358abdccaedaa897d7b52208a16be222db5273af907da49ea31f40fad0a",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-K15-sitemap-control",
+      "file": "/home/runner/work/_temp/bodies/sci-K15-sitemap-control.xml",
+      "url": "https://science.nask.pl/sitemap.xml",
+      "bytes": 17524,
+      "sha256": "29bcb7e940ac57a0fd14d3992179ee4f8e6d9cdb3823a4201a6a1ff4f74cea7e",
+      "content_type": "text/html"
+    },
+    {
+      "id": "oad-K16-powerbi-chunk",
+      "file": "/home/runner/work/_temp/bodies/oad-K16-powerbi-chunk.js",
+      "url": "https://oad.nask.pl/_next/static/chunks/41lk95l8op7nz.js",
+      "bytes": 34692,
+      "sha256": "40342c79e0dd4c50b688027da93b139b94498a615ad84e170ee7b3b78bf56759",
+      "content_type": "application/javascript"
+    },
+    {
+      "id": "oad-K17-trendy-en",
+      "file": "/home/runner/work/_temp/bodies/oad-K17-trendy-en.html",
+      "url": "https://oad.nask.pl/en/trendy",
+      "bytes": 13814,
+      "sha256": "286f1682796ce4e7e9ec86b99fa838de1ac50e3aca776229d3ddc8e3f4c86666",
+      "content_type": "text/html"
+    },
+    {
+      "id": "oad-K18-trendy-slash",
+      "file": "/home/runner/work/_temp/bodies/oad-K18-trendy-slash.bin",
+      "url": "https://oad.nask.pl/trendy/",
+      "bytes": 7,
+      "sha256": "a405e1a403b0040a78e03885ea4d674a1d22e006fa7f3c91560c0cbc3a1eef99",
+      "content_type": null
+    },
+    {
+      "id": "pllum-K19-content-query-preview",
+      "file": "/home/runner/work/_temp/bodies/pllum-K19-content-query-preview.json",
+      "url": "https://pllum.org.pl/api/_content/query?preview=test-123",
+      "bytes": 9543,
+      "sha256": "78516d89b48fb30227e87bb0512f923af45af322a5cd4bca97d4d8d57362d106",
+      "content_type": "application/json"
+    },
+    {
+      "id": "pllum-K20-content-query-plain",
+      "file": "/home/runner/work/_temp/bodies/pllum-K20-content-query-plain.json",
+      "url": "https://pllum.org.pl/api/_content/query",
+      "bytes": 9543,
+      "sha256": "78516d89b48fb30227e87bb0512f923af45af322a5cd4bca97d4d8d57362d106",
+      "content_type": "application/json"
+    },
+    {
+      "id": "hive-K21-api-project-conversation",
+      "file": "/home/runner/work/_temp/bodies/hive-K21-api-project-conversation.json",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/projects/test/conversation/1",
+      "bytes": 22,
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "content_type": "application/json"
+    },
+    {
+      "id": "hive-K22-api-annotators",
+      "file": "/home/runner/work/_temp/bodies/hive-K22-api-annotators.json",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/annotators",
+      "bytes": 22,
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "content_type": "application/json"
+    }
+  ]
+}
