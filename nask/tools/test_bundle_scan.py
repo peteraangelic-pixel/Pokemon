@@ -149,6 +149,15 @@ class TestKorekta44(unittest.TestCase):
         self.assertEqual(r["secrets"][0]["kind"], "generic_assignment")
         self.assertNotIn("aK91zQ7mT4vX2pL8nR3w", json.dumps(r))
 
+    def test_korekta48_entropy_thresholds(self):
+        """Krotka wartosc o niskiej entropii = szum; dluga o wysokiej = kandydat."""
+        from bundle_scan import looks_like_credential
+        self.assertFalse(looks_like_credential("Hx3k9Qp2"))          # 8 znakow, entropia 3.0
+        self.assertFalse(looks_like_credential("password"))          # niska entropia
+        self.assertFalse(looks_like_credential("+encodeURIComponent"))
+        self.assertTrue(looks_like_credential("aK91zQ7mT4vX2pL8nR3w"))   # 20, entropia 4.32
+        self.assertTrue(looks_like_credential("Q7mT4vX2pL8nR3wZb6"))     # 19 znakow
+
     def test_report_has_new_keys(self):
         from bundle_scan import scan_text
         r = scan_text("t.js", 'fetch("/api/x")')

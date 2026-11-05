@@ -1,0 +1,136 @@
+{
+  "plan_run": "RAWPATH-007",
+  "date": "2026-11-05",
+  "author": "Arena c87f7a48",
+  "based_on": "rawpath-006-run9.json (31 sond) + mine-rawpath-006-run9.json (29 plikow, mapa HIVE 71 tras, hosts dns.pl: panel./tracker. = poza §5) + analysis-run003.json (7911f950)",
+  "purpose": "Rozstrzygniecie 3 rzeczy, ktore run9 zostawil niejednoznaczne, KAZDA z grupa kontrolna w tym samym przebiegu: (A) czy kandydat na sekret z dns.pl (111 znakow, entropia 5.5) to staly literał (klasa 1, Tier 1) czy token na-zadanie (szum) — 3 powtorzenia + 2 kontrole; (B) mechanizm '200 + strona glowna + _event_transid' — czy przechwycenie jest przed routingiem (wtedy SSRF na /api/stats/ martwe z mechanizmem); (C) czy science.nask.pl/api/search pozwala na cos wiecej niz odczyt tresci publicznych (page/perPage/post_status=draft) — z sitemap.xml jako kontrola zbioru opublikowanego. Plus: L13 po 404 na /trendy (prefiks /en, chunk PowerBI), pllum previewToken (2 proby z kontrola), HIVE 401-vs-404 na trasach odtworzonych z bundla.",
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026, §5/§6/§7/§8",
+    "hosts": "dns.pl (T1), science.nask.pl (T2), oad.nask.pl (T1), pllum.org.pl (T2), dataannotation.pllum.org.pl (T2) — 5 hostow, wszystkie w §5. CELNIE POMINIENTE: panel.dns.pl i tracker.dns.pl (ujawnione w run9 w bundlu dns.pl, ale §5 wymienia literal `dns.pl` bez `*` ⇒ poza zakresem, nie dotykamy — tak samo www.nask.pl i info-trace.116sos.pl, czekaja na interpretacje organizatora = L0 pkt 3).",
+    "methods": "GET only, 1.0 req/s (sufit §6 pkt 2 = 5), 22 zadan, przekierowania niesledzone, HTTPS z weryfikacja certyfikatu, bez uwierzytelnienia (§6 pkt 1)",
+    "state_change": "ZERO — zero POST/PUT/DELETE; sendForm (L23) i zglos-inicjatywe (L14) czekaja na jawne GO usera",
+    "secrets": "Zadna wartosc kandydata na sekret NIE trafia do repo: tylko odcisk sha256[:12] + dlugosc + entropia (korekta #33). Rozstrzygniecie A polega na POROWNANIU ODCISKOW miedzy probami — nie potrzeba i nie zapisujemy samej wartosci.",
+    "pii": "no_preview dla sond, ktore moglyby zwrocic dane osobowe; liczniki PII (korekta #43) tylko jako liczby",
+    "escalation": "jesli K01/K02/K03 dadza STABILNY odcisk przy zmiennym parametrze (staly literał sekretu) ALBO sci-K13 zwroci wpisy niepubliczne (porownanie z sci-K15 sitemap) — KONIEC zadan na tym endpoincie, wpis do rejestru, informacja dla usera, przygotowanie zgloszenia (klasa 1/3). Nie enumerujemy dalej bez decyzji usera."
+  },
+  "probes": [
+    {
+      "id": "dns-K01-token-repeat",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "why": "ROZSTRZYGNIENCIE kandydata z run9 (dns-J11: generic_assignment, 111 znakow, entropia 5.5, odcisk b2c856bd7b5c) — powtorzenie DOKLADNIE tego samego zadania. Jesli odcisk sie ZMIENI miedzy probami = token na-zadanie (nonce/CSRF/transid) = informacja bez wartosci (wykluczone §8). Jesli odcisk jest STABILNY w 3 probach = staly literał w stronie = kandydat klasy 1 (poswiadczenia), Tier 1. Powtorzenie 1/2.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-K02-token-repeat",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "why": "ROZSTRZYGNIENCIE kandydata z run9 (dns-J11: generic_assignment, 111 znakow, entropia 5.5, odcisk b2c856bd7b5c) — powtorzenie DOKLADNIE tego samego zadania. Jesli odcisk sie ZMIENI miedzy probami = token na-zadanie (nonce/CSRF/transid) = informacja bez wartosci (wykluczone §8). Jesli odcisk jest STABILNY w 3 probach = staly literał w stronie = kandydat klasy 1 (poswiadczenia), Tier 1. Powtorzenie 2/2.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-K03-token-other-value",
+      "url": "https://dns.pl/api/who-is-xml/?domain=przyklad-test-xyz-987.pl",
+      "why": "KONTROLA dla K01/K02: ta sama sciezka, INNA wartosc parametru. Rozroznia 'token zalezy od zadania/odpowiedzi' od 'token jest w szablonie strony'. Bez tego stabilny odcisk nic nie znaczy.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-K04-token-home-repeat",
+      "url": "https://dns.pl/",
+      "why": "KONTROLA B: strona glowna powtorzona (run9 dns-J00 = 0 sekretow). Jesli tu token sie pojawi, a w run9 nie — token jest wstrzykiwany losowo/zaleznie od cache (s-maxage=300), czyli to artefakt warstwy brzegowej, nie znalezisko.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-K05-token-content-page",
+      "url": "https://dns.pl/statystyki/liczba_aktywnych_IDN",
+      "why": "KONTROLA C (dodatnia): mapa galezi 7911f950 (analysis-run003.json) ma dla ~100 stron dns.pl trafienie `Token = '<~110 znakow>'` w `sensitive_comment_hits` — czyli token jest elementem SZABLONU strony 200. To rozstrzyga, czy kandydat z run9 to ten sam mechanizm (publiczny, na-zadanie) — a wtedy zamykamy go jako niewyplacalny i nie marnujemy zgloszenia.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-K06-live-endpoint-with-crlf",
+      "url": "https://dns.pl/api/zone-stats?x=%0D%0A",
+      "why": "DECYDUJACA proba mechanizmu: ZYWY endpoint (run9 dns-J01 = 200 application/json 11 761 B) z doklejonym wzorcem ataku w query. Jesli zamiast JSON wróci strona glowna z _event_transid (51 2xx B) = przechwycenie nastepuje PRZED routingiem (warstwa brzegowa/monitoring), a nie w aplikacji ⇒ hipoteza SSRF na /api/stats/ jest MARTWA z mechanizmem, a kazdy przyszly '200 na dns.pl' trzeba czytac jako 'zadanie oflagowane'."
+    },
+    {
+      "id": "dns-K07-live-endpoint-benign",
+      "url": "https://dns.pl/api/zone-stats?x=1",
+      "why": "KONTROLA D dla K06: ten sam zywy endpoint, nieszkodliwy parametr. Musi dac 200 JSON 11 761 B — bez tego K06 nie rozstrzyga niczego (zasada: sonda bez kontroli w tym samym przebiegu nie jest sonda)."
+    },
+    {
+      "id": "dns-K08-nonexistent-with-external-url",
+      "url": "https://dns.pl/api/nie-istnieje-xyz-123?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "why": "KONTROLA E: sciezka NIEISTNIEJACA + wzorzec URL-a zewnetrznego w query. Jesli 200 + strona glowna (jak run9 dns-J06) ⇒ o kodzie 200 decyduje WZORZEC W QUERY, nie sciezka i nie endpoint ⇒ run9 J06/J10 to artefakty przechwycenia, nie zachowanie /api/stats/ czy /api/who-is-xml/."
+    },
+    {
+      "id": "dns-K09-nonexistent-plain",
+      "url": "https://dns.pl/api/nie-istnieje-xyz-123",
+      "why": "KONTROLA F dla K08: ta sama nieistniejaca sciezka bez query ⇒ oczekiwane 404 (40 9xx B, Drupal), jak wszystkie /api/* z run9 oprocz zone-stats i count-deleted-domains."
+    },
+    {
+      "id": "sci-K10-search-min-length",
+      "url": "https://science.nask.pl/api/search?query=aaa",
+      "why": "Run9 dowiódł, ze /api/search istnieje i wymaga `query` >= 3 znaki (400 {\"error\":\"Query must be at least 3 characters\"}, identyczny sha256 dla 3 wariantow parametru = dowod z grupy kontrolnej). Tu: minimalne zapytanie ⇒ `page`/`lastPage` z odpowiedzi mowi, jak duzy jest indeks i czy paginacja jest po stronie serwera."
+    },
+    {
+      "id": "sci-K11-search-page2",
+      "url": "https://science.nask.pl/api/search?query=hive&page=2",
+      "why": "Czy `page` jest honorowany (inna tresc/`page` w odpowiedzi) — bez tego nie wiemy, czy indeks daje sie wyliczac strona po stronie."
+    },
+    {
+      "id": "sci-K12-search-perpage",
+      "url": "https://science.nask.pl/api/search?query=hive&perPage=100",
+      "why": "Czy rozmiar strony jest kontrolowany przez klienta (`perPage` to realna nazwa z bundli 116sos/science). Jesli tak i brak gornego limitu = masowy odczyt w jednym zadaniu — ale UWAGA: masowy odczyt TRESCI PUBLICZNYCH nie jest klasa 3. Rozstrzyga dopiero K13."
+    },
+    {
+      "id": "sci-K13-search-post-status-draft",
+      "url": "https://science.nask.pl/api/search?query=hive&post_status=draft",
+      "why": "DYSTYNKCJA WYPŁACALNOSCI: czy filtr statusu publikacji WordPress jest sterowalny z query (mass assignment na filtrze). Jesli odpowiedz zawiera wpisy o statusie innym niz publish (robocze/prywatne) = klasa 3 (dostep do danych niepublicznych), Tier 2: 2 000-10 000 zl. Jesli odpowiedz IDENTYCZNA z run9 dns... tzn. z sci-J17 (sha b4c9ddfdb2050eb6) = parametr ignorowany, trop zamykamy. Kontrola: sci-J17 z run9 + sci-K10 w tym przebiegu."
+    },
+    {
+      "id": "sci-K14-contact-get",
+      "url": "https://science.nask.pl/api/contact",
+      "why": "Trzeci endpoint z miningu run7 (js-107-science: /api/contact, /api/downloadFile, /api/search). GET na endpoint prawdopodobnie POST-owy: 405 = trasa istnieje (method-not-allowed-route-exists), 404 = nie istnieje. Zero zmiany stanu — nie wysylamy formularza (L15 wymaga GO)."
+    },
+    {
+      "id": "sci-K15-sitemap-control",
+      "url": "https://science.nask.pl/sitemap.xml",
+      "why": "KONTROLA G: autorytatywny zbior URL-i OPUBLIKOWANYCH. Bez tego nie da sie rozstrzygnac, czy cokolwiek z /api/search jest niepubliczne: porownanie offline (ID/URL z odpowiedzi API vs sitemap) daje dowod 'API oddaje wiecej niz publikacja' albo zamyka trop.",
+      "max_bytes": 2097152
+    },
+    {
+      "id": "oad-K16-powerbi-chunk",
+      "url": "https://oad.nask.pl/_next/static/chunks/41lk95l8op7nz.js",
+      "why": "Chunk, w ktorym jest embed PowerBI (reportId 470044cf-..., ctid 95dc45af-...) i literaly /trendy, /about-us, /news, /media/. Run9 dowiodl, ze /trendy = 404, ale ten chunk jest WCIAZ ladowany przez /wyniki-wyszukiwania (mining run9: oad-J24 paths). Pobranie + nowy ekstraktor `paths`/`hosts` (korekta #44) daje pelny zbior tras tego modulu offline: czy istnieje endpoint generujacy embed-token (klasa 1/3), czy tylko publiczny URL z autoAuth.",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "oad-K17-trendy-en",
+      "url": "https://oad.nask.pl/en/trendy",
+      "why": "Run9: /trendy = 404 (13 814 B, strona 404 Next). Literaly tras w chunku PowerBI sa ANGIELSKIE (/trendy, /about-us, /news), a oad ma /en/search-results ⇒ hipoteza: moduł jest pod prefiksem lokalizacyjnym. Rozstrzygniecie L13 bez pracy usera, jesli 200."
+    },
+    {
+      "id": "oad-K18-trendy-slash",
+      "url": "https://oad.nask.pl/trendy/",
+      "why": "Wariant z ukosnikiem (App Router rozroznia /x i /x/ przy trailingSlash=false). Tania alternatywa dla K17; jesli obie 404 ⇒ trasa nie istnieje i L13 zaweza sie do samego embed-URL-a (do sprawdzenia przez usera w 30 s)."
+    },
+    {
+      "id": "pllum-K19-content-query-preview",
+      "url": "https://pllum.org.pl/api/_content/query?preview=test-123",
+      "why": "Mapa 7911f950: chunk CI9Gd-qu.js zawiera `getPreviewToken`/`setPreviewToken`/`b().query.preview=n` + sessionStorage ⇒ wlasciwym przelacznikiem wersji roboczych Nuxt Content jest TOKEN preview, nie `_draft=true` (Gemma-B: `_draft=true` → 200, 2 B = []). Token celowo NIEPOPRAWNY (test-123): sprawdzamy, czy odpowiedz ROZNI sie od kontroli K20 (czy parametr w ogole jest przetwarzany). Zero zgadywania prawdziwego tokena.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "pllum-K20-content-query-plain",
+      "url": "https://pllum.org.pl/api/_content/query",
+      "why": "KONTROLA H dla K19 (ten sam przebieg): ten sam endpoint bez parametru. Identyczny sha256 ⇒ `preview` jest ignorowany ⇒ trop zamykamy; roznica ⇒ mechanizm zywy i wtedy potrzebne jest konto CMS (nie zgadujemy tokenow)."
+    },
+    {
+      "id": "hive-K21-api-project-conversation",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/projects/test/conversation/1",
+      "why": "Ksztalt API odtworzony offline z bundla 2,77 MB (korekta #44: 71 literałow tras, m.in. /projects/$projectShortName/conversation/$recordId — parametry routera TanStack). Cel: rozroznic 401 (trasa istnieje, wymaga konta) od 404 (nie istnieje) — to jest mapa IDOR-a L1/L2 na moment przyznania konta. ZERO zgadywania ID realnych obiektow: 'test' i '1'."
+    },
+    {
+      "id": "hive-K22-api-annotators",
+      "url": "https://dataannotation.pllum.org.pl/api/v1/annotators",
+      "why": "Druga trasa z bundla (/annotators, /projects/$x/edit/annotators). Znane z run1: /api/v1/users/1 → 405, /api/v1/projects/ → 401, /api/v1/admin/logs → 404, /register → 404. 401 vs 404 rozstrzyga, czy modul annotatorow jest wystawiony (przygotowanie do L1/L2)."
+    }
+  ]
+}

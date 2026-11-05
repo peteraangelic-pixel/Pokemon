@@ -47,12 +47,20 @@ CRED_VALUE_BAD_RX = re.compile(r"[(){}\[\]$\\\s,;<>!|&*=+\-]")
 
 
 def looks_like_credential(value: str) -> bool:
-    """Czy wartosc moze byc literalem sekretu (a nie fragmentem kodu)."""
+    """Czy wartosc moze byc literalem sekretu (a nie fragmentem kodu).
+
+    KOREKTA #48 (moja wlasna regresja z #45): obnizylem prog entropii z 3.5 do 3.0
+    dla WSZYSTKICH kandydatow, przez co run 9 zglosil 8-znakowy kandydat o entropii
+    3.0 w bundlu HIVE (szum). Przywrocony prog 3.5 — i wyzszy (4.0) dla wartosci
+    krotszych niz 12 znakow, bo krotka + niska entropia = prawie zawsze literał UI."""
     if not value or value[0] in "+-" or len(value) < 8:
         return False
     if CRED_VALUE_BAD_RX.search(value):
         return False
-    return shannon(value) >= 3.0
+    e = shannon(value)
+    if len(value) < 12:
+        return e >= 4.0
+    return e >= 3.5
 
 
 QUERY_VALUE_ALLOW_RX = re.compile(
