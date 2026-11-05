@@ -1,0 +1,1380 @@
+{
+  "schema_version": 1,
+  "dry_run": false,
+  "rps_requested": 1.0,
+  "min_observed_gap_s": 1.0,
+  "wall_seconds": 47.08,
+  "count": 31,
+  "summary": {
+    "count": 31,
+    "verdicts": {
+      "not-found": 13,
+      "html-page": 7,
+      "status-400": 4,
+      "json-response": 2,
+      "other-200": 2,
+      "CANDIDATE-PII-IN-RESPONSE": 1,
+      "js-bundle-with-keyword-hits": 1,
+      "transport-error": 1
+    },
+    "candidates": [
+      {
+        "id": "sos-J30-centres-search-pii",
+        "url": "https://116sos.pl/api/centres-search",
+        "verdict": "CANDIDATE-PII-IN-RESPONSE",
+        "status": 200,
+        "content_type": "application/json",
+        "bytes_read": 13306
+      }
+    ],
+    "transport_errors": [
+      "sci-J22-nextdata-control-index"
+    ],
+    "out_of_scope_refusals": []
+  },
+  "identical_bodies": [
+    {
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "identical_bodies": [
+        "sci-J16-search-bare:/api/search",
+        "sci-J18-search-q:/api/search?q=hive",
+        "sci-J19-search-phrase:/api/search?searchPhrase=hive"
+      ]
+    }
+  ],
+  "note": "Werdykt wynika z typu/rozmiaru/znacznikow, nie z samego kodu. CANDIDATE-* wymaga recznego potwierdzenia przez czlowieka przed jakimkolwiek zgloszeniem; tresci wrazliwe nie sa zapisywane.",
+  "probes": [
+    {
+      "id": "dns-J00-control-home",
+      "url": "https://dns.pl/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 751,
+      "bytes_read": 51121,
+      "sha256": "cd5cde7783cd067dce43e1513adda5cb3467c0e0105a36b940bf8bb6f3a30da8",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51121"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J00-control-home.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/",
+      "why": "KONTROLA A: strona glowna. dns.pl oddaje 200 + strona glowna na OBCYCH sciezkach z _event_transid (korekta #32) — bez tej kontroli kazdy 'kandydat' na tym hoscie jest falszywy."
+    },
+    {
+      "id": "dns-J01-control-zone-stats",
+      "url": "https://dns.pl/api/zone-stats",
+      "status": 200,
+      "reason": "OK",
+      "ms": 573,
+      "bytes_read": 11761,
+      "sha256": "989e51d8c8f3df8d218e022bf65816b2f5862047258104791c9b497453df8667",
+      "content_type": "application/json",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "no-cache, private",
+        "content-type": "application/json",
+        "content-length": "11761"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "errors",
+          "lang",
+          "stats",
+          "stats.day",
+          "stats.rows",
+          "stats.time"
+        ],
+        "key_count": 6,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"errors\":{},\"lang\":\"pl\",\"stats\":{\"time\":\"2026-11-05 12:20 CET\",\"day\":\"2026-11-04\",\"rows\":[[\"\",\"suma\",\"2757995\",\"100.00 %\",\"6510248\",\"100.00 %\",\"2.36\",\"+1467\",\"+7614\",\"+27206\",\"+192512\"],[1,\"pl\",\"2317",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J01-control-zone-stats.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/zone-stats",
+      "why": "KONTROLA B: jedyny API dns.pl potwierdzony jako zywy i publiczny (5ed750ef). Rozroznia 'caly /api/* nie istnieje' od 'ten jeden endpoint nie istnieje'."
+    },
+    {
+      "id": "dns-J02-stats-bare",
+      "url": "https://dns.pl/api/stats/",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 549,
+      "bytes_read": 40914,
+      "sha256": "f8c22ad8351780de9173ac7009445778533983c4f0e0892b53f60e6cd6fe2da6",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40914"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J02-stats-bare.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/stats/",
+      "why": "NOWY endpoint z miningu run7 (main-3.3.0.js). Bez parametru — jaki blad/kod? To ustala, czy endpoint w ogole istnieje przed testem parametru."
+    },
+    {
+      "id": "dns-J03-stats-url-empty",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 652,
+      "bytes_read": 40914,
+      "sha256": "608322c707522d369e7748ac1861714c3502a25f240237515fcebf58b5d91f83",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40914"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J03-stats-url-empty.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/stats/?statisticsUrl=",
+      "why": "Parametr `statisticsUrl` wydobyty z main-3.3.0.js przez bundle_scan (run7). Nazwa wskazuje URL przekazywany do API. Pusty = ksztalt bledu walidacji (czy walidacja jest po stronie serwera)."
+    },
+    {
+      "id": "dns-J04-stats-url-relative",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 849,
+      "bytes_read": 40914,
+      "sha256": "98796a50aa7e6fd5ab79bbbceec1fd6cc0cbcf3fb96fc992930f8b510ab91ebf",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40914"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J04-stats-url-relative.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/stats/?statisticsUrl=%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "why": "sciezka wzgledna do legalnej strony statystyk. Jesli 200 i serwer COS pobiera — mamy prymityw; porownanie z J05/J06 rozstrzyga, czy to fetch serwerowy czy tylko echo."
+    },
+    {
+      "id": "dns-J05-stats-url-samehost",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=https%3A%2F%2Fdns.pl%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 700,
+      "bytes_read": 40919,
+      "sha256": "2114b665c7fb8b86e6ccca17bd34becc928d9d1cb781bdfe79faf19e748c344b",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40919"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J05-stats-url-samehost.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/stats/?statisticsUrl=https%3A%2F%2Fdns.pl%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "why": "URL absolutny do TEGO SAMEGO hosta (legalny, publiczny). Kontrola dla J06: jesli J05 dziala, a J06 nie — jest allow-lista hostow (mechanizm, nie luka)."
+    },
+    {
+      "id": "dns-J06-stats-url-external",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "status": 200,
+      "reason": "OK",
+      "ms": 606,
+      "bytes_read": 51210,
+      "sha256": "55f1d181bacb6b0edce527d04a16cd756e484785b2ace0f819ffd39ac86666c8",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51210"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.<script type=\"text/javascript\">.  var _event_transid='2072802715';.</script>..    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-w",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J06-stats-url-external.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/api/stats/?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "why": "DYSKRYMINATOR SSRF (klasa 5, Tier 1). example.com = domena IANA zarezerwowana do dokumentacji, zadnych danych, zero skutku. Rozstrzygniecie: jesli odpowiedz ZAWIERA tresc pobrana z zewnatrz = SSRF z odczytem (korekta #31: dowodem jest odczyt, nie sam DNS). Jesli tylko blad/404 = allow-lista i trop zamykamy. Blind SSRF z samym DNS jest WYKLUCZONY (§8) — wiec nie eskalujemy bez odczytu."
+    },
+    {
+      "id": "dns-J07-whois-bare",
+      "url": "https://dns.pl/api/who-is-xml/",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 803,
+      "bytes_read": 40933,
+      "sha256": "4941453ca1b422f1ae6b128436e90f9728f74ae13bae7c844b8f1807f4215447",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40933"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J07-whois-bare.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/who-is-xml/",
+      "why": "NOWY endpoint z miningu run7: proxy WHOIS w XML. Bez parametru — komunikat bledu zdradza nazwe parametru i warstwe (aplikacja vs nginx vs Drupal)."
+    },
+    {
+      "id": "dns-J08-whois-valid",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask.pl",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 553,
+      "bytes_read": 40924,
+      "sha256": "91fd40ed14794146d1486aec331b8fb91ada2ac04d729e60fa0ff209d4ff87b0",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40924"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J08-whois-valid.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/who-is-xml/?domainName=nask.pl",
+      "why": "Parametr `domainName` wydobyty z main-3.3.0.js. no_preview=TRUE: odpowiedz WHOIS MOZE zawierac dane abonenta (osoba fizyczna: imie/nazwisko/e-mail), a nie publikujemy cudzych danych w repo. Zamiast tresci: liczniki PII z korekty #43 (PII_EMAIL/PII_PESEL/PII_PHONE_PL/PII_IBAN) — mowia 'ile', bez 'czyje'. Jesli PII > 0 dla domeny osoby fizycznej bez logowania = klasa 3, Tier 1 (9 000/20 000 zl), ale dowod potwierdza USER w przegladarce, nie my zrzutem do repo."
+    },
+    {
+      "id": "dns-J09-whois-nonexistent",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask-test-nieistnieje-987654.pl",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 848,
+      "bytes_read": 40926,
+      "sha256": "f5ece17b99f581152c41bcaf693077c639acfda63fef7eb9ca70e33987b2e37c",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40926"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J09-whois-nonexistent.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/who-is-xml/?domainName=nask-test-nieistnieje-987654.pl",
+      "why": "KONTROLA NEGATYWNA dla J08: domena niezarejestrowana. Bez tego nie wiemy, czy 200 z danymi to odpowiedz WHOIS, czy catch-all hosta (dns.pl oddaje 200 na obcych sciezkach)."
+    },
+    {
+      "id": "dns-J10-whois-crlf",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask.pl%0D%0Aexample.pl",
+      "status": 200,
+      "reason": "OK",
+      "ms": 603,
+      "bytes_read": 51217,
+      "sha256": "84bb01c6b2125e078f7e0ff2138447c2263fab9d84ae3433ad8d597b8803efd2",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private, s-maxage=300",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "51217"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J10-whois-crlf.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/api/who-is-xml/?domainName=nask.pl%0D%0Aexample.pl",
+      "why": "Wstrzykniecie CRLF do zapytania WHOIS (protokol linii na porcie 43). GET, tylko odczyt, zero zmiany stanu: najgorszy skutek to druga linia zapytania zignorowana przez serwer WHOIS. Rozstrzyga, czy parametr jest skladany do zapytania bez sanityzacji (klasa 5/1). Porownanie 1:1 z J08 (ten sam pierwszy człon)."
+    },
+    {
+      "id": "dns-J11-whois-alt-param",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 849,
+      "bytes_read": 40910,
+      "sha256": "579511087c8d8be165acb75efbc4955eb8793e3a5208857f1bbccdbf3aa60f40",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40910"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J11-whois-alt-param.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/who-is-xml/?domain=nask.pl",
+      "why": "Zapasowa nazwa parametru, gdyby `domainName` bylo nazwa pola formularza, a nie parametru API. Rozroznia 'zly parametr' od 'endpoint wymaga captchy' (dns.pl laduje reCAPTCHA v3 w main-3.3.0.js)."
+    },
+    {
+      "id": "dns-J12-domainbrowser",
+      "url": "https://dns.pl/api/domain-browser/?domainName=nask",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 1048,
+      "bytes_read": 40921,
+      "sha256": "225ebe4dabdc584e323d8eec0c494a67e4d126b54114cefd68b0c4a979e7338a",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40921"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J12-domainbrowser.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/domain-browser/?domainName=nask",
+      "why": "Przegladarka domen (trasa /przegladarka). Parametr z tego samego bundla co whois. Dane publiczne rejestru — niska wartosc, ale domyka L5/L22 ('nieznany kat dns.pl/api/*')."
+    },
+    {
+      "id": "dns-J13-funny-name",
+      "url": "https://dns.pl/api/funny-name/",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 547,
+      "bytes_read": 40920,
+      "sha256": "ae9c2399d83d4f086ffefe912d5a889d39feebcc17a15d52628520e209cc5fd9",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "40920"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J13-funny-name.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/api/funny-name/",
+      "why": "Generator propozycji nazw (etykieta 'domain_browser_suggestion_title' z translations). Dane publiczne; 1 zadanie na domkniecie mapy /api/* dns.pl."
+    },
+    {
+      "id": "dns-J14-count-deleted",
+      "url": "https://dns.pl/api/count-deleted-domains",
+      "status": 200,
+      "reason": "OK",
+      "ms": 688,
+      "bytes_read": 17,
+      "sha256": "a344456b6a1094965c743c555101194e5d0dab2eb3c472cdc6cf190e5d570069",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "no-cache, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "17"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "{\"count\":\"+1467\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J14-count-deleted.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/api/count-deleted-domains",
+      "why": "Licznik domen usunietych — para do J15. Jesli licznik jest publiczny, a plik J15 zawiera wiecej niz nazwy, to roznica jest sama w sobie informacja o zakresie udostepniania."
+    },
+    {
+      "id": "dns-J15-deleted-domains-pii",
+      "url": "https://dns.pl/deleted_domains.txt",
+      "status": 200,
+      "reason": "OK",
+      "ms": 858,
+      "bytes_read": 46440,
+      "sha256": "420afd8eb59da532808ff991e8b4721940a11bdfefefadf5144247cbce6a9f3d",
+      "content_type": "text/plain",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "no-cache, private",
+        "content-type": "text/plain; charset=UTF-8",
+        "content-length": "46440"
+      },
+      "set_cookie_names": [],
+      "markers": {},
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/dns-J15-deleted-domains-pii.txt",
+      "error": null,
+      "verdict": "other-200",
+      "raw_path": "/deleted_domains.txt",
+      "why": "POWTORZENIE L20 z nowym instrumentem: run8 dal 200/text-plain/37 343 B, ale tresci celowo nie pobralismy (no_preview) i bez licznikow PII nie dalismy rady rozstrzygnac, czy to dane publiczne rejestru, czy dane abonenta. Teraz korekta #43 liczy e-maile/PESEL-e/telefony/IBAN-y BEZ zapisywania wartosci ⇒ rozstrzygniecie L20 bez pracy usera i bez publikowania czegokolwiek w repo."
+    },
+    {
+      "id": "sci-J16-search-bare",
+      "url": "https://science.nask.pl/api/search",
+      "status": 400,
+      "reason": "Bad Request",
+      "ms": 553,
+      "bytes_read": 47,
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "47",
+        "etag": "\"ay6uxy3cze1b\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "error"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"error\":\"Query must be at least 3 characters\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-J16-search-bare.json",
+      "error": null,
+      "verdict": "status-400",
+      "raw_path": "/api/search",
+      "why": "NOWY endpoint z miningu run7 (js-107-science): /api/contact, /api/downloadFile, /api/search. Search NIE byl testowany przez zadna z 6 sesji. Bez parametru — czy istnieje i jaki jest ksztalt bledu."
+    },
+    {
+      "id": "sci-J17-search-query",
+      "url": "https://science.nask.pl/api/search?query=hive",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1100,
+      "bytes_read": 2121,
+      "sha256": "b4c9ddfdb2050eb6b2a2384c34ae9d9fb00786934d802401326853d29a3cb4af",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "2121",
+        "etag": "\"hnk1bx9tol1mq\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "lastPage",
+          "page",
+          "pageData",
+          "pageData[].description",
+          "pageData[].id",
+          "pageData[].imageUrl",
+          "pageData[].imageUrl.ID",
+          "pageData[].imageUrl.alt",
+          "pageData[].imageUrl.author",
+          "pageData[].imageUrl.caption",
+          "pageData[].imageUrl.date",
+          "pageData[].imageUrl.description",
+          "pageData[].imageUrl.filename",
+          "pageData[].imageUrl.filesize",
+          "pageData[].imageUrl.height",
+          "pageData[].imageUrl.icon",
+          "pageData[].imageUrl.id",
+          "pageData[].imageUrl.link",
+          "pageData[].imageUrl.menu_order",
+          "pageData[].imageUrl.mime_type",
+          "pageData[].imageUrl.modified",
+          "pageData[].imageUrl.name",
+          "pageData[].imageUrl.sizes",
+          "pageData[].imageUrl.status",
+          "pageData[].imageUrl.subtype",
+          "pageData[].imageUrl.title",
+          "pageData[].imageUrl.type",
+          "pageData[].imageUrl.uploaded_to",
+          "pageData[].imageUrl.url",
+          "pageData[].imageUrl.width",
+          "pageData[].title",
+          "pageData[].type",
+          "pageData[].typeName",
+          "perPage"
+        ],
+        "key_count": 34,
+        "personal_like": [
+          "pageData[].description",
+          "pageData[].id",
+          "pageData[].imageUrl.ID",
+          "pageData[].imageUrl.description",
+          "pageData[].imageUrl.filename",
+          "pageData[].imageUrl.id",
+          "pageData[].imageUrl.name",
+          "pageData[].typeName"
+        ]
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"pageData\":[{\"id\":12983,\"title\":\"Rozw..j i pilota..owe wdro..enie du..ych modeli j..zykowych w polskiej administracji publicznej (HIVE AI)\",\"description\":\"Wspieramy cyfryzacj.. polskiej administracji",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-J17-search-query.json",
+      "error": null,
+      "verdict": "json-response",
+      "raw_path": "/api/search?query=hive",
+      "why": "Zgadana nazwa parametru 1/3. 'hive' = realny projekt NASK (post_name 'hive-ai' w __NEXT_DATA__), wiec trafienie daje porownywalna odpowiedz z publiczna wyszukiwarka."
+    },
+    {
+      "id": "sci-J18-search-q",
+      "url": "https://science.nask.pl/api/search?q=hive",
+      "status": 400,
+      "reason": "Bad Request",
+      "ms": 685,
+      "bytes_read": 47,
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "47",
+        "etag": "\"ay6uxy3cze1b\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "error"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"error\":\"Query must be at least 3 characters\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-J18-search-q.json",
+      "error": null,
+      "verdict": "status-400",
+      "raw_path": "/api/search?q=hive",
+      "why": "Zgadana nazwa parametru 2/3."
+    },
+    {
+      "id": "sci-J19-search-phrase",
+      "url": "https://science.nask.pl/api/search?searchPhrase=hive",
+      "status": 400,
+      "reason": "Bad Request",
+      "ms": 557,
+      "bytes_read": 47,
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "47",
+        "etag": "\"ay6uxy3cze1b\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "error"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"error\":\"Query must be at least 3 characters\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-J19-search-phrase.json",
+      "error": null,
+      "verdict": "status-400",
+      "raw_path": "/api/search?searchPhrase=hive",
+      "why": "Zgadana nazwa parametru 3/3 — `searchPhrase` wystepuje jako realna nazwa w bundlach science (test_rawpath: is_real_param)."
+    },
+    {
+      "id": "sci-J20-control-downloadfile-invalid",
+      "url": "https://science.nask.pl/api/downloadFile?fileId=-1",
+      "status": 400,
+      "reason": "Bad Request",
+      "ms": 544,
+      "bytes_read": 27,
+      "sha256": "30277b2e49e1b53a31631573c7a172f64bea8ad489af6b549205ac2d992d9649",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "27",
+        "etag": "\"10zw8b15f7pr\""
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [
+          "error"
+        ],
+        "key_count": 1,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{\"error\":\"Invalid file id\"}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-J20-control-downloadfile-invalid.json",
+      "error": null,
+      "verdict": "status-400",
+      "raw_path": "/api/downloadFile?fileId=-1",
+      "why": "KONTROLA C: znany wynik 400 {\"error\":\"Invalid file id\"} (run1). Potwierdza, ze API science odpowiada w tym przebiegu tak samo jak 2 dni temu (stala kontrola miedzybiegowa)."
+    },
+    {
+      "id": "sci-J21-nextdata-search",
+      "url": "https://science.nask.pl/_next/data/Grl_YQ5SCHd1ahmhesPv6/search.json?query=hive",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 576,
+      "bytes_read": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {
+        "keys": [],
+        "key_count": 0,
+        "personal_like": []
+      },
+      "secret_marker_hits": 0,
+      "preview": "{}",
+      "saved_to": "/home/runner/work/_temp/bodies/sci-J21-nextdata-search.json",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/_next/data/Grl_YQ5SCHd1ahmhesPv6/search.json?query=hive",
+      "why": "Server-side payload wyszukiwarki (buildId z mapy 7911f950 z 03.11). Rozstrzyga, czy wyszukiwarka sciaga wiecej niz pokazuje UI (tak bylo na 116sos: /_next/data = 8 256 B pageProps publicznej strony)."
+    },
+    {
+      "id": "sci-J22-nextdata-control-index",
+      "url": "https://science.nask.pl/_next/data/Grl_YQ5SCHd1ahmhesPv6/index.json",
+      "status": null,
+      "reason": null,
+      "ms": 15170,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {},
+      "set_cookie_names": [],
+      "markers": {},
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": null,
+      "error": "timeout: TimeoutError",
+      "verdict": "transport-error",
+      "raw_path": "/_next/data/Grl_YQ5SCHd1ahmhesPv6/index.json",
+      "why": "KONTROLA D dla J21: ten sam buildId, inna trasa. Jesli obie 404 — buildId jest PRZETARLY (deploy po 03.11), a nie 'search zablokowany'; bez tego nie da sie interpretowac J21."
+    },
+    {
+      "id": "oad-J23-trendy",
+      "url": "https://oad.nask.pl/trendy",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 798,
+      "bytes_read": 13814,
+      "sha256": "286f1682796ce4e7e9ec86b99fa838de1ac50e3aca776229d3ddc8e3f4c86666",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "13814",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"nefqlhddicamp\"",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 2
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\" class=\"font-sans _59dTrW_variable ZFv9mW_variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"styleshee",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-J23-trendy.html",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/trendy",
+      "why": "L13 bez pracy usera, czesc 1: trasa, na ktorej jest embed PowerBI (URL reportEmbed wydobyty z chunka 41lk95l8op7nz.js). Pytanie: czy payload RSC/HTML zawiera KONFIGURACJE lub TOKEN embedowania (klasa 1/3), czy tylko publiczny URL z autoAuth=true. Jesli serwer generuje embed-token bez logowania — to jest rozstrzygniecie L13 twarde, nie warunkowe."
+    },
+    {
+      "id": "oad-J24-search-results",
+      "url": "https://oad.nask.pl/wyniki-wyszukiwania?type=publication&topic=4",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1097,
+      "bytes_read": 88133,
+      "sha256": "8fe38c702505eee701521f54252d19e56627f2ab8b678c6402048f9d993378ec",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 2
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\" class=\"font-sans _59dTrW_variable ZFv9mW_variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"styleshee",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-J24-search-results.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/wyniki-wyszukiwania?type=publication&topic=4",
+      "why": "Trasa wynikow wyszukiwania z parametrami `type` i `topic` (literaly z bundli oad, run7). Pokazuje, czy filtrowanie jest serwerowe (payload RSC) i czy `topic` nie przyjmuje wartosci spoza listy (4,5,6,17,21,42,43,44) — mass-assignment/injection na filtrze."
+    },
+    {
+      "id": "oad-J25-bip",
+      "url": "https://oad.nask.pl/bip",
+      "status": 200,
+      "reason": "OK",
+      "ms": 801,
+      "bytes_read": 22350,
+      "sha256": "405bd681528473f2663298e857f86f12f1064c25d7d45c309a94a5a2ff645b12",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "HTML_DOC": 2
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\" class=\"font-sans _59dTrW_variable ZFv9mW_variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"styleshee",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-J25-bip.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/bip",
+      "why": "BIP (Biuletyn Informacji Publicznej) znaleziony w literalach oad — mozliwa osobna aplikacja/podspolna na tym samym hoscie Tier 1. 1 zadanie: czy to redirect, czy odrebna powierzchnia (jesli odrebna — nowy cel na nastepny przebieg)."
+    },
+    {
+      "id": "bm-J26-share-bundle",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/35g9u-wrehnzi.js",
+      "status": 404,
+      "reason": "Not Found",
+      "ms": 727,
+      "bytes_read": 9,
+      "sha256": "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5",
+      "content_type": "text/plain",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "cache-control": "public, max-age=3600, s-maxage=3600",
+        "x-frame-options": "DENY",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "TiPMix",
+        "x-ms-routing-name",
+        "Path"
+      ],
+      "markers": {
+        "SOFT404_PL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "Not Found",
+      "saved_to": "/home/runner/work/_temp/bodies/bm-J26-share-bundle.js",
+      "error": null,
+      "verdict": "not-found",
+      "raw_path": "/_next/static/chunks/35g9u-wrehnzi.js",
+      "why": "FALSYFIKACJA tropu `access_token`: w run7 ten bundel dal parametry access_token/fields/id/mode/src/title/url + literaly graph.facebook.com/?id=, sharer.php, pinterest, tumblr, reddit, telegram, vk, mail.ru, hatena — czyli biblioteka przyciskow UDOSTEPNIJ, nie poswiadczenie NASK. Pobranie raz jeszcze + nowy bundle_scan (paths/hosts/korekta #45) rozstrzyga to dowodem: jesli NIE MA literowej wartosci tokena, trop zamykamy jako falszywy i NIE zgłaszamy. UWAGA: graph.facebook.com jest poza §5 — nawet gdyby token byl, NIE wolno go uzyc (cudza infrastruktura)."
+    },
+    {
+      "id": "bm-J27-zglos-inicjatywe-page",
+      "url": "https://bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1208,
+      "bytes_read": 107740,
+      "sha256": "616e2ffd05026d53fe13f3715713344d47b704cffea61d1f73dbdeedfe1c7d9e",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "public, max-age=3600, s-maxage=3600",
+        "x-frame-options": "DENY",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [
+        "TiPMix",
+        "x-ms-routing-name",
+        "Path"
+      ],
+      "markers": {
+        "HTML_DOC": 2
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html class=\"mvmzpq_variable FeJUqW_variable\" lang=\"pl\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_",
+      "saved_to": "/home/runner/work/_temp/bodies/bm-J27-zglos-inicjatywe-page.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/ecsm/zglos-inicjatywe/",
+      "why": "L14 — TYLKO GET na strone formularza (zero wysylki, zero zmiany stanu): kontrakt pol (name/description/...) i czy formularz ma server-side token CSRF. Przygotowanie do testu, ktory wymaga jawnego GO usera."
+    },
+    {
+      "id": "pllum-J28-preview-chunk",
+      "url": "https://pllum.org.pl/_nuxt/CI9Gd-qu.js",
+      "status": 200,
+      "reason": "OK",
+      "ms": 801,
+      "bytes_read": 7102,
+      "sha256": "fcb3fd7d01fbebaaf523d4a09b0ecacce00a8bbba0233593700b3334a808fab3",
+      "content_type": "text/javascript",
+      "headers": {
+        "content-type": "text/javascript; charset=utf-8",
+        "content-length": "7102",
+        "cache-control": "public, max-age=3600, s-maxage=3600",
+        "etag": "\"1bbe-1D2U/v9oLB9a8FMEJZ4GrFTP5s0\"",
+        "last-modified": "Thu, 08 Oct 2026 08:44:24 GMT",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "DENY"
+      },
+      "set_cookie_names": [
+        "TiPMix",
+        "x-ms-routing-name"
+      ],
+      "markers": {},
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "import{aj as O,a8 as y,aS as I,G as j,s as x,Z as R,aI as b}from\"./Cze8tWNQ.js\";import{i as P}from\"./BJ2ClxiI.js\";function l(e){if(typeof e!=\"object\")return e;var i,o,n=Object.prototype.toString.call(",
+      "saved_to": "/home/runner/work/_temp/bodies/pllum-J28-preview-chunk.js",
+      "error": null,
+      "verdict": "other-200",
+      "raw_path": "/_nuxt/CI9Gd-qu.js",
+      "why": "NOWY trop z mapy 7911f950: ten chunk zawiera mechanizm `previewToken` (sessionStorage + b().query.preview=n + getPreviewToken). Gemma-B testowala `_draft=true` -> 200/2 B = [] , ale wlasciwym przełacznikiem draftow w Nuxt Content jest TOKEN PREVIEW, nie flaga. Pobranie bundla = dokladny endpoint i sposob przekazania tokena (offline, zero zgadywania)."
+    },
+    {
+      "id": "hive-J29-main-bundle",
+      "url": "https://dataannotation.pllum.org.pl/assets/index-ClBZuP56.js",
+      "status": 200,
+      "reason": "OK",
+      "ms": 2429,
+      "bytes_read": 2770426,
+      "sha256": "2db4ae91ff9ed70f4c0979fa45af5d9df413012aee1ae3c0474a571ff72b1f12",
+      "content_type": "application/javascript",
+      "headers": {
+        "content-type": "application/javascript",
+        "content-length": "2770426",
+        "last-modified": "Wed, 04 Nov 2026 12:39:42 GMT",
+        "etag": "\"6aeb278e-2a45fa\"",
+        "cache-control": "max-age=31536000,public, immutable",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "SOFT404_PL": 14,
+        "HTML_DOC": 1,
+        "SECRET_KEYS": 11,
+        "JSON_BODY": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 11,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/hive-J29-main-bundle.js",
+      "error": null,
+      "verdict": "js-bundle-with-keyword-hits",
+      "raw_path": "/assets/index-ClBZuP56.js",
+      "why": "L18: bundel HIVE 2,77 MB. Ich analiza dala 75 literałow tras, moj bundle_scan w run7 dal 0 endpointow (API klejone dynamicznie, ENDPOINT_RX lapie tylko /api|/_next/data|...). Korekta #44 dodaje `paths` (wszystkie literaly sciezek) i `hosts` ⇒ pelna mapa API HIVE PRZED przyznaniem konta (formaty ID = koszt IDOR-a L1/L2). Zero nowych zadan po tym przebiegu: analiza offline."
+    },
+    {
+      "id": "sos-J30-centres-search-pii",
+      "url": "https://116sos.pl/api/centres-search",
+      "status": 200,
+      "reason": "OK",
+      "ms": 979,
+      "bytes_read": 13306,
+      "sha256": "a30131e2323db8379685be515876c737a081e6a150eee63cbb2ee61b8ccdcbcb",
+      "content_type": "application/json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "13306",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "public, max-age=30, s-maxage=60, stale-while-revalidate=300",
+        "etag": "\"ywp3wenbfqa1k\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "JSON_BODY": 1,
+        "PII_EMAIL": 10
+      },
+      "pii_marker_hits": 10,
+      "json_keys": {
+        "keys": [
+          "centres",
+          "centres[].address",
+          "centres[].address.apartment",
+          "centres[].address.building",
+          "centres[].address.city",
+          "centres[].address.postcode",
+          "centres[].address.street",
+          "centres[].address.voivodeships",
+          "centres[].canSleep",
+          "centres[].centreAimedTo",
+          "centres[].centreSupports",
+          "centres[].email",
+          "centres[].geoCords",
+          "centres[].geoCords.lat",
+          "centres[].geoCords.lon",
+          "centres[].id",
+          "centres[].latitude",
+          "centres[].longitude",
+          "centres[].name",
+          "centres[].open24",
+          "centres[].ops",
+          "centres[].phone",
+          "centres[].scopeOfHelp",
+          "centres[].specialist",
+          "centres[].updatedAt",
+          "centres[].webPage",
+          "lastPage",
+          "totalItems"
+        ],
+        "key_count": 28,
+        "personal_like": [
+          "centres[].address",
+          "centres[].email",
+          "centres[].geoCords.lat",
+          "centres[].geoCords.lon",
+          "centres[].id",
+          "centres[].name",
+          "centres[].phone"
+        ]
+      },
+      "secret_marker_hits": 0,
+      "preview": null,
+      "saved_to": "/home/runner/work/_temp/bodies/sos-J30-centres-search-pii.json",
+      "error": null,
+      "verdict": "CANDIDATE-PII-IN-RESPONSE",
+      "raw_path": "/api/centres-search",
+      "why": "L9 z nowym instrumentem: run2 zapisal SCHEMAT 28 kluczy (address.*, email, geoCords.*, phone, scopeOfHelp, totalItems...) bez wartosci. Korekta #43 policzy e-maile i telefony w odpowiedzi BEZ ich zapisywania. Rozstrzyga, czy API oddaje dane instytucjonalne (publiczne — wykluczone), czy dane opiekunow/osob (klasa 3, Tier 2). no_preview=TRUE."
+    }
+  ],
+  "bodies_saved": 30,
+  "bodies_dir": "/home/runner/work/_temp/bodies",
+  "bodies_bytes_total": 3646132,
+  "bodies_manifest": [
+    {
+      "id": "dns-J00-control-home",
+      "file": "/home/runner/work/_temp/bodies/dns-J00-control-home.html",
+      "url": "https://dns.pl/",
+      "bytes": 51121,
+      "sha256": "cd5cde7783cd067dce43e1513adda5cb3467c0e0105a36b940bf8bb6f3a30da8",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J01-control-zone-stats",
+      "file": "/home/runner/work/_temp/bodies/dns-J01-control-zone-stats.json",
+      "url": "https://dns.pl/api/zone-stats",
+      "bytes": 11761,
+      "sha256": "989e51d8c8f3df8d218e022bf65816b2f5862047258104791c9b497453df8667",
+      "content_type": "application/json"
+    },
+    {
+      "id": "dns-J02-stats-bare",
+      "file": "/home/runner/work/_temp/bodies/dns-J02-stats-bare.html",
+      "url": "https://dns.pl/api/stats/",
+      "bytes": 40914,
+      "sha256": "f8c22ad8351780de9173ac7009445778533983c4f0e0892b53f60e6cd6fe2da6",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J03-stats-url-empty",
+      "file": "/home/runner/work/_temp/bodies/dns-J03-stats-url-empty.html",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=",
+      "bytes": 40914,
+      "sha256": "608322c707522d369e7748ac1861714c3502a25f240237515fcebf58b5d91f83",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J04-stats-url-relative",
+      "file": "/home/runner/work/_temp/bodies/dns-J04-stats-url-relative.html",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "bytes": 40914,
+      "sha256": "98796a50aa7e6fd5ab79bbbceec1fd6cc0cbcf3fb96fc992930f8b510ab91ebf",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J05-stats-url-samehost",
+      "file": "/home/runner/work/_temp/bodies/dns-J05-stats-url-samehost.html",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=https%3A%2F%2Fdns.pl%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "bytes": 40919,
+      "sha256": "2114b665c7fb8b86e6ccca17bd34becc928d9d1cb781bdfe79faf19e748c344b",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J06-stats-url-external",
+      "file": "/home/runner/work/_temp/bodies/dns-J06-stats-url-external.html",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "bytes": 51210,
+      "sha256": "55f1d181bacb6b0edce527d04a16cd756e484785b2ace0f819ffd39ac86666c8",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J07-whois-bare",
+      "file": "/home/runner/work/_temp/bodies/dns-J07-whois-bare.html",
+      "url": "https://dns.pl/api/who-is-xml/",
+      "bytes": 40933,
+      "sha256": "4941453ca1b422f1ae6b128436e90f9728f74ae13bae7c844b8f1807f4215447",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J08-whois-valid",
+      "file": "/home/runner/work/_temp/bodies/dns-J08-whois-valid.html",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask.pl",
+      "bytes": 40924,
+      "sha256": "91fd40ed14794146d1486aec331b8fb91ada2ac04d729e60fa0ff209d4ff87b0",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J09-whois-nonexistent",
+      "file": "/home/runner/work/_temp/bodies/dns-J09-whois-nonexistent.html",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask-test-nieistnieje-987654.pl",
+      "bytes": 40926,
+      "sha256": "f5ece17b99f581152c41bcaf693077c639acfda63fef7eb9ca70e33987b2e37c",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J10-whois-crlf",
+      "file": "/home/runner/work/_temp/bodies/dns-J10-whois-crlf.html",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask.pl%0D%0Aexample.pl",
+      "bytes": 51217,
+      "sha256": "84bb01c6b2125e078f7e0ff2138447c2263fab9d84ae3433ad8d597b8803efd2",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J11-whois-alt-param",
+      "file": "/home/runner/work/_temp/bodies/dns-J11-whois-alt-param.html",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "bytes": 40910,
+      "sha256": "579511087c8d8be165acb75efbc4955eb8793e3a5208857f1bbccdbf3aa60f40",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J12-domainbrowser",
+      "file": "/home/runner/work/_temp/bodies/dns-J12-domainbrowser.html",
+      "url": "https://dns.pl/api/domain-browser/?domainName=nask",
+      "bytes": 40921,
+      "sha256": "225ebe4dabdc584e323d8eec0c494a67e4d126b54114cefd68b0c4a979e7338a",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J13-funny-name",
+      "file": "/home/runner/work/_temp/bodies/dns-J13-funny-name.html",
+      "url": "https://dns.pl/api/funny-name/",
+      "bytes": 40920,
+      "sha256": "ae9c2399d83d4f086ffefe912d5a889d39feebcc17a15d52628520e209cc5fd9",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J14-count-deleted",
+      "file": "/home/runner/work/_temp/bodies/dns-J14-count-deleted.html",
+      "url": "https://dns.pl/api/count-deleted-domains",
+      "bytes": 17,
+      "sha256": "a344456b6a1094965c743c555101194e5d0dab2eb3c472cdc6cf190e5d570069",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-J15-deleted-domains-pii",
+      "file": "/home/runner/work/_temp/bodies/dns-J15-deleted-domains-pii.txt",
+      "url": "https://dns.pl/deleted_domains.txt",
+      "bytes": 46440,
+      "sha256": "420afd8eb59da532808ff991e8b4721940a11bdfefefadf5144247cbce6a9f3d",
+      "content_type": "text/plain"
+    },
+    {
+      "id": "sci-J16-search-bare",
+      "file": "/home/runner/work/_temp/bodies/sci-J16-search-bare.json",
+      "url": "https://science.nask.pl/api/search",
+      "bytes": 47,
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-J17-search-query",
+      "file": "/home/runner/work/_temp/bodies/sci-J17-search-query.json",
+      "url": "https://science.nask.pl/api/search?query=hive",
+      "bytes": 2121,
+      "sha256": "b4c9ddfdb2050eb6b2a2384c34ae9d9fb00786934d802401326853d29a3cb4af",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-J18-search-q",
+      "file": "/home/runner/work/_temp/bodies/sci-J18-search-q.json",
+      "url": "https://science.nask.pl/api/search?q=hive",
+      "bytes": 47,
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-J19-search-phrase",
+      "file": "/home/runner/work/_temp/bodies/sci-J19-search-phrase.json",
+      "url": "https://science.nask.pl/api/search?searchPhrase=hive",
+      "bytes": 47,
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-J20-control-downloadfile-invalid",
+      "file": "/home/runner/work/_temp/bodies/sci-J20-control-downloadfile-invalid.json",
+      "url": "https://science.nask.pl/api/downloadFile?fileId=-1",
+      "bytes": 27,
+      "sha256": "30277b2e49e1b53a31631573c7a172f64bea8ad489af6b549205ac2d992d9649",
+      "content_type": "application/json"
+    },
+    {
+      "id": "sci-J21-nextdata-search",
+      "file": "/home/runner/work/_temp/bodies/sci-J21-nextdata-search.json",
+      "url": "https://science.nask.pl/_next/data/Grl_YQ5SCHd1ahmhesPv6/search.json?query=hive",
+      "bytes": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "content_type": "application/json"
+    },
+    {
+      "id": "oad-J23-trendy",
+      "file": "/home/runner/work/_temp/bodies/oad-J23-trendy.html",
+      "url": "https://oad.nask.pl/trendy",
+      "bytes": 13814,
+      "sha256": "286f1682796ce4e7e9ec86b99fa838de1ac50e3aca776229d3ddc8e3f4c86666",
+      "content_type": "text/html"
+    },
+    {
+      "id": "oad-J24-search-results",
+      "file": "/home/runner/work/_temp/bodies/oad-J24-search-results.html",
+      "url": "https://oad.nask.pl/wyniki-wyszukiwania?type=publication&topic=4",
+      "bytes": 88133,
+      "sha256": "8fe38c702505eee701521f54252d19e56627f2ab8b678c6402048f9d993378ec",
+      "content_type": "text/html"
+    },
+    {
+      "id": "oad-J25-bip",
+      "file": "/home/runner/work/_temp/bodies/oad-J25-bip.html",
+      "url": "https://oad.nask.pl/bip",
+      "bytes": 22350,
+      "sha256": "405bd681528473f2663298e857f86f12f1064c25d7d45c309a94a5a2ff645b12",
+      "content_type": "text/html"
+    },
+    {
+      "id": "bm-J26-share-bundle",
+      "file": "/home/runner/work/_temp/bodies/bm-J26-share-bundle.js",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/35g9u-wrehnzi.js",
+      "bytes": 9,
+      "sha256": "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5",
+      "content_type": "text/plain"
+    },
+    {
+      "id": "bm-J27-zglos-inicjatywe-page",
+      "file": "/home/runner/work/_temp/bodies/bm-J27-zglos-inicjatywe-page.html",
+      "url": "https://bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/",
+      "bytes": 107740,
+      "sha256": "616e2ffd05026d53fe13f3715713344d47b704cffea61d1f73dbdeedfe1c7d9e",
+      "content_type": "text/html"
+    },
+    {
+      "id": "pllum-J28-preview-chunk",
+      "file": "/home/runner/work/_temp/bodies/pllum-J28-preview-chunk.js",
+      "url": "https://pllum.org.pl/_nuxt/CI9Gd-qu.js",
+      "bytes": 7102,
+      "sha256": "fcb3fd7d01fbebaaf523d4a09b0ecacce00a8bbba0233593700b3334a808fab3",
+      "content_type": "text/javascript"
+    },
+    {
+      "id": "hive-J29-main-bundle",
+      "file": "/home/runner/work/_temp/bodies/hive-J29-main-bundle.js",
+      "url": "https://dataannotation.pllum.org.pl/assets/index-ClBZuP56.js",
+      "bytes": 2770426,
+      "sha256": "2db4ae91ff9ed70f4c0979fa45af5d9df413012aee1ae3c0474a571ff72b1f12",
+      "content_type": "application/javascript"
+    },
+    {
+      "id": "sos-J30-centres-search-pii",
+      "file": "/home/runner/work/_temp/bodies/sos-J30-centres-search-pii.json",
+      "url": "https://116sos.pl/api/centres-search",
+      "bytes": 13306,
+      "sha256": "a30131e2323db8379685be515876c737a081e6a150eee63cbb2ee61b8ccdcbcb",
+      "content_type": "application/json"
+    }
+  ]
+}
