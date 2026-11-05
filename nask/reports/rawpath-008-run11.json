@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "dry_run": false,
+  "rps_requested": 1.0,
+  "min_observed_gap_s": 1.0,
+  "wall_seconds": 7.81,
+  "count": 7,
+  "summary": {
+    "count": 7,
+    "verdicts": {
+      "html-page": 4,
+      "method-not-allowed-route-exists": 1,
+      "other-200": 1,
+      "redirect-not-followed": 1
+    },
+    "candidates": [],
+    "transport_errors": [],
+    "out_of_scope_refusals": []
+  },
+  "identical_bodies": [],
+  "note": "Werdykt wynika z typu/rozmiaru/znacznikow, nie z samego kodu. CANDIDATE-* wymaga recznego potwierdzenia przez czlowieka przed jakimkolwiek zgloszeniem; tresci wrazliwe nie sa zapisywane.",
+  "probes": [
+    {
+      "id": "zglos-L01-sendform-get",
+      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
+      "status": 405,
+      "reason": "Method Not Allowed",
+      "ms": 1211,
+      "bytes_read": 0,
+      "sha256": null,
+      "content_type": null,
+      "headers": {
+        "content-length": "0",
+        "x-frame-options": "SAMEORIGIN",
+        "x-cache": "CONFIG_NOCACHE"
+      },
+      "set_cookie_names": [],
+      "markers": {},
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "",
+      "saved_to": null,
+      "error": null,
+      "verdict": "method-not-allowed-route-exists",
+      "raw_path": "/api/sendForm",
+      "why": "GET na trasie POST-owej: ZERO zmiany stanu (nic nie wysylamy — L23 czeka na jawne GO). Cel: 405 + naglowek `Allow` (biała lista metod) albo 404. Rozstrzyga, czy /api/sendForm jest jedyna trasa API zglos-dezinformacje (mining run7: tak) i czy serwer w ogole rozroznia metody — bez tego L23/L3 sa planowane na slepo. Odpowiedz 4xx <=1024 B jest zapisywana z podgladem (korekta #28b) — to komunikat API, nie dane."
+    },
+    {
+      "id": "sos-L02-home",
+      "url": "https://116sos.pl/",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1200,
+      "bytes_read": 103227,
+      "sha256": "2f4719a3b0029506ee111efb731bd8be757d5858425d98761c97a176a7e0a921",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "103227",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "s-maxage=300, stale-while-revalidate=31535700",
+        "etag": "\"jnlz1ebz0827dg\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><title data-next-head=\"\">116sos.pl | Pomoc psycholog",
+      "saved_to": "/home/runner/work/_temp/bodies/sos-L02-home.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/",
+      "why": "Strona glowna 116sos + mining `paths` (korekta #44): szukamy nazwy trasy katalogu placowek. Po co: zeby domknac L9 BEZ pracy usera — majac trase, pobieramy /_next/data/<buildId>/<trasa>.json (buildId 8CjJwbyxpVqpWnorny23T z mapy 7911f950) i porownujemy zbior placowek z API `centres-search` (run9: 13 306 B, 10 e-maili instytucji)."
+    },
+    {
+      "id": "sos-L03-mapa-serwisu",
+      "url": "https://116sos.pl/mapa-serwisu",
+      "status": 200,
+      "reason": "OK",
+      "ms": 1530,
+      "bytes_read": 103104,
+      "sha256": "11ffb7ff617020632f6917c9dd0ed221f13db1f5c08e868d9f5ae3ea8ec60de2",
+      "content_type": "text/html",
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "103104",
+        "access-control-allow-origin": "https://info-trace.116sos.pl",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "etag": "\"ym7caearn126fz\"",
+        "x-frame-options": "sameorigin"
+      },
+      "set_cookie_names": [
+        "stickounet"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html><html lang=\"pl\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><title data-next-head=\"\">116sos.pl | Mapa serwisu</t",
+      "saved_to": "/home/runner/work/_temp/bodies/sos-L03-mapa-serwisu.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/mapa-serwisu",
+      "why": "Mapa serwisu = autorytatywna lista tras publicznych (odpowiednik sitemap dla L9). Kontrola dla L02: jesli katalog placowek jest strona publiczna, bedzie tu wymieniony wprost; jesli go NIE ma, a API oddaje placowki — to jest wlasnie roznica, ktora rozstrzyga, czy dane sa publicznie przeznaczone do udostepniania."
+    },
+    {
+      "id": "oad-L04-en-home",
+      "url": "https://oad.nask.pl/en/",
+      "status": 308,
+      "reason": "Permanent Redirect",
+      "ms": 515,
+      "bytes_read": 3,
+      "sha256": "7a4ba3ba0fb8f6c383745e0d6ffec1c1fab910193a75b3db89f26d0fd5f7d428",
+      "content_type": null,
+      "headers": {
+        "location": "/en",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {},
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "/en",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-L04-en-home.bin",
+      "error": null,
+      "verdict": "redirect-not-followed",
+      "raw_path": "/en/",
+      "why": "Angielska tabela tras oad. Run10 dowiodl, ze /trendy i /en/trendy = 404, a chunk PowerBI ma trasy ANGIELSKIE (/about-us, /news) obok polskich (/aktualnosci, /o-nas) i szablony /${t.H.EN}, /${t.L}. Hipoteza: strona z raportem PowerBI istnieje pod inna nazwa (np. /en/trends, /raporty). Mining `paths` z tej strony daje aktualna liste tras DEPLOYMENTU — a nie literały z chunka, ktore moga byc martwym kodem."
+    },
+    {
+      "id": "oad-L05-nav-chunk",
+      "url": "https://oad.nask.pl/_next/static/chunks/0gnc331ufzpqs.js",
+      "status": 200,
+      "reason": "OK",
+      "ms": 615,
+      "bytes_read": 14147,
+      "sha256": "06473846a4098a33544768f1b8fdaf2c7f99f768fea32ac6aecd5361720a346a",
+      "content_type": "application/javascript",
+      "headers": {
+        "content-type": "application/javascript; charset=UTF-8",
+        "content-length": "14147",
+        "cache-control": "public, max-age=31536000, immutable",
+        "last-modified": "Wed, 04 Nov 2026 12:46:11 GMT",
+        "etag": "W/\"3743-1a1a6987238\"",
+        "x-cache": "CONFIG_NOCACHE",
+        "x-frame-options": "SAMEORIGIN"
+      },
+      "set_cookie_names": [],
+      "markers": {
+        "SOFT404_PL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,[36768,e=>{var t=e.i(56073),s=e.i(74684),a=e.i(95861),n=e.i(88280),l=e.i(40686),i=e.i(64",
+      "saved_to": "/home/runner/work/_temp/bodies/oad-L05-nav-chunk.js",
+      "error": null,
+      "verdict": "other-200",
+      "raw_path": "/_next/static/chunks/0gnc331ufzpqs.js",
+      "why": "Chunk nawigacji/stopki (run9 oad-J25 mining: ma /bip, /wyniki-wyszukiwania?type=..., /zglos-dezinformacje, /o-nas, /logo.svg, /en/). Pelna tabela tras z tego modulu rozstrzyga, czy PowerBI ma wlasna strone w biezacym deploymencie. 1 zadanie, analiza offline (korekta #44)."
+    },
+    {
+      "id": "dns-L06-lista-usunietych",
+      "url": "https://dns.pl/lista_domen_usunietych",
+      "status": 200,
+      "reason": "OK",
+      "ms": 793,
+      "bytes_read": 41998,
+      "sha256": "004dfdaa0883e44265b03c418c1d6f106d94683ea44ec07e6f2529fc8552f407",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "41998"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-L06-lista-usunietych.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/lista_domen_usunietych",
+      "why": "NIEZALEZNE potwierdzenie rozstrzygniecia L20 (run9: deleted_domains.txt = 46 440 B, 0 znacznikow PII, 31,6 B/wiersz przy 1467 pozycjach = same nazwy domen). Strona UI dla tej samej listy pokazuje, co rejestr sam uwaza za publiczne: jesli UI prezentuje nazwy domen (bez abonenta), L20 jest domkniete drugim kanalem, nie tylko arytmetyka."
+    },
+    {
+      "id": "dns-L07-przegladarka",
+      "url": "https://dns.pl/przegladarka",
+      "status": 200,
+      "reason": "OK",
+      "ms": 843,
+      "bytes_read": 41968,
+      "sha256": "be30e4a3b57d21b695d4a772e210052cc58e23473d57ba2b52846b82b6c35b75",
+      "content_type": "text/html",
+      "headers": {
+        "x-frame-options": "sameorigin",
+        "cache-control": "max-age=0, must-revalidate, private",
+        "content-type": "text/html; charset=UTF-8",
+        "content-length": "41968"
+      },
+      "set_cookie_names": [
+        "SESID"
+      ],
+      "markers": {
+        "HTML_DOC": 2,
+        "SPA_SHELL": 1
+      },
+      "pii_marker_hits": 0,
+      "json_keys": {},
+      "secret_marker_hits": 0,
+      "preview": "<!DOCTYPE html>.<html lang=\"pl\".    >.<head>.    <meta charset=\"utf-8\"/>.    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>.    <title>DNS | Krajowy Rejestr Domen</title>..     ",
+      "saved_to": "/home/runner/work/_temp/bodies/dns-L07-przegladarka.html",
+      "error": null,
+      "verdict": "html-page",
+      "raw_path": "/przegladarka",
+      "why": "UI przegladarki domen (trasa z bundla dns.pl, run9 paths: /przegladarka, /en/browser). Cel: /api/domain-browser/ daje 404 w GET (run9 dns-J12) — strona UI pokaze, jak naprawde jest odpytywana (inna sciezka, POST, albo token reCAPTCHA v3, ktory dns.pl laduje w main-3.3.0.js). Bez tego kazda hipoteza o domain-browser jest zgadywaniem."
+    }
+  ],
+  "bodies_saved": 6,
+  "bodies_dir": "/home/runner/work/_temp/bodies",
+  "bodies_bytes_total": 304447,
+  "bodies_manifest": [
+    {
+      "id": "sos-L02-home",
+      "file": "/home/runner/work/_temp/bodies/sos-L02-home.html",
+      "url": "https://116sos.pl/",
+      "bytes": 103227,
+      "sha256": "2f4719a3b0029506ee111efb731bd8be757d5858425d98761c97a176a7e0a921",
+      "content_type": "text/html"
+    },
+    {
+      "id": "sos-L03-mapa-serwisu",
+      "file": "/home/runner/work/_temp/bodies/sos-L03-mapa-serwisu.html",
+      "url": "https://116sos.pl/mapa-serwisu",
+      "bytes": 103104,
+      "sha256": "11ffb7ff617020632f6917c9dd0ed221f13db1f5c08e868d9f5ae3ea8ec60de2",
+      "content_type": "text/html"
+    },
+    {
+      "id": "oad-L04-en-home",
+      "file": "/home/runner/work/_temp/bodies/oad-L04-en-home.bin",
+      "url": "https://oad.nask.pl/en/",
+      "bytes": 3,
+      "sha256": "7a4ba3ba0fb8f6c383745e0d6ffec1c1fab910193a75b3db89f26d0fd5f7d428",
+      "content_type": null
+    },
+    {
+      "id": "oad-L05-nav-chunk",
+      "file": "/home/runner/work/_temp/bodies/oad-L05-nav-chunk.js",
+      "url": "https://oad.nask.pl/_next/static/chunks/0gnc331ufzpqs.js",
+      "bytes": 14147,
+      "sha256": "06473846a4098a33544768f1b8fdaf2c7f99f768fea32ac6aecd5361720a346a",
+      "content_type": "application/javascript"
+    },
+    {
+      "id": "dns-L06-lista-usunietych",
+      "file": "/home/runner/work/_temp/bodies/dns-L06-lista-usunietych.html",
+      "url": "https://dns.pl/lista_domen_usunietych",
+      "bytes": 41998,
+      "sha256": "004dfdaa0883e44265b03c418c1d6f106d94683ea44ec07e6f2529fc8552f407",
+      "content_type": "text/html"
+    },
+    {
+      "id": "dns-L07-przegladarka",
+      "file": "/home/runner/work/_temp/bodies/dns-L07-przegladarka.html",
+      "url": "https://dns.pl/przegladarka",
+      "bytes": 41968,
+      "sha256": "be30e4a3b57d21b695d4a772e210052cc58e23473d57ba2b52846b82b6c35b75",
+      "content_type": "text/html"
+    }
+  ]
+}
