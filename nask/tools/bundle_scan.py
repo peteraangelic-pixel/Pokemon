@@ -30,6 +30,42 @@ ENDPOINT_RX = re.compile(
     r"""["'`](/(?:api|_next/data|rest|graphql|v[0-9]+)[A-Za-z0-9_\-./{}$]*?)["'`]""")
 FETCH_RX = re.compile(r"""(?:fetch|axios\.(?:get|post|put|patch|delete)|\.(?:get|post|put|patch|delete))\(\s*["'``]([^"'`]+)["'``]""")
 QUERY_RX = re.compile(r"""[?&]([A-Za-z_][A-Za-z0-9_]{1,30})=""")
+# KOREKTA #44 (cz. 1): samo `generic_assignment` wymaga CUDZYSLOWU po `=`/`:`, wiec
+# sekret w stylu URL (`...&access_token=EAAB...`) byl niewidoczny — a to wlasnie
+# tak najczesciej wyglada token w klejonym linku. Stad osobny wzorzec na WARTOSC
+# parametru o podejrzanej nazwie. Do raportu trafia wylacznie odcisk (korekta #33).
+QUERY_VALUE_RX = re.compile(
+    r"""[?&](access_token|token|api_?key|apikey|secret|sig|signature|auth|password|passwd|key)"""
+    r"""=([A-Za-z0-9_.\-|]{16,120})""", re.I)
+# placeholder-y szblonow i wartosci oczywiscie nieliterowe — nie sa sekretami
+# KOREKTA #45: `generic_assignment` na zminifikowanym JS lapal SKLEJENIA, nie sekrety:
+# `token="+encodeURIComponent(t)+"` -> "wartosc" `+encodeURIComponent(t)+` (23 znaki,
+# entropia 3.73 > 3.5). To byl kandydat na falszywy raport. Filtr: wartosc
+# kandydata na sekret nie moze zawierac skladni JS (nawiasy, `${}`, przecinki,
+# spacje) ani zaczynac sie od operatora sklejenia.
+CRED_VALUE_BAD_RX = re.compile(r"[(){}\[\]$\\\s,;<>!|&*=+\-]")
+
+
+def looks_like_credential(value: str) -> bool:
+    """Czy wartosc moze byc literalem sekretu (a nie fragmentem kodu)."""
+    if not value or value[0] in "+-" or len(value) < 8:
+        return False
+    if CRED_VALUE_BAD_RX.search(value):
+        return False
+    return shannon(value) >= 3.0
+
+
+QUERY_VALUE_ALLOW_RX = re.compile(
+    r"""(?:^\$\{|\$\{|%s|\{|\}|<[a-z]|^null$|^undefined$|^true$|^false$|^[0-9.]+$|\*\*\*|xxx|your_|example)""", re.I)
+# KOREKTA #44 (cz. 2): literaly sciezek i hostow. Bez tego bundel HIVE
+# (2,77 MB, lead L18) dal 0 endpointow i 0 tras, bo API jest klejone dynamicznie,
+# a `ENDPOINT_RX` lapie tylko /api|/_next/data|/rest|/graphql|/vN.
+PATH_RX = re.compile(r"""["'`](/[A-Za-z0-9_\-./{}$%?&=]{2,120})["'`]""")
+HOST_RX = re.compile(r"""https?://([A-Za-z0-9][A-Za-z0-9.\-]{2,79})""")
+MAX_PATHS = 300
+MAX_HOSTS = 80
+STATIC_PATH_RX = re.compile(
+    r"^/(?:_next/static|static|assets|dist|media|icons|images|img|fonts|css|js)/", re.I)
 PATH_PARAM_RX = re.compile(r"""[\{:]([A-Za-z_][A-Za-z0-9_]{1,30})[\}]""")
 UUID_RX = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
 ULID_RX = re.compile(r"^[0-9A-HJKMNP-TV-Z]{26}$")
@@ -114,19 +150,54 @@ def is_real_param(name: str) -> bool:
     return True
 
 
+def extract_paths(text: str, limit: int = MAX_PATHS) -> list:
+    """Literaly sciezek z bundla. Priorytet: nie-statyczne (API/trasy), bo assety
+    (`/_next/static/chunks/...`) zalewaja liste i niczego nie rozstrzygaja."""
+    raw = {p for p in PATH_RX.findall(text) if not p.startswith("//")}
+    interesting = sorted(p for p in raw if not STATIC_PATH_RX.match(p))
+    static = sorted(p for p in raw if STATIC_PATH_RX.match(p))
+    return (interesting + static)[:limit]
+
+
+def extract_hosts(text: str, limit: int = MAX_HOSTS) -> list:
+    """Hosty absolutnych URL-i w bundlu — tak znaleziono embed PowerBI (L13)."""
+    c = Counter(h.rstrip(".").lower() for h in HOST_RX.findall(text))
+    return [h for h, _ in c.most_common(limit)]
+
+
+def query_value_secrets(text: str) -> list:
+    """Sekrety w stylu `?access_token=WARTOSC` — TYLKO odcisk, nazwa i metryki."""
+    out = []
+    seen = set()
+    for pname, value in QUERY_VALUE_RX.findall(text):
+        if QUERY_VALUE_ALLOW_RX.search(value) or not looks_like_credential(value):
+            continue
+        fp = fingerprint(value)
+        if fp in seen:
+            continue
+        seen.add(fp)
+        out.append({"kind": "query_value_" + pname.lower(), "param": pname.lower(),
+                    "length": len(value), "entropy": round(shannon(value), 2),
+                    "fingerprint": fp})
+    return out[:20]
+
+
 def scan_text(name: str, text: str) -> dict:
     endpoints = set(ENDPOINT_RX.findall(text)) | set(FETCH_RX.findall(text))
     endpoints = {e for e in endpoints if e.startswith("/") and not e.startswith("//")}
     params = {p for p in (set(QUERY_RX.findall(text)) | set(PATH_PARAM_RX.findall(text)))
               if is_real_param(p)}
-    secrets = []
+    secrets = query_value_secrets(text)
     for kind, rx in SECRET_PATTERNS.items():
         for m in rx.findall(text):
             val = m if isinstance(m, str) else m[0]
             if ALLOW_RX.match(val):
                 continue
-            if kind == "generic_assignment" and shannon(val) < 3.5:
-                continue  # niskia entropia = raczej hasło-hasło z dokumentacji, nie sekret
+            # KOREKTA #45: wspolny filtr ksztaltu wartosci (nawiasy/sklejenia = kod,
+            # nie sekret) + entropia. Wczesniejszy prog 3.5 przepuszczal
+            # `+encodeURIComponent(t)+` (3.73).
+            if not looks_like_credential(val):
+                continue
             # KOREKTA #33: nawet 6 znakow sekretu nie powinno trafic do publicznego
             # repo. Zostaje odcisk (sha256[:12]) + dlugosc + entropia — wystarcza do
             # deduplikacji i do potwierdzenia znaleziska bez ujawniania wartosci.
@@ -135,7 +206,8 @@ def scan_text(name: str, text: str) -> dict:
     id_samples = re.findall(r"""["']([0-9a-fA-F\-]{6,64})["']""", text)
     formats = Counter(classify_id(v) for v in id_samples[:2000])
     return {"file": name, "endpoints": sorted(endpoints), "params": sorted(params),
-            "secrets": secrets, "id_formats": dict(formats)}
+            "secrets": secrets, "id_formats": dict(formats),
+            "paths": extract_paths(text), "hosts": extract_hosts(text)}
 
 
 def _work(item):
@@ -172,6 +244,8 @@ def main() -> int:
     Path(a.out).write_text(json.dumps(out, indent=1, ensure_ascii=False))
     print(f"przeskanowano {len(files)} plikow; endpointy: "
           f"{sum(len(r.get('endpoints', [])) for r in results)}; "
+          f"sciezki: {sum(len(r.get('paths', [])) for r in results)}; "
+          f"hosty: {len({h for r in results for h in (r.get('hosts') or [])})}; "
           f"sekret-kandydaty: {sum(len(r.get('secrets', [])) for r in results)}; "
           f"idor_prerank: {len(ranked)}")
     return 0

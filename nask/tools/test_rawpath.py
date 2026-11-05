@@ -493,5 +493,78 @@ class TestParamFilter(unittest.TestCase):
         self.assertNotIn("this", r["params"])
 
 
+class TestPiiMarkers(unittest.TestCase):
+    """KOREKTA #43: liczniki PII (tylko liczby) + wyciszenie podgladu."""
+
+    @staticmethod
+    def _valid_pesel(base="8001011234"):
+        w = (1, 3, 7, 9, 1, 3, 7, 9, 1, 3)
+        tot = sum(int(d) * wi for d, wi in zip(base, w))
+        return base + str((10 - tot % 10) % 10)
+
+    def test_pesel_validator(self):
+        from rawpath import pesel_ok
+        good = self._valid_pesel()
+        self.assertTrue(pesel_ok(good))
+        self.assertFalse(pesel_ok(good[:10] + str((int(good[10]) + 1) % 10)))
+        self.assertFalse(pesel_ok("80130112345"))   # miesiac 13
+        self.assertFalse(pesel_ok("80013212345"))   # dzien 32
+        self.assertFalse(pesel_ok("00000000000"))
+        self.assertFalse(pesel_ok("1234567890"))    # 10 cyfr
+        self.assertFalse(pesel_ok("abcdefghijkl"))
+
+    def test_counts_only_and_types(self):
+        from rawpath import pii_markers
+        pesel = self._valid_pesel()
+        body = ('{"email":"anna.nowak@przyklad.pl","tel":"+48 601 234 567",'
+                '"pesel":"%s","iban":"PL00000000000000000000000000"}' % pesel).encode()
+        m = pii_markers(body, "application/json")
+        self.assertEqual(m, {"PII_EMAIL": 1, "PII_PESEL": 1,
+                             "PII_PHONE_PL": 1, "PII_IBAN": 1})
+        self.assertEqual(pii_markers(body, "text/html"), {})
+        self.assertEqual(pii_markers(body, "application/javascript"), {})
+        self.assertEqual(pii_markers(b'{"x":"plain"}', "application/json"), {})
+
+    def test_timestamp_is_not_pesel(self):
+        from rawpath import pii_markers
+        body = b'{"ts":"1730700000000","n":17000000001}'
+        self.assertEqual(pii_markers(body, "application/json").get("PII_PESEL"), None)
+
+    def test_preview_suppressed_when_pii(self):
+        from rawpath import decide_preview
+        self.assertIsNone(decide_preview(200, b'{"e":"a@b.pl"}', "p", "/api/x", 0,
+                                         pii_marker_hits=1))
+        self.assertIsNotNone(decide_preview(200, b'{"e":1}', "p", "/api/x", 0,
+                                            pii_marker_hits=0))
+        # mala strona bledu nadal jest zapisywana (zasada 1 z korekty #28b)
+        self.assertIsNotNone(decide_preview(404, b'not found', "p", "/api/x", 0,
+                                            pii_marker_hits=0))
+
+    def test_verdict_pii(self):
+        from rawpath import classify
+        rec = {"status": 200, "content_type": "application/json", "bytes_read": 500,
+               "markers": {"PII_EMAIL": 7}, "pii_marker_hits": 7, "raw_path": "/api/x"}
+        self.assertEqual(classify(rec), "CANDIDATE-PII-IN-RESPONSE")
+        rec2 = dict(rec, markers={"SECRET_KEYS": 1}, secret_marker_hits=1,
+                    content_type="application/octet-stream", pii_marker_hits=0)
+        self.assertEqual(classify(rec2), "CANDIDATE-SECRET-FILE")
+
+    def test_report_never_contains_pii_values(self):
+        """Nawet przy trafieniu PII raport nie moze zawierac wartosci."""
+        import rawpath
+        pesel = self._valid_pesel()
+        body = ('{"e":"anna.nowak@przyklad.pl","p":"%s"}' % pesel).encode()
+        # bez sieci: sciezka raportowania na syntetycznym ciele
+        m = rawpath.pii_markers(body, "application/json")
+        blob = json.dumps({"markers": m,
+                           "preview": rawpath.decide_preview(200, body, "p", "/api/x", 0,
+                                                             pii_marker_hits=sum(m.values()))},
+                          ensure_ascii=False)
+        self.assertNotIn("anna.nowak", blob)
+        self.assertNotIn(pesel, blob)
+        self.assertNotIn("@przyklad.pl", blob)
+        self.assertIn("PII_EMAIL", blob)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

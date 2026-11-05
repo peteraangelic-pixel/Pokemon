@@ -1,0 +1,192 @@
+{
+  "plan_run": "RAWPATH-006",
+  "date": "2026-11-05",
+  "author": "Arena c87f7a48",
+  "based_on": "mine-rawpath-004-run7.json (28 endpointow, parametry statisticsUrl/domainName) + analysis-run003.json galezi 7911f950 (buildId science, previewToken pllum, literaly graph.facebook.com w bundlu share) + repo NASK b2cf80a4 (checks.json = sweep juz wykonany przez Gemma-B runda 6, NIE powtarzamy)",
+  "purpose": "3 tropy, ktorych NIE testowala zadna z 6 sesji: (1) dns.pl /api/stats/?statisticsUrl= — dyskryminator SSRF z odczytem (klasa 5, Tier 1); (2) dns.pl /api/who-is-xml/?domainName= — proxy WHOIS, CRLF + liczniki PII (klasa 3/5, Tier 1); (3) science.nask.pl /api/search — endpoint bez testu. Plus: rozstrzygniecie L20 i L9 BEZ pracy usera dzieki licznikom PII (korekta #43) i falsyfikacja tropu access_token (korekta #45).",
+  "compliance": {
+    "regulation": "hack.cert.pl, program NASK PIB, edycja 11/2026, §5/§6/§7/§8",
+    "hosts": "dns.pl (T1), science.nask.pl (T2), oad.nask.pl (T1), bezpiecznymiesiac.pl (T2), pllum.org.pl (T2), dataannotation.pllum.org.pl (T2), 116sos.pl (T2) — 7 hostow, wszystkie w §5; www.nask.pl i info-trace.116sos.pl CELNIE POMINIENTE (L10/L11, czekaja na interpretacje organizatora)",
+    "methods": "GET only, 1.0 req/s (sufit §6 pkt 2 = 5 req/s), 31 zadan, przekierowania niesledzone, HTTPS z weryfikacja certyfikatu, bez uwierzytelnienia (§6 pkt 1)",
+    "state_change": "ZERO — ani jednego POST/PUT/DELETE; sendForm (L23) czeka na jawne GO usera",
+    "third_party": "ZERO zadan do hostow spoza §5. example.com pojawia sie WYLACZNIE jako wartosc parametru w dyskryminatorze SSRF (domena IANA do dokumentacji, brak danych, brak skutku) — hostem zadania pozostaje dns.pl. graph.facebook.com NIE jest odpytywane; znaleziony token (gdyby byl) nie zostalby uzyty (§5 + cudza infrastruktura).",
+    "data": "no_preview=true dla 6 sond, ktorych odpowiedz moze zawierac dane osobowe (who-is x4, deleted_domains.txt, centres-search): do repo trafia WYLACZNIE liczniki PII (korekta #43) + status/typ/rozmiar/sha256. Ciala do RUNNER_TEMP (nie commitowane). Zadna wartosc PII ani sekretu nie trafia do repo — sekrety jako odcisk sha256[:12] (korekta #33).",
+    "escalation": "jesli J06 zwroci tresc pobrana z zewnatrz (SSRF z odczytem) ALBO liczniki PII w J08/J15/J30 wskaza dane osobowe bez logowania — KONIEC dalszych zadan na tym endpoincie (jeden dowod wystarczy), wpis do rejestru, informacja dla usera i przygotowanie zgloszenia (klasa 3/5). Nie pobieramy wiecej, nie enumerujemy, nie eskalujemy bez decyzji usera."
+  },
+  "probes": [
+    {
+      "id": "dns-J00-control-home",
+      "url": "https://dns.pl/",
+      "why": "KONTROLA A: strona glowna. dns.pl oddaje 200 + strona glowna na OBCYCH sciezkach z _event_transid (korekta #32) — bez tej kontroli kazdy 'kandydat' na tym hoscie jest falszywy.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-J01-control-zone-stats",
+      "url": "https://dns.pl/api/zone-stats",
+      "why": "KONTROLA B: jedyny API dns.pl potwierdzony jako zywy i publiczny (5ed750ef). Rozroznia 'caly /api/* nie istnieje' od 'ten jeden endpoint nie istnieje'."
+    },
+    {
+      "id": "dns-J02-stats-bare",
+      "url": "https://dns.pl/api/stats/",
+      "why": "NOWY endpoint z miningu run7 (main-3.3.0.js). Bez parametru — jaki blad/kod? To ustala, czy endpoint w ogole istnieje przed testem parametru."
+    },
+    {
+      "id": "dns-J03-stats-url-empty",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=",
+      "why": "Parametr `statisticsUrl` wydobyty z main-3.3.0.js przez bundle_scan (run7). Nazwa wskazuje URL przekazywany do API. Pusty = ksztalt bledu walidacji (czy walidacja jest po stronie serwera)."
+    },
+    {
+      "id": "dns-J04-stats-url-relative",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "why": "sciezka wzgledna do legalnej strony statystyk. Jesli 200 i serwer COS pobiera — mamy prymityw; porownanie z J05/J06 rozstrzyga, czy to fetch serwerowy czy tylko echo."
+    },
+    {
+      "id": "dns-J05-stats-url-samehost",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=https%3A%2F%2Fdns.pl%2Fstatystyki%2Fliczba_aktywnych_IDN",
+      "why": "URL absolutny do TEGO SAMEGO hosta (legalny, publiczny). Kontrola dla J06: jesli J05 dziala, a J06 nie — jest allow-lista hostow (mechanizm, nie luka)."
+    },
+    {
+      "id": "dns-J06-stats-url-external",
+      "url": "https://dns.pl/api/stats/?statisticsUrl=https%3A%2F%2Fexample.com%2F",
+      "why": "DYSKRYMINATOR SSRF (klasa 5, Tier 1). example.com = domena IANA zarezerwowana do dokumentacji, zadnych danych, zero skutku. Rozstrzygniecie: jesli odpowiedz ZAWIERA tresc pobrana z zewnatrz = SSRF z odczytem (korekta #31: dowodem jest odczyt, nie sam DNS). Jesli tylko blad/404 = allow-lista i trop zamykamy. Blind SSRF z samym DNS jest WYKLUCZONY (§8) — wiec nie eskalujemy bez odczytu.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "dns-J07-whois-bare",
+      "url": "https://dns.pl/api/who-is-xml/",
+      "why": "NOWY endpoint z miningu run7: proxy WHOIS w XML. Bez parametru — komunikat bledu zdradza nazwe parametru i warstwe (aplikacja vs nginx vs Drupal)."
+    },
+    {
+      "id": "dns-J08-whois-valid",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask.pl",
+      "why": "Parametr `domainName` wydobyty z main-3.3.0.js. no_preview=TRUE: odpowiedz WHOIS MOZE zawierac dane abonenta (osoba fizyczna: imie/nazwisko/e-mail), a nie publikujemy cudzych danych w repo. Zamiast tresci: liczniki PII z korekty #43 (PII_EMAIL/PII_PESEL/PII_PHONE_PL/PII_IBAN) — mowia 'ile', bez 'czyje'. Jesli PII > 0 dla domeny osoby fizycznej bez logowania = klasa 3, Tier 1 (9 000/20 000 zl), ale dowod potwierdza USER w przegladarce, nie my zrzutem do repo.",
+      "max_bytes": 262144,
+      "no_preview": true
+    },
+    {
+      "id": "dns-J09-whois-nonexistent",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask-test-nieistnieje-987654.pl",
+      "why": "KONTROLA NEGATYWNA dla J08: domena niezarejestrowana. Bez tego nie wiemy, czy 200 z danymi to odpowiedz WHOIS, czy catch-all hosta (dns.pl oddaje 200 na obcych sciezkach).",
+      "max_bytes": 262144,
+      "no_preview": true
+    },
+    {
+      "id": "dns-J10-whois-crlf",
+      "url": "https://dns.pl/api/who-is-xml/?domainName=nask.pl%0D%0Aexample.pl",
+      "why": "Wstrzykniecie CRLF do zapytania WHOIS (protokol linii na porcie 43). GET, tylko odczyt, zero zmiany stanu: najgorszy skutek to druga linia zapytania zignorowana przez serwer WHOIS. Rozstrzyga, czy parametr jest skladany do zapytania bez sanityzacji (klasa 5/1). Porownanie 1:1 z J08 (ten sam pierwszy człon).",
+      "max_bytes": 262144,
+      "no_preview": true
+    },
+    {
+      "id": "dns-J11-whois-alt-param",
+      "url": "https://dns.pl/api/who-is-xml/?domain=nask.pl",
+      "why": "Zapasowa nazwa parametru, gdyby `domainName` bylo nazwa pola formularza, a nie parametru API. Rozroznia 'zly parametr' od 'endpoint wymaga captchy' (dns.pl laduje reCAPTCHA v3 w main-3.3.0.js).",
+      "max_bytes": 262144,
+      "no_preview": true
+    },
+    {
+      "id": "dns-J12-domainbrowser",
+      "url": "https://dns.pl/api/domain-browser/?domainName=nask",
+      "why": "Przegladarka domen (trasa /przegladarka). Parametr z tego samego bundla co whois. Dane publiczne rejestru — niska wartosc, ale domyka L5/L22 ('nieznany kat dns.pl/api/*')."
+    },
+    {
+      "id": "dns-J13-funny-name",
+      "url": "https://dns.pl/api/funny-name/",
+      "why": "Generator propozycji nazw (etykieta 'domain_browser_suggestion_title' z translations). Dane publiczne; 1 zadanie na domkniecie mapy /api/* dns.pl."
+    },
+    {
+      "id": "dns-J14-count-deleted",
+      "url": "https://dns.pl/api/count-deleted-domains",
+      "why": "Licznik domen usunietych — para do J15. Jesli licznik jest publiczny, a plik J15 zawiera wiecej niz nazwy, to roznica jest sama w sobie informacja o zakresie udostepniania."
+    },
+    {
+      "id": "dns-J15-deleted-domains-pii",
+      "url": "https://dns.pl/deleted_domains.txt",
+      "why": "POWTORZENIE L20 z nowym instrumentem: run8 dal 200/text-plain/37 343 B, ale tresci celowo nie pobralismy (no_preview) i bez licznikow PII nie dalismy rady rozstrzygnac, czy to dane publiczne rejestru, czy dane abonenta. Teraz korekta #43 liczy e-maile/PESEL-e/telefony/IBAN-y BEZ zapisywania wartosci ⇒ rozstrzygniecie L20 bez pracy usera i bez publikowania czegokolwiek w repo.",
+      "max_bytes": 262144,
+      "no_preview": true
+    },
+    {
+      "id": "sci-J16-search-bare",
+      "url": "https://science.nask.pl/api/search",
+      "why": "NOWY endpoint z miningu run7 (js-107-science): /api/contact, /api/downloadFile, /api/search. Search NIE byl testowany przez zadna z 6 sesji. Bez parametru — czy istnieje i jaki jest ksztalt bledu."
+    },
+    {
+      "id": "sci-J17-search-query",
+      "url": "https://science.nask.pl/api/search?query=hive",
+      "why": "Zgadana nazwa parametru 1/3. 'hive' = realny projekt NASK (post_name 'hive-ai' w __NEXT_DATA__), wiec trafienie daje porownywalna odpowiedz z publiczna wyszukiwarka."
+    },
+    {
+      "id": "sci-J18-search-q",
+      "url": "https://science.nask.pl/api/search?q=hive",
+      "why": "Zgadana nazwa parametru 2/3."
+    },
+    {
+      "id": "sci-J19-search-phrase",
+      "url": "https://science.nask.pl/api/search?searchPhrase=hive",
+      "why": "Zgadana nazwa parametru 3/3 — `searchPhrase` wystepuje jako realna nazwa w bundlach science (test_rawpath: is_real_param)."
+    },
+    {
+      "id": "sci-J20-control-downloadfile-invalid",
+      "url": "https://science.nask.pl/api/downloadFile?fileId=-1",
+      "why": "KONTROLA C: znany wynik 400 {\"error\":\"Invalid file id\"} (run1). Potwierdza, ze API science odpowiada w tym przebiegu tak samo jak 2 dni temu (stala kontrola miedzybiegowa)."
+    },
+    {
+      "id": "sci-J21-nextdata-search",
+      "url": "https://science.nask.pl/_next/data/Grl_YQ5SCHd1ahmhesPv6/search.json?query=hive",
+      "why": "Server-side payload wyszukiwarki (buildId z mapy 7911f950 z 03.11). Rozstrzyga, czy wyszukiwarka sciaga wiecej niz pokazuje UI (tak bylo na 116sos: /_next/data = 8 256 B pageProps publicznej strony)."
+    },
+    {
+      "id": "sci-J22-nextdata-control-index",
+      "url": "https://science.nask.pl/_next/data/Grl_YQ5SCHd1ahmhesPv6/index.json",
+      "why": "KONTROLA D dla J21: ten sam buildId, inna trasa. Jesli obie 404 — buildId jest PRZETARLY (deploy po 03.11), a nie 'search zablokowany'; bez tego nie da sie interpretowac J21."
+    },
+    {
+      "id": "oad-J23-trendy",
+      "url": "https://oad.nask.pl/trendy",
+      "why": "L13 bez pracy usera, czesc 1: trasa, na ktorej jest embed PowerBI (URL reportEmbed wydobyty z chunka 41lk95l8op7nz.js). Pytanie: czy payload RSC/HTML zawiera KONFIGURACJE lub TOKEN embedowania (klasa 1/3), czy tylko publiczny URL z autoAuth=true. Jesli serwer generuje embed-token bez logowania — to jest rozstrzygniecie L13 twarde, nie warunkowe.",
+      "max_bytes": 524288
+    },
+    {
+      "id": "oad-J24-search-results",
+      "url": "https://oad.nask.pl/wyniki-wyszukiwania?type=publication&topic=4",
+      "why": "Trasa wynikow wyszukiwania z parametrami `type` i `topic` (literaly z bundli oad, run7). Pokazuje, czy filtrowanie jest serwerowe (payload RSC) i czy `topic` nie przyjmuje wartosci spoza listy (4,5,6,17,21,42,43,44) — mass-assignment/injection na filtrze.",
+      "max_bytes": 524288
+    },
+    {
+      "id": "oad-J25-bip",
+      "url": "https://oad.nask.pl/bip",
+      "why": "BIP (Biuletyn Informacji Publicznej) znaleziony w literalach oad — mozliwa osobna aplikacja/podspolna na tym samym hoscie Tier 1. 1 zadanie: czy to redirect, czy odrebna powierzchnia (jesli odrebna — nowy cel na nastepny przebieg)."
+    },
+    {
+      "id": "bm-J26-share-bundle",
+      "url": "https://bezpiecznymiesiac.pl/_next/static/chunks/35g9u-wrehnzi.js",
+      "why": "FALSYFIKACJA tropu `access_token`: w run7 ten bundel dal parametry access_token/fields/id/mode/src/title/url + literaly graph.facebook.com/?id=, sharer.php, pinterest, tumblr, reddit, telegram, vk, mail.ru, hatena — czyli biblioteka przyciskow UDOSTEPNIJ, nie poswiadczenie NASK. Pobranie raz jeszcze + nowy bundle_scan (paths/hosts/korekta #45) rozstrzyga to dowodem: jesli NIE MA literowej wartosci tokena, trop zamykamy jako falszywy i NIE zgłaszamy. UWAGA: graph.facebook.com jest poza §5 — nawet gdyby token byl, NIE wolno go uzyc (cudza infrastruktura).",
+      "max_bytes": 4194304
+    },
+    {
+      "id": "bm-J27-zglos-inicjatywe-page",
+      "url": "https://bezpiecznymiesiac.pl/ecsm/zglos-inicjatywe/",
+      "why": "L14 — TYLKO GET na strone formularza (zero wysylki, zero zmiany stanu): kontrakt pol (name/description/...) i czy formularz ma server-side token CSRF. Przygotowanie do testu, ktory wymaga jawnego GO usera.",
+      "max_bytes": 262144
+    },
+    {
+      "id": "pllum-J28-preview-chunk",
+      "url": "https://pllum.org.pl/_nuxt/CI9Gd-qu.js",
+      "why": "NOWY trop z mapy 7911f950: ten chunk zawiera mechanizm `previewToken` (sessionStorage + b().query.preview=n + getPreviewToken). Gemma-B testowala `_draft=true` -> 200/2 B = [] , ale wlasciwym przełacznikiem draftow w Nuxt Content jest TOKEN PREVIEW, nie flaga. Pobranie bundla = dokladny endpoint i sposob przekazania tokena (offline, zero zgadywania)."
+    },
+    {
+      "id": "hive-J29-main-bundle",
+      "url": "https://dataannotation.pllum.org.pl/assets/index-ClBZuP56.js",
+      "why": "L18: bundel HIVE 2,77 MB. Ich analiza dala 75 literałow tras, moj bundle_scan w run7 dal 0 endpointow (API klejone dynamicznie, ENDPOINT_RX lapie tylko /api|/_next/data|...). Korekta #44 dodaje `paths` (wszystkie literaly sciezek) i `hosts` ⇒ pelna mapa API HIVE PRZED przyznaniem konta (formaty ID = koszt IDOR-a L1/L2). Zero nowych zadan po tym przebiegu: analiza offline.",
+      "max_bytes": 4194304
+    },
+    {
+      "id": "sos-J30-centres-search-pii",
+      "url": "https://116sos.pl/api/centres-search",
+      "why": "L9 z nowym instrumentem: run2 zapisal SCHEMAT 28 kluczy (address.*, email, geoCords.*, phone, scopeOfHelp, totalItems...) bez wartosci. Korekta #43 policzy e-maile i telefony w odpowiedzi BEZ ich zapisywania. Rozstrzyga, czy API oddaje dane instytucjonalne (publiczne — wykluczone), czy dane opiekunow/osob (klasa 3, Tier 2). no_preview=TRUE.",
+      "max_bytes": 262144,
+      "no_preview": true
+    }
+  ]
+}

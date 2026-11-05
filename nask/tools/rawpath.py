@@ -108,6 +108,65 @@ MARKERS: dict[str, "re.Pattern[bytes]"] = {
 }
 SECRET_MARKER_NAMES = ("ENV_ASSIGNMENTS", "SECRET_KEYS", "GIT_REF", "WP_CONFIG_HEADER", "PHP_SOURCE")
 
+# --------------------------------------------------------------------------- #
+# KOREKTA #43: narzedzie nie rozroznialo "dane publiczne" od "dane osobowe",
+# a to DOKLADNIE pytanie, ktore rozstrzyga klase 3 regulaminu (dostep do danych
+# wrazliwych). Odpowiedz: liczniki PII — TYLKO LICZBY, nigdy fragmenty — oraz
+# automatyczne wyciszenie podgladu, gdy odpowiedz zawiera PII. Dzieki temu
+# przebieg Actions moze powiedziec "ten endpoint zwrocil 47 adresow e-mail",
+# nie publikujac ani jednego adresu w repo.
+#
+# Zalozenie ograniczajace szum: PII liczymy tylko dla odpowiedzi DANYCH
+# (JSON/XML/plain/CSV), NIE dla text/html ani JavaScript. Strony HTML tych
+# serwisow sa publiczne z zalozenia i kazda ma `mailto:` w stopce — liczenie
+# ich daloby kandydata na kazdym zadaniu (szum, nie sygnal). Klasy 3 szukamy
+# w API i w plikach danych.
+# --------------------------------------------------------------------------- #
+PII_MARKER_NAMES = ("PII_EMAIL", "PII_PESEL", "PII_PHONE_PL", "PII_IBAN")
+EMAIL_RX = re.compile(rb"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}")
+PESEL_CAND_RX = re.compile(rb"(?<!\d)\d{11}(?!\d)")
+PHONE_PL_RX = re.compile(rb"(?:\+48|0048)[\s\-]?\d{3}[\s\-]?\d{3}[\s\-]?\d{3}")
+IBAN_PL_RX = re.compile(rb"(?<![A-Za-z0-9])PL\d{26}(?![A-Za-z0-9])")
+PII_SKIP_CT = ("html", "javascript", "ecmascript", "css", "svg")
+
+
+def pesel_ok(digits: str) -> bool:
+    """Pelna walidacja PESEL: kodowanie miesiaca (1-12/21-32/41-52/61-72/81-92),
+    dzien 1-31 i suma kontrolna z wagami 1,3,7,9,1,3,7,9,1,3. Bez tego kazde
+    11 cyfr (np. znacznik czasu) byloby "PESEL-em" — a to bylby czysty szum."""
+    if len(digits) != 11 or not digits.isdigit():
+        return False
+    mm, dd = int(digits[2:4]), int(digits[4:6])
+    if not 1 <= dd <= 31:
+        return False
+    if not (1 <= mm <= 12 or 21 <= mm <= 32 or 41 <= mm <= 52
+            or 61 <= mm <= 72 or 81 <= mm <= 92):
+        return False
+    w = (1, 3, 7, 9, 1, 3, 7, 9, 1, 3)
+    total = sum(int(d) * wi for d, wi in zip(digits[:10], w))
+    return (10 - total % 10) % 10 == int(digits[10])
+
+
+def pii_markers(body: bytes, content_type: str = "") -> dict:
+    """Liczniki PII dla odpowiedzi DANYCH. Zwraca {nazwa: liczba} — bez tresci."""
+    ct = (content_type or "").lower()
+    if any(k in ct for k in PII_SKIP_CT):
+        return {}
+    found: dict[str, int] = {}
+    n = len(EMAIL_RX.findall(body))
+    if n:
+        found["PII_EMAIL"] = n
+    pesels = sum(1 for m in PESEL_CAND_RX.findall(body) if pesel_ok(m.decode("ascii")))
+    if pesels:
+        found["PII_PESEL"] = pesels
+    n = len(PHONE_PL_RX.findall(body))
+    if n:
+        found["PII_PHONE_PL"] = n
+    n = len(IBAN_PL_RX.findall(body))
+    if n:
+        found["PII_IBAN"] = n
+    return found
+
 # Publiczne pliki KORZENIA hosta — z definicji zamierzone, wiec nie sa kandydatem.
 # Dopasowanie tylko dla sciezki bez `..`/`%2e` (trawersal do `license.txt` poza
 # poddrzewem mediow pozostaje znaleziskiem — patrz RAWPATH-003, H02).
@@ -203,7 +262,8 @@ def _sanitize_preview(body: bytes, limit: int = 200) -> str:
 
 
 def decide_preview(status: int | None, body: bytes, probe_id: str, raw_path: str,
-                   secret_marker_hits: int, limit: int = 200) -> str | None:
+                   secret_marker_hits: int, limit: int = 200,
+                   pii_marker_hits: int = 0) -> str | None:
     """Czy zapisac podglad ciala do raportu.
 
     Trzy zasady (kolejnosc ma znaczenie):
@@ -217,7 +277,9 @@ def decide_preview(status: int | None, body: bytes, probe_id: str, raw_path: str
     if status is not None and status >= 400 and len(body) <= 1024:
         return _sanitize_preview(body, limit)
     sensitive = bool(SENSITIVE_ID_RE.search(probe_id or "")) or bool(SENSITIVE_ID_RE.search(raw_path or ""))
-    if sensitive or secret_marker_hits:
+    # KOREKTA #43: odpowiedz z PII (e-mail/PESEL/telefon/IBAN) nigdy nie trafia
+    # do podgladu — zostaja liczniki. Nie publikujemy cudzych danych w repo.
+    if sensitive or secret_marker_hits or pii_marker_hits:
         return None
     return _sanitize_preview(body, limit)
 
@@ -252,6 +314,7 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
         "headers": {},
         "set_cookie_names": [],
         "markers": {},
+        "pii_marker_hits": 0,
         "json_keys": {},
         "secret_marker_hits": 0,
         "preview": None,
@@ -306,9 +369,12 @@ def probe(url: str, limiter: Limiter, timeout: float = DEFAULT_TIMEOUT,
             rec["saved_to"] = str(dest)
         rec["sha256"] = hashlib.sha256(body).hexdigest() if body else None
         rec["markers"] = _markers(body)
+        rec["markers"].update(pii_markers(body, rec.get("content_type") or ""))
         rec["secret_marker_hits"] = sum(rec["markers"].get(m, 0) for m in SECRET_MARKER_NAMES)
+        rec["pii_marker_hits"] = sum(rec["markers"].get(m, 0) for m in PII_MARKER_NAMES)
         rec["preview"] = None if no_preview else decide_preview(
-            rec["status"], body, probe_id, raw_path, rec["secret_marker_hits"])
+            rec["status"], body, probe_id, raw_path, rec["secret_marker_hits"],
+            pii_marker_hits=rec["pii_marker_hits"])
         if rec.get("content_type") == "application/json":
             rec["json_keys"] = json_key_schema(body)
     except (socket.timeout, TimeoutError) as exc:
@@ -397,6 +463,12 @@ def classify(rec: dict) -> str:
                 return "js-bundle-with-keyword-hits" if "javascript" in ctype else (
                     "json-response" if "json" in ctype else "html-page")
             return "CANDIDATE-SECRET-FILE"
+        # KOREKTA #43: odpowiedz DANYCH zawierajaca PII = kandydat klasy 3
+        # (dostep do danych wrazliwych). Wymaga recznego potwierdzenia przez
+        # usera w przegladarce: liczniki mowia "ile", nie mowia "czyje i czy
+        # niepubliczne" — a bez tego nie ma zgloszenia.
+        if rec.get("pii_marker_hits"):
+            return "CANDIDATE-PII-IN-RESPONSE"
         if ctype in ("application/zip", "application/x-zip-compressed") or markers.get("ZIP_MAGIC"):
             return "CANDIDATE-ARCHIVE"
         if ctype.startswith("text/plain") and size < 8192 and markers.get("JSON_BODY") is None:
@@ -589,8 +661,41 @@ def selftest() -> int:
     except ScopeError:
         pass
 
+    # 8. KOREKTA #43: liczniki PII (walidator PESEL, e-mail, telefon, IBAN)
+    base = "8001011234"
+    wagi = (1, 3, 7, 9, 1, 3, 7, 9, 1, 3)
+    suma = sum(int(d) * wi for d, wi in zip(base, wagi))
+    chk = (10 - suma % 10) % 10
+    dobry = base + str(chk)
+    ok(pesel_ok(dobry) is True, "poprawny PESEL odrzucony")
+    ok(pesel_ok(base + str((chk + 1) % 10)) is False, "zla suma kontrolna przeszla")
+    ok(pesel_ok("80130112345") is False, "miesiac 13 przeszedl")
+    ok(pesel_ok("80013212345") is False, "dzien 32 przeszedl")
+    ok(pesel_ok("00000000000") is False, "zero-PESEL przeszedl")
+    ok(pesel_ok("1234567890") is False, "10 cyfr przeszlo jako PESEL")
+    pii_body = ('{"osoba":"jan.kowalski@przyklad.pl","tel":"+48 512 345 678",'
+                '"pesel":"' + dobry + '","konto":"PL00000000000000000000000000"}').encode()
+    m = pii_markers(pii_body, "application/json")
+    ok(m.get("PII_EMAIL") == 1 and m.get("PII_PHONE_PL") == 1 and m.get("PII_PESEL") == 1
+       and m.get("PII_IBAN") == 1, "liczniki PII: %s" % m)
+    ok(pii_markers(pii_body, "text/html; charset=utf-8") == {}, "html nie powinien byc liczony")
+    ok(pii_markers(b'<a href="mailto:biuro@instytucja.pl">x</a>', "text/html") == {},
+       "mailto w html daje szum")
+    ok(pii_markers(b'{"a":"no data here"}', "application/json") == {}, "falszywy pozytyw PII")
+    ok(decide_preview(200, pii_body, "p1", "/api/x", 0, pii_marker_hits=1) is None,
+       "podglad nie zostal wyciszony przy PII")
+    ok(decide_preview(200, b'{"a":1}', "p1", "/api/x", 0, pii_marker_hits=0) is not None,
+       "podglad zniknal bez PII")
+    ok(classify({"status": 200, "content_type": "application/json", "bytes_read": 120,
+                 "markers": {"PII_EMAIL": 3}, "pii_marker_hits": 3,
+                 "raw_path": "/api/x"}) == "CANDIDATE-PII-IN-RESPONSE", "werdykt PII")
+    ok(classify({"status": 200, "content_type": "text/plain", "bytes_read": 900,
+                 "markers": {}, "pii_marker_hits": 0,
+                 "raw_path": "/plik.txt"}) == "CANDIDATE-PLAINTEXT-FILE",
+       "werdykt plain-text zniknal po korekcie #43")
+
     status_word = "OK" if not fails else "FAIL"
-    print(f"selftest: {status_word} (12 grup, {len(fails)} bledow)")
+    print(f"selftest: {status_word} (13 grup, {len(fails)} bledow)")
     for f in fails:
         print("  -", f)
     return 1 if fails else 0
