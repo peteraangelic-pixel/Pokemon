@@ -1,0 +1,8 @@
+min. odstep miedzy zadaniami: 1.000000 s (limit 0.2 s = 5 req/s)
+hosty: 7 (wszystkie w §5) | zadan: 31 | czas: 47.08 s
+werdykty: {"not-found": 13, "html-page": 7, "status-400": 4, "json-response": 2, "other-200": 2, "CANDIDATE-PII-IN-RESPONSE": 1, "js-bundle-with-keyword-hits": 1, "transport-error": 1}
+kandydaci do recznego potwierdzenia: 1
+identyczne ciala (dowod z hasha): 1
+ciala zapisane do analizy: 30 | bajtow: 3646132
+mining: plikow 29 | endpointow 9 | idor_prerank 0
+AUDYT OK

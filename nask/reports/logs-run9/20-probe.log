@@ -1,0 +1,40 @@
+{
+  "dry_run": false,
+  "count": 31,
+  "wall_seconds": 47.08,
+  "min_observed_gap_s": 1.0,
+  "verdicts": {
+    "not-found": 13,
+    "html-page": 7,
+    "status-400": 4,
+    "json-response": 2,
+    "other-200": 2,
+    "CANDIDATE-PII-IN-RESPONSE": 1,
+    "js-bundle-with-keyword-hits": 1,
+    "transport-error": 1
+  },
+  "candidates": [
+    {
+      "id": "sos-J30-centres-search-pii",
+      "url": "https://116sos.pl/api/centres-search",
+      "verdict": "CANDIDATE-PII-IN-RESPONSE",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes_read": 13306
+    }
+  ],
+  "identical_bodies": [
+    {
+      "sha256": "4d4c455fc5153f585c71e0a13900d9a228c350391f51f3a7859e0a3361b0e353",
+      "identical_bodies": [
+        "sci-J16-search-bare:/api/search",
+        "sci-J18-search-q:/api/search?q=hive",
+        "sci-J19-search-phrase:/api/search?searchPhrase=hive"
+      ]
+    }
+  ],
+  "bodies_saved": 30,
+  "bodies_bytes_total": 3646132,
+  "out": "nask/reports/rawpath-006-run9.json"
+}
+probe rc=0
