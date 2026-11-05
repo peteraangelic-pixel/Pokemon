@@ -1,121 +1,114 @@
 {
-  "run": "018",
+  "run": "019",
   "rps": 1.0,
-  "note": "NOWA METODA, ktora dziala tam, gdzie OPTIONS jest polykany: ukryte trasy tylko-do-zapisu ujawniaja sie przez 405 zamiast 404. Na science.nask.pl wiemy, ze /api/contact zwraca 405 {'error':'Method not allowed'} - czyli router ODRONZNIA 'trasa istnieje, zla metoda' od 'trasy nie ma' (404). To pozwala znalezc endpointy zapisu BEZ wysylania POST, bo kazda trasa, ktora odpowie 405 tam, gdzie szablon to 404, jest realna i czeka na decyzje usera. Rownolegle pierwszy raz dotykam pllum.org.pl /api/_content (Nuxt Content) i sprawdzam, czy bezpiecznymiesiac.pl w ogole zyje. Kontrole w tym samym przebiegu, tempo 1 req/s.",
+  "note": "DWA NOWE POMIARY Z RUNU 018, oba na trasach, ktore wczesniej nikt nie ruszyl. (1) science.nask.pl/api/search zwraca 400 {'error':...} 47 B - a nie 404 - wiec trasa ISTNIEJE i przyjmuje parametr zapytania. To pierwsza realna powierzchnia parametru na science (Tier 2), ktorej nie sprawdzil nikt: poprzednie sesje zauwazyy tylko 'brak refleksji'. (2) pllum.org.pl/api/_content/query zwraca 200 JSON 9543 B - otwarte API tresci Nuxt Content. Sprawdzam, czy oddaje wpisy NIEPUBLIKOWANE (_draft:true), bo to jest klasa 'dostep do danych niepublicznych', a nie tylko publiczna tresc. Kalibracja z run 018: na zglos (Next.js) trasa tylko-do-POST daje 405, na science 405, na 116sos brak trasy daje 404 - wiec 400 i 200 sa tu jednoznaczne.",
   "probes": [
     {
-      "id": "sci-control-404",
-      "url": "https://science.nask.pl/api/zzqx9-nie-ma",
-      "note": "KONTROLA: szablon 404 na science dla nieistniejacej trasy /api/* - punkt odniesienia dla calej reszty"
-    },
-    {
-      "id": "sci-contact-known-405",
-      "url": "https://science.nask.pl/api/contact",
-      "note": "KONTROLA POZYTYWNA: znane 405 - dowod, ze 405 jest osiagalne na tym hoscie i odroznialne od 404"
-    },
-    {
-      "id": "sci-newsletter",
-      "url": "https://science.nask.pl/api/newsletter",
-      "note": "zapis do newslettera: jesli 405, to trasa istnieje i przyjmuje POST"
-    },
-    {
-      "id": "sci-subscribe",
-      "url": "https://science.nask.pl/api/subscribe",
-      "note": "wariant nazwy zapisu"
-    },
-    {
-      "id": "sci-zglos",
-      "url": "https://science.nask.pl/api/zglos",
-      "note": "zgloszenie po polsku"
-    },
-    {
-      "id": "sci-report",
-      "url": "https://science.nask.pl/api/report",
-      "note": "zgloszenie po angielsku"
-    },
-    {
-      "id": "sci-message",
-      "url": "https://science.nask.pl/api/message",
-      "note": "wiadomosc: powiazane z contact"
-    },
-    {
-      "id": "sci-upload",
-      "url": "https://science.nask.pl/api/upload",
-      "note": "NAJWYZSZA STAWKA: przyjmowanie plikow. 405 tutaj = realny endpoint zapisu do zbadania"
-    },
-    {
-      "id": "sci-form",
-      "url": "https://science.nask.pl/api/form",
-      "note": "generyczny handler formularzy"
-    },
-    {
-      "id": "sci-search",
+      "id": "sci-search-noparam",
       "url": "https://science.nask.pl/api/search",
-      "note": "wyszukiwarka: jesli 405, to POST z zapytaniem"
-    },
-    {
-      "id": "sos-control-404",
-      "url": "https://116sos.pl/api/zzqx9-nie-ma",
-      "note": "KONTROLA: szablon 404 116sos (znane sha 0cce5732, 10 407 B)"
-    },
-    {
-      "id": "sos-newsletter",
-      "url": "https://116sos.pl/api/newsletter",
-      "note": "zapis do newslettera: 405 = trasa istnieje"
-    },
-    {
-      "id": "sos-subscribe",
-      "url": "https://116sos.pl/api/subscribe",
-      "note": "wariant nazwy"
-    },
-    {
-      "id": "sos-report",
-      "url": "https://116sos.pl/api/report",
-      "note": "zgloszenie: platforma pomocy kryzysowej - wysoka waga, gdyby istnialo"
-    },
-    {
-      "id": "sos-upload",
-      "url": "https://116sos.pl/api/upload",
-      "note": "przyjmowanie plikow: najwyzsza stawka"
-    },
-    {
-      "id": "sos-message",
-      "url": "https://116sos.pl/api/message",
-      "note": "wiadomosc"
-    },
-    {
-      "id": "pllum-content",
-      "url": "https://pllum.org.pl/api/_content",
       "snippet": true,
-      "note": "Nuxt Content: korzen wewnetrznego API tresci, nietkniety przez nikogo"
+      "note": "KONTROLA: znane 400 z 47 B - czytam dokladna tresc bledu, bo mowi, jaki parametr jest wymagany"
     },
     {
-      "id": "pllum-content-query",
+      "id": "sci-search-3chars",
+      "url": "https://science.nask.pl/api/search?q=abc",
+      "snippet": true,
+      "note": "KONTROLA POZYTYWNA: minimalna dlugosc spelniona - czy zwraca 200 i JSON"
+    },
+    {
+      "id": "sci-search-2chars",
+      "url": "https://science.nask.pl/api/search?q=ab",
+      "note": "ponizej progu: potwierdza walidacje dlugosci i ze parametr to q"
+    },
+    {
+      "id": "sci-search-param-alt",
+      "url": "https://science.nask.pl/api/search?query=abc",
+      "note": "inna nazwa parametru: rozstrzyga kontrakt bez zgadywania wartosci"
+    },
+    {
+      "id": "sci-search-reflect",
+      "url": "https://science.nask.pl/api/search?q=zzqx9probe",
+      "reflect": "zzqx9probe",
+      "note": "refleksja: czy fraza wraca w odpowiedzi (JSON czy HTML) - punkt wyjscia dla XSS"
+    },
+    {
+      "id": "sci-search-angle",
+      "url": "https://science.nask.pl/api/search?q=zzqx9%3Cb%3Ezzqx9b%3C%2Fb%3E",
+      "reflect": "zzqx9b",
+      "note": "metaznaki HTML: w oknie refleksji szukam DOSLOWNEGO <b> (kandydat) kontra &lt;b&gt; (bezpiecznie)"
+    },
+    {
+      "id": "sci-search-quote",
+      "url": "https://science.nask.pl/api/search?q=zzqx9%27",
+      "snippet": true,
+      "note": "apostrof: minimalna sonda bledu zapytania. WAF moze przerwac - to tez wynik, ale wtedy powtorze wolniej"
+    },
+    {
+      "id": "sci-search-quote2",
+      "url": "https://science.nask.pl/api/search?q=zzqx9%27%27",
+      "snippet": true,
+      "note": "podwojny apostrof: jesli jeden daje blad a dwa nie, to sygnatura niezbalansowanego cudzyslowu w zapytaniu"
+    },
+    {
+      "id": "sci-search-traversal",
+      "url": "https://science.nask.pl/api/search?q=..%2f..%2f..%2fetc%2fhostname",
+      "note": "LFI przez parametr frazy: czy serwer traktuje fraze jako sciezke. Cel nieszkodliwy"
+    },
+    {
+      "id": "sci-search-limit",
+      "url": "https://science.nask.pl/api/search?q=abc&limit=1000",
+      "note": "czy parametr limitu jest honorowany: rozmiar vs kontrola 3chars"
+    },
+    {
+      "id": "sci-search-page",
+      "url": "https://science.nask.pl/api/search?q=abc&page=1",
+      "note": "paginacja: rozstrzyga kontrakt listy"
+    },
+    {
+      "id": "pllum-query-control",
       "url": "https://pllum.org.pl/api/_content/query",
       "snippet": true,
-      "note": "Nuxt Content query: jesli odpowiada, sprawdzic schemat kluczy (czy oddaje tresci niepubliczne)"
+      "note": "KONTROLA: znane 200 JSON 9543 B - pelna odpowiedz do analizy schematu kluczy"
     },
     {
-      "id": "pllum-nuxt-icon",
-      "url": "https://pllum.org.pl/api/_nuxt_icon",
+      "id": "pllum-query-drafts",
+      "url": "https://pllum.org.pl/api/_content/query?where=%7B%22_draft%22%3Atrue%7D",
       "snippet": true,
-      "note": "proxy ikon: modul potrafi pobierac zdalnie - kandydat na SSRF, tylko odczyt"
+      "note": "KLUCZOWE: czy API tresci oddaje wpisy NIEOPUBLIKOWANE. Jesli tak, to dostep do danych niepublicznych"
     },
     {
-      "id": "bym-root",
-      "url": "https://bezpiecznymiesiac.pl/",
-      "note": "czy host w ogole zyje (Tier 2, nigdy nie sondowany w tej sesji)"
-    },
-    {
-      "id": "bym-robots",
-      "url": "https://bezpiecznymiesiac.pl/robots.txt",
+      "id": "pllum-query-paths",
+      "url": "https://pllum.org.pl/api/_content/query?only=_path",
       "snippet": true,
-      "note": "robots: mapa realnych tras"
+      "note": "enumeracja wszystkich sciezek tresci: czy sa wpisy, ktorych nie ma w nawigacji"
     },
     {
-      "id": "zglos-sendform-get-control",
-      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
-      "note": "KONTROLA: znany endpoint POST (Allow: OPTIONS, POST). Co zwraca GET - 405 czy 404? To kalibruje metode na Next.js"
+      "id": "pllum-cache",
+      "url": "https://pllum.org.pl/api/_content/cache",
+      "snippet": true,
+      "note": "pelny cache Nuxt Content: czesto wiecej niz query (wszystkie kolekcje naraz)"
+    },
+    {
+      "id": "pllum-query-all",
+      "url": "https://pllum.org.pl/api/_content/query?only=_path,_draft,_partial",
+      "snippet": true,
+      "note": "trzy pola naraz: minimalny odczyt, ktory rozstrzyga o istnieniu wpisow niepublicznych"
+    },
+    {
+      "id": "bym-control",
+      "url": "https://bezpiecznymiesiac.pl/api/zzqx9-nie-ma",
+      "note": "KONTROLA dla bezpiecznymiesiac.pl: szablon 404 dla /api/* (host zyje, 93 KB strona glowna, ale nie znam jego szablonu API)"
+    },
+    {
+      "id": "bym-api-root",
+      "url": "https://bezpiecznymiesiac.pl/api",
+      "note": "korzen API na hoscie, ktory nie byl nigdy sondowany"
+    },
+    {
+      "id": "bym-sitemap",
+      "url": "https://bezpiecznymiesiac.pl/sitemap.xml",
+      "snippet": true,
+      "note": "sitemapa: realne trasy zamiast zgadywania"
     }
   ]
 }
