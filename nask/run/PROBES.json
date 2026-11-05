@@ -1,56 +1,121 @@
 {
-  "run": "017",
+  "run": "018",
   "rps": 1.0,
-  "note": "POWTORKA po utraconym pomiarze. W runie 016 piec sond parametru sciezki na dns.pl padlo na bledzie transportu ('error sending request'), bo dns.pl zrywa polaczenia po serii ~11 zadan przy 3 req/s. Blad transportu to UTRACONY POMIAR, nie wynik negatywny - wiec nie wolno mi go tak zapisac. Ten przebieg robi wylacznie te piec sond plus kontrole, tempo 1.0 req/s. Ustalenia z runu 016, ktore sa wazne: OPTIONS na dns.pl jest BEZUZYTECZNE (wszystkie 17 sciezek, takze zywe i martwe, zwracaja 200 text/html ~51 KB - Drupalowski front controller polyka OPTIONS), wiec pytanie 'czy martwe trasy istnieja dla POST' pozostaje otwarte na dns.pl. Natomiast na dwoch innych hostach OPTIONS zadzialal: zglos /api/sendForm -> 204 Allow: OPTIONS, POST; science /api/contact -> 405 Allow: POST.",
+  "note": "NOWA METODA, ktora dziala tam, gdzie OPTIONS jest polykany: ukryte trasy tylko-do-zapisu ujawniaja sie przez 405 zamiast 404. Na science.nask.pl wiemy, ze /api/contact zwraca 405 {'error':'Method not allowed'} - czyli router ODRONZNIA 'trasa istnieje, zla metoda' od 'trasy nie ma' (404). To pozwala znalezc endpointy zapisu BEZ wysylania POST, bo kazda trasa, ktora odpowie 405 tam, gdzie szablon to 404, jest realna i czeka na decyzje usera. Rownolegle pierwszy raz dotykam pllum.org.pl /api/_content (Nuxt Content) i sprawdzam, czy bezpiecznymiesiac.pl w ogole zyje. Kontrole w tym samym przebiegu, tempo 1 req/s.",
   "probes": [
     {
-      "id": "dns-countries-pl-control",
-      "url": "https://dns.pl/api/registrars-countries/pl",
+      "id": "sci-control-404",
+      "url": "https://science.nask.pl/api/zzqx9-nie-ma",
+      "note": "KONTROLA: szablon 404 na science dla nieistniejacej trasy /api/* - punkt odniesienia dla calej reszty"
+    },
+    {
+      "id": "sci-contact-known-405",
+      "url": "https://science.nask.pl/api/contact",
+      "note": "KONTROLA POZYTYWNA: znane 405 - dowod, ze 405 jest osiagalne na tym hoscie i odroznialne od 404"
+    },
+    {
+      "id": "sci-newsletter",
+      "url": "https://science.nask.pl/api/newsletter",
+      "note": "zapis do newslettera: jesli 405, to trasa istnieje i przyjmuje POST"
+    },
+    {
+      "id": "sci-subscribe",
+      "url": "https://science.nask.pl/api/subscribe",
+      "note": "wariant nazwy zapisu"
+    },
+    {
+      "id": "sci-zglos",
+      "url": "https://science.nask.pl/api/zglos",
+      "note": "zgloszenie po polsku"
+    },
+    {
+      "id": "sci-report",
+      "url": "https://science.nask.pl/api/report",
+      "note": "zgloszenie po angielsku"
+    },
+    {
+      "id": "sci-message",
+      "url": "https://science.nask.pl/api/message",
+      "note": "wiadomosc: powiazane z contact"
+    },
+    {
+      "id": "sci-upload",
+      "url": "https://science.nask.pl/api/upload",
+      "note": "NAJWYZSZA STAWKA: przyjmowanie plikow. 405 tutaj = realny endpoint zapisu do zbadania"
+    },
+    {
+      "id": "sci-form",
+      "url": "https://science.nask.pl/api/form",
+      "note": "generyczny handler formularzy"
+    },
+    {
+      "id": "sci-search",
+      "url": "https://science.nask.pl/api/search",
+      "note": "wyszukiwarka: jesli 405, to POST z zapytaniem"
+    },
+    {
+      "id": "sos-control-404",
+      "url": "https://116sos.pl/api/zzqx9-nie-ma",
+      "note": "KONTROLA: szablon 404 116sos (znane sha 0cce5732, 10 407 B)"
+    },
+    {
+      "id": "sos-newsletter",
+      "url": "https://116sos.pl/api/newsletter",
+      "note": "zapis do newslettera: 405 = trasa istnieje"
+    },
+    {
+      "id": "sos-subscribe",
+      "url": "https://116sos.pl/api/subscribe",
+      "note": "wariant nazwy"
+    },
+    {
+      "id": "sos-report",
+      "url": "https://116sos.pl/api/report",
+      "note": "zgloszenie: platforma pomocy kryzysowej - wysoka waga, gdyby istnialo"
+    },
+    {
+      "id": "sos-upload",
+      "url": "https://116sos.pl/api/upload",
+      "note": "przyjmowanie plikow: najwyzsza stawka"
+    },
+    {
+      "id": "sos-message",
+      "url": "https://116sos.pl/api/message",
+      "note": "wiadomosc"
+    },
+    {
+      "id": "pllum-content",
+      "url": "https://pllum.org.pl/api/_content",
       "snippet": true,
-      "note": "KONTROLA: znane 200 JSON 283 B. Musi byc PIERWSZE, zanim cokolwiek zdazy ograniczyc ruch"
+      "note": "Nuxt Content: korzen wewnetrznego API tresci, nietkniety przez nikogo"
     },
     {
-      "id": "dns-countries-pl-unknown",
-      "url": "https://dns.pl/api/registrars-countries/zzqx9",
+      "id": "pllum-content-query",
+      "url": "https://pllum.org.pl/api/_content/query",
       "snippet": true,
-      "note": "segment nieznany: czy serwer przetwarza dowolny ciag, czy waliduje wartosc"
+      "note": "Nuxt Content query: jesli odpowiada, sprawdzic schemat kluczy (czy oddaje tresci niepubliczne)"
     },
     {
-      "id": "dns-countries-upper",
-      "url": "https://dns.pl/api/registrars-countries/PL",
-      "note": "wielkie litery: porownanie scisle kontra niewrazliwe na wielkosc"
-    },
-    {
-      "id": "dns-countries-quote",
-      "url": "https://dns.pl/api/registrars-countries/pl%27",
-      "note": "apostrof w segmencie sciezki: minimalna sonda bledu zapytania, tylko odczyt"
-    },
-    {
-      "id": "dns-countries-dotdot",
-      "url": "https://dns.pl/api/registrars-countries/..%2f..%2fzone-stats",
+      "id": "pllum-nuxt-icon",
+      "url": "https://pllum.org.pl/api/_nuxt_icon",
       "snippet": true,
-      "note": "zakodowany traversal w segmencie: czy dekodowanie nastepuje przed routingiem. Cel nieszkodliwy, istniejaca trasa"
+      "note": "proxy ikon: modul potrafi pobierac zdalnie - kandydat na SSRF, tylko odczyt"
     },
     {
-      "id": "dns-countries-empty",
-      "url": "https://dns.pl/api/registrars-countries/",
-      "note": "brak segmentu: zachowanie domyslne trasy"
+      "id": "bym-root",
+      "url": "https://bezpiecznymiesiac.pl/",
+      "note": "czy host w ogole zyje (Tier 2, nigdy nie sondowany w tej sesji)"
     },
     {
-      "id": "dns-countries-en-control",
-      "url": "https://dns.pl/api/registrars-countries/en",
-      "note": "KONTROLA druga: znane 200 JSON 276 B, rozne od /pl - dowod, ze segment jest przetwarzany"
+      "id": "bym-robots",
+      "url": "https://bezpiecznymiesiac.pl/robots.txt",
+      "snippet": true,
+      "note": "robots: mapa realnych tras"
     },
     {
-      "id": "dns-zone-stats-control",
-      "url": "https://dns.pl/api/zone-stats",
-      "note": "KONTROLA trzecia: znane 200 JSON 11759 B - potwierdza, ze host jeszcze odpowiada na koniec przebiegu"
-    },
-    {
-      "id": "head-dns-zone-stats",
-      "url": "https://dns.pl/api/zone-stats",
-      "method": "HEAD",
-      "note": "HEAD na zywej trasie: naglowki bez ciala (serwer, cache, ETag). Na koncu, zeby nie zabrac budzetu sondom GET"
+      "id": "zglos-sendform-get-control",
+      "url": "https://zglos-dezinformacje.nask.pl/api/sendForm",
+      "note": "KONTROLA: znany endpoint POST (Allow: OPTIONS, POST). Co zwraca GET - 405 czy 404? To kalibruje metode na Next.js"
     }
   ]
 }
