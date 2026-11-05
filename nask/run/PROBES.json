@@ -1,115 +1,67 @@
 {
-  "run": "020",
+  "run": "021",
   "rps": 1.0,
-  "note": "PRZELOM Z RUNU 019: parametr wyszukiwarki na science.nask.pl to 'query', NIE 'q'. Dlatego poprzednie sesje widzialy wylacznie 400 {'error':'Query must be at least 3 characters'} i odpuszczaly - sprawdzali zla nazwe. ?query=abc zwraca 200 JSON 49 B. To pierwsza dzialajaca trasa z parametrem na science (Tier 2), ktorej nikt nie przetestowal pod katem injection, bo sadzono, ze trasa nie dziala. Ten przebieg: refleksja, escapowanie metaznakow, apostrof (1 i 2), dlugosc, parametry dodatkowe, pusty ciag. Wszystko GET, bez zmiany stanu. Dodatkowo bezpiecznymiesiac.pl: 308 na /api/ -> /api/, wiec sprawdzam cel i szablon.",
+  "note": "METODA: uzyc SCHEMATU ODPOWIEDZI jako slownika parametrow. /api/search zwraca {'pageData':[],'page':0,'perPage':0,'lastPage':0} przy KAZDYM wejsciu - czyli zapytanie przechodzi, ale lista jest pusta, bo perPage wynosi 0. Testowalem 'limit' (nie zadzialal) i 'page' (nie zadzialal), ale NIE 'perPage', ktore jest dokladna nazwa pola w odpowiedzi. Jesli perPage zadziala, dostajemy realna liste wynikow - a wtedy refleksja i injection maja na czym pracowac. To tania, falsyfikowalna hipoteza: jesli perPage=10 nadal daje pusta liste, trasa jest martwa i zamykam ja definitywnie.",
   "probes": [
     {
-      "id": "sci-q-control",
-      "url": "https://science.nask.pl/api/search?query=abc",
+      "id": "sci-perpage-10",
+      "url": "https://science.nask.pl/api/search?query=abc&perPage=10",
       "snippet": true,
-      "note": "KONTROLA POZYTYWNA: 200 JSON 49 B - czytam dokladne cialo, zeby znac kontrakt (results? total? puste?)"
+      "note": "KLUCZOWA: nazwa pola z odpowiedzi jako nazwa parametru. 49 B -> nadal pusto; wieksze cialo -> dziala"
     },
     {
-      "id": "sci-q-reflect",
-      "url": "https://science.nask.pl/api/search?query=zzqx9probe",
+      "id": "sci-perpage-page",
+      "url": "https://science.nask.pl/api/search?query=abc&page=1&perPage=10",
+      "snippet": true,
+      "note": "para paginacji dokladnie jak w kontrakcie: page + perPage"
+    },
+    {
+      "id": "sci-perpage-all",
+      "url": "https://science.nask.pl/api/search?query=a&page=1&perPage=100",
+      "snippet": true,
+      "note": "najszerszy odczyt: jednoliterowa fraza i duza strona. Wykrywa, czy trasa cokolwiek zwraca"
+    },
+    {
+      "id": "sci-perpage-snake",
+      "url": "https://science.nask.pl/api/search?query=abc&per_page=10",
+      "snippet": true,
+      "note": "wariant snake_case: rozstrzyga konwencje nazw bez zgadywania"
+    },
+    {
+      "id": "sci-perpage-upper",
+      "url": "https://science.nask.pl/api/search?query=abc&perpage=10",
+      "snippet": true,
+      "note": "wariant bez wielkiej litery"
+    },
+    {
+      "id": "sci-perpage-reflect",
+      "url": "https://science.nask.pl/api/search?query=zzqx9probe&perPage=10",
       "reflect": "zzqx9probe",
       "snippet": true,
-      "note": "refleksja frazy w odpowiedzi: punkt wyjscia dla XSS i dla wycieku bledu"
+      "note": "refleksja na REALNYCH wynikach: jedyny przypadek, w ktorym fraza moze wrocic w ciele"
     },
     {
-      "id": "sci-q-angle",
-      "url": "https://science.nask.pl/api/search?query=zzqx9%3Cb%3Ezzqx9b",
-      "reflect": "zzqx9b",
-      "note": "metaznaki HTML: w oknie refleksji szukam DOSLOWNEGO <b> (kandydat) kontra &lt;b&gt; (bezpiecznie)"
-    },
-    {
-      "id": "sci-q-quote1",
-      "url": "https://science.nask.pl/api/search?query=zzqx9%27",
+      "id": "sci-perpage-true",
+      "url": "https://science.nask.pl/api/search?query=abc&perPage=10&page=1&sort=title",
       "snippet": true,
-      "note": "pojedynczy apostrof: minimalna sonda bledu zapytania (5 znakow spelnia minimum)"
+      "note": "czy sortowanie jest osobnym parametrem (typowe w tej rodzinie API)"
     },
     {
-      "id": "sci-q-quote2",
-      "url": "https://science.nask.pl/api/search?query=zzqx9%27%27",
+      "id": "sci-perpage-locale",
+      "url": "https://science.nask.pl/api/search?query=abc&perPage=10&locale=pl",
       "snippet": true,
-      "note": "podwojny apostrof: jesli jeden daje blad a dwa nie, to sygnatura niezbalansowanego cudzyslowu"
+      "note": "czy locale jest osobnym wymiarem (strona ma wersje jezykowe)"
     },
     {
-      "id": "sci-q-comment",
-      "url": "https://science.nask.pl/api/search?query=zzqx9%27--",
+      "id": "sci-search-root-body",
+      "url": "https://science.nask.pl/api/search?query=abc",
       "snippet": true,
-      "note": "apostrof + komentarz SQL: klasyczna para testowa. Tylko odczyt"
+      "note": "powtorka kontroli w TYM przebiegu: 49 B sha 96e5f3a2 - punkt odniesienia dla wszystkich powyzszych"
     },
     {
-      "id": "sci-q-union",
-      "url": "https://science.nask.pl/api/search?query=zzqx9%27%20UNION%20SELECT%20NULL--",
-      "snippet": true,
-      "note": "prob UNION: jesli cialo zmieni schemat (wiecej kolumn), to realna sygnatura. WAF moze przerwac - wtedy zapisze jako utracony pomiar"
-    },
-    {
-      "id": "sci-q-empty",
-      "url": "https://science.nask.pl/api/search?query=",
-      "snippet": true,
-      "note": "pusty ciag: czy walidacja dlugosci dziala na wartosci puste"
-    },
-    {
-      "id": "sci-q-special",
-      "url": "https://science.nask.pl/api/search?query=zzqx9%25%5F",
-      "note": "znaki wieloznaczne SQL (procent, podkreslnik): czy fraza idzie do LIKE bez escapowania (rozni sie od kontroli?)"
-    },
-    {
-      "id": "sci-q-limit",
-      "url": "https://science.nask.pl/api/search?query=abc&limit=1000",
-      "snippet": true,
-      "note": "czy limit jest honorowany: rozmiar i cialo vs kontrola"
-    },
-    {
-      "id": "sci-q-page",
-      "url": "https://science.nask.pl/api/search?query=abc&page=1",
-      "note": "paginacja: rozstrzyga kontrakt listy"
-    },
-    {
-      "id": "sci-q-lang",
-      "url": "https://science.nask.pl/api/search?query=abc&lang=en",
-      "note": "parametr jezyka: czy istnieje drugi wymiar zapytania"
-    },
-    {
-      "id": "sci-q-long",
-      "url": "https://science.nask.pl/api/search?query=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "note": "100 znakow: czy istnieje gorny limit (brak limitu sam nie jest podatnoscia, ale ujawnia walidacje)"
-    },
-    {
-      "id": "sci-q-unicode",
-      "url": "https://science.nask.pl/api/search?query=za%C5%BC%C3%B3%C5%82%C4%87",
-      "snippet": true,
-      "note": "polskie znaki w zapytaniu: czy kodowanie jest obslugiwane poprawnie"
-    },
-    {
-      "id": "bym-api-slash",
-      "url": "https://bezpiecznymiesiac.pl/api/",
-      "snippet": true,
-      "note": "cel przekierowania 308 z runu 019 - czy /api/ to realne API czy strona"
-    },
-    {
-      "id": "bym-api-404",
-      "url": "https://bezpiecznymiesiac.pl/api/zzqx9-nie-ma/",
-      "note": "KONTROLA: szablon dla nieistniejacej trasy pod /api/ (z ukosnikiem, jak wymusza przekierowanie)"
-    },
-    {
-      "id": "bym-api-search",
-      "url": "https://bezpiecznymiesiac.pl/api/search/",
-      "note": "czy ten host ma wyszukiwarke pod /api/"
-    },
-    {
-      "id": "bym-api-contact",
-      "url": "https://bezpiecznymiesiac.pl/api/contact/",
-      "note": "formularz kontaktowy pod /api/"
-    },
-    {
-      "id": "bym-robots-slash",
-      "url": "https://bezpiecznymiesiac.pl/robots.txt",
-      "snippet": true,
-      "note": "robots bez ukosnika (run 018 dal 404 z HTML, sprawdzam czy to soft-404)"
+      "id": "sci-search-page-zero",
+      "url": "https://science.nask.pl/api/search?query=abc&page=0&perPage=10",
+      "note": "page=0: czy indeks stron jest zerowy czy jeden (ujawnia typ bez czytania kodu)"
     }
   ]
 }
