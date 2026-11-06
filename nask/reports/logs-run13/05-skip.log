@@ -1,0 +1,5 @@
+PLAN rawpath-009 JEST W REJESTRZE nask/run/WYKONANE.txt
+=> nie wysylamy ANI JEDNEGO zadania (ochrona przed powtorka, w tym przed
+   ponownym zadaniem do endpointu objetego decyzja STOP).
+Bramka testow offline przeszla w jobie 'gate' — to wystarczy.
+rawpath-009 | run12 | 2026-11-05 |   7 GET | STOP: propsy /osrodki-pomocowe = 4,99 MB z PII_EMAIL 1596 (publiczny katalog instytucji) — NIE POWTARZAC, reguła programu „dane osobowe → przerwać natychmiast"
