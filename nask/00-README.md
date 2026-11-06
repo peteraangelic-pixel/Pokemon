@@ -68,3 +68,18 @@ Wszystko, co wymaga logowania, jest w planie — do wykonania ręcznie.
 | `reports/logs-run{7,8,9,10}/` | logi audytu zgodności z Actions (tempo, hosty, brak wzorców kluczy) |
 | `tools/rawpath.py` (v. po korekcie #43) | liczniki PII jako liczby + wyciszanie podglądu + werdykt `CANDIDATE-PII-IN-RESPONSE`; selftest **13 grup** |
 | `tools/bundle_scan.py` (po korektach #44/#45/#48) | literały ścieżek (`paths`), hostów (`hosts`), sekrety w query-stringu, `looks_like_credential()`; 3,9 MB / 0,58 s / rdzeń; **92 testy OK** |
+
+## Aktualne na 05.11.2026, popołudnie — konto usera istnieje: ścieżka HAR
+
+| plik | co zawiera |
+|---|---|
+| `JAK-POBRAC-HAR-20261105.md` | **instrukcja dla usera**: jak pobrać zrzut HAR z zalogowanego `hack.cert.pl` (3–5 min, incognito, tylko ekrany odczytu), gdzie go położyć, co z niego powstaje, czego agent **nie** zrobi; gotowy tekst pytania do organizatora (§7); tabela ryzyk i środków |
+| `tools/har_sanitize.py` | redakcja HAR przed jakimkolwiek committem: wartości poświadczeń/CSRF/haseł/tokenów w query i treści ciał **usuwane**, zostaje kształt (metody, szablony `{id}`, kody, rozmiary, `sha256[:12]`, nazwy nagłówków/pól) + `session_fingerprint` = `sha256[:8]`; asercja antywyciekowa `assert_clean`; redakcja idempotentna; selftest 7 grup |
+| `tools/test_har_sanitize.py` | 17 testów: brak sekretów w wyjściu, nazwy zachowane, treści wyzerowane, normalizacja ID, odcisk sesji stabilny i 8-znakowy, dwa konta = dwa odciski, agregacja statusów, idempotencja, zapora `assert_clean` łapie wyciek |
+| `har/README.md` | układ katalogów `har/raw` (poza gitem) / `har/sanitized` / `har/mapa-api.json` + reguły |
+| `.gitignore` (korzeń) | `*.har`, `*.har.json`, `nask/har/raw/` — z negacją dla `sanitized/` i `mapa-api.json`; dodatkowo `__pycache__/`, `*.pyc` |
+| `run/WYKONANE.txt` | rejestr 9 wykonanych planów z liczbą żądań; plan wpisany ⇒ workflow wykonuje **tylko** bramkę testów offline i **zero** żądań (korekta #54 — ochrona przed powtórką `RAWPATH-009`, którego endpoint jest objęty decyzją STOP) |
+| `.github/workflows/nask-rawpath.yml` | triggery zawężone (bez `nask/tools/*.py`), krok `skip` z rejestru, wszystkie kroki sieciowe warunkowane |
+
+**Stan testów: 109 OK** (92 + 17) + `rawpath.py --selftest` 13 grup + `har_sanitize.py --selftest`
+7 grup + vendored `a450b00f` 11/11.

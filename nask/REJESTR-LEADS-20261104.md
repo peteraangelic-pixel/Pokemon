@@ -239,10 +239,22 @@ aplikacja jest poprawna — rekord **nie powstaje** (odrzucona na walidacji/capt
 jest niepoprawna — powstanie śmieciowy rekord bez URL-i i bez akceptacji. Dlatego:
 **wyłącznie po jawnym GO usera**, a wynik (także negatywny) natychmiast do tego rejestru.
 
-## Co realnie ma szansę stać się wypłacalne — i nie wymaga żadnego POST-a
+## Co realnie ma szansę stać się wypłacalne — stan po run 12 (05.11, ~15:30)
 
 | # | co | koszt usera | warunkowa wycena (tylko JEŚLI hipoteza się potwierdzi) |
 |---|---|---|---|
+| **L47** | **zrzut HAR z zalogowanego `hack.cert.pl`** → wgrany do `nask/har/raw/`, zredagowany przez `nask/tools/har_sanitize.py` (zero wartości poświadczeń w repo, asercja antywyciekowa, 17 testów). Instrukcja krok po kroku: `JAK-POBRAC-HAR-20261105.md` | **3–5 min** | mapa uwierzytelnionego API celu **Tier 1 programu CERT** + macierz H1–H7 z prawdziwymi ID obiektów zamiast zgadywania; warunkowo klasa 4/5: 4 000–20 000 zł |
+| **L0** | pytanie do organizatora — **tekst gotowy do wklejenia** w `JAK-POBRAC-HAR-20261105.md` §7 (5 wątków: `www.nask.pl`, `panel./tracker.dns.pl`, `info-trace.116sos.pl`, lab host, konto testowe HIVE, WAF vs CI, czy `hack.cert.pl` jest celem). **Rejestracja: ZROBIONA — user ma konto od 03.11** | 5 min | nie wyceniam: warunek wejścia + odblokowanie 542 literałów tras `www.nask.pl` i całego HIVE |
+| **L23 / L1-A** | jawne GO na POST `sendForm` w **wariancie bez tworzenia rekordu** (≤4 żądania) | GO + 2 min | warunkowo klasa 7/13, Tier 1: 600–4 000 zł. Wariant pełny (L3) **ODRADZAM** — tworzy fałszywe zgłoszenie dezinformacji (korekta #41) |
+| **L13** | embed PowerBI **w incognito, wyłącznie sam URL** (`oad.nask.pl/trendy` = 404 ×3, nawigacja PL i EN nie zna tej strony) | **30 s** | prawdopodobieństwo **bardzo niskie**; jeśli rekordy/dane osobowe bez logowania → klasa 3, Tier 1: 9 000 / 20 000 zł |
+| ~~L20~~ | `dns.pl/deleted_domains.txt` | **0 — ZAMKNIĘTY** | 0 zł: 0 znaczników PII w 46 440 B, 31,6 B/wiersz przy 1 467 pozycjach, a nawigacja rejestru sama linkuje ten plik |
+| ~~L9~~ | `centres-search` / katalog placówek | **0 — ZAMKNIĘTY** | 0 zł: publiczny, samoobsługowy katalog instytucji (`/osrodki-pomocowe` + `/dodaj`), 0 PII osobowych, 8 domen GOPS/MOPS |
+
+Trzy pozycje wymagają czegoś od usera (HAR 3–5 min, pytanie 5 min, embed 30 s), jedna wymaga
+decyzji (GO na POST). Łącznie **~10 minut**, zero żądań zapisujących po mojej stronie.
+Zamknięte bez udziału usera: L20, L9, L5, L18, L22, L24–L35, L40–L45.
+
+---|---|---|---|
 | L13 | `oad.nask.pl/trendy` lub embed PowerBI **w incognito** | 2 min | rekordy/dane osobowe bez logowania → klasa 3, Tier 1: 9 000 / 20 000 zł; agregaty → zamykamy |
 | L20 | `dns.pl/deleted_domains.txt` — **tylko jaki to rodzaj danych**, bez wklejania treści | 10 s | dane abonenta → klasa 3, Tier 1; same nazwy domen → wykluczone |
 | L9 | `totalItems` z `/api/centres-search` vs publiczna wyszukiwarka 116sos | 2 min | placówki niepubliczne / dane opiekunów → klasa 3, Tier 2: do 10 000 zł (prawdopodobnie zamknięty) |
@@ -390,3 +402,40 @@ sprawdzacz spójności kolumn.
 **Korekta #52 (precyzja językowa, nie błąd danych):** w §12.2 napisałem, że L9 domyka „drugi kanał".
 Po run 12 kanałów jest **trzy** (0 PII osobowych + domeny instytucji; publiczna trasa `/osrodki-pomocowe`;
 propsy z `_buildManifest.js` i samoobsługowym `/dodaj`). Poprawione w wierszu L9 i w tabeli otwartych.
+
+## Run 12 po przebiegu: co zmieniło konto usera (05.11, ~15:30)
+
+User poinformował, że **ma konto na `hack.cert.pl` od 03.11**. To zdejmuje blokadę formalną L0
+(rejestracja) i otwiera jedyną realistyczną drogę do Tier 1: uwierzytelnioną mapę API. Ponieważ
+regułą sesji jest **nigdy nie prosić o hasło/token** (i ponieważ §6 dopuszcza wyłącznie konta
+własne/testowe, a runner jest blokowany przez WAF na hostach cert.pl), drogą jest **zrzut HAR
+z przeglądarki usera + redakcja offline**:
+
+| id | cel | klasa | status | plan |
+|---|---|---|---|---|
+| **L47** | uwierzytelnione API `hack.cert.pl` (cel Tier 1 programu CERT §5) z HAR-a usera | 4/5 warunkowo | **AKTYWNY — czeka na plik** | user: 3–5 min według `JAK-POBRAC-HAR-20261105.md` (incognito, Preserve log, ekrany odczytu, bez formularzy, na końcu wylogowanie) → plik do `nask/har/raw/` (gitignored) → `har_sanitize.py` → `nask/har/mapa-api.json` + `sanitized/*.sanitized.har` do gita → `vendor/a450b00f/har_triage.py` na macierz H1–H7 |
+| **L48** | asymetria uprawnień między **dwoma** kontami usera (A/B) | 4 (IDOR/BAC) | **AKTYWNY warunkowo** | drugi HAR z drugiego konta ⇒ `har_triage.py` wskazuje, gdzie konto A widzi zasób konta B. Zasada przyjęta od autorów: **wspólny dostęp do wspólnego zasobu nie jest IDOR-em** |
+| **L49** | HAR z HIVE (`dataannotation.pllum.org.pl`) | 4/5, Tier 1 | **ZABLOKOWANY na odpowiedzi organizatora** | mam 71 tras klienta i 0 literałów API ⇒ bez HAR-a nie zgadnę ścieżek; HIVE jest zaproszeniowy, więc konkurencja tam nie wejdzie — to jedyny cel, gdzie przewaga jest strukturalna |
+
+**Narzędzie gotowe i przetestowane:** `nask/tools/har_sanitize.py` (selftest 7 grup) +
+`nask/tools/test_har_sanitize.py` (17 testów). Razem **109 testów OK** (92 → 109) i vendored
+`a450b00f` 11/11. Sprawdzone end-to-end na syntetycznym HAR: 2 wpisy, 10 wartości wrażliwych
+zobaczonych i wyrzuconych, na wyjściu tylko kształt + `session_fingerprint` `e874069c`.
+
+**Korekta #54 (ryzyko, które sam stworzyłem i naprawiłem):** workflow `nask-rawpath` startował na
+push w `nask/tools/*.py` i brał **najnowszy** plan. Gdybym dziś dodał `har_sanitize.py` bez zmiany
+triggerów, przebieg wystartowałby i **powtórzył `RAWPATH-009`** — czyli ponownie pobrał propsy
+`/osrodki-pomocowe` (4,99 MB, `PII_EMAIL: 1596`), które są objęte decyzją **STOP**. Naprawione
+dwustopniowo: (1) `nask/tools/*.py` usunięte z triggerów push, (2) nowy rejestr
+`nask/run/WYKONANE.txt` — plan wpisany do rejestru ⇒ workflow wykonuje **tylko bramkę testów
+offline i zero żądań** (logika przetestowana lokalnie: `rawpath-009` → skip=true,
+`rawpath-010` → skip=false). Rejestr zawiera wszystkie 9 wykonanych planów z liczbą żądań.
+
+**Zdarzenie sesji (nie dotyczy danych, dotyczy infrastruktury):** w połowie tej tury `.git` w
+workspace został podmieniony na świeży klon z commitem bazowym `ca72e320` — diagnostyka:
+`git ls-files | wc -l` = **1**, `git rev-parse HEAD` = `ca72e320`, wszystkie pliki jako `??`.
+Pliki robocze przetrwały, remote (`c5fda98`) nietknięty. Odzyskanie: `git fetch origin
+arena/c87f7a48-pokemon` → `git reset --mixed FETCH_HEAD` → 384 plików śledzonych, `git diff` pusty,
+zero strat. **Reset #21.** Wniosek: po każdej operacji na repo warto sprawdzić `git ls-files | wc -l`
+i `git rev-parse HEAD`, a nie tylko `git status`.
+

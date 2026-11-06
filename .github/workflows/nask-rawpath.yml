@@ -14,9 +14,13 @@ on:
   push:
     branches: [ "arena/c87f7a48-pokemon" ]
     paths:
-      - "nask/tools/rawpath.py"
-      - "nask/tools/bundle_scan.py"
+      # KOREKTA #54: CELOWO bez `nask/tools/*.py`. Zmiana narzedzia nie moze
+      # wystartowac przebiegu, bo workflow bierze NAJNOWSZY plan i powtorzylby
+      # zadania juz wykonane — w tym te objete decyzja STOP (rawpath-009:
+      # propsy `/osrodki-pomocowe` z PII_EMAIL 1596). Straz dodatkowa: rejestr
+      # `nask/run/WYKONANE.txt` (plan wpisany = ZERO zadan, tylko bramka testow).
       - "nask/run/RAWPATH-*.json"
+      - "nask/run/WYKONANE.txt"
       - ".github/workflows/nask-rawpath.yml"
   workflow_dispatch:
     inputs:
@@ -82,9 +86,29 @@ jobs:
           echo "out=nask/reports/${TAG}-run${RUN}.json" >> "$GITHUB_OUTPUT"
           echo "mine=nask/reports/mine-${TAG}-run${RUN}.json" >> "$GITHUB_OUTPUT"
           echo "logdir=nask/reports/logs-run${RUN}" >> "$GITHUB_OUTPUT"
-          echo "plan=$PLAN rps=$RPS tag=$TAG run=$RUN"
+          # straz przed powtarzaniem planow juz wykonanych (korekta #54)
+          SKIP="false"
+          LEDGER="nask/run/WYKONANE.txt"
+          if [ -f "$LEDGER" ] && awk -F'|' '{gsub(/[ \t]/,"",$1); print tolower($1)}' "$LEDGER" | grep -qx "$TAG"; then
+            SKIP="true"
+          fi
+          echo "skip=$SKIP" >> "$GITHUB_OUTPUT"
+          echo "plan=$PLAN rps=$RPS tag=$TAG run=$RUN skip=$SKIP"
+
+      - name: Plan juz wykonany — ZERO zadan (straz z rejestru WYKONANE.txt)
+        if: steps.cfg.outputs.skip == 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/logs"
+          {
+            echo "PLAN ${{ steps.cfg.outputs.tag }} JEST W REJESTRZE nask/run/WYKONANE.txt"
+            echo "=> nie wysylamy ANI JEDNEGO zadania (ochrona przed powtorka, w tym przed"
+            echo "   ponownym zadaniem do endpointu objetego decyzja STOP)."
+            echo "Bramka testow offline przeszla w jobie 'gate' — to wystarczy."
+            grep -i "${{ steps.cfg.outputs.tag }}" nask/run/WYKONANE.txt || true
+          } 2>&1 | tee "$RUNNER_TEMP/logs/05-skip.log"
 
       - name: Dry-run — walidacja zakresu PRZED jakimkolwiek zadaniem
+        if: steps.cfg.outputs.skip != 'true'
         run: |
           set +e
           python nask/tools/rawpath.py --plan "${{ steps.cfg.outputs.plan }}" --dry-run \
@@ -95,6 +119,7 @@ jobs:
 
       - name: Przebieg (sekwencyjny, globalny limiter)
         id: probe
+        if: steps.cfg.outputs.skip != 'true'
         continue-on-error: true
         run: |
           set +e
@@ -110,7 +135,7 @@ jobs:
           exit $rc
 
       - name: Commit raportu przebiegu (od razu — nie czekamy do konca joba)
-        if: always()
+        if: always() && steps.cfg.outputs.skip != 'true'
         continue-on-error: true
         run: |
           bash nask/tools/ci_commit.sh \
@@ -119,6 +144,7 @@ jobs:
 
       - name: Mining offline (bundle_scan) — tylko jesli pobrano JS
         id: mine
+        if: steps.cfg.outputs.skip != 'true'
         continue-on-error: true
         run: |
           set +e
@@ -156,7 +182,7 @@ jobs:
           exit $rc
 
       - name: Commit analizy miningu (od razu)
-        if: always()
+        if: always() && steps.cfg.outputs.skip != 'true'
         continue-on-error: true
         run: |
           bash nask/tools/ci_commit.sh \
@@ -165,6 +191,7 @@ jobs:
 
       - name: Audyt zgodnosci przebiegu
         id: audit
+        if: always() && steps.cfg.outputs.skip != 'true'
         continue-on-error: true
         run: |
           set +e

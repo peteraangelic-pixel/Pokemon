@@ -1,0 +1,30 @@
+# NASK — surowe zrzuty HAR NIGDY do gita
+#
+# Zrzut HAR z przegladarki usera zawiera cookie sesji, `Authorization: Bearer <JWT>`,
+# tokeny CSRF, haslo z formularza logowania i tresci odpowiedzi (dane osobowe).
+# Do repo wolno committowac WYLACZNIE wynik `nask/tools/har_sanitize.py`
+# (nazwy, rozmiary, kody, odciski sha256) — i to tez dopiero po przejsciu asercji
+# antywyciekowej wbudowanej w to narzedzie.
+#
+# Katalogi:
+#   nask/har/raw/        — surowe zrzuty (tylko lokalnie, ignorowane)
+#   nask/har/sanitized/  — zredagowane zrzuty (committowane)
+#   nask/har/mapa-api.json — mapa endpointow (committowana)
+
+*.har
+*.har.json
+nask/har/raw/
+
+# ...ale WYNIK redakcji jest committowany (i tylko on)
+!nask/har/sanitized/
+!nask/har/sanitized/*.sanitized.har
+!nask/har/mapa-api.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# ciala odpowiedzi pobrane przez sondy (zostaja w $RUNNER_TEMP, ale na wszelki wypadek)
+nask/reports/bodies/
+*.bin.body

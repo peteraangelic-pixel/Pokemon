@@ -1,0 +1,19 @@
+# Rejestr planow WYKONANYCH — straz przed powtarzaniem zadan (korekta #54).
+#
+# Po co: workflow `nask-rawpath` wybiera NAJNOWSZY plan `nask/run/RAWPATH-*.json`.
+# Gdyby wystartowal ponownie (np. po zmianie narzedzia albo po recznym dispatch),
+# powtorzylby te same zadania — a czesc z nich jest objeta decyzja STOP albo jest
+# juz domknieta dowodem i nie wolno ich powtarzac bez nowej decyzji w rejestrze.
+# Dlatego: plan wymieniony poniżej = workflow uruchamia TYLKO bramke testow offline
+# i nie wysyla ANI JEDNEGO zadania.
+#
+# Format: <tag-planu-malymi-literami> | <run> | <data> | <liczba zadan> | <uwaga>
+rawpath-001 | run1  | 2026-11-04 |  35 GET | reprodukcja zamknieta (science /api/media traversal)
+rawpath-002 | run2  | 2026-11-04 |  10 GET | kontrole soft-404/WAF
+rawpath-003 | run3  | 2026-11-04 |   7 GET | reprodukcja 7/7 (korekta #30)
+rawpath-004 | run7  | 2026-11-04 | 129 GET | assety JS (10,47 MB) — zminowane offline
+rawpath-005 | run8  | 2026-11-04 |   4 GET | kontrole po korekcie #37/#38
+rawpath-006 | run9  | 2026-11-05 |  31 GET | dns.pl API, science /api/search, 116sos centres-search
+rawpath-007 | run10 | 2026-11-05 |  22 GET | grupy rozstrzygniec A-H (nonce, brzeg dns.pl, draft, trendy, preview, HIVE)
+rawpath-008 | run11 | 2026-11-05 |   7 GET | sendForm 405, mapa tras 116sos, chunk oad, UI dns.pl
+rawpath-009 | run12 | 2026-11-05 |   7 GET | STOP: propsy /osrodki-pomocowe = 4,99 MB z PII_EMAIL 1596 (publiczny katalog instytucji) — NIE POWTARZAC, reguła programu „dane osobowe → przerwać natychmiast"

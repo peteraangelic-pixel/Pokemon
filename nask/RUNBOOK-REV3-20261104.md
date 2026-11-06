@@ -1,4 +1,19 @@
-# RUNBOOK rev 3 (04.11.2026) — kolejność po przeglądzie 6 gałęzi + fali 2
+# RUNBOOK rev 3.1 (04.11, aktualizacja 05.11 ~15:30) — kolejność po przeglądzie 6 gałęzi + fali 2
+
+> **Zmiany rev 3.1 (05.11, po run 9–12):**
+> * **User MA konto na `hack.cert.pl` od 03.11** ⇒ L0 pkt 1 ZROBIONE. Odblokowuje to nową,
+>   najważniejszą ścieżkę: **krok L0.6 — zrzut HAR** (3–5 min, instrukcja
+>   `JAK-POBRAC-HAR-20261105.md`, redakcja `tools/har_sanitize.py`, zero wartości poświadczeń
+>   w repo). Agent **nie prosi o hasło ani token** i nie wykonuje żądań z sesją usera.
+> * **L20 i L9 ZAMKNIĘTE bez pracy usera** (run 9 + run 11/12: 0 znaczników PII w
+>   `deleted_domains.txt` i 31,6 B/wiersz; `/osrodki-pomocowe` = publiczny, samoobsługowy katalog
+>   instytucji). Wykreślone z listy rzeczy do klikania.
+> * **L13 zawężony do 30 sekund** (korekta #49 + run 11/12: `/trendy` = 404 ×3, nawigacja PL
+>   17 tras i EN 69 tras nie znają PowerBI, chunk z `reportId` to martwy moduł).
+> * **Nowa straż CI (korekta #54):** `nask/run/WYKONANE.txt` — plan wpisany do rejestru ⇒
+>   workflow wykonuje tylko bramkę testów offline i **zero żądań**. Chroni przed powtórką
+>   `RAWPATH-009`, którego endpoint (`/osrodki-pomocowe`) jest objęty decyzją **STOP**
+>   (reguła programu: dane osobowe → przerwać natychmiast).
 
 > **Zmiany rev 3 (godz. 11:00, po commiach 10:14–10:55 i plikach Drive 13–19):**
 > * **krok 4.3 USUNIĘTY** — „`/admin`, `/admin/logs` z sesji zwykłego użytkownika (guardy tylko
@@ -48,17 +63,39 @@ a skaner-only jest wykluczony §8.
 
 ---
 
-## L0 — 15 minut usera, bez tego reszta stoi
+## L0 — ~10 minut usera (rejestracja ZROBIONA), bez reszty stoi Tier 1
 
-1. Rejestracja na `hack.cert.pl` + akceptacja **regulaminu platformy** i **regulaminu konkursu
-   NASK PIB** (edycja 11/2026). Bez tego nie ma gdzie zgłaszać.
+1. ~~Rejestracja na `hack.cert.pl`~~ — **ZROBIONE: user ma konto od 03.11.** Zostaje sprawdzenie,
+   czy zaakceptowane są oba regulaminy (platformy i konkursu NASK PIB, edycja 11/2026).
 2. **Wniosek do organizatora o konto testowe** na `dataannotation.pllum.org.pl` (HIVE).
    Dowód, że inaczej się nie da: `/api/v1/register` i `/register` → 404 w dwóch niezależnych
    kanałach (Gemma-B + mój run1), `/api/v1/projects/` → 401, `/api/v1/users/1` → 405.
-3. **Pytanie o zakres**: §5 wymienia literał `nask.pl`, a apex odpowiada 302 → `www.nask.pl`
-   (run007: 8/8 żądań na apexie = 302). Czy `www.nask.pl` jest w zakresie? Bez odpowiedzi cały
-   Tier-1 host jest praktycznie nietestowalny. To samo pytanie dla `info-trace.116sos.pl`
-   (pojawił się w nagłówku `Access-Control-Allow-Origin` w run1).
+3. **Pytanie o zakres — gotowy tekst do wklejenia w panelu**: `JAK-POBRAC-HAR-20261105.md` §7.
+   Pięć wątków: (a) `www.nask.pl` (§5 wymienia literał `nask.pl`, apex → 302 na `www` w 8/8 żądań
+   ⇒ Tier-1 host praktycznie nietestowalny), (b) `panel.dns.pl`, `tracker.dns.pl`,
+   `info-trace.116sos.pl` i `116sos.multisite.lab.nob.pib.nask.pl` (wszystkie linkowane z serwisów
+   §5, żadnego nie ma w liście literalnej), (c) **konto testowe HIVE** (plik programu NASK:
+   `own_or_test_accounts_only: true`, ale `no_dedicated_test_accounts_notice: false` ⇒ nigdy nie
+   napisali, że kont testowych nie ma, więc pytanie jest uzasadnione), (d) czy testy z IP usług CI
+   są dozwolone (runner jest dziś blokowany przez WAF), (e) czy zgłoszenie dotyczące samej platformy
+   `hack.cert.pl` idzie na zasadach programu CERT.
+
+## L0.6 — **NOWE, najważniejsze: zrzut HAR z zalogowanego `hack.cert.pl`** (3–5 minut usera)
+
+Pełna instrukcja: **`JAK-POBRAC-HAR-20261105.md`**. Skrót: incognito → F12 → Network →
+*Preserve log* → filtr Fetch/XHR → zaloguj się i klikaj **wyłącznie ekrany odczytu** (pulpit,
+edycje, lista zgłoszeń, profil/ustawienia, załączniki/wyniki) → na końcu wyloguj →
+*Save all as HAR with content* → plik do **`nask/har/raw/`** (katalog ignorowany przez gita).
+
+Agent następnie: `python3 nask/tools/har_sanitize.py --in nask/har/raw/<plik>.har
+--out-dir nask/har/sanitized --map-out nask/har/mapa-api.json` → commit **tylko** wyniku redakcji
+(zero cookie/JWT/CSRF/haseł/treści ciał; asercja `assert_clean` przerywa przy jakimkolwiek
+wycieku) → `vendor/a450b00f/har_triage.py` buduje macierz hipotez IDOR H1–H7 z prawdziwymi ID.
+
+Czego agent **nie** zrobi: nie wyśle żądania z sesją usera, nie enumeruje ID cudzych zgłoszeń,
+nie złoży zgłoszenia bez decyzji usera, nie zapisze żadnej wartości poświadczenia.
+Drugi HAR (z drugiego konta) ⇒ test asymetrii A/B (lead L48). HAR z HIVE ⇒ lead L49, ale dopiero
+po odpowiedzi organizatora.
 4. (Opcjonalnie, osobna decyzja) Czy wchodzimy w program **CERT Polska**? Stawki i pula
    identyczne jak NASK, a `hack.cert.pl`/`mwdb.cert.pl` są w jego Tier 1 (§5 regulaminu CERT —
    sprawdzone w pełnym PDF). **Ale**: regulamin *usługi* `moje.cert.pl` IV §4.2 zakazuje
